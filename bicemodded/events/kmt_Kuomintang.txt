@@ -1,0 +1,8823 @@
+﻿###########################
+# kmt Events
+###########################
+
+
+add_namespace = kmt
+
+			###############
+			###KMT EVENT###
+			###############
+
+#SHX annexing by CHI
+country_event = {
+	id = kmt.1
+	title = kmt.1.t
+	desc = kmt.1.d
+	picture = GFX_report_event_generic_sign_treaty2
+
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		ai_chance = { 
+			factor = 10
+			modifier = {
+				CHI = {
+					divisions_in_state = { state = 608 size > 10}
+				}
+				add = 15
+			}
+			modifier = {
+				CHI = {
+					divisions_in_state = { state = 614 size > 10}
+				}
+				add = 15
+			}
+			modifier = {
+				CHI = {
+					divisions_in_state = { state = 607 size > 10}
+				}
+				add = 15
+			}
+		}
+		name = kmt.1.a
+		CHI = { 
+			annex_country = { target = ROOT transfer_troops = yes } 
+			country_event = { id = kmt.2 } 
+			set_country_flag = shx_sumitted
+		}
+		hidden_effect = {
+			CHI = {
+				create_corps_commander = {
+					id = 1007
+					name = "Yan Xishan"
+					portrait_path = "gfx/leaders/Asia/Portrait_Asia_Generic_warlord2.dds"
+					traits = { desert_fox_CC trait_mountaineer_CC }
+					skill = 2
+				}
+			}
+		}
+	}
+	
+	option = {
+		ai_chance = { factor = 40 }
+		name = kmt.1.b
+		CHI = { country_event = { id = kmt.3 days = 1 }}
+	}
+	
+	option = {
+		ai_chance = { factor = 50 }
+		name = kmt.1.c
+		effect_tooltip = {
+			CHI = {
+				create_wargoal = {
+					type = annex_everything
+					target = SHX
+				}
+			}
+		}
+		CHI = { country_event = { id = kmt.4 days = 1 }}
+		CHI = { add_opinion_modifier = { target = SHX modifier = KMT_SHX_refused }}
+		PRC = { add_opinion_modifier = { target = SHX modifier = PRC_SHX_refused }}
+		SHX = { add_opinion_modifier = { target = CHI modifier = SHX_SHX_refused }}
+		hidden_effect = {
+			set_country_flag = refused_shx_offer
+		}
+	}
+}
+
+#SHX annexed
+country_event = {
+	id = kmt.2
+	title = kmt.2.t
+	desc = kmt.2.d
+	picture = GFX_report_event_generic_sign_treaty2
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.2.a
+	}
+}
+
+#SHX puppet request
+country_event = {
+	id = kmt.3
+	title = kmt.3.t 
+	desc = kmt.3.d 
+	picture = GFX_report_event_generic_sign_treaty2
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = { factor = 30 }
+		name = kmt.3.a 
+		puppet = SHX
+	}
+	
+	option = {
+		ai_chance = { factor = 70 }
+		name = kmt.3.b
+		SHX = { country_event = { id = kmt.5 days = 1 }}
+	}
+}
+
+#SHX refused
+country_event = {
+	id = kmt.4 
+	title = kmt.4.t
+	desc = kmt.4.d 
+	picture = GFX_report_event_generic_sign_treaty2
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.4.a 
+		create_wargoal = {
+				type = annex_everything
+				target = SHX
+		}
+
+	}
+}
+
+#SHX puppet request rejected
+country_event = {
+	id = kmt.5
+	title = kmt.5.t
+	desc = kmt.5.d
+	picture = GFX_report_event_generic_sign_treaty2
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = { factor = 10 }
+		name = kmt.5.a
+		CHI = { annex_country = { target = SHX transfer_troops = yes }}
+		CHI = { country_event = { id = kmt.2 days = 1 }}
+	}
+
+	option = {
+		ai_chance = { factor = 90 }
+		name = kmt.5.b
+		effect_tooltip = {
+			CHI = {
+				create_wargoal = {
+					type = annex_everything
+					target = SHX
+				}
+			}
+		}
+		CHI = { add_opinion_modifier = { target = SHX modifier = KMT_SHX_refused }}
+		PRC = { add_opinion_modifier = { target = SHX modifier = PRC_SHX_refused }}
+		SHX = { add_opinion_modifier = { target = CHI modifier = SHX_SHX_refused }}
+		CHI = { country_event = { id = kmt.4 days = 1 }}
+	}
+}
+
+#declare internal war propaganda lost
+country_event = {
+	id = kmt.6 
+	title = kmt.6.t
+	desc = kmt.6.d
+	picture = GFX_report_event_gathering_protest
+	
+	fire_only_once = yes
+		
+	trigger = {
+		tag = CHI
+		has_idea = KMT_propaganda
+		OR = {
+			has_offensive_war_with = PRC
+			has_offensive_war_with = SHX
+			has_offensive_war_with = GXC
+			has_offensive_war_with = XSM
+			has_offensive_war_with = YUN
+		}
+	}
+	
+	mean_time_to_happen = { days = 1 }
+	
+	immediate = {
+		CHI = { 
+			remove_ideas = KMT_propaganda
+			add_timed_idea = {
+				idea = KMT_propaganda_busted
+				days = 600
+			}
+		}
+	}
+	
+	option = {
+		name = kmt.6.a
+		effect_tooltip = {
+			remove_ideas = KMT_propaganda 
+			add_timed_idea = {
+				idea = KMT_propaganda_busted
+				days = 600
+			}
+		}
+	}
+}
+
+#Japan invades remove busted
+country_event = {
+	id = kmt.7
+	hidden = yes
+	
+	fire_only_once = yes
+	
+	trigger = {
+		tag = CHI
+		has_idea = KMT_propaganda_busted
+		AND = {
+			has_defensive_war_with = JAP
+			has_offensive_war_with = CHI
+			
+		}
+	}
+	
+	immediate = {
+		CHI = {
+			remove_ideas = KMT_propaganda_busted
+		}
+	}
+}
+
+#TIB offer
+country_event = {
+	id = kmt.8 
+	title = kmt.8.t 
+	desc = kmt.8.d
+	picture = GFX_report_event_generic_sign_treaty1
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		ai_chance = { factor = 10 }
+		name = kmt.8.a
+		CHI = { annex_country = { target = TIB transfer_troops = no } }
+		CHI = { country_event = { id = kmt.9 }}
+	}
+	
+	option = {
+		ai_chance = { factor = 90 }
+		name = kmt.8.b
+		effect_tooltip = {
+			CHI = {
+				create_wargoal = {
+					type = annex_everything
+					target = TIB
+				}
+			}
+		}
+		CHI = { country_event = { id = kmt.10 days = 1 } }
+	}
+}
+
+#TIB compromise
+country_event = {
+	id = kmt.9 
+	title = kmt.9.t
+	desc = kmt.9.d
+	picture = GFX_report_event_generic_sign_treaty1
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		name = kmt.9.a
+		add_political_power = 120
+	}
+}
+
+#TIB refused
+country_event = {
+	id = kmt.10
+	title = kmt.10.t
+	desc = kmt.10.d
+	picture = GFX_report_event_generic_sign_treaty1
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		name = kmt.10.a
+		CHI = {
+			create_wargoal = {
+				type = annex_everything
+				target = TIB
+			}
+		}
+	}
+}
+
+#redraw mcmahon RAJ start
+country_event = {
+	id = kmt.11
+	title =  kmt.11.t
+	desc = kmt.11.d
+	picture = GFX_report_event_generic_read_write
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = { factor = 5 }
+		name = kmt.11.a
+		CHI = { 
+			transfer_state = 434 
+			country_event = { id = kmt.12 }
+		}
+		add_political_power = -125
+	}
+	
+	option = {
+		ai_chance = { factor = 80 }
+		name = kmt.11.b
+		trigger = {
+			is_puppet_of = ENG
+		}
+		ENG = { country_event = { id = kmt.13 days = 3 }}
+		CHI = {
+			set_country_flag = mcmahon_case_to_ENG 
+		}
+		add_political_power = -500
+	}
+	
+	option = {
+		ai_chance = { factor = 15 }
+		name = kmt.11.c
+		CHI = { country_event = { id = kmt.14 days = 1 } }
+		custom_effect_tooltip = kmt.11.c_tt 
+	}
+}
+
+#RAJ accept
+country_event = {
+	id = kmt.12
+	title = kmt.12.t
+	desc = {
+		text = kmt.12.d_1
+		trigger = {
+			CHI = {
+				NOT = {
+					has_country_flag = mcmahon_case_to_ENG 
+				}
+			}
+		}
+	}
+	desc = {
+		text = kmt.12.d_2
+		trigger = {
+			CHI = {
+				has_country_flag = mcmahon_case_to_ENG
+			}
+		}
+	}
+	picture = GFX_report_event_generic_read_write
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		name = kmt.12.a
+	}
+}
+
+#case to ENG
+country_event = {
+	id = kmt.13
+	title = kmt.13.t
+	desc = kmt.13.d
+	picture = GFX_report_event_generic_read_write
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		ai_chance = { factor = 30 }
+		name = kmt.13.a
+		add_political_power = -250
+		CHI = { 
+			transfer_state = 434 
+			country_event = { id = kmt.12 }
+		}
+	}
+	
+	option = {
+		ai_chance = { factor = 70 }
+		name = kmt.13.b
+		CHI = { country_event = { id = kmt.14 days = 1 } }
+		custom_effect_tooltip = kmt.13.b_tt 
+	}
+}
+
+#RAJ refused
+country_event = {
+	id = kmt.14
+	title = kmt.14.t
+	picture = GFX_report_event_generic_read_write
+	desc = {
+		text = kmt.14.d_1
+		trigger = {
+			CHI = {
+				NOT = {
+					has_country_flag = mcmahon_case_to_ENG
+				}
+			}
+		}
+	}
+	desc = {
+		text = kmt.14.d_2
+		trigger = {
+			CHI = {
+				has_country_flag = mcmahon_case_to_ENG
+			}
+		}
+	}
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		ai_chance = { factor = 50 }
+		name = kmt.14.a
+		add_political_power = -250
+	}
+	
+	option = {
+		ai_chance = { factor = 50 }
+		name = kmt.14.b
+		CHI = {
+			declare_war_on = {
+				target = RAJ
+				type = annex_everything
+			}
+		}
+	}
+}
+
+#demand taiwan
+country_event = {
+	id = kmt.15
+	title = kmt.15.t
+	desc = {
+		text = kmt.15.d_1
+		trigger = {
+			ROOT = {
+				OR = {
+					tag = SPR
+					tag = POR
+				}
+			}
+		}
+	}
+	desc = {
+		text = kmt.15.d_1
+		trigger = {
+			ROOT = {
+				NOT = {
+					OR = {
+						tag = SPR
+						tag = POR
+					}
+				}
+			}
+		}
+	}
+	picture = GFX_report_event_generic_sign_treaty2
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		ai_chance = { factor = 0 }
+		name = kmt.15.a_1
+		CHI = {
+			transfer_state = 524
+			country_event = { id = kmt.16 }
+		}
+		add_political_power = -300
+		add_timed_idea = {
+			idea = taiwan_returned
+			days = 365
+		}
+		trigger = {
+			524 = {
+				is_owned_by = JAP
+			}
+		}
+	}
+	
+	option = {
+		ai_chance = { factor = 65 }
+		name = kmt.15.a_2
+		CHI = {
+			transfer_state = 524
+			country_event = { id = kmt.16 }
+		}
+		add_political_power = -50
+		trigger = {
+			524 = {
+				NOT = {
+					is_owned_by = JAP
+				}
+			}
+		}
+	}
+
+	option = {
+		ai_chance = { factor = 100 }
+		name = kmt.15.b_1
+		effect_tooltip = {
+			CHI = {
+				create_wargoal = {
+					type = take_state_focus
+					target = ROOT
+					generator = { 524 }
+				}
+			}
+		}
+		add_national_unity = 0.05
+		CHI = {
+			country_event = { id = kmt.17 days = 3 }
+		}
+		trigger = {
+			524 = {
+				is_owned_by = JAP
+			}
+		}
+	}
+	
+	option = {
+		ai_chance = { factor = 35 }
+		name = kmt.15.b_2
+		effect_tooltip = {
+			CHI = {
+				create_wargoal = {
+					type = take_state_focus
+					target = ROOT
+					generator = { 524 }
+				}
+			}
+		}
+		CHI = {
+			country_event = { id = kmt.17 days = 3 }
+		}
+		trigger = {
+			524 = {
+				NOT = {
+					is_owned_by = JAP
+				}
+			}
+		}
+	}
+}
+
+#taiwan returned
+country_event = {
+	id = kmt.16
+	title = kmt.16.t
+	desc = kmt.16.d
+	picture = GFX_report_event_generic_sign_treaty2
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		name = kmt.16.a
+		add_national_unity = 0.05
+	}
+}
+
+#taiwan refused
+country_event = {
+	id = kmt.17
+	title = kmt.17.t
+	desc = kmt.17.d
+	picture = GFX_report_event_generic_sign_treaty2
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		name = kmt.17.a
+		create_wargoal = {
+			type = take_state_focus
+			target = FROM
+			generator = { 524 }
+		}
+	}
+}
+
+#hidden generate target for FROM
+country_event = {
+	id = kmt.18
+	is_triggered_only = yes
+	hidden = yes
+	immediate = {
+		CHI = {
+			country_event = { id = kmt.19 }
+		}
+	}
+	option = {
+		name = kmt.18.a
+}
+}
+
+#hidden wargoal generation
+country_event = {
+	id = kmt.19
+	is_triggered_only = yes
+	hidden = yes
+	immediate = {
+		if = {
+			limit = {
+				611 = {
+					FROM = {
+						has_country_flag = CHI_north_plan_611
+						NOT = {
+							has_country_flag = CHI_north_plan_611ed
+						}
+					}
+					is_owned_by = FROM
+				}
+				NOT = { FROM = { tag = CHI }}
+			}
+			CHI = {
+				create_wargoal = {
+					type = take_state_focus
+					target = FROM
+					generator = { 611 }
+				}
+			}
+			FROM = {
+				set_country_flag = CHI_north_plan_611ed
+			}
+		}
+		if = {
+			limit = {
+				612 = {
+					FROM = {
+						has_country_flag = CHI_north_plan_612
+						NOT = {
+							has_country_flag = CHI_north_plan_612ed
+						}
+					}
+					is_owned_by = FROM
+				}
+				NOT = { FROM = { tag = CHI }}
+			}
+			CHI = {
+				create_wargoal = {
+					type = take_state_focus
+					target = FROM
+					generator = { 612 }
+				}
+			}
+			FROM = {
+				set_country_flag = CHI_north_plan_612ed
+			}
+		}
+		if = {
+			limit = {
+				609 = {
+					FROM = {
+						has_country_flag = CHI_north_plan_609
+						NOT = {
+							has_country_flag = CHI_north_plan_609ed
+						}
+					}
+					is_owned_by = FROM
+				}
+				NOT = { FROM = { tag = CHI }}
+			}
+			CHI = {
+				create_wargoal = {
+					type = take_state_focus
+					target = FROM
+					generator = { 609 }
+				}
+			}
+			FROM = {
+				set_country_flag = CHI_north_plan_609ed
+			}
+		}
+		if = {
+			limit = {
+				610 = {
+					FROM = {
+						has_country_flag = CHI_north_plan_610
+						NOT = {
+							has_country_flag = CHI_north_plan_610ed
+						}
+					}
+					is_owned_by = FROM
+				}
+				NOT = { FROM = { tag = CHI }}
+			}
+			CHI = {
+				create_wargoal = {
+					type = take_state_focus
+					target = FROM
+					generator = { 610 }
+				}
+			}
+			FROM = {
+				set_country_flag = CHI_north_plan_610ed
+			}
+		}
+		if = {
+			limit = {
+				716 = {
+					FROM = {
+						has_country_flag = CHI_north_plan_716
+						NOT = {
+							has_country_flag = CHI_north_plan_716ed
+						}
+					}
+					is_owned_by = FROM
+				}
+				NOT = { FROM = { tag = CHI }}
+			}
+			CHI = {
+				create_wargoal = {
+					type = take_state_focus
+					target = FROM
+					generator = { 716 }
+				}
+			}
+			FROM = {
+				set_country_flag = CHI_north_plan_716ed
+			}
+		}
+		if = {
+			limit = {
+				328 = {
+					FROM = {
+						has_country_flag = CHI_north_plan_328
+						NOT = {
+							has_country_flag = CHI_north_plan_328ed
+						}
+					}
+					is_owned_by = FROM
+				}
+				NOT = { FROM = { tag = CHI }}
+			}
+			CHI = {
+				create_wargoal = {
+					type = take_state_focus
+					target = FROM
+					generator = { 328 }
+				}
+			}
+			FROM = {
+				set_country_flag = CHI_north_plan_328ed
+			}
+		}
+		if = {
+			limit = {
+				717 = {
+					FROM = {
+						has_country_flag = CHI_north_plan_717
+						NOT = {
+							has_country_flag = CHI_north_plan_717ed
+						}
+					}
+					is_owned_by = FROM
+				}
+				NOT = { FROM = { tag = CHI }}
+			}
+			CHI = {
+				create_wargoal = {
+					type = take_state_focus
+					target = FROM
+					generator = { 717 }
+				}
+			}
+			FROM = {
+				set_country_flag = CHI_north_plan_717ed
+			}
+		}
+		if = {
+			limit = {
+				714 = {
+					FROM = {
+						has_country_flag = CHI_north_plan_714
+						NOT = {
+							has_country_flag = CHI_north_plan_714ed
+						}
+					}
+					is_owned_by = FROM
+				}
+				NOT = { FROM = { tag = CHI }}
+			}
+			CHI = {
+				create_wargoal = {
+					type = take_state_focus
+					target = FROM
+					generator = { 714 }
+				}
+			}
+			FROM = {
+				set_country_flag = CHI_north_plan_714ed
+			}
+		}
+		if = {
+			limit = {
+				715 = {
+					FROM = {
+						has_country_flag = CHI_north_plan_715
+						NOT = {
+							has_country_flag = CHI_north_plan_715ed
+						}
+					}
+					is_owned_by = FROM
+				}
+				NOT = { FROM = { tag = CHI }}
+			}
+			CHI = {
+				create_wargoal = {
+					type = take_state_focus
+					target = FROM
+					generator = { 715 }
+				}
+			}
+			FROM = {
+				set_country_flag = CHI_north_plan_715ed
+			}
+		}
+	}
+	
+	option = {
+		name = kmt.19.a
+	}
+}
+
+#allow elections
+country_event = {
+	id = kmt.20
+	hidden = yes
+	is_triggered_only = yes
+	fire_only_once = yes
+	immediate = [
+		set_politics = {
+			elections_allowed = yes
+		}
+	}
+	option = {}
+}
+
+#CHI wants to join allied
+country_event = {
+	id = kmt.21
+	title = kmt.21.t
+	desc = kmt.21.d
+	picture = GFX_report_event_japan_europe_pact
+
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.21.a
+		add_to_faction = FROM
+		FROM = { country_event = { id = kmt.22} }
+	}
+	
+	option = {
+		name = kmt.21.b
+		ai_chance = { factor = 0 }
+		FROM = { 
+			add_opinion_modifier = {
+				target = ROOT
+				modifier = CHI_join_britain_rejected
+			}
+			country_event = { id = kmt.23 }
+		}
+	}
+}
+
+#accepted
+country_event = {
+	id = kmt.22
+	title = kmt.22.t
+	desc = kmt.22.d
+	picture = GFX_report_event_japan_europe_pact
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		name = kmt.22.a
+	}
+}
+
+#rejected
+country_event = {
+	id = kmt.23
+	title = kmt.23.t
+	desc = kmt.23.d
+	picture = GFX_report_event_japan_europe_pact
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		name = kmt.23.a
+	}
+}
+
+#hidden turn gov into fascism
+country_event = {
+	id = kmt.24
+	hidden = yes
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	immediate = {
+		set_politics = {
+			ruling_party = fascism
+		}
+	}
+	
+	option = {}
+}
+
+#false document of mongolia
+country_event = {
+	id = kmt.25
+	title = kmt.25.t
+	desc = kmt.25.d
+	picture = GFX_report_event_soviet_finnish_pact
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = { factor = 15 }
+		name = kmt.25.a
+	}
+	
+	option = {
+		ai_chance = { factor = 85 }
+		name = kmt.25.b
+		remove_from_faction = MON
+		MON = {
+			add_opinion_modifier = {
+				target = ROOT
+				modifier = false_document_trusted
+			}
+			country_event = { id = kmt.26 }
+		}
+		ROOT = {
+			add_opinion_modifier = {
+				target = MON
+				modifier = never_like_them_anyway
+			}
+		}
+	}
+	
+	option = {
+		ai_chance = { factor = 0 }
+		name = kmt.25.c
+		remove_from_faction = MON
+		MON = {
+			add_opinion_modifier = {
+				target = ROOT
+				modifier = false_document_trusted
+			}
+			country_event = { id = kmt.26 }
+		}
+		ROOT = {
+			set_country_flag = die_mongol_scum
+			add_opinion_modifier = {
+				target = MON
+				modifier = never_like_them_anyway
+			}
+			declare_war_on = {
+				target = MON
+				type = annex_everything
+			}
+		}
+	}
+}
+
+#removed mongol
+country_event = {
+	id = kmt.26
+	title = kmt.26.t
+	desc = {
+		text = kmt.26.d_1
+		trigger = {
+			FROM = {
+				NOT = {
+					has_country_flag = die_mongol_scum
+				}
+			}
+		}
+	}
+	desc = {
+		text = kmt.26.d_2
+		trigger = {
+			FROM = {
+				has_country_flag = die_mongol_scum
+			}
+		}
+	}
+	picture = GFX_report_event_soviet_finnish_pact
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		name = kmt.26.a
+		add_ideas = KMT_framed_mongolia
+		set_country_flag = no_faction
+	}
+}
+
+#mongolia not in faction add dont want join faction
+country_event = {
+	id = kmt.27
+	title = kmt.27.t
+	desc = kmt.27.d
+	picture = GFX_report_event_german_politician_speech
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	immediate = {
+		hidden_effect = {
+			add_ideas = KMT_infiltrated_mongol
+			set_country_flag = no_faction
+		}
+	}
+	
+	option = {
+		name = kmt.27.a
+	}
+}
+	
+#false document of sinkiang
+country_event = {
+	id = kmt.28
+	title = kmt.28.t
+	desc = kmt.28.d
+	picture = GFX_report_event_soviet_finnish_pact
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = { factor = 15 }
+		name = kmt.28.a
+	}
+	
+	option = {
+		ai_chance = { factor = 85 }
+		name = kmt.28.b
+		remove_from_faction = SIK
+		SIK = {
+			add_opinion_modifier = {
+				target = ROOT
+				modifier = false_document_trusted
+			}
+			country_event = { id = kmt.29 }
+		}
+		ROOT = {
+			add_opinion_modifier = {
+				target = SIK
+				modifier = never_like_them_anyway
+			}
+		}
+	}
+	
+	option = {
+		ai_chance = { factor = 0 }
+		name = kmt.28.c
+		remove_from_faction = SIK
+		SIK = {
+			add_opinion_modifier = {
+				target = ROOT
+				modifier = false_document_trusted
+			}
+			country_event = { id = kmt.26 }
+		}
+		ROOT = {
+			set_country_flag = die_sinkiang_scum
+			add_opinion_modifier = {
+				target = SIK
+				modifier = never_like_them_anyway
+			}
+			declare_war_on = {
+				target = SIK
+				type = annex_everything
+			}
+		}
+	}
+}
+
+#removed SIK
+country_event = {
+	id = kmt.29
+	title = kmt.29.t
+	desc = {
+		text = kmt.29.d_1
+		trigger = {
+			FROM = {
+				NOT = {
+					has_country_flag = die_sinkiang_scum
+				}
+			}
+		}
+	}
+	desc = {
+		text = kmt.29.d_2
+		trigger = {
+			FROM = {
+				has_country_flag = die_sinkiang_scum
+			}
+		}
+	}
+	picture = GFX_report_event_soviet_finnish_pact
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		name = kmt.29.a
+		add_ideas = KMT_framed_mongolia
+		set_country_flag = no_faction
+	}
+}
+
+#false document of tannu tuva
+country_event = {
+	id = kmt.30
+	title = kmt.30.t
+	desc = kmt.30.d
+	picture = GFX_report_event_soviet_finnish_pact
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = { factor = 15 }
+		name = kmt.30.a
+	}
+	
+	option = {
+		ai_chance = { factor = 85 }
+		name = kmt.30.b
+		remove_from_faction = TAN
+		TAN = {
+			add_opinion_modifier = {
+				target = ROOT
+				modifier = false_document_trusted
+			}
+			country_event = { id = kmt.31 }
+		}
+		ROOT = {
+			add_opinion_modifier = {
+				target = TAN
+				modifier = never_like_them_anyway
+			}
+		}
+	}
+	
+	option = {
+		ai_chance = { factor = 0 }
+		name = kmt.30.c
+		remove_from_faction = TAN
+		TAN = {
+			add_opinion_modifier = {
+				target = ROOT
+				modifier = false_document_trusted
+			}
+			country_event = { id = kmt.31 }
+		}
+		ROOT = {
+			set_country_flag = die_tannu_scum
+			add_opinion_modifier = {
+				target = TAN
+				modifier = never_like_them_anyway
+			}
+			declare_war_on = {
+				target = TAN
+				type = annex_everything
+			}
+		}
+	}
+}
+
+#removed TAN
+country_event = {
+	id = kmt.31
+	title = kmt.31.t
+	desc = {
+		text = kmt.31.d_1
+		trigger = {
+			FROM = {
+				NOT = {
+					has_country_flag = die_tannu_scum
+				}
+			}
+		}
+	}
+	desc = {
+		text = kmt.31.d_2
+		trigger = {
+			FROM = {
+				has_country_flag = die_tannu_scum
+			}
+		}
+	}
+	picture = GFX_report_event_soviet_finnish_pact
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		name = kmt.31.a
+		add_ideas = KMT_framed_mongolia
+		set_country_flag = no_faction
+	}
+}
+
+#baihua start
+country_event = {
+	id = kmt.32
+	title = kmt.32.t
+	desc = kmt.32.d
+	picture = GFX_report_event_china_politicians_captured
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		name = kmt.32.a
+		add_ideas = KMT_baihua_stage_1_idea
+	}
+}
+
+#baihua stage 1
+country_event = {
+	id = kmt.33
+	title = kmt.33.t
+	desc = kmt.33.d
+	picture = GFX_report_event_china_politicians_captured
+	
+	fire_only_once = yes
+	
+	trigger = {
+		tag = CHI
+		NOT = { has_completed_focus = KMT_hundred_flowers_campaign }
+		focus_progress = {
+			focus = KMT_hundred_flowers_campaign
+			progress > 0.20
+		}
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		ai_chance = {
+			factor = 0
+		}
+		name = kmt.33.a
+		custom_effect_tooltip = baihua_end_now
+		add_popularity = {
+			ideology = democratic
+			popularity = -0.05
+		}
+		add_popularity = {
+			ideology = fascism
+			popularity = -0.02
+		}
+		add_popularity = {
+			ideology = communism
+			popularity = 0.02
+		}
+		add_timed_idea = {
+			idea = KMT_baihua_stage_1_finished
+			days = 365
+		}
+		set_country_flag = baihua_completed
+	}
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = kmt.33.b
+		remove_ideas = KMT_baihua_stage_1_idea
+		add_ideas = KMT_baihua_stage_2_idea
+	}
+}
+
+#baihua stage 2
+country_event = {
+	id = kmt.34
+	title = kmt.34.t
+	desc = kmt.34.d
+	picture = GFX_report_event_china_politicians_captured
+	
+	fire_only_once = yes
+	
+	trigger = {
+		tag = CHI
+		NOT = { has_completed_focus = KMT_hundred_flowers_campaign }
+		focus_progress = {
+			focus = KMT_hundred_flowers_campaign
+			progress > 0.40
+		}
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		ai_chance = {
+			factor = 0
+		}
+		name = kmt.34.a
+		custom_effect_tooltip = baihua_end_now
+		add_popularity = {
+			ideology = democratic
+			popularity = -0.1
+		}
+		add_popularity = {
+			ideology = fascism
+			popularity = -0.05
+		}
+		add_popularity = {
+			ideology = communism
+			popularity = 0.05
+		}
+		add_timed_idea = {
+			idea = KMT_baihua_stage_2_finished
+			days = 365
+		}
+		add_ideas = KMT_baihua_stage_2_finished_effect
+		set_country_flag = baihua_completed
+	}
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = kmt.34.b
+		custom_effect_tooltip = KMT_baihua_stage_2_tt
+		hidden_effect = {
+			remove_ideas = KMT_baihua_stage_2_idea
+			add_ideas = KMT_baihua_stage_3_idea
+		}
+	}
+}
+
+#baihua stage 3
+country_event = {
+	id = kmt.35
+	title = kmt.35.t
+	desc = kmt.35.d
+	picture = GFX_report_event_china_politicians_captured
+	
+	fire_only_once = yes
+	
+	trigger = {
+		tag = CHI
+		NOT = { has_completed_focus = KMT_hundred_flowers_campaign }
+		focus_progress = {
+			focus = KMT_hundred_flowers_campaign
+			progress > 0.60
+		}
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		ai_chance = {
+			factor = 0
+		}
+		name = kmt.35.a
+		custom_effect_tooltip = baihua_end_now
+		add_popularity = {
+			ideology = democratic
+			popularity = -0.2
+		}
+		add_popularity = {
+			ideology = fascism
+			popularity = -0.1
+		}
+		add_popularity = {
+			ideology = communism
+			popularity = 0.1
+		}
+		add_timed_idea = {
+			idea = KMT_baihua_stage_3_finished
+			days = 365
+		}
+		add_ideas = KMT_baihua_stage_3_finished_effect
+		set_country_flag = baihua_completed
+	}
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = kmt.35.b
+		custom_effect_tooltip = KMT_baihua_stage_3_tt
+		hidden_effect = {
+			remove_ideas = KMT_baihua_stage_3_idea
+			add_ideas = KMT_baihua_stage_4_idea
+		}
+	}
+}
+
+#baihua stage 4
+country_event = {
+	id = kmt.36
+	title = kmt.36.t
+	desc = kmt.36.d
+	picture = GFX_report_event_china_politicians_captured
+	
+	fire_only_once = yes
+	
+	trigger = {
+		tag = CHI
+		NOT = { has_completed_focus = KMT_hundred_flowers_campaign }
+		focus_progress = {
+			focus = KMT_hundred_flowers_campaign
+			progress > 0.80
+		}
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		ai_chance = {
+			factor = 0
+		}
+		name = kmt.36.a
+		custom_effect_tooltip = baihua_end_now
+		add_popularity = {
+			ideology = democratic
+			popularity = -0.4
+		}
+		add_popularity = {
+			ideology = fascism
+			popularity = -0.25
+		}
+		add_popularity = {
+			ideology = communism
+			popularity = 0.25
+		}
+		add_timed_idea = {
+			idea = KMT_baihua_stage_4_finished
+			days = 365
+		}
+		add_ideas = KMT_baihua_stage_4_finished_effect
+		set_country_flag = baihua_completed
+	}
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = kmt.36.b
+		custom_effect_tooltip = KMT_baihua_stage_4_tt
+		hidden_effect = {
+			remove_ideas = KMT_baihua_stage_4_idea
+			add_ideas = KMT_baihua_stage_5_idea
+		}
+	}
+}
+
+#baihua finished
+country_event = {
+	id = kmt.37
+	title = kmt.37.t
+	desc = kmt.37.d
+	picture = GFX_report_event_china_politicians_captured
+	
+	fire_only_once = yes
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.37.a
+		custom_effect_tooltip = baihua_end_now
+		add_popularity = {
+			ideology = democratic
+			popularity = -0.6
+		}
+		add_popularity = {
+			ideology = fascism
+			popularity = -0.6
+		}
+		add_popularity = {
+			ideology = communism
+			popularity = 0.6
+		}
+		add_timed_idea = {
+			idea = KMT_baihua_stage_5_finished
+			days = 365
+		}
+		add_ideas = KMT_baihua_stage_5_finished_effect
+		set_country_flag = baihua_completed
+	}
+	
+}
+
+#become commie china ( hidden )
+country_event = {
+	id = kmt.38
+	hidden = yes
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	immediate = {
+		set_politics = {
+			ruling_party = communism
+		}
+	}
+}
+
+#great leap start
+country_event = {
+	id = kmt.39
+	title = kmt.39.t
+	desc = kmt.39.d
+	picture = GFX_report_event_chinese_officers
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		name = kmt.39.a
+	}
+}
+		
+#great leap furnace auto build
+country_event = {
+	id = kmt.40
+	title = kmt.40.t
+	desc = kmt.40.d
+	picture = GFX_report_event_burma_road
+	
+	trigger = {
+		tag = CHI
+		has_country_flag = KMT_great_leap_started
+		NOT = { has_country_flag = KMT_fully_shitty_furnaced }
+		NOT = { has_country_flag = KMT_leap_stop }
+	}
+	
+	mean_time_to_happen = {
+		days = 50
+	}
+	
+	option = {
+		name = kmt.40.a
+		random_owned_state = {
+			limit = {
+				NOT = {
+					has_state_flag = KMT_shitty_furnaced
+				}
+			}
+			set_state_flag = KMT_great_leap_shitty_furnace
+			save_event_target_as = shitty_furnaced_state
+		}
+		if = {
+			limit = {
+				event_target:shitty_furnaced_state = {
+					free_building_slots = {
+						building = immature_steelmaking_furnace
+						size > 2
+						include_locked = yes
+					}
+					NOT = {
+						free_building_slots = {
+							building = immature_steelmaking_furnace
+							size > 2
+							include_locked = no
+						}
+					}
+				}
+			}
+			event_target:shitty_furnaced_state = {
+				add_extra_state_shared_building_slots = 3
+				add_building_construction = {
+					type = immature_steelmaking_furnace
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+		if = {
+			limit = {
+				event_target:shitty_furnaced_state = {
+					free_building_slots = {
+						building = immature_steelmaking_furnace
+						size > 2
+						include_locked = yes
+					}
+					free_building_slots = {
+						building = immature_steelmaking_furnace
+						size > 2
+						include_locked = no
+					}
+				}
+			}
+			event_target:shitty_furnaced_state = {
+				add_building_construction = {
+					type = immature_steelmaking_furnace
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+		hidden_effect = {
+			country_event = { id = kmt.41 }
+		}
+	}
+}
+		
+
+#set flag for non-repeating state
+country_event = {
+	id = kmt.41
+	hidden = yes
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		event_target:shitty_furnaced_state = {
+			set_state_flag = KMT_shitty_furnaced
+		}
+		country_event = { id = kmt.42 }
+	}
+}
+
+#all state has shitty furnace
+country_event = {
+	id = kmt.42
+	hidden = yes
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		if = {
+			limit = {
+				all_owned_state = {
+					has_state_flag = KMT_shitty_furnaced
+					free_building_slots = {
+						building = immature_steelmaking_furnace
+						size < 3
+						include_locked = yes
+					}
+				}
+			}
+			set_country_flag = KMT_fully_shitty_furnaced
+			add_ideas = KMT_great_leap_famine_idea
+		}
+	}
+}
+	
+#famine
+country_event = {
+	id = kmt.43
+	title = kmt.43.t
+	desc = kmt.43.d
+	picture = GFX_report_event_dead_soldiers
+	
+	mean_time_to_happen = {
+		days = 73
+	}
+	
+	trigger = {
+		NOT = {
+			has_country_flag = KMT_leap_stop
+		}
+		tag = CHI
+		any_state = {
+			has_state_flag = KMT_shitty_furnaced
+			free_building_slots = {
+				building = immature_steelmaking_furnace
+				size < 3
+				include_locked = no
+			}
+		}
+	}
+	
+	immediate = {
+		hidden_effect = {
+			random_owned_state = {
+				limit = {
+					has_state_flag = KMT_shitty_furnaced
+					free_building_slots = {
+						building = immature_steelmaking_furnace
+						size < 3
+						include_locked = no
+					}
+				}
+				set_state_flag = KMT_great_leap_famine
+			}
+		}
+	}
+	
+	option = {
+		name = kmt.43.a
+		every_state = {
+			limit = { has_state_flag = KMT_great_leap_famine }
+			add_manpower = -100000
+		}
+		add_manpower = -100000
+		hidden_effect = { country_event = { id = kmt.44 }}
+	}
+}
+
+#remove famine flag
+country_event = {
+	id = kmt.44
+	hidden = yes
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		every_state = {
+			limit = {
+				has_state_flag = KMT_great_leap_famine 
+			}
+			clr_state_flag = KMT_great_leap_famine
+		}
+	}
+}
+
+#not fully furnaced remove flag
+country_event = {
+	id = kmt.45
+	hidden = yes
+	
+	mean_time_to_happen = { days = 10 }
+	
+	immediate = {
+		if = {
+			limit = {
+				has_country_flag = KMT_fully_shitty_furnaced
+				any_state = {
+					is_owned_by = CHI
+					has_state_flag = KMT_shitty_furnaced
+					free_building_slots = {
+						building = immature_steelmaking_furnace
+						size > 2
+						include_locked = no
+					}
+				}
+			}
+			clr_country_flag = KMT_fully_shitty_furnaced
+		}
+	}
+}
+
+#great leap stop
+country_event = {
+	id = kmt.46
+	title = kmt.46.t
+	desc = kmt.46.d
+	picture = GFX_report_event_dead_soldiers
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		set_country_flag = KMT_leap_stop
+	}
+	
+	option = {
+		name = kmt.46.a
+		add_popularity = {
+			ideology = communism
+			popularity = -0.4
+		}
+		add_popularity = {
+			ideology = democratic
+			popularity = 0.25
+		}
+		add_popularity = {
+			ideology = fascism
+			popularity = 0.25
+		}
+		add_timed_idea = {
+			idea = KMT_recovering_from_famine
+			days = 365
+		}
+	}
+}
+
+#mao officialize(?) people's commune
+country_event = {
+	id = kmt.47
+	title = kmt.47.t
+	desc = kmt.47.d
+	
+	picture = GFX_report_event_chinese_officers
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.47.a
+		add_ideas = KMT_peoples_commune
+	}
+}
+
+#############		Suspended Cultural Revolution Event		############
+########################################################################
+#it started, shit...
+#country_event = {
+	#id = kmt.48
+	#title = kmt.48.t
+	#desc = kmt.48.d
+	#picture = GFX_report_event_generic_sign_treaty2
+
+	#is_triggered_only = yes
+	
+	#fire_only_once = yes										
+	
+	#option = {
+		#name = kmt.48.a
+		#add_timed_idea = {
+			#idea = KMT_great_proletarian_cultural_revolution
+			#days = 3670
+		#}
+		#set_country_flag = KMT_ten_year_catastrophe_started
+		#add_ideas = closed_economy
+		#add_political_power = -500
+
+	#}
+#}
+########################################################################
+########################################################################
+
+#join comitern
+country_event = {
+	id = kmt.49
+	title = kmt.49.t
+	desc = kmt.49.d
+	
+	picture = GFX_report_event_stalin_02
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		name = kmt.49.a
+		SOV = { add_to_faction = CHI }
+		CHI = {
+			add_ai_strategy = {
+				type = alliance
+				id = "SOV"
+				value = 200
+			}
+		}
+	}
+	option = {
+		name = kmt.49.b
+		ai_chance = { factor = 0 }
+		CHI = {
+			add_opinion_modifier = {
+				target = SOV
+				modifier = SOV_CHI_join_comintern_reject
+			}
+		}
+	}
+}
+
+# government integrated, loses Cornered Fox trait
+country_event = {
+	id = kmt.50
+	hidden = yes
+	
+	is_triggered_only = yes
+
+	immediate = {
+		remove_country_leader_trait = cornered_fox
+	}
+	
+	option = {}
+}
+
+## 4/7/2016 ##
+
+#prevent multiple events
+country_event = {
+	id = kmt.51
+	hidden = yes
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		if = {
+			limit = {
+				ROOT = {
+					NOT = {
+						has_country_flag = kmt_52_fired
+					}
+				}
+			}
+			country_event = { id = kmt.52 }
+		}
+	}
+}
+
+#demand events main central steppe
+country_event = {
+	id = kmt.52
+	title = kmt.52.t
+	desc = kmt.52.d
+	picture = GFX_report_event_generic_sign_treaty2
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		ROOT = {
+			set_country_flag = kmt_52_fired
+		}
+	}
+	
+	option = {
+		ai_chance = {
+			factor = 95	
+			modifier = {
+				factor = 0
+				OR = {
+					is_in_faction_with = SOV
+					tag = SOV
+					is_puppet_of = SOV
+				}
+			}
+			modifier = {
+				factor = 0
+				NOT = {
+					tag = TAN
+					tag = MON
+					tag = SIK
+				}
+				has_war_with = CHI
+			}
+			modifier = {
+				factor = 0
+				all_owned_state = {
+					all_neighbor_state = {
+						NOT = {
+							owner = { tag = CHI }
+						}
+					}
+				}
+			}
+		}
+		name = kmt.52.a
+		hidden_effect = {
+			CHI = {
+				country_event = { id = kmt.53 }
+			}
+		}
+		if = {
+			limit = {
+				has_country_flag = KMT_mongolia_demanded
+			}
+			CHI = {
+				transfer_state = 330
+			}
+		}
+		if = {
+			limit = {
+				has_country_flag = KMT_taklamakan_demanded
+			}
+			CHI = {
+				transfer_state = 287
+			}
+		}
+		if = {
+			limit = {
+				has_country_flag = KMT_urumqi_demanded
+			}
+			CHI = {
+				transfer_state = 617
+			}
+		}
+		if = {
+			limit = {
+				has_country_flag = KMT_dzungaria_demanded
+			}
+			CHI = {
+				transfer_state = 618
+			}
+		}
+		if = {
+			limit = {
+				has_country_flag = KMT_yarkand_demanded
+			}
+			CHI = {
+				transfer_state = 619
+			}
+		}
+		if = {
+			limit = {
+				has_country_flag = KMT_TAN_demanded
+			}
+			CHI = {
+				transfer_state = 329
+			}
+		}
+	}
+	
+	option = {
+		ai_chance = {
+			factor = 5	
+			modifier = {
+				factor = 100
+				is_in_faction_with = SOV
+			}
+		}
+		name = kmt.52.b
+		effect_tooltip = {
+			CHI = {
+				create_wargoal = {
+					target = ROOT
+					type = annex_everything
+				}
+			}
+		}
+		hidden_effect = { CHI = { country_event = { id = kmt.54 hours = 8 }}}
+	}
+}
+
+#demand accepted
+country_event = {
+	id = kmt.53
+	title = kmt.53.t
+	desc = kmt.53.d
+	picture = GFX_report_event_generic_sign_treaty2
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = { factor = 100 }
+		name = kmt.53.a
+	}
+}
+
+#demand rejected
+country_event = {
+	id = kmt.54
+	title = kmt.54.t
+	desc = kmt.54.d
+	picture = GFX_report_event_generic_sign_treaty2
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = { factor = 100 }
+		name = kmt.54.a
+		CHI = {
+			create_wargoal = {
+				target = FROM
+				type = annex_everything
+			}
+		}
+	}
+}
+
+#prevent multiple events
+country_event = {
+	id = kmt.55
+	hidden = yes
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		if = {
+			limit = {
+				ROOT = {
+					NOT = {
+						has_country_flag = kmt_56_fired
+					}
+				}
+			}
+			country_event = { id = kmt.56 }
+		}
+	}
+}
+
+#demand events main indochina
+country_event = {
+	id = kmt.56
+	title = kmt.56.t
+	desc = kmt.56.d
+	picture = GFX_report_event_generic_sign_treaty2
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		ROOT = {
+			set_country_flag = kmt_56_fired
+		}
+	}
+	
+	option = {
+		ai_chance = {
+			factor = 35	
+			modifier = {
+				factor = 95
+				16 = { NOT = { is_controlled_by = FRA } } #Paris	
+			}
+			modifier = {
+				factor = 0
+				ROOT = { 
+					has_war_with = CHI
+					NOT = { tag = FRA }
+				}
+			}
+		}
+		
+		name = kmt.56.a
+		hidden_effect = {
+			CHI = {
+				country_event = { id = kmt.57 }
+			}
+		}
+		if = {
+			limit = {
+				has_country_flag = KMT_laos_demanded
+			}
+			CHI = {
+				transfer_state = 670
+			}
+		}
+		if = {
+			limit = {
+				has_country_flag = KMT_tonkin_demanded
+			}
+			CHI = {
+				transfer_state = 671
+			}
+		}
+		if = {
+			limit = {
+				has_country_flag = KMT_indochina_demanded
+			}
+			CHI = {
+				transfer_state = 286
+			}
+		}
+	}
+	
+	option = {
+		ai_chance = {
+			factor = 65	
+			modifier = {
+				factor = 5
+				tag = FRA
+				16 = { NOT = { is_controlled_by = FRA } } #Paris	
+			}
+		}
+		name = kmt.56.b
+		effect_tooltip = {
+			CHI = {
+				create_wargoal = {
+					target = ROOT
+					type = annex_everything
+				}
+			}
+		}
+		hidden_effect = { CHI = { country_event = { id = kmt.58 hours = 8 }}}
+	}
+}
+
+#demand accepted
+country_event = {
+	id = kmt.57
+	title = kmt.57.t
+	desc = kmt.57.d
+	picture = GFX_report_event_generic_sign_treaty2
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = { factor = 100 }
+		name = kmt.57.a
+	}
+}
+
+#demand rejected
+country_event = {
+	id = kmt.58
+	title = kmt.58.t
+	desc = kmt.58.d
+	picture = GFX_report_event_generic_sign_treaty2
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = { factor = 100 }
+		name = kmt.58.a
+		CHI = {
+			hidden_effect = {
+				set_country_flag = kmt_demand_indochina_war
+			}
+			create_wargoal = {
+				target = FROM
+				type = annex_everything
+			}
+		}
+	}
+}
+
+### kmt.59 and kmt.60 is deleted ###
+
+#remove Lzr and chiang after turning commie
+country_event = {
+	id = kmt.61
+	hidden = yes
+	
+	mean_time_to_happen = { days = 5 }
+	
+	fire_only_once = yes
+	
+	trigger = {
+		tag = CHI
+		CHI = {
+			has_government = communism
+		}
+	}
+	
+	immediate = {
+		remove_unit_leader = 1001
+		remove_unit_leader = 1005
+	}
+}
+
+#France return Guangzhou Wan
+country_event = {
+	id = kmt.62
+	title = kmt.62.t
+	desc = kmt.62.d
+	picture = GFX_report_event_generic_sign_treaty1
+	
+	fire_only_once = yes
+	
+	mean_time_to_happen = { days = 1 }
+	
+	trigger = {
+		date > 1946.2.28
+		tag = FRA
+		FRA = {
+			has_war = no
+			is_puppet = no
+			exists = yes 
+		}
+		OR = {
+			CHI = { 
+				has_war = no
+				is_puppet = no
+				exists = yes 
+			}
+			PRC = {
+				has_war = no
+				is_puppet = no
+				exists = yes 
+			}
+		}
+		728 = {
+			is_owned_by = FRA 
+		}
+	}
+	
+	option = {
+		name = kmt.62.a
+		ai_chance = { factor = 100 }
+		trigger = {
+			FRA = {
+				NOT = {
+					has_government = fascism
+				}
+			}
+		}
+		if = {
+			limit = {
+				OR = {
+					AND = {
+						594 = {
+							is_owned_by = PRC
+						}
+						591 = {
+							is_owned_by = PRC
+						}
+						592 = {
+							is_owned_by = PRC
+						}
+					}
+					FRA = {
+						has_government = communism
+					}
+					CHI = { exists = no }
+				}
+			}
+			PRC = {
+				country_event = { id = kmt.71 }
+				transfer_state = 728
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					594 = {
+						is_owned_by = PRC
+					}
+					591 = {
+						is_owned_by = PRC
+					}
+					592 = {
+						is_owned_by = PRC
+					}
+				}
+				OR = {
+					FRA = {
+						NOT = {
+							has_government = communism
+						}
+					}
+					PRC = { exists = no }
+				}
+			}
+			CHI = { 
+				country_event = { id = kmt.71 }
+				transfer_state = 728 
+			}
+		}
+	}
+	
+	option = {
+		name = kmt.62.b
+		ai_chance = { factor = 0 }
+		if = {
+			limit = {
+				OR = {
+					AND = {
+						594 = {
+							is_owned_by = PRC
+						}
+						591 = {
+							is_owned_by = PRC
+						}
+						592 = {
+							is_owned_by = PRC
+						}
+					}
+					FRA = {
+						has_government = communism
+					}
+					CHI = { exists = no }
+				}
+			}
+			effect_tooltip = {
+				PRC = {
+					create_wargoal = {
+						type = take_state_focus
+						target = FRA
+						generator = { 728 }
+					}
+				}
+			}
+			PRC = {
+				country_event = { id = kmt.63 days = 2 }
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					594 = {
+						is_owned_by = PRC
+					}
+					591 = {
+						is_owned_by = PRC
+					}
+					592 = {
+						is_owned_by = PRC
+					}
+				}
+				OR = {
+					FRA = {
+						NOT = {
+							has_government = communism
+						}
+					}
+					PRC = { exists = no }
+				}
+			}
+			effect_tooltip = {
+				CHI = {
+					create_wargoal = {
+						type = take_state_focus
+						target = FRA
+						generator = { 728 }
+					}
+				}
+			}
+			CHI = {
+				country_event = { id = kmt.63 days = 2 }
+			}
+		}
+	}
+}
+
+#FRA refuse to return Guangzhouwan
+country_event = {
+	id = kmt.63
+	title = kmt.63.t
+	desc = kmt.63.d
+	picture = GFX_report_event_generic_sign_treaty1
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		name = kmt.63.a
+		add_opinion_modifier = {
+			target = FRA
+			modifier = gzw_kept
+		}
+		create_wargoal = {
+			type = take_state_focus
+			target = FRA
+			generator = { 728 }
+		}
+		set_country_flag = gzw_war_flag
+	}
+}
+
+#Surrender when china has taken all asia land
+country_event = {
+	id = kmt.64
+	title = kmt.64.t
+	desc = kmt.64.d
+	picture = GFX_report_event_nationalist_china_machinegun_firing
+	
+	trigger = {
+		tag = FRA
+		OR = {
+			CHI = {
+				has_war_with = FRA
+				has_country_flag = gzw_war_flag
+				has_country_flag = kmt_demand_indochina_war
+			}
+			PRC = {
+				has_war_with = FRA
+				has_country_flag = kmt_demand_indochina_war
+				has_country_flag = gzw_war_flag
+			}
+		}
+		AND = { 
+			728 = {
+				OR = {
+					NOT = {
+						owner = { tag = FRA }
+						controller = { tag = FRA }
+					}
+					AND = {
+						owner = { tag = FRA }
+						controller = {
+							has_country_flag = gzw_war_flag
+						}
+					}
+				}
+			}
+			670 = {
+				OR = {
+					NOT = {
+						owner = { tag = FRA }
+						controller = { tag = FRA }
+					}
+					AND = {
+						owner = { tag = FRA }
+						controller = {
+							has_country_flag = kmt_demand_indochina_war
+							has_country_flag = gzw_war_flag
+						}
+					}
+				}
+			}
+			671 = {
+				OR = {
+					NOT = {
+						owner = { tag = FRA }
+						controller = { tag = FRA }
+					}
+					AND = {
+						owner = { tag = FRA }
+						controller = {
+							has_country_flag = kmt_demand_indochina_war
+							has_country_flag = gzw_war_flag
+						}
+					}
+				}
+			}
+			286 = {
+				OR = {
+					NOT = {
+						owner = { tag = FRA }
+						controller = { tag = FRA }
+					}
+					AND = {
+						owner = { tag = FRA }
+						controller = {
+							has_country_flag = kmt_demand_indochina_war
+							has_country_flag = gzw_war_flag
+						}
+					}
+				}
+			}
+		}
+		has_civil_war = no
+		is_in_faction = no
+	}
+
+	mean_time_to_happen = { days = 20 }
+
+	fire_only_once = yes
+
+	#Surrender and offer territory
+	option = {
+		name = kmt.64.a
+		ai_chance = {
+			factor = 65
+		}
+		every_country = {
+			limit = {
+				has_country_flag = kmt_demand_indochina_war
+				has_country_flag = gzw_war_flag
+			}
+			country_event = { id = kmt.65 }
+		}
+		custom_effect_tooltip = kmt.64.a_tt
+		effect_tooltip = {
+			every_country = {
+				limit = {
+					has_country_flag = kmt_demand_indochina_war
+					has_country_flag = gzw_war_flag
+				}
+				white_peace = FRA
+			}
+			if = {
+				limit = {
+					728 = {
+						owner = {
+							tag = FRA
+						}
+						controller = {
+							has_country_flag = kmt_demand_indochina_war
+							has_country_flag = gzw_war_flag
+						}
+					}
+				}
+				transfer_state = 728
+			}
+			if = {
+				limit = {
+					670 = {
+						owner = {
+							tag = FRA
+						}
+						controller = {
+							has_country_flag = kmt_demand_indochina_war
+							has_country_flag = gzw_war_flag
+						}
+					}
+				}
+				transfer_state = 670
+			}
+			if = {
+				limit = {
+					671 = {
+						owner = {
+							tag = FRA
+						}
+						controller = {
+							has_country_flag = kmt_demand_indochina_war
+							has_country_flag = gzw_war_flag
+						}
+					}
+				}
+				transfer_state = 671
+			}
+			if = {
+				limit = {
+					286 = {
+						owner = {
+							tag = FRA
+						}
+						controller = {
+							has_country_flag = kmt_demand_indochina_war
+							has_country_flag = gzw_war_flag
+						}
+					}
+				}
+				transfer_state = 286
+			}
+		}
+	}
+	
+	option = {
+		name = kmt.64.b
+		ai_chance = {
+			factor = 35
+		}
+		add_national_unity = 0.05
+	}
+}
+
+#KMT response to FRA surrender
+country_event = {
+	id = kmt.65
+	title = kmt.65.t
+	desc = kmt.65.d
+	picture = GFX_report_event_nra_march
+	
+	is_triggered_only = yes
+
+	#Accept surrender
+	option = {
+		name = kmt.65.a
+		ai_chance = {
+			base = 9
+		}
+		white_peace = FRA
+		if = {
+			limit = {
+				728 = {
+					owner = {
+						tag = FRA
+					}
+					controller = {
+						has_country_flag = kmt_demand_indochina_war
+						has_country_flag = gzw_war_flag
+					}
+				}
+			}
+			transfer_state = 728
+		}
+		if = {
+			limit = {
+				670 = {
+					owner = {
+						tag = FRA
+					}
+					controller = {
+						has_country_flag = kmt_demand_indochina_war
+						has_country_flag = gzw_war_flag
+					}
+				}
+			}
+			transfer_state = 670
+		}
+		if = {
+			limit = {
+				671 = {
+					owner = {
+						tag = FRA
+					}
+					controller = {
+						has_country_flag = kmt_demand_indochina_war
+						has_country_flag = gzw_war_flag
+					}
+				}
+			}
+			transfer_state = 671
+		}
+		if = {
+			limit = {
+				286 = {
+					owner = {
+						tag = FRA
+					}
+					controller = {
+						has_country_flag = kmt_demand_indochina_war
+						has_country_flag = gzw_war_flag
+					}
+				}
+			}
+			transfer_state = 286
+		}
+	}
+
+	#Take it all
+	option = {
+		name = kmt.65.b
+		ai_chance = {
+			base = 1		
+		}
+		FRA = { country_event = { id = kmt.66 } }
+	}
+}
+
+#china says no!
+country_event = {
+	id = kmt.66
+	title = kmt.66.t
+	desc = kmt.66.d
+	picture = GFX_report_event_nationalist_china_machinegun_firing
+	
+	is_triggered_only = yes
+
+	option = {
+		name = kmt.66.a
+	}
+}
+
+#England return Hong Kong
+country_event = {
+	id = kmt.67
+	title = kmt.67.t
+	desc = kmt.67.d
+	picture = GFX_report_event_generic_sign_treaty1
+	
+	fire_only_once = yes
+	
+	mean_time_to_happen = { days = 1 }
+	
+	trigger = {
+		date > 1997.7.1
+		tag = ENG
+		ENG = {
+			has_war = no
+			is_puppet = no
+			exists = yes 
+		}
+		OR = {
+			CHI = { 
+				has_war = no
+				is_puppet = no
+				exists = yes 
+			}
+			PRC = {
+				has_war = no
+				is_puppet = no
+				exists = yes 
+			}
+		}
+		326 = {
+			is_owned_by = ENG 
+		}
+	}
+	
+	option = {
+		name = kmt.67.a
+		ai_chance = { factor = 100 }
+		trigger = {
+			ENG = {
+				NOT = {
+					has_government = fascism
+				}
+			}
+		}
+		if = {
+			limit = {
+				OR = {
+					593 = {
+						is_owned_by = PRC
+					}
+					ENG = {
+						has_government = communism
+					}
+					CHI = { exists = no }
+				}
+			}
+			PRC = {
+				country_event = { id = kmt.72 }
+				transfer_state = 326
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					593 = {
+						is_owned_by = PRC
+					}
+				}
+				OR = {
+					ENG = {
+						NOT = {
+							has_government = communism
+						}
+					}
+					PRC = { exists = no }
+				}
+			}
+			CHI = { 
+				country_event = { id = kmt.72 }
+				transfer_state = 326
+			}
+		}
+	}
+	
+	option = {
+		name = kmt.67.b
+		ai_chance = { factor = 0 }
+		if = {
+			limit = {
+				OR = {
+					593 = {
+						is_owned_by = PRC
+					}
+					ENG = {
+						has_government = communism
+					}
+					CHI = { exists = no }
+				}
+			}
+			effect_tooltip = {
+				PRC = {
+					create_wargoal = {
+						type = take_state_focus
+						target = ENG
+						generator = { 326 }
+					}
+				}
+			}
+			PRC = {
+				country_event = { id = kmt.68 days = 2 }
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					593 = {
+						is_owned_by = PRC
+					}
+				}
+				OR = {
+					ENG = {
+						NOT = {
+							has_government = communism
+						}
+					}
+					PRC = { exists = no }
+				}
+			}
+			effect_tooltip = {
+				CHI = {
+					create_wargoal = {
+						type = take_state_focus
+						target = ENG
+						generator = { 326 }
+					}
+				}
+			}
+			CHI = {
+				country_event = { id = kmt.68 days = 2 }
+			}
+		}
+	}
+}
+
+#ENG refuse to return Hong Kong
+country_event = {
+	id = kmt.68
+	title = kmt.68.t
+	desc = kmt.68.d
+	picture = GFX_report_event_generic_sign_treaty1
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		name = kmt.68.a
+		add_opinion_modifier = {
+			target = ENG
+			modifier = hk_kept
+		}
+		create_wargoal = {
+			type = take_state_focus
+			target = ENG
+			generator = { 326 }
+		}
+		set_country_flag = hk_war_flag
+	}
+}
+
+#Portugal return Macau
+country_event = {
+	id = kmt.69
+	title = kmt.69.t
+	desc = kmt.69.d
+	picture = GFX_report_event_generic_sign_treaty1
+	
+	fire_only_once = yes
+	
+	mean_time_to_happen = { days = 1 }
+	
+	trigger = {
+		date > 1999.12.20
+		tag = POR
+		POR = {
+			has_war = no
+			is_puppet = no
+			exists = yes 
+		}
+		OR = {
+			CHI = { 
+				has_war = no
+				is_puppet = no
+				exists = yes 
+			}
+			PRC = {
+				has_war = no
+				is_puppet = no
+				exists = yes 
+			}
+		}
+		729 = {
+			is_owned_by = POR 
+		}
+	}
+	
+	option = {
+		name = kmt.69.a
+		ai_chance = { factor = 100 }
+		trigger = {
+			POR = {
+				NOT = {
+					has_government = fascism
+				}
+			}
+		}
+		if = {
+			limit = {
+				OR = {
+					592 = {
+						is_owned_by = PRC
+					}
+					POR = {
+						has_government = communism
+					}
+					CHI = { exists = no }
+				}
+			}
+			PRC = {
+				transfer_state = 729
+				country_event = { id = kmt.73 }
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					592 = {
+						is_owned_by = PRC
+					}
+				}
+				OR = {
+					POR = {
+						NOT = {
+							has_government = communism
+						}
+					}
+					PRC = { exists = no }
+				}
+			}
+			CHI = { 
+				transfer_state = 729
+				country_event = { id = kmt.73 }
+			}
+		}
+	}
+	
+	option = {
+		name = kmt.69.b
+		ai_chance = { factor = 0 }
+		if = {
+			limit = {
+				OR = {
+					592 = {
+						is_owned_by = PRC
+					}
+					POR = {
+						has_government = communism
+					}
+					CHI = { exists = no }
+				}
+			}
+			effect_tooltip = {
+				PRC = {
+					create_wargoal = {
+						type = take_state_focus
+						target = POR
+						generator = { 729 }
+					}
+				}
+			}
+			PRC = {
+				country_event = { id = kmt.70 days = 2 }
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					592 = {
+						is_owned_by = PRC
+					}
+				}
+				OR = {
+					POR = {
+						NOT = {
+							has_government = communism
+						}
+					}
+					PRC = { exists = no }
+				}
+			}
+			effect_tooltip = {
+				CHI = {
+					create_wargoal = {
+						type = take_state_focus
+						target = POR
+						generator = { 729 }
+					}
+				}
+			}
+			CHI = {
+				country_event = { id = kmt.70 days = 2 }
+			}
+		}
+	}
+}
+
+#POR refuse to return Macau
+country_event = {
+	id = kmt.70
+	title = kmt.70.t
+	desc = kmt.70.d
+	picture = GFX_report_event_generic_sign_treaty1
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		name = kmt.70.a
+		add_opinion_modifier = {
+			target = POR
+			modifier = macau_kept
+		}
+		create_wargoal = {
+			type = take_state_focus
+			target = POR
+			generator = { 729 }
+		}
+		set_country_flag = macau_war_flag
+	}
+}
+
+#Guangzhouwan back
+country_event = {
+	id = kmt.71
+	title = kmt.71.t
+	desc = kmt.71.d
+	picture = GFX_report_event_japan_europe_pact
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.71.a
+		effect_tooltip = {
+			transfer_state = 728
+		}
+	}
+}
+
+#Hong Kong back
+country_event = {
+	id = kmt.72
+	title = kmt.72.t
+	desc = kmt.72.d
+	picture = GFX_report_event_japan_europe_pact
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.72.a
+		effect_tooltip = {
+			transfer_state = 326
+		}
+	}
+}
+
+#Guangzhouwan back
+country_event = {
+	id = kmt.73
+	title = kmt.73.t
+	desc = kmt.73.d
+	picture = GFX_report_event_japan_europe_pact
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.73.a
+		effect_tooltip = {
+			transfer_state = 729
+		}
+	}
+}
+
+#china demand warlord submission
+country_event = {
+	id = kmt.74
+	title = kmt.74.t
+	desc = kmt.74.d
+	picture = GFX_report_event_generic_sign_treaty1
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.74.a
+		ai_chance = { 
+			factor = 40 
+			modifier = {
+				factor = 0
+				ROOT = {
+					has_country_flag = refused_shx_offer
+				}
+			}
+			modifier = {
+				add = 7
+				tag = GXC
+				CHI = {
+					divisions_in_state = { state = 603 size > 10}
+				}
+			}
+			modifier = {
+				add = 7
+				tag = GXC
+				CHI = {
+					divisions_in_state = { state = 602 size > 10}
+				}
+			}
+			modifier = {
+				add = 7
+				tag = GXC
+				CHI = {
+					divisions_in_state = { state = 600 size > 10}
+				}
+			}
+			modifier = {
+				add = 7
+				tag = GXC
+				CHI = {
+					divisions_in_state = { state = 595 size > 10}
+				}
+			}
+			modifier = {
+				add = 15
+				tag = YUN
+				CHI = {
+					divisions_in_state = { state = 599 size > 10}
+				}
+			}
+			modifier = {
+				add = 7
+				tag = YUN
+				CHI = {
+					divisions_in_state = { state = 603 size > 10}
+				}
+			}
+			modifier = {
+				add = 7
+				tag = YUN
+				CHI = {
+					divisions_in_state = { state = 601 size > 10}
+				}
+			}
+			modifier = {
+				add = 5
+				tag = XSM
+				CHI = {
+					divisions_in_state = { state = 601 size > 10}
+				}
+			}
+			modifier = {
+				add = 5
+				tag = XSM
+				CHI = {
+					divisions_in_state = { state = 605 size > 10}
+				}
+			}
+			modifier = {
+				add = 10
+				tag = XSM
+				CHI = {
+					divisions_in_state = { state = 622 size > 10}
+				}
+			}
+			modifier = {
+				add = 10
+				tag = XSM
+				CHI = {
+					divisions_in_state = { state = 621 size > 10}
+				}
+			}
+		}
+		if = {
+			limit = {
+				ROOT = {
+					tag = SHX
+				}
+			}
+			CHI = {
+				country_event = { id = kmt.75 }
+				annex_country = { target = ROOT transfer_troops = yes }
+			}
+			hidden_effect = {
+				CHI = {
+					set_country_flag = shx_sumitted
+					create_corps_commander = {
+						id = 1007
+						name = "Yan Xishan"
+						portrait_path = "gfx/leaders/Asia/Portrait_Asia_Generic_warlord2.dds"
+						traits = { desert_fox_CC trait_mountaineer_CC }
+						skill = 2
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				ROOT = {
+					tag = GXC
+				}
+			}
+			CHI = {
+				country_event = { id = kmt.75 }
+				annex_country = { target = ROOT transfer_troops = yes }
+			}
+			hidden_effect = {
+				CHI = {
+					set_country_flag = gxc_sumitted
+					create_field_marshal = {
+						id = 1005
+						name = "Li Zongren"
+						portrait_path = "gfx/leaders/GXC/Portrait_Guanxi_Clique_Li_Zongren.dds"
+						traits = { offensive_doctrine_FM reckless_general }
+						skill = 4
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				ROOT = {
+					tag = XSM
+				}
+			}
+			CHI = {
+				country_event = { id = kmt.75 }
+				annex_country = { target = ROOT transfer_troops = yes }
+			}
+		}
+		if = {
+			limit = {
+				ROOT = {
+					tag = YUN
+				}
+			}
+			CHI = {
+				country_event = { id = kmt.75 }
+				annex_country = { target = ROOT transfer_troops = yes }
+			}
+			hidden_effect = {
+				CHI = {
+					set_country_flag = yun_sumitted
+					create_corps_commander = {
+						id = 1006
+						name = "Long Yun"
+						portrait_path = "gfx/leaders/Asia/Portrait_Asia_Generic_warlord1.dds"
+						traits = { jungle_rat_CC trait_mountaineer_CC }
+						skill = 2
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				ROOT = {
+					tag = XSM
+				}
+			}
+			CHI = {
+				country_event = { id = kmt.75 }
+				annex_country = { target = ROOT transfer_troops = yes }
+			}
+			hidden_effect = {
+				CHI = {
+					set_country_flag = xsm_sumitted
+					create_corps_commander = {
+						id = 1008
+						name = "Ma Bufang"
+						portrait_path = "gfx/leaders/kmt_mod/Ma_Bufang.dds"
+						traits = { trickster_CC }
+						skill = 3
+					}
+				}
+			}
+		}
+	}
+	
+	option = {
+		name = kmt.74.b
+		ai_chance = { factor = 60 }
+		effect_tooltip = {
+			CHI = {
+				create_wargoal = {
+					target = ROOT
+					type = annex_everything
+				}
+			}
+		}
+		CHI = {
+			country_event = { id = kmt.752 }
+		}
+	}
+}
+
+#submission - why not!
+country_event = {
+	id = kmt.75
+	title = kmt.75.t
+	desc = kmt.75.d
+	picture = GFX_report_event_generic_sign_treaty1
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.75.a
+		if = {
+			limit = {
+				FROM = {
+					tag = GXC
+				}
+			}
+			custom_effect_tooltip = kmt_lzr_join
+		}
+		if = {
+			limit = {
+				FROM = {
+					tag = YUN
+				}
+			}
+			custom_effect_tooltip = kmt_ly_join
+		}
+		if = {
+			limit = {
+				FROM = {
+					tag = SHX
+				}
+			}
+			custom_effect_tooltip = kmt_yxs_join
+		}
+		if = {
+			limit = {
+				FROM = {
+					tag = SHX
+				}
+			}
+			custom_effect_tooltip = kmt_mbf_join
+		}
+	}
+}
+
+#submission - never!
+country_event = {
+	id = kmt.752
+	title = kmt.752.t
+	desc = kmt.752.d
+	picture = GFX_report_event_generic_sign_treaty1
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.752.a
+		create_wargoal = {
+			target = FROM
+			type = annex_everything
+		}
+	}
+}
+
+#SHX dead
+country_event = {
+	id = kmt.76
+	title = kmt.76.t
+	desc = kmt.76.d
+	picture = GFX_report_event_chinese_soldiers_02
+	
+	fire_only_once = yes
+	
+	mean_time_to_happen = { days = 3 }
+	
+	trigger = {
+		tag = CHI
+		SHX = {
+			exists = no
+		}
+		CHI = { 
+			has_country_flag = CHI_hostile_against_warlords
+			NOT = {
+				has_country_flag = shx_sumitted
+			}
+		}
+	}
+	
+	option = {
+		ai_chance = {
+			factor = 75
+			modifier = {
+				has_war_with = JAP
+				factor = 100
+			}
+		}
+		name = kmt.76.a
+		custom_effect_tooltip = kmt_yxs_join
+		hidden_effect = {
+			CHI = {
+				create_corps_commander = {
+					id = 1007
+					name = "Yan Xishan"
+					portrait_path = "gfx/leaders/Asia/Portrait_Asia_Generic_warlord2.dds"
+					traits = { desert_fox_CC trait_mountaineer_CC }
+					skill = 2
+				}
+			}
+		}
+	}
+	
+	option = {
+		ai_chance = {
+			factor = 25
+			modifier = {
+				has_war_with = JAP
+				factor = 0
+			}
+		}
+		name = kmt.76.b
+		add_national_unity = 0.01
+		add_political_power = 100
+	}
+}
+
+#GXC dead
+country_event = {
+	id = kmt.77
+	title = kmt.77.t
+	desc = kmt.77.d
+	picture = GFX_report_event_chinese_soldiers_02
+	
+	fire_only_once = yes
+	
+	mean_time_to_happen = { days = 3 }
+	
+	trigger = {
+		tag = CHI
+		GXC = {
+			exists = no
+		}
+		CHI = { 
+			has_country_flag = CHI_hostile_against_warlords
+			NOT = {
+				has_country_flag = gxc_sumitted
+			}
+		}
+	}
+	
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = kmt.77.a
+		custom_effect_tooltip = kmt_lzr_join
+		hidden_effect = {
+			CHI = {
+				create_field_marshal = {
+					id = 1005
+					name = "Li Zongren"
+					portrait_path = "gfx/leaders/GXC/Portrait_Guanxi_Clique_Li_Zongren.dds"
+					traits = { offensive_doctrine_FM reckless_general }
+					skill = 4
+				}
+			}
+		}
+	}
+	
+	option = {
+		ai_chance = {
+			factor = 0
+		}
+		name = kmt.77.b
+		add_national_unity = 0.01
+		add_political_power = 100
+	}
+}
+
+#YUN dead
+country_event = {
+	id = kmt.78
+	title = kmt.78.t
+	desc = kmt.78.d
+	picture = GFX_report_event_chinese_soldiers_02
+	
+	fire_only_once = yes
+	
+	mean_time_to_happen = { days = 3 }
+	
+	trigger = {
+		tag = CHI
+		YUN = {
+			exists = no
+		}
+		CHI = { 
+			has_country_flag = CHI_hostile_against_warlords
+			NOT = {
+				has_country_flag = yun_sumitted
+			}
+		}
+	}
+	
+	option = {
+		ai_chance = {
+			factor = 75
+			modifier = {
+				has_war_with = JAP
+				factor = 100
+			}
+		}
+		name = kmt.78.a
+		custom_effect_tooltip = kmt_ly_join
+		hidden_effect = {
+			CHI = {
+				create_corps_commander = {
+					id = 1006
+					name = "Long Yun"
+					portrait_path = "gfx/leaders/Asia/Portrait_Asia_Generic_warlord1.dds"
+					traits = { jungle_rat_CC trait_mountaineer_CC }
+					skill = 2
+				}
+			}
+		}	
+	}
+	
+	option = {
+		ai_chance = {
+			factor = 25
+			modifier = {
+				has_war_with = JAP
+				factor = 0
+			}
+		}
+		name = kmt.78.b
+		add_national_unity = 0.01
+		add_political_power = 100
+	}
+}
+	
+#lower warlord clique penalty 3 left
+country_event = {
+	id = kmt.79
+	hidden = yes
+	
+	fire_only_once = yes
+	
+	mean_time_to_happen = { days = 3 }
+	
+	trigger = {
+		tag = CHI
+		CHI = {
+			NOT = {
+				has_war_with = JAP
+				has_country_flag = kmt_80_fired
+				has_country_flag = kmt_81_fired
+				has_country_flag = kmt_82_fired
+			}
+		}
+		OR = {
+			SHX = { exists = no }
+			XSM = { exists = no }
+			GXC	= { exists = no }
+			YUN = { exists = no }
+		}
+	}
+	
+	immediate = {
+		remove_ideas = KMT_warlord_cliques_war
+		remove_ideas = KMT_warlord_cliques_pre_war
+		add_ideas = KMT_warlord_cliques_3
+	}
+	
+	option = {}
+}
+
+#lower warlord clique penalty 2 left
+country_event = {
+	id = kmt.80
+	hidden = yes
+	
+	
+	fire_only_once = yes
+	
+	mean_time_to_happen = { days = 3 }
+	
+	trigger = {
+		tag = CHI
+		CHI = {
+			NOT = {
+				has_war_with = JAP
+				has_country_flag = kmt_81_fired
+				has_country_flag = kmt_82_fired
+			}
+		}
+		OR = {
+			AND = {
+				SHX = { exists = no }
+				XSM = { exists = no }
+			}
+			AND = {
+				SHX = { exists = no }
+				GXC = { exists = no }
+			}
+			AND = {
+				SHX = { exists = no }
+				YUN = { exists = no }
+			}
+			AND = {
+				XSM = { exists = no }
+				GXC = { exists = no }
+			}
+			AND = {
+				XSM = { exists = no }
+				YUN = { exists = no }
+			}
+			AND = {
+				GXC = { exists = no }
+				YUN = { exists = no }
+			}
+		}
+	}
+	
+	immediate = {
+		set_country_flag = kmt_80_fired
+		remove_ideas = KMT_warlord_cliques_war
+		remove_ideas = KMT_warlord_cliques_3
+		add_ideas = KMT_warlord_cliques_2
+	}
+	
+	
+	option = {}
+}
+
+#lower warlord clique penalty 1 left
+country_event = {
+	id = kmt.81
+	hidden = yes
+	
+	
+	fire_only_once = yes
+	
+	mean_time_to_happen = { days = 3 }
+	
+	trigger = {
+		tag = CHI
+		CHI = {
+			NOT = {
+				has_war_with = JAP
+				has_country_flag = kmt_82_fired
+			}
+		}
+		OR = {
+			AND = {
+				GXC = { exists = no }
+				YUN = { exists = no }
+				XSM = { exists = no }
+			}
+			AND = {
+				GXC = { exists = no }
+				YUN = { exists = no }
+				SHX = { exists = no }
+			}
+			AND = {
+				GXC = { exists = no }
+				SHX = { exists = no }
+				XSM = { exists = no }
+			}
+			AND = {
+				YUN = { exists = no }
+				SHX = { exists = no }
+				XSM = { exists = no }
+			}
+		}
+	}
+	
+	immediate = {
+		set_country_flag = kmt_81_fired
+		remove_ideas = KMT_warlord_cliques_war
+		remove_ideas = KMT_warlord_cliques_2
+		add_ideas = KMT_warlord_cliques_1
+	}
+	option = {}
+}
+
+#remove warlord clique
+country_event = {
+	id = kmt.82
+	hidden = yes
+	
+	fire_only_once = yes
+	
+	mean_time_to_happen = { days = 3 }
+	
+	trigger = {
+		tag = CHI
+		CHI = {
+			NOT = {
+				has_war_with = JAP
+			}
+		}
+		AND = {
+			GXC = { exists = no }
+			YUN = { exists = no }
+			XSM = { exists = no }
+			SHX = { exists = no }
+		}
+	}
+	
+	immediate = {
+		set_country_flag = kmt_82_fired
+		remove_ideas = KMT_warlord_cliques_war
+		remove_ideas = KMT_warlord_cliques_1
+	}
+	option = {}
+}
+	
+#wartime warlord clique
+country_event = {
+	id = kmt.83
+	hidden = yes
+	
+	fire_only_once = yes
+	
+	mean_time_to_happen = { days = 3 }
+	
+	trigger = {
+		NOT = {
+			has_country_flag = warlord_0
+		}
+		tag = CHI
+		CHI = {
+			has_war_with = JAP
+		}
+		OR = {
+			OR = {
+				GXC = { is_in_faction_with = CHI }
+				YUN = { is_in_faction_with = CHI }
+				XSM = { is_in_faction_with = CHI }
+				SHX = { is_in_faction_with = CHI }
+			}
+			OR = {
+				GXC = { exists = no }
+				YUN = { exists = no }
+				XSM = { exists = no }
+				SHX = { exists = no }
+			}
+		}
+	}
+	
+	immediate = {
+		remove_ideas = KMT_warlord_cliques_pre_war
+		remove_ideas = KMT_warlord_cliques_3
+		remove_ideas = KMT_warlord_cliques_2
+		remove_ideas = KMT_warlord_cliques_1
+		add_ideas = KMT_warlord_cliques_war
+	}
+	option = {}
+}
+
+## 15/7/2016 ##
+
+#ask sov to integrate sik
+country_event = {
+	id = kmt.84
+	title = kmt.84.t
+	desc = kmt.84.d
+	picture = GFX_report_event_soviet_japanese_pact
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		ai_chance = { factor = 100 }
+		name = kmt.84.a
+		SIK = {
+			country_event = { id = kmt.85 hours = 8 }
+		}
+		set_global_flag = SOV_allowed
+	}
+	
+	option = {
+		ai_chance = { factor = 0 }
+		name = kmt.84.b
+		CHI = {
+			country_event = { id = kmt.86 days = 2 }
+		}
+	}
+}
+
+#sov allow
+country_event = {
+	id = kmt.85
+	title = kmt.85.t
+	desc = kmt.85.d
+	picture = GFX_report_event_stalin_02
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		ai_chance = { factor = 15 }
+		name = kmt.85.a
+		CHI = {
+			country_event = { id = kmt.87 }
+			annex_country = { target = ROOT transfer_troops = no }
+		}
+	}
+	
+	option = {
+		ai_chance = { factor = 85 }
+		name = kmt.85.b
+		SOV = {
+			country_event = { id = kmt.88 days = 3 }
+			remove_from_faction = SIK
+		}
+		CHI = {
+			country_event = { id = kmt.88 }
+		}
+		declare_war_on = {
+			target = CHI
+			type = annex_everything
+		}
+	}
+}
+
+#sov says no
+country_event = {
+	id = kmt.86
+	title = kmt.86.t
+	desc = kmt.86.d
+	picture = GFX_report_event_stalin_02
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		ai_chance = { factor = 99 }
+		name = kmt.86.a
+	}
+	
+	option = {
+		ai_chance = { factor = 1 }
+		name = kmt.86.b
+		SOV = {
+			remove_from_faction = CHI
+		}
+		create_wargoal = {
+			target = SIK
+			type = annex_everything
+		}
+	}
+}
+
+#sik annexed
+country_event = {
+	id = kmt.87
+	title = kmt.87.t
+	desc = kmt.87.d
+	picture = GFX_report_event_soviet_finnish_pact
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		name = kmt.87.a
+	}
+}
+
+#sik refused, war
+country_event = {
+	id = kmt.88
+	title = kmt.88.t
+	desc = kmt.88.d
+	picture = GFX_report_event_spain_civil_war_volunteers_02
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.88.a
+		trigger = {
+			tag = SOV
+		}
+		CHI = {
+			country_event = { id = kmt.89 }
+		}
+		add_to_war = {
+			targeted_alliance = CHI
+			enemy = SIK
+		}
+	}
+	
+	option = {
+		name = kmt.88.b
+		trigger = {
+			tag = CHI
+		}
+	}
+}
+
+#sov join war against sik
+country_event = {
+	id = kmt.89
+	title = kmt.89.t
+	desc = kmt.89.d
+	picture = GFX_report_event_stalin_propaganda
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		name = kmt.89.a
+	}
+}
+
+#invite sik
+country_event = {
+	id = kmt.90
+	title = kmt.90.t
+	desc = kmt.90.d
+	picture = GFX_report_event_generic_read_write
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		name = kmt.90.a
+		CHI = {
+			country_event = { id = kmt.91 }
+			add_to_faction = SIK
+		}
+	}
+	
+	option = {
+		name = kmt.90.b
+		CHI = { country_event = { id = kmt.92 days = 2 }}
+	}
+}
+
+#sik joined
+country_event = {
+	id = kmt.91
+	title = kmt.91.t
+	desc = kmt.91.d
+	picture = GFX_report_event_generic_sign_treaty1
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		name = kmt.91.a
+	}
+}
+
+#sik refused
+country_event = {
+	id = kmt.92
+	title = kmt.92.t
+	desc = kmt.92.d
+	picture = GFX_report_event_generic_sign_treaty1
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		name = kmt.92.a
+	}
+}
+
+#sik democracy?
+country_event = {
+	id = kmt.93
+	title = kmt.93.t
+	desc = kmt.93.d
+	picture = GFX_report_event_japan_army_mountainside
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		ai_chance = {
+			factor = 5
+			modifier = {
+				ENG = {
+					is_in_faction_with = CHI
+				}
+				add = 15
+			}
+			modifier = {
+				FRA = {
+					is_in_faction_with = CHI
+				}
+				add = 10
+			}
+			modifier = {
+				USA = {
+					is_in_faction_with = CHI
+				}
+				add = 20
+			}
+		}
+		name = kmt.93.a
+		CHI = {
+			CHI = { country_event = { id = kmt.94 } }
+			puppet = SIK
+		}
+		set_politics = {
+			ruling_party = democratic
+		}
+	}
+	
+	option = {
+		ai_chance = { factor = 95 }
+		name = kmt.93.b
+		CHI = { country_event = { id = kmt.95 hours = 8 } }
+		effect_tooltip = {
+			CHI = {
+				create_wargoal = {
+					target = SIK
+					type = puppet_wargoal_focus
+				}
+			}
+		}
+	}
+}
+
+#sik democaracied
+country_event = {
+	id = kmt.94
+	title = kmt.94.t
+	desc = kmt.94.d
+	picture = GFX_report_event_hitler_handshake
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		name = kmt.94.a
+	}
+}
+
+#sik reject democracy
+country_event = {
+	id = kmt.95
+	title = kmt.95.t
+	desc = kmt.95.d
+	picture = GFX_report_event_german_politician_speech
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		name = kmt.95.a
+		create_wargoal = {
+			target = SIK
+			type = puppet_wargoal_focus
+		}
+	}
+}
+
+#reclaim sik
+country_event = {
+	id = kmt.96
+	title = kmt.96.t
+	desc = kmt.96.d
+	picture = GFX_report_event_german_politician_speech
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		name = kmt.96.a
+		ai_chance = { 
+			factor = 50
+			modifier = {
+				is_in_faction_with = SOV
+				factor = 0
+			}
+		}
+		CHI = {
+			country_event = { id = kmt.97 }
+			annex_country = {
+				target = SIK
+				transfer_troops = no
+			}
+		}
+	}
+	
+	option = {
+		name = kmt.96.b
+		effect_tooltip = {
+			CHI = {
+				create_wargoal = {
+					target = SIK
+					type = annex_everything
+				}
+			}
+		}
+		CHI = { country_event = { id = kmt.98 hours = 7 } }
+	}
+}
+
+#sik annexed
+country_event = {
+	id = kmt.97
+	title = kmt.97.t
+	desc = kmt.97.d
+	picture = GFX_report_event_german_politician_speech
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		name = kmt.97.a
+	}
+}
+
+#sik refuse annex
+country_event = {
+	id = kmt.98
+	title = kmt.98.t
+	desc = kmt.98.d
+	picture = GFX_report_event_german_politician_speech
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		name = kmt.98.a
+		CHI = {
+			create_wargoal = {
+				target = SIK
+				type = annex_everything
+			}
+		}
+	}
+}
+
+#kmt.99 deleted
+
+#trade port - gzw
+country_event = {
+	id = kmt.100
+	title = {
+		text = kmt.100.t
+		trigger = {
+			CHI = {
+				has_government = neutrality
+			}
+		}
+	}
+	title = {
+		text = kmt.100.t_2
+		trigger = {
+			CHI = {
+				has_government = communism
+			}
+		}
+	}
+	desc = kmt.100.d
+	
+	picture = GFX_report_event_generic_sign_treaty2
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = {
+			factor = 20
+			modifier = {
+				FROM = {
+					strength_ratio = { 
+						tag = ROOT 
+						ratio < 0.5
+					}
+				}
+				factor = 50
+			}
+			modifier = {
+				FROM = {
+					strength_ratio = { 
+						tag = ROOT 
+						ratio < 0.9
+					}
+				}
+				factor = 100
+			}
+		}
+		name = kmt.100.a
+		CHI = {
+			transfer_state = 728
+			country_event = { id = kmt.101 }
+		}
+	}
+	
+	option = {
+		ai_chance = {
+			factor = 80
+		}
+		name = kmt.100.b
+		effect_tooltip = {
+			CHI = {
+				create_wargoal = {
+					target = ROOT
+					type = take_state_focus
+					generator = { 728 }
+				}
+			}
+		}
+		CHI = {
+			country_event = { id = kmt.102 }
+		}
+	}
+}
+
+#trade port - gzw accepted
+country_event = {
+	id = kmt.101
+	title = kmt.101.t
+	desc = kmt.101.d
+	
+	picture = GFX_report_event_generic_sign_treaty2
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.101.a
+		add_political_power = 125
+	}
+}
+
+#trade port - gzw refused
+country_event = {
+	id = kmt.102
+	title = kmt.102.t
+	desc = kmt.102.d
+	
+	picture = GFX_report_event_generic_sign_treaty2
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.102.a
+		create_wargoal = {
+			target = FROM
+			type = take_state_focus
+			generator = { 728 }
+		}
+	}
+}
+
+#trade port - mc
+country_event = {
+	id = kmt.103
+	title = {
+		text = kmt.100.t
+		trigger = {
+			CHI = {
+				has_government = neutrality
+			}
+		}
+	}
+	title = {
+		text = kmt.100.t_2
+		trigger = {
+			CHI = {
+				has_government = communism
+			}
+		}
+	}
+	desc = kmt.103.d
+	
+	picture = GFX_report_event_generic_sign_treaty2
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = {
+			factor = 20
+			modifier = {
+				FROM = {
+					strength_ratio = { 
+						tag = ROOT 
+						ratio < 0.5
+					}
+				}
+				factor = 50
+			}
+			modifier = {
+				FROM = {
+					strength_ratio = { 
+						tag = ROOT 
+						ratio < 0.9
+					}
+				}
+				factor = 100
+			}
+		}
+		name = kmt.100.a
+		CHI = {
+			transfer_state = 729
+			country_event = { id = kmt.104 }
+		}
+	}
+	
+	option = {
+		ai_chance = {
+			factor = 80
+		}
+		name = kmt.100.b
+		effect_tooltip = {
+			CHI = {
+				create_wargoal = {
+					target = ROOT
+					type = take_state_focus
+					generator = { 729 }
+				}
+			}
+		}
+		CHI = {
+			country_event = { id = kmt.105 }
+		}
+	}
+}
+
+#trade port - mc accepted
+country_event = {
+	id = kmt.104
+	title = kmt.104.t
+	desc = kmt.104.d
+	
+	picture = GFX_report_event_generic_sign_treaty2
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.101.a
+	}
+}
+
+#trade port - mc refused
+country_event = {
+	id = kmt.105
+	title = kmt.102.t
+	desc = kmt.105.d
+	
+	picture = GFX_report_event_generic_sign_treaty2
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.102.a
+		create_wargoal = {
+			target = FROM
+			type = take_state_focus
+			generator = { 729 }
+		}
+	}
+}
+
+#trade port - hk
+country_event = {
+	id = kmt.106
+	title = {
+		text = kmt.100.t
+		trigger = {
+			CHI = {
+				has_government = neutrality
+			}
+		}
+	}
+	title = {
+		text = kmt.100.t_2
+		trigger = {
+			CHI = {
+				has_government = communism
+			}
+		}
+	}
+	desc = kmt.106.d
+	
+	picture = GFX_report_event_generic_sign_treaty2
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = {
+			factor = 20
+			modifier = {
+				FROM = {
+					strength_ratio = { 
+						tag = ROOT 
+						ratio < 0.5
+					}
+				}
+				factor = 50
+			}
+			modifier = {
+				FROM = {
+					strength_ratio = { 
+						tag = ROOT 
+						ratio < 0.9
+					}
+				}
+				factor = 100
+			}
+		}
+		name = kmt.100.a
+		CHI = {
+			transfer_state = 326
+			country_event = { id = kmt.107 }
+		}
+	}
+	
+	option = {
+		ai_chance = {
+			factor = 80
+		}
+		name = kmt.100.b
+		effect_tooltip = {
+			CHI = {
+				create_wargoal = {
+					target = ROOT
+					type = take_state_focus
+					generator = { 326 }
+				}
+			}
+		}
+		CHI = {
+			country_event = { id = kmt.108 }
+		}
+	}
+}
+
+#trade port - hk accepted
+country_event = {
+	id = kmt.107
+	title = kmt.107.t
+	desc = kmt.107.d
+	
+	picture = GFX_report_event_generic_sign_treaty2
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.101.a
+	}
+}
+
+#trade port - hk refused
+country_event = {
+	id = kmt.108
+	title = kmt.102.t
+	desc = kmt.108.d
+	
+	picture = GFX_report_event_burma_road
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.102.a
+		create_wargoal = {
+			target = FROM
+			type = take_state_focus
+			generator = { 326 }
+		}
+	}
+}
+
+#trade port demo - gzw
+country_event = {
+	id = kmt.109
+	title = kmt.109.t
+	desc = kmt.109.d
+	
+	picture = GFX_report_event_generic_sign_treaty2
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = {
+			factor = 10
+			modifier = {
+				ROOT = {
+					has_government = democratic
+				}
+				factor = 75
+			}
+			modifier = {
+				ROOT = {
+					has_government = democratic
+					has_war = yes
+				}
+				factor = 100
+			}
+		}
+		name = kmt.109.a
+		CHI = {
+			transfer_state = 728
+			country_event = { id = kmt.110 }
+		}
+		effect_tooltip = {
+			if = {
+				limit = {
+					CHI = { has_completed_focus = KMT_european_friend }
+				}
+				ROOT = {
+					add_ideas = kmt_western_volunteers
+				}
+				custom_effect_tooltip = kmt_manpower_transfer_tt
+			}
+			if = {
+				limit = {
+					CHI = { has_completed_focus = KMT_alone_in_the_east }
+				}
+				ROOT = {
+					add_ideas = kmt_chinese_support
+				}
+			}
+		}
+	}
+	
+	option = {
+		ai_chance = {
+			factor = 90
+		}
+		name = kmt.109.b
+		effect_tooltip = {
+			CHI = {
+				add_opinion_modifier = {
+					modifier = gzw_demo_kpt
+					target = ROOT
+				}
+			}
+		}
+		CHI = {
+			country_event = { id = kmt.111 }
+		}
+	}
+}
+
+#trade port demo - gzw accepted
+country_event = {
+	id = kmt.110
+	title = kmt.110.t
+	desc = kmt.110.d
+	
+	picture = GFX_report_event_generic_sign_treaty1
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.110.a
+		if = {
+			limit = {
+				CHI = { has_completed_focus = KMT_european_friend }
+			}
+			FROM = {
+				add_ideas = kmt_western_volunteers
+			}
+			custom_effect_tooltip = kmt_manpower_transfer_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						CHI = {
+							has_manpower > 19999
+						}
+					}
+					FROM = {
+						add_manpower = 20000
+					}
+					CHI = {
+						add_manpower = -20000
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				CHI = { has_completed_focus = KMT_alone_in_the_east }
+			}
+			FROM = {
+				add_ideas = kmt_chinese_support
+			}
+		}
+	}
+}
+
+#trade port - gzw refused
+country_event = {
+	id = kmt.111
+	title = kmt.111.t
+	desc = kmt.111.d
+	
+	picture = GFX_report_event_generic_sign_treaty1
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.111.a
+		add_opinion_modifier = {
+			modifier = gzw_demo_kpt
+			target = FROM
+		}
+	}
+}
+
+#trade port - mc
+country_event = {
+	id = kmt.112
+	title = kmt.109.t
+	desc = kmt.112.d
+	
+	picture = GFX_report_event_generic_sign_treaty1
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = {
+			factor = 10
+			modifier = {
+				ROOT = {
+					has_government = democratic
+				}
+				factor = 75
+			}
+			modifier = {
+				ROOT = {
+					has_government = democratic
+					has_war = yes
+				}
+				factor = 100
+			}
+		}
+		name = kmt.109.a
+		CHI = {
+			transfer_state = 729
+			country_event = { id = kmt.113 }
+		}
+		effect_tooltip = {
+			if = {
+				limit = {
+					CHI = { has_completed_focus = KMT_european_friend }
+				}
+				ROOT = {
+					add_ideas = kmt_western_volunteers
+				}
+				custom_effect_tooltip = kmt_manpower_transfer_tt
+				hidden_effect = {
+					if = {
+						limit = {
+							CHI = {
+								has_manpower > 19999
+							}
+						}
+						FROM = {
+							add_manpower = 20000
+						}
+						CHI = {
+							add_manpower = -20000
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					CHI = { has_completed_focus = KMT_alone_in_the_east }
+				}
+				ROOT = {
+					add_ideas = kmt_chinese_support
+				}
+			}
+		}
+	}
+	
+	option = {
+		ai_chance = {
+			factor = 90
+		}
+		name = kmt.109.b
+		effect_tooltip = {
+			CHI = {
+				add_opinion_modifier = {
+					modifier = mc_demo_kpt
+					target = ROOT
+				}
+			}
+		}
+		CHI = {
+			country_event = { id = kmt.114 }
+		}
+	}
+}
+
+#trade port - mc accepted
+country_event = {
+	id = kmt.113
+	title = kmt.113.t
+	desc = kmt.113.d
+	
+	picture = GFX_report_event_generic_sign_treaty1
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.110.a
+		if = {
+			limit = {
+				CHI = { has_completed_focus = KMT_european_friend }
+			}
+			FROM = {
+				add_ideas = kmt_western_volunteers
+			}
+			custom_effect_tooltip = kmt_manpower_transfer_tt
+			hidden_effect = {
+				FROM = {
+					add_manpower = 20000
+				}
+				CHI = {
+					add_manpower = -20000
+				}
+			}
+		}
+		if = {
+			limit = {
+				CHI = { has_completed_focus = KMT_alone_in_the_east }
+			}
+			FROM = {
+				add_ideas = kmt_chinese_support
+			}
+		}
+	}
+}
+
+#trade port - mc refused
+country_event = {
+	id = kmt.114
+	title = kmt.111.t
+	desc = kmt.111.d
+	
+	picture = GFX_report_event_generic_sign_treaty1
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.111.a
+		add_opinion_modifier = {
+			modifier = mc_demo_kpt
+			target = FROM
+		}
+	}
+}
+
+#trade port - hk
+country_event = {
+	id = kmt.115
+	title = kmt.109.t
+	desc = kmt.115.d
+	
+	picture = GFX_report_event_generic_sign_treaty1
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = {
+			factor = 10
+			modifier = {
+				ROOT = {
+					has_government = democratic
+				}
+				factor = 75
+			}
+			modifier = {
+				ROOT = {
+					has_government = democratic
+					has_war = yes
+				}
+				factor = 100
+			}
+		}
+		name = kmt.109.a
+		CHI = {
+			transfer_state = 326
+			country_event = { id = kmt.116 }
+		}
+		effect_tooltip = {
+			if = {
+				limit = {
+					CHI = { has_completed_focus = KMT_european_friend }
+				}
+				ROOT = {
+					add_ideas = kmt_western_volunteers
+				}
+				custom_effect_tooltip = kmt_manpower_transfer_tt
+				hidden_effect = {
+					if = {
+						limit = {
+							CHI = {
+								has_manpower > 19999
+							}
+						}
+						FROM = {
+							add_manpower = 20000
+						}
+						CHI = {
+							add_manpower = -20000
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					CHI = { has_completed_focus = KMT_alone_in_the_east }
+				}
+				ROOT = {
+					add_ideas = kmt_chinese_support
+				}
+			}
+		}
+	}
+	
+	option = {
+		ai_chance = {
+			factor = 90
+		}
+		name = kmt.109.b
+		effect_tooltip = {
+			CHI = {
+				add_opinion_modifier = {
+					modifier = hk_demo_kpt
+					target = ROOT
+				}
+			}
+		}
+		CHI = {
+			country_event = { id = kmt.117 }
+		}
+	}
+}
+
+#trade port - hk accepted
+country_event = {
+	id = kmt.116
+	title = kmt.116.t
+	desc = kmt.116.d
+	
+	picture = GFX_report_event_generic_sign_treaty1
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.110.a
+		if = {
+			limit = {
+				CHI = { has_completed_focus = KMT_european_friend }
+			}
+			FROM = {
+				add_ideas = kmt_western_volunteers
+			}
+			custom_effect_tooltip = kmt_manpower_transfer_tt
+			hidden_effect = {
+				FROM = {
+					add_manpower = 20000
+				}
+				CHI = {
+					add_manpower = -20000
+				}
+			}
+		}
+		if = {
+			limit = {
+				CHI = { has_completed_focus = KMT_alone_in_the_east }
+			}
+			FROM = {
+				add_ideas = kmt_chinese_support
+			}
+		}
+	}
+}
+
+#trade port - hk refused
+country_event = {
+	id = kmt.117
+	title = kmt.111.t
+	desc = kmt.111.d
+	
+	picture = GFX_report_event_generic_sign_treaty1
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.111.a
+		add_opinion_modifier = {
+			modifier = hk_demo_kpt
+			target = ROOT
+		}
+	}
+}
+
+
+#######################
+######GZW FASCISM######
+#######################
+
+
+#fascism trade port - gzw
+country_event = {
+	id = kmt.118
+	title = kmt.118.t
+	desc = kmt.118.d
+	
+	picture = GFX_report_event_journalists_speech
+	
+	is_triggered_only = yes
+	
+	
+	##coup
+	option = {
+		ai_chance = {
+			factor = 50
+		}
+		trigger = {
+			728 = {
+				owner = {
+					NOT = {
+						has_government = fascism
+					}
+				}
+			}
+		}
+		name = kmt.118.a
+		custom_effect_tooltip = kmt_fascism_tp_728_coup_tt
+		hidden_effect = {
+			set_country_flag = staging_coup_in_728
+			728 = {
+				owner = {
+					country_event = { id = kmt.119 days = 14 }
+				}
+			}
+		}
+	}
+	
+	##gzw for friendship
+	option = {
+		trigger = {
+			728 = {
+				owner = {
+					has_government = fascism
+				}
+			}
+		}
+		name = kmt.118.b
+		ai_chance = {
+			factor = 50
+		}
+		728 = {
+			owner = {
+				country_event = {
+					id = kmt.122 hours = 8
+				}
+			}
+		}
+	}
+	
+	##demand
+	option = {
+		name = kmt.118.c
+		ai_chance = { factor = 10 }
+		728 = {
+			owner = {
+				country_event = { id = kmt.123 hours = 6 }
+			}
+		}
+	}
+	
+	##occupy
+	option = {
+		trigger = {
+			has_completed_focus = KMT_militarism_focus
+		}
+		ai_chance = {
+			factor = 40
+		}
+		name = kmt.118.e
+		custom_effect_tooltip = kmt_fascism_tp_728_inc_tt
+		hidden_effect = {
+			728 = {
+				owner = {
+					country_event = { id = kmt.124 }
+				}
+			}
+			transfer_state = 728
+			load_oob = "CHI_gzw_occupy"
+		}
+	}
+}
+
+#hidden coup result
+country_event = {
+	id = kmt.119
+	hidden = yes
+	
+	is_triggered_only = yes
+	
+	immediate = {
+			if = {
+				limit = {
+					CHI = {
+						has_national_unity < 0.21
+						NOT = {
+							has_country_flag = state_728_under_control_when_staging_coup
+						}
+					}
+				}
+				random_list = {
+					20 = {
+						country_event = {
+							id = kmt.120  ##success
+						}
+						CHI = {
+							country_event = { id = kmt.120 }
+							transfer_state = 728
+						}
+					}
+					80 = {
+						country_event = {
+							id = kmt.121  ##fail
+						}
+						CHI = {
+							country_event = { id = kmt.121 }
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					CHI = {
+						has_national_unity < 0.36
+						has_national_unity > 0.20
+						NOT = {
+							has_country_flag = state_728_under_control_when_staging_coup
+						}
+					}
+				}
+				random_list = {
+					40 = {
+						country_event = {
+							id = kmt.120  ##success
+						}
+						CHI = {
+							country_event = { id = kmt.120 }
+							transfer_state = 728
+						}
+					}
+					60 = {
+						country_event = {
+							id = kmt.121  ##fail
+						}
+						CHI = {
+							country_event = { id = kmt.121 }
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					CHI = {
+						has_national_unity < 0.56
+						has_national_unity > 0.35
+						NOT = {
+							has_country_flag = state_728_under_control_when_staging_coup
+						}
+					}
+				}
+				random_list = {
+					60 = {
+						country_event = {
+							id = kmt.120  ##success
+						}
+						CHI = {
+							country_event = { id = kmt.120 }
+							transfer_state = 728
+						}
+					}
+					40 = {
+						country_event = {
+							id = kmt.121  ##fail
+						}
+						CHI = {
+							country_event = { id = kmt.121 }
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					CHI = {
+						has_national_unity < 0.81
+						has_national_unity > 0.55
+						NOT = {
+							has_country_flag = state_728_under_control_when_staging_coup
+						}
+					}
+				}
+				random_list = {
+					70 = {
+						country_event = {
+							id = kmt.120  ##success
+						}
+						CHI = {
+							country_event = { id = kmt.120 }
+							transfer_state = 728
+						}
+					}
+					30 = {
+						country_event = {
+							id = kmt.121   ##fail
+						}
+						CHI = {
+							country_event = { id = kmt.121 }
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					CHI = {
+						has_national_unity > 0.80
+						NOT = {
+							has_country_flag = state_728_under_control_when_staging_coup
+						}
+					}
+				}
+				random_list = {
+					90 = {
+						country_event = {
+							id = kmt.120  ##success
+						}
+						CHI = {
+							country_event = { id = kmt.120 }
+							transfer_state = 728
+						}
+					}
+					10 = {
+						country_event = {
+							id = kmt.121  ##fail
+						}
+						CHI = {
+							country_event = { id = kmt.121 }
+						}
+					}
+				}
+			}
+	}
+	
+	option = {}
+}
+
+#coup success
+country_event = {
+	id = kmt.120
+	title = kmt.120.t
+	desc = {
+		text = kmt.120.d_1
+		trigger = {
+			NOT = {
+				tag = CHI
+			}
+		}
+	}
+	desc = {
+		text = kmt.120.d_2
+		trigger = {
+			tag = CHI
+		}
+	}
+	
+	picture = GFX_report_event_pla_in_beijing
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.120.a
+		trigger = {
+			NOT = {
+				tag = CHI
+			}
+		}
+		create_wargoal = {
+			target = CHI
+			type = take_state_focus
+			generator = { 728 }
+		}
+	}
+	
+	option = {
+		name = kmt.120.b
+		trigger = {
+			NOT = {
+				tag = CHI
+			}
+		}
+		ai_chance = {
+			factor = 10
+			modifier = {
+				has_war = yes
+				factor = 95
+			}
+		}
+		add_political_power = -125
+	}
+	
+	option = {
+		name = kmt.120.c
+		trigger = {
+			tag = CHI
+		}
+	}
+}
+
+#coup failed
+country_event = {
+	id = kmt.121
+	title = kmt.121.t
+	desc = {
+		text = kmt.121.d_1
+		trigger = {
+			NOT = {
+				tag = CHI
+			}
+		}
+	}
+	desc = {
+		text = kmt.121.d_2
+		trigger = {
+			tag = CHI
+		}
+	}
+	
+	picture = GFX_report_event_riot_police_poland
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.121.a
+		trigger = {
+			NOT = {
+				tag = CHI
+			}
+		}
+		CHI = {
+			country_event = { id = kmt.130 hours = 2 }
+		}
+		effect_tooltip = {
+			add_opinion_modifier = { target = CHI modifier = denounciation }
+			CHI = {
+				add_opinion_modifier = { target = ROOT modifier = denounciation }
+			}
+		}
+	}
+	
+	option = {
+		name = kmt.121.b
+		trigger = {
+			NOT = {
+				tag = CHI
+			}
+		}
+		ai_chance = {
+			factor = 45
+			modifier = {
+				has_war = yes
+				factor = 95
+			}
+		}
+	}
+	
+	option = {
+		name = kmt.121.c
+		trigger = {
+			tag = CHI
+		}
+	}
+}
+
+#for friendship
+country_event = {
+	id = kmt.122
+	title = kmt.122.t
+	desc = kmt.122.d
+	
+	picture = GFX_report_event_japan_europe_pact
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = { factor = 80 }
+		name = kmt.122.a
+		CHI = {
+			transfer_state = 728
+			add_opinion_modifier = { target = ROOT modifier = gzw_returned_tp }
+			country_event = { id = kmt.125 }
+		}
+		diplomatic_relation = { country = CHI relation = non_aggression_pact }
+		add_opinion_modifier = { target = CHI modifier = gzw_returned_tp }
+	}
+	
+	option = {
+		ai_chance = { factor = 20 }
+		name = kmt.122.b
+		CHI = {
+			add_opinion_modifier = { target = ROOT modifier = gzw_kept_tp }
+			country_event = { id = kmt.126 }
+		}
+		effect_tooltip = {
+			CHI = {
+				create_wargoal = {
+					target = ROOT
+					type = take_state_focus
+					generator = { 728 }
+				}
+			}
+		}
+	}
+	
+}
+
+#demand
+country_event = {
+	id = kmt.123
+	title = kmt.123.t
+	desc = kmt.123.d
+	
+	picture = GFX_report_event_generic_sign_treaty2
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = {
+			factor = 30
+			modifier = {
+				strength_ratio = {
+					tag = CHI
+					ratio > 0.6
+				}
+				factor = 95
+			}
+		}
+		name = kmt.123.a
+		CHI = {
+			transfer_state = 728
+			country_event = { id = kmt.127 }
+		}
+		add_political_power = -100
+	}
+	
+	option = {
+		ai_chance = {
+			factor = 70
+		}
+		name = kmt.123.b
+		CHI = {
+			country_event = {
+				id = kmt.128 
+			}
+		}
+		effect_tooltip = {
+			CHI = {
+				create_wargoal = {
+					target = ROOT
+					type = take_state_focus
+					generator = { 728 }
+				}
+				add_opinion_modifier = { target = ROOT modifier = gzw_kept_tp }
+			}
+		}
+	}
+}
+
+#occupy gzw
+country_event = {
+	id = kmt.124
+	title = kmt.124.t
+	desc = kmt.124.d
+	
+	picture = GFX_report_event_german_troops
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.124.a
+		add_political_power = -200
+		add_timed_idea = {
+			idea = incompetent_government
+			days = 225
+		}
+	}					
+
+	option = {
+		name = kmt.124.b
+		declare_war_on = {
+			target = CHI
+			type = take_state_focus
+			generator = { 728 }
+		}
+	}
+}
+
+#gzw for friendship - accepted
+country_event = {
+	id = kmt.125
+	title = kmt.125.t
+	desc = kmt.125.d
+	
+	picture = GFX_report_event_hitler_handshake
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.125.a
+	}					
+
+}
+
+#gzw for friendship - refused
+country_event = {
+	id = kmt.126
+	title = kmt.126.t
+	desc = kmt.126.d
+	
+	picture = GFX_report_event_second_vienna_award_pact
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.126.a
+		create_wargoal = {
+			target = FROM
+			type = take_state_focus
+			generator = { 728 }
+		}
+	}					
+}
+
+#demand - accepted
+country_event = {
+	id = kmt.127
+	title = kmt.127.t
+	desc = kmt.127.d
+	
+	picture = GFX_report_event_soldiers_marching
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.127.a
+	}					
+
+}
+
+#demand - refused
+country_event = {
+	id = kmt.128
+	title = kmt.128.t
+	desc = kmt.128.d
+	
+	picture = GFX_report_event_polish_army
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.128.a
+		create_wargoal = {
+			target = FROM
+			type = take_state_focus
+			generator = { 728 }
+		}
+		add_opinion_modifier = { target = FROM modifier = gzw_kept_tp }
+	}					
+}
+
+#become owner of 728 while staging coup
+country_event = {
+	id = kmt.129
+	hidden = yes
+	
+	fire_only_once = yes
+	
+	trigger = {
+		CHI = {
+			has_country_flag = staging_coup_in_728
+		}
+		728 = {
+			is_owned_by = CHI
+		}
+	}
+	
+	immediate = {
+		CHI = {
+			set_country_flag = state_728_under_control_when_staging_coup
+		}
+	}
+	
+	option = {}
+}
+
+#denounciation response
+country_event = {
+	id = kmt.130
+	title = kmt.130.t
+	desc = kmt.130.d
+	
+	is_triggered_only = yes
+	
+	picture = GFX_report_event_soviet_purge_trial
+	
+	option = {
+		name = kmt.130.a
+		ai_chance = { factor = 60 }
+		add_opinion_modifier = { target = FROM modifier = embargo }
+	}
+	
+	option = {
+		name = kmt.130.b
+		ai_chance = { factor = 30 }
+		create_wargoal = {
+			target = FROM
+			type = puppet_wargoal_focus
+		}
+	}
+	
+	option = {
+		name = kmt.130.c
+		ai_chance = { factor = 10 }
+		add_political_power = -50
+	}
+}
+
+### END OF FASCISM GZW FOCUS EVENT ###
+
+
+###### MACAU FASCISM ######
+
+
+#fascism trade port - mc
+country_event = {
+	id = kmt.131
+	title = kmt.131.t
+	desc = kmt.131.d
+	
+	picture = GFX_report_event_journalists_speech
+	
+	is_triggered_only = yes
+	
+	
+	##coup
+	option = {
+		ai_chance = {
+			factor = 50
+		}
+		trigger = {
+			729 = {
+				owner = {
+					NOT = {
+						has_government = fascism
+					}
+				}
+			}
+		}
+		name = kmt.131.a
+		custom_effect_tooltip = kmt_fascism_tp_728_coup_tt
+		hidden_effect = {
+			set_country_flag = staging_coup_in_729
+			729 = {
+				owner = {
+					country_event = { id = kmt.132 days = 29 }
+				}
+			}
+		}
+	}
+	
+	##gzw for friendship
+	option = {
+		trigger = {
+			729 = {
+				owner = {
+					has_government = fascism
+				}
+			}
+		}
+		name = kmt.131.b
+		ai_chance = {
+			factor = 50
+		}
+		729 = {
+			owner = {
+				country_event = {
+					id = kmt.135 hours = 8
+				}
+			}
+		}
+	}
+	
+	##demand
+	option = {
+		name = kmt.131.c
+		ai_chance = { factor = 10 }
+		729 = {
+			owner = {
+				country_event = { id = kmt.136 hours = 6 }
+			}
+		}
+	}
+	
+	##occupy
+	option = {
+		trigger = {
+			has_completed_focus = KMT_militarism_focus
+		}
+		ai_chance = {
+			factor = 40
+		}
+		name = kmt.131.e
+		custom_effect_tooltip = kmt_fascism_tp_729_inc_tt
+		hidden_effect = {
+			729 = {
+				owner = {
+					country_event = { id = kmt.137 }
+				}
+			}
+			transfer_state = 729
+			load_oob = "CHI_mc_occupy"
+		}
+	}
+}
+
+#hidden coup result
+country_event = {
+	id = kmt.132
+	hidden = yes
+	
+	is_triggered_only = yes
+	
+	immediate = {
+			if = {
+				limit = {
+					CHI = {
+						has_national_unity < 0.21
+						NOT = {
+							has_country_flag = state_728_under_control_when_staging_coup
+						}
+					}
+				}
+				random_list = {
+					20 = {
+						country_event = {
+							id = kmt.133  ##success
+						}
+						CHI = {
+							country_event = { id = kmt.133 }
+							transfer_state = 729
+						}
+					}
+					80 = {
+						country_event = {
+							id = kmt.134  ##fail
+						}
+						CHI = {
+							country_event = { id = kmt.134 }
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					CHI = {
+						has_national_unity < 0.36
+						has_national_unity > 0.20
+						NOT = {
+							has_country_flag = state_728_under_control_when_staging_coup
+						}
+					}
+				}
+				random_list = {
+					40 = {
+						country_event = {
+							id = kmt.133  ##success
+						}
+						CHI = {
+							country_event = { id = kmt.133 }
+							transfer_state = 729
+						}
+					}
+					60 = {
+						country_event = {
+							id = kmt.134  ##fail
+						}
+						CHI = {
+							country_event = { id = kmt.134 }
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					CHI = {
+						has_national_unity < 0.56
+						has_national_unity > 0.35
+						NOT = {
+							has_country_flag = state_728_under_control_when_staging_coup
+						}
+					}
+				}
+				random_list = {
+					60 = {
+						country_event = {
+							id = kmt.133  ##success
+						}
+						CHI = {
+							country_event = { id = kmt.133 }
+							transfer_state = 729
+						}
+					}
+					40 = {
+						country_event = {
+							id = kmt.134  ##fail
+						}
+						CHI = {
+							country_event = { id = kmt.134 }
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					CHI = {
+						has_national_unity < 0.81
+						has_national_unity > 0.55
+						NOT = {
+							has_country_flag = state_728_under_control_when_staging_coup
+						}
+					}
+				}
+				random_list = {
+					70 = {
+						country_event = {
+							id = kmt.133  ##success
+						}
+						CHI = {
+							country_event = { id = kmt.133 }
+							transfer_state = 729
+						}
+					}
+					30 = {
+						country_event = {
+							id = kmt.134   ##fail
+						}
+						CHI = {
+							country_event = { id = kmt.134 }
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					CHI = {
+						has_national_unity > 0.80
+						NOT = {
+							has_country_flag = state_728_under_control_when_staging_coup
+						}
+					}
+				}
+				random_list = {
+					90 = {
+						country_event = {
+							id = kmt.133  ##success
+						}
+						CHI = {
+							country_event = { id = kmt.133 }
+							transfer_state = 729
+						}
+					}
+					10 = {
+						country_event = {
+							id = kmt.134  ##fail
+						}
+						CHI = {
+							country_event = { id = kmt.134 }
+						}
+					}
+				}
+			}
+	}
+	
+	option = {}
+	
+}
+
+#coup success
+country_event = {
+	id = kmt.133
+	title = kmt.133.t
+	desc = {
+		text = kmt.133.d_1
+		trigger = {
+			NOT = {
+				tag = CHI
+			}
+		}
+	}
+	desc = {
+		text = kmt.133.d_2
+		trigger = {
+			tag = CHI
+		}
+	}
+	
+	picture = GFX_report_event_pla_in_beijing
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.133.a
+		trigger = {
+			NOT = {
+				tag = CHI
+			}
+		}
+		create_wargoal = {
+			target = CHI
+			type = take_state_focus
+			generator = { 729 }
+		}
+	}
+	
+	option = {
+		name = kmt.133.b
+		trigger = {
+			NOT = {
+				tag = CHI
+			}
+		}
+		ai_chance = {
+			factor = 10
+			modifier = {
+				has_war = yes
+				factor = 95
+			}
+		}
+		add_political_power = -125
+	}
+	
+	option = {
+		name = kmt.133.c
+		trigger = {
+			tag = CHI
+		}
+	}
+}
+
+#coup failed
+country_event = {
+	id = kmt.134
+	title = kmt.134.t
+	desc = {
+		text = kmt.134.d_1
+		trigger = {
+			NOT = {
+				tag = CHI
+			}
+		}
+	}
+	desc = {
+		text = kmt.134.d_2
+		trigger = {
+			tag = CHI
+		}
+	}
+	
+	picture = GFX_report_event_riot_police_poland
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.134.a
+		trigger = {
+			NOT = {
+				tag = CHI
+			}
+		}
+		CHI = {
+			country_event = { id = kmt.143 hours = 2 }
+		}
+		effect_tooltip = {
+			add_opinion_modifier = { target = CHI modifier = denounciation }
+			CHI = {
+				add_opinion_modifier = { target = ROOT modifier = denounciation }
+			}
+		}
+	}
+	
+	option = {
+		name = kmt.134.b
+		trigger = {
+			NOT = {
+				tag = CHI
+			}
+		}
+		ai_chance = {
+			factor = 45
+			modifier = {
+				has_war = yes
+				factor = 95
+			}
+		}
+	}
+	
+	option = {
+		name = kmt.134.c
+		trigger = {
+			tag = CHI
+		}
+	}
+}
+
+#for friendship
+country_event = {
+	id = kmt.135
+	title = kmt.135.t
+	desc = kmt.135.d
+	
+	picture = GFX_report_event_japan_europe_pact
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = { factor = 80 }
+		name = kmt.135.a
+		CHI = {
+			transfer_state = 729
+			add_opinion_modifier = { target = ROOT modifier = mc_returned_tp }
+			country_event = { id = kmt.138 }
+		}
+		diplomatic_relation = { country = CHI relation = non_aggression_pact }
+		add_opinion_modifier = { target = CHI modifier = mc_returned_tp }
+	}
+	
+	option = {
+		ai_chance = { factor = 20 }
+		name = kmt.135.b
+		CHI = {
+			add_opinion_modifier = { target = ROOT modifier = mc_kept_tp }
+			country_event = { id = kmt.139 }
+		}
+		effect_tooltip = {
+			CHI = {
+				create_wargoal = {
+					target = ROOT
+					type = take_state_focus
+					generator = { 729 }
+				}
+			}
+		}
+	}
+	
+}
+
+#demand
+country_event = {
+	id = kmt.136
+	title = kmt.136.t
+	desc = kmt.136.d
+	
+	picture = GFX_report_event_generic_sign_treaty2
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = {
+			factor = 30
+			modifier = {
+				strength_ratio = {
+					tag = CHI
+					ratio > 0.6
+				}
+				factor = 95
+			}
+		}
+		name = kmt.136.a
+		CHI = {
+			transfer_state = 729
+			country_event = { id = kmt.140 }
+		}
+		add_political_power = -100
+	}
+	
+	option = {
+		ai_chance = {
+			factor = 70
+		}
+		name = kmt.136.b
+		CHI = {
+			country_event = {
+				id = kmt.141 
+			}
+		}
+		effect_tooltip = {
+			CHI = {
+				create_wargoal = {
+					target = ROOT
+					type = take_state_focus
+					generator = { 729 }
+				}
+				add_opinion_modifier = { target = ROOT modifier = mc_kept_tp }
+			}
+		}
+	}
+}
+
+#occupy mc
+country_event = {
+	id = kmt.137
+	title = kmt.137.t
+	desc = kmt.137.d
+	
+	picture = GFX_report_event_german_troops
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.137.a
+		add_political_power = -200
+		add_timed_idea = {
+			idea = incompetent_government
+			days = 225
+		}
+	}					
+
+	option = {
+		name = kmt.137.b
+		declare_war_on = {
+			target = CHI
+			type = take_state_focus
+			generator = { 729 }
+		}
+	}
+}
+
+#mc for friendship - accepted
+country_event = {
+	id = kmt.138
+	title = kmt.138.t
+	desc = kmt.138.d
+	
+	picture = GFX_report_event_hitler_handshake
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.138.a
+	}					
+
+}
+
+#mc for friendship - refused
+country_event = {
+	id = kmt.139
+	title = kmt.139.t
+	desc = kmt.139.d
+	
+	picture = GFX_report_event_second_vienna_award_pact
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.139.a
+		create_wargoal = {
+			target = FROM
+			type = take_state_focus
+			generator = { 729 }
+		}
+	}					
+}
+
+#demand - accepted
+country_event = {
+	id = kmt.140
+	title = kmt.140.t
+	desc = kmt.140.d
+	
+	picture = GFX_report_event_soldiers_marching
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.140.a
+	}					
+
+}
+
+#demand - refused
+country_event = {
+	id = kmt.141
+	title = kmt.141.t
+	desc = kmt.141.d
+	
+	picture = GFX_report_event_polish_army
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.141.a
+		create_wargoal = {
+			target = FROM
+			type = take_state_focus
+			generator = { 729 }
+		}
+		add_opinion_modifier = { target = FROM modifier = mc_kept_tp }
+	}					
+}
+
+#become owner of 729 while staging coup
+country_event = {
+	id = kmt.142
+	hidden = yes
+	
+	fire_only_once = yes
+	
+	trigger = {
+		CHI = {
+			has_country_flag = staging_coup_in_729
+		}
+		729 = {
+			is_owned_by = CHI
+		}
+	}
+	
+	immediate = {
+		CHI = {
+			set_country_flag = state_729_under_control_when_staging_coup
+		}
+	}
+	
+	option = {}
+}
+
+#denounciation response
+country_event = {
+	id = kmt.143
+	title = kmt.143.t
+	desc = kmt.143.d
+	
+	is_triggered_only = yes
+	
+	picture = GFX_report_event_soviet_purge_trial
+	
+	option = {
+		name = kmt.143.a
+		ai_chance = { factor = 60 }
+		add_opinion_modifier = { target = FROM modifier = embargo }
+	}
+	
+	option = {
+		name = kmt.143.b
+		ai_chance = { factor = 30 }
+		create_wargoal = {
+			target = FROM
+			type = puppet_wargoal_focus
+		}
+	}
+	
+	option = {
+		name = kmt.143.c
+		ai_chance = { factor = 10 }
+		add_political_power = -50
+	}
+}
+
+### END OF FASCISM MACAU FOCUS EVENT ###
+
+###### HK FASCISM ######
+
+
+#fascism trade port - hk
+country_event = {
+	id = kmt.144
+	title = kmt.144.t
+	desc = kmt.144.d
+	
+	picture = GFX_report_event_journalists_speech
+	
+	is_triggered_only = yes
+	
+	
+	##coup
+	option = {
+		ai_chance = {
+			factor = 50
+		}
+		trigger = {
+			326 = {
+				owner = {
+					NOT = {
+						has_government = fascism
+					}
+				}
+			}
+		}
+		name = kmt.144.a
+		custom_effect_tooltip = kmt_fascism_tp_728_coup_tt
+		hidden_effect = {
+			set_country_flag = staging_coup_in_326
+			326 = {
+				owner = {
+					country_event = { id = kmt.145 days = 33 }
+				}
+			}
+		}
+	}
+	
+	##gzw for friendship
+	option = {
+		trigger = {
+			326 = {
+				owner = {
+					has_government = fascism
+				}
+			}
+		}
+		name = kmt.144.b
+		ai_chance = {
+			factor = 50
+		}
+		326 = {
+			owner = {
+				country_event = {
+					id = kmt.148 hours = 8
+				}
+			}
+		}
+	}
+	
+	##demand
+	option = {
+		name = kmt.144.c
+		ai_chance = { factor = 10 }
+		326 = {
+			owner = {
+				country_event = { id = kmt.149 hours = 6 }
+			}
+		}
+	}
+	
+	##occupy
+	option = {
+		trigger = {
+			has_completed_focus = KMT_militarism_focus
+		}
+		ai_chance = {
+			factor = 40
+		}
+		name = kmt.144.e
+		custom_effect_tooltip = kmt_fascism_tp_326_inc_tt
+		hidden_effect = {
+			326 = {
+				owner = {
+					country_event = { id = kmt.150 }
+				}
+			}
+			transfer_state = 326
+			load_oob = "CHI_hk_occupy"
+		}
+	}
+}
+
+#hidden coup result
+country_event = {
+	id = kmt.145
+	hidden = yes
+	
+	is_triggered_only = yes
+	
+	immediate = {
+			if = {
+				limit = {
+					CHI = {
+						has_national_unity < 0.21
+						NOT = {
+							has_country_flag = state_728_under_control_when_staging_coup
+						}
+					}
+				}
+				random_list = {
+					20 = {
+						country_event = {
+							id = kmt.146  ##success
+						}
+						CHI = {
+							country_event = { id = kmt.146 }
+							transfer_state = 326
+						}
+					}
+					80 = {
+						country_event = {
+							id = kmt.147  ##fail
+						}
+						CHI = {
+							country_event = { id = kmt.147 }
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					CHI = {
+						has_national_unity < 0.36
+						has_national_unity > 0.20
+						NOT = {
+							has_country_flag = state_728_under_control_when_staging_coup
+						}
+					}
+				}
+				random_list = {
+					40 = {
+						country_event = {
+							id = kmt.146  ##success
+						}
+						CHI = {
+							country_event = { id = kmt.146 }
+							transfer_state = 326
+						}
+					}
+					60 = {
+						country_event = {
+							id = kmt.147  ##fail
+						}
+						CHI = {
+							country_event = { id = kmt.147 }
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					CHI = {
+						has_national_unity < 0.56
+						has_national_unity > 0.35
+						NOT = {
+							has_country_flag = state_728_under_control_when_staging_coup
+						}
+					}
+				}
+				random_list = {
+					60 = {
+						country_event = {
+							id = kmt.146  ##success
+						}
+						CHI = {
+							country_event = { id = kmt.146 }
+							transfer_state = 326
+						}
+					}
+					40 = {
+						country_event = {
+							id = kmt.147  ##fail
+						}
+						CHI = {
+							country_event = { id = kmt.147 }
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					CHI = {
+						has_national_unity < 0.81
+						has_national_unity > 0.55
+						NOT = {
+							has_country_flag = state_728_under_control_when_staging_coup
+						}
+					}
+				}
+				random_list = {
+					70 = {
+						country_event = {
+							id = kmt.146  ##success
+						}
+						CHI = {
+							country_event = { id = kmt.146 }
+							transfer_state = 326
+						}
+					}
+					30 = {
+						country_event = {
+							id = kmt.147   ##fail
+						}
+						CHI = {
+							country_event = { id = kmt.147 }
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					CHI = {
+						has_national_unity > 0.80
+						NOT = {
+							has_country_flag = state_728_under_control_when_staging_coup
+						}
+					}
+				}
+				random_list = {
+					90 = {
+						country_event = {
+							id = kmt.146  ##success
+						}
+						CHI = {
+							country_event = { id = kmt.146 }
+							transfer_state = 326
+						}
+					}
+					10 = {
+						country_event = {
+							id = kmt.147  ##fail
+						}
+						CHI = {
+							country_event = { id = kmt.147 }
+						}
+					}
+				}
+			}
+	}
+	
+	option = {}
+}
+
+#coup success
+country_event = {
+	id = kmt.146
+	title = kmt.146.t
+	desc = {
+		text = kmt.146.d_1
+		trigger = {
+			NOT = {
+				tag = CHI
+			}
+		}
+	}
+	desc = {
+		text = kmt.146.d_2
+		trigger = {
+			tag = CHI
+		}
+	}
+	
+	picture = GFX_report_event_pla_in_beijing
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.146.a
+		trigger = {
+			NOT = {
+				tag = CHI
+			}
+		}
+		create_wargoal = {
+			target = CHI
+			type = take_state_focus
+			generator = { 326 }
+		}
+	}
+	
+	option = {
+		name = kmt.146.b
+		trigger = {
+			NOT = {
+				tag = CHI
+			}
+		}
+		ai_chance = {
+			factor = 10
+			modifier = {
+				has_war = yes
+				factor = 95
+			}
+		}
+		add_political_power = -125
+	}
+	
+	option = {
+		name = kmt.146.c
+		trigger = {
+			tag = CHI
+		}
+	}
+}
+
+#coup failed
+country_event = {
+	id = kmt.147
+	title = kmt.147.t
+	desc = {
+		text = kmt.147.d_1
+		trigger = {
+			NOT = {
+				tag = CHI
+			}
+		}
+	}
+	desc = {
+		text = kmt.147.d_2
+		trigger = {
+			tag = CHI
+		}
+	}
+	
+	picture = GFX_report_event_riot_police_poland
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.147.a
+		trigger = {
+			NOT = {
+				tag = CHI
+			}
+		}
+		CHI = {
+			country_event = { id = kmt.156 hours = 2 }
+		}
+		effect_tooltip = {
+			add_opinion_modifier = { target = CHI modifier = denounciation }
+			CHI = {
+				add_opinion_modifier = { target = ROOT modifier = denounciation }
+			}
+		}
+	}
+	
+	option = {
+		name = kmt.147.b
+		trigger = {
+			NOT = {
+				tag = CHI
+			}
+		}
+		ai_chance = {
+			factor = 45
+			modifier = {
+				has_war = yes
+				factor = 95
+			}
+		}
+	}
+	
+	option = {
+		name = kmt.147.c
+		trigger = {
+			tag = CHI
+		}
+	}
+}
+
+#for friendship
+country_event = {
+	id = kmt.148
+	title = kmt.148.t
+	desc = kmt.148.d
+	
+	picture = GFX_report_event_japan_europe_pact
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = { factor = 80 }
+		name = kmt.148.a
+		CHI = {
+			transfer_state = 326
+			add_opinion_modifier = { target = ROOT modifier = hk_returned_tp }
+			country_event = { id = kmt.151 }
+		}
+		diplomatic_relation = { country = CHI relation = non_aggression_pact }
+		add_opinion_modifier = { target = CHI modifier = hk_returned_tp }
+	}
+	
+	option = {
+		ai_chance = { factor = 20 }
+		name = kmt.148.b
+		CHI = {
+			add_opinion_modifier = { target = ROOT modifier = hk_kept_tp }
+			country_event = { id = kmt.152 }
+		}
+		effect_tooltip = {
+			CHI = {
+				create_wargoal = {
+					target = ROOT
+					type = take_state_focus
+					generator = { 326 }
+				}
+			}
+		}
+	}
+	
+}
+
+#demand
+country_event = {
+	id = kmt.149
+	title = kmt.149.t
+	desc = kmt.149.d
+	
+	picture = GFX_report_event_generic_sign_treaty2
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = {
+			factor = 30
+			modifier = {
+				strength_ratio = {
+					tag = CHI
+					ratio > 0.6
+				}
+				factor = 95
+			}
+		}
+		name = kmt.149.a
+		CHI = {
+			transfer_state = 326
+			country_event = { id = kmt.153 }
+		}
+		add_political_power = -100
+	}
+	
+	option = {
+		ai_chance = {
+			factor = 70
+		}
+		name = kmt.149.b
+		CHI = {
+			country_event = {
+				id = kmt.154 
+			}
+		}
+		effect_tooltip = {
+			CHI = {
+				create_wargoal = {
+					target = ROOT
+					type = take_state_focus
+					generator = { 326 }
+				}
+				add_opinion_modifier = { target = ROOT modifier = hk_kept_tp }
+			}
+		}
+	}
+}
+
+#occupy hk
+country_event = {
+	id = kmt.150
+	title = kmt.150.t
+	desc = kmt.150.d
+	
+	picture = GFX_report_event_german_troops
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.150.a
+		add_political_power = -200
+		add_timed_idea = {
+			idea = incompetent_government
+			days = 225
+		}
+	}					
+
+	option = {
+		name = kmt.150.b
+		declare_war_on = {
+			target = CHI
+			type = take_state_focus
+			generator = { 326 }
+		}
+	}
+}
+
+#hk for friendship - accepted
+country_event = {
+	id = kmt.151
+	title = kmt.151.t
+	desc = kmt.151.d
+	
+	picture = GFX_report_event_hitler_handshake
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.151.a
+	}					
+
+}
+
+#hk for friendship - refused
+country_event = {
+	id = kmt.152
+	title = kmt.152.t
+	desc = kmt.152.d
+	
+	picture = GFX_report_event_second_vienna_award_pact
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.152.a
+		create_wargoal = {
+			target = FROM
+			type = take_state_focus
+			generator = { 326 }
+		}
+	}					
+}
+
+#demand - accepted
+country_event = {
+	id = kmt.153
+	title = kmt.153.t
+	desc = kmt.153.d
+	
+	picture = GFX_report_event_soldiers_marching
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.153.a
+	}					
+
+}
+
+#demand - refused
+country_event = {
+	id = kmt.154
+	title = kmt.154.t
+	desc = kmt.154.d
+	
+	picture = GFX_report_event_polish_army
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.154.a
+		create_wargoal = {
+			target = FROM
+			type = take_state_focus
+			generator = { 326 }
+		}
+		add_opinion_modifier = { target = FROM modifier = hk_kept_tp }
+	}					
+}
+
+#become owner of 326 while staging coup
+country_event = {
+	id = kmt.155
+	hidden = yes
+	
+	fire_only_once = yes
+	
+	trigger = {
+		CHI = {
+			has_country_flag = staging_coup_in_326
+		}
+		326 = {
+			is_owned_by = CHI
+		}
+	}
+	
+	immediate = {
+		CHI = {
+			set_country_flag = state_326_under_control_when_staging_coup
+		}
+	}
+	
+	option = {}
+}
+
+#denounciation response
+country_event = {
+	id = kmt.156
+	title = kmt.156.t
+	desc = kmt.156.d
+	
+	is_triggered_only = yes
+	
+	picture = GFX_report_event_soviet_purge_trial
+	
+	option = {
+		name = kmt.156.a
+		ai_chance = { factor = 60 }
+		add_opinion_modifier = { target = FROM modifier = embargo }
+	}
+	
+	option = {
+		name = kmt.156.b
+		ai_chance = { factor = 30 }
+		create_wargoal = {
+			target = FROM
+			type = puppet_wargoal_focus
+		}
+	}
+	
+	option = {
+		name = kmt.156.c
+		ai_chance = { factor = 10 }
+		add_political_power = -50
+	}
+}
+
+### END OF FASCISM HK FOCUS EVENT ###
+
+### Comintern Trade Port Focus ###
+country_event = {
+	id = kmt.157
+	title = kmt.157.t
+	desc = {
+		text = kmt.157.d_1
+		trigger = {
+			is_in_faction_with = SOV
+		}
+	}
+	desc = {
+		text = kmt.157.d_2
+		trigger = {
+			NOT = {
+				is_in_faction_with = SOV
+			}
+		}
+	}
+	
+	picture = GFX_report_event_stalin_02
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.157.a_1
+		trigger = {
+			is_in_faction_with = SOV
+		}
+		ai_chance = {
+			factor = 50
+			modifier = {
+				is_in_faction_with = SOV
+				factor = 100
+			}
+		}
+		if = {
+			limit = {
+				728 = {
+					is_owned_by = ROOT
+				}
+			}
+			CHI = {
+				transfer_state = 728
+				country_event = { id = kmt.160 }
+			}
+		}
+		if = {
+			limit = {
+				729 = {
+					is_owned_by = ROOT
+				}
+			}
+			CHI = {
+				transfer_state = 729
+				country_event = { id = kmt.163 }
+			}
+		}
+		if = {
+			limit = {
+				326 = {
+					is_owned_by = ROOT
+				}
+			}
+			CHI = {
+				transfer_state = 326
+				country_event = { id = kmt.164 }
+			}
+		}
+	}
+	
+	option = {
+		name = kmt.157.a_2
+		trigger = {
+			NOT = {
+				is_in_faction_with = SOV
+			}
+		}
+		ai_chance = {
+			factor = 50
+			modifier = {
+				is_in_faction_with = SOV
+				factor = 100
+			}
+		}
+		SOV = {
+			add_opinion_modifier = {
+				modifier = sov_better_trade
+				target = ROOT
+			}
+		}
+		if = {
+			limit = {
+				728 = {
+					is_owned_by = ROOT
+				}
+			}
+			CHI = {
+				transfer_state = 728
+				country_event = { id = kmt.160 }
+			}
+		}
+		if = {
+			limit = {
+				729 = {
+					is_owned_by = ROOT
+				}
+			}
+			CHI = {
+				transfer_state = 729
+				country_event = { id = kmt.163 }
+			}
+		}
+		if = {
+			limit = {
+				326 = {
+					is_owned_by = ROOT
+				}
+			}
+			CHI = {
+				transfer_state = 326
+				country_event = { id = kmt.164 }
+			}
+		}
+	}
+	
+	option = {
+		name = kmt.157.b_1
+		trigger = {
+			is_in_faction_with = SOV
+		}
+		if = {
+			limit = {
+				is_in_faction_with = SOV
+			}
+			SOV = {
+				remove_from_faction = ROOT
+			}
+		}
+		effect_tooltip = {
+			SOV = {
+				create_wargoal = {
+					target = ROOT
+					type = puppet_wargoal_focus
+				}
+			}
+			CHI = {
+				create_wargoal = {
+					target = ROOT
+					type = take_state_focus
+					generator = { 728 }
+				}
+			}
+		}
+		SOV = {
+			country_event = { id = kmt.161 }
+		}
+		CHI = {
+			country_event = { id = kmt.162 }
+		}
+	}
+	
+	option = {
+		name = kmt.157.b_2
+		trigger = {
+			NOT = {
+				is_in_faction_with = SOV
+			}
+		}
+		if = {
+			limit = {
+				is_in_faction_with = SOV
+			}
+			SOV = {
+				remove_from_faction = ROOT
+			}
+		}
+		effect_tooltip = {
+			SOV = {
+				create_wargoal = {
+					target = ROOT
+					type = puppet_wargoal_focus
+				}
+			}
+			CHI = {
+				create_wargoal = {
+					target = ROOT
+					type = take_state_focus
+					generator = { 728 }
+				}
+			}
+		}
+		SOV = {
+			country_event = { id = kmt.161 }
+		}
+		CHI = {
+			country_event = { id = kmt.162 }
+		}
+	}	
+}
+
+#request interevention from sov
+country_event = {
+	id = kmt.158
+	title = kmt.158.t
+	desc = kmt.158.d
+	
+	is_triggered_only = yes
+	
+	picture = GFX_report_event_stalin_01
+	
+	option = {
+		name = kmt.158.a
+		ai_chance = { factor = 85 }
+		if = {
+				limit = {
+					728 = {
+						NOT = {
+							is_owned_by = CHI
+						}
+					}
+				}
+				728 = {
+					owner = {
+						country_event = { id = kmt.157 days = 2 }
+					}
+				}
+			}
+			if = {
+				limit = {
+					729 = {
+						NOT = {
+							is_owned_by = CHI
+						}
+					}
+				}
+				729 = {
+					owner = {
+						country_event = { id = kmt.157 days = 2 }
+					}
+				}
+			}
+			if = {
+				limit = {
+					326 = {
+						NOT = {
+							is_owned_by = CHI
+						}
+					}
+				}
+				326 = {
+					owner = {
+						country_event = { id = kmt.157 days = 2 }
+					}
+				}
+			}
+	}
+	
+	option = {
+		name = kmt.158.b
+		CHI = {
+			country_event = { id = kmt.159 }
+		}
+		effect_tooltip = {
+			CHI = {
+				add_opinion_modifier = {
+					target = SOV
+					modifier = no_interv_in_tp
+				}
+			}
+		}
+	}
+}
+
+#sov refused interv
+country_event = {
+	id = kmt.159
+	title = kmt.159.t
+	desc = kmt.159.d
+	
+	is_triggered_only = yes
+	
+	picture = GFX_report_event_stalin_propaganda
+	
+	option =  {
+		name = kmt.159.a
+	}
+	
+	option = {
+		name = kmt.159.b
+		SOV = {
+			remove_from_faction = CHI
+		}
+		custom_effect_tooltip = kmt_sov_ref_interv_tt
+		hidden_effect = {
+			728 = {
+				owner = { country_event = kmt.165 }
+			}
+			729 = {
+				owner = { country_event = kmt.166 }
+			}
+			326 = {
+				owner = { country_event = kmt.167 }
+			}
+		}
+	}
+}
+
+#gzw returned
+country_event = {
+	id = kmt.160
+	title = kmt.160.t
+	desc = kmt.160.d
+	
+	picture = GFX_report_event_soviet_japanese_pact
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.160.a
+	}
+}
+
+#no return after interv - sov
+country_event = {
+	id = kmt.161
+	title = kmt.161.t
+	desc = kmt.161.d
+	
+	picture = GFX_report_event_soldiers_marching
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.161.a
+		create_wargoal = {
+			target = FROM
+			type = puppet_wargoal_focus
+		}
+	}
+}
+
+#no return after interv - chi
+country_event = {
+	id = kmt.162
+	title = kmt.162.t
+	desc = kmt.162.d
+	
+	picture = GFX_report_event_soldiers_marching
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = 162.a
+		if = {
+			limit = {
+				728 = {
+					is_owned_by = FROM
+				}
+			}
+			create_wargoal = {
+				target = FROM
+				type = take_state_focus
+				generator = { 728 }
+			}
+		}
+		if = {
+			limit = {
+				729 = {
+					is_owned_by = FROM
+				}
+			}
+			create_wargoal = {
+				target = FROM
+				type = take_state_focus
+				generator = { 729 }
+			}
+		}
+		if = {
+			limit = {
+				326 = {
+					is_owned_by = FROM
+				}
+			}
+			create_wargoal = {
+				target = FROM
+				type = take_state_focus
+				generator = { 326 }
+			}
+		}
+	}
+}
+
+#macau returned
+country_event = {
+	id = kmt.163
+	title = kmt.163.t
+	desc = kmt.163.d
+	
+	picture = GFX_report_event_soviet_japanese_pact
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.163.a
+	}
+}
+
+#hk returned
+country_event = {
+	id = kmt.164
+	title = kmt.164.t
+	desc = kmt.164.d
+	
+	picture = GFX_report_event_soviet_japanese_pact
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.164.a
+	}
+}
+
+#hiddn wargoal generation
+country_event = {
+	id = kmt.165
+	hidden = yes
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		CHI = {
+			create_wargoal = {
+				target = ROOT
+				type = take_state_focus
+				generator = { 728 }
+			}
+		}
+	}
+	
+	option = {}
+}
+
+country_event = {
+	id = kmt.166
+	hidden = yes
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		CHI = {
+			create_wargoal = {
+				target = ROOT
+				type = take_state_focus
+				generator = { 729 }
+			}
+		}
+	}
+	
+	option = {}
+}
+
+country_event = {
+	id = kmt.167
+	hidden = yes
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		CHI = {
+			create_wargoal = {
+				target = ROOT
+				type = take_state_focus
+				generator = { 326 }
+			}
+		}
+	}
+	
+	option = {}
+}
+
+###### OWN COMMIE FACTION TP EVENTS ######
+###### THEY ARE USELESS ACTUALLY ######
+
+#trade port - gzw
+country_event = {
+	id = kmt.168
+	title = {
+		text = kmt.168.t
+		trigger = {
+			has_government = neutrality
+		}
+	}
+	title = {
+		text = kmt.168.t_2
+		trigger = {
+			has_government = communism
+		}
+	}
+	desc = kmt.168.d
+	
+	picture = GFX_report_event_burma_road
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = {
+			factor = 20
+			modifier = {
+				FROM = {
+					strength_ratio = { 
+						tag = ROOT 
+						ratio < 0.5
+					}
+				}
+				factor = 50
+			}
+			modifier = {
+				FROM = {
+					strength_ratio = { 
+						tag = ROOT 
+						ratio < 0.9
+					}
+				}
+				factor = 100
+			}
+		}
+		name = kmt.168.a
+		CHI = {
+			transfer_state = 728
+			country_event = { id = kmt.169 }
+		}
+	}
+	
+	option = {
+		name = kmt.168.b
+		effect_tooltip = {
+			CHI = {
+				create_wargoal = {
+					target = ROOT
+					type = take_state_focus
+					generator = { 728 }
+				}
+			}
+		}
+		CHI = {
+			country_event = { id = kmt.170 }
+		}
+	}
+}
+
+#trade port - gzw accepted
+country_event = {
+	id = kmt.169
+	title = kmt.169.t
+	desc = kmt.169.d
+	
+	picture = GFX_report_event_burma_road
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.169.a
+		add_political_power = 125
+	}
+}
+
+#trade port - gzw refused
+country_event = {
+	id = kmt.170
+	title = kmt.170.t
+	desc = kmt.170.d
+	
+	picture = GFX_report_event_burma_road
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.170.a
+		create_wargoal = {
+			target = FROM
+			type = take_state_focus
+			generator = { 728 }
+		}
+	}
+}
+
+#trade port - mc
+country_event = {
+	id = kmt.171
+	title = {
+		text = kmt.168.t
+		trigger = {
+			has_government = neutrality
+		}
+	}
+	title = {
+		text = kmt.168.t_2
+		trigger = {
+			has_government = communism
+		}
+	}
+	desc = kmt.171.d
+	
+	picture = GFX_report_event_burma_road
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = {
+			factor = 20
+			modifier = {
+				FROM = {
+					strength_ratio = { 
+						tag = ROOT 
+						ratio < 0.5
+					}
+				}
+				factor = 50
+			}
+			modifier = {
+				FROM = {
+					strength_ratio = { 
+						tag = ROOT 
+						ratio < 0.9
+					}
+				}
+				factor = 100
+			}
+		}
+		name = kmt.168.a
+		CHI = {
+			transfer_state = 729
+			country_event = { id = kmt.172 }
+		}
+	}
+	
+	option = {
+		name = kmt.168.b
+		effect_tooltip = {
+			CHI = {
+				create_wargoal = {
+					target = ROOT
+					type = take_state_focus
+					generator = { 729 }
+				}
+			}
+		}
+		CHI = {
+			country_event = { id = kmt.173 }
+		}
+	}
+}
+
+#trade port - mc accepted
+country_event = {
+	id = kmt.172
+	title = kmt.172.t
+	desc = kmt.172.d
+	
+	picture = GFX_report_event_burma_road
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.169.a
+	}
+}
+
+#trade port - mc refused
+country_event = {
+	id = kmt.173
+	title = kmt.170.t
+	desc = kmt.173.d
+	
+	picture = GFX_report_event_burma_road
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.170.a
+		create_wargoal = {
+			target = FROM
+			type = take_state_focus
+			generator = { 729 }
+		}
+	}
+}
+
+#trade port - hk
+country_event = {
+	id = kmt.174
+	title = {
+		text = kmt.168.t
+		trigger = {
+			has_government = neutrality
+		}
+	}
+	title = {
+		text = kmt.168.t_2
+		trigger = {
+			has_government = communism
+		}
+	}
+	desc = kmt.174.d
+	
+	picture = GFX_report_event_burma_road
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = {
+			factor = 20
+			modifier = {
+				FROM = {
+					strength_ratio = { 
+						tag = ROOT 
+						ratio < 0.5
+					}
+				}
+				factor = 50
+			}
+			modifier = {
+				FROM = {
+					strength_ratio = { 
+						tag = ROOT 
+						ratio < 0.9
+					}
+				}
+				factor = 100
+			}
+		}
+		name = kmt.168.a
+		CHI = {
+			transfer_state = 326
+			country_event = { id = kmt.175 }
+		}
+	}
+	
+	option = {
+		name = kmt.168.b
+		effect_tooltip = {
+			CHI = {
+				create_wargoal = {
+					target = ROOT
+					type = take_state_focus
+					generator = { 326 }
+				}
+			}
+		}
+		CHI = {
+			country_event = { id = kmt.176 }
+		}
+	}
+}
+
+#trade port - hk accepted
+country_event = {
+	id = kmt.175
+	title = kmt.175.t
+	desc = kmt.175.d
+	
+	picture = GFX_report_event_burma_road
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.169.a
+	}
+}
+
+#trade port - hk refused
+country_event = {
+	id = kmt.176
+	title = kmt.170.t
+	desc = kmt.176.d
+	
+	picture = GFX_report_event_burma_road
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.170.a
+		create_wargoal = {
+			target = FROM
+			type = take_state_focus
+			generator = { 326 }
+		}
+	}
+}
+
+######################################
+###### END OF USELESS EVENTS #$####
+###################################
+
+#incompetent indus 
+country_event = {
+	id = kmt.177
+	hidden = yes
+	
+	trigger = {
+		tag = CHI
+	}
+	
+	fire_only_once = yes
+	
+	mean_time_to_happen = { days = 1 }
+	
+	immediate = {
+		remove_ideas = incompetent_industry_fake
+		country_event = { id = kmt.178 }
+	}
+	
+	option = {}
+}
+
+#incompetent indus 
+country_event = {
+	id = kmt.178
+	hidden = yes
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		add_ideas = incompetent_industry_real
+	}
+	
+	option = {}
+}
+
+#incompetent indus remove >50 fac
+country_event = {
+	id = kmt.179
+	title = kmt.179.t
+	desc = kmt.179.d
+	
+	picture = GFX_report_event_british_artillery
+	
+	trigger = {
+		tag = CHI
+		num_of_factories > 50
+		num_of_factories < 81
+		OR = {
+			has_idea = incompetent_industry_real
+			has_idea = incompetent_industry_fake
+		}
+		has_war = no
+	}
+
+	fire_only_once = yes
+	
+	mean_time_to_happen = { days = 3 }
+	
+	option = {
+		name = kmt.179.a
+		custom_effect_tooltip = kmt_incompetent_indus_tt
+		hidden_effect = {
+			every_owned_state = {
+				add_extra_state_shared_building_slots = 1
+			}
+			remove_ideas = incompetent_industry_real
+			remove_ideas = incompetent_industry_fake
+			add_ideas = incompetent_industry_real_2
+		}
+	}
+}
+
+#incompetent indus remove >80 fac
+country_event = {
+	id = kmt.180
+	title = kmt.179.t
+	desc = kmt.179.d
+	
+	picture = GFX_report_event_british_artillery
+	
+	trigger = {
+		tag = CHI
+		num_of_factories > 80
+		num_of_factories < 111
+		OR = {
+			has_idea = incompetent_industry_real
+			has_idea = incompetent_industry_fake
+			has_idea = incompetent_industry_real_2
+		}
+		has_war = no
+			
+	}
+
+	fire_only_once = yes
+	
+	mean_time_to_happen = { days = 3 }
+	
+	option = {
+		name = kmt.179.a
+		custom_effect_tooltip = kmt_incompetent_indus_tt
+		hidden_effect = {
+			if = {
+				limit = {
+					OR = {
+						has_idea = incompetent_industry_real
+						has_idea = incompetent_industry_fake
+					}
+				}
+				every_owned_state = {
+					add_extra_state_shared_building_slots = 2
+				}
+			}
+			if = {
+				limit = {
+					has_idea = incompetent_industry_real_2
+				}
+				every_owned_state = {
+					add_extra_state_shared_building_slots = 1
+				}
+			}
+			remove_ideas = incompetent_industry_fake
+			remove_ideas = incompetent_industry_real
+			remove_ideas = incompetent_industry_real_2
+			add_ideas = incompetent_industry_real_3
+		}
+	}
+}
+
+#incompetent indus remove >110 fac
+country_event = {
+	id = kmt.181
+	title = kmt.179.t
+	desc = kmt.179.d
+	
+	picture = GFX_report_event_british_artillery
+	
+	trigger = {
+		tag = CHI
+		num_of_factories > 110
+		num_of_factories < 141
+		OR = {
+			has_idea = incompetent_industry_real
+			has_idea = incompetent_industry_fake
+			has_idea = incompetent_industry_real_2
+			has_idea = incompetent_industry_real_3
+		}
+		has_war = no
+	}
+
+	fire_only_once = yes
+	
+	mean_time_to_happen = { days = 3 }
+	
+	option = {
+		name = kmt.179.a
+		custom_effect_tooltip = kmt_incompetent_indus_tt
+		hidden_effect = {
+			if = {
+				limit = {
+					OR = {
+						has_idea = incompetent_industry_real
+						has_idea = incompetent_industry_fake
+					}
+				}
+				every_owned_state = {
+					add_extra_state_shared_building_slots = 3
+				}
+			}
+			if = {
+				limit = {
+					has_idea = incompetent_industry_real_2
+				}
+				every_owned_state = {
+					add_extra_state_shared_building_slots = 2
+				}
+			}
+			if = {
+				limit = {
+					has_idea = incompetent_industry_real_3
+				}
+				every_owned_state = {
+					add_extra_state_shared_building_slots = 1
+				}
+			}
+			remove_ideas = incompetent_industry_fake
+			remove_ideas = incompetent_industry_real
+			remove_ideas = incompetent_industry_real_2
+			remove_ideas = incompetent_industry_real_3
+			add_ideas = incompetent_industry_real_4
+		}
+	}
+}
+
+#incompetent indus remove >140 fac
+country_event = {
+	id = kmt.182
+	title = kmt.179.t
+	desc = kmt.179.d
+	
+	picture = GFX_report_event_british_artillery
+	
+	trigger = {
+		tag = CHI
+		num_of_factories > 140
+		num_of_factories < 171
+		OR = {
+			has_idea = incompetent_industry_real
+			has_idea = incompetent_industry_fake
+			has_idea = incompetent_industry_real_2
+			has_idea = incompetent_industry_real_3
+			has_idea = incompetent_industry_real_4
+		}
+		has_war = no
+	}
+
+	fire_only_once = yes
+	
+	mean_time_to_happen = { days = 3 }
+	
+	option = {
+		name = kmt.179.a
+		custom_effect_tooltip = kmt_incompetent_indus_remove_tt
+		hidden_effect = {
+			if = {
+				limit = {
+					OR = {
+						has_idea = incompetent_industry_real
+						has_idea = incompetent_industry_fake
+					}
+				}
+				every_owned_state = {
+					add_extra_state_shared_building_slots = 4
+				}
+			}
+			if = {
+				limit = {
+					has_idea = incompetent_industry_real_2
+				}
+				every_owned_state = {
+					add_extra_state_shared_building_slots = 3
+				}
+			}
+			if = {
+				limit = {
+					has_idea = incompetent_industry_real_3
+				}
+				every_owned_state = {
+					add_extra_state_shared_building_slots = 2
+				}
+			}
+			if = {
+				limit = {
+					has_idea = incompetent_industry_real_4
+				}
+				every_owned_state = {
+					add_extra_state_shared_building_slots = 1
+				}
+			}
+			remove_ideas = incompetent_industry_fake
+			remove_ideas = incompetent_industry_real
+			remove_ideas = incompetent_industry_real_2
+			remove_ideas = incompetent_industry_real_3
+			remove_ideas = incompetent_industry_real_4
+			add_ideas = incompetent_industry_real_5
+		}
+	}
+}
+
+#incompetent indus remove >170 fac
+country_event = {
+	id = kmt.1820
+	title = kmt.179.t
+	desc = kmt.179.d
+	
+	picture = GFX_report_event_british_artillery
+	
+	trigger = {
+		tag = CHI
+		num_of_factories > 170
+		OR = {
+			has_idea = incompetent_industry_real
+			has_idea = incompetent_industry_fake
+			has_idea = incompetent_industry_real_2
+			has_idea = incompetent_industry_real_3
+			has_idea = incompetent_industry_real_4
+			has_idea = incompetent_industry_real_5
+		}
+		has_war = no
+	}
+
+	fire_only_once = yes
+	
+	mean_time_to_happen = { days = 3 }
+	
+	option = {
+		name = kmt.179.a
+		custom_effect_tooltip = kmt_incompetent_indus_remove_tt
+		hidden_effect = {
+			if = {
+				limit = {
+					OR = {
+						has_idea = incompetent_industry_real
+						has_idea = incompetent_industry_fake
+					}
+				}
+				every_owned_state = {
+					add_extra_state_shared_building_slots = 5
+				}
+			}
+			if = {
+				limit = {
+					has_idea = incompetent_industry_real_2
+				}
+				every_owned_state = {
+					add_extra_state_shared_building_slots = 4
+				}
+			}
+			if = {
+				limit = {
+					has_idea = incompetent_industry_real_3
+				}
+				every_owned_state = {
+					add_extra_state_shared_building_slots = 3
+				}
+			}
+			if = {
+				limit = {
+					has_idea = incompetent_industry_real_4
+				}
+				every_owned_state = {
+					add_extra_state_shared_building_slots = 2
+				}
+			}
+			if = {
+				limit = {
+					has_idea = incompetent_industry_real_5
+				}
+				every_owned_state = {
+					add_extra_state_shared_building_slots = 1
+				}
+			}
+			remove_ideas = incompetent_industry_fake
+			remove_ideas = incompetent_industry_real
+			remove_ideas = incompetent_industry_real_2
+			remove_ideas = incompetent_industry_real_3
+			remove_ideas = incompetent_industry_real_4
+			remove_ideas = incompetent_industry_real_5
+		}
+	}
+}
+
+#XSM dead
+country_event = {
+	id = kmt.183
+	title = kmt.183.t
+	desc = kmt.183.d
+	picture = GFX_report_event_chinese_soldiers_02
+	
+	fire_only_once = yes
+	
+	mean_time_to_happen = { days = 3 }
+	
+	trigger = {
+		tag = CHI
+		XSM = {
+			exists = no
+		}
+		CHI = { 
+			has_country_flag = CHI_hostile_against_warlords
+			NOT = {
+				has_country_flag = xsm_sumitted
+			}
+		}
+	}
+	
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = kmt.78.a
+		custom_effect_tooltip = kmt_mbf_join
+		hidden_effect = {
+			CHI = {
+				create_corps_commander = {
+					id = 1008
+					name = "Ma Bufang"
+					portrait_path = "gfx/leaders/kmt_mod/Ma_Bufang.dds"
+					traits = { trickster_CC }
+					skill = 3
+				}
+			}
+		}
+	}
+	
+	option = {
+		ai_chance = {
+			factor = 0
+		}
+		name = kmt.78.b
+		add_national_unity = 0.01
+		add_political_power = 100
+	}
+}
+
+country_event = {
+	id = kmt.184
+	hidden = yes
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	immediate = { 
+		set_country_flag = chiang_defected
+	}
+	
+	option = {}
+}
+
+#Jap attack if at war with internal seek peace
+country_event = {
+	id = kmt.185
+	title = kmt.185.t
+	desc = kmt.185.d
+	
+	picture = GFX_report_event_polish_army
+	
+	mean_time_to_happen = { days = 2 }
+	
+	fire_only_once = yes
+	
+	trigger = {
+		tag = CHI
+		OR = {
+			has_war_with = PRC
+			has_war_with = GXC
+			has_war_with = SHX
+			has_war_with = XSM
+			has_war_with = YUN
+		}
+		has_country_flag = CHI_hostile_against_warlords
+		has_defensive_war_with = JAP
+	}
+	
+	option = {
+		ai_chance = { factor = 100 }
+		name = kmt.185.a
+		every_country = {
+			limit = {
+				has_war_with = CHI
+				OR = {
+					tag = PRC
+					tag = GXC
+					tag = SHX
+					tag = XSM
+					tag = YUN
+				}
+			}
+			country_event = { id = kmt.186 hours = 2 }
+		}
+	}
+	
+	option = {
+		name = kmt.185.b
+	}
+}
+
+#response of seek peace
+country_event = {
+	id = kmt.186
+	title = kmt.186.t
+	desc = kmt.186.d
+	
+	picture = GFX_report_event_nationalist_china_machinegun_firing
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = { factor = 100 }
+		name = kmt.186.a
+		white_peace = CHI
+		CHI = {
+			country_event = { id = kmt.187 }
+		}
+	}
+	
+	option = {
+		ai_chance = { factor = 100 }
+		name = kmt.186.b
+		white_peace = CHI
+		set_country_flag = peace_and_factioned
+		if = {
+			limit = {
+				CHI = {
+					is_faction_leader = no
+				}
+			}
+			CHI = {
+				create_faction = chinese_united_front
+			}
+		}
+		CHI = {
+			country_event = { id = kmt.187 }
+			add_to_faction = Root
+		}
+		add_to_war = {
+			targeted_alliance = CHI
+			enemy = JAP
+		}
+	}
+	
+	option = {
+		name = kmt.186.c
+		CHI = {
+			country_event = { id = kmt.188 }
+		}
+	}
+	
+	option = {
+		trigger = {
+			NOT = {
+				has_war_with = JAP
+			}
+		}
+		name = kmt.186.e
+		CHI = {
+			country_event = { id = kmt.188 }
+		}
+		JAP = {
+			country_event = { id = kmt.189 days = 2 }
+		}
+	}
+}
+
+#response of seek peace - yes
+country_event = {
+	id = kmt.187
+	title = kmt.187.t
+	desc = {
+		text = kmt.187.d_1
+		trigger = {
+			FROM = {
+				NOT = { has_country_flag = peace_and_factioned }
+			}
+		}
+	}
+	desc = {
+		text = kmt.187.d_2
+		trigger = {
+			FROM = {
+				has_country_flag = peace_and_factioned 
+			}
+		}
+	}
+	
+	picture = GFX_report_event_nra_march
+	
+	is_triggered_only = yes
+	
+	option = {
+		trigger = {
+			FROM = {
+				NOT = { has_country_flag = peace_and_factioned }
+			}
+		}
+		name = kmt.187.a
+	}
+	
+	option = {
+		trigger = {
+			FROM = {
+				has_country_flag = peace_and_factioned 
+			}
+		}
+		name = kmt.187.a
+		effect_tooltip = {	
+			CHI = {
+				add_to_faction = FROM
+			}
+			FROM = {
+				add_to_war = {
+					targeted_alliance = CHI
+					enemy = JAP
+				}
+			}
+		}
+	}
+}
+
+#response of seek peace - no
+country_event = {
+	id = kmt.188
+	title = kmt.188.t
+	desc = kmt.188.d
+	
+	picture = GFX_report_event_nationalist_china_machinegun_firing
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.188.a
+	}
+}
+
+#response of seek peace - no and i like japan
+country_event = {
+	id = kmt.189
+	title = kmt.189.t
+	desc = kmt.189.d
+	
+	picture = GFX_report_event_japanese_siam_politicians
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = { factor = 65 }
+		name = kmt.189.a
+		if = {
+			limit = {
+				is_faction_leader = yes
+			}	
+			add_to_faction = FROM
+		}
+		add_to_war = {
+			targeted_alliance = ROOT
+			enemy = CHI
+		}
+		FROM = {
+			country_event = { id = kmt.190 }
+		}
+		hidden_effect = {
+			FROM = {
+				country_event = { id = kmt.194 }
+			}
+		}
+	}
+	
+	option = {
+		ai_chance = { factor = 35 }
+		name = kmt.189.b
+		FROM = {
+			country_event = { id = kmt.191 }
+		}
+		add_opinion_modifier = {
+			target = FROM
+			modifier = ohne_ehre
+		}
+		hidden_effect = {
+			FROM = {
+				country_event = { id = kmt.195 }
+			}
+		}
+	}
+}
+
+#i like japan and japan like me too (?)
+country_event = {
+	id = kmt.190
+	title = kmt.190.t
+	desc = kmt.190.d
+	
+	picture = GFX_report_event_japanese_soldiers_01
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.190.a
+		effect_tooltip = {
+			if = {
+				limit = {
+					JAP = {
+						is_faction_leader = yes
+					}
+				}
+				JAP = {
+					add_to_faction = ROOT
+				}
+			}
+			add_to_war = {
+				targeted_alliance = JAP
+				enemy = CHI
+			}
+		}
+	}
+}
+
+#i like japan but japan do not like me
+country_event = {
+	id = kmt.191
+	title = kmt.191.t
+	desc = kmt.191.d
+	
+	picture = GFX_report_event_japanese_soldiers_02
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.191.a
+		effect_tooltip = {
+			add_opinion_modifier = {
+				target = FROM
+				modifier = ohne_ehre
+			}
+		}
+	}
+}
+
+#kmt response to pro-japanese traitor success
+country_event = {
+	id = kmt.192
+	title = kmt.192.t
+	desc = kmt.192.d
+	
+	picture = GFX_report_event_japanese_siam_politicians
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.192.a
+		add_opinion_modifier = {
+			target = FROM
+			modifier = hanjian
+		}
+	}
+}
+
+#kmt response to pro-japanese traitor failed
+country_event = {
+	id = kmt.193
+	title = kmt.193.t
+	desc = kmt.193.d
+	
+	picture = GFX_report_event_journalists_speech
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.193.a
+		add_opinion_modifier = {
+			target = FROM
+			modifier = hanjian
+		}
+	}
+}
+
+#hidden for name
+country_event = {
+	id = kmt.194
+	hidden = yes
+	
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		CHI = {
+			country_event = { id = kmt.192 hours = 6 }
+		}
+	}
+	
+	option = {
+	}
+}
+
+#hidden for name
+country_event = {
+	id = kmt.195
+	hidden = yes
+	
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		CHI = {
+			country_event = { id = kmt.193 hours = 6 }
+		}
+	}
+	
+	option = {
+	}
+}
+
+#sov allowed
+country_event = {
+	id = kmt.196
+	title = kmt.196.t
+	desc = kmt.196.d
+	picture = GFX_report_event_molotov_ribbentrop_stalin_pact
+	
+	trigger = {
+		OR = {
+			287 = {
+				owner = {
+					NOT = { tag = CHI }
+					is_in_faction_with = CHI
+				}
+			}
+			617 = {
+				owner = {
+					NOT = { tag = CHI }
+					is_in_faction_with = CHI
+				}
+			}
+			618 = {
+				owner = {
+					NOT = { tag = CHI }
+					is_in_faction_with = CHI
+				}
+			}
+			619 = {
+				owner = {
+					NOT = { tag = CHI }
+					is_in_faction_with = CHI
+				}
+			}
+		}
+		has_global_flag = SOV_allowed
+		tag = CHI
+		CHI = { NOT = { has_war_with = SIK } }
+	}
+	
+	mean_time_to_happen = { days = 5 }
+	
+	fire_only_once = yes
+	
+	option = {
+		name = kmt.196.a
+		every_state = {
+			limit = {
+				owner = {
+					NOT = { tag = CHI }
+					is_in_faction_with = CHI
+				}
+				OR = {
+					state = 287
+					state = 617
+					state = 618
+					state = 619
+				}
+			}
+			CHI = {
+				transfer_state = PREV
+			}
+		}
+	}
+}
+
+#befriend tibet event
+country_event = {
+	id = kmt.197
+	title = kmt.197.t
+	desc = kmt.197.d
+	picture = GFX_report_event_generic_sign_treaty2
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = {
+			factor = 80
+		}
+		trigger = {
+			CHI = {
+				is_faction_leader = yes
+			}
+		}
+		name = kmt.197.a
+		CHI = {
+			add_to_faction = TIB
+			country_event = { id = kmt.198 }
+		}
+		322 = {
+			remove_core_of = CHI
+		}
+		601 = {
+			remove_core_of = TIB
+		}
+	}
+	
+	option = {
+		ai_chance = {
+			factor = 20
+		}
+		name = kmt.197.b
+		CHI = {
+			puppet = TIB
+			country_event = { id = kmt.199 }
+		}
+		322 = {
+			remove_core_of = CHI
+		}
+		601 = {
+			remove_core_of = TIB
+		}
+	}
+	
+	option = {
+		name = kmt.197.c
+		CHI = {
+			country_event = { id = kmt.200 }
+		}
+		322 = {
+			remove_core_of = CHI
+		}
+		601 = {
+			remove_core_of = TIB
+		}
+	}
+	
+	option = {
+		name = kmt.197.e
+		CHI = {
+			country_event = { id = kmt.201 }
+		}
+	}
+}
+
+#befriend tibet event - tibet join faction
+country_event = {
+	id = kmt.198
+	title = kmt.198.t
+	desc = kmt.198.d
+	picture = GFX_report_event_hitler_handshake
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.198.a
+	}
+}
+
+#befriend tibet event - tibet puppeted
+country_event = {
+	id = kmt.199
+	title = kmt.199.t
+	desc = kmt.199.d
+	picture = GFX_report_event_hitler_handshake
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.199.a
+	}
+}
+
+#befriend tibet event - tibet revoke claims
+country_event = {
+	id = kmt.200
+	title = kmt.200.t
+	desc = kmt.200.d
+	picture = GFX_report_event_hitler_handshake
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.200.a
+	}
+}
+
+#befriend tibet event - tibet says noob
+country_event = {
+	id = kmt.201
+	title = kmt.201.t
+	desc = kmt.201.d
+	picture = GFX_report_event_japan_army_mountainside
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.201.a
+	}
+}
+
+#remove no faction ai modifier after chi civil war
+country_event = {
+	id = kmt.202
+	title = kmt.202.t
+	desc = kmt.202.d
+	picture = GFX_report_event_stalin_propaganda
+	
+	fire_only_once = yes
+	
+	mean_time_to_happen = { days = 3 }
+	
+	trigger = {
+		has_global_flag = PRC_restart_CHI_war
+		PRC = {
+			exists = yes
+			NOT = {
+				has_war_with = CHI
+			}
+		}
+		tag = PRC
+		CHI = {
+			NOT = {
+				has_war_with = PRC
+			}
+			OR = {
+				exists = no
+				is_puppet_of = PRC
+			}
+		}
+	}
+	
+	option = {
+		name = kmt.202.a
+		remove_ideas = kmt_planning_the_civil_war
+	}
+}
+
+#ransacked artefacts - Shanghai
+country_event = {
+	id = kmt.203
+	title = kmt.203.t
+	desc = kmt.203.d
+	picture = GFX_report_event_japanese_transport_soldiers
+	
+	trigger = {
+		tag = CHI
+		NOT = { has_country_flag = artefacts_evacuated }
+		613 = {
+			controller = { 
+				has_war_with = ROOT
+			}
+		}
+	}
+	
+	fire_only_once = yes
+	
+	mean_time_to_happen = { days = 3 }
+	
+	option = {
+		name = kmt.203.a
+		add_ideas = kmt_national_treasure_ransacked
+	}
+}
+
+#ransacked artefacts - Chongqing
+country_event = {
+	id = kmt.204
+	title = kmt.203.t
+	desc = kmt.203.d
+	picture = GFX_report_event_japanese_transport_soldiers
+	
+	trigger = {
+		tag = CHI
+		has_country_flag = artefacts_evacuated
+		NOT = { has_country_flag = treasures_abroad }
+		605 = {
+			controller = { 
+				has_war_with = ROOT
+			}
+		}
+	}
+	
+	fire_only_once = yes
+	
+	mean_time_to_happen = { days = 3 }
+	
+	option = {
+		name = kmt.203.a
+		add_ideas = kmt_national_treasure_ransacked
+	}
+}
+
+#send national treasures abroad?
+country_event = {
+	id = kmt.205
+	title = kmt.205.t
+	desc = kmt.205.d
+	picture = GFX_report_event_japanese_transport_soldiers
+	
+	trigger = {
+		tag = CHI
+		has_country_flag = artefacts_evacuated
+		605 = {
+			is_controlled_by = ROOT
+			any_neighbor_state = {
+				controller = {
+					has_war_with = ROOT
+				}
+			}
+		}
+	}
+	
+	fire_only_once = yes
+	
+	mean_time_to_happen = { days = 3 }
+	
+	option = {
+		ai_chance = { factor = 50 }
+		name = kmt.205.a
+		add_timed_idea = {
+			idea = kmt_defend_the_treasures
+			days = 190
+		}
+	}
+	
+	option = {
+		ai_chance = { factor = 50 }
+		name = kmt.205.b
+		set_country_flag = treasures_abroad
+	}
+}
+
+#prevent warlord army from popping
+country_event = {
+	id = kmt.206
+	hidden = yes
+	
+	fire_only_once = yes
+	
+	trigger = {
+		tag = CHI
+		AND = {
+			XSM = { exists = no }
+			YUN = { exists = no }
+			GXC = { exists = no }
+			SHX = { exists = no }
+		}
+	}
+	
+	mean_time_to_happen = { days = 2 }
+	
+	immediate = {
+		set_country_flag = warlord_0
+	}
+	
+	option = {}
+}
+
