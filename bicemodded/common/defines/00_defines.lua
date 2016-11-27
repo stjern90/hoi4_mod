@@ -187,13 +187,13 @@ NProduction = {
 	EFFICIENCY_LOSS_PER_UNUSED_DAY = 1,		-- Daily loss of efficiency for unused factory slots ( efficiency is tracked per factory slot in the production line )
 	MAX_LINE_RESOURCE_PENALTY = 85,		-- Max penalty factor for production lines lacking strategic resources in %.
 	RESOURCE_PENALTY_WARNING_CRITICAL_RATIO = 0.8, -- Switch to red progress bar if penalty is over threshold 
-	BASE_FACTORY_SPEED = 4.5, 				-- Base factory speed multiplier (how much hoi3 style IC each factory gives).
+	BASE_FACTORY_SPEED = 3.5, 				-- Base factory speed multiplier (how much hoi3 style IC each factory gives).
 	BASE_FACTORY_SPEED_MIL = 7, 				-- Base factory speed multiplier (how much hoi3 style IC each factory gives).
 	BASE_FACTORY_SPEED_NAV = 2.3, 				-- Base factory speed multiplier (how much hoi3 style IC each factory gives).
 	BASE_FACTORY_START_EFFICIENCY_FACTOR = 15,	-- Base start efficiency for factories expressed in %.
 	BASE_FACTORY_MAX_EFFICIENCY_FACTOR = 60,	-- Base max efficiency for factories expressed in %.
 	BASE_FACTORY_EFFICIENCY_GAIN = 0.25,		-- Base efficiency gain for factories per unit produced in %.
-	BASE_FACTORY_EFFICIENCY_VARIANT_CHANGE_FACTOR = 90,		-- Base factor for changing production variants in %.
+	BASE_FACTORY_EFFICIENCY_VARIANT_CHANGE_FACTOR = 85,		-- Base factor for changing production variants in %.
 	BASE_FACTORY_EFFICIENCY_PARENT_CHANGE_FACTOR = 50,		-- Base factor for changing production parent<->children in %.
 	BASE_FACTORY_EFFICIENCY_FAMILY_CHANGE_FACTOR = 30,		-- Base factor for changing production with same family in %.
 	BASE_FACTORY_EFFICIENCY_ARCHETYPE_CHANGE_FACTOR = 20, 	-- Base factor for changing production with same archetype in %.
@@ -210,7 +210,7 @@ NProduction = {
 NTechnology = {
 	MAX_SUBTECHS = 3,					    -- Max number of sub technologies a technology can have.
 	BASE_RESEARCH_POINTS_SAVED = 30.0,		-- Base amount of research points a country can save per slot.
-	BASE_YEAR_AHEAD_PENALTY_FACTOR = 4,		-- 3 Base year ahead penalty
+	BASE_YEAR_AHEAD_PENALTY_FACTOR = 3,		-- 3 Base year ahead penalty
 	BASE_TECH_COST = 100,					-- base cost for a tech. multiplied with tech cost and ahead of time penalties
 },
 
