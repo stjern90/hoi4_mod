@@ -263,7 +263,7 @@ NMilitary = {
 	ZERO_ORG_MOVEMENT_MODIFIER = -0.7,		-- speed impact at 0 org.
 	INFRA_ORG_IMPACT = 0.5,				-- scale factor of infra on org regain.
 
-	INFRASTRUCTURE_MOVEMENT_SPEED_IMPACT = -0.09,	-- speed penalty per infrastucture below maximum.
+	INFRASTRUCTURE_MOVEMENT_SPEED_IMPACT = -0.06,	-- speed penalty per infrastucture below maximum.
 
 	WAR_SCORE_LOSSES_RATIO = 0.4,			-- Scale how much losses will affect warscore ( per 1000 losses ).
 	WAR_SCORE_LOSSES_MULT_IF_CAPITULATED = 0.5, -- How much your losses count towards warscore if you have capitulated.
@@ -459,7 +459,7 @@ NMilitary = {
 	COMBAT_OVER_WIDTH_PENALTY = -1,					-- over combat width penalty per %.
 	COMBAT_OVER_WIDTH_PENALTY_MAX = -0.33,			-- over combat width max (when you cant join no more).
 	RETREAT_SPEED_FACTOR = 0.25,                    -- speed bonus when retreating
-	STRATEGIC_SPEED_BASE = 6.0,                 	-- Speed of strategic redeployment
+	STRATEGIC_SPEED_BASE = 8.0,                 	-- Speed of strategic redeployment
 	STRATEGIC_INFRA_SPEED = 12.0,                   -- Max of additional speed gained trouh=gh level for strategic redeployment per infra
 	STRATEGIC_REDEPLOY_ORG_RATIO = 0.05,				-- Ratio of max org while strategic redeployment
 	BATALION_NOT_CHANGED_EXPERIENCE_DROP = 0.0,		-- Division experience drop if unit has same batalion
@@ -933,9 +933,9 @@ NAI = {
 	AIR_BASE_DANGER_ZONE_WEIGHT = 100,					-- Score used per province taken by enemy in a state to determine how dangerous it is to use an air base
 
 	MANPOWER_FREE_USAGE_THRESHOLD = 900000,				-- If AI has this much manpower he doesn't care about the percentage
-	MANPOWER_RESERVED_THRESHOLD = 0.80,					-- The AI will not deploy more units if he goes below this percentage
-	START_TRAINING_EQUIPMENT_LEVEL = 0.95,              -- was 0.95 ai will not start to train if equipment drops below this level
-	STOP_TRAINING_EQUIPMENT_LEVEL = 0.9,                -- was 0.9 ai will not train if equipment drops below this level
+	MANPOWER_RESERVED_THRESHOLD = 0.65,					-- The AI will not deploy more units if he goes below this percentage
+	START_TRAINING_EQUIPMENT_LEVEL = 0.9,              -- was 0.95 ai will not start to train if equipment drops below this level
+	STOP_TRAINING_EQUIPMENT_LEVEL = 0.8,                -- was 0.9 ai will not train if equipment drops below this level
 	BUILD_REFINERY_LACK_OF_RESOURCE_MODIFIER = 0.012,	-- How much lack of resources are worth when evaluating what to build.
 	DIVISION_DESIGN_WEIGHTS = {							-- Base values used by AI to evaluate value of a stat
 		-- Army Values
@@ -993,7 +993,7 @@ NAI = {
 		-- Common Values
 		1.0,   -- max_organisation
 		10.0,   -- 1.0 max_strength
-		-85.0,  -- build_cost_ic
+		-55.0,  -- build_cost_ic
 		2.0,   -- maximum_speed
 		0.0,   -- armor_value
 		0.5,   -- ap_attack
@@ -1037,7 +1037,7 @@ NAI = {
 	MAX_DISTANCE_NALAV_INVASION = 100.0,				-- DNM, changed from 500 (AI Mod) -- AI is extremely unwilling to plan naval invasions above this naval distance limit.
 	ENEMY_NAVY_STRENGTH_DONT_BOTHER = 1.8,				-- If the enemy has a navy at least these many times stronger that the own, don't bother invading
 	MIN_SUPPLY_USE_SANITY_CAP = 100,					-- Ignore supply cap if below this value when deciding on how many divisions to produce.
-	MAX_SUPPLY_DIVISOR = 3.0,							-- DNM, original 2 (AI mod) To make sure the AI does not overdeploy divisions. Higher number means more supply per unit.
+	MAX_SUPPLY_DIVISOR = 2.5,							-- DNM, original 2 (AI mod) To make sure the AI does not overdeploy divisions. Higher number means more supply per unit.
 	MISSING_CONVOYS_BOOST_FACTOR = 30.0,					-- The more convoys a country is missing, the more resources it diverts to cover this.
 	TRANSPORTS_PER_PARATROOPER = 20,					-- Air transports only duty is to drop paratroopers.
 	MAX_MICRO_ATTACKS_PER_ORDER = 5,					-- AI goes through its orders and checks if there are situations to take advantage of
