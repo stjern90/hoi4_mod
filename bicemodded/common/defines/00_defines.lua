@@ -991,8 +991,8 @@ NAI = {
 		-- Common Values
 		1.0,   -- max_organisation
 		10.0,   -- 1.0 max_strength
-		-55.0,  -- build_cost_ic
-		2.0,   -- maximum_speed
+		-45.0,  -- build_cost_ic
+		4.0,   -- maximum_speed
 		0.0,   -- armor_value
 		0.5,   -- ap_attack
 		0.0,   -- reliability
@@ -1011,7 +1011,7 @@ NAI = {
 	BUILD_ARMOR_STRENGTH_MULTIPLIER_WEIGHT = 100.0,
 	BUILD_ARMOR_ORGANIZATION_MULTIPLIER_WEIGHT = 500.0,
 
-	UPGRADE_DIVISION_RELUCTANCE = 5,					-- How often to consider upgrading to new templates for units in the field
+	UPGRADE_DIVISION_RELUCTANCE = 0,					-- How often to consider upgrading to new templates for units in the field
 	UPGRADE_PERCENTAGE_OF_FORCES = 0.025,					-- How big part of the army that should be considered for upgrading
 
 	STRATEGIC_BOMBING_DEFENCE_IMPORTANCE = 500.0,
