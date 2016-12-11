@@ -1,0 +1,1159 @@
+﻿add_namespace = britain 
+
+# Tizard mission event for USA
+country_event = {
+	id = britain.1
+	title = britain.1.t
+	desc = britain.1.d
+	picture = GFX_report_event_physics_lab_01
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = britain.1.a	#sounds good
+		ai_chance = { factor = 90 }
+		add_political_power = -10
+		ENG = {
+			country_event = { days = 1 id = britain.2 }
+			add_opinion_modifier = {
+				target = ROOT
+				modifier = tizard_relations
+			}
+		}
+		add_tech_bonus = {
+			name = tizard_mission_focus
+			uses = 1
+			bonus = 0.5
+			category = light_fighter
+		}
+		add_tech_bonus = {
+			name = tizard_mission_focus
+			bonus = 0.5
+			uses = 2
+			category = radar_tech
+		}
+	}
+	
+	option = {
+		name = britain.1.b	#no way 
+		ai_chance = { factor = 10 }
+		#add_opinion_modifier = { target = ENG modifier = tizard_refused }
+		ENG = {
+			country_event = { days = 1 id = britain.3 }
+		}
+	}
+}
+# USA helps
+country_event = {
+	id = britain.2
+	title = britain.2.t
+	desc = britain.2.d
+	picture = GFX_report_event_physics_lab_02
+
+	is_triggered_only = yes
+	
+	option = {
+		name = britain.2.a
+		add_tech_bonus = {
+			name = tizard_mission_focus
+			bonus = 0.5
+			category = light_fighter
+		}
+		add_tech_bonus = {
+			name = tizard_mission_focus
+			bonus = 0.5
+			uses = 2
+			category = radar_tech
+		}
+		USA = {
+			add_opinion_modifier = { target = ENG modifier = tizard_relations }
+		}
+	}
+}
+# USA says no
+country_event = {
+	id = britain.3
+	title = britain.3.t
+	desc = britain.3.d
+	picture = GFX_report_event_physics_lab_01
+
+	is_triggered_only = yes
+	
+	option = {
+		name = britain.3.a
+		add_opinion_modifier = { target = USA modifier = tizard_refused }
+	}
+}
+# Burma road china
+country_event = {
+	id = britain.4
+	title = britain.4.t
+	desc = britain.4.d
+	picture = GFX_report_event_burma_road
+
+	is_triggered_only = yes
+	
+	option = {
+		name = britain.4.a
+	}
+}
+# Burma road yunnan
+country_event = {
+	id = britain.5
+	title = britain.4.t
+	desc = britain.4.d
+	picture = GFX_report_event_burma_road
+
+	is_triggered_only = yes
+	
+	option = {
+		name = britain.4.a
+	}
+}
+#Time for India to be free
+country_event = {
+	id = britain.6
+	title = britain.6.t
+	desc = britain.6.d
+	picture = GFX_report_event_ghandi_women
+
+	trigger = {
+		tag = ENG
+		has_global_flag = indian_independence_promised
+		NOT = { has_idea = indian_independence_promised_idea }
+		RAJ = { is_puppet_of = ENG }
+	}
+	
+	mean_time_to_happen = {
+		days = 30
+	}
+	
+	option = {
+		name = britain.6.a
+		end_puppet = RAJ
+	}
+	option = {
+		name = britain.6.b
+		RAJ = {
+			add_national_unity = -0.30
+		}
+	}
+}
+#End trade with Germany event for SWE/NOR
+country_event = {
+	id = britain.7
+	title = britain.7.t
+	desc = britain.7.d
+	picture = GFX_report_event_merchant_ship_01
+
+	is_triggered_only = yes
+
+	option = {
+		name = britain.7.a
+		ai_chance = { factor = 60 }
+		GER = {
+			add_opinion_modifier = { target = ROOT modifier = embargo } 
+		}
+	}
+	option = {
+		name = britain.7.b
+		ai_chance = { factor = 40 }
+		ENG = {
+			country_event = britain.8
+		}
+	}
+}
+country_event = {
+	id = britain.8
+	title = britain.8.t
+	desc = britain.8.d
+	picture = GFX_report_event_merchant_ship_01
+
+	is_triggered_only = yes
+	
+	option = {
+		name = britain.8.a
+		ai_chance = { factor = 70 }
+		create_wargoal = {
+				type = take_state
+				target = FROM
+				generator = owned_states
+			}
+		if = {
+			limit = {
+				USA = {
+					NOT = {
+						has_opinion_modifier = unprovoked_aggression
+					}
+				}
+			}
+			USA = {
+				add_opinion_modifier = { target = ROOT modifier = unprovoked_aggression }
+			}
+		}
+	}
+	option = {
+		name = britain.8.b
+		ai_chance = { factor = 30 }
+	}
+}
+# Chamberlain Resigns
+country_event = {
+	id = britain.9
+	title = britain.9.t
+	desc = britain.9.d
+	picture = GFX_report_event_chamberlain
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = ENG
+		has_war = yes
+		NOT = {
+			has_completed_focus = uk_scandinavian_focus
+		}
+		OR = {
+			has_global_flag = fall_of_france
+			surrender_progress > 0.5
+			AND = {
+				110 = { is_controlled_by = GER }
+				NOT = { is_in_faction_with = GER }
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		days = 40
+	}
+	
+	option = {
+		name = britain.9.a
+		retire_country_leader = yes
+		add_national_unity = 0.1
+		set_country_flag = chamberlain_resigned
+	}
+}
+# Chamberlain Passes Away
+country_event = {
+	id = britain.10
+	title = britain.10.t
+	desc = britain.10.d
+	picture = GFX_report_event_chamberlain
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = ENG
+		has_government = democratic
+		date > 1940.9.11
+		NOT = { has_country_flag = chamberlain_resigned }
+	}
+
+	mean_time_to_happen = {
+		days = 30
+	}
+	
+	option = {
+		name = britain.10.a
+		kill_country_leader = yes
+	}
+	option = {
+		name = britain.10.b
+		kill_country_leader = yes
+		create_country_leader = {
+			name = "Lord Edward Halifax"
+			desc = "POLITICS_EDWARD_HALIFAX_DESC"
+			picture = "Portrait_Britain_Edward_Halifax.dds"
+			expire = "1965.1.1"
+			ideology = conservatism
+			traits = {
+				
+			}
+		}
+	}
+}
+# React to Rise of the CommieNazis 
+country_event = {
+	id = britain.11
+	title = britain.11.t
+	desc = britain.11.d
+	picture = GFX_report_event_molotov_ribentrop_handshake
+
+	is_triggered_only = yes
+	
+	trigger = {
+		is_faction_leader = yes
+	}
+	
+	option = {
+		name = britain.11.a
+		every_country = {
+			limit = {
+				NOT = { tag = ENG }
+				NOT = { has_war_with = ENG }
+				is_in_faction = no
+				has_government = democratic
+				is_puppet = no
+				OR = {
+					capital_scope = {
+						is_on_continent = europe
+					}
+					capital_scope = {
+						is_on_continent = asia
+					}
+					num_of_factories > 30
+				}
+			}
+			country_event = britain.12
+		}
+	}
+	
+	option = {
+		name = britain.11.b
+		ai_chance = { factor = 0 }
+	}
+}
+# React to British call
+country_event = {
+	id = britain.12
+	title = britain.12.t
+	desc = britain.12.d
+	picture = GFX_report_event_molotov_ribentrop_handshake
+
+	is_triggered_only = yes
+	
+	option = {
+		name = britain.12.a
+		ENG = { add_to_faction = ROOT }
+		ROOT = {
+			add_ai_strategy = {
+				type = alliance
+				id = "ENG"
+				value = 200
+			}
+		}
+	}
+	
+	option = {
+		name = britain.12.b
+		ai_chance = { factor = 0 }
+	}
+}
+# France wants to join allies
+country_event = {
+	id = britain.13
+	title = britain.13.t
+	desc = britain.13.d
+	picture = GFX_report_event_degaulle_churchill
+
+	is_triggered_only = yes
+	
+	option = {
+		name = britain.13.a
+		add_to_faction = FROM
+		FROM = {
+			add_ai_strategy = {
+				type = alliance
+				id = "ENG"
+				value = 200
+			}
+		}
+		FROM = { country_event = { id = france.29} }
+		hidden_effect = {
+			news_event = { id = news.175 }
+		}
+	}
+	
+	option = {
+		name = britain.13.b
+		ai_chance = { factor = 0 }
+		FROM = { 
+			add_opinion_modifier = {
+				target = ROOT
+				modifier = FRA_go_with_britain_reject
+			}
+			country_event = { id = france.30 }
+		}
+		hidden_effect = {
+			news_event = { id = news.176 }
+		}
+	}
+}
+# Germany demands Slovenia from Yugoslavia
+country_event = {
+	id = britain.14
+	title = britain.14.t
+	desc = britain.14.d
+	picture = GFX_report_event_hitler_croatia_handshake
+
+	is_triggered_only = yes
+	
+	option = { # Abandon Yugoalvia
+		name = britain.14.a
+		ai_chance = { factor = 90 }
+		FRA = { country_event = { id = france.25 hours = 2 } }
+		YUG = {
+			add_opinion_modifier = { target = ENG modifier = western_betrayal }
+		}		
+	}
+	
+	option = { # Support Yugoslavia
+		name = britain.14.b
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 0
+				is_in_faction_with = GER
+			}
+			modifier = {
+				factor = 0 
+				is_historical_focus_on = yes  # historical mod
+			}
+		}
+		if = {
+			limit = {
+				is_in_faction_with = GER
+				is_faction_leader = yes
+			}
+			remove_from_faction = GER
+		}
+		if = {
+			limit = {
+				is_in_faction_with = GER
+				is_faction_leader = no
+			}
+			GER = { remove_from_faction = ENG }
+		}
+		add_political_power = -200
+		add_opinion_modifier = { target = GER modifier = condemn_aggression }
+		effect_tooltip = {
+			GER = {
+				create_wargoal = {
+					type = take_state_focus
+					target = YUG
+					generator = { 102 }
+				}
+			}
+		}
+		add_to_faction = YUG
+		YUG = {
+			add_ai_strategy = {
+				type = alliance
+				id = "ENG"
+				value = 200
+			}
+		}
+		if = {
+			limit = {
+				FRA = {
+					is_puppet = no
+					NOT = { has_war_with = YUG }
+				}
+			}
+			FRA = { country_event = { id = france.26 hours = 2 } }
+		}
+		YUG = {
+			add_opinion_modifier = { target = ENG modifier = offered_support }
+		}
+	}	
+}
+# France leaves the Allies
+country_event = {
+	id = britain.15
+	title = britain.15.t
+	desc = britain.15.d
+	picture = GFX_report_event_french_british_officers
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = britain.15.a
+		FRA = {
+			add_opinion_modifier = { target = ENG modifier = abandoned_yugoslavia }
+		}
+	}
+}
+# King dies
+country_event = {
+	id = britain.16
+	title = britain.16.t
+	desc = britain.16.d
+	picture = GFX_report_event_europe_funeral
+	
+	trigger = {
+		tag = ENG
+		date > 1936.1.19
+		has_start_date < 1936.01.02
+	}	
+
+	fire_only_once = yes
+
+	mean_time_to_happen = { days = 7 }
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = ENG_king_died
+			remove_ideas = george_v
+			add_ideas = ENG_king_edward
+		}		
+	}
+	
+	option = {
+		name = britain.16.a
+		effect_tooltip = {
+			remove_ideas = george_v		
+			add_ideas = ENG_king_edward
+		}
+	}
+}
+# King abdicates
+country_event = {
+	id = britain.17
+	title = britain.17.t
+	desc = britain.17.d
+	picture = GFX_report_event_generic_sign_treaty2
+	
+	trigger = {
+		tag = ENG
+		has_country_flag = ENG_king_died
+		date > 1936.12.1
+	}
+	
+	fire_only_once = yes
+
+	mean_time_to_happen = { days = 14 }
+	
+	immediate = {
+		hidden_effect = {
+			remove_ideas = ENG_king_edward
+			add_ideas = ENG_george_vi		
+		}
+	}
+
+	option = {
+		name = britain.17.a
+		effect_tooltip = {
+			remove_ideas = ENG_king_edward
+			add_ideas = ENG_george_vi		
+		}
+	}
+}
+# Return of the Nazi King
+country_event = {
+	id = britain.18
+	title = britain.18.t
+	desc = britain.18.d
+	picture = GFX_report_event_fascist_gathering
+	
+	trigger = {
+		tag = ENG
+		has_idea = ENG_george_vi
+		has_government = fascism
+	}
+	
+	fire_only_once = yes
+
+	mean_time_to_happen = { days = 14 }
+	
+	immediate = {
+		hidden_effect = {
+			remove_ideas = ENG_george_vi		
+		}
+	}
+
+	option = {
+		name = britain.18.a
+		effect_tooltip = {
+			remove_ideas = ENG_george_vi	
+		}
+		create_country_leader = {
+			name = "Edward VIII"
+			desc = "POLITICS_EDWARD_EDWARD_DESC"
+			picture = "Portrait_Britain_Edward_VIII.dds"
+			expire = "1965.1.1"
+			ideology = fascism_ideology
+			traits = {
+				inexperienced_imperialist				
+			}
+		}
+	}
+
+	option = {
+		name = britain.18.b	
+		effect_tooltip = {
+			remove_ideas = ENG_george_vi	
+		}
+		add_ideas = ENG_king_edward_fascism
+	}
+}
+#Britain receives warning of the Indian National Army
+country_event = {
+	id = britain.19
+	title = britain.19.t
+	desc = britain.19.d
+	picture = GFX_report_event_indian_soldiers
+
+	is_triggered_only = yes
+
+	option = {
+		name = britain.19.a
+		effect_tooltip = {
+			RAJ = {
+				add_ideas = RAJ_azad_hind
+			}
+		}
+		custom_effect_tooltip = ENG_RAJ_azad_hind_tooltip 
+		hidden_effect = {
+			country_event = { id = britain.20 days = 500  random = 100 }
+		}
+	}
+}
+#Free India Government Leads Revolt
+country_event = {
+	id = britain.20
+	title = britain.20.t
+	desc = britain.20.d
+	picture = GFX_report_event_indian_soldiers
+
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = {
+			has_completed_focus = uk_free_india_focus
+		}
+		RAJ = {
+			is_puppet_of = ENG
+			fascism > 0.3
+			has_civil_war = no
+		}
+	}
+
+	option = {
+		name = britain.20.a
+		hidden_effect = {
+			if = {
+				limit = {
+					RAJ = {
+						has_idea = RAJ_azad_hind
+					}
+				}
+				RAJ = {
+					remove_ideas = RAJ_azad_hind
+				}
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					RAJ = {
+						has_government = fascism
+					}
+				}
+			}
+			RAJ = {
+				start_civil_war = {
+					ideology = fascism
+					size = 0.5
+				}
+			}
+		}
+		if = {
+			limit = {
+				RAJ = {
+					has_government = fascism
+				}
+			}
+			end_puppet = RAJ
+			if = {
+				limit = {
+					RAJ = {
+						is_in_faction_with = ENG
+					}
+				}
+				remove_from_faction = RAJ
+			}
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = RAJ
+			}
+		}
+	}
+}
+#########################1st Armoured Division 1937
+country_event = {
+	id = britain.21
+	title = britain.21.t
+	desc = britain.21.d
+	picture = GFX_report_event__1st_armored
+
+	fire_only_once = yes
+	
+	trigger = {
+		tag = ENG
+		not = { has_country_flag = first_armored_div }
+		date > 1937.1.1 	
+		126 = { is_controlled_by = ENG }
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = britain.21.a
+		ai_chance = { factor = 100 }
+		
+		hidden_effect = {
+			set_technology = { tech_cruiser_tank_equipment_1 = 1 }
+			set_technology = { interwar_antitank = 1}
+			load_oob = "ENG_1st_Armored_Division"	#6103
+			set_country_flag = first_armored_div
+		}
+	}
+	option = {
+		name = britain.21.b	#refuse
+		ai_chance = { factor = 0 }
+		set_country_flag = first_armored_div
+	}
+}
+#####################7th Armoured Division sept 1938
+country_event = {
+	id = britain.22
+	title = britain.22.t
+	desc = britain.22.d
+	picture = GFX_report_event_7_armored
+
+	fire_only_once = yes
+	
+	trigger = {
+		tag = ENG
+		not = { has_country_flag = seven_armored_div }
+		date > 1938.9.1 	
+		447 = { is_controlled_by = ENG }
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = britain.22.a
+		ai_chance = { factor = 100 }
+		
+		hidden_effect = {
+			load_oob = "ENG_7th_Armored_Division"	#4076
+			set_country_flag = seven_armored_div
+		}
+	}
+	option = {
+		name = britain.22.b	#refuse
+		ai_chance = { factor = 0 }
+		set_country_flag = seven_armored_div
+	}
+}
+################### 45th (2nd Wessex) - april 1939
+country_event = {
+	id = britain.23
+	title = britain.23.t
+	desc = britain.23.d
+	picture = GFX_report_event_45_infantry
+
+	fire_only_once = yes
+	
+	trigger = {
+		tag = ENG
+		not = { has_country_flag = fortyfive_infantry_div }
+		date > 1939.4.1	
+		128 = { is_controlled_by = ENG }
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = britain.23.a
+		ai_chance = { factor = 100 }
+		
+		hidden_effect = {
+			load_oob = "ENG_45th_Infantry_Division"	#9297
+			set_country_flag = fortyfive_infantry_div
+		}
+	}
+	option = {
+		name = britain.23.b	#refuse
+		ai_chance = { factor = 0 }
+		set_country_flag = fortyfive_infantry_div
+	}
+}
+############ 59th (Staffordshire)  4 sept 1939
+############ 15th (Scottish) sept 1939
+country_event = {
+	id = britain.24
+	title = britain.24.t
+	desc = britain.24.d
+	picture = GFX_report_event_59_infantry
+
+	fire_only_once = yes
+	
+	trigger = {
+		tag = ENG
+		not = { has_country_flag = fifteen_infantry_div }
+		date > 1939.9.4	
+		133 = { is_controlled_by = ENG }
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = britain.24.a
+		ai_chance = { factor = 100 }
+		
+		hidden_effect = {
+			load_oob = "ENG_15th_59th_Infantry_Division" #3273 #11378
+			set_country_flag = fifteen_infantry_div
+		}
+	}
+	option = {
+		name = britain.24.b	#refuse
+		ai_chance = { factor = 0 }
+		set_country_flag = fifteen_infantry_div
+	}
+}
+##################### 38th (Welsh) -  18 sept 1939 
+country_event = {
+	id = britain.25
+	title = britain.25.t
+	desc = britain.25.d
+	picture = GFX_report_event_38_infantry
+
+	fire_only_once = yes
+	
+	trigger = {
+		tag = ENG
+		not = { has_country_flag = thirtyeight_infantry_div }
+		date > 1939.9.18	
+		122 = { is_controlled_by = ENG }
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = britain.25.a
+		ai_chance = { factor = 100 }
+		
+		hidden_effect = {
+			load_oob = "ENG_38th_Infantry_Division"	#377
+			set_country_flag = thirtyeight_infantry_div
+		}
+	}
+	option = {
+		name = britain.25.b	#refuse
+		ai_chance = { factor = 0 }
+		set_country_flag = thirtyeight_infantry_div
+	}
+}
+########################### 18th (East Anglian) 30 sept 1939
+country_event = {
+	id = britain.26
+	title = britain.26.t
+	desc = britain.26.d
+	picture = GFX_report_event_18_infantry
+
+	fire_only_once = yes
+	
+	trigger = {
+		tag = ENG
+		not = { has_country_flag = eighteen_infantry_div }
+		date > 1939.9.30 	
+		125 = { is_controlled_by = ENG }
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = britain.26.a
+		ai_chance = { factor = 100 }
+		
+		hidden_effect = {
+			load_oob = "ENG_18th_Infantry_Division"	#11253
+			set_country_flag = eighteen_infantry_div
+		}
+	}
+	option = {
+		name = britain.26.b	#refuse
+		ai_chance = { factor = 0 }
+		set_country_flag = eighteen_infantry_div
+	}
+}
+################ 23rd (Northumbrian) - motorized -  2 october 1939
+################ 46th Infantry - 2 oct 1939 
+country_event = {
+	id = britain.27
+	title = britain.27.t
+	desc = britain.27.d
+	picture = GFX_report_event_
+
+	fire_only_once = yes
+	
+	trigger = {
+		tag = ENG
+		not = { has_country_flag = twentythree_infantry_div }
+		date > 1939.10.2	
+		131 = { is_controlled_by = ENG }
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = britain.27.a
+		ai_chance = { factor = 100 }
+		
+		hidden_effect = {
+			load_oob = "ENG_23rd_Infantry_Division"	#351
+			set_country_flag = twentythree_infantry_div
+		}
+	}
+	option = {
+		name = britain.27.b	#refuse
+		ai_chance = { factor = 0 }
+		set_country_flag = twentythree_infantry_div
+	}
+}
+####################### 51st Highland division 7 august 1940 
+country_event = {
+	id = britain.28
+	title = britain.28.t
+	desc = britain.28.d
+	picture = GFX_report_event_51_infantry
+
+	fire_only_once = yes
+	
+	trigger = {
+		tag = ENG
+		not = { has_country_flag = fiftyone_infantry_div }
+		date > 1940.8.7 	
+		133 = { is_controlled_by = ENG }
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = britain.28.a
+		ai_chance = { factor = 100 }
+		
+		hidden_effect = {
+			load_oob = "ENG_51st_Infantry_Division"	#3273
+			set_country_flag = fiftyone_infantry_div
+		}
+	}
+	option = {
+		name = britain.28.b	#refuse
+		ai_chance = { factor = 0 }
+		set_country_flag = fiftyone_infantry_div
+	}
+}
+######################## Guards Armoured Division[ 17 june 1941 
+country_event = {
+	id = britain.29
+	title = britain.29.t
+	desc = britain.29.d
+	picture = GFX_report_event_
+
+	fire_only_once = yes
+	
+	trigger = {
+		tag = ENG
+		not = { has_country_flag = guards_armoured_div }
+		date > 1941.6.17 	
+		126 = { is_controlled_by = ENG }
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = britain.29.a
+		ai_chance = { factor = 100 }
+		
+		hidden_effect = {
+			load_oob = "ENG_Guards_Armoured_Division"	#6103
+			set_country_flag = guards_armoured_div
+		}
+	}
+	option = {
+		name = britain.29.b	#refuse
+		ai_chance = { factor = 0 }
+		set_country_flag = guards_armoured_div
+	}
+}
+##################### 1st Airborne Division 4 nov 1941
+country_event = {
+	id = britain.30
+	title = britain.30.t
+	desc = britain.30.d
+	picture = GFX_report_event_
+
+	fire_only_once = yes
+	
+	trigger = {
+		tag = ENG
+		not = { has_country_flag = first_airborne_div }
+		date > 1941.11.4	
+		126 = { is_controlled_by = ENG }
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = britain.30.a
+		ai_chance = { factor = 100 }
+	
+		hidden_effect = {
+			set_technology = {paratroop_equipment = 1 }
+			load_oob = "ENG_1st_Airborne_Division"	#6103
+			set_country_flag = first_airborne_div
+		}
+	}
+	option = {
+		name = britain.30.b	#refuse
+		ai_chance = { factor = 0 }
+		set_country_flag = first_airborne_div
+	}
+}
+##################### 6th Airborne Division 3 may 1943
+country_event = {
+	id = britain.31
+	title = britain.31.t
+	desc = britain.31.d
+	picture = GFX_report_event_
+
+	fire_only_once = yes
+	
+	trigger = {
+		tag = ENG
+		not = { has_country_flag = six_airborne_div }
+		date > 1943.5.3	
+		126 = { is_controlled_by = ENG }
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = britain.31.a
+		ai_chance = { factor = 100 }
+		
+		hidden_effect = {
+			set_technology = {paratroop_equipment = 1 } #para_support activation tech
+			load_oob = "ENG_6th_Airborne_Division"	#6103
+			set_country_flag = six_airborne_div
+		}
+	}
+	option = {
+		name = britain.31.b	#refuse
+		ai_chance = { factor = 0 }
+		set_country_flag = six_airborne_div
+	}
+}
+###############################################################
+#####################Dutch east indies
+country_event = {
+	id = britain.32
+	title = britain.32.t
+	desc = britain.32.d
+	picture = GFX_report_event_generic_sign_treaty2
+
+	fire_only_once = yes
+	
+	trigger = {
+		tag = ENG
+		not = { has_country_flag = east_indies }
+		NOT = { HOL = { controls_state = 7 }}
+		HOL = { controls_state = 669 }
+		HOL = { controls_state = 668}
+		HOL = { controls_state = 667}
+		HOL = { controls_state = 334}
+		HOL = { controls_state = 335}
+		HOL = { controls_state = 672}
+		HOL = { controls_state = 673}
+		HOL = { controls_state = 738}
+	}
+	
+	mean_time_to_happen = {
+		days = 5
+	}
+	
+	option = {
+		name = britain.32.a
+		
+		hidden_effect = {
+			HOL = {
+				country_event = { id = britain.33 hours = 1 }
+			}
+		}
+		set_country_flag = east_indies
+	}
+}
+country_event = {
+	id = britain.33
+	title = britain.33.t
+	desc = britain.33.d
+	picture = GFX_report_event_generic_sign_treaty2
+
+	is_triggered_only = yes
+	
+	option = {
+		name = britain.33.a
+		ai_chance = { factor = 100 }
+		
+		hidden_effect = {
+			ENG = { 
+			transfer_state = 669
+			}
+			ENG = { 
+			transfer_state = 668
+			}
+			ENG = { 
+			transfer_state = 667
+			}
+			ENG = { 
+			transfer_state = 334
+			}
+			ENG = { 
+			transfer_state = 335
+			}
+			ENG = { 
+			transfer_state = 672
+			}
+			ENG = { 
+			transfer_state = 673
+			}
+			ENG = { 
+			transfer_state = 738
+			}
+		}
+			set_country_flag = east_indies_II
+		
+	}
+	option = {
+		name = britain.33.b	#refuse
+		ai_chance = { factor = 0 }
+		set_country_flag = east_indies_II
+	}
+}
+### EOF ###

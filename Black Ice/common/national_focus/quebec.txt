@@ -1,0 +1,1540 @@
+focus_tree = {
+	id = que_focus
+	
+	country = {
+		factor = 0
+		
+		modifier = {
+			add = 10
+			tag = QUE
+		}
+	}
+	
+	default = no
+	
+	## POLITICAL
+	##
+	
+	focus = {
+		id = QUE_maitre_chez_nous # Maitre chez nous
+		icon = GFX_goal_generic_propaganda
+		x = 2
+		y = 0
+		cost = 10
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			add_political_power = 120
+		}
+	}
+	
+	focus = { # Democracy
+		id = QUE_the_continental_alliance # The Continental Alliance
+		icon = GFX_goal_support_democracy
+		x = 0
+		y = 1
+		cost = 10
+		
+		prerequisite = { focus = QUE_maitre_chez_nous }
+		mutually_exclusive = { focus = QUE_mouvement_nationaliste focus = QUE_mouvement_socialiste }
+
+		ai_will_do = {
+			factor = 15
+		}
+		
+		completion_reward = {
+			add_ideas = liberty_ethos_focus
+			add_political_power = 120
+			USA = { 
+				add_opinion_modifier = { target = QUE modifier = usa_continental_alliance }
+			}
+		}
+	}
+	
+	focus = {
+		id = QUE_formalize_the_constitution # Formalize the Constitution
+		icon = GFX_goal_generic_neutrality_focus
+		x = 0
+		y = 2
+		cost = 10
+		
+		prerequisite = { focus = QUE_the_continental_alliance }
+
+		ai_will_do = {
+			factor = 15
+		}
+		
+		completion_reward = {
+			add_national_unity = 0.1
+			add_ideas = volunteer_corps_focus
+			set_rule = { can_send_volunteers = yes }
+		}
+	}
+
+	focus = {
+		id = QUE_united_we_stand # United We Stand
+		icon = GFX_goal_generic_demand_territory
+		x = 0
+		y = 3
+		cost = 10
+		
+		prerequisite = { focus = QUE_formalize_the_constitution }
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			add_ideas = foreign_expeditions_focus
+			add_ideas = why_we_fight_focus
+		}
+	}
+	
+	focus = {
+		id = QUE_volunteers_force # Mass Volunteer
+		icon = GFX_goal_generic_construct_civilian
+		x = 0
+		y = 4
+		cost = 10
+		
+		prerequisite = { focus = QUE_united_we_stand }
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			add_manpower = 20000
+		}
+	}
+	
+	focus = {
+		id = QUE_foreign_embassies # Foreign Embassies
+		icon = GFX_goal_generic_improve_relations
+		x = 0
+		y = 5
+		cost = 10
+		
+		prerequisite = { focus = QUE_volunteers_force }
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			add_political_power = 120
+		}
+	}
+
+	focus = {
+		id = QUE_support_the_faction # Strength the Faction
+		icon = GFX_goal_molotov_ribbentrop_pact
+		x = 3
+		y = 7
+		cost = 10
+		
+		available = {
+			QUE = { is_in_faction = yes }
+		}
+		
+		prerequisite = { focus = QUE_continental_revolution focus = QUE_french_paradise focus = QUE_reform_nouvelle_france focus = QUE_french_louisiana focus = QUE_foreign_embassies }
+
+		mutually_exclusive = { focus = QUE_establish_the_continental_alliance }
+		
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			add_manpower = 30000
+		}
+	}
+	
+	focus = {
+		id = QUE_technology_sharing # Technology Sharing
+		icon = GFX_goal_generic_scientific_exchange
+		x = 3
+		y = 8
+		cost = 10
+		
+		prerequisite = { focus = QUE_support_the_faction focus = QUE_establish_the_continental_alliance }
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+	
+	focus = {
+		id = QUE_establish_the_continental_alliance # Establish the Continental Alliance
+		icon = GFX_goal_generic_propaganda
+		x = 1
+		y = 7
+		cost = 10
+
+		available = {
+			QUE = { is_in_faction = no }
+		}
+		
+		prerequisite = { focus = QUE_continental_revolution focus = QUE_french_paradise focus = QUE_reform_nouvelle_france focus = QUE_french_louisiana focus = QUE_foreign_embassies }
+
+		mutually_exclusive = { focus = QUE_support_the_faction }
+		
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			set_rule = { can_create_factions = yes }
+			create_faction = "continental_alliance"
+			
+			if = {
+				limit = {
+					USA = { is_in_faction = no }
+					NOT = { USA = { has_war_with = QUE } }
+					QUE = { NOT = { has_completed_focus = QUE_french_louisiana } }
+				}
+				USA = { country_event = { id = better_canada.12 } }
+			}
+			news_event = { hours = 6 id = better_canada.15 }
+		}
+	}
+	
+	focus = {
+		id = QUE_invite_france # Invite France
+		icon = GFX_goal_generic_national_unity
+		x = 1
+		y = 8
+		cost = 10
+
+		available = {
+			FRA = { is_in_faction = no }
+			NOT = { QUE = { has_war_with = FRA } }
+		}
+		
+		prerequisite = { focus = QUE_establish_the_continental_alliance }
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			QUE = { add_to_faction = FRA }
+		}
+	}
+	
+	focus = { # Communism
+		id = QUE_mouvement_socialiste # Mouvement Socialiste
+		icon = GFX_goal_support_communism
+		x = 2
+		y = 1
+		cost = 10
+
+		prerequisite = { focus = QUE_maitre_chez_nous }
+		mutually_exclusive = { focus = QUE_the_continental_alliance focus = QUE_mouvement_nationaliste }
+		
+		ai_will_do = {
+			factor = 11
+		}
+		
+		completion_reward = {
+			add_ideas = collectivist_ethos_focus
+			add_political_power = 150
+		}
+	}
+	
+	focus = {
+		id = QUE_l_experience_du_saguenay # L'Experience du Saguenay
+		icon = GFX_goal_generic_national_unity
+		x = 2
+		y = 2
+		cost = 10
+
+		prerequisite = { focus = QUE_mouvement_socialiste }
+		
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			add_ideas = idea_political_correctness
+			add_ideas = indoctrination_focus
+			add_popularity = {
+				ideology = communism
+				popularity = 0.10
+			}
+			466 = {
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				add_extra_state_shared_building_slots = 1
+			}
+		}
+	}
+	
+	focus = {
+		id = QUE_soviet_support # Soviet Support
+		icon = GFX_goal_generic_political_pressure
+		x = 2
+		y = 3
+		cost = 10
+
+		prerequisite = { focus = QUE_l_experience_du_saguenay }
+		
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			add_ideas = political_commissars_focus
+			hidden_effect = {
+				set_rule = { can_use_kamikaze_pilots = yes }
+			}
+			custom_effect_tooltip = kamikaze_focus_tooltip
+			add_popularity = {
+				ideology = communism
+				popularity = 0.10
+			}
+		}
+	}
+	
+	focus = {
+		id = QUE_pays_pour_tous # Pays Pour Tour
+		icon = GFX_goal_generic_intelligence_exchange
+		x = 2
+		y = 4
+		cost = 10
+
+		prerequisite = { focus = QUE_soviet_support }
+		
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			add_ideas = que_socialist_science
+		}
+	}
+	
+	focus = {
+		id = QUE_french_paradise # Bring Paradise to Canada
+		icon = GFX_goal_generic_occupy_states_ongoing_war
+		x = 2
+		y = 5
+		cost = 10
+
+		prerequisite = { focus = QUE_pays_pour_tous }
+		
+		bypass = {
+			OR = {
+				CAN = { exists = no }
+				CAN = { is_puppet_of = QUE }
+			}
+		}
+		
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			create_wargoal = {
+				type = annex_everything
+				target = CAN
+			}
+		}
+	}
+	
+	focus = {
+		id = QUE_continental_revolution # Continental Revolution
+		icon = GFX_goal_generic_special_forces
+		x = 2
+		y = 6
+		cost = 10
+
+		available = {
+			OR = {
+				CAN = { exists = no }
+				CAN = { is_puppet_of = QUE }
+			}
+		}
+		
+		prerequisite = { focus = QUE_french_paradise }
+		
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			create_wargoal = {
+				type = annex_everything
+				target = USA
+			}
+		}
+	}
+	
+	focus = { # Fascism
+		id = QUE_mouvement_nationaliste # Mouvement Nationaliste
+		icon = GFX_goal_support_fascism
+		x = 4
+		y = 1
+		cost = 10
+
+		prerequisite = { focus = QUE_maitre_chez_nous }
+		mutually_exclusive = { focus = QUE_the_continental_alliance focus = QUE_mouvement_socialiste }
+		
+		ai_will_do = {
+			factor = 12
+		}
+		
+		completion_reward = {
+			add_ideas = collectivist_ethos_focus
+			add_political_power = 150
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.05
+			}
+		}
+	}
+	
+	focus = {
+		id = QUE_quebec_is_best # Vive le Quebec libre
+		icon = GFX_goal_tripartite_pact
+		x = 4
+		y = 2
+		cost = 10
+		
+		prerequisite = { focus = QUE_mouvement_nationaliste }
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			add_ideas = nationalism
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.1
+			}
+		}
+	}
+	
+	focus = {
+		id = QUE_mass_propaganda # Mass Propaganda
+		icon = GFX_goal_generic_propaganda
+		x = 4
+		y = 3
+		cost = 10
+		
+		prerequisite = { focus = QUE_quebec_is_best }
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			add_ideas = militarism_focus
+			set_rule = { can_send_volunteers = yes }
+			army_experience = 40
+			add_political_power = 200
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.1
+			}
+		}
+	}
+	
+	focus = {
+		id = QUE_start_them_early # Nationalized Schools
+		icon = GFX_goal_generic_more_territorial_claims
+		x = 4
+		y = 4
+		cost = 10
+		
+		prerequisite = { focus = QUE_mass_propaganda }
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			add_ideas = military_youth_focus
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.1
+			}
+			add_ideas = paramilitarism_focus
+		}
+	}
+	
+	focus = {
+		id = QUE_reform_nouvelle_france # Nouvelle France
+		icon = GFX_goal_generic_forceful_treaty
+		x = 4
+		y = 5
+		cost = 10
+		
+		prerequisite = { focus = QUE_start_them_early }
+		bypass = {
+			AND = {
+				QUE = { owns_state = 331 } # Newfoundland
+				QUE = { owns_state = 332 } # Labrador
+				QUE = { owns_state = 464 } # Nova Scotia
+				QUE = { owns_state = 465 } # New Brunswick
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			331 = { add_core_of = QUE }
+			332 = { add_core_of = QUE }
+			464 = { add_core_of = QUE }
+			465 = { add_core_of = QUE }
+			create_wargoal = {
+				type = take_state_focus
+				target = CAN
+				generator = { 464 465 }
+			}
+			news_event = { hours = 6 id = better_canada.13 }
+		}
+	}
+	
+	focus = {
+		id = QUE_french_louisiana # Louisiane Francaise
+		icon = GFX_goal_generic_forceful_treaty
+		x = 6
+		y = 5
+		cost = 10
+		
+		available = {
+			AND = {
+				QUE = { owns_state = 464 } # Nova Scotia
+				QUE = { owns_state = 465 } # New Brunswick
+			}
+		}
+		
+		prerequisite = { focus = QUE_start_them_early }
+
+		bypass = {
+			USA = { is_in_faction_with = QUE }
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			custom_effect_tooltip = que_claim_french_louisiana
+			create_wargoal = {
+				type = take_state_focus
+				target = USA
+				generator = { 389 391 394 393 392 395 396 261 358 360 373 369 372 368 370 371 }
+			}
+			news_event = { hours = 6 id = better_canada.14 }
+			hidden_effect = {
+				467 = { add_core_of = QUE } # Manitoba
+				682 = { add_core_of = QUE } # Northern Ontario
+				276 = { add_core_of = QUE } # Southern Ontario
+				# USA
+				389 = { add_core_of = QUE } # North Dakota
+				391 = { add_core_of = QUE } # Minnesota
+				394 = { add_core_of = QUE } # Wisconsin
+				393 = { add_core_of = QUE } # Michigan
+				392 = { add_core_of = QUE } # Iowa
+				395 = { add_core_of = QUE } # Illinois
+				396 = { add_core_of = QUE } # Indiana
+				261 = { add_core_of = QUE } # Ohio
+				358 = { add_core_of = QUE } # New York
+				360 = { add_core_of = QUE } # Pennsylvania
+				373 = { add_core_of = QUE } # Missouri
+				369 = { add_core_of = QUE } # Kentucky
+				372 = { add_core_of = QUE } # Arkansas
+				368 = { add_core_of = QUE } # Tennesse	
+				370 = { add_core_of = QUE } # Mississipi
+				371 = { add_core_of = QUE } # Louisiana
+			}
+		}
+	}
+	
+	## INDUSTRIAL
+	##
+	
+	focus = {
+		id = QUE_rochette_plan # Rochette's Plan
+		icon = GFX_goal_generic_production2
+		x = 7
+		y = 0
+		cost = 10
+		
+		mutually_exclusive = { focus = QUE_drouin_plan }
+
+		bypass = {
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			add_tech_bonus = {
+				bonus = 0.5
+				uses = 2
+				category = industry
+			}
+		}
+	}
+	
+	focus = {
+		id = QUE_drouin_plan # Drouins's Plan
+		icon = GFX_goal_generic_radar
+		x = 9
+		y = 0
+		cost = 10
+	
+		mutually_exclusive = { focus = QUE_rochette_plan }
+
+		bypass = {
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			add_tech_bonus = {
+				bonus = 0.5
+				uses = 1
+				category = industry
+			}
+			add_tech_bonus = {
+				name = electronics_bonus
+				bonus = 0.5
+				uses = 1
+				category = electronics
+			}
+		}
+	}
+	
+	focus = {
+		id = QUE_plan_nord # Plan Nord
+		icon = GFX_goal_generic_positive_trade_relations
+		x = 6
+		y = 1
+		cost = 10
+	
+		prerequisite = { focus = QUE_rochette_plan focus = QUE_drouin_plan }
+
+		bypass = {
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			add_resource = {
+				type = steel
+				amount = 20
+				state = 466
+			}
+		}
+	}
+	
+	focus = {
+		id = QUE_foundation_of_alque # Foundation of Alque
+		icon = GFX_goal_generic_position_armies
+		x = 6
+		y = 2
+		cost = 10
+	
+		prerequisite = { focus = QUE_plan_nord }
+
+		bypass = {
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			add_resource = {
+				type = aluminium
+				amount = 16
+				state = 466
+			}
+		}
+	}
+	
+	focus = {
+		id = QUE_anticosti_island # Anticosti Island
+		icon = GFX_goal_generic_oil_refinery
+		x = 6
+		y = 3
+		cost = 10
+	
+		prerequisite = { focus = QUE_foundation_of_alque }
+
+		bypass = {
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			add_resource = {
+				type = oil
+				amount = 12
+				state = 468
+			}
+		}
+	}
+	
+	focus = {
+		id = QUE_artificial_rubber # Artificial Rubber
+		icon = GFX_goal_generic_army_motorized
+		x = 6
+		y = 4
+		cost = 10
+	
+		prerequisite = { focus = QUE_anticosti_island }
+
+		bypass = {
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			add_resource = {
+				type = rubber
+				amount = 6
+				state = 468
+			}
+			add_tech_bonus = {
+				name = synth_resources_bonus
+				bonus = 0.50
+				uses = 2
+				category = synth_resources
+			}
+		}
+	}
+	
+	focus = {
+		id = QUE_french_knowledge # French Investments
+		icon = GFX_goal_generic_construct_civ_factory
+		x = 8
+		y = 1
+		cost = 10
+	
+		prerequisite = { focus = QUE_rochette_plan focus = QUE_drouin_plan }
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			add_ideas = que_french_knowledge_idea
+			466 = {
+				add_extra_state_shared_building_slots = 2
+
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = QUE_metropolitan_quebec # Metropolitan Quebec
+		icon = GFX_goal_generic_construct_civilian
+		x = 8
+		y = 2
+		cost = 10
+	
+		prerequisite = { focus = QUE_french_knowledge }
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			468 = {
+				add_extra_state_shared_building_slots = 2
+
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = QUE_industrialize_the_north # Bringing in the Northern Resources
+		icon = GFX_goal_generic_construction
+		x = 8
+		y = 3
+		cost = 10
+	
+		prerequisite = { focus = QUE_metropolitan_quebec }
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			466 = {
+				add_extra_state_shared_building_slots = 2
+
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+				
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = QUE_quebec_railway # Roberval and Saguenay Railway
+		icon = GFX_goal_generic_construct_infrastructure
+		x = 8
+		y = 4
+		cost = 10
+	
+		prerequisite = { focus = QUE_industrialize_the_north }
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			466 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			468 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = QUE_caisse_de_depot # Creation of the Caisse de depot
+		icon = GFX_goal_generic_construct_naval_dockyard
+		x = 8
+		y = 5
+		cost = 10
+	
+		prerequisite = { focus = QUE_quebec_railway }
+		prerequisite = { focus = QUE_anticosti_island }
+		prerequisite = { focus = QUE_sorel_development }
+		
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			468 = {
+				add_extra_state_shared_building_slots = 3
+
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = QUE_industrial_revolution # Industrial Revolution
+		icon = GFX_goal_generic_production
+		x = 8
+		y = 6
+		cost = 10
+	
+		prerequisite = { focus = QUE_caisse_de_depot }
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			remove_ideas = que_french_knowledge_idea
+			add_ideas = que_industrial_revolution_idea
+			466 = {
+				add_extra_state_shared_building_slots = 6
+				hidden_effect = { add_manpower = 300000 }
+			}
+			468 = {
+				hidden_effect = { add_manpower = -300000 }
+			}
+			custom_effect_tooltip = que_population_migrates_north
+		}
+	}
+	
+	focus = {
+		id = QUE_industrial_ingenuity # Industrial Ingenuity
+		icon = GFX_goal_generic_scientific_exchange
+		x = 8
+		y = 7
+		cost = 10
+	
+		prerequisite = { focus = QUE_industrial_revolution }
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+	
+	focus = {
+		id = QUE_expand_valcartier # Expand Valcartier
+		icon = GFX_goal_generic_construct_mil_factory
+		x = 10
+		y = 1
+		cost = 10
+	
+		prerequisite = { focus = QUE_rochette_plan focus = QUE_drouin_plan }
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			add_tech_bonus = {
+				name = infantry_weapons_bonus
+				bonus = 0.5
+				uses = 1
+				category = infantry_weapons
+			}
+			466 = {
+				add_extra_state_shared_building_slots = 1
+
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = QUE_citadelle_of_quebec # Citadelle of Quebec
+		icon = GFX_goal_generic_fortify_city
+		x = 10
+		y = 2
+		cost = 10
+	
+		prerequisite = { focus = QUE_expand_valcartier }
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			468 = {
+				add_building_construction = {
+					type = bunker
+					level = 5
+					province = 12149
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					level = 5
+					province = 12149
+					instant_build = yes
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = QUE_sorel_development # Sorel Development
+		icon = GFX_goal_generic_military_sphere
+		x = 10
+		y = 3
+		cost = 10
+	
+		prerequisite = { focus = QUE_citadelle_of_quebec }
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			#add_ideas = que_sorel_tracy_idea
+			466 = {
+				add_extra_state_shared_building_slots = 2
+
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = QUE_military_college # Military College of Trois-Rivieres
+		icon = GFX_goal_rhineland
+		x = 10
+		y = 4
+		cost = 10
+	
+		prerequisite = { focus = QUE_sorel_development }
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			add_tech_bonus = {
+				name = support_tech_bonus
+				bonus = 0.5
+				uses = 2
+				category = support_tech
+			}
+			468 = {
+				add_extra_state_shared_building_slots = 1
+
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	
+	## MILITARY
+	##
+
+	focus = {
+		id = QUE_quebec_national_forces # Quebecois Militia
+		icon = GFX_goal_generic_military_sphere
+		x = 15
+		y = 0
+		cost = 10
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			add_tech_bonus = {
+				name = infantry_weapons_bonus
+				bonus = 0.5
+				uses = 1
+				category = infantry_weapons
+				category = artillery
+			}
+		}
+	}
+	
+	focus = {
+		id = QUE_inuit_and_first_nations # The Inuit and First Nations Pact
+		icon = GFX_goal_generic_national_unity
+		x = 12
+		y = 1
+		cost = 10
+		
+		prerequisite = {  focus = QUE_quebec_national_forces }
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			add_political_power = 120
+		}
+	}
+	
+	focus = {
+		id = QUE_fulfill_promises # Fulfill the Promises
+		icon = GFX_goal_molotov_ribbentrop_pact
+		x = 12
+		y = 2
+		cost = 10
+		
+		prerequisite = {  focus = QUE_inuit_and_first_nations }
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			466 = {
+				add_manpower = 10000
+			}
+			add_manpower = 10000
+			add_national_unity = 0.1
+		}
+	}
+
+	focus = {
+		id = QUE_political_asylum # Political Asylum
+		icon = GFX_goal_generic_improve_relations
+		x = 12
+		y = 3
+		cost = 10
+		
+		prerequisite = {  focus = QUE_fulfill_promises }
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			468 = {
+				add_manpower = 70000
+			}
+		}
+	}
+	
+	focus = {
+		id = QUE_welcome_refugees # A New Home
+		icon = GFX_goal_generic_major_alliance
+		x = 12
+		y = 4
+		cost = 10
+		
+		prerequisite = {  focus = QUE_political_asylum }
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			468 = {
+				add_manpower = 90000
+			}
+		}
+	}
+	
+	focus = {
+		id = QUE_support_france # Support France
+		icon = GFX_goal_generic_military_deal
+		x = 12
+		y = 5
+		cost = 10
+		
+		available = {
+			NOT = { FRA = { has_war_with = QUE } }
+			AND = {
+				16 = { controller = { NOT = { tag = FRA } } } # Paris
+				16 = { controller = { NOT = { original_tag = FRA } } } # Paris
+			}
+		}
+		
+		prerequisite = {  focus = QUE_welcome_refugees }
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			468 = {
+				add_manpower = 120000
+			}
+			# Idea or Advisor?
+		}
+	}
+	
+	focus = {
+		id = QUE_huot_automatic_rifle # Huot Automatic Rifle
+		icon = GFX_goal_generic_small_arms
+		x = 14
+		y = 1
+		cost = 10
+		
+		prerequisite = {  focus = QUE_quebec_national_forces }
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			add_ideas = joseph_hout
+			add_tech_bonus = {
+				name = infantry_weapons_bonus
+				bonus = 0.5
+				uses = 1
+				category = infantry_weapons
+			}
+		}
+	}
+	
+	focus = {
+		id = QUE_french_officers # French Officer Training
+		icon = GFX_goal_generic_cavalry
+		x = 14
+		y = 2
+		cost = 10
+		
+		prerequisite = {  focus = QUE_huot_automatic_rifle }
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			add_tech_bonus = {
+				name = land_doc_bonus
+				bonus = 0.5
+				uses = 1
+				category = land_doctrine
+			}
+			army_experience = 20
+		}
+	}
+	
+	focus = {
+		id = QUE_engineer_spirit # Engineer spirit
+		icon = GFX_goal_generic_construction2
+		x = 14
+		y = 3
+		cost = 10
+		
+		prerequisite = {  focus = QUE_french_officers }
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			add_tech_bonus = {
+				name = support_tech_bonus
+				bonus = 0.5
+				uses = 2
+				category = support_tech
+			}
+			army_experience = 20
+		}
+	}
+	
+	focus = {
+		id = QUE_army_theory # Trois-Rivieres Theories
+		icon = GFX_goal_generic_army_doctrines
+		x = 14
+		y = 4
+		cost = 10
+		
+		prerequisite = {  focus = QUE_engineer_spirit }
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			add_tech_bonus = {
+				name = land_doc_bonus
+				bonus = 0.5
+				uses = 2
+				category = land_doctrine
+			}
+			army_experience = 30
+		}
+	}
+	
+	focus = {
+		id = QUE_commandos # Commandos
+		icon = GFX_goal_generic_special_forces
+		x = 14
+		y = 5
+		cost = 10
+		
+		prerequisite = {  focus = QUE_army_theory }
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			add_tech_bonus = {
+				name = special_forces_bonus
+				bonus = 0.5
+				uses = 2
+				technology = paratroopers
+				technology = paratroopers2
+				technology = marines
+				technology = marines2
+				technology = tech_mountaineers
+				technology = tech_mountaineers2
+			}
+			army_experience = 40
+		}
+	}
+	
+	focus = {
+		id = QUE_bombardier_limited # L'Auto-Neige Bombardier Limitee
+		icon = GFX_goal_generic_construct_mil_factory
+		x = 17
+		y = 1
+		cost = 10
+		
+		prerequisite = {  focus = QUE_quebec_national_forces }
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			add_tech_bonus = {
+				name = motorized_bonus
+				bonus = 0.75
+				uses = 1
+				technology = motorised_infantry
+			}
+			add_tech_bonus = {
+				name = naval_bomber_bonus
+				bonus = 0.5
+				uses = 1
+				category = naval_bomber
+			}
+		}
+	}
+	
+	focus = {
+		id = QUE_bombardier_b12 # Adaptable Snowmobiles
+		icon = GFX_goal_generic_army_motorized
+		x = 16
+		y = 2
+		cost = 10
+		
+		prerequisite = {  focus = QUE_bombardier_limited }
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			add_ideas = can_winter_bonus
+			add_tech_bonus = {
+				name = motorized_bonus
+				bonus = 0.75
+				uses = 1
+				category = motorized_equipment
+			}
+		}
+	}
+
+	focus = {
+		id = QUE_montreal_locomotive_works # Montreal Locomotive Works
+		icon = GFX_goal_generic_army_artillery
+		x = 16
+		y = 3
+		cost = 10
+		
+		prerequisite = {  focus = QUE_bombardier_b12 }
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			add_tech_bonus = {
+				name = artillery_bonus
+				bonus = 0.5
+				uses = 2
+				category = artillery
+			}
+		}
+	}
+	
+	focus = {
+		id = QUE_light_tanks # Light Army, Light Tanks
+		icon = GFX_goal_generic_build_tank
+		x = 16
+		y = 4
+		cost = 10
+		
+		prerequisite = {  focus = QUE_montreal_locomotive_works }
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			add_tech_bonus = {
+				name = light_armor_bonus
+				bonus = 0.5
+				uses = 2
+				category = cat_light_armor
+			}	
+		}
+	}
+	
+	focus = {
+		id = QUE_grand_strategy # Grand Strategy
+		icon = GFX_goal_generic_attack_allies
+		x = 17
+		y = 5
+		cost = 10
+		
+		prerequisite = {  focus = QUE_light_tanks }
+		prerequisite = {  focus = QUE_rule_the_skies }
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			add_tech_bonus = {
+				name = land_doc_bonus
+				bonus = 0.5
+				uses = 2
+				category = land_doctrine
+			}
+			add_tech_bonus = {
+				name = air_doc_bonus
+				bonus = 0.5
+				uses = 2
+				category = air_doctrine
+			}
+		}
+	}
+	
+	focus = {
+		id = QUE_naval_bombing # Bomb Their Ships
+		icon = GFX_goal_generic_air_naval_bomber
+		x = 18
+		y = 2
+		cost = 10
+		
+		prerequisite = {  focus = QUE_bombardier_limited }
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			add_tech_bonus = {
+				name = naval_bomber_bonus
+				bonus = 0.5
+				uses = 1
+				category = naval_bomber
+			}
+			add_tech_bonus = {
+				name = air_doc_bonus
+				bonus = 0.5
+				uses = 2
+				category = air_doctrine
+			}
+		}
+	}
+	
+	focus = {
+		id = QUE_tac_bomber # Cut Them Off
+		icon = GFX_goal_generic_occupy_start_war
+		x = 18
+		y = 3
+		cost = 10
+		
+		prerequisite = {  focus = QUE_naval_bombing }
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			add_tech_bonus = {
+				name = tac_bomber_bonus
+				bonus = 0.5
+				uses = 1
+				category = tactical_bomber
+			}
+			add_tech_bonus = {
+				name = air_doc_bonus
+				bonus = 0.5
+				uses = 2
+				category = air_doctrine
+			}
+		}
+	}
+	
+	focus = {
+		id = QUE_rule_the_skies # Rule the Skies
+		icon = GFX_goal_generic_air_fighter
+		x = 18
+		y = 4
+		cost = 10
+		
+		prerequisite = {  focus = QUE_tac_bomber }
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			add_tech_bonus = {
+				name = fighter_command_focus
+				bonus = 0.5
+				uses = 2
+				category = light_fighter
+			}
+		}
+	}
+	
+	focus = {
+		id = QUE_quebec_national_army # Quebec National Army
+		icon = GFX_goal_generic_demand_territory
+		x = 13
+		y = 7
+		cost = 10
+
+		prerequisite = {  focus = QUE_grand_strategy }
+		prerequisite = {  focus = QUE_commandos }
+		prerequisite = {  focus = QUE_welcome_refugees }
+		
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			army_experience = 100
+			add_ideas = que_spirit_of_quebec_idea
+		}
+	}
+}
+
