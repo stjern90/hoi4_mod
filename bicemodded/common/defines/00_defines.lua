@@ -570,7 +570,7 @@ NAir = {
 	LEND_LEASED_EQUIPMENT_EXPERIENCE_GAIN = 0.5,		-- Value used for equipment
 	ANTI_AIR_PLANE_DAMAGE_FACTOR = 0.5,					-- Anti Air Gun Damage factor
 	ANTI_AIR_PLANE_DAMAGE_CHANCE = 0.5,					-- Anti Air Gun hit chance
-	AIR_DEPLOYMENT_DAYS = 5,							-- Days to deploy one air wing
+	AIR_DEPLOYMENT_DAYS = 2,							-- Days to deploy one air wing
 	PORT_STRIKE_ENEMY_SUPERIORITY_LIMIT = 0.3,			-- Min air superiority for performing of naval strike
 	NAVAL_STRIKE_BASE_STR_TO_PLANES_RATIO = 0.1,		-- Max airbombers to do port strike comparing to strength
 	NAVAL_COMBAT_EXTERNAL_PLANES_JOIN_RATIO = 0.05,		-- Max planes that can join a combat comparing to the total strength of the ships
@@ -773,15 +773,15 @@ NAI = {
 	PRODUCTION_UNAVAILABLE_RESORCE_FACTORY_FACTOR = 1.0, -- Assign/queue this proportion of desired factories when resources are short 
 	PRODUCTION_EQUIPMENT_SURPLUS_FACTOR = 0.25,	-- Base value for how much of currently used equipment the AI will at least strive to have in stock
 	AIR_CONTROLLED_TERRITORY_INTERCEPT_SCORE = 6,-- Interception score per controlled state in mission region
-	AIR_ALLY_TERRITORY_INTERCEPT_SCORE = -4000,	-- Interception score per ally controlled state in mission region
+	AIR_ALLY_TERRITORY_INTERCEPT_SCORE = -400,	-- Interception score per ally controlled state in mission region
 	INTERCEPT_NAVAL_BOMBING_FACTOR = 35.0,		-- Factors the weight of intercepting naval bombers in sea regions where friendly ships are
-	AIR_CAS_SCORE_FACTOR = 500.0,				-- Factor applied to (friendly units) x (enemy units)) to get CAS score for region
+	AIR_CAS_SCORE_FACTOR = 25.0,				-- Factor applied to (friendly units) x (enemy units)) to get CAS score for region
 	AIR_ENEMY_SUPERIORITY_FACTOR = 5.0,			-- How much enemy air superiority counts relative to own
-	AIR_SUPERIORITY_FACTOR = -5000.0 ,				-- Factor for air superiority score
-	AIR_MIN_ASSIGN_SCORE = 0,					-- Minimum total score for region to be considered for air missions
+	AIR_SUPERIORITY_FACTOR = 2.5,				-- Factor for air superiority score
+	AIR_MIN_ASSIGN_SCORE = 5,					-- Minimum total score for region to be considered for air missions
 	AIR_MIN_REASSIGN_SCORE = 25,				-- Minimum total score for region to be considered for reassigning air missions
 	AIR_WING_SIZE_FACTOR = 1.0,					-- Impact on air score of assigning wings to mission
-	AIR_MISSION_MIN_COVEREAGE = 0.1,			-- Between 0 and 1, limit for % coverage for air mission to be considered
+	AIR_MISSION_MIN_COVEREAGE = 0.2,			-- Between 0 and 1, limit for % coverage for air mission to be considered
 	AIR_BASE_PRIORITY_DISTANCE_FACTOR = 25.0,	-- Weight of distance between region and airbase for airbase priority score
 	MAX_VOLUNTEER_ARMY_FRACTION = 0.25,			-- Countries will not send more than their forces time this number to aid another country
 	WANTED_UNITS_INDUSTRY_FACTORY = 0.0, 		-- How many units a country wants is partially based on how much military industry that is available
@@ -800,7 +800,7 @@ NAI = {
 	VP_GARRISON_VALUE_FACTOR = 0.6,				-- Extent to which VP garrisons are prioritized, based on VP value and compared to other priority values.
 	PLAN_VALUE_TO_EXECUTE = -0.71,				-- AI will typically avoid carrying out a plan it below this value (0.0 is considered balanced).
 	DECLARE_WAR_NOT_NEIGHBOR_FACTOR = 0.25,		-- Multiplier applied before force factor if country is not neighbor with the one it is considering going to war
-	CALL_ALLY_BASE_DESIRE = 20,					-- exactly what it says
+	CALL_ALLY_BASE_DESIRE = 10,					-- exactly what it says
 	CALL_ALLY_DEMOCRATIC_DESIRE = 50,			-- Desire to call ally added for democratic AI
 	CALL_ALLY_NEUTRAL_DESIRE = 25,				-- Desire to call ally added for neutral AI
 	CALL_ALLY_FASCIST_DESIRE = -10,				-- Desire to call ally added for fascist AI
@@ -916,7 +916,7 @@ NAI = {
 	
 	NUM_AI_MESSAGES = 10,								-- Set to whatever category has the highest number of messages
 
-	DIPLOMACY_FACTION_WAR_WANTS_HELP = 50,				-- Desire to send to nations to join a faction if you are at war
+	DIPLOMACY_FACTION_WAR_WANTS_HELP = 30,				-- Desire to send to nations to join a faction if you are at war
 	DIPLOMACY_FACTION_CIVILWAR_WANTS_HELP = -50,
 	FACTION_UNSTABLE_ACCEPTANCE = -100,
 	DIPLOMACY_AT_WAR_WITH_ALLY_RELUCTANCE = -1000,
@@ -927,14 +927,14 @@ NAI = {
 	SHIPS_PRODUCTION_BASE_COST = 10000,					-- Used by the AI to normalize IC values when picking what ship to build.
 	NEEDED_NAVAL_FACTORIES_EXPENSIVE_SHIP_BONUS = 8,   -- Amount of naval yards you need to get a bonus to building really expensive ships
 
-	AIR_WING_REINFORCEMENT_LIMIT = 100,				-- number of aircraft needed for reserves before the ai will deploy more, I think.
+	AIR_WING_REINFORCEMENT_LIMIT = 200,				-- number of aircraft needed for reserves before the ai will deploy more, I think.
 	AIR_BASE_DANGER_ZONE_WEIGHT = 0,					-- Score used per province taken by enemy in a state to determine how dangerous it is to use an air base
 
 	MANPOWER_FREE_USAGE_THRESHOLD = 90000,				-- If AI has this much manpower he doesn't care about the percentage
 	MANPOWER_RESERVED_THRESHOLD = 0.7,					-- The AI will not deploy more units if he goes below this percentage
 	START_TRAINING_EQUIPMENT_LEVEL = 0.97,               -- ai will not start to train if equipment drops below this level
 	STOP_TRAINING_EQUIPMENT_LEVEL = 0.95,                -- ai will not train if equipment drops below this level
-	BUILD_REFINERY_LACK_OF_RESOURCE_MODIFIER = 0.003,	-- How much lack of resources are worth when evaluating what to build.
+	BUILD_REFINERY_LACK_OF_RESOURCE_MODIFIER = 0.006,	-- How much lack of resources are worth when evaluating what to build.
 	DIVISION_DESIGN_WEIGHTS = {							-- Base values used by AI to evaluate value of a stat
 		-- Army Values
 		0.5,   -- default_morale
@@ -1076,7 +1076,7 @@ NAI = {
 	MIN_FIELD_STRENGTH_TO_BUILD_UNITS = 0.94,			-- Cancel unit production if below this to get resources out to units in the field
 	MIN_MANPOWER_TO_BUILD_UNITS = 0.1,					-- Cancel unit production if below this to get resources out to units in the field
 	
-	AVERAGE_SUPPLY_USE_PESSIMISM = 1.4,					-- Multiplier for when AI calculates average supply use of entire army.
+	AVERAGE_SUPPLY_USE_PESSIMISM = 1.5,					-- Multiplier for when AI calculates average supply use of entire army.
 },
 
 NFocus = {
