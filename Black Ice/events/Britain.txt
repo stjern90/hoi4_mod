@@ -42,6 +42,21 @@ country_event = {
 			country_event = { days = 1 id = britain.3 }
 		}
 	}
+
+	option = {
+		name = britain.1.c	#tech_sharing
+		trigger = { has_dlc = "Together for Victory"}
+		ai_chance = { factor = 90 }
+		add_political_power = -10
+		ENG = {
+			country_event = { days = 1 id = britain.21 }
+			add_opinion_modifier = {
+				target = ROOT
+				modifier = tizard_relations
+			}
+		}
+		add_to_tech_sharing_group = tizard_mission
+	}
 }
 # USA helps
 country_event = {
@@ -209,6 +224,7 @@ country_event = {
 	trigger = {
 		tag = ENG
 		has_war = yes
+		has_government = democratic
 		NOT = {
 			has_completed_focus = uk_scandinavian_focus
 		}
@@ -220,15 +236,28 @@ country_event = {
 				NOT = { is_in_faction_with = GER }
 			}
 		}
+		NOT = { has_country_flag = chamberlain_died }
 	}
 
 	mean_time_to_happen = {
 		days = 40
 	}
+
+	immediate = { set_country_flag = chamberlain_resigned }
 	
 	option = {
 		name = britain.9.a
 		retire_country_leader = yes
+		create_country_leader = {
+			name = "Winston Churchill"
+			desc = "POLITICS_WINSTON_CHURCHILL_DESC"
+			picture = "Portrait_Britain_Winston_Churchill.dds"
+			expire = "1965.1.1"
+			ideology = conservatism
+			traits = {
+	
+			}
+		}
 		add_national_unity = 0.1
 		set_country_flag = chamberlain_resigned
 	}
@@ -253,6 +282,8 @@ country_event = {
 		days = 30
 	}
 	
+	immediate = { set_country_flag = chamberlain_died }
+
 	option = {
 		name = britain.10.a
 		kill_country_leader = yes
@@ -287,9 +318,8 @@ country_event = {
 	
 	option = {
 		name = britain.11.a
-		every_country = {
+		every_other_country = {
 			limit = {
-				NOT = { tag = ENG }
 				NOT = { has_war_with = ENG }
 				is_in_faction = no
 				has_government = democratic
@@ -304,8 +334,8 @@ country_event = {
 					num_of_factories > 30
 				}
 			}
-			country_event = britain.12
 		}
+		 country_event = britain.12
 	}
 	
 	option = {
@@ -679,77 +709,58 @@ country_event = {
 		}
 	}
 }
-#########################1st Armoured Division 1937
 country_event = {
 	id = britain.21
 	title = britain.21.t
 	desc = britain.21.d
-	picture = GFX_report_event__1st_armored
+	picture = GFX_report_event_physics_lab_02
 
-	fire_only_once = yes
-	
-	trigger = {
-		tag = ENG
-		not = { has_country_flag = first_armored_div }
-		date > 1937.1.1 	
-		126 = { is_controlled_by = ENG }
-	}
-	
-	mean_time_to_happen = {
-		days = 1
-	}
+	is_triggered_only = yes
 	
 	option = {
 		name = britain.21.a
-		ai_chance = { factor = 100 }
-		
-		hidden_effect = {
-			set_technology = { tech_cruiser_tank_equipment_1 = 1 }
-			set_technology = { interwar_antitank = 1}
-			load_oob = "ENG_1st_Armored_Division"	#6103
-			set_country_flag = first_armored_div
+		add_to_tech_sharing_group = tizard_mission
+		USA = {
+			add_opinion_modifier = { target = ENG modifier = tizard_relations }
 		}
-	}
-	option = {
-		name = britain.21.b	#refuse
-		ai_chance = { factor = 0 }
-		set_country_flag = first_armored_div
 	}
 }
-#####################7th Armoured Division sept 1938
-country_event = {
-	id = britain.22
-	title = britain.22.t
-	desc = britain.22.d
-	picture = GFX_report_event_7_armored
 
-	fire_only_once = yes
-	
-	trigger = {
-		tag = ENG
-		not = { has_country_flag = seven_armored_div }
-		date > 1938.9.1 	
-		447 = { is_controlled_by = ENG }
-	}
-	
-	mean_time_to_happen = {
-		days = 1
-	}
-	
-	option = {
-		name = britain.22.a
-		ai_chance = { factor = 100 }
-		
-		hidden_effect = {
-			load_oob = "ENG_7th_Armored_Division"	#4076
-			set_country_flag = seven_armored_div
-		}
-	}
-	option = {
-		name = britain.22.b	#refuse
-		ai_chance = { factor = 0 }
-		set_country_flag = seven_armored_div
-	}
+# Stanley Baldwin Resigns
+country_event = {
+    id = britain.22
+    title = britain.22.t
+    desc = britain.22.d
+    picture = GFX_report_event_royal_parade
+ 
+    fire_only_once = yes
+ 
+    trigger = {
+        original_tag = ENG
+        has_government = democratic
+        date > 1937.5.27
+        has_start_date < 1936.01.02
+        NOT = { has_country_flag = king_stays }
+    }
+
+    mean_time_to_happen = {
+        days = 7
+    }
+
+    option = {
+        name = britain.22.a
+        retire_country_leader = yes
+        create_country_leader = {
+        	name = "Neville Chamberlain"
+        	desc = "POLITICS_NEVILLE_CHAMBERLAIN_DESC"
+        	picture = "Portrait_Britain_Neville_Chamberlain.dds"
+        	expire = "1965.1.1"
+        	ideology = liberalism
+        	traits = {
+        	}
+        }
+        set_country_flag = baldwin_resigned
+      }
 }
 ################### 45th (2nd Wessex) - april 1939
 country_event = {
@@ -1154,6 +1165,78 @@ country_event = {
 		name = britain.33.b	#refuse
 		ai_chance = { factor = 0 }
 		set_country_flag = east_indies_II
+	}
+}
+#########################1st Armoured Division 1937
+country_event = {
+	id = britain.34
+	title = britain.34.t
+	desc = britain.34.d
+	picture = GFX_report_event__1st_armored
+
+	fire_only_once = yes
+	
+	trigger = {
+		tag = ENG
+		not = { has_country_flag = first_armored_div }
+		date > 1937.1.1 	
+		126 = { is_controlled_by = ENG }
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = britain.34.a
+		ai_chance = { factor = 100 }
+		
+		hidden_effect = {
+			set_technology = { tech_cruiser_tank_equipment_1 = 1 }
+			set_technology = { interwar_antitank = 1}
+			load_oob = "ENG_1st_Armored_Division"	#6103
+			set_country_flag = first_armored_div
+		}
+	}
+	option = {
+		name = britain.34.b	#refuse
+		ai_chance = { factor = 0 }
+		set_country_flag = first_armored_div
+	}
+}
+#####################7th Armoured Division sept 1938
+country_event = {
+	id = britain.35
+	title = britain.35.t
+	desc = britain.35.d
+	picture = GFX_report_event_7_armored
+
+	fire_only_once = yes
+	
+	trigger = {
+		tag = ENG
+		not = { has_country_flag = seven_armored_div }
+		date > 1938.9.1 	
+		447 = { is_controlled_by = ENG }
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = britain.35.a
+		ai_chance = { factor = 100 }
+		
+		hidden_effect = {
+			load_oob = "ENG_7th_Armored_Division"	#4076
+			set_country_flag = seven_armored_div
+		}
+	}
+	option = {
+		name = britain.35.b	#refuse
+		ai_chance = { factor = 0 }
+		set_country_flag = seven_armored_div
 	}
 }
 ### EOF ###

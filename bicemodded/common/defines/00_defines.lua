@@ -725,7 +725,7 @@ NAI = {
 	GARRISON_FRACTION = 0.0, 					-- DNM, vanilla is 0, and apparently this screws with the AI (shuffling troops to and from fronts) -- How large part of a front should always be holding the line rather than advancing at the enemy
 	
 	DIPLOMATIC_ACTION_GOOD_BAD_RATIO_THRESHOLD = 1,
-	BASE_RELUCTANCE = 50, 						-- Base reluctance applied to all diplomatic offers
+	BASE_RELUCTANCE = 35, 						-- Base reluctance applied to all diplomatic offers
 	DIPLOMATIC_ACTION_RANDOM_FACTOR = 0.5, 		-- How much of the AI diplomatic action scoring is randomly determined (1.0 = half random, 2.0 = 2/3rd random, etc)
 	DIPLOMATIC_ACTION_PROPOSE_SCORE = 60, 		-- AI must score a diplomatic action at least this highly to propose it themselves
 	DILPOMATIC_ACTION_DECLARE_WAR_WARGOAL_BASE = 60, -- Base diplomatic action score bonus to go to war per wargoal
@@ -782,7 +782,7 @@ NAI = {
 	AIR_MIN_REASSIGN_SCORE = 15,				-- Minimum total score for region to be considered for reassigning air missions
 	AIR_WING_SIZE_FACTOR = 1.0,					-- Impact on air score of assigning wings to mission
 	AIR_MISSION_MIN_COVEREAGE = 0.2,			-- Between 0 and 1, limit for % coverage for air mission to be considered
-	AIR_BASE_PRIORITY_DISTANCE_FACTOR = 20.0,	-- Weight of distance between region and airbase for airbase priority score
+	AIR_BASE_PRIORITY_DISTANCE_FACTOR = 7.0,	-- Weight of distance between region and airbase for airbase priority score
 	MAX_VOLUNTEER_ARMY_FRACTION = 0.25,			-- Countries will not send more than their forces time this number to aid another country
 	WANTED_UNITS_INDUSTRY_FACTORY = 0.0, 		-- How many units a country wants is partially based on how much military industry that is available
 	DEPLOY_MIN_TRAINING_PEACE_FACTOR = 0.95,		-- Required percentage of training (1.0 = 100%) for AI to deploy unit in peacetime
@@ -798,7 +798,7 @@ NAI = {
 	UPGRADE_XP_RUSH_UPDATE = 400,				-- If XP is above this on the daily tick the AI will attempt to spend it
 	FOCUS_TREE_CONTINUE_FACTOR = 1,			-- Factor for score of how likely the AI is to keep going down a focus tree rather than starting a new path.
 	VP_GARRISON_VALUE_FACTOR = 0.6,				-- Extent to which VP garrisons are prioritized, based on VP value and compared to other priority values.
-	PLAN_VALUE_TO_EXECUTE = -0.71,				-- AI will typically avoid carrying out a plan it below this value (0.0 is considered balanced).
+	PLAN_VALUE_TO_EXECUTE = -0.51,				-- AI will typically avoid carrying out a plan it below this value (0.0 is considered balanced).
 	DECLARE_WAR_NOT_NEIGHBOR_FACTOR = 0.25,		-- Multiplier applied before force factor if country is not neighbor with the one it is considering going to war
 	CALL_ALLY_BASE_DESIRE = 10,					-- exactly what it says
 	CALL_ALLY_DEMOCRATIC_DESIRE = 50,			-- Desire to call ally added for democratic AI
@@ -916,7 +916,7 @@ NAI = {
 	
 	NUM_AI_MESSAGES = 10,								-- Set to whatever category has the highest number of messages
 
-	DIPLOMACY_FACTION_WAR_WANTS_HELP = 30,				-- Desire to send to nations to join a faction if you are at war
+	DIPLOMACY_FACTION_WAR_WANTS_HELP = 40,				-- Desire to send to nations to join a faction if you are at war
 	DIPLOMACY_FACTION_CIVILWAR_WANTS_HELP = -50,
 	FACTION_UNSTABLE_ACCEPTANCE = -100,
 	DIPLOMACY_AT_WAR_WITH_ALLY_RELUCTANCE = -1000,

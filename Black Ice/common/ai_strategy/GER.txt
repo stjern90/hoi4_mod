@@ -9,26 +9,224 @@
 # garrison
 # protect
 # influence
+# contain
+# area_priority
 
-war_with_france = {
+
+GER_unit_production = {
 	enable = {
-		tag = GER
-		has_completed_focus = GER_war_with_france
-		country_exists = FRA
+		original_tag = GER
 	}
 	abort = {
-		NOT = { country_exists = FRA }
+		always = no
+	}
+
+	ai_strategy = {
+		type = unit_base
+		id = paratroopers
+		value = 0
+	}
+
+	ai_strategy = {
+		type = unit_base
+		id = mountaineers
+		value = 0
+	}
+
+	ai_strategy = {
+		type = unit_base
+		id = marines
+		value = 0
+	}
+
+	ai_strategy = {
+		type = unit_base
+		id = cavalry
+		value = 0
+	}
+
+	ai_strategy = {
+		type = unit_base
+		id = motorized
+		value = 0 #5 to 0
+	}
+
+	ai_strategy = {
+		type = unit_base
+		id = mechanized
+		value = 0 #3 to 0
+	}
+
+	ai_strategy = {
+		type = unit_base
+		id = armor
+		value = 1 #Reducing value 20 to 2
+	}
+
+	ai_strategy = {
+		type = unit_base
+		id = infantry
+		value = 95 # Since all other values are 0 this means 100% #Increasing the value from 75 to 95
+	}
+
+	ai_strategy = {
+		type = unit_base
+		id = fighter
+		value = 5 
+	}
+
+	# These values are used only by when evaluating for producing factories
+	ai_strategy = {
+		type = unit_base
+		id = capital_ship
+		value = 3
+	}
+
+	ai_strategy = {
+		type = unit_base
+		id = submarine
+		value = 3
+	}
+
+	ai_strategy = {
+		type = unit_base
+		id = screen_ship
+		value = 3
+	}
+
+	ai_strategy = {
+		type = unit_base
+		id = convoy
+		value = 3
 	}
 	
 	ai_strategy = {
-		type = antagonize
-		id = "FRA"
-		value = 200
+		type = equipment_production_factor
+		id = fighter
+		value = 75 #Original value multiplied by 3
 	}
 	ai_strategy = {
-		type = conquer
-		id = "FRA"
-		value = 200
+		type = equipment_production_factor
+		id = infantry
+		value = 60 #Original value multiplied by 3
+	}
+}
+
+GER_motorized_production = {
+	enable = {
+		original_tag = GER
+		ai_wants_divisions > 4 #Decreasing the amount of motorized the AI wants
+	}
+	abort = {
+		ai_wants_divisions < 5 #Decreasing the amount of motorized the AI wants
+	}
+
+	ai_strategy = {
+		type = unit_base
+		id = motorized
+		value = 0
+	}
+}
+
+GER_mechanized_production = {
+	enable = {
+		original_tag = GER
+		ai_wants_divisions > 4 #Decreasing the amount of mechanized the AI wants
+	}
+	abort = {
+		ai_wants_divisions < 5 #Decreasing the amount of mechanized the AI wants
+	}
+
+	ai_strategy = {
+		type = unit_base
+		id = mechanized
+		value = 0
+	}
+}
+
+GER_armored_production = {
+	enable = {
+		original_tag = GER
+		ai_wants_divisions > 24 #Decreasing the amount of tanks the AI wants
+	}
+	abort = {
+		ai_wants_divisions < 25 #Decreasing the amount of tanks the AI wants
+	}
+
+	ai_strategy = {
+		type = unit_base
+		id = armor
+		value = 2
+	}
+}
+
+GER_highered_armored_production = {
+	enable = {
+		original_tag = GER
+		num_of_military_factories > 149
+	}
+	abort = {
+		num_of_military_factories < 150
+	}
+
+	ai_strategy = {
+		type = unit_base
+		id = armor
+		value = 5
+	}
+}
+
+
+germany_loves_tanks = {
+	enable = {
+		original_tag = GER
+		date > 1937.1.1
+	}
+	
+	ai_strategy = {
+		type = template_prio
+		id = medium_armor
+		value = 50
+	}
+	
+	ai_strategy = {
+		type = template_prio
+		id = light_armor
+		value = 50
+	}
+}
+
+less_trucks_4_u_GER = {
+	enable = {
+		original_tag = GER
+		date < 1940.1.1				
+	}
+	abort = { 
+		date > 1940.1.1
+	}
+	
+	ai_strategy = { 
+		type = unit_base
+		id = motorized 
+		value = -5 
+	}
+
+	ai_strategy = {
+		type = template_prio
+		id = motorized
+		value = -50
+	}
+	
+	ai_strategy = {
+		type = template_prio
+		id = cavalry
+		value = -100
+	}
+
+	ai_strategy = {
+		type = template_prio
+		id = infantry
+		value = 50
 	}
 }
 
@@ -113,13 +311,29 @@ war_with_soviets = {
 	ai_strategy = {
 		type = antagonize
 		id = "SOV"			
-		value = 300
+		value = 200
+	}
+}
+
+soviet_ally = {
+	enable = {
+		tag = GER
+		has_completed_focus = GER_soviet_ally
+		country_exists = SOV
+	}
+	abort = {
+		NOT = { country_exists = SOV }
 	}
 	ai_strategy = {
-		type = conquer
+		type = befriend
 		id = "SOV"			
-		value = 300
+		value = 200
 	}
+	ai_strategy = {
+		type = alliance
+		id = "SOV"			
+		value = 200
+	}	
 }
 
 #soviet_ally = {
@@ -426,19 +640,133 @@ play_nice_with_ribbentrop_pact = {
 	
 	# leave britney alone!
 	ai_strategy = {
-		type = antagonize
+		type = ignore
 		id = "LIT"
-		value = -300
+		value = 100
 	}
 	ai_strategy = {
-		type = antagonize
+		type = ignore
 		id = "LAT"
-		value = -300
+		value = 100
 	}
 	ai_strategy = {
-		type = antagonize
+		type = ignore
 		id = "EST"
-		value = -300
+		value = 100
 	}
 }
 
+tfv_protect_fascist_south_africa = {
+	enable = {
+		original_tag = GER
+		has_country_flag = saf_fascist_uprising # Set from the national focus
+	}
+	abort = {
+		surrender_progress > 0.8
+		SAF = { has_civil_war = no }
+	}
+	
+	ai_strategy = {
+		type = protect
+		id = "SAF"
+		value = 200
+	}
+	ai_strategy = {
+		type = send_volunteers_desire
+		id = "SAF"
+		value = 200
+	}
+	ai_strategy = {
+		type = alliance
+		id = "SAF"
+		value = 200
+	}
+}
+
+less_naval_focused_nation = {
+	enable = {
+		tag = GER
+		date < "1936.1.1" #Don't Germany, just dont
+	}
+	abort = {		
+		date > "1943.1.1" #Don't Germany, just dont, if you haven't already won
+	}
+
+	ai_strategy = {
+		type = unit_base
+		id = capital_ship
+		value = -1
+	}
+
+	ai_strategy = {
+		type = unit_base
+		id = submarine
+		value = -1
+	}
+
+	ai_strategy = {
+		type = unit_base
+		id = screen_ship
+		value = -1
+	}
+
+	ai_strategy = {
+		type = unit_base
+		id = convoy
+		value = -1
+	}
+}
+
+GER_area_priority = {
+	enable = {
+		original_tag = GER
+	}
+
+	ai_strategy = {
+		type = area_priority
+		id = europe
+		value = 110 #more focus here
+	}
+	
+	ai_strategy = {
+		type = area_priority
+		id = north_america
+		value = 100
+	}
+	
+	ai_strategy = {
+		type = area_priority
+		id = south_america
+		value = 75
+	}
+	
+	ai_strategy = {
+		type = area_priority
+		id = asia
+		value = 75
+	}
+	
+	ai_strategy = {
+		type = area_priority
+		id = middle_east
+		value = 50
+	}
+	
+	ai_strategy = {
+		type = area_priority
+		id = africa
+		value = 25
+	}
+	
+	ai_strategy = {
+		type = area_priority
+		id = pacific
+		value = 120 #less focus here
+	}
+	
+	ai_strategy = {
+		type = area_priority
+		id = oceania
+		value = 80
+	}
+}

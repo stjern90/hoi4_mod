@@ -1006,8 +1006,17 @@ country_event = {
 		}
 		hidden_effect = {
 			if = {
-				limit = { NOT = { has_war_with = SOV } }
-			load_oob = "PRC_SOV_reinforcements"
+				limit = { 
+					NOT = { has_war_with = SOV } 
+					any_country = {
+						OR = {
+							tag = ROOT
+							is_in_faction_with = ROOT
+						}
+						controls_state = 621
+					}
+				}
+				load_oob = "PRC_SOV_reinforcements"
 			}
 		}
 	}
@@ -1178,6 +1187,7 @@ country_event = {
 	trigger = {
 		tag = PRC
 		has_global_flag = PRC_restart_CHI_war
+		NOT = { has_war_together_with = CHI }
 		CHI = {
 			NOT = {
 				has_country_flag = mao_is_greatest
@@ -1315,7 +1325,7 @@ country_event = {
 					has_civil_war = yes
 				}
 			}
-			random_country = {
+			random_other_country = {
 				limit = {
 					original_tag = CHI
 					has_war_with = FROM
@@ -1426,8 +1436,10 @@ country_event = {
 		NOT = {
 			country_exists = CHI
 		}
-		owns_state = 608 #Beijing
-		owns_state = 755 #Nanjing
+		OR = {
+			owns_state = 608 #Beijing
+			owns_state = 613 #Nanjing
+		}
 	}
 
 	mean_time_to_happen = {
@@ -1444,6 +1456,9 @@ country_event = {
 				NOT = { 608 = { is_controlled_by = PRC } }
 			}
 		}
+		trigger = {
+			owns_state = 608
+		}
 		set_capital = 608
 	}
 
@@ -1454,13 +1469,13 @@ country_event = {
 			base = 10
 			modifier = {
 				factor = 0
-				NOT = { 755 = { is_controlled_by = PRC } }
+				NOT = { 613 = { is_controlled_by = PRC } }
 			}
 		}
 		trigger = {
-			owns_state = 755
+			owns_state = 613
 		}
-		set_capital = 755
+		set_capital = 613
 	}
 
 	#Stay where you are
@@ -1471,7 +1486,7 @@ country_event = {
 			modifier = {
 				add = 1
 				NOT = { 608 = { is_controlled_by = PRC } }
-				NOT = { 755 = { is_controlled_by = PRC } }
+				NOT = { 613 = { is_controlled_by = PRC } }
 			}
 		}
 	}

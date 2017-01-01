@@ -338,7 +338,15 @@ country_event = {
 	option = {
 		name = japan.12.a
 		ai_chance = {
-			factor = 0
+			factor = 90 
+			modifier = {
+				#If they have a fighting chance, they should stand their ground
+				factor = 0
+				strength_ratio = {
+					tag = JAP
+					ratio > 0.75
+				}
+			}
 		}
 		JAP = { 
 			country_event = { id = japan.13 }
@@ -493,10 +501,23 @@ country_event = {
 		set_global_flag = indian_national_army_setup
 		RAJ = { 
 			add_national_unity = -0.2
-			add_ideas = RAJ_azad_hind
-		}
-		ENG = {
-			country_event = { id = britain.19 }
+			if = {
+				limit = { has_dlc = "Together for Victory" }
+				add_popularity = {
+					ideology = fascism
+					popularity = 0.1
+				}
+				add_popularity = {
+					ideology = democratic
+					popularity = -0.05
+				}
+				else = {
+					add_ideas = RAJ_azad_hind 
+					ENG = {
+						country_event = { id = britain.19 }
+					}
+				}
+			}
 		}
 	}
 }
@@ -510,9 +531,20 @@ country_event = {
 	
 	is_triggered_only = yes
 	
+	#Accept - become puppet
 	option = {
 		name = japan.16.a
-		ai_chance = { factor = 60 }
+		ai_chance = {
+			factor = 60
+			modifier = {
+				factor = 0
+				strength_ratio = {
+					tag = JAP
+					ratio > 0.10
+				}
+				is_historical_focus_on = yes
+			}
+		}
 		JAP = { 
 			country_event = { id = japan.17 }
 			effect_tooltip = { puppet = CHI }
@@ -547,6 +579,7 @@ country_event = {
 	option = {
 		name = japan.17.a
 		puppet = CHI
+		add_named_threat = { threat = 20 name = chinese_puppet_focus }
 		hidden_effect = {
 			news_event = { hours = 6 id = news.210 }
 		}
