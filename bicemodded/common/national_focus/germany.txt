@@ -9,7 +9,7 @@ focus_tree = {
 			tag = GER
 		}
 	}
-	
+	continuous_focus_position = { x = 50 y = 1100 }
 	default = no
 
 	########################## Goering 4 year plan ###############
@@ -2176,7 +2176,10 @@ focus_tree = {
 			NOT = { has_idea = rhineland_challenge_met }
 		}
 		cancel = {
-			has_idea = rhineland_challenge_met
+			OR = {
+				is_puppet = yes
+				has_idea = rhineland_challenge_met
+			}
 		}
 		cancel_if_invalid = no
 		x = 15
@@ -2195,6 +2198,7 @@ focus_tree = {
 				limit = {
 					country_exists = AUS
 					AUS = {
+						has_civil_war = no
 						OR = {
 							owns_state = 4
 							owns_state = 152
@@ -2204,6 +2208,47 @@ focus_tree = {
 				}
 				AUS = {
 					country_event = germany.28
+				}				
+			}
+			if = {
+				limit = {
+					any_other_country = {
+						original_tag = AUS
+						has_civil_war = yes
+						OR = {
+							owns_state = 4
+							owns_state = 152
+							owns_state = 153
+						}
+					}
+				}
+				custom_effect_tooltip = germany.126.warning
+				random_other_country = {
+					limit = {
+						original_tag = AUS
+						OR = {
+							has_government = fascism
+							AND = {
+								has_government = neutrality
+								NOT = {
+									any_other_country = {
+										original_tag = AUS
+										has_government = fascism
+									}
+								}
+							}
+							NOT = {
+								any_other_country = {
+									original_tag = AUS
+									OR = {
+										has_government = fascism
+										has_government = neutrality
+									}
+								}
+							}							
+						}
+					}
+					country_event = { id = germany.126 days = 1 }
 				}
 				# REVISIT Add Czech claims, possibly
 			}
@@ -2536,9 +2581,27 @@ focus_tree = {
 				NOT = { LUX = { is_in_faction_with = GER } }
 			}
 		}
+
+		bypass = {
+			HOL = { is_in_faction_with = GER }
+			BEL = { is_in_faction_with = GER }
+			LUX = { is_in_faction_with = GER }
+		}
+
+		historical_ai = {
+			date > 1939.1.1
+			NOT = {
+				any_home_area_neighbor_country = {
+					NOT = { tag = FRA }
+					has_war_with = ROOT
+					surrender_progress < 0.5
+				}
+			}
+		}
 		will_lead_to_war_with = BEL
 		will_lead_to_war_with = HOL
 		will_lead_to_war_with = LUX
+		will_lead_to_war_with = FRA
 		x = 15
 		y = 7
 		cost = 2.3
@@ -2547,6 +2610,14 @@ focus_tree = {
 			modifier = {
 				factor = 0
 				date < 1939.1.1
+			}			
+			modifier = {
+				factor = 0.2
+				any_home_area_neighbor_country = {
+					NOT = { tag = FRA }
+					has_war_with = ROOT
+					surrender_progress < 0.5
+				}
 			}
 		}	
 		completion_reward = {
@@ -2738,17 +2809,28 @@ focus_tree = {
 			}
 			if = {
 				limit = {
-					NOT = {
-						CZE = { owns_state = 69 }
+					NOT = { CZE = { controls_state = 69 } }
+					69 = {
+						controller = {
+							NOT = { is_in_faction_with = GER }
+						}
 					}
 				}
+				add_named_threat = { threat = 2 name = GER_demand_sudetenland_threat }
 				69 = {
-					add_claim_by = GER
+					controller = {
+						GER = {
+							create_wargoal = {
+								type = take_state_focus
+								target = PREV
+								generator = { 69 }
+							}
+						}
+					}
 				}
 			}
 		}
 	}
-
 	focus = {
 		id = GER_first_vienna_award
 		icon = GFX_goal_generic_military_deal
@@ -2756,7 +2838,7 @@ focus_tree = {
 		bypass = {
 			OR = {
 				AND = {
-					NOT = { country_exists = CZE }
+					NOT = { CZE = { controls_state = 664 } }
 					NOT = { owns_state = 664 }
 				}
 				HUN = { is_friend_or_potential_friend_of_GER = no }
@@ -4589,7 +4671,7 @@ focus_tree = {
 		}	
 		completion_reward = {
 		country_event = ss_event.679
-		#add_research_slot = 1
+		army_experience = 20
 		}
 		#
 	}
@@ -4632,10 +4714,10 @@ focus_tree = {
 		}	
 		completion_reward = {
 			country_event = ss_event.675
-			set_country_flag = ahistorical_SS
-			#hidden_effect = {
-			#	set_technology = { ss_panzerii_tech = 1 }
-			#}
+			set_country_flag = focus_ahistorical_SS
+			hidden_effect = {
+				army_experience = 20
+			}
 		}
 	}
 	focus = {
