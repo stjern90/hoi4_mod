@@ -296,7 +296,7 @@ NMilitary = {
 	WAR_SCORE_AIR_MONTHLY_FALLOFF = 10,			-- how much the warscore we got from the strategic bombing falls off every month.
 	
 	CORPS_COMMANDER_CAP = 18,			-- how many a corps commander is limited to.
-	FIELD_MARSHALL_CAP = 54,			-- how many a marshall is limited to. 0 = inf
+	FIELD_MARSHALL_CAP = 0,			-- how many a marshall is limited to. 0 = inf
 	UNIT_LEADER_GENERATION_CAPITAL_CONTINENT_FACTOR = 100, --was 100 Integer factor to multiply manpower.
 
 	RECON_SKILL_IMPACT = 4, -- how many skillpoints is a recon advantage worth when picking a tactic.
@@ -546,9 +546,9 @@ NAir = {
 	COMBAT_AMOUNT_DIFF_AFFECT_GANG_CHANCE = 0.4, 		-- More aircrafts increases chance of situation 2vs1.
 	COMBAT_ONE_ON_ONE_CHANCE = 0.5, 					-- Base chance for 1vs1 situation.
 	COMBAT_SITUATION_WIN_CHANCE_FROM_STATS = 0.3, 		-- How much good stats difference (speed+agility) affects the winning chance (situation win = give a hit, not necessary kill).
-	COMBAT_SITUATION_WIN_CHANCE_FROM_GANG = 0.18, 		-- How much bonus gives the airplanes amount advantage (2vs1), to winning the situation.
+	COMBAT_SITUATION_WIN_CHANCE_FROM_GANG = -0.18, 		-- How much bonus gives the airplanes amount advantage (2vs1), to winning the situation.
 	COMBAT_SITUATION_PASS_CHANCE = 0.6, 				-- Chance for pass. Nobody hits nobody in current situation.
-	COMBAT_MAX_WINGS_AT_ONCE = 5, 						-- Max amount of air wings in one combat simulation. The higher value, the quicker countries may loose their wings. It's a gameplay balance value.
+	COMBAT_MAX_WINGS_AT_ONCE = 8, 						-- Max amount of air wings in one combat simulation. The higher value, the quicker countries may loose their wings. It's a gameplay balance value.
 	COMBAT_MAX_WINGS_AT_GROUND_ATTACK = 55,	        	-- we can really pounce a land strike and escalate
 	COMBAT_MAX_WINGS_AT_ONCE_PORT_STRIKE = 400,         -- DNM - original 1000 -- we can really pounce a naval strike and escalate
 	COMBAT_ATTACK_PASSES_AT_ONCE = 0.1,					-- Wing attack stat determines of many re-approaches in single combat they do. This is a scale of this amount to balance the gameplay. Less retries = less bloody combats, and less calculations for the CPU.
@@ -781,7 +781,7 @@ NAI = {
 	DIPLOMACY_IMPROVE_RELATION_PP_FACTOR = 0.1,	-- Desire to boost relations adds total PP multiplied by this
 	DIPLOMACY_REJECTED_WAIT_MONTHS_BASE = 4,	-- AI will not repeat offers until at least this time has passed, and at most the double
 	DIPLOMACY_SEND_EXPEDITIONARY_INDUSTRY_FACTOR = 2.0, -- Weight when counting industry (will be added to military strength)
-	DIPLOMACY_SEND_EXPEDITIONARY_BASE = 5,		-- Multiplied with relative strength factor to get result (if other is twice as "strong" the result with 25 would be 50)
+	DIPLOMACY_SEND_EXPEDITIONARY_BASE = 6,		-- Multiplied with relative strength factor to get result (if other is twice as "strong" the result with 25 would be 50)
 	DIPLOMACY_ACCEPT_VOLUNTEERS_BASE = 35,		-- Base value of volunteer acceptance (help is welcome)
 	DIPLOMACY_FACTION_MAJOR_AT_WAR = 1000.0,	-- Factor that will be multiplied with the surrender level in the desire to offer to the other ai to join a faction
 	DIPLOMACY_FACTION_SURRENDER_LEVEL = 20, 	-- How much the recipient nation losing matters for joining a faction
