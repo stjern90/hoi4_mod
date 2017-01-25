@@ -126,7 +126,7 @@ NCountry = {
 	BASE_RESEARCH_SLOTS = 2,						-- Base number of research slots per country.
 	VP_TO_SUPPLY_BASE = 1,							-- Bonus to supply from a VP, no matter the level
 	VP_TO_SUPPLY_BONUS_CONVERSION = 0.1,			-- Bonus to supply local supplies from Victory Points, multiplied by this aspect and rounded to closest integer
-	SUPPLY_FROM_DAMAGED_INFRA = 0.5,                -- damaged infrastructure counts as this in supply calcs
+	SUPPLY_FROM_DAMAGED_INFRA = 0.6,                -- damaged infrastructure counts as this in supply calcs
 	SUPPLY_BASE_MULT = 1,							-- multiplier on supply base values
 	SUPPLY_BONUS_FROM_INPUT = 0.25,					-- % of supply bonus from input area.
 	SUPPLY_PATH_MAX_DISTANCE = 15,					-- When supply route reach more than X nodes, the manpower+equipment delivery speed reach 100% penalty.
@@ -413,12 +413,12 @@ NMilitary = {
 	EQUIPMENT_COMBAT_LOSS_FACTOR = 0.4,	 	       -- was 0.6--% of equipment lost to strength ratio in combat, so some % is returned if below 1
 	SUPPLY_USE_FACTOR_MOVING = 1.8,                -- supply use when moving/fighting vs inactive
 	SUPPLY_USE_FACTOR_INACTIVE = 0.75,
-	SUPPLY_GRACE = 72,		-- troops always carry 3 days of food and supply
+	SUPPLY_GRACE = 80,		-- troops always carry 3 days of food and supply
 	MAX_OUT_OF_SUPPLY_DAYS = 30, 				   -- how many days of shitty supply until max penalty achieved
 	OUT_OF_SUPPLY_ATTRITION = 0.3,                 -- max attrition when out of supply
-	OUT_OF_SUPPLY_SPEED = -0.3,                    -- max speed reduction from supply
+	OUT_OF_SUPPLY_SPEED = -0.2,                    -- max speed reduction from supply
 	NON_CORE_SUPPLY_SPEED = -0.7,				   -- we are not running on our own VP supply so need to steal stuff along the way
-	OUT_OF_SUPPLY_MORALE = -0.4,                   -- max org regain reduction from supply
+	OUT_OF_SUPPLY_MORALE = -0.35,                   -- max org regain reduction from supply
 	TRAINING_ATTRITION = 0.04,		  			   -- amount of extra attrition from being in training
 	TRAINING_MIN_STRENGTH = 0.1,					-- if strength is less than this, the unit will pause training until it's been reinforced
 	AIR_SUPPORT_BASE = 0.32,                        -- base ground bonus to troops when active planes helping them
@@ -496,16 +496,16 @@ NMilitary = {
 	COMBAT_STACKING_PENALTY = -0.02,                -- how much stackign penalty per division
 	COMBAT_OVER_WIDTH_PENALTY = -1,					-- over combat width penalty per %.
 	COMBAT_OVER_WIDTH_PENALTY_MAX = -0.33,			-- over combat width max (when you cant join no more).
-	RETREAT_SPEED_FACTOR = 0.16,                    -- speed bonus when retreating
+	RETREAT_SPEED_FACTOR = 0.25,                    -- speed bonus when retreating
 	STRATEGIC_SPEED_BASE = 6,                 	-- Speed of strategic redeployment
 	STRATEGIC_INFRA_SPEED = 14.0,                   -- Max of additional speed gained trouh=gh level for strategic redeployment per infra
-	STRATEGIC_REDEPLOY_ORG_RATIO = 0.2,				-- Ratio of max org while strategic redeployment
+	STRATEGIC_REDEPLOY_ORG_RATIO = 0.3,				-- Ratio of max org while strategic redeployment
 	BATALION_NOT_CHANGED_EXPERIENCE_DROP = 0.0,		-- Division experience drop if unit has same batalion
 	BATALION_CHANGED_EXPERIENCE_DROP = 0.5,			-- Division experience drop if unit has different batalion
 	ARMOR_VS_AVERAGE = 0.3,			                -- how to weight in highest armor & pen vs the division average
 	PEN_VS_AVERAGE = 0.4,
 
-	DECRYPTION_ADVANTAGE_BONUS = 0.05,				-- How much unit base damage and base defense is increased per decryption level compared to enemies average encryption level (ex: dec. level is 5 and enemy average enc. level is 3 then 5-3 = 2 which gives 10 % increase)
+	DECRYPTION_ADVANTAGE_BONUS = 0.04,				-- How much unit base damage and base defense is increased per decryption level compared to enemies average encryption level (ex: dec. level is 5 and enemy average enc. level is 3 then 5-3 = 2 which gives 10 % increase)
 	
 	LAND_EQUIPMENT_BASE_COST = 20,					-- Cost in XP to upgrade a piece of equipment one level is base + ( total levels * ramp )
 	LAND_EQUIPMENT_RAMP_COST = 8,					
