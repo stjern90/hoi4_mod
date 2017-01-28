@@ -977,24 +977,24 @@ NAI = {
 	BUILD_REFINERY_LACK_OF_RESOURCE_MODIFIER = 0.006,	-- How much lack of resources are worth when evaluating what to build.
 	DIVISION_DESIGN_WEIGHTS = {							-- Base values used by AI to evaluate value of a stat
 		-- Army Values
-		0.5,   -- default_morale
+		0.0,   -- default_morale
 		
 		
 		
-		30.0, -- original 1.0   -- defense
-		43.0,  -- original 1.2  -- breakthrough
-		3.0,   -- hardness
+		0.0, -- original 1.0   -- defense
+		0.0,  -- original 1.2  -- breakthrough
+		0.0,   -- hardness
 		
 		
 		
-		55.0,  -- DNM, original 50.0 (ai overhaul mod) -- soft_attack
-		40.0,  -- DNM, original 30.0 (ai overhaul mod) -- hard_attack
+		0.0,  -- DNM, original 50.0 (ai overhaul mod) -- soft_attack
+		0.0,  -- DNM, original 30.0 (ai overhaul mod) -- hard_attack
 		0.0,   -- recon
 		0.0,   -- entrenchment
 		0.0,   -- initiative
 		0.0,   -- casualty_trickleback
-		-0.0,  -- supply_consumption_factor
-		-0.0,  -- supply_consumption
+		0.0,  -- supply_consumption_factor
+		0.0,  -- supply_consumption
 		0.0,   -- suppression
 		0.0,   -- suppression_factor
 		0.0,   -- experience_loss_factor
@@ -1029,15 +1029,15 @@ NAI = {
 		0.0,   -- air_ground_attack
 		0.0,   -- air_visibility_factor
 		-- Common Values
-		1.0,   -- max_organisation
-		10.0,   -- 1.0 max_strength
-		-10.0,  -- build_cost_ic
-		4.0,   -- maximum_speed
+		0.0,   -- max_organisation
+		0.0,   -- 1.0 max_strength
+		0.0,  -- build_cost_ic
+		0.0,   -- maximum_speed
 		0.0,   -- armor_value
-		0.5,   -- ap_attack
+		0.0,   -- ap_attack
 		0.0,   -- reliability
 		0.0,   -- reliability_factor
-		0.00, -- weight
+		0.0, -- weight
 		-- Special Values
 		0.0,   -- strategic_attack
 		70.0,   -- carrier_size
@@ -1048,9 +1048,9 @@ NAI = {
 	DIVISION_DESIGN_BASE_WEIGHT_SCORE = 100.0,			-- 100 This score is reduced the farther the width is from the target width (if set)
 	DIVISION_DESIGN_MAX_FAILED_DAYS = 60,					-- max days we keep track of since failure of a design update
 
-	BUILD_ARMOR_BASE_COST_WEIGHT = 200.0,				-- 200
-	BUILD_ARMOR_STRENGTH_MULTIPLIER_WEIGHT = 100.0,
-	BUILD_ARMOR_ORGANIZATION_MULTIPLIER_WEIGHT = 500.0,
+	BUILD_ARMOR_BASE_COST_WEIGHT = 0.0,				-- 200
+	BUILD_ARMOR_STRENGTH_MULTIPLIER_WEIGHT = 0.0,
+	BUILD_ARMOR_ORGANIZATION_MULTIPLIER_WEIGHT = 0.0,
 
 	UPGRADE_DIVISION_RELUCTANCE = 999,					-- How often to consider upgrading to new templates for units in the field
 	UPGRADE_PERCENTAGE_OF_FORCES = 0.0,					-- How big part of the army that should be considered for upgrading
