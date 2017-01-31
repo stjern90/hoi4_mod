@@ -163,7 +163,7 @@ NCountry = {
 	SUPPLY_CONVOY_FACTOR = 0.14,					-- How many convoys each supply needs
 	CONVOY_RANGE_FACTOR = 1.2,                        -- how much range affects convoy need
 	LOCAL_MANPOWER_ACCESSIBLE_FACTOR = 0.35,         -- was 0.45 accessible recruitable factor base
-	LOCAL_MANPOWER_ACCESSIBLE_NON_CORE_FACTOR = 0.02,  -- accessible recruitable factor base
+	LOCAL_MANPOWER_ACCESSIBLE_NON_CORE_FACTOR = 0.03,  -- accessible recruitable factor base
 	STATE_CONTROLLER_VP_RATIO_FLIP = 0.5,			-- If current state controller has less share than this of state total and no armies in it the state changes controller
 	DEFAULT_NATIONAL_UNITY = 0.7,					-- Default national unity if not scripted otherwise.
 	MAX_NATIONAL_UNITY = 1,
@@ -248,7 +248,7 @@ NPolitics = {
 	LEADER_TRAITS_XP_SHOW = 0.05,			-- Amount of XP a trait needs to be shown in tooltips of a leader.
 	REVOLTER_PARTY_POPULARITY = 0.4,		-- Revolter party loses 80% popularity when the civil war breaks out
 	MIN_OVERTHROWN_GOVERNMENT_SUPPORT_RATIO = 0.4, -- Min possible support for new government after puppeting the government
-	DEFAULT_OCCUPATION_POLICY = 1,		-- Defaullt value for occupation policy
+	DEFAULT_OCCUPATION_POLICY = 0,		-- Defaullt value for occupation policy
 	INSTANT_WIN_REVOLTER_POPULARITY_RATIO = 0.4, -- Min party popularity for instant win in one province state
 	INSTANT_WIN_POPULARITY_WIN = 60, -- New party popularity
 },
@@ -837,7 +837,7 @@ NAI = {
 	UPGRADE_XP_RUSH_UPDATE = 400,				-- If XP is above this on the daily tick the AI will attempt to spend it
 	FOCUS_TREE_CONTINUE_FACTOR = 1,			-- Factor for score of how likely the AI is to keep going down a focus tree rather than starting a new path.
 	VP_GARRISON_VALUE_FACTOR = 0.6,				-- Extent to which VP garrisons are prioritized, based on VP value and compared to other priority values.
-	PLAN_VALUE_TO_EXECUTE = -0.5,				-- AI will typically avoid carrying out a plan it below this value (0.0 is considered balanced).
+	PLAN_VALUE_TO_EXECUTE = -0.45,				-- AI will typically avoid carrying out a plan it below this value (0.0 is considered balanced).
 	DECLARE_WAR_NOT_NEIGHBOR_FACTOR = 0.25,		-- Multiplier applied before force factor if country is not neighbor with the one it is considering going to war
 	CALL_ALLY_BASE_DESIRE = 15,					-- exactly what it says
 	CALL_ALLY_DEMOCRATIC_DESIRE = 50,			-- Desire to call ally added for democratic AI
@@ -1058,7 +1058,7 @@ NAI = {
 	STRATEGIC_BOMBING_DEFENCE_IMPORTANCE = 500.0,
 	
 	NAVAL_MISSION_MIN_FLEET_SIZE = 5,					-- AI will not send too small fleets on missions. Ignored if total number of ships country has is below	this.
-	NAVY_PREFERED_MAX_SIZE = 30,						-- AI will generally attempt to merge fleets into this size, but as a soft limit.
+	NAVY_PREFERED_MAX_SIZE = 35,						-- AI will generally attempt to merge fleets into this size, but as a soft limit.
 	INVASION_COASTAL_PROVS_PER_ORDER = 15,				-- AI will consider one extra invasion per number of provinces stated here (num orders = total coast / this)
 
 	CONVOY_NEED_SAFETY_BUFFER = 1.90,					-- AI will try and keep 15% more convoys than what it needs.
@@ -1073,8 +1073,8 @@ NAI = {
 	AREA_DEFENSE_CIVIL_WAR_IMPORTANCE = 10000,			-- Area defense order importance value when a country is in a civil war as target or revolter.
 
 	COMBINED_ARMS_LEVEL = 2,							-- 0 = Never, 1 = Infantry/Artillery, 2 = Go wild
-	MAX_DISTANCE_NALAV_INVASION = 650.0,				-- AI is extremely unwilling to plan naval invasions above this naval distance limit.
-	ENEMY_NAVY_STRENGTH_DONT_BOTHER = 2.5,				-- If the enemy has a navy at least these many times stronger that the own, don't bother invading
+	MAX_DISTANCE_NALAV_INVASION = 300.0,				-- AI is extremely unwilling to plan naval invasions above this naval distance limit.
+	ENEMY_NAVY_STRENGTH_DONT_BOTHER = 1.5,				-- If the enemy has a navy at least these many times stronger that the own, don't bother invading
 	MIN_SUPPLY_USE_SANITY_CAP = 100,					-- Ignore supply cap if below this value when deciding on how many divisions to produce.
 	MAX_SUPPLY_DIVISOR = 2.5,							-- To make sure the AI does not overdeploy divisions. Higher number means more supply per unit.
 	MISSING_CONVOYS_BOOST_FACTOR = 10.0,					-- The more convoys a country is missing, the more resources it diverts to cover this.
@@ -1109,7 +1109,7 @@ NAI = {
 
 	MAX_UNITS_FACTOR_INVASION_ORDER = 1.0,				-- Factor for max number of units to assign to naval invasion orders
 	DESIRED_UNITS_FACTOR_INVASION_ORDER = 1.0,			-- Factor for desired number of units to assign to naval invasion orders
-	MIN_UNITS_FACTOR_INVASION_ORDER = 1.0,				-- Factor for min number of units to assign to naval invasion orders
+	MIN_UNITS_FACTOR_INVASION_ORDER = 0.6,				-- Factor for min number of units to assign to naval invasion orders
 	
 	FRONT_UNITS_CAP_FACTOR = 15.0,						-- A factor applied to total front size and supply use. Primarily effects small fronts
 	MAX_DIST_PORT_RUSH = 20.0,							-- If a unit is in enemy territory with no supply it will consider nearby ports within this distance.
@@ -1131,7 +1131,7 @@ NAI = {
 	FRONT_BULGE_RATIO_UPPER_CUTOFF = 1.5,				-- If total bulginess is lower than this, the front is ignored.
 	FRONT_BULGE_RATIO_LOWER_CUTOFF = 0.95,				-- If local bulginess drops below this, a point of interest is found
 	FRONT_CUTOFF_MIN_EDGE_PROXIMITY = 2,				-- Minimum number of provinces to the front edge to determine for cutoff oportunity.
-	INVASION_DISTANCE_RANDOMNESS = 300,					-- This higher the value, the more unpredictable the invasions. Compares to actual map distance in pixels.
+	INVASION_DISTANCE_RANDOMNESS = 120,					-- This higher the value, the more unpredictable the invasions. Compares to actual map distance in pixels.
 	
 	AIR_SUPERIORITY_MISSION_FACTOR = 1.0,				-- AI air superiority mission factor
 	CAS_MISSION_FACTOR = 1.2,							-- AI cas mission factor
