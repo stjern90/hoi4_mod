@@ -117,7 +117,7 @@ NDiplomacy = {
 	AUTONOMY_LEVEL_CHANGE_PP_FREE = 300,			-- Break free cost
 	MAX_SCORE_DIFF_TO_CHANGE_AUTONOMY = 10,			-- The max diff between current freedom score and the cap for next or previous level allowed for changing
 	MASTER_BUILD_AUTONOMY_FACTOR = -0.7,            -- scales autonomy gain from construction by this
-	VICTORY_POINT_WORTH_FACTOR = 10,				-- multiplier when calcualting proince worth (surrender)
+	VICTORY_POINT_WORTH_FACTOR = 25,				-- multiplier when calcualting proince worth (surrender)
 	VICTORY_POINT_WORTH_FACTOR_WARSCORE = 0.2,		-- multiplier when calcualting province worth with autonomy/warscore
 },
 
@@ -166,7 +166,7 @@ NCountry = {
 	LOCAL_MANPOWER_ACCESSIBLE_NON_CORE_FACTOR = 0.03,  -- accessible recruitable factor base
 	STATE_CONTROLLER_VP_RATIO_FLIP = 0.5,			-- If current state controller has less share than this of state total and no armies in it the state changes controller
 	DEFAULT_NATIONAL_UNITY = 0.7,					-- Default national unity if not scripted otherwise.
-	MAX_NATIONAL_UNITY = 1,
+	MAX_NATIONAL_UNITY = 0.9,
 	FRONT_PROVINCE_SCORE = 20,    					-- Max province score of a front. Used for the hostile troop alert
 	FRONT_PROVINCE_SCORE_HOSTILE_TROOPS = -1, 		-- If province score in a front is below this value we are losing territory, and hostile troop alert will show.
 	MAJOR_IC_RATIO = 3,                             -- difference in total factories needed to be considered major with respect to other nation
