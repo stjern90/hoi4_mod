@@ -117,7 +117,7 @@ NDiplomacy = {
 	AUTONOMY_LEVEL_CHANGE_PP_FREE = 300,			-- Break free cost
 	MAX_SCORE_DIFF_TO_CHANGE_AUTONOMY = 10,			-- The max diff between current freedom score and the cap for next or previous level allowed for changing
 	MASTER_BUILD_AUTONOMY_FACTOR = -0.7,            -- scales autonomy gain from construction by this
-	VICTORY_POINT_WORTH_FACTOR = 25,				-- multiplier when calcualting proince worth (surrender)
+	VICTORY_POINT_WORTH_FACTOR = 50,				-- multiplier when calcualting proince worth (surrender)
 	VICTORY_POINT_WORTH_FACTOR_WARSCORE = 0.2,		-- multiplier when calcualting province worth with autonomy/warscore
 },
 
