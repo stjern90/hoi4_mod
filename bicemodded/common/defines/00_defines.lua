@@ -1018,15 +1018,15 @@ NAI = {
 		0.0,   -- patrol_coordination
 		0.0,   -- search_and_destroy_coordination
 		-- Air Values
-		0.0,   -- air_range
-		0.0,   -- air_defence
-		0.0,   -- air_attack
+		2.0,   -- air_range
+		1.0,   -- air_defence
+		1.0,   -- air_attack
 		0.0,   -- air_agility
-		0.0,   -- air_bombing
+		1.0,   -- air_bombing
 		0.0,   -- air_superiority
 		0.0,   -- naval_strike_attack
 		0.0,   -- naval_strike_targetting
-		0.0,   -- air_ground_attack
+		1.0,   -- air_ground_attack
 		0.0,   -- air_visibility_factor
 		-- Common Values
 		0.0,   -- max_organisation
@@ -1052,8 +1052,8 @@ NAI = {
 	BUILD_ARMOR_STRENGTH_MULTIPLIER_WEIGHT = 0.0,
 	BUILD_ARMOR_ORGANIZATION_MULTIPLIER_WEIGHT = 0.0,
 
-	UPGRADE_DIVISION_RELUCTANCE = 999,					-- How often to consider upgrading to new templates for units in the field
-	UPGRADE_PERCENTAGE_OF_FORCES = 0.0,					-- How big part of the army that should be considered for upgrading
+	UPGRADE_DIVISION_RELUCTANCE = 15,					-- How often to consider upgrading to new templates for units in the field
+	UPGRADE_PERCENTAGE_OF_FORCES = 0.03,					-- How big part of the army that should be considered for upgrading
 
 	STRATEGIC_BOMBING_DEFENCE_IMPORTANCE = 500.0,
 	
