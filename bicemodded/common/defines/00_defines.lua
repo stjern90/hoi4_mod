@@ -977,27 +977,21 @@ NAI = {
 	BUILD_REFINERY_LACK_OF_RESOURCE_MODIFIER = 0.006,	-- How much lack of resources are worth when evaluating what to build.
 	DIVISION_DESIGN_WEIGHTS = {							-- Base values used by AI to evaluate value of a stat
 		-- Army Values
-		0.0,   -- default_morale
-		
-		
-		
-		0.0, -- original 1.0   -- defense
-		0.0,  -- original 1.2  -- breakthrough
-		0.0,   -- hardness
-		
-		
-		
-		0.0,  -- DNM, original 50.0 (ai overhaul mod) -- soft_attack
-		0.0,  -- DNM, original 30.0 (ai overhaul mod) -- hard_attack
-		0.0,   -- recon
-		0.0,   -- entrenchment
-		0.0,   -- initiative
-		0.0,   -- casualty_trickleback
-		0.0,  -- supply_consumption_factor
-		0.0,  -- supply_consumption
-		0.0,   -- suppression
-		0.0,   -- suppression_factor
-		0.0,   -- experience_loss_factor
+		0.5, -- default_morale
+		1.0, -- defense
+		1.0, -- breakthrough
+		1.0, -- hardness
+		1.2, -- soft_attack
+		0.0, -- hard_attack
+		0.0, -- recon
+		0.0, -- entrenchment
+		0.0, -- initiative
+		0.0, -- casualty_trickleback
+		0.0, -- supply_consumption_factor
+		0.0, -- supply_consumption
+		0.0, -- suppression
+		0.0, -- suppression_factor
+		0.0, -- experience_loss_factor
 		-- Navy Values
 		0.0,   -- surface_detection
 		0.0,   -- sub_detection
@@ -1030,12 +1024,12 @@ NAI = {
 		0.0,   -- air_visibility_factor
 		-- Common Values
 		0.0,   -- max_organisation
-		0.0,   -- 1.0 max_strength
+		1.0,   -- 1.0 max_strength
 		0.0,  -- build_cost_ic
 		0.0,   -- maximum_speed
-		0.0,   -- armor_value
+		1.0,   -- armor_value
 		0.0,   -- ap_attack
-		0.0,   -- reliability
+		1.0,   -- reliability
 		0.0,   -- reliability_factor
 		0.0, -- weight
 		-- Special Values
