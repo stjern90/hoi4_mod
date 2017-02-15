@@ -719,7 +719,7 @@ NNavy = {
 	NAVAL_MISSION_COVERAGE_DEFAULT_PROVINCES = 13.0,				-- Amount of provinces for spotting efficiency for naval missions (Ex. If a ship has a 1.3 spotting efficiency then there is a 100 % effective spotting efficiency in a region with 13 provinces ( 10 * 1.3) )
 	NAVAL_INVASION_PREPARE_HOURS = 168,								-- base hours needed to prepare an invasion
 	NAVAL_COMBAT_RESULT_TIMEOUT_YEARS = 1,							-- after that many years, we clear the naval combat results, so they don't get stuck forever in the memory.
-	NAVAL_TRANSFER_BASE_SPEED = 4,                                  -- base speed of units on water being transported
+	NAVAL_TRANSFER_BASE_SPEED = 7,                                  -- base speed of units on water being transported
 	NAVY_VISIBILITY_BONUS_ON_RETURN_FOR_REPAIR = 1.3,				-- DNM - original value 0.9 -- Multiplier for the surface/sub visiblity when the heavily damaged fleet is returning to the home base for reparation. 1.0 = no bonus. 0.0 = invisible.
 	NAVAL_SUPREMACY_INTEL_LOW = 0.3,								-- we need more intel than this to get any supremacy
 	NAVAL_SUPREMACY_CAN_INVADE = 0.75,								-- required naval supremacy to perform invasions on an area
