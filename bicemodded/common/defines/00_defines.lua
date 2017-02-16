@@ -3,12 +3,13 @@ NDefines = {
 NGame = {
 	START_DATE = "1936.1.1.12",
 	END_DATE = "1949.1.1.1",
-	MAP_SCALE_PIXEL_TO_KM = 7.114,	-- Yes, we did the math
+	MAP_SCALE_PIXEL_TO_KM = 7.114,					-- Yes, we did the math
 	SAVE_VERSION = 3,
-	LAG_DAYS_FOR_LOWER_SPEED = 10,		-- Days of client lag for decrease of gamespeed
-	LAG_DAYS_FOR_PAUSE = 25,				-- Days of client lag for pause of gamespeed.
-	MAJOR_PARTICIPANTS_FOR_MAJOR_WAR = 3,	-- Minimum number of major countries involved in a war to consider it major enough to not end the game even though the enddate has been reached.
-	COMBAT_LOG_MAX_MONTHS = 12
+	LAG_DAYS_FOR_LOWER_SPEED = 10,					-- Days of client lag for decrease of gamespeed
+	LAG_DAYS_FOR_PAUSE = 25,						-- Days of client lag for pause of gamespeed.
+	MAJOR_PARTICIPANTS_FOR_MAJOR_WAR = 3,			-- Minimum number of major countries involved in a war to consider it major enough to not end the game even though the enddate has been reached.
+	COMBAT_LOG_MAX_MONTHS = 12,
+	MESSAGE_TIMEOUT_DAYS = 60						-- Useful if running the handsoff game. The popup messages that doesn't require the player respond will automatically hide after some timeout.	
 },
 
 NDiplomacy = {
@@ -35,7 +36,9 @@ NDiplomacy = {
 	BASE_GENERATE_WARGOAL_DAILY_PP = 0.8,	-- Daily pp cost for generation of wargoals # was 0.2
 	WARGOAL_VERSUS_MAJOR_AT_WAR_REDUCTION = -0.4, 	-- reduction of pp cost for wargoal vs major at war. # was -0.75
 	WARGOAL_WORLD_TENSION_REDUCTION = -0.7,			-- Reduction of pp cost for wargoal at 100% world tension, scales linearly # was -0.5
+	WARGOAL_JUSTIFY_TENSION_FROM_PRODUCTION = 30.0,	-- Base value scaled by production capacity of country compared to biggest country
 	MIN_WARGOAL_JUSTIFY_COST = 2.0,					-- It always takes atleast 10 days to justify a wargoal
+	WARGOAL_PER_JUSTIFY_AND_WAR_COST_FACTOR = 1.5,	-- Cost factor per nation at war with or justifying against
 	BASE_BOOST_PARTY_POPULARITY_DAILY_PP = 0.25, 	-- Daily pp cost for boost party popularity
 	BASE_BOOST_PARTY_POPULARITY_DAILY_DRIFT = 0.1, 	-- Daily amount of popularity that will be added by the activity.
 	BASE_STAGE_COUP_DAILY_PP = 0.5,					-- Daily pp cost for staging a coup
@@ -119,6 +122,8 @@ NDiplomacy = {
 	MASTER_BUILD_AUTONOMY_FACTOR = -0.7,            -- scales autonomy gain from construction by this
 	VICTORY_POINT_WORTH_FACTOR = 50,				-- multiplier when calcualting proince worth (surrender)
 	VICTORY_POINT_WORTH_FACTOR_WARSCORE = 0.2,		-- multiplier when calcualting province worth with autonomy/warscore
+	IDEOLOGY_JOIN_FACTION_MIN_LEVEL = 0.3,			-- ideology limit required to join faction
+	JOIN_FACTION_LIMIT_CHANGE_AT_WAR = -0.3,			-- Change tension requirement for joining faction by amount when at war
 },
 
 NCountry = {
@@ -206,7 +211,9 @@ NCountry = {
 
 NProduction = {
 	MAX_EQUIPMENT_RESOURCES_NEED = 4, 	-- Max number of different strategic resources an equipment can be dependent on.
-	MAX_FACTORIES_PER_LINE = 16,			-- Max number of factories that can be assigned a single production line.
+	MAX_CIV_FACTORIES_PER_LINE = 16,	-- Max number of factories that can be assigned a single production line.
+	MAX_NAV_FACTORIES_PER_LINE = 8,
+	MAX_MIL_FACTORIES_PER_LINE = 16,
 	EFFICIENCY_LOSS_PER_UNUSED_DAY = 1,		-- Daily loss of efficiency for unused factory slots ( efficiency is tracked per factory slot in the production line )
 	MAX_LINE_RESOURCE_PENALTY = 80,		-- Max penalty factor for production lines lacking strategic resources in %.
 	RESOURCE_PENALTY_WARNING_CRITICAL_RATIO = 0.75, -- Switch to red progress bar if penalty is over threshold 
@@ -216,6 +223,7 @@ NProduction = {
 	BASE_FACTORY_START_EFFICIENCY_FACTOR = 15,	-- Base start efficiency for factories expressed in %.
 	BASE_FACTORY_MAX_EFFICIENCY_FACTOR = 60,	-- Base max efficiency for factories expressed in %.
 	BASE_FACTORY_EFFICIENCY_GAIN = 0.25,		-- Base efficiency gain for factories per unit produced in %.
+	BASE_FACTORY_EFFICIENCY_BALANCE_FACTOR = 0.1, 			-- Factory efficiency balancing factor
 	BASE_FACTORY_EFFICIENCY_VARIANT_CHANGE_FACTOR = 90,		-- Base factor for changing production variants in %.
 	BASE_FACTORY_EFFICIENCY_PARENT_CHANGE_FACTOR = 55,		-- Base factor for changing production parent<->children in %.
 	BASE_FACTORY_EFFICIENCY_FAMILY_CHANGE_FACTOR = 40,		-- Base factor for changing production with same family in %.
@@ -228,6 +236,9 @@ NProduction = {
 	ANNEX_CONVOYS_RATIO = 0.2,			-- How many convoys will be transferred on annexation
 	MIN_POSSIBLE_TRAINING_MANPOWER = 100000,	-- How many deployment lines minimum can be training
 	MIN_FIELD_TO_TRAINING_MANPOWER_RATIO = 0.65,	-- Ratio which % of army in field can be trained
+	CAPITULATE_STOCKPILES_RATIO = 0.75, -- How much equipment from deployed divisions will be transferred on capitulation
+	INFRA_MAX_CONSTRUCTION_COST_EFFECT = 0.5, 		-- Building in a state with higher infrastructure will reduce the cost of shared buildings.
+	PRODUCTION_RESOURCE_LACK_PENALTY = -0.05,			-- Penalty decrease while lack of resource per factory
 },
 
 NTechnology = {
@@ -248,12 +259,14 @@ NPolitics = {
 	LEADER_TRAITS_XP_SHOW = 0.05,			-- Amount of XP a trait needs to be shown in tooltips of a leader.
 	REVOLTER_PARTY_POPULARITY = 0.4,		-- Revolter party loses 80% popularity when the civil war breaks out
 	MIN_OVERTHROWN_GOVERNMENT_SUPPORT_RATIO = 0.4, -- Min possible support for new government after puppeting the government
+	NUM_OCCUPATION_POLICIES = 4,		-- Number of potential occupation policies
 	DEFAULT_OCCUPATION_POLICY = 0,		-- Defaullt value for occupation policy
 	INSTANT_WIN_REVOLTER_POPULARITY_RATIO = 0.4, -- Min party popularity for instant win in one province state
 	INSTANT_WIN_POPULARITY_WIN = 60, -- New party popularity
 },
 
 NBuildings = {
+	ANTI_AIR_SUPERIORITY_MULT = 5.0,	-- How much air superiority reduction to the enemy does our AA guns? Normally each building level = -1 reduction. With this multiplier.
 	MAX_BUILDING_LEVELS = 15,			-- Max levels a building can have.
 	AIRBASE_CAPACITY_MULT = 200,		-- Each level of airbase building multiplied by this, gives capacity (max operational value). Value is int. 1 for each airplane.
 	ROCKETSITE_CAPACITY_MULT = 100,		-- Each level of rocketsite building multiplied by this, gives capacity (max operational value). Value is int. 1 for each rocket.
@@ -264,7 +277,7 @@ NBuildings = {
 	RADAR_INTEL_EFFECT = 40,			-- Province covered by radar increases intel by 10 (where 255 is max). Province may be covered by multiple radars, then the value sums up.
 	ENCRYPTION_INTEL_EFFECT = 50,		-- Intel level effect by encryption (reduces intel gained from country with encryption higher than other countries decryption)
 	DECRYPTION_INTEL_EFFECT = 50,		-- Intel level effect by decryption (increases intel gained from country with decryption lower than other countries decryption)
-	SABOTAGE_FACTORY_DAMAGE = 20.0,		-- How much damage takes a factory building in sabotage when state is occupied. Damage is mult by (1 + resistance strength), i.e. up to 2 x base value.
+	SABOTAGE_FACTORY_DAMAGE = 25.0,		-- How much damage takes a factory building in sabotage when state is occupied. Damage is mult by (1 + resistance strength), i.e. up to 2 x base value.
 	BASE_FACTORY_REPAIR = 0.3,			-- Default repair rate before factories are taken into account
 	BASE_FACTORY_REPAIR_FACTOR = 3.0,	-- Factory speed modifier when repairing.
 	SUPPLY_PORT_LEVEL_THROUGHPUT = 6,   -- supply throughput per level of naval base
@@ -291,13 +304,13 @@ NMilitary = {
 
 	WAR_SCORE_LOSSES_RATIO = 0.3,			-- Scale how much losses will affect warscore ( per 1000 losses ).
 	WAR_SCORE_LOSSES_MULT_IF_CAPITULATED = 0.5, -- How much your losses count towards warscore if you have capitulated.
-	WAR_SCORE_AIR_WORTH = 0.5,              -- how much strategic bombing will affect warscore
+	WAR_SCORE_AIR_WORTH = 0.3,              -- how much strategic bombing will affect warscore
 	WAR_SCORE_AIR_WORTH_CAP = 1000,				-- the warscore limit we get from strategic bombing
 	WAR_SCORE_AIR_MONTHLY_FALLOFF = 10,			-- how much the warscore we got from the strategic bombing falls off every month.
 	
 	CORPS_COMMANDER_CAP = 18,			-- how many a corps commander is limited to.
 	FIELD_MARSHALL_CAP = 0,			-- how many a marshall is limited to. 0 = inf
-	UNIT_LEADER_GENERATION_CAPITAL_CONTINENT_FACTOR = 100, --was 100 Integer factor to multiply manpower.
+	UNIT_LEADER_GENERATION_CAPITAL_CONTINENT_FACTOR = 100, --Integer factor to multiply manpower.
 
 	RECON_SKILL_IMPACT = 4, -- how many skillpoints is a recon advantage worth when picking a tactic.
 	
@@ -307,7 +320,6 @@ NMilitary = {
 	MAX_DIVISION_SUPPORT_WIDTH = 2,			-- Max width of support in division designer.
 	MAX_DIVISION_SUPPORT_HEIGHT = 5,		-- Max height of support in division designer.
 	
-
 	BASE_DIVISION_BRIGADE_GROUP_COST = 8, 	--Base cost to unlock a regiment slot,
 	BASE_DIVISION_BRIGADE_CHANGE_COST = 4,	--Base cost to change a regiment column.
 	BASE_DIVISION_SUPPORT_SLOT_COST = 8, 	--Base cost to unlock a support slot
@@ -600,7 +612,7 @@ NAir = {
 	ACE_WING_SIZE =	100,								-- size of wing ace bonuses are set up for. if lower more bonus, if higher less bonus
 	ACE_WING_SIZE_MAX_BONUS = 10,                       -- biggest bonus we can get from having a small wing with an ace on
 	NO_SEARCH_MISSION_DETECT_FACTOR = -0.5,				-- value of planes not on active search missions for detection
-	SUPPLY_NEED_FACTOR = 2.0, 							-- multiplies supply usage
+	SUPPLY_NEED_FACTOR = 0.5, 							-- multiplies supply usage
 	CAPACITY_PENALTY = 0.7,								-- scales penalty of having overcrowded bases.
 	AIR_COMBAT_FINAL_DAMAGE_SCALE = 0.5,                -- % how many max disrupted only planes are alloed to die in a single combat
 	LAST_PLANE_DIE_FACTOR = 0.5,                        -- chance to kill last plane if our damage was too low to kill even one plane (1 = 50% chance if it had 50% dmg)
@@ -608,8 +620,8 @@ NAir = {
 	NAVAL_STRIKE_DETECTION_BALANCE_FACTOR = 0.7,		-- Value used to scale the surface_visibility stats to balance the gameplay, so 100% detection chance still won't spam the strikes.
 	LEND_LEASED_EQUIPMENT_EXPERIENCE_GAIN = 0.5,		-- Value used for equipment
 	ANTI_AIR_PLANE_DAMAGE_FACTOR = 0.5,					-- Anti Air Gun Damage factor
-	ANTI_AIR_PLANE_DAMAGE_CHANCE = 0.5,					-- Anti Air Gun hit chance
-	AIR_DEPLOYMENT_DAYS = 2,							-- Days to deploy one air wing
+	ANTI_AIR_PLANE_DAMAGE_CHANCE = 0.2,					-- Anti Air Gun hit chance
+	AIR_DEPLOYMENT_DAYS = 4,							-- Days to deploy one air wing
 	PORT_STRIKE_ENEMY_SUPERIORITY_LIMIT = 0.3,			-- Min air superiority for performing of naval strike
 	NAVAL_STRIKE_BASE_STR_TO_PLANES_RATIO = 0.1,		-- Max airbombers to do port strike comparing to strength
 	NAVAL_COMBAT_EXTERNAL_PLANES_JOIN_RATIO = 0.05,		-- Max planes that can join a combat comparing to the total strength of the ships
@@ -619,9 +631,9 @@ NNavy = {
 	DETECTION_CHANCE_MULT_BASE = 0.04,								-- base multiplier value for detection chance. Later the chance is an average between our detection and enemy visibility, mult by surface/sub detection chance in the following defines.
 	DETECTION_CHANCE_MULT_FORMATION_SPREAD_PATROL = 1.6, 			-- formation spread (max recommended value 1.0). The higher value the higher detection chance, but less ships will be on the place when combat starts.
 	DETECTION_CHANCE_MULT_FORMATION_SPREAD_SEARCH_AND_DESTROY = 0.5, -- same as for patrol but for search and destroy missions, should be less then patrol
-	DETECTION_CHANCE_MULT_FORMATION_SPREAD_CONVOY_RAIDING = 3,		-- DNM, original 1.2
+	DETECTION_CHANCE_MULT_FORMATION_SPREAD_CONVOY_RAIDING = 2,		-- DNM, original 1.2
 	DETECTION_CHANCE_MULT_FORMATION_SPREAD_CONVOY_ESCORT = 0.9,
-	DETECTION_CHANCE_MULT_RADAR_BONUS = 0.08,						-- detection chance bonus from radars. 
+	DETECTION_CHANCE_MULT_RADAR_BONUS = 0.05,						-- detection chance bonus from radars. 
 	DETECTION_CHANCE_MULT_AIR_SUPERIORITY_BONUS = 0.25,			-- bonus from air superiority.
 
 	DETECTION_CHANCE_BALANCE = 2.5,								-- Value to balance gameplay. The higher value = smaller detection chance. Notice: it doesn't affect the displayed detection chance numbers, as well balanced numbers could be a very small fractions like 0.012
@@ -629,7 +641,7 @@ NNavy = {
 	INTERCEPT_CONVOYS_BALANCE = 2.0,							-- Balance number to distinguish the chance of intercepting convoys in comparison to the interception of naval transfers. (Intercepting convoys happens 2x less often than naval transfers and invasions)
 	BEST_CAPITALS_TO_SCREENS_RATIO = 0.25, 							-- capitals / screens ratio used for creating FEX groups in naval combat
 	COMBAT_MIN_WIN_CHANCE_TO_ADVANCE_WITHOUT_WAIT = 0.8, 			-- compare our forces with enemy forces. 1.0 is equal win chances. Less then 1.0 is we have low chances. If we have at least X chances, then ships will attept to attack without waiting for the other ships that are on the way.
-	COMBAT_MIN_WIN_CHANCE_TO_KEEP_FIGHTING = 0.6,		 			-- DNM - original 0.2 - being at 60 per cent of the enemy's strength would usually lead to one side disengaging, and seems to work reasonably in tests -- compare our forces with enemy forces. 1.0 is equal win chances. Less then 1.0 is we have low chances. If we have at least X chances, then ships will attept to attack without waiting for the other ships that are on the way.
+	COMBAT_MIN_WIN_CHANCE_TO_KEEP_FIGHTING = 0.5,		 			-- DNM - original 0.2 - being at 60 per cent of the enemy's strength would usually lead to one side disengaging, and seems to work reasonably in tests -- compare our forces with enemy forces. 1.0 is equal win chances. Less then 1.0 is we have low chances. If we have at least X chances, then ships will attept to attack without waiting for the other ships that are on the way.
 	COMBAT_MIN_WIN_CHANCE_TO_KEEP_FIGHTING_DESPITE_NO_ENGAGE = 10.0,	-- compare our forces with enemy forces. 1.0 is equal win chances. Less then 1.0 is we have low chances. If we have at least X chances, then ships will attept to attack without waiting for the other ships that are on the way.
 	COMBAT_BASE_HIT_CHANCE = 0.5,									-- base chance for hit
 	COMBAT_MIN_HIT_CHANCE = 0.01,									-- never less hit chance then 1%?
@@ -794,12 +806,12 @@ NAI = {
 	RESEARCH_NAVAL_DOCTRINE_NEED_GAIN_FACTOR = 0.08, -- Multiplies value based on relative naval industry size / country size.
 	RESEARCH_AIR_DOCTRINE_NEED_GAIN_FACTOR = 0.07, -- Multiplies value based on relative number of air base / country size.
 	RESEARCH_NEW_WEIGHT_FACTOR = 0.3, 			-- Impact of previously unexplored tech weights. Higher means more random exploration.
-	RESEARCH_BONUS_FACTOR = 3.0, 				-- To which extent AI should care about bonuses to research
+	RESEARCH_BONUS_FACTOR = 2.0, 				-- To which extent AI should care about bonuses to research
 	MAX_AHEAD_RESEARCH_PENALTY = 2,
 	RESEARCH_AHEAD_OF_TIME_FACTOR = 3.5, 		-- To which extent AI should care about ahead of time penalties to research
 	RESEARCH_BASE_DAYS = 60,					-- AI adds a base number of days when weighting completion time for techs to ensure it doesn't only research quick techs
 	DECLARE_WAR_RELATIVE_FORCE_FACTOR = 0.5,	-- Weight of relative force between nations that consider going to war
-	TRADEABLE_FACTORIES_FRACTION = 0.75,			-- Will at most trade away this fraction of factories.
+	TRADEABLE_FACTORIES_FRACTION = 0.8,			-- Will at most trade away this fraction of factories.
 	MIN_DELIVERED_TRADE_FRACTION = 0.8,			-- AI will cancel trade deals that are not able to deliver more than this fraction of the agreed amount
 	NAVAL_TRANSPORTS_FACTOR = 2,				-- Factor applied to the relative size of army compared to naval capacity.
 	NAVAL_DOCKYARDS_SHIP_FACTOR = 2,			-- The extent to which number of dockyards play into amount of sips a nation wants
@@ -1039,6 +1051,7 @@ NAI = {
 	DIVISION_DESIGN_MANPOWER_WEIGHT = 0.000,
 	DIVISION_DESIGN_STOCKPILE_WEIGHT = 0.000,
 	DIVISION_DESIGN_COMBAT_WIDTH_WEIGHT = -2.5,			-- -3.0
+	DIVISION_DESIGN_COMBAT_WIDTH_TARGET_WEIGHT = -200.0,
 	DIVISION_DESIGN_BASE_WEIGHT_SCORE = 100.0,			-- 100 This score is reduced the farther the width is from the target width (if set)
 	DIVISION_DESIGN_MAX_FAILED_DAYS = 60,					-- max days we keep track of since failure of a design update
 
@@ -1128,7 +1141,7 @@ NAI = {
 	INVASION_DISTANCE_RANDOMNESS = 30,					-- This higher the value, the more unpredictable the invasions. Compares to actual map distance in pixels.
 	
 	AIR_SUPERIORITY_MISSION_FACTOR = 1.0,				-- AI air superiority mission factor
-	CAS_MISSION_FACTOR = 1.2,							-- AI cas mission factor
+	CAS_MISSION_FACTOR = 1.4,							-- AI cas mission factor
 	INTERCEPTION_MISSION_FACTOR = 0.5,					-- AI interception mission factor
 	STREATEGIC_BOMBER_MISSION_FACTOR = 1.2,				-- AI strategic bombing mission factor
 	NAVAL_BOMBER_MISSION_FACTOR = 0.5,					-- AI naval bombing mission factor
@@ -1136,10 +1149,7 @@ NAI = {
 	PARADROP_MISSION_FACTOR = 1.0,						-- AI paradrop mission factor
 	KAMIKAZE_MISSION_FACTOR = 1.0,						-- AI naval kamikaze mission factor
 	PORT_STRIKE_MISSION_FACTOR = 1.0,					-- AI port strike mission factor
-	
-	ORDER_ASSIGNMENT_DISTANCE_FACTOR = 5.0,				-- When the AI assigns units to orders, it attempts to calculate the distance.
-	RELUCTANCE_TO_CHANGE_FRONT_FACTOR = 0.5,			-- Factor for how reluctant the AI is to change a units order group.
-	REVISITED_PROV_PENALTY_FACTOR = 1.5,				-- When the AI picks units for a front, it tries to spread out a bit which units it grabs.
+	INDUSTRY_IC_AIR_IMPORTANCE_FACTOR = 0.02,			-- AI very specific IC cost factor for air missions
 	
 	AIR_SCORE_DISTANCE_IMPACT = 0.1,					-- Effect of distance applied to the score calculations
 	
@@ -1149,16 +1159,21 @@ NAI = {
 	NAVAL_COMBAT_AIR_IMPORTANCE = 12.0,					-- Naval combat air importance
 	NAVAL_TRANSFER_AIR_IMPORTANCE = 25.0,				-- Naval transfer air importance
 	NAVAL_COMBAT_TRANSFER_AIR_IMPORTANCE = 50.0,		-- Naval combat involving enemy land units
+	NAVAL_IMPORTANCE_SCALE = 1.0,						-- Naval total importance scale (every naval score get's multiplied by it)
 	
 	NAVAL_FIGHTERS_PER_PLANE = 1.1,						-- Amounts of air superiority planes requested per enemy plane
 	NAVAL_STRIKE_PLANES_PER_ARMY = 15,					-- Amount of planes requested per enemy army
 	NAVAL_STRIKE_PLANES_PER_SHIP = 5,					-- Amount of bombers requested per enemy ship
 	PORT_STRIKE_PLANES_PER_SHIP = 10,					-- Amount of bombers request per enemy ship in the port
+	NAVAL_MIN_EXCORT_WINGS = 1,							-- Min amount of airwings requested to excort operations
 	
 	LAND_DEFENSE_AIR_SUPERIORITY_IMPORTANCE = 0.10,		-- Strategic importance of air superiority ( amount of enemy planes in area )
 	LAND_DEFENSE_CIVIL_FACTORY_IMPORTANCE = 50,			-- Strategic importance of civil factories
 	LAND_DEFENSE_MILITARY_FACTORY_IMPORTANCE = 70,		-- Strategic importance of military factories
 	LAND_DEFENSE_NAVAL_FACTORY_IMPORTANCE = 30,			-- Strategic importance of naval factories
+	LAND_DEFENSE_AA_IMPORTANCE_FACTOR = 1.0,			-- Factor of AA influence on strategic importance ( 0.0 - 1.0 )
+	LAND_DEFENSE_INFRA_IMPORTANCE_FACTOR = 0.5,			-- Factor of infrastructure influence on strategic importance ( 0.0 - 1.0 )
+	LAND_DEFENSE_IMPORTANCE_SCALE = 1.5,				-- Lend defence total importance scale (every land defence score get's multiplied by it)
 	
 	LAND_DEFENSE_MIN_FACTORIES_FOR_AIR_IMPORTANCE = 4,	-- If amount of factories is less importance of factories won't apply
 	
@@ -1172,23 +1187,40 @@ NAI = {
 	LAND_COMBAT_FRIEND_COMBATS_AIR_IMPORTANCE = 6,		-- Strategic importance of friendly armies in the combat
 	LAND_COMBAT_ENEMY_ARMIES_AIR_IMPORTANCE = 8,		-- Strategic importance of our armies
 	LAND_COMBAT_ENEMY_LAND_FORTS_AIR_IMPORTANCE = 5,	-- Strategic importance of enemy land forts in the region
-	LAND_COMBAT_ENEMY_COASTAL_FORTS_AIR_IMPORTANCE = 3,-- Strategic importance of enemy coastal fronts in the region
+	LAND_COMBAT_ENEMY_COASTAL_FORTS_AIR_IMPORTANCE = 3,	-- Strategic importance of enemy coastal fronts in the region
+	LAND_COMBAT_IMPORTANCE_SCALE = 1.5,					-- Lend combat total importance scale (every land combat score get's multiplied by it)
 	
 	LAND_COMBAT_FIGHTERS_PER_PLANE = 1.1,				-- Amount of air superiority planes requested per enemy plane
+	LAND_COMBAT_CAS_WINGS_PER_ENEMY_ARMY_LIMIT = 4,		-- Limit of CAS wings requested by enemy armies
 	LAND_COMBAT_CAS_PER_ENEMY_ARMY = 35,				-- Amount of CAS planes requested per enemy army
+	LAND_COMBAT_CAS_PER_COMBAT = 50,					-- Amount of CAS requested per combat
 	LAND_COMBAT_BOMBERS_PER_LAND_FORT_LEVEL = 15,		-- Amount of bomber planes requested per enemy land fort level
 	LAND_COMBAT_BOMBERS_PER_COASTAL_FORT_LEVEL = 10,	-- Amount of bomber planes requested per enemy coastal fort level
+	LAND_COMBAT_MIN_EXCORT_WINGS = 2,					-- Min amount of airwings requested to excort operations
 	
-	STR_BOMB_AIR_SUPERIORITY_IMPORTANCE = 0.10,		-- Strategic importance of air superiority ( amount of enemy planes in area )
-	STR_BOMB_CIVIL_FACTORY_IMPORTANCE = 60,			-- Strategic importance of enemy civil factories
-	STR_BOMB_MILITARY_FACTORY_IMPORTANCE = 90,		-- Strategic importance of enemy military factories
-	STR_BOMB_NAVAL_FACTORY_IMPORTANCE = 30,			-- Strategic importance of enemy naval factories
+	STR_BOMB_AIR_SUPERIORITY_IMPORTANCE = 0.10,			-- Strategic importance of air superiority ( amount of enemy planes in area )
+	STR_BOMB_CIVIL_FACTORY_IMPORTANCE = 60,				-- Strategic importance of enemy civil factories
+	STR_BOMB_MILITARY_FACTORY_IMPORTANCE = 90,			-- Strategic importance of enemy military factories
+	STR_BOMB_NAVAL_FACTORY_IMPORTANCE = 30,				-- Strategic importance of enemy naval factories
+	STR_BOMB_AA_IMPORTANCE_FACTOR = 0.5,				-- Factor of AA influence on strategic importance ( 0.0 - 1.0 )
+	STR_BOMB_INFRA_IMPORTANCE_FACTOR = 0.25,			-- Factor of infrastructure influence on strategic importance ( 0.0 - 1.0 )
+	STR_BOMB_IMPORTANCE_SCALE = 1.0,					-- str bombing total importance scale (every str bombing score get's multiplied by it)
 	
 	STR_BOMB_MIN_ENEMY_FIGHTERS_IN_AREA = 450,		-- If amount of enemy fighters is higher than this mission won't perform
-	STR_BOMB_FIGHTERS_PER_PLANE = 1.1,				-- Amount of air superiority planes requested per enemy plane
-	STR_BOMB_PLANES_PER_CIV_FACTORY = 20,			-- Amount of planes requested per enemy civ factory
+	STR_BOMB_FIGHTERS_PER_PLANE = 1.1,					-- Amount of air superiority planes requested per enemy plane
+	STR_BOMB_PLANES_PER_CIV_FACTORY = 20,				-- Amount of planes requested per enemy civ factory
 	STR_BOMB_PLANES_PER_MIL_FACTORY = 30,			-- Amount of planes requested per enemy military factory
-	STR_BOMB_PLANES_PER_NAV_FACTORY = 15,			-- Amount of planes requested per enemy naval factory
+	STR_BOMB_PLANES_PER_NAV_FACTORY = 15,				-- Amount of planes requested per enemy naval factory
+	STR_BOMB_MIN_EXCORT_WINGS = 2,						-- Min amount of airwings requested to excort operations
+	
+	ORDER_ASSIGNMENT_DISTANCE_FACTOR = 5.0,				-- When the AI assigns units to orders, it attempts to calculate the distance.
+	RELUCTANCE_TO_CHANGE_FRONT_FACTOR = 0.5,			-- Factor for how reluctant the AI is to change a units order group.
+	REVISITED_PROV_PENALTY_FACTOR = 1.5,				-- When the AI picks units for a front, it tries to spread out a bit which units it grabs.
+	
+	PLAN_ACTIVATION_SUPERIORITY_AGGRO = 1.0,			-- How aggressive a country is in activating a plan based on how superiour their force is.
+	WAIT_YEARS_BEFORE_FREER_BUILDING = 3,				-- The AI will skip considering certain buildings during the buildup phase, after htese many years it starts building them regardless of threat.
+	
+	STRIKE_FLEET_MAX_DISTANCE_TO_COMBAT = 400.0,		-- The strike fleet will not attempt to intervene in combats further away than this.
 },
 
 NFocus = {
