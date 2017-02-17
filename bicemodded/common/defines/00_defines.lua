@@ -854,12 +854,12 @@ NAI = {
 	CALL_ALLY_BASE_DESIRE = 15,					-- exactly what it says
 	CALL_ALLY_DEMOCRATIC_DESIRE = 50,			-- Desire to call ally added for democratic AI
 	CALL_ALLY_NEUTRAL_DESIRE = 25,				-- Desire to call ally added for neutral AI
-	CALL_ALLY_FASCIST_DESIRE = -25,				-- Desire to call ally added for fascist AI
+	CALL_ALLY_FASCIST_DESIRE = -40,				-- Desire to call ally added for fascist AI
 	CALL_ALLY_COMMUNIST_DESIRE = 75,			-- Desire to call ally added for communist AI
-	JOIN_ALLY_BASE_DESIRE = 20,					-- exactly what it says
+	JOIN_ALLY_BASE_DESIRE = 10,					-- exactly what it says
 	JOIN_ALLY_DEMOCRATIC_DESIRE = 50,			-- Desire to join ally added for democratic AI
 	JOIN_ALLY_NEUTRAL_DESIRE = 25,				-- Desire to join ally added for neutral AI
-	JOIN_ALLY_FASCIST_DESIRE = -25,				-- Desire to join ally added for fascist AI
+	JOIN_ALLY_FASCIST_DESIRE = -35,				-- Desire to join ally added for fascist AI
 	JOIN_ALLY_COMMUNIST_DESIRE = 75,			-- Desire to join ally added for communist AI
 	JOIN_FACTION_BOTH_LOSING = -300,			-- Desire to be in a faction when both we and htey are in losing wars
 	LENDLEASE_FRACTION_OF_PRODUCTION = 0.5,		-- Base fraction AI would send as lendlease
@@ -938,10 +938,10 @@ NAI = {
 	
 	SUPPLY_CRISIS_LIMIT = 0.9,					-- If a unit is standing in an area with 
 
-	FASCISTS_BEFRIEND_FASCISTS = 15,
+	FASCISTS_BEFRIEND_FASCISTS = 10,
 	FASCISTS_BEFRIEND_DEMOCRACIES = -25,
 	FASCISTS_BEFRIEND_COMMUNISTS = -25,
-	FASCISTS_ALLY_FASCISTS = -15,
+	FASCISTS_ALLY_FASCISTS = -20,
 	FASCISTS_ALLY_DEMOCRACIES = -100,
 	FASCISTS_ALLY_COMMUNISTS = -100,
 	FASCISTS_ANTAGONIZE_FASCISTS = -25,
@@ -968,7 +968,7 @@ NAI = {
 	
 	NUM_AI_MESSAGES = 10,				-- Set to whatever category has the highest number of messages
 
-	DIPLOMACY_FACTION_WAR_WANTS_HELP = 40,				-- Desire to send to nations to join a faction if you are at war
+	DIPLOMACY_FACTION_WAR_WANTS_HELP = 30,				-- Desire to send to nations to join a faction if you are at war
 	DIPLOMACY_FACTION_CIVILWAR_WANTS_HELP = -50,
 	FACTION_UNSTABLE_ACCEPTANCE = -100,
 	DIPLOMACY_AT_WAR_WITH_ALLY_RELUCTANCE = -1000,
@@ -984,9 +984,9 @@ NAI = {
 
 	MANPOWER_FREE_USAGE_THRESHOLD = 90000,				-- If AI has this much manpower he doesn't care about the percentage
 	MANPOWER_RESERVED_THRESHOLD = 0.7,					-- The AI will not deploy more units if he goes below this percentage
-	START_TRAINING_EQUIPMENT_LEVEL = 0.97,               -- ai will not start to train if equipment drops below this level
-	STOP_TRAINING_EQUIPMENT_LEVEL = 0.95,                -- ai will not train if equipment drops below this level
-	BUILD_REFINERY_LACK_OF_RESOURCE_MODIFIER = 0.006,	-- How much lack of resources are worth when evaluating what to build.
+	START_TRAINING_EQUIPMENT_LEVEL = 0.95,               -- ai will not start to train if equipment drops below this level
+	STOP_TRAINING_EQUIPMENT_LEVEL = 0.9,                -- ai will not train if equipment drops below this level
+	BUILD_REFINERY_LACK_OF_RESOURCE_MODIFIER = 0.003,	-- How much lack of resources are worth when evaluating what to build.
 	DIVISION_DESIGN_WEIGHTS = {							-- Base values used by AI to evaluate value of a stat
 		-- Army Values
 		0.5, -- default_morale
@@ -1059,7 +1059,7 @@ NAI = {
 	BUILD_ARMOR_STRENGTH_MULTIPLIER_WEIGHT = 0.0,
 	BUILD_ARMOR_ORGANIZATION_MULTIPLIER_WEIGHT = 0.0,
 
-	UPGRADE_DIVISION_RELUCTANCE = 15,					-- How often to consider upgrading to new templates for units in the field
+	UPGRADE_DIVISION_RELUCTANCE = 9,					-- How often to consider upgrading to new templates for units in the field
 	UPGRADE_PERCENTAGE_OF_FORCES = 0.03,					-- How big part of the army that should be considered for upgrading
 
 	STRATEGIC_BOMBING_DEFENCE_IMPORTANCE = 500.0,
