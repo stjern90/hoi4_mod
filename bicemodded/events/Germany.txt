@@ -475,6 +475,12 @@ country_event = {
 			add_state_claim = 91
 			add_state_claim = 97
 			add_state_claim = 89
+			effect_tooltip = {
+				create_wargoal = {
+					type = annex_everything
+					target = GER
+				}
+			}
 		}
 	}
 }
@@ -949,7 +955,10 @@ country_event = {
 				}
 			}
 		}
-		add_to_faction = CZE
+		if = {
+			limit = { CZE = { is_in_faction = no } }
+			add_to_faction = CZE
+		}
 		CZE = {
 			add_ai_strategy = {
 				type = alliance
@@ -1142,17 +1151,30 @@ country_event = {
 			limit = {
 				is_in_faction = yes
 				NOT = { is_in_faction_with = ENG }
+				NOT = { is_in_faction_with = CZE }
 			}
 			remove_from_faction = FRA
 		}
 		if = {
-			limit = { NOT = { is_in_faction_with = ENG } }
+			limit = { 
+				NOT = { is_in_faction_with = ENG } 
+				NOT = { is_in_faction_with = CZE }
+			}
 			ENG = { add_to_faction = FRA }
 			add_ai_strategy = {
 				type = alliance
 				id = "ENG"
 				value = 200
 			}
+		}
+		if = {
+			limit = {
+				is_in_faction_with = CZE
+				has_completed_focus = FRA_little_entente
+				is_faction_leader = yes
+				NOT = { is_in_faction_with = ENG }
+			}
+			add_to_faction = ENG #Britain joins the little entente
 		}
 		add_opinion_modifier = { target = GER modifier = condemn_aggression }
 		CZE = { 
@@ -2032,6 +2054,19 @@ country_event = {
 				}
 			}
 		}
+		if = { #you're not getting around that, comrade
+			limit = {
+				has_idea = FRA_disjointed_government
+				has_government = communism
+			}
+			custom_effect_tooltip = germany.60.a.tt
+			effect_tooltip = {
+				start_civil_war = {
+					ideology = democratic
+					size = 0.3
+				}
+			}
+		}
 	}
 
 	option = { # Diplomatic response
@@ -2153,12 +2188,28 @@ country_event = {
 		}		
 		GER = { country_event = germany.66 }
 		if = {
-			limit = { has_idea = FRA_disjointed_government }
+			limit = { 
+				has_idea = FRA_disjointed_government 
+				NOT = { has_government = communism }
+			}
 			custom_effect_tooltip = germany.60.a.tt
 			effect_tooltip = {
 				start_civil_war = {
 					ideology = communism
 					size = 0.2
+				}
+			}
+		}
+		if = {
+			limit = { 
+				has_idea = FRA_disjointed_government 
+				has_government = communism
+				}
+			custom_effect_tooltip = germany.60.a.tt
+			effect_tooltip = {
+				start_civil_war = {
+					ideology = democratic
+					size = 0.3
 				}
 			}
 		}
@@ -2184,12 +2235,28 @@ country_event = {
 		name = germany.64.a
 		GER = { country_event = germany.65 }
 		if = {
-			limit = { has_idea = FRA_disjointed_government }
+			limit = { 
+				has_idea = FRA_disjointed_government 
+				NOT = { has_government = communism }
+			}
 			custom_effect_tooltip = germany.60.a.tt
 			effect_tooltip = {
 				start_civil_war = {
 					ideology = communism
 					size = 0.2
+				}
+			}
+		}
+		if = {
+			limit = { 
+				has_idea = FRA_disjointed_government 
+				has_government = communism
+			}
+			custom_effect_tooltip = germany.60.a.tt
+			effect_tooltip = {
+				start_civil_war = {
+					ideology = democratic
+					size = 0.3
 				}
 			}
 		}
@@ -2229,10 +2296,23 @@ country_event = {
 			}
 			country_event = germany.92
 			if = {
-				limit = { has_idea = FRA_disjointed_government }
+				limit = { 
+					has_idea = FRA_disjointed_government 
+					NOT = { has_government = communism }
+				}
 				start_civil_war = {
 					ideology = communism
 					size = 0.2
+				}
+			}
+			if = {
+				limit = { 
+					has_idea = FRA_disjointed_government 
+					has_government = communism
+				}
+				start_civil_war = {
+					ideology = democratic
+					size = 0.3
 				}
 			}
 		}
@@ -2282,7 +2362,15 @@ country_event = {
 		name = germany.65.a
 		ENG = { 
 			country_event = germany.68 
-			remove_from_faction = FRA
+			if = {
+				limit = {
+					ENG = { 
+						is_in_faction_with = FRA 
+						is_faction_leader = yes
+					}
+				}
+				remove_from_faction = FRA
+			}
 		}
 		FRA = {
 			declare_war_on = {
@@ -2292,10 +2380,23 @@ country_event = {
 			}
 			country_event = germany.92
 			if = {
-				limit = { has_idea = FRA_disjointed_government }
+				limit = { 
+					has_idea = FRA_disjointed_government 
+					NOT = { has_government = communism }
+				}
 				start_civil_war = {
 					ideology = communism
 					size = 0.2
+				}
+			}
+			if = {
+				limit = { 
+					has_idea = FRA_disjointed_government 
+					has_government = communism
+				}
+				start_civil_war = {
+					ideology = democratic
+					size = 0.3
 				}
 			}
 		}
@@ -2363,6 +2464,7 @@ country_event = {
 	fire_only_once = yes
 
 	trigger = {
+	    has_country_leader = { name = "Adolf Hitler" }
 		tag = GER
 		AND = {
 			CZE = { has_capitulated = no }
@@ -2676,11 +2778,12 @@ country_event = {
 		name = germany.76.a	#bah
 		# REVISIT Balance research bonus
 		add_tech_bonus = {
-			name = armor_bonus
+			name = GER_soviet_treaty
 			ahead_reduction = 1
 			category = armor
 		}
 		add_tech_bonus = {
+		    name = GER_soviet_treaty
 			bonus = 0.25
 			uses = 2
 			category = armor
