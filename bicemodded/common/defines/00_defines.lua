@@ -755,7 +755,7 @@ NNavy = {
 	},
 
 NTrade = {
-	DISTANCE_TRADE_FACTOR = -0.0001,			-- DNM, original -0.02 (AI mod) -- Trade factor is modified by distance times this
+	DISTANCE_TRADE_FACTOR = -0.00002,			-- DNM, original -0.02 (AI mod) -- Trade factor is modified by distance times this
 	RELATION_TRADE_FACTOR = 1,				-- Trade factor is modified by Opinion value times this
 	FEAR_TRADE_FACTOR = 1,
 	ALLOW_TRADE_CUT_OFF = 0,				-- If trade factor is less than this, no trade will be allowed
@@ -811,7 +811,7 @@ NAI = {
 	RESEARCH_AHEAD_OF_TIME_FACTOR = 3.5, 		-- To which extent AI should care about ahead of time penalties to research
 	RESEARCH_BASE_DAYS = 60,					-- AI adds a base number of days when weighting completion time for techs to ensure it doesn't only research quick techs
 	DECLARE_WAR_RELATIVE_FORCE_FACTOR = 0.5,	-- Weight of relative force between nations that consider going to war
-	TRADEABLE_FACTORIES_FRACTION = 0.8,			-- Will at most trade away this fraction of factories.
+	TRADEABLE_FACTORIES_FRACTION = 0.85,			-- Will at most trade away this fraction of factories.
 	MIN_DELIVERED_TRADE_FRACTION = 0.8,			-- AI will cancel trade deals that are not able to deliver more than this fraction of the agreed amount
 	NAVAL_TRANSPORTS_FACTOR = 2,				-- Factor applied to the relative size of army compared to naval capacity.
 	NAVAL_DOCKYARDS_SHIP_FACTOR = 2,			-- The extent to which number of dockyards play into amount of sips a nation wants
