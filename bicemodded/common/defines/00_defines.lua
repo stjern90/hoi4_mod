@@ -236,7 +236,7 @@ NProduction = {
 	ANNEX_CONVOYS_RATIO = 0.2,			-- How many convoys will be transferred on annexation
 	MIN_POSSIBLE_TRAINING_MANPOWER = 100000,	-- How many deployment lines minimum can be training
 	MIN_FIELD_TO_TRAINING_MANPOWER_RATIO = 0.65,	-- Ratio which % of army in field can be trained
-	CAPITULATE_STOCKPILES_RATIO = 0.75, -- How much equipment from deployed divisions will be transferred on capitulation
+	CAPITULATE_STOCKPILES_RATIO = 0.35, -- How much equipment from deployed divisions will be transferred on capitulation
 	INFRA_MAX_CONSTRUCTION_COST_EFFECT = 0.5, 		-- Building in a state with higher infrastructure will reduce the cost of shared buildings.
 	PRODUCTION_RESOURCE_LACK_PENALTY = -0.05,			-- Penalty decrease while lack of resource per factory
 },
@@ -370,7 +370,7 @@ NMilitary = {
 	MULTIPLE_COMBATS_PENALTY = -0.5,               -- defender penalty if attacked from multiple directions
 	DIG_IN_FACTOR = 0.02,						   -- bonus factor for each dug-in level
 	LEADER_SKILL_FACTOR = 0.05,                    -- bonus per skill level of leader
-	BASE_LEADER_TRAIT_GAIN_XP = 2.2,				   -- Base xp gain for traits per hour.
+	BASE_LEADER_TRAIT_GAIN_XP = 2,				   -- Base xp gain for traits per hour.
 	MAX_NUM_TRAITS = 8,					-- cant have more
 	ENEMY_AIR_SUPERIORITY_IMPACT = -0.37,           -- effect on defense due to enemy air superiorty
 	ENEMY_AIR_SUPERIORITY_DEFENSE = 0.70,	       -- more AA attack will approach this amount of help (diminishing returns)
