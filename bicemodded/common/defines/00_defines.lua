@@ -217,7 +217,7 @@ NProduction = {
 	EFFICIENCY_LOSS_PER_UNUSED_DAY = 1,		-- Daily loss of efficiency for unused factory slots ( efficiency is tracked per factory slot in the production line )
 	MAX_LINE_RESOURCE_PENALTY = 80,		-- Max penalty factor for production lines lacking strategic resources in %.
 	RESOURCE_PENALTY_WARNING_CRITICAL_RATIO = 0.75, -- Switch to red progress bar if penalty is over threshold 
-	BASE_FACTORY_SPEED = 3.3, 				-- Base factory speed multiplier (how much hoi3 style IC each factory gives).
+	BASE_FACTORY_SPEED = 3.2, 				-- Base factory speed multiplier (how much hoi3 style IC each factory gives).
 	BASE_FACTORY_SPEED_MIL = 5.6, 				-- Base factory speed multiplier (how much hoi3 style IC each factory gives).
 	BASE_FACTORY_SPEED_NAV = 3.2, 				-- Base factory speed multiplier (how much hoi3 style IC each factory gives).
 	BASE_FACTORY_START_EFFICIENCY_FACTOR = 15,	-- Base start efficiency for factories expressed in %.
@@ -236,7 +236,7 @@ NProduction = {
 	ANNEX_CONVOYS_RATIO = 0.2,			-- How many convoys will be transferred on annexation
 	MIN_POSSIBLE_TRAINING_MANPOWER = 100000,	-- How many deployment lines minimum can be training
 	MIN_FIELD_TO_TRAINING_MANPOWER_RATIO = 0.65,	-- Ratio which % of army in field can be trained
-	CAPITULATE_STOCKPILES_RATIO = 0.75, -- How much equipment from deployed divisions will be transferred on capitulation
+	CAPITULATE_STOCKPILES_RATIO = 0.35, -- How much equipment from deployed divisions will be transferred on capitulation
 	INFRA_MAX_CONSTRUCTION_COST_EFFECT = 0.5, 		-- Building in a state with higher infrastructure will reduce the cost of shared buildings.
 	PRODUCTION_RESOURCE_LACK_PENALTY = -0.05,			-- Penalty decrease while lack of resource per factory
 },
