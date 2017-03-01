@@ -563,7 +563,7 @@ NAir = {
 	COMBAT_SITUATION_WIN_CHANCE_FROM_STATS = 0.2, 		-- How much good stats difference (speed+agility) affects the winning chance (situation win = give a hit, not necessary kill).
 	COMBAT_SITUATION_WIN_CHANCE_FROM_GANG = 0.18, 		-- How much bonus gives the airplanes amount advantage (2vs1), to winning the situation.
 	COMBAT_SITUATION_PASS_CHANCE = 0.6, 				-- Chance for pass. Nobody hits nobody in current situation.
-	COMBAT_MAX_WINGS_AT_ONCE = 6, 						-- Max amount of air wings in one combat simulation. The higher value, the quicker countries may loose their wings. It's a gameplay balance value.
+	COMBAT_MAX_WINGS_AT_ONCE = 8, 						-- Max amount of air wings in one combat simulation. The higher value, the quicker countries may loose their wings. It's a gameplay balance value.
 	COMBAT_MAX_WINGS_AT_GROUND_ATTACK = 55,	        	-- we can really pounce a land strike and escalate
 	COMBAT_MAX_WINGS_AT_ONCE_PORT_STRIKE = 400,         -- DNM - original 1000 -- we can really pounce a naval strike and escalate
 	COMBAT_ATTACK_PASSES_AT_ONCE = 0.1,					-- Wing attack stat determines of many re-approaches in single combat they do. This is a scale of this amount to balance the gameplay. Less retries = less bloody combats, and less calculations for the CPU.
