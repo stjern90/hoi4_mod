@@ -365,7 +365,7 @@ NMilitary = {
 	RIVER_SMALL_START_INDEX = 0,                   -- color indices for rivers
 	RIVER_SMALL_STOP_INDEX = 6,
 	RIVER_LARGE_STOP_INDEX = 11,
-	BASE_FORT_PENALTY = -0.25, 					   -- fort penalty
+	BASE_FORT_PENALTY = -0.24, 					   -- fort penalty
 	BASE_STACKING_PENALTY = -0.1,                  -- multiple direction attack penalty
 	MULTIPLE_COMBATS_PENALTY = -0.5,               -- defender penalty if attacked from multiple directions
 	DIG_IN_FACTOR = 0.02,						   -- bonus factor for each dug-in level
@@ -1026,21 +1026,21 @@ NAI = {
 		0.0,   -- patrol_coordination
 		0.0,   -- search_and_destroy_coordination
 		-- Air Values
-		2.0,   -- air_range
-		1.0,   -- air_defence
-		1.0,   -- air_attack
-		0.0,   -- air_agility
-		1.0,   -- air_bombing
+		3.0,   -- air_range
+		3.0,   -- air_defence
+		3.0,   -- air_attack
+		1.0,   -- air_agility
+		3.0,   -- air_bombing
 		0.0,   -- air_superiority
 		0.0,   -- naval_strike_attack
 		0.0,   -- naval_strike_targetting
-		1.0,   -- air_ground_attack
+		3.0,   -- air_ground_attack
 		0.0,   -- air_visibility_factor
 		-- Common Values
 		0.0,   -- max_organisation
 		1.0,   -- 1.0 max_strength
 		0.0,  -- build_cost_ic
-		0.0,   -- maximum_speed
+		1.0,   -- maximum_speed
 		1.0,   -- armor_value
 		0.0,   -- ap_attack
 		1.0,   -- reliability
