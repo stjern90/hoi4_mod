@@ -454,7 +454,7 @@ NMilitary = {
 	PLAN_CONSIDERED_GOOD = 0.25,					-- Plan evaluations above this value are considered more or less safe
 	PLAN_CONSIDERED_BAD = -0.25,					-- Plan evaluations below this value are considered unsafe
 	PLAN_MIN_AUTOMATED_EMPTY_POCKET_SIZE = 2,		-- The battle plan system will only automatically attack provinces in pockets that has no resistance and are no bigger than these many provinces
-	PLAN_SPREAD_ATTACK_WEIGHT = 2.0,				-- The higher the value, the less it should crowd provinces with multiple attacks.
+	PLAN_SPREAD_ATTACK_WEIGHT = 13.0,				-- The higher the value, the less it should crowd provinces with multiple attacks.
 	PLAN_SUPPLY_FACTOR = 0.1,						-- Factor applied to available supply on a front location when determining priority
 	PLAN_NEIGHBORING_ENEMY_PROVINCE_FACTOR = 0.7,	-- When calculating the importance of provinces, it takes number of enemy provinces into account, factored by this
 	PLAN_PROVINCE_BASE_IMPORTANCE = 1.0,			-- Used when calculating the calue of front and defense area provinces for the battle plan system
@@ -491,7 +491,7 @@ NMilitary = {
 	PLAN_EXECUTE_RUSH = -200,						-- When looking for an attach target, this score limit is required in the battle plan to consider province for attack
 	PLAN_EXECUTE_CAREFUL_MAX_FORT = 5,				-- If execution mode is set to careful, units will not attack provinces with fort levels greater than or equal to this
 	
-	PLAN_MAX_PROGRESS_TO_JOIN = 0.0,				-- If Lower progress than this, probably needs support
+	PLAN_MAX_PROGRESS_TO_JOIN = 0.30,				-- If Lower progress than this, probably needs support
 	
 	PLAN_BLITZ_OPTIMISM = 0.2,						-- Additional combat balance value in favor of blitzing side when considering targets (not a combat bonus, just offsets planning)
 	
@@ -834,7 +834,7 @@ NAI = {
 	AIR_WING_SIZE_FACTOR = 1.0,					-- Impact on air score of assigning wings to mission
 	AIR_MISSION_MIN_COVEREAGE = 0.2,			-- Between 0 and 1, limit for % coverage for air mission to be considered
 	AIR_BASE_PRIORITY_DISTANCE_FACTOR = 25.0,	-- Weight of distance between region and airbase for airbase priority score
-	MAX_VOLUNTEER_ARMY_FRACTION = 0.15,			-- Countries will not send more than their forces time this number to aid another country
+	MAX_VOLUNTEER_ARMY_FRACTION = 0.12,			-- Countries will not send more than their forces time this number to aid another country
 	WANTED_UNITS_INDUSTRY_FACTORY = 0.0, 		-- How many units a country wants is partially based on how much military industry that is available
 	DEPLOY_MIN_TRAINING_PEACE_FACTOR = 0.95,		-- Required percentage of training (1.0 = 100%) for AI to deploy unit in peacetime
 	DEPLOY_MIN_TRAINING_WAR_FACTOR = 0.25,		-- Required percentage of training (1.0 = 100%) for AI to deploy unit in wartime
@@ -882,16 +882,16 @@ NAI = {
 	PLAN_ATTACK_DEPTH_FACTOR = 0.5,				-- Factor applied to size or enemy being attacked.
 	PLAN_STEP_COST_LIMIT = 11,					-- When stepping to draw a plan this cost makes it break if it hits hard terrain (multiplied by number of desired steps)
 	PLAN_STEP_COST_LIMIT_REDUCTION = 3,			-- Cost limit is reduced per iteration, making hard terrain less likely to be crossed the further into enemy territory it is
-	PLAN_FRONT_SECTION_MAX_LENGTH = 16,			-- When a front is longer than this it will be split in two sections for the AI
-	PLAN_FRONT_SECTION_MIN_LENGTH = 9,			-- When two front sections together are this short they will be merged for the AI
+	PLAN_FRONT_SECTION_MAX_LENGTH = 12,			-- When a front is longer than this it will be split in two sections for the AI
+	PLAN_FRONT_SECTION_MIN_LENGTH = 6,			-- When two front sections together are this short they will be merged for the AI
 	PLAN_MIN_SIZE_FOR_FALLBACK = 50,			-- A country with less provinces than this will not draw fallback plans, but rather station their troops along the front
 	SEND_VOLUNTEER_EVAL_BASE_DISTANCE = 105.0,  -- How far away it will evaluate sending volunteers if not a major power
 	SEND_VOLUNTEER_EVAL_MAJOER_POWER = 2.0, 	-- How willing major powers are to send volunteers.
 	SEND_VOLUNTEER_EVAL_CONTAINMENT_FACTOR = 0.1, -- How much AI containment factors into its evaluation of sending volunteers.
 	GIVE_STATE_CONTROL_MIN_CONTROLLED = 1,		-- AI needs to control more than this number of states before considering giving any away
 	GIVE_STATE_CONTROL_MIN_CONTROL_DIFF = 2,	-- The difference in number of controlled states compared to war participation needs to be bigger than this for the AI to consider giving a state to a country
-	RELATIVE_STRENGTH_TO_INVADE = 0.5,			-- Compares the estimated strength of the country/faction compared to it's enemies to see if it should invade or stay at home to defend.
-	RELATIVE_STRENGTH_TO_INVADE_DEFENSIVE = 1,-- Compares the estimated strength of the country/faction compared to it's enemies to see if it should invade or stay at home to defend, but while being a defensive country.
+	RELATIVE_STRENGTH_TO_INVADE = 0.08,			-- Compares the estimated strength of the country/faction compared to it's enemies to see if it should invade or stay at home to defend.
+	RELATIVE_STRENGTH_TO_INVADE_DEFENSIVE = 0.4,-- Compares the estimated strength of the country/faction compared to it's enemies to see if it should invade or stay at home to defend, but while being a defensive country.
 	GIVE_STATE_CONTROL_BASE_SCORE = 50,			-- Base diplo score for giving away control of states
 	GIVE_STATE_CONTROL_DIFF_FACTOR = 2.0,		-- Diplo score multiplier for state control compared to war participation difference
 	GIVE_STATE_CONTROL_NEIGHBOR_SCORE = 20,		-- Diplo score for each neighboring state controlled by the target
@@ -906,7 +906,7 @@ NAI = {
 	DIPLOMACY_COMMUNIST_NOT_NEIGHBOUR = -10,	-- Communists want to stay consolidated with their influence
 	MAIN_ENEMY_FRONT_IMPORTANCE = 4.0,			-- How much extra focus the AI should put on who it considers to be its current main enemy.
 	EASY_TARGET_FRONT_IMPORTANCE = 7.5,			-- How much extra focus the AI should put on who it considers to be the easiest target.
-	AI_FRONT_MOVEMENT_FACTOR_FOR_READY = 1,	-- If less than this fraction of units on a front is moving, AI sees it as ready for action	
+	AI_FRONT_MOVEMENT_FACTOR_FOR_READY = 0.25,	-- If less than this fraction of units on a front is moving, AI sees it as ready for action	
 	MICRO_POCKET_SIZE = 4,						-- Pockets with a size equal to or lower than this will be mocroed by the AI, for efficiency.
 	POCKET_DISTANCE_MAX = 20000,				-- shortest square distance we bother about chasing pockets
 	VP_LEVEL_IMPORTANCE_HIGH = 30,				-- Victory points with values higher than or equal to this are considered to be of high importance.
@@ -915,24 +915,24 @@ NAI = {
 	ESTIMATED_CONVOYS_PER_DIVISION = 6,			-- Not always correct, but mainly used to make sure AI does not go crazy
 	FRONT_REASSIGN_DISTANCE = 120.0,			-- If a unit is this far away from a front it is not considered to be assigned to it unless the new front is much more important
 	OLD_FRONT_IMPORTANCE_FACTOR = 1.50,			-- If a unit is considered for reassignment, the importance of both new and old front is considered with a weight applied to the old ones score
-	ENTRENCHMENT_WEIGHT = 20.0,					-- AI should favour units with less entrenchment when assigning units around.
+	ENTRENCHMENT_WEIGHT = 2.0,					-- AI should favour units with less entrenchment when assigning units around.
 	FRONT_TERRAIN_DEFENSE_FACTOR = 5.0,			-- Multiplier applied to unit defense modifier for terrain on front province multiplied by terrain importance
 	FRONT_TERRAIN_ATTACK_FACTOR = 5.0,			-- Multiplier applied to unit attack modifier for terrain on enemy front province multiplied by terrain importance
 	
 	BASE_DISTANCE_TO_CARE = 600.0,				-- Countries that are too far away are less interesting in diplomacy
 	MIN_FORCE_RATIO_TO_PROTECT = 0.5,			-- Tiny countries should not feel protective or really large ones
 	
-	ORG_UNIT_STRONG = 0.8,						-- Organization % for unit to be considered strong
+	ORG_UNIT_STRONG = 0.9,						-- Organization % for unit to be considered strong
 	ORG_UNIT_WEAK = 0.15,						-- Organization % for unit to be considered weak
-	STR_UNIT_STRONG = 0.65,						-- Strength (equipment) % for unit to be considered strong
-	STR_UNIT_WEAK = 0.25,						-- Strength (equipment) % for unit to be considered weak
+	STR_UNIT_STRONG = 0.75,						-- Strength (equipment) % for unit to be considered strong
+	STR_UNIT_WEAK = 0.1,						-- Strength (equipment) % for unit to be considered weak
 	PLAN_FACTION_STRONG_TO_EXECUTE = 0.30,		-- % or more of units in an order to consider ececuting the plan
 	PLAN_FACTION_WEAK_TO_ABORT = 0.65,			-- % or more of units in an order to consider ececuting the plan
-	PLAN_AVG_PREPARATION_TO_EXECUTE = 0.2,		-- % or more average plan preparation before executing
-	STATE_GARRISON_MAX_UNITS = 1,				-- Max units to guard a garrison under normal circumstances (isolated core areas like England has is excempt)
+	PLAN_AVG_PREPARATION_TO_EXECUTE = 0.3,		-- % or more average plan preparation before executing
+	STATE_GARRISON_MAX_UNITS = 2,				-- Max units to guard a garrison under normal circumstances (isolated core areas like England has is excempt)
 	
 	REDEPLOY_DISTANCE_VS_ORDER_SIZE = 1.0,		-- Factor applied to the path length of a unit compared to length of an order to determine if it should use strategic redeployment
-	UNIT_ASSIGNMENT_TERRAIN_IMPORTANCE = 6.0,	-- Terrain score for units are multiplied by this when the AI is deciding which front they should be assigned to
+	UNIT_ASSIGNMENT_TERRAIN_IMPORTANCE = 5.0,	-- Terrain score for units are multiplied by this when the AI is deciding which front they should be assigned to
 	
 	MIN_STATE_VALUE_TO_PROTECT = 7.5,			-- When AI is considering which states to protect it looks at state values to consider if it is worth it.
 	
@@ -1076,8 +1076,8 @@ NAI = {
 
 	ESCORT_BOMBERS_IMPORTANCE_MODIFIER = 3.0,
 	PRODUCTION_LINE_SWITCH_SURPLUS_NEEDED_MODIFIER = 0.1,	-- Is modified by efficency modifiers.
-	PLAN_ACTIVATION_MAJOR_WEIGHT_FACTOR = 5.0,			-- AI countries will hold on activating plans if stronger countries have plans in the same location. Majors count extra (value of 1 will negate this)
-	PLAN_ACTIVATION_PLAYER_WEIGHT_FACTOR = 50.0,		-- AI countries will hold on activating plans if player controlled countries have plans in the same location. Majors count extra (value of 1 will negate this)
+	PLAN_ACTIVATION_MAJOR_WEIGHT_FACTOR = 1.0,			-- AI countries will hold on activating plans if stronger countries have plans in the same location. Majors count extra (value of 1 will negate this)
+	PLAN_ACTIVATION_PLAYER_WEIGHT_FACTOR = 1.0,		-- AI countries will hold on activating plans if player controlled countries have plans in the same location. Majors count extra (value of 1 will negate this)
 	AREA_DEFENSE_BASE_IMPORTANCE = 3,					-- Area defense order base importance value (used for determining order of troop selections)
 	AREA_DEFENSE_CIVIL_WAR_IMPORTANCE = 10000,			-- Area defense order importance value when a country is in a civil war as target or revolter.
 
