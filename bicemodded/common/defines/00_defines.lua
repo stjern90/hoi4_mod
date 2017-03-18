@@ -222,7 +222,7 @@ NProduction = {
 	BASE_FACTORY_SPEED_NAV = 3.2, 				-- Base factory speed multiplier (how much hoi3 style IC each factory gives).
 	BASE_FACTORY_START_EFFICIENCY_FACTOR = 17,	-- Base start efficiency for factories expressed in %.
 	BASE_FACTORY_MAX_EFFICIENCY_FACTOR = 60,	-- Base max efficiency for factories expressed in %.
-	BASE_FACTORY_EFFICIENCY_GAIN = 1.4,		-- Base efficiency gain for factories per unit produced in %.
+	BASE_FACTORY_EFFICIENCY_GAIN = 1.2,		-- Base efficiency gain for factories per unit produced in %.
 	BASE_FACTORY_EFFICIENCY_BALANCE_FACTOR = 0.1, 			-- Factory efficiency balancing factor
 	BASE_FACTORY_EFFICIENCY_VARIANT_CHANGE_FACTOR = 85,		-- Base factor for changing production variants in %.
 	BASE_FACTORY_EFFICIENCY_PARENT_CHANGE_FACTOR = 50,		-- Base factor for changing production parent<->children in %.
@@ -237,7 +237,7 @@ NProduction = {
 	MIN_POSSIBLE_TRAINING_MANPOWER = 100000,	-- How many deployment lines minimum can be training
 	MIN_FIELD_TO_TRAINING_MANPOWER_RATIO = 0.65,	-- Ratio which % of army in field can be trained
 	CAPITULATE_STOCKPILES_RATIO = 0.35, -- How much equipment from deployed divisions will be transferred on capitulation
-	INFRA_MAX_CONSTRUCTION_COST_EFFECT = 0.5, 		-- Building in a state with higher infrastructure will reduce the cost of shared buildings.
+	INFRA_MAX_CONSTRUCTION_COST_EFFECT = 0.2, 		-- Building in a state with higher infrastructure will reduce the cost of shared buildings.
 	PRODUCTION_RESOURCE_LACK_PENALTY = -0.05,			-- Penalty decrease while lack of resource per factory
 },
 
