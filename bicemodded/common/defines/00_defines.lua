@@ -224,10 +224,10 @@ NProduction = {
 	BASE_FACTORY_MAX_EFFICIENCY_FACTOR = 60,	-- Base max efficiency for factories expressed in %.
 	BASE_FACTORY_EFFICIENCY_GAIN = 1.2,		-- Base efficiency gain for factories per unit produced in %.
 	BASE_FACTORY_EFFICIENCY_BALANCE_FACTOR = 0.1, 			-- Factory efficiency balancing factor
-	BASE_FACTORY_EFFICIENCY_VARIANT_CHANGE_FACTOR = 85,		-- Base factor for changing production variants in %.
-	BASE_FACTORY_EFFICIENCY_PARENT_CHANGE_FACTOR = 50,		-- Base factor for changing production parent<->children in %.
-	BASE_FACTORY_EFFICIENCY_FAMILY_CHANGE_FACTOR = 40,		-- Base factor for changing production with same family in %.
-	BASE_FACTORY_EFFICIENCY_ARCHETYPE_CHANGE_FACTOR = 30, 	-- Base factor for changing production with same archetype in %.
+	BASE_FACTORY_EFFICIENCY_VARIANT_CHANGE_FACTOR = 82,		-- Base factor for changing production variants in %.
+	BASE_FACTORY_EFFICIENCY_PARENT_CHANGE_FACTOR = 42,		-- Base factor for changing production parent<->children in %.
+	BASE_FACTORY_EFFICIENCY_FAMILY_CHANGE_FACTOR = 34,		-- Base factor for changing production with same family in %.
+	BASE_FACTORY_EFFICIENCY_ARCHETYPE_CHANGE_FACTOR = 28, 	-- Base factor for changing production with same archetype in %.
 	BASE_CONSUMER_GOODS_NEED_FACTOR = 50,  -- Base factor for the consumer goods need of civilian factories in %.
 	EQUIPMENT_BASE_LEND_LEASE_WEIGHT = 1.0, -- Base equipment lend lease weight
 	EQUIPMENT_LEND_LEASE_WEIGHT_FACTOR = 0.01, -- Base equipment lend lease factor
@@ -1061,7 +1061,7 @@ NAI = {
 	BUILD_ARMOR_STRENGTH_MULTIPLIER_WEIGHT = 0.0,
 	BUILD_ARMOR_ORGANIZATION_MULTIPLIER_WEIGHT = 0.0,
 
-	UPGRADE_DIVISION_RELUCTANCE = 10,					-- How often to consider upgrading to new templates for units in the field
+	UPGRADE_DIVISION_RELUCTANCE = 11,					-- How often to consider upgrading to new templates for units in the field
 	UPGRADE_PERCENTAGE_OF_FORCES = 0.02,					-- How big part of the army that should be considered for upgrading
 
 	STRATEGIC_BOMBING_DEFENCE_IMPORTANCE = 500.0,
