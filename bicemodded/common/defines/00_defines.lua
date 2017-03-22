@@ -217,7 +217,7 @@ NProduction = {
 	EFFICIENCY_LOSS_PER_UNUSED_DAY = 1,		-- Daily loss of efficiency for unused factory slots ( efficiency is tracked per factory slot in the production line )
 	MAX_LINE_RESOURCE_PENALTY = 80,		-- Max penalty factor for production lines lacking strategic resources in %.
 	RESOURCE_PENALTY_WARNING_CRITICAL_RATIO = 0.75, -- Switch to red progress bar if penalty is over threshold 
-	BASE_FACTORY_SPEED = 3.2, 				-- Base factory speed multiplier (how much hoi3 style IC each factory gives).
+	BASE_FACTORY_SPEED = 3.15, 				-- Base factory speed multiplier (how much hoi3 style IC each factory gives).
 	BASE_FACTORY_SPEED_MIL = 5.5, 				-- Base factory speed multiplier (how much hoi3 style IC each factory gives).
 	BASE_FACTORY_SPEED_NAV = 3.2, 				-- Base factory speed multiplier (how much hoi3 style IC each factory gives).
 	BASE_FACTORY_START_EFFICIENCY_FACTOR = 17,	-- Base start efficiency for factories expressed in %.
@@ -1007,20 +1007,20 @@ NAI = {
 		0.0, -- suppression_factor
 		0.0, -- experience_loss_factor
 		-- Navy Values
-		0.0,   -- surface_detection
-		0.0,   -- sub_detection
+		4.0,   -- surface_detection
+		4.0,   -- sub_detection
 		0.0,   -- surface_visibility
 		0.0,   -- sub_visibility
-		0.0,   -- shore_bombardment
-		0.0,   -- fire_range
-		0.0,   -- evasion
-		40.0,   -- torpedo_attack
+		3.0,   -- shore_bombardment
+		3.0,   -- fire_range
+		3.0,   -- evasion
+		30.0,   -- torpedo_attack
 		5.0,   -- sub_attack
-		40.0,   -- attack
+		30.0,   -- attack
 		0.0,   -- port_capacity_usage
-		30.0,   -- anti_air_attack
+		20.0,   -- anti_air_attack
 		0.0,   -- amphibious_defense
-		0.0,   -- naval_speed
+		10.0,   -- naval_speed
 		25.0,   -- naval_range
 		0.0,   -- convoy_raiding_coordination
 		0.0,   -- patrol_coordination
@@ -1043,7 +1043,7 @@ NAI = {
 		1.0,   -- maximum_speed
 		1.0,   -- armor_value
 		0.0,   -- ap_attack
-		1.0,   -- reliability
+		0.5,   -- reliability
 		0.0,   -- reliability_factor
 		0.0, -- weight
 		-- Special Values
@@ -1061,7 +1061,7 @@ NAI = {
 	BUILD_ARMOR_STRENGTH_MULTIPLIER_WEIGHT = 0.0,
 	BUILD_ARMOR_ORGANIZATION_MULTIPLIER_WEIGHT = 0.0,
 
-	UPGRADE_DIVISION_RELUCTANCE = 11,					-- How often to consider upgrading to new templates for units in the field
+	UPGRADE_DIVISION_RELUCTANCE = 12,					-- How often to consider upgrading to new templates for units in the field
 	UPGRADE_PERCENTAGE_OF_FORCES = 0.02,					-- How big part of the army that should be considered for upgrading
 
 	STRATEGIC_BOMBING_DEFENCE_IMPORTANCE = 500.0,
