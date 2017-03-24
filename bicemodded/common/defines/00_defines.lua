@@ -845,11 +845,11 @@ NAI = {
 	LOCATION_BALANCE_TO_ADVANCE = 0.0,			-- Limit on location strength balance between country and enemy for unit to dare to move forward.
 	DIVISION_UPGRADE_MIN_XP = 999,				-- Minimum XP before attempting to upgrade a division template.
 	DIVISION_CREATE_MIN_XP = 400,				-- Minimum XP before attempting to create a fresh new division template.
-	VARIANT_UPGRADE_MIN_XP = 75,				-- Minimum XP before attempting to create a new variant.
+	VARIANT_UPGRADE_MIN_XP = 87,				-- Minimum XP before attempting to create a new variant.
 	UPGRADE_XP_RUSH_UPDATE = 400,				-- If XP is above this on the daily tick the AI will attempt to spend it
 	FOCUS_TREE_CONTINUE_FACTOR = 1,			-- Factor for score of how likely the AI is to keep going down a focus tree rather than starting a new path.
 	VP_GARRISON_VALUE_FACTOR = 0.6,				-- Extent to which VP garrisons are prioritized, based on VP value and compared to other priority values.
-	PLAN_VALUE_TO_EXECUTE = -0.62,				-- AI will typically avoid carrying out a plan it below this value (0.0 is considered balanced).
+	PLAN_VALUE_TO_EXECUTE = -1.02,				-- AI will typically avoid carrying out a plan it below this value (0.0 is considered balanced).
 	DECLARE_WAR_NOT_NEIGHBOR_FACTOR = 0.25,		-- Multiplier applied before force factor if country is not neighbor with the one it is considering going to war
 	CALL_ALLY_BASE_DESIRE = 15,					-- exactly what it says
 	CALL_ALLY_DEMOCRATIC_DESIRE = 50,			-- Desire to call ally added for democratic AI
@@ -1104,7 +1104,7 @@ NAI = {
 	NAVAL_MISSION_ESCORT_NEAR_CONTROLLED = 5500,		-- Extra escort mission score near controlled provinces
 	NEW_LEADER_EXTRA_PP_FACTOR = 7.0,					-- Country must have at least this many times extra PP to get new admirals or army leaders
 	SCARY_LEVEL_AVERAGE_DEFENSE = -0.7,                 -- average front defense modifier to make it consider it as a PITA to go for
-	ATTACK_HEAVILY_DEFENDED_LIMIT = 0.35,				-- AI will not launch attacks against heavily defended fronts unless they consider to have this level of advantage (1.0 = 100%)
+	ATTACK_HEAVILY_DEFENDED_LIMIT = 0.0,				-- AI will not launch attacks against heavily defended fronts unless they consider to have this level of advantage (1.0 = 100%)
 	HOUR_BAD_COMBAT_REEVALUATE = 50,                   -- if we are in combat for this amount and it goes shitty then try skipping it 
 	MIN_PLAN_VALUE_TO_MICRO_INACTIVE = 0.2,				-- The AI will not consider members of groups which plan is not activated AND evaluates lower than this.
 	
@@ -1180,26 +1180,26 @@ NAI = {
 	
 	LAND_DEFENSE_MIN_FACTORIES_FOR_AIR_IMPORTANCE = 4,	-- If amount of factories is less importance of factories won't apply
 	
-	LAND_DEFENSE_FIGHERS_PER_PLANE = 1.1,				-- Amount of air superiority planes requested per enemy plane
+	LAND_DEFENSE_FIGHERS_PER_PLANE = 2,				-- Amount of air superiority planes requested per enemy plane
 	LAND_DEFENSE_INTERSEPTORS_PER_BOMBERS = 0.2,		-- Amount of air interceptor planes requested per enemy plane
 	
-	LAND_COMBAT_AIR_SUPERIORITY_IMPORTANCE = 0.20,		-- Strategic importance of air superiority ( amount of enemy planes in area )
-	LAND_COMBAT_OUR_ARMIES_AIR_IMPORTANCE = 12,		-- Strategic importance of our armies
-	LAND_COMBAT_OUR_COMBATS_AIR_IMPORTANCE = 55,		-- Strategic importance of our armies in the combats
-	LAND_COMBAT_FRIEND_ARMIES_AIR_IMPORTANCE = 12,	-- Strategic importance of friendly armies
-	LAND_COMBAT_FRIEND_COMBATS_AIR_IMPORTANCE = 6,		-- Strategic importance of friendly armies in the combat
-	LAND_COMBAT_ENEMY_ARMIES_AIR_IMPORTANCE = 8,		-- Strategic importance of our armies
-	LAND_COMBAT_ENEMY_LAND_FORTS_AIR_IMPORTANCE = 5,	-- Strategic importance of enemy land forts in the region
-	LAND_COMBAT_ENEMY_COASTAL_FORTS_AIR_IMPORTANCE = 3,	-- Strategic importance of enemy coastal fronts in the region
+	LAND_COMBAT_AIR_SUPERIORITY_IMPORTANCE = 2,		-- Strategic importance of air superiority ( amount of enemy planes in area )
+	LAND_COMBAT_OUR_ARMIES_AIR_IMPORTANCE = 100,		-- Strategic importance of our armies
+	LAND_COMBAT_OUR_COMBATS_AIR_IMPORTANCE = 100,		-- Strategic importance of our armies in the combats
+	LAND_COMBAT_FRIEND_ARMIES_AIR_IMPORTANCE = 100,	-- Strategic importance of friendly armies
+	LAND_COMBAT_FRIEND_COMBATS_AIR_IMPORTANCE = 100,		-- Strategic importance of friendly armies in the combat
+	LAND_COMBAT_ENEMY_ARMIES_AIR_IMPORTANCE = 100,		-- Strategic importance of our armies
+	LAND_COMBAT_ENEMY_LAND_FORTS_AIR_IMPORTANCE = 1,	-- Strategic importance of enemy land forts in the region
+	LAND_COMBAT_ENEMY_COASTAL_FORTS_AIR_IMPORTANCE = 1,	-- Strategic importance of enemy coastal fronts in the region
 	LAND_COMBAT_IMPORTANCE_SCALE = 1.5,					-- Lend combat total importance scale (every land combat score get's multiplied by it)
 	
-	LAND_COMBAT_FIGHTERS_PER_PLANE = 1.1,				-- Amount of air superiority planes requested per enemy plane
+	LAND_COMBAT_FIGHTERS_PER_PLANE = 2,				-- Amount of air superiority planes requested per enemy plane
 	LAND_COMBAT_CAS_WINGS_PER_ENEMY_ARMY_LIMIT = 6,		-- Limit of CAS wings requested by enemy armies
-	LAND_COMBAT_CAS_PER_ENEMY_ARMY = 50,				-- Amount of CAS planes requested per enemy army
-	LAND_COMBAT_CAS_PER_COMBAT = 55,					-- Amount of CAS requested per combat
-	LAND_COMBAT_BOMBERS_PER_LAND_FORT_LEVEL = 18,		-- Amount of bomber planes requested per enemy land fort level
-	LAND_COMBAT_BOMBERS_PER_COASTAL_FORT_LEVEL = 10,	-- Amount of bomber planes requested per enemy coastal fort level
-	LAND_COMBAT_MIN_EXCORT_WINGS = 3,					-- Min amount of airwings requested to excort operations
+	LAND_COMBAT_CAS_PER_ENEMY_ARMY = 100,				-- Amount of CAS planes requested per enemy army
+	LAND_COMBAT_CAS_PER_COMBAT = 100,					-- Amount of CAS requested per combat
+	LAND_COMBAT_BOMBERS_PER_LAND_FORT_LEVEL = 10,		-- Amount of bomber planes requested per enemy land fort level
+	LAND_COMBAT_BOMBERS_PER_COASTAL_FORT_LEVEL = 1,	-- Amount of bomber planes requested per enemy coastal fort level
+	LAND_COMBAT_MIN_EXCORT_WINGS = 2,					-- Min amount of airwings requested to excort operations
 	
 	STR_BOMB_AIR_SUPERIORITY_IMPORTANCE = 0.10,			-- Strategic importance of air superiority ( amount of enemy planes in area )
 	STR_BOMB_CIVIL_FACTORY_IMPORTANCE = 60,				-- Strategic importance of enemy civil factories
