@@ -105,6 +105,7 @@ NDiplomacy = {
 	TAKE_STATES_PUPPET_COST_MULT = 0.5,				-- Cost multiplier for feeding states to a puppet that you have created, assuming the puppet currently owns the states
 	TAKE_STATES_LIBERATE_COST_MULT = 0.5,			-- Cost multiplier for feeding states to a country that has been liberated, assuming the country has cores on the states
 	TAKE_STATES_CHANGE_GOV_COST_MULT = 0.5,			-- Cost multiplier for feeding states to a country you are changing government on, assuming they currently own the states
+	
 	RESOURCE_SENT_AUTONOMY_DAILY_BASE = 0.0,		-- If puppet provides resources to its master they increasy their autonomy by at least this amount
 	RESOURCE_SENT_AUTONOMY_DAILY_FACTOR = 0.005,	-- If puppet provides resources to its master they increasy their autonomy by the resources factored by this
 	WAR_SCORE_AUTONOMY_BASE = 0.0,					-- Value added if any war score is contributed by puppet
@@ -163,10 +164,10 @@ NCountry = {
 	NUCLEAR_BOMB_DROP_UNITY_EFFECT_MAX_VP = 3,		-- National unity will be scaled down if there's less VP than this in the province
 	WEEKLY_UNITY_GAIN = 0.0,
 	RESOURCE_ORIGIN_PRIORITY = 1,					-- Default convoy priority for resources shipped internally
-	RESOURCE_EXPORT_PRIORITY = 0.85,					-- Default convoy priority for export trade
-	RESOURCE_LENDLEASE_PRIORITY = 0.85,				-- Default convoy priority for export lend lease
+	RESOURCE_EXPORT_PRIORITY = 1,					-- Default convoy priority for export trade
+	RESOURCE_LENDLEASE_PRIORITY = 1,				-- Default convoy priority for export lend lease
 	SUPPLY_CONVOY_FACTOR = 0.14,					-- How many convoys each supply needs
-	CONVOY_RANGE_FACTOR = 1.2,                        -- how much range affects convoy need
+	CONVOY_RANGE_FACTOR = 1,                        -- how much range affects convoy need
 	LOCAL_MANPOWER_ACCESSIBLE_FACTOR = 0.35,         -- was 0.45 accessible recruitable factor base
 	LOCAL_MANPOWER_ACCESSIBLE_NON_CORE_FACTOR = 0.03,  -- accessible recruitable factor base
 	STATE_CONTROLLER_VP_RATIO_FLIP = 0.5,			-- If current state controller has less share than this of state total and no armies in it the state changes controller
@@ -996,7 +997,7 @@ NAI = {
 		1.0, -- breakthrough
 		1.0, -- hardness
 		1.2, -- soft_attack
-		0.0, -- hard_attack
+		0.7, -- hard_attack
 		0.0, -- recon
 		0.0, -- entrenchment
 		0.0, -- initiative
@@ -1007,21 +1008,21 @@ NAI = {
 		0.0, -- suppression_factor
 		0.0, -- experience_loss_factor
 		-- Navy Values
-		4.0,   -- surface_detection
-		4.0,   -- sub_detection
+		1.0,   -- surface_detection
+		1.0,   -- sub_detection
 		0.0,   -- surface_visibility
 		0.0,   -- sub_visibility
-		3.0,   -- shore_bombardment
-		3.0,   -- fire_range
-		3.0,   -- evasion
-		30.0,   -- torpedo_attack
-		5.0,   -- sub_attack
-		30.0,   -- attack
+		1.0,   -- shore_bombardment
+		1.0,   -- fire_range
+		1.0,   -- evasion
+		1.0,   -- torpedo_attack
+		1.0,   -- sub_attack
+		1.0,   -- attack
 		0.0,   -- port_capacity_usage
-		20.0,   -- anti_air_attack
+		1.0,   -- anti_air_attack
 		0.0,   -- amphibious_defense
-		10.0,   -- naval_speed
-		25.0,   -- naval_range
+		1.0,   -- naval_speed
+		1.0,   -- naval_range
 		0.0,   -- convoy_raiding_coordination
 		0.0,   -- patrol_coordination
 		0.0,   -- search_and_destroy_coordination
@@ -1048,7 +1049,7 @@ NAI = {
 		0.0, -- weight
 		-- Special Values
 		0.0,   -- strategic_attack
-		70.0,   -- carrier_size
+		1.0,   -- carrier_size
 	},
 	DIVISION_DESIGN_MANPOWER_WEIGHT = 0.000,
 	DIVISION_DESIGN_STOCKPILE_WEIGHT = 0.000,
@@ -1094,7 +1095,7 @@ NAI = {
 	STATE_CONTROL_FOR_AREA_DEFENSE = 0.4,				-- To avoid AI sending area defense to area with very little foothold
 	FORCE_FACTOR_AGAINST_EXTRA_MINOR = 0.15,			-- AI considers generating wargoals against minors below this % of force compared to themselves to get at a bigger enemy.
 	MAX_EXTRA_WARGOAL_GENERATION = 2,					-- AI may want to generate wargoals against weak minors to get at larger enemy, but never more that this at any given time.
-	NAVAL_MISSION_DISTANCE_BASE = 3000,					-- Base value when AI is evaluating distance score to places
+	NAVAL_MISSION_DISTANCE_BASE = 2000,					-- Base value when AI is evaluating distance score to places
 	NAVAL_MISSION_INVASION_BASE = 1200,					-- Base score for region with naval invasion (modified dynamically by prioritizing orders)
 	NAVAL_MISSION_AGGRESSIVE_PATROL_DIVISOR = 1,		-- Divides patrol score when not defending
 	NAVAL_MISSION_AGGRESSIVE_ESCORT_DIVISOR = 2,		-- Divides escort score when not defending
