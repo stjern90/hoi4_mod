@@ -167,7 +167,7 @@ NCountry = {
 	RESOURCE_EXPORT_PRIORITY = 1,					-- Default convoy priority for export trade
 	RESOURCE_LENDLEASE_PRIORITY = 1,				-- Default convoy priority for export lend lease
 	SUPPLY_CONVOY_FACTOR = 0.14,					-- How many convoys each supply needs
-	CONVOY_RANGE_FACTOR = 0.8,                        -- how much range affects convoy need
+	CONVOY_RANGE_FACTOR = 1,                        -- how much range affects convoy need
 	LOCAL_MANPOWER_ACCESSIBLE_FACTOR = 0.35,         -- was 0.45 accessible recruitable factor base
 	LOCAL_MANPOWER_ACCESSIBLE_NON_CORE_FACTOR = 0.03,  -- accessible recruitable factor base
 	STATE_CONTROLLER_VP_RATIO_FLIP = 0.5,			-- If current state controller has less share than this of state total and no armies in it the state changes controller
@@ -776,14 +776,14 @@ NAI = {
 	GARRISON_FRACTION = 0.2, 					-- How large part of a front should always be holding the line rather than advancing at the enemy
 	
 	DIPLOMATIC_ACTION_GOOD_BAD_RATIO_THRESHOLD = 1,
-	BASE_RELUCTANCE = 20, 						-- Base reluctance applied to all diplomatic offers
-	DIPLOMATIC_ACTION_RANDOM_FACTOR = 0.5, 		-- How much of the AI diplomatic action scoring is randomly determined (1.0 = half random, 2.0 = 2/3rd random, etc)
-	DIPLOMATIC_ACTION_PROPOSE_SCORE = 50, 		-- AI must score a diplomatic action at least this highly to propose it themselves
-	DILPOMATIC_ACTION_DECLARE_WAR_WARGOAL_BASE = 50, -- Base diplomatic action score bonus to go to war per wargoal
+	BASE_RELUCTANCE = 30, 						-- Base reluctance applied to all diplomatic offers
+	DIPLOMATIC_ACTION_RANDOM_FACTOR = 0.4, 		-- How much of the AI diplomatic action scoring is randomly determined (1.0 = half random, 2.0 = 2/3rd random, etc)
+	DIPLOMATIC_ACTION_PROPOSE_SCORE = 60, 		-- AI must score a diplomatic action at least this highly to propose it themselves
+	DILPOMATIC_ACTION_DECLARE_WAR_WARGOAL_BASE = 60, -- Base diplomatic action score bonus to go to war per wargoal
 	DIPLOMATIC_ACTION_BREAK_SCORE = -10, 		-- AI must score a diplomatic action less than this to break it off	
-	DIPLOMACY_CREATE_FACTION_FACTOR = 0.75,		-- Factor for AI desire to create a new faction. Val < 1.0 makes it less likely to create than to join.
-	DIPLOMACY_FACTION_WRONG_IDEOLOGY_PENALTY = 60, -- AI penalty for diplomatic faction acitons between nations of different ideologies
-	DIPLOMACY_FACTION_SAME_IDEOLOGY_MAJOR = 10, -- AI bonus acceptance when being asked about faction is a major of the same ideology
+	DIPLOMACY_CREATE_FACTION_FACTOR = 0.55,		-- Factor for AI desire to create a new faction. Val < 1.0 makes it less likely to create than to join.
+	DIPLOMACY_FACTION_WRONG_IDEOLOGY_PENALTY = 65, -- AI penalty for diplomatic faction acitons between nations of different ideologies
+	DIPLOMACY_FACTION_SAME_IDEOLOGY_MAJOR = 35, -- AI bonus acceptance when being asked about faction is a major of the same ideology
 	DIPLOMACY_FACTION_NEUTRALITY_PENALTY = 50,	-- Neutral nations have a separate penalty, not wanting to get involved at all, rather than caring much about the difference in ideology
 	DIPLOMACY_FACTION_GLOBAL_TENSION_FACTOR = 0.2,-- How much the AI takes global tension into account when considering faction actions
 	DIPLOMACY_LEAVE_FACTION_OPINION_FACTOR = 0.75,-- How much the opinion of countries being targeted by faction leader matters when deciding to leave a faction (democratic only)
@@ -795,9 +795,9 @@ NAI = {
 	DIPLOMACY_IMPROVE_RELATION_COST_FACTOR = 5.0,-- Desire to boost relations subtracts the cost multiplied by this
 	DIPLOMACY_IMPROVE_RELATION_PP_FACTOR = 0.1,	-- Desire to boost relations adds total PP multiplied by this
 	DIPLOMACY_REJECTED_WAIT_MONTHS_BASE = 4,	-- AI will not repeat offers until at least this time has passed, and at most the double
-	DIPLOMACY_SEND_EXPEDITIONARY_INDUSTRY_FACTOR = 2.0, -- Weight when counting industry (will be added to military strength)
-	DIPLOMACY_SEND_EXPEDITIONARY_BASE = 25,		-- Multiplied with relative strength factor to get result (if other is twice as "strong" the result with 25 would be 50)
-	DIPLOMACY_ACCEPT_VOLUNTEERS_BASE = 50,		-- Base value of volunteer acceptance (help is welcome)
+	DIPLOMACY_SEND_EXPEDITIONARY_INDUSTRY_FACTOR = 1.0, -- Weight when counting industry (will be added to military strength)
+	DIPLOMACY_SEND_EXPEDITIONARY_BASE = 1,		-- Multiplied with relative strength factor to get result (if other is twice as "strong" the result with 25 would be 50)
+	DIPLOMACY_ACCEPT_VOLUNTEERS_BASE = 45,		-- Base value of volunteer acceptance (help is welcome)
 	DIPLOMACY_FACTION_MAJOR_AT_WAR = 1000.0,	-- Factor that will be multiplied with the surrender level in the desire to offer to the other ai to join a faction
 	DIPLOMACY_FACTION_SURRENDER_LEVEL = 20, 	-- How much the recipient nation losing matters for joining a faction
 	DIPLO_PREFER_OTHER_FACTION = -200,			-- The country has yet to ask some other faction it would prefer to be a part of.
@@ -920,7 +920,7 @@ NAI = {
 	FRONT_TERRAIN_DEFENSE_FACTOR = 2.0,			-- Multiplier applied to unit defense modifier for terrain on front province multiplied by terrain importance
 	FRONT_TERRAIN_ATTACK_FACTOR = 2.0,			-- Multiplier applied to unit attack modifier for terrain on enemy front province multiplied by terrain importance
 	
-	BASE_DISTANCE_TO_CARE = 1900.0,				-- Countries that are too far away are less interesting in diplomacy
+	BASE_DISTANCE_TO_CARE = 900.0,				-- Countries that are too far away are less interesting in diplomacy
 	MIN_FORCE_RATIO_TO_PROTECT = 0.5,			-- Tiny countries should not feel protective or really large ones
 	
 	ORG_UNIT_STRONG = 0.9,						-- Organization % for unit to be considered strong
@@ -1234,6 +1234,5 @@ NFocus = {
 	MAX_SAVED_FOCUS_PROGRESS = 10,				-- This much progress can be saved while not having a focus selected
 	},
 }
-
 
 
