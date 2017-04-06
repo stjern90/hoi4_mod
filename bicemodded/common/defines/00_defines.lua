@@ -652,7 +652,7 @@ NNavy = {
 	COMBAT_EVASION_TO_HIT_CHANCE = 0.005,							-- we take ship evasion stats, and mult by this value, so it gives hit chance reduction. So if reduction is 0.025 and ship evasion = 10, then there will be 0.25 (25%) lower hit chance. (Fe. 50% base -25% from evasion +10% bcoz it's very close).
 	COMBAT_EVASION_TO_HIT_CHANCE_TORPEDO_MULT = 2.0,				-- the above evasion hit chance is multiplied by 150% if shooting with torpedos. Torpedoes are slow, so evasion matters more.
 	MAX_EVASION_BONUS = 0.1,										-- largest evasion penalty to hitting
-	TARGETING_STACKING_HIT_CHANCE_PENALTY = 0.08,                    -- penalty to hit chance for each ship targeting same target
+	TARGETING_STACKING_HIT_CHANCE_PENALTY = 0.1,                    -- penalty to hit chance for each ship targeting same target
 	COMBAT_LOW_ORG_HIT_CHANCE_PENALTY = -0.8,						-- % of penalty applied to hit chance when ORG is very low.
 	COMBAT_DAMAGE_RANDOMNESS = 0.6,								-- DNM, original 0.3, BICE had 0.4 -- random factor in damage. So if max damage is fe. 10, and randomness is 30%, then damage will be between 7-10.
 	COMBAT_TORPEDO_CRITICAL_CHANCE = 0.2,							-- chance for critical hit from torpedo.
