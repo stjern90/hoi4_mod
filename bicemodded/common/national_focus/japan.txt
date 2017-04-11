@@ -39,7 +39,12 @@ focus_tree = {
 		icon = GFX_goal_generic_political_pressure
 		available = { is_puppet = no }
 		prerequisite = { focus = test_the_ussr_focus }
-		bypass = { NOT = { country_exists = CHI } }
+				bypass = {
+			OR = {
+				NOT = { country_exists = CHI }
+				has_global_flag = KMT_pro_japanese
+			}
+		}
 		x = 15
 		y = 1
 		cost = 5
@@ -69,13 +74,20 @@ focus_tree = {
 			NOT = { has_war_with = CHI }
 		}
 		bypass = {
-			CHI = { is_puppet_of = JAP }
+			OR = {
+				CHI = { is_puppet_of = JAP }
+				has_global_flag = KMT_pro_japanese
+			}
 		}
 		x = 14
 		y = 2
 		cost = 10
 		ai_will_do = {
 			factor = 2.5
+			modifier = {
+				factor = 100
+				has_idea = JAP_kodoha_idea
+			}	
 		}	
 		completion_reward = {
 			CHI = {
@@ -114,24 +126,43 @@ focus_tree = {
 					}
 					has_war_with_amount > 2
 				}
+			}
+			modifier = {
+				factor = 0
+				has_idea = JAP_kodoha_idea
 			}			
 		}	
 		completion_reward = {
-			create_wargoal = {
-				type = take_state_focus
-				target = CHI
-				generator = { 608 } 
-			}
-			create_wargoal = {
-				type = annex_everything
-				target = SHX
+			if = {
+				limit = {
+					is_ai = yes
+				}
+				declare_war_on = {
+					type = take_state_focus
+					target = CHI
+					generator = owned_states
+				}
+				declare_war_on = {
+					type = annex_everything
+					target = SHX
+				}
+				else = {
+					create_wargoal = {
+						type = take_state_focus
+						target = CHI
+						generator = owned_states
+					}
+					create_wargoal = {
+						type = annex_everything
+						target = SHX
+					}
+				}
 			}
 			hidden_effect ={
 				news_event = { hours = 6 id = news.231 }
 			}
 		}
 	}
-	
 	focus = {
 		id = subdue_warlords_focus
 		prerequisite = { 
@@ -140,6 +171,11 @@ focus_tree = {
 		}
 		available = {
 			NOT = { has_war_with = CHI }
+			OR = {
+				CHI = { exists = no }
+				CHI = { is_puppet_of = JAP }
+				CHI = { is_in_faction_with = JAP }
+			}
 			OR = {
 				country_exists = PRC
 				country_exists = SHX
@@ -1522,6 +1558,7 @@ focus_tree = {
 				technology = amphibious_equipment2
 				category = support_tech
 				technology = tech_japanese_amph_tank_a
+                technology = tech_japanese_amph_tank_b
 			}
 		}
 	}
