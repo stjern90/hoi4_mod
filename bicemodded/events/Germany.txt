@@ -5710,7 +5710,7 @@ country_event = {
 		name = germany.228.b		#refuse
 		ai_chance = { factor = 0 }
 		set_country_flag = panzer_35t
-		GER = { news_event = { id = germany.229 } }
+		#GER = { news_event = { id = germany.229 } }
 	}
 }
 
@@ -6308,10 +6308,91 @@ country_event = {
 			hidden_effect = {
 				set_global_flag = GER_fate_of_yugoslavia_puppet_CRO_annex_YUG
 				news_event = { hours = 6 id = news.169 }
-			}
-}
-option = {
+			}   
+	}
+	
+    option = {
 		name = germany.250.b
 		ai_chance = { factor = 0 }
+    }
+}
+
+
+
+
+
+country_event = {
+	id = germany.251
+	hidden = yes
+	fire_only_once = yes
+	trigger = {
+		tag = GER
+		is_ai = yes
+		ITA = { is_ai = yes has_government = fascism 
+		has_war_with = GRE
+		}
+		
+		NOT = { 
+			ITA = { has_capitulated = yes }
+			ITA = { exists = no }
+			ITA = { is_puppet = yes }
+		}
+		
+		NOT = { 
+			GRE = { has_capitulated = yes }
+			GRE = { exists = no }
+			GRE = { is_puppet = yes }
+			GRE = { has_government = fascism }
+			is_in_faction_with = GRE
+			has_war_with = GRE
+		}
+		
+		OR = { 
+			POL = { has_capitulated = yes }
+			POL = { exists = no }
+			POL = { is_puppet = yes }
+			POL = { has_government = fascism }
+			is_in_faction_with = POL
+		}
+		
+		OR = { 
+			FRA = { has_capitulated = yes }
+			FRA = { exists = no }
+			FRA = { is_puppet = yes }
+			FRA = { has_government = fascism }
+			is_in_faction_with = FRA
+		}
+		
+		NOT = {
+			any_state = {
+				OR = { region = 19 region = 20 region = 5 region = 6 region = 21 region = 26 state = 161 state = 162 }
+				controller = { has_war_with = GER }
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		days = 30
+	}
+	
+	immediate = {
+		if = { limit = { NOT = { has_wargoal_against = GRE } }
+			create_wargoal = {
+				type = take_state
+				target = GRE
+				generator = { 731 }
+			}
+		}
+		country_event = { id = germany.252 days = 8 }
+    }
+	option = { name = "OK" }
+}
+
+country_event = {
+	id = germany.252
+	hidden = yes
+	is_triggered_only = yes
+	immediate = { if = { limit = { NOT = { has_war_with = GRE } } declare_war_on = { target = GRE type = take_state_focus } } }
+	option = { name = "OK" }
 }
 		
