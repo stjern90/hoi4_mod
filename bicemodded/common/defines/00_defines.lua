@@ -218,7 +218,7 @@ NProduction = {
 	EFFICIENCY_LOSS_PER_UNUSED_DAY = 1,		-- Daily loss of efficiency for unused factory slots ( efficiency is tracked per factory slot in the production line )
 	MAX_LINE_RESOURCE_PENALTY = 80,		-- Max penalty factor for production lines lacking strategic resources in %.
 	RESOURCE_PENALTY_WARNING_CRITICAL_RATIO = 0.75, -- Switch to red progress bar if penalty is over threshold 
-	BASE_FACTORY_SPEED = 3.0, 				-- Base factory speed multiplier (how much hoi3 style IC each factory gives).
+	BASE_FACTORY_SPEED = 2.9, 				-- Base factory speed multiplier (how much hoi3 style IC each factory gives).
 	BASE_FACTORY_SPEED_MIL = 5.3, 				-- Base factory speed multiplier (how much hoi3 style IC each factory gives).
 	BASE_FACTORY_SPEED_NAV = 3.2, 				-- Base factory speed multiplier (how much hoi3 style IC each factory gives).
 	BASE_FACTORY_START_EFFICIENCY_FACTOR = 25,	-- Base start efficiency for factories expressed in %.
@@ -810,7 +810,7 @@ NAI = {
 	RESEARCH_BONUS_FACTOR = 2.0, 				-- To which extent AI should care about bonuses to research
 	MAX_AHEAD_RESEARCH_PENALTY = 2,
 	RESEARCH_AHEAD_OF_TIME_FACTOR = 3.5, 		-- To which extent AI should care about ahead of time penalties to research
-	RESEARCH_BASE_DAYS = 60,					-- AI adds a base number of days when weighting completion time for techs to ensure it doesn't only research quick techs
+	RESEARCH_BASE_DAYS = 85,					-- AI adds a base number of days when weighting completion time for techs to ensure it doesn't only research quick techs
 	DECLARE_WAR_RELATIVE_FORCE_FACTOR = 0.5,	-- Weight of relative force between nations that consider going to war
 	TRADEABLE_FACTORIES_FRACTION = 1,			-- Will at most trade away this fraction of factories.
 	MIN_DELIVERED_TRADE_FRACTION = 0.6,			-- AI will cancel trade deals that are not able to deliver more than this fraction of the agreed amount
@@ -1231,7 +1231,7 @@ NFocus = {
 	FOCUS_POINT_DAYS = 7,						-- Each point takes a week
 	FOCUS_PROGRESS_PEACE = 1,					-- Progress during peace
 	FOCUS_PROGRESS_WAR = 1,					-- Progress during war
-	MAX_SAVED_FOCUS_PROGRESS = 10,				-- This much progress can be saved while not having a focus selected
+	MAX_SAVED_FOCUS_PROGRESS = 20,				-- This much progress can be saved while not having a focus selected
 	},
 }
 

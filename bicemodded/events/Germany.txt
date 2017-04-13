@@ -5765,7 +5765,7 @@ country_event = {
 		name = germany.228.b		#refuse
 		ai_chance = { factor = 0 }
 		set_country_flag = panzer_35t
-		GER = { news_event = { id = germany.229 } }
+		#GER = { news_event = { id = germany.229 } }
 	}
 }
 
@@ -6256,5 +6256,198 @@ country_event = {
 	option = {
 		name = germany.249.b
 	}
+}
+#Direct annexation hotfix so that YUG is annexed properly - Fate of Yugoslavia
+country_event = {
+	id = germany.250
+	title = germany.250.t
+	desc = germany.250.d
+	picture = GFX_report_event_soldiers_marching
+	trigger = {
+		tag = YUG
+		is_ai = yes
+		GER = { is_ai = yes }
+		date > 1941.4.1
+	}
+	mean_time_to_happen = {
+		days = 5
+	}
+	option = {
+		name = germany.250.a
+		ai_chance = { factor = 100 }
+		add_political_power = -25
+			add_named_threat = { threat = 5 name = GER_fate_of_yugoslavia }
+			CRO = {
+					if = {
+						limit = { YUG = { owns_state = 103 } }
+						transfer_state = 103
+					}
+					if = {
+						limit = { YUG = { owns_state = 104 } }
+						transfer_state = 104
+					}
+					if = {
+						limit = { YUG = { owns_state = 881 } }
+						transfer_state = 881
+					}
+					if = {
+						limit = { YUG = { owns_state = 880 } }
+						transfer_state = 880
+					}
+					if = {
+						limit = { YUG = { owns_state = 886 } }
+						transfer_state = 886
+					}
+					if = {
+						limit = { YUG = { owns_state = 109 } }
+						transfer_state = 109
+					}		
+					if = {
+						limit = { YUG = { owns_state = 874 } }
+						transfer_state = 874
+					}	
+					if = {
+						limit = { YUG = { owns_state = 876 } }
+						transfer_state = 876
+					}						
+				}
+				HUN = {
+				if = {
+						limit = { YUG = { owns_state = 877 } }
+						transfer_state = 877
+					}
+					if = {
+						limit = { YUG = { owns_state = 45 } }
+						transfer_state = 45
+					}
+					if = {
+						limit = { YUG = { owns_state = 873 } }
+						transfer_state = 873
+					}
+					}
+				BUL = {
+				if = {
+						limit = { YUG = { owns_state = 106 } }
+						transfer_state = 106
+					}
+					if = {
+						limit = { YUG = { owns_state = 883 } }
+						transfer_state = 883
+					}
+					}
+				ITA = {
+				if = {
+						limit = { YUG = { owns_state = 878 } }
+						transfer_state = 878
+					}
+					if = {
+						limit = { YUG = { owns_state = 875 } }
+						transfer_state = 875
+					}
+					if = {
+						limit = { YUG = { owns_state = 105 } }
+						transfer_state = 105
+					}
+					if = {
+						limit = { YUG = { owns_state = 882 } }
+						transfer_state = 882
+					}
+					if = {
+						limit = { YUG = { owns_state = 884 } }
+						transfer_state = 884
+					}
+					}
+			puppet = CRO
+			annex_country = { target = YUG transfer_troops = no }
+
+			hidden_effect = {
+				set_global_flag = GER_fate_of_yugoslavia_puppet_CRO_annex_YUG
+				news_event = { hours = 6 id = news.169 }
+			}   
+	}
+	
+    option = {
+		name = germany.250.b
+		ai_chance = { factor = 0 }
+    }
+}
+
+
+
+
+
+country_event = {
+	id = germany.251
+	hidden = yes
+	fire_only_once = yes
+	trigger = {
+		tag = GER
+		is_ai = yes
+		ITA = { is_ai = yes has_government = fascism 
+		has_war_with = GRE
+		}
+		
+		NOT = { 
+			ITA = { has_capitulated = yes }
+			ITA = { exists = no }
+			ITA = { is_puppet = yes }
+		}
+		
+		NOT = { 
+			GRE = { has_capitulated = yes }
+			GRE = { exists = no }
+			GRE = { is_puppet = yes }
+			GRE = { has_government = fascism }
+			is_in_faction_with = GRE
+			has_war_with = GRE
+		}
+		
+		OR = { 
+			POL = { has_capitulated = yes }
+			POL = { exists = no }
+			POL = { is_puppet = yes }
+			POL = { has_government = fascism }
+			is_in_faction_with = POL
+		}
+		
+		OR = { 
+			FRA = { has_capitulated = yes }
+			FRA = { exists = no }
+			FRA = { is_puppet = yes }
+			FRA = { has_government = fascism }
+			is_in_faction_with = FRA
+		}
+		
+		NOT = {
+			any_state = {
+				OR = { region = 19 region = 20 region = 5 region = 6 region = 21 region = 26 state = 161 state = 162 }
+				controller = { has_war_with = GER }
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		days = 30
+	}
+	
+	immediate = {
+		if = { limit = { NOT = { has_wargoal_against = GRE } }
+			create_wargoal = {
+				type = take_state
+				target = GRE
+				generator = { 731 }
+			}
+		}
+		country_event = { id = germany.252 days = 8 }
+    }
+	option = { name = "OK" }
+}
+
+country_event = {
+	id = germany.252
+	hidden = yes
+	is_triggered_only = yes
+	immediate = { if = { limit = { NOT = { has_war_with = GRE } } declare_war_on = { target = GRE type = take_state_focus } } }
+	option = { name = "OK" }
 }
 		

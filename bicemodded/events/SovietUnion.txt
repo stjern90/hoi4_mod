@@ -83,7 +83,7 @@ country_event = {
 					}
 				}
 			}
-			random_owned_state = {
+			random_owned_controlled_state = {
 				limit = { any_neighbor_state = { is_owned_by = JAP } }
 				add_manpower = -30000
 			}
@@ -121,7 +121,7 @@ country_event = {
 					}
 				}
 			}
-			random_owned_state = {
+			random_owned_controlled_state = {
 				limit = { any_neighbor_state = { is_owned_by = JAP } }
 				add_manpower = -20000
 			}
@@ -311,8 +311,6 @@ country_event = {
 	
 	is_triggered_only = yes
 	
-	fire_only_once = yes
-	
 	option = {
 		name = soviet.13.a
 		create_wargoal = {
@@ -322,7 +320,7 @@ country_event = {
 		}				
 		hidden_effect = {
 			SOV = {
-				country_event = { days = 1 id = news.12 }	
+				country_event = { days = 1 id = news.12 }				
 				set_global_flag = finland_take_this
 			}
 		}
@@ -399,6 +397,9 @@ country_event = {
 		date > 1936.11.1
 		tag = CHI
 		has_opinion_modifier = hostile_status
+		NOT = {
+			has_global_flag = zxl_as_gnwu_leader
+		}
 	}
 
 	fire_only_once = yes
@@ -409,7 +410,8 @@ country_event = {
 	
 	# Enter negotiations with Communist China
 	option = {
-	ai_chance = {
+		ai_chance = {
+			factor = 100
 			modifier = {
 				factor = 0
 				has_war_with = PRC
@@ -423,7 +425,13 @@ country_event = {
 	option = {
 		name = soviet.18.b
 		#SOV = { country_event = { id = soviet.20 days = 1 } }
-		ai_chance = { factor = 0 }
+		ai_chance = { 
+			factor = 0
+			modifier = {
+				factor = 100
+				has_war_with = PRC
+			} 
+		}
 		set_global_flag = CHI_no_national_front_flag
 		custom_effect_tooltip = CHI_no_united_front
 	}
@@ -440,6 +448,11 @@ country_event = {
 	
 	# Agree to a truce
 	option = {
+		trigger = {
+			NOT = {
+				has_global_flag = NWNDG_formed
+			}
+		}
 		name = soviet.19.a
 		remove_opinion_modifier = { target = CHI modifier = hostile_status }
 		CHI = {
@@ -472,20 +485,40 @@ country_event = {
 				}
 			}
 		}
-	effect_tooltip = {
+		effect_tooltip = {
 			CHI = {
 				white_peace = PRC
+				diplomatic_relation = { country = PRC relation = non_aggression_pact }
 			}
 		}
+		set_global_flag = PRC_yes_truce
 		#SOV = { country_event = { id = soviet.21 days = 1 } }
 	}
 
 	# Refuse to negotiate
 	option = {
 		name = soviet.19.b
-		country_event = { id = soviet.22 days = 1 }
+		CHI = {
+			country_event = { id = soviet.22 days = 1 }
+		}
 		set_global_flag = CHI_no_national_front_flag
-		ai_chance = { factor = 0 }
+		ai_chance = { 
+			factor = 0 
+			modifier = {
+				NOT = {
+					has_global_flag = PRC_zxl_as_leader
+				}
+				OR = {
+					has_global_flag = PRC_defy_sov_order
+					has_global_flag = PRC_sov_approve
+				}
+				factor = 100
+			}
+			modifier = {
+				has_global_flag = PRC_zxl_as_leader
+				factor = 0
+			}
+		}
 		custom_effect_tooltip = CHI_no_united_front
 	}
 }
@@ -501,6 +534,7 @@ country_event = {
 	
 	option = {
 		name = soviet.20.a
+		set_global_flag = zxl_arrested
 	}
 }
 
@@ -515,7 +549,9 @@ country_event = {
 	
 	option = {
 		name = soviet.21.a
+		set_global_flag = zxl_arrested
 		white_peace = PRC
+		diplomatic_relation = { country = PRC relation = non_aggression_pact }
 		effect_tooltip = {
 			PRC = { remove_opinion_modifier = { target = CHI modifier = hostile_status } }
 			CHI = { remove_opinion_modifier = { target = PRC modifier = hostile_status } }
@@ -534,6 +570,7 @@ country_event = {
 	
 	option = {
 		name = soviet.22.a
+		set_global_flag = zxl_arrested
 	}
 }
 
@@ -1025,8 +1062,6 @@ country_event = {
 
 	is_triggered_only = yes
 	
-	fire_only_once = yes
-	
 	trigger = {
 		tag = SOV
 		FROM = { tag = FIN }
@@ -1034,8 +1069,6 @@ country_event = {
 		146 = {
 			is_claimed_by = SOV
 			is_owned_by = FIN
-
-
 		}
 	}
 	
@@ -1657,6 +1690,7 @@ country_event = {
 		tag = SOV
 		has_country_flag = SOV_soviet.48_notrotsky
 	}
+	
 	fire_only_once = yes
 
 	mean_time_to_happen = { days = 10 }
