@@ -909,7 +909,7 @@ NAI = {
 	EASY_TARGET_FRONT_IMPORTANCE = 3.5,			-- How much extra focus the AI should put on who it considers to be the easiest target.
 	AI_FRONT_MOVEMENT_FACTOR_FOR_READY = 0.45,	-- If less than this fraction of units on a front is moving, AI sees it as ready for action	
 	MICRO_POCKET_SIZE = 4,						-- Pockets with a size equal to or lower than this will be mocroed by the AI, for efficiency.
-	POCKET_DISTANCE_MAX = 300,				-- shortest square distance we bother about chasing pockets
+	POCKET_DISTANCE_MAX = 20000,				-- shortest square distance we bother about chasing pockets
 	VP_LEVEL_IMPORTANCE_HIGH = 30,				-- Victory points with values higher than or equal to this are considered to be of high importance.
 	VP_LEVEL_IMPORTANCE_MEDIUM = 10,			-- Victory points with values higher than or equal to this are considered to be of medium importance.
 	VP_LEVEL_IMPORTANCE_LOW = 5,				-- Victory points with values higher than or equal to this are considered to be of low importance.
@@ -921,7 +921,7 @@ NAI = {
 	FRONT_TERRAIN_ATTACK_FACTOR = 2.0,			-- Multiplier applied to unit attack modifier for terrain on enemy front province multiplied by terrain importance
 	
 	BASE_DISTANCE_TO_CARE = 2000.0,				-- Countries that are too far away are less interesting in diplomacy
-	MIN_FORCE_RATIO_TO_PROTECT = 0.05,			-- Tiny countries should not feel protective or really large ones
+	MIN_FORCE_RATIO_TO_PROTECT = 0.5,			-- Tiny countries should not feel protective or really large ones
 	
 	ORG_UNIT_STRONG = 0.9,						-- Organization % for unit to be considered strong
 	ORG_UNIT_WEAK = 0.15,						-- Organization % for unit to be considered weak
@@ -1077,8 +1077,8 @@ NAI = {
 
 	ESCORT_BOMBERS_IMPORTANCE_MODIFIER = 3.0,
 	PRODUCTION_LINE_SWITCH_SURPLUS_NEEDED_MODIFIER = 0.1,	-- Is modified by efficency modifiers.
-	PLAN_ACTIVATION_MAJOR_WEIGHT_FACTOR = 1.0,			-- AI countries will hold on activating plans if stronger countries have plans in the same location. Majors count extra (value of 1 will negate this)
-	PLAN_ACTIVATION_PLAYER_WEIGHT_FACTOR = 1.0,		-- AI countries will hold on activating plans if player controlled countries have plans in the same location. Majors count extra (value of 1 will negate this)
+	PLAN_ACTIVATION_MAJOR_WEIGHT_FACTOR = 0.0,			-- AI countries will hold on activating plans if stronger countries have plans in the same location. Majors count extra (value of 1 will negate this)
+	PLAN_ACTIVATION_PLAYER_WEIGHT_FACTOR = 0.0,		-- AI countries will hold on activating plans if player controlled countries have plans in the same location. Majors count extra (value of 1 will negate this)
 	AREA_DEFENSE_BASE_IMPORTANCE = 3,					-- Area defense order base importance value (used for determining order of troop selections)
 	AREA_DEFENSE_CIVIL_WAR_IMPORTANCE = 10000,			-- Area defense order importance value when a country is in a civil war as target or revolter.
 
@@ -1095,12 +1095,12 @@ NAI = {
 	STATE_CONTROL_FOR_AREA_DEFENSE = 0.4,				-- To avoid AI sending area defense to area with very little foothold
 	FORCE_FACTOR_AGAINST_EXTRA_MINOR = 0.15,			-- AI considers generating wargoals against minors below this % of force compared to themselves to get at a bigger enemy.
 	MAX_EXTRA_WARGOAL_GENERATION = 2,					-- AI may want to generate wargoals against weak minors to get at larger enemy, but never more that this at any given time.
-	NAVAL_MISSION_DISTANCE_BASE = 12000,					-- Base value when AI is evaluating distance score to places
+	NAVAL_MISSION_DISTANCE_BASE = 2000,					-- Base value when AI is evaluating distance score to places
 	NAVAL_MISSION_INVASION_BASE = 1200,					-- Base score for region with naval invasion (modified dynamically by prioritizing orders)
 	NAVAL_MISSION_AGGRESSIVE_PATROL_DIVISOR = 1,		-- Divides patrol score when not defending
 	NAVAL_MISSION_AGGRESSIVE_ESCORT_DIVISOR = 2,		-- Divides escort score when not defending
-	NAVAL_MISSION_PATROL_NEAR_OWNED = 10000,				-- Extra patrol mission score near owned provinces
-	NAVAL_MISSION_ESCORT_NEAR_OWNED = 7000,				-- Extra escort mission score near owned provinces
+	NAVAL_MISSION_PATROL_NEAR_OWNED = 30000,				-- Extra patrol mission score near owned provinces
+	NAVAL_MISSION_ESCORT_NEAR_OWNED = 20000,				-- Extra escort mission score near owned provinces
 	NAVAL_MISSION_PATROL_NEAR_CONTROLLED = 12000,		-- Extra patrol mission score near controlled provinces
 	NAVAL_MISSION_ESCORT_NEAR_CONTROLLED = 5500,		-- Extra escort mission score near controlled provinces
 	NEW_LEADER_EXTRA_PP_FACTOR = 7.0,					-- Country must have at least this many times extra PP to get new admirals or army leaders
@@ -1117,7 +1117,7 @@ NAI = {
 	DESIRED_UNITS_FACTOR_FRONT_ORDER = 1.5,				-- Factor for desired number of units to assign to area front orders
 	MIN_UNITS_FACTOR_FRONT_ORDER = 1.0,					-- Factor for min number of units to assign to area front orders
 
-	MAX_UNITS_FACTOR_INVASION_ORDER = 1.1,				-- Factor for max number of units to assign to naval invasion orders
+	MAX_UNITS_FACTOR_INVASION_ORDER = 1.0,				-- Factor for max number of units to assign to naval invasion orders
 	DESIRED_UNITS_FACTOR_INVASION_ORDER = 0.7,			-- Factor for desired number of units to assign to naval invasion orders
 	MIN_UNITS_FACTOR_INVASION_ORDER = 0.5,				-- Factor for min number of units to assign to naval invasion orders
 	
