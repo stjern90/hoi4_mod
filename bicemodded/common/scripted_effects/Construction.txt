@@ -1,0 +1,1259 @@
+add_CIC = {
+	add_building_construction = { type = industrial_complex level = 1 instant_build = no } 
+}
+
+add_MIC = {
+	add_building_construction = { type = arms_factory level = 1 instant_build = no } 
+}
+
+add_NIC = {
+	add_building_construction = { type = dockyard level = 1 instant_build = no } 
+}
+
+add_REF = {
+	add_building_construction = { type = synthetic_refinery level = 1 instant_build = no } 
+}
+
+add_RUB = {
+	add_building_construction = { type = synthetic_rubber_refinery level = 1 instant_build = no } 
+}
+
+add_INF = {
+	add_building_construction = { type = infrastructure level = 1 instant_build = no } 
+}
+
+add_RADAR = {
+	add_building_construction = { type = radar_station level = 1 instant_build = no } 
+	set_state_flag = radar_site
+}
+
+add_RADAR_random = {
+	if = {
+		limit = { 
+			any_state = { 
+				available_RADAR = yes 
+				NOT = { any_state = { has_state_flag = radar_site CONTROLLER = { OR = { tag = ROOT is_in_faction_with = ROOT } } distance_to = { target = PREV value < 800 } } } 
+				NOT = { any_neighbor_state = { has_state_flag = radar_site CONTROLLER = { OR = { tag = ROOT is_in_faction_with = ROOT } } } }
+				NOT = { any_neighbor_state = { CONTROLLER = { NOT = { tag = ROOT is_in_faction_with = ROOT } } } }
+			} 
+		} 
+		random_state = { 
+			limit = { 
+				available_RADAR = yes 
+				NOT = { any_state = { has_state_flag = radar_site CONTROLLER = { OR = { tag = ROOT is_in_faction_with = ROOT } } distance_to = { target = PREV value < 800 } } } 
+				NOT = { any_neighbor_state = { has_state_flag = radar_site CONTROLLER = { OR = { tag = ROOT is_in_faction_with = ROOT } } } }
+				NOT = { any_neighbor_state = { CONTROLLER = { NOT = { tag = ROOT is_in_faction_with = ROOT } } } }
+			} 
+			add_RADAR = yes 
+		}
+	}
+}
+
+queue_RADAR = {
+	if = { #minors build radar on capitals and only when they cant build more factories
+		limit = { NOT = { any_state = { available_state_0 = yes } } NOT = { original_tag = ENG original_tag = FRA original_tag = USA original_tag = GER original_tag = ITA original_tag = JAP original_tag = SOV } }
+		if = {
+			limit = { capital_scope = { available_RADAR = yes } } 
+			capital_scope = { add_RADAR = yes } 
+			
+			else = {
+				add_RADAR_random = yes
+			}
+		}
+	}
+	
+	if = {
+		limit = { original_tag = ENG }
+		if = { #1st priority
+			limit = { any_state = { OR = { state = 126 state = 116 } available_RADAR = yes } } 
+			random_state = { limit = { OR = { state = 126 state = 116 } available_RADAR = yes } add_RADAR = yes }
+			
+			else = { #2nd priority
+				if = {
+					limit = { any_state = { OR = { state = 118 state = 336 state = 446 } available_RADAR = yes } } 
+					random_state = { limit = { OR = { state = 118 state = 336 state = 446 } available_RADAR = yes } add_RADAR = yes }
+					
+					else = { #build radar on any good locations
+						if = {
+							limit = { any_state = { radar_location = yes available_RADAR = yes } } 
+							random_state = { limit = { radar_location = yes available_RADAR = yes } add_RADAR = yes }
+							
+							else = {
+								if = {
+									limit = { any_state = { available_RADAR = yes is_in_home_area = yes NOT = { any_state = { has_state_flag = radar_site CONTROLLER = { OR = { tag = ROOT is_in_faction_with = ROOT } } distance_to = { target = PREV value < 800 } } } } } 
+									random_state = { limit = { available_RADAR = yes is_in_home_area = yes NOT = { any_state = { has_state_flag = radar_site CONTROLLER = { OR = { tag = ROOT is_in_faction_with = ROOT } } distance_to = { target = PREV value < 800 } } } } add_RADAR = yes }
+									
+									else = { #build anywhere that is not next to an existing owned radar site
+										add_RADAR_random = yes
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	if = {
+		limit = { original_tag = FRA }
+		if = { 
+			limit = { any_state = { state = 16 available_RADAR = yes } } 
+			random_state = { limit = { state = 16 available_RADAR = yes } add_RADAR = yes }
+			
+			else = {
+				if = {
+					limit = { any_state = { state = 16 available_RADAR = yes } } 
+					random_state = { limit = { state = 16 available_RADAR = yes } add_RADAR = yes }
+					
+					else = {
+						if = {
+							limit = { any_state = { radar_location = yes available_RADAR = yes } } 
+							random_state = { limit = { radar_location = yes available_RADAR = yes } add_RADAR = yes }
+						
+							else = {
+								add_RADAR_random = yes
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	if = {
+		limit = { original_tag = USA }
+		if = { 
+			limit = { any_state = { OR = { state = 632 state = 629 } available_RADAR = yes } } 
+			random_state = { limit = { OR = { state = 632 state = 629 } available_RADAR = yes } add_RADAR = yes }
+			
+			else = {
+				if = {
+					limit = { any_state = { OR = { state = 631 state = 630 state = 386 state = 366 state = 361 state = 378 } available_RADAR = yes } } 
+					random_state = { limit = { OR = { state = 631 state = 630 state = 386 state = 366 state = 361 state = 378 } available_RADAR = yes } add_RADAR = yes }
+					
+					else = {
+						if = {
+							limit = { any_state = { radar_location = yes available_RADAR = yes } } 
+							random_state = { limit = { radar_location = yes available_RADAR = yes } add_RADAR = yes }
+						
+							else = {
+								if = {
+									limit = { any_state = { available_RADAR = yes is_island_state = yes } } 
+									random_state = { limit = { available_RADAR = yes is_island_state = yes } add_RADAR = yes }
+									
+									else = {
+										add_RADAR_random = yes
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	if = {
+		limit = { original_tag = GER }
+		if = { 
+			limit = { any_state = { OR = { state = 60 } available_RADAR = yes } } 
+			random_state = { limit = { OR = { state = 60 } available_RADAR = yes } add_RADAR = yes }
+			
+			else = {
+				if = {
+					limit = { any_state = { OR = { state = 16 } available_RADAR = yes } } 
+					random_state = { limit = { OR = { state = 16 } available_RADAR = yes } add_RADAR = yes }
+					
+					else = {
+						if = {
+							limit = { any_state = { radar_location = yes available_RADAR = yes } } 
+							random_state = { limit = { radar_location = yes available_RADAR = yes } add_RADAR = yes }
+						
+							else = {
+								add_RADAR_random = yes
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	if = {
+		limit = { original_tag = ITA }
+		if = { 
+			limit = { any_state = { OR = { state = 2 } available_RADAR = yes } }
+			random_state = { limit = { OR = { state = 2 } available_RADAR = yes } add_RADAR = yes }
+			
+			else = {
+				if = {
+					limit = { any_state = { radar_location = yes available_RADAR = yes } } 
+					random_state = { limit = { radar_location = yes available_RADAR = yes } add_RADAR = yes }
+					
+					else = {
+						add_RADAR_random = yes
+					}
+				}
+			}
+		}
+	}
+	
+	if = {
+		limit = { original_tag = JAP }
+		if = { 
+			limit = { any_state = { OR = { state = 446 state = 282 state = 646 state = 645 state = 648 state = 684 } available_RADAR = yes } }
+			random_state = { limit = { OR = { state = 446 state = 282 state = 646 state = 645 state = 648 state = 684 } available_RADAR = yes } add_RADAR = yes }
+			
+			else = {
+				if = {
+					limit = { any_state = { radar_location = yes available_RADAR = yes } } 
+					random_state = { limit = { radar_location = yes available_RADAR = yes } add_RADAR = yes }
+					
+					else = {
+						if = {
+							limit = { any_state = { available_RADAR = yes is_island_state = yes } } 
+							random_state = { limit = { available_RADAR = yes is_island_state = yes } add_RADAR = yes }
+							
+							else = {
+								add_RADAR_random = yes
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	if = {
+		limit = { original_tag = SOV }
+		if = { 
+			limit = { any_state = { OR = { state = 137 state = 219 } available_RADAR = yes } }
+			random_state = { limit = { OR = { state = 137 state = 219 } available_RADAR = yes } add_RADAR = yes }
+			
+			else = {
+				if = {
+					limit = { any_state = { OR = {state = 217 state = 195 } available_RADAR = yes } } 
+					random_state = { limit = { OR = {state = 217 state = 195 } available_RADAR = yes } add_RADAR = yes }
+			
+					else = {
+						if = {
+							limit = { any_state = { radar_location = yes available_RADAR = yes } } 
+							random_state = { limit = { radar_location = yes available_RADAR = yes } add_RADAR = yes }
+							
+							else = {
+								if = {
+									limit = { 
+										any_state = { 
+											available_RADAR = yes 
+											NOT = { any_state = { has_state_flag = radar_site CONTROLLER = { OR = { tag = ROOT is_in_faction_with = ROOT } } distance_to = { target = PREV value < 800 } } } 
+											NOT = { any_state = { CONTROLLER = { has_war_with = ROOT } distance_to = { target = PREV value < 400 } } }
+											any_state = { CONTROLLER = { has_war_with = ROOT } distance_to = { target = PREV value < 800 } }
+										} 
+									} 
+									random_state = {
+										limit = { 
+											available_RADAR = yes 
+											NOT = { any_state = { has_state_flag = radar_site CONTROLLER = { OR = { tag = ROOT is_in_faction_with = ROOT } } distance_to = { target = PREV value < 800 } } } 
+											NOT = { any_state = { CONTROLLER = { has_war_with = ROOT } distance_to = { target = PREV value < 400 } } }
+											any_state = { CONTROLLER = { has_war_with = ROOT } distance_to = { target = PREV value < 800 } }
+										} 
+										add_RADAR = yes 
+									}
+								
+									else = {
+										add_RADAR_random = yes
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+queue_AA = {
+	if = {
+		limit = {
+			is_major = yes NOT = { original_tag = USA }
+			any_state = {
+				is_controlled_by = ROOT 
+				free_building_slots = { building = anti_air_building size > 0 include_locked = no } 
+				synthetic_refinery > 0
+			}
+		}
+		random_state = {
+			limit = { 
+				is_controlled_by = ROOT 
+				free_building_slots = { building = anti_air_building size > 0 include_locked = no } 
+				synthetic_refinery > 0
+			} 
+			add_building_construction = { type = anti_air_building level = 1 instant_build = no } 
+		}
+	}
+}
+
+queue_INF = {
+	every_state = {
+		limit = { available_INF = yes is_in_home_area = yes NOT = { state = 378 state = 395 state = 393 } } #USA focuses already add inf
+		add_INF = yes
+	}
+}
+
+queue_CIC = { #prioritize: home area > no border > no enemy border #prioritize high infrastructure but allow some freedom, sometimes a lower infra state is a better location
+	if = {
+		limit = { any_state = { available_state_8 = yes } }
+		if = {
+			limit = { any_state = { available_state_10 = yes region_priority = yes } } 
+			if = { 
+				limit = { any_state = { available_state_10 = yes region_priority = yes no_border = yes } } random_state = { limit = { available_state_10 = yes region_priority = yes no_border = yes } add_CIC = yes }
+				else = { 
+					if = {
+						limit = { any_state = { available_state_10 = yes region_priority = yes no_enemy_border = yes } } random_state = { limit = { available_state_10 = yes region_priority = yes no_enemy_border = yes } add_CIC = yes }
+						else = { random_state = { limit = { available_state_10 = yes region_priority = yes } add_CIC = yes } } 
+					}
+				}
+			}
+			else = {
+				if = {
+					limit = { any_state = { available_state_9 = yes region_priority = yes } } 
+					if = { 
+						limit = { any_state = { available_state_9 = yes region_priority = yes no_border = yes } } random_state = { limit = { available_state_9 = yes region_priority = yes no_border = yes } add_CIC = yes }
+						else = { 
+							if = {
+								limit = { any_state = { available_state_9 = yes region_priority = yes no_enemy_border = yes } } random_state = { limit = { available_state_9 = yes region_priority = yes no_enemy_border = yes } add_CIC = yes }
+								else = { random_state = { limit = { available_state_9 = yes region_priority = yes } add_CIC = yes } } 
+							}
+						}
+					}
+					else = {
+						if = { 
+							limit = { any_state = { available_state_8 = yes region_priority = yes } } 
+							if = { 
+								limit = { any_state = { available_state_8 = yes region_priority = yes no_border = yes } } random_state = { limit = { available_state_8 = yes region_priority = yes no_border = yes } add_CIC = yes }
+								else = { 
+									if = {
+										limit = { any_state = { available_state_8 = yes region_priority = yes no_enemy_border = yes } } random_state = { limit = { available_state_8 = yes region_priority = yes no_enemy_border = yes } add_CIC = yes }
+										else = { random_state = { limit = { available_state_8 = yes region_priority = yes } add_CIC = yes } } 
+									}
+								}
+							}
+							else = {
+								if = { 
+									limit = { any_state = { available_state_10 = yes no_border = yes } } random_state = { limit = { available_state_10 = yes no_border = yes } add_CIC = yes }
+									else = {
+										if = {
+											limit = { any_state = { available_state_9 = yes no_border = yes } } random_state = { limit = { available_state_9 = yes no_border = yes } add_CIC = yes }
+											else = {
+												if = { 
+													limit = { any_state = { available_state_8 = yes no_border = yes } } random_state = { limit = { available_state_8 = yes no_border = yes } add_CIC = yes }
+													else = {
+														if = {
+															limit = { any_state = { available_state_10 = yes no_enemy_border = yes } } random_state = { limit = { available_state_10 = yes no_enemy_border = yes } add_CIC = yes }
+															else = {
+																if = { 
+																	limit = { any_state = { available_state_9 = yes no_enemy_border = yes } } random_state = { limit = { available_state_9 = yes no_enemy_border = yes } add_CIC = yes }
+																	else = {
+																		if = {
+																			limit = { any_state = { available_state_8 = yes no_enemy_border = yes } } random_state = { limit = { available_state_8 = yes no_enemy_border = yes } add_CIC = yes }
+																			else = { random_state = { limit = { available_state_8 = yes } add_CIC = yes } }
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		else = {
+			if = {
+				limit = { any_state = { available_state_5 = yes } }
+				if = { 
+					limit = { any_state = { available_state_7 = yes region_priority = yes } } 
+					if = { 
+						limit = { any_state = { available_state_7 = yes region_priority = yes no_border = yes } } random_state = { limit = { available_state_7 = yes region_priority = yes no_border = yes } add_CIC = yes }
+						else = { 
+							if = {
+								limit = { any_state = { available_state_7 = yes region_priority = yes no_enemy_border = yes } } random_state = { limit = { available_state_7 = yes region_priority = yes no_enemy_border = yes } add_CIC = yes }
+								else = { random_state = { limit = { available_state_7 = yes region_priority = yes } add_CIC = yes } } 
+							}
+						}
+					}
+					else = {
+						if = {
+							limit = { any_state = { available_state_6 = yes region_priority = yes } } 
+							if = { 
+								limit = { any_state = { available_state_6 = yes region_priority = yes no_border = yes } } random_state = { limit = { available_state_6 = yes region_priority = yes no_border = yes } add_CIC = yes }
+								else = { 
+									if = {
+										limit = { any_state = { available_state_6 = yes region_priority = yes no_enemy_border = yes } } random_state = { limit = { available_state_6 = yes region_priority = yes no_enemy_border = yes } add_CIC = yes }
+										else = { random_state = { limit = { available_state_6 = yes region_priority = yes } add_CIC = yes } } 
+									}
+								}
+							}
+							else = {
+								if = { 
+									limit = { any_state = { available_state_5 = yes region_priority = yes } } 
+									if = { 
+										limit = { any_state = { available_state_5 = yes region_priority = yes no_border = yes } } random_state = { limit = { available_state_5 = yes region_priority = yes no_border = yes } add_CIC = yes }
+										else = { 
+											if = {
+												limit = { any_state = { available_state_5 = yes region_priority = yes no_enemy_border = yes } } random_state = { limit = { available_state_5 = yes region_priority = yes no_enemy_border = yes } add_CIC = yes }
+												else = { random_state = { limit = { available_state_5 = yes region_priority = yes } add_CIC = yes } } 
+											}
+										}
+									}
+									else = {
+										if = { 
+											limit = { any_state = { available_state_7 = yes no_border = yes } } random_state = { limit = { available_state_7 = yes no_border = yes } add_CIC = yes }
+											else = {
+												if = {
+													limit = { any_state = { available_state_6 = yes no_border = yes } } random_state = { limit = { available_state_6 = yes no_border = yes } add_CIC = yes }
+													else = {
+														if = { 
+															limit = { any_state = { available_state_5 = yes no_border = yes } } random_state = { limit = { available_state_5 = yes no_border = yes } add_CIC = yes }
+															else = {
+																if = {
+																	limit = { any_state = { available_state_7 = yes no_enemy_border = yes } } random_state = { limit = { available_state_7 = yes no_enemy_border = yes } add_CIC = yes }
+																	else = {
+																		if = { 
+																			limit = { any_state = { available_state_6 = yes no_enemy_border = yes } } random_state = { limit = { available_state_6 = yes no_enemy_border = yes } add_CIC = yes }
+																			else = {
+																				if = {
+																					limit = { any_state = { available_state_5 = yes no_enemy_border = yes } } random_state = { limit = { available_state_5 = yes no_enemy_border = yes } add_CIC = yes }
+																					else = { random_state = { limit = { available_state_5 = yes } add_CIC = yes } }
+																				}
+																			}
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				else = {
+					if = {
+						limit = { any_state = { available_state_2 = yes } }
+						if = {
+							limit = { any_state = { available_state_4 = yes region_priority = yes } } 
+							if = { 
+								limit = { any_state = { available_state_4 = yes region_priority = yes no_border = yes } } random_state = { limit = { available_state_4 = yes region_priority = yes no_border = yes } add_CIC = yes }
+								else = { 
+									if = {
+										limit = { any_state = { available_state_4 = yes region_priority = yes no_enemy_border = yes } } random_state = { limit = { available_state_4 = yes region_priority = yes no_enemy_border = yes } add_CIC = yes }
+										else = { random_state = { limit = { available_state_4 = yes region_priority = yes } add_CIC = yes } } 
+									}
+								}
+							}
+							else = {
+								if = {
+									limit = { any_state = { available_state_3 = yes region_priority = yes } } 
+									if = { 
+										limit = { any_state = { available_state_3 = yes region_priority = yes no_border = yes } } random_state = { limit = { available_state_3 = yes region_priority = yes no_border = yes } add_CIC = yes }
+										else = { 
+											if = {
+												limit = { any_state = { available_state_3 = yes region_priority = yes no_enemy_border = yes } } random_state = { limit = { available_state_3 = yes region_priority = yes no_enemy_border = yes } add_CIC = yes }
+												else = { random_state = { limit = { available_state_3 = yes region_priority = yes } add_CIC = yes } } 
+											}
+										}
+									}
+									else = {
+										if = {
+											limit = { any_state = { available_state_2 = yes region_priority = yes } } 
+											if = { 
+												limit = { any_state = { available_state_2 = yes region_priority = yes no_border = yes } } random_state = { limit = { available_state_2 = yes region_priority = yes no_border = yes } add_CIC = yes }
+												else = { 
+													if = {
+														limit = { any_state = { available_state_2 = yes region_priority = yes no_enemy_border = yes } } random_state = { limit = { available_state_2 = yes region_priority = yes no_enemy_border = yes } add_CIC = yes }
+														else = { random_state = { limit = { available_state_2 = yes region_priority = yes } add_CIC = yes } } 
+													}
+												}
+											}
+											else = {
+												if = {
+													limit = { any_state = { available_state_4 = yes no_border = yes } } random_state = { limit = { available_state_4 = yes no_border = yes } add_CIC = yes }
+													else = {
+														if = {
+															limit = { any_state = { available_state_3 = yes no_border = yes } } random_state = { limit = { available_state_3 = yes no_border = yes } add_CIC = yes }
+															else = {
+																if = {
+																	limit = { any_state = { available_state_2 = yes no_border = yes } } random_state = { limit = { available_state_2 = yes no_border = yes } add_CIC = yes }
+																	else = {
+																		if = {
+																			limit = { any_state = { available_state_4 = yes no_enemy_border = yes } } random_state = { limit = { available_state_4 = yes no_enemy_border = yes } add_CIC = yes }
+																			else = {
+																				if = {
+																					limit = { any_state = { available_state_3 = yes no_enemy_border = yes } } random_state = { limit = { available_state_3 = yes no_enemy_border = yes } add_CIC = yes }
+																					else = {
+																						if = {
+																							limit = { any_state = { available_state_2 = yes no_enemy_border = yes } } random_state = { limit = { available_state_2 = yes no_enemy_border = yes } add_CIC = yes }
+																							else = { random_state = { limit = { available_state_2 = yes } add_CIC = yes } }
+																						}
+																					}
+																				}
+																			}
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+						else = {
+							if = {
+								limit = { any_state = { available_state_0 = yes } }
+								if = { 
+									limit = { any_state = { available_state_1 = yes region_priority = yes } } 
+									if = { 
+										limit = { any_state = { available_state_1 = yes region_priority = yes no_border = yes } } random_state = { limit = { available_state_1 = yes region_priority = yes no_border = yes } add_CIC = yes }
+										else = { 
+											if = {
+												limit = { any_state = { available_state_1 = yes region_priority = yes no_enemy_border = yes } } random_state = { limit = { available_state_1 = yes region_priority = yes no_enemy_border = yes } add_CIC = yes }
+												else = { random_state = { limit = { available_state_1 = yes region_priority = yes } add_CIC = yes } } 
+											}
+										}
+									}
+									else = {
+										if = {
+											limit = { any_state = { available_state_0 = yes region_priority = yes } } 
+											if = { 
+												limit = { any_state = { available_state_0 = yes region_priority = yes no_border = yes } } random_state = { limit = { available_state_0 = yes region_priority = yes no_border = yes } add_CIC = yes }
+												else = { 
+													if = {
+														limit = { any_state = { available_state_0 = yes region_priority = yes no_enemy_border = yes } } random_state = { limit = { available_state_0 = yes region_priority = yes no_enemy_border = yes } add_CIC = yes }
+														else = { random_state = { limit = { available_state_0 = yes region_priority = yes } add_CIC = yes } } 
+													}
+												}
+											}
+											else = {
+												if = { 
+													limit = { any_state = { available_state_1 = yes no_border = yes } } random_state = { limit = { available_state_1 = yes no_border = yes } add_CIC = yes }
+													else = {
+														if = {
+															limit = { any_state = { available_state_0 = yes no_border = yes } } random_state = { limit = { available_state_0 = yes no_border = yes } add_CIC = yes }
+															else = {
+																if = { 
+																	limit = { any_state = { available_state_1 = yes no_enemy_border = yes } } random_state = { limit = { available_state_1 = yes no_enemy_border = yes } add_CIC = yes }
+																	else = {
+																		if = {
+																			limit = { any_state = { available_state_0 = yes no_enemy_border = yes } } random_state = { limit = { available_state_0 = yes no_enemy_border = yes } add_CIC = yes }
+																			else = { random_state = { limit = { available_state_0 = yes } add_CIC = yes } }
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}	
+								else = { queue_AA = yes }
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+queue_MIC = {
+	if = {
+		limit = { any_state = { available_state_8 = yes } }
+		if = {
+			limit = { any_state = { available_state_10 = yes region_priority = yes } } 
+			if = { 
+				limit = { any_state = { available_state_10 = yes region_priority = yes no_border = yes } } random_state = { limit = { available_state_10 = yes region_priority = yes no_border = yes } add_MIC = yes }
+				else = { 
+					if = {
+						limit = { any_state = { available_state_10 = yes region_priority = yes no_enemy_border = yes } } random_state = { limit = { available_state_10 = yes region_priority = yes no_enemy_border = yes } add_MIC = yes }
+						else = { random_state = { limit = { available_state_10 = yes region_priority = yes } add_MIC = yes } } 
+					}
+				}
+			}
+			else = {
+				if = {
+					limit = { any_state = { available_state_9 = yes region_priority = yes } } 
+					if = { 
+						limit = { any_state = { available_state_9 = yes region_priority = yes no_border = yes } } random_state = { limit = { available_state_9 = yes region_priority = yes no_border = yes } add_MIC = yes }
+						else = { 
+							if = {
+								limit = { any_state = { available_state_9 = yes region_priority = yes no_enemy_border = yes } } random_state = { limit = { available_state_9 = yes region_priority = yes no_enemy_border = yes } add_MIC = yes }
+								else = { random_state = { limit = { available_state_9 = yes region_priority = yes } add_MIC = yes } } 
+							}
+						}
+					}
+					else = {
+						if = { 
+							limit = { any_state = { available_state_8 = yes region_priority = yes } } 
+							if = { 
+								limit = { any_state = { available_state_8 = yes region_priority = yes no_border = yes } } random_state = { limit = { available_state_8 = yes region_priority = yes no_border = yes } add_MIC = yes }
+								else = { 
+									if = {
+										limit = { any_state = { available_state_8 = yes region_priority = yes no_enemy_border = yes } } random_state = { limit = { available_state_8 = yes region_priority = yes no_enemy_border = yes } add_MIC = yes }
+										else = { random_state = { limit = { available_state_8 = yes region_priority = yes } add_MIC = yes } } 
+									}
+								}
+							}
+							else = {
+								if = { 
+									limit = { any_state = { available_state_10 = yes no_border = yes } } random_state = { limit = { available_state_10 = yes no_border = yes } add_MIC = yes }
+									else = {
+										if = {
+											limit = { any_state = { available_state_9 = yes no_border = yes } } random_state = { limit = { available_state_9 = yes no_border = yes } add_MIC = yes }
+											else = {
+												if = { 
+													limit = { any_state = { available_state_8 = yes no_border = yes } } random_state = { limit = { available_state_8 = yes no_border = yes } add_MIC = yes }
+													else = {
+														if = {
+															limit = { any_state = { available_state_10 = yes no_enemy_border = yes } } random_state = { limit = { available_state_10 = yes no_enemy_border = yes } add_MIC = yes }
+															else = {
+																if = { 
+																	limit = { any_state = { available_state_9 = yes no_enemy_border = yes } } random_state = { limit = { available_state_9 = yes no_enemy_border = yes } add_MIC = yes }
+																	else = {
+																		if = {
+																			limit = { any_state = { available_state_8 = yes no_enemy_border = yes } } random_state = { limit = { available_state_8 = yes no_enemy_border = yes } add_MIC = yes }
+																			else = { random_state = { limit = { available_state_8 = yes } add_MIC = yes } }
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		else = {
+			if = {
+				limit = { any_state = { available_state_5 = yes } }
+				if = { 
+					limit = { any_state = { available_state_7 = yes region_priority = yes } } 
+					if = { 
+						limit = { any_state = { available_state_7 = yes region_priority = yes no_border = yes } } random_state = { limit = { available_state_7 = yes region_priority = yes no_border = yes } add_MIC = yes }
+						else = { 
+							if = {
+								limit = { any_state = { available_state_7 = yes region_priority = yes no_enemy_border = yes } } random_state = { limit = { available_state_7 = yes region_priority = yes no_enemy_border = yes } add_MIC = yes }
+								else = { random_state = { limit = { available_state_7 = yes region_priority = yes } add_MIC = yes } } 
+							}
+						}
+					}
+					else = {
+						if = {
+							limit = { any_state = { available_state_6 = yes region_priority = yes } } 
+							if = { 
+								limit = { any_state = { available_state_6 = yes region_priority = yes no_border = yes } } random_state = { limit = { available_state_6 = yes region_priority = yes no_border = yes } add_MIC = yes }
+								else = { 
+									if = {
+										limit = { any_state = { available_state_6 = yes region_priority = yes no_enemy_border = yes } } random_state = { limit = { available_state_6 = yes region_priority = yes no_enemy_border = yes } add_MIC = yes }
+										else = { random_state = { limit = { available_state_6 = yes region_priority = yes } add_MIC = yes } } 
+									}
+								}
+							}
+							else = {
+								if = { 
+									limit = { any_state = { available_state_5 = yes region_priority = yes } } 
+									if = { 
+										limit = { any_state = { available_state_5 = yes region_priority = yes no_border = yes } } random_state = { limit = { available_state_5 = yes region_priority = yes no_border = yes } add_MIC = yes }
+										else = { 
+											if = {
+												limit = { any_state = { available_state_5 = yes region_priority = yes no_enemy_border = yes } } random_state = { limit = { available_state_5 = yes region_priority = yes no_enemy_border = yes } add_MIC = yes }
+												else = { random_state = { limit = { available_state_5 = yes region_priority = yes } add_MIC = yes } } 
+											}
+										}
+									}
+									else = {
+										if = { 
+											limit = { any_state = { available_state_7 = yes no_border = yes } } random_state = { limit = { available_state_7 = yes no_border = yes } add_MIC = yes }
+											else = {
+												if = {
+													limit = { any_state = { available_state_6 = yes no_border = yes } } random_state = { limit = { available_state_6 = yes no_border = yes } add_MIC = yes }
+													else = {
+														if = { 
+															limit = { any_state = { available_state_5 = yes no_border = yes } } random_state = { limit = { available_state_5 = yes no_border = yes } add_MIC = yes }
+															else = {
+																if = {
+																	limit = { any_state = { available_state_7 = yes no_enemy_border = yes } } random_state = { limit = { available_state_7 = yes no_enemy_border = yes } add_MIC = yes }
+																	else = {
+																		if = { 
+																			limit = { any_state = { available_state_6 = yes no_enemy_border = yes } } random_state = { limit = { available_state_6 = yes no_enemy_border = yes } add_MIC = yes }
+																			else = {
+																				if = {
+																					limit = { any_state = { available_state_5 = yes no_enemy_border = yes } } random_state = { limit = { available_state_5 = yes no_enemy_border = yes } add_MIC = yes }
+																					else = { random_state = { limit = { available_state_5 = yes } add_MIC = yes } }
+																				}
+																			}
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				else = {
+					if = {
+						limit = { any_state = { available_state_2 = yes } }
+						if = {
+							limit = { any_state = { available_state_4 = yes region_priority = yes } } 
+							if = { 
+								limit = { any_state = { available_state_4 = yes region_priority = yes no_border = yes } } random_state = { limit = { available_state_4 = yes region_priority = yes no_border = yes } add_MIC = yes }
+								else = { 
+									if = {
+										limit = { any_state = { available_state_4 = yes region_priority = yes no_enemy_border = yes } } random_state = { limit = { available_state_4 = yes region_priority = yes no_enemy_border = yes } add_MIC = yes }
+										else = { random_state = { limit = { available_state_4 = yes region_priority = yes } add_MIC = yes } } 
+									}
+								}
+							}
+							else = {
+								if = {
+									limit = { any_state = { available_state_3 = yes region_priority = yes } } 
+									if = { 
+										limit = { any_state = { available_state_3 = yes region_priority = yes no_border = yes } } random_state = { limit = { available_state_3 = yes region_priority = yes no_border = yes } add_MIC = yes }
+										else = { 
+											if = {
+												limit = { any_state = { available_state_3 = yes region_priority = yes no_enemy_border = yes } } random_state = { limit = { available_state_3 = yes region_priority = yes no_enemy_border = yes } add_MIC = yes }
+												else = { random_state = { limit = { available_state_3 = yes region_priority = yes } add_MIC = yes } } 
+											}
+										}
+									}
+									else = {
+										if = {
+											limit = { any_state = { available_state_2 = yes region_priority = yes } } 
+											if = { 
+												limit = { any_state = { available_state_2 = yes region_priority = yes no_border = yes } } random_state = { limit = { available_state_2 = yes region_priority = yes no_border = yes } add_MIC = yes }
+												else = { 
+													if = {
+														limit = { any_state = { available_state_2 = yes region_priority = yes no_enemy_border = yes } } random_state = { limit = { available_state_2 = yes region_priority = yes no_enemy_border = yes } add_MIC = yes }
+														else = { random_state = { limit = { available_state_2 = yes region_priority = yes } add_MIC = yes } } 
+													}
+												}
+											}
+											else = {
+												if = {
+													limit = { any_state = { available_state_4 = yes no_border = yes } } random_state = { limit = { available_state_4 = yes no_border = yes } add_MIC = yes }
+													else = {
+														if = {
+															limit = { any_state = { available_state_3 = yes no_border = yes } } random_state = { limit = { available_state_3 = yes no_border = yes } add_MIC = yes }
+															else = {
+																if = {
+																	limit = { any_state = { available_state_2 = yes no_border = yes } } random_state = { limit = { available_state_2 = yes no_border = yes } add_MIC = yes }
+																	else = {
+																		if = {
+																			limit = { any_state = { available_state_4 = yes no_enemy_border = yes } } random_state = { limit = { available_state_4 = yes no_enemy_border = yes } add_MIC = yes }
+																			else = {
+																				if = {
+																					limit = { any_state = { available_state_3 = yes no_enemy_border = yes } } random_state = { limit = { available_state_3 = yes no_enemy_border = yes } add_MIC = yes }
+																					else = {
+																						if = {
+																							limit = { any_state = { available_state_2 = yes no_enemy_border = yes } } random_state = { limit = { available_state_2 = yes no_enemy_border = yes } add_MIC = yes }
+																							else = { random_state = { limit = { available_state_2 = yes } add_MIC = yes } }
+																						}
+																					}
+																				}
+																			}
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+						else = {
+							if = {
+								limit = { any_state = { available_state_0 = yes } }
+								if = { 
+									limit = { any_state = { available_state_1 = yes region_priority = yes } } 
+									if = { 
+										limit = { any_state = { available_state_1 = yes region_priority = yes no_border = yes } } random_state = { limit = { available_state_1 = yes region_priority = yes no_border = yes } add_MIC = yes }
+										else = { 
+											if = {
+												limit = { any_state = { available_state_1 = yes region_priority = yes no_enemy_border = yes } } random_state = { limit = { available_state_1 = yes region_priority = yes no_enemy_border = yes } add_MIC = yes }
+												else = { random_state = { limit = { available_state_1 = yes region_priority = yes } add_MIC = yes } } 
+											}
+										}
+									}
+									else = {
+										if = {
+											limit = { any_state = { available_state_0 = yes region_priority = yes } } 
+											if = { 
+												limit = { any_state = { available_state_0 = yes region_priority = yes no_border = yes } } random_state = { limit = { available_state_0 = yes region_priority = yes no_border = yes } add_MIC = yes }
+												else = { 
+													if = {
+														limit = { any_state = { available_state_0 = yes region_priority = yes no_enemy_border = yes } } random_state = { limit = { available_state_0 = yes region_priority = yes no_enemy_border = yes } add_MIC = yes }
+														else = { random_state = { limit = { available_state_0 = yes region_priority = yes } add_MIC = yes } } 
+													}
+												}
+											}
+											else = {
+												if = { 
+													limit = { any_state = { available_state_1 = yes no_border = yes } } random_state = { limit = { available_state_1 = yes no_border = yes } add_MIC = yes }
+													else = {
+														if = {
+															limit = { any_state = { available_state_0 = yes no_border = yes } } random_state = { limit = { available_state_0 = yes no_border = yes } add_MIC = yes }
+															else = {
+																if = { 
+																	limit = { any_state = { available_state_1 = yes no_enemy_border = yes } } random_state = { limit = { available_state_1 = yes no_enemy_border = yes } add_MIC = yes }
+																	else = {
+																		if = {
+																			limit = { any_state = { available_state_0 = yes no_enemy_border = yes } } random_state = { limit = { available_state_0 = yes no_enemy_border = yes } add_MIC = yes }
+																			else = { random_state = { limit = { available_state_0 = yes } add_MIC = yes } }
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+								else = { queue_AA = yes }
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+queue_NIC = {
+	if = {
+		limit = { any_state = { available_state_8 = yes available_NIC = yes is_coastal = yes } }
+		if = {
+			limit = { any_state = { available_state_10 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes } } 
+			if = { 
+				limit = { any_state = { available_state_10 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_border = yes } } random_state = { limit = { available_state_10 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_border = yes } add_NIC = yes }
+				else = { 
+					if = {
+						limit = { any_state = { available_state_10 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_enemy_border = yes } } random_state = { limit = { available_state_10 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_enemy_border = yes } add_NIC = yes }
+						else = { random_state = { limit = { available_state_10 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes } add_NIC = yes } } 
+					}
+				}
+			}
+			else = {
+				if = {
+					limit = { any_state = { available_state_9 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes } } 
+					if = { 
+						limit = { any_state = { available_state_9 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_border = yes } } random_state = { limit = { available_state_9 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_border = yes } add_NIC = yes }
+						else = { 
+							if = {
+								limit = { any_state = { available_state_9 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_enemy_border = yes } } random_state = { limit = { available_state_9 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_enemy_border = yes } add_NIC = yes }
+								else = { random_state = { limit = { available_state_9 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes } add_NIC = yes } } 
+							}
+						}
+					}
+					else = {
+						if = { 
+							limit = { any_state = { available_state_8 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes } } 
+							if = { 
+								limit = { any_state = { available_state_8 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_border = yes } } random_state = { limit = { available_state_8 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_border = yes } add_NIC = yes }
+								else = { 
+									if = {
+										limit = { any_state = { available_state_8 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_enemy_border = yes } } random_state = { limit = { available_state_8 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_enemy_border = yes } add_NIC = yes }
+										else = { random_state = { limit = { available_state_8 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes } add_NIC = yes } } 
+									}
+								}
+							}
+							else = {
+								if = { 
+									limit = { any_state = { available_state_10 = yes available_NIC = yes is_coastal = yes no_border = yes } } random_state = { limit = { available_state_10 = yes available_NIC = yes is_coastal = yes no_border = yes } add_NIC = yes }
+									else = {
+										if = {
+											limit = { any_state = { available_state_9 = yes available_NIC = yes is_coastal = yes no_border = yes } } random_state = { limit = { available_state_9 = yes available_NIC = yes is_coastal = yes no_border = yes } add_NIC = yes }
+											else = {
+												if = { 
+													limit = { any_state = { available_state_8 = yes available_NIC = yes is_coastal = yes no_border = yes } } random_state = { limit = { available_state_8 = yes available_NIC = yes is_coastal = yes no_border = yes } add_NIC = yes }
+													else = {
+														if = {
+															limit = { any_state = { available_state_10 = yes available_NIC = yes is_coastal = yes no_enemy_border = yes } } random_state = { limit = { available_state_10 = yes available_NIC = yes is_coastal = yes no_enemy_border = yes } add_NIC = yes }
+															else = {
+																if = { 
+																	limit = { any_state = { available_state_9 = yes available_NIC = yes is_coastal = yes no_enemy_border = yes } } random_state = { limit = { available_state_9 = yes available_NIC = yes is_coastal = yes no_enemy_border = yes } add_NIC = yes }
+																	else = {
+																		if = {
+																			limit = { any_state = { available_state_8 = yes available_NIC = yes is_coastal = yes no_enemy_border = yes } } random_state = { limit = { available_state_8 = yes available_NIC = yes is_coastal = yes no_enemy_border = yes } add_NIC = yes }
+																			else = { random_state = { limit = { available_state_8 = yes available_NIC = yes is_coastal = yes } add_NIC = yes } }
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		else = {
+			if = {
+				limit = { any_state = { available_state_5 = yes available_NIC = yes is_coastal = yes } }
+				if = { 
+					limit = { any_state = { available_state_7 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes } } 
+					if = { 
+						limit = { any_state = { available_state_7 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_border = yes } } random_state = { limit = { available_state_7 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_border = yes } add_NIC = yes }
+						else = { 
+							if = {
+								limit = { any_state = { available_state_7 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_enemy_border = yes } } random_state = { limit = { available_state_7 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_enemy_border = yes } add_NIC = yes }
+								else = { random_state = { limit = { available_state_7 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes } add_NIC = yes } } 
+							}
+						}
+					}
+					else = {
+						if = {
+							limit = { any_state = { available_state_6 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes } } 
+							if = { 
+								limit = { any_state = { available_state_6 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_border = yes } } random_state = { limit = { available_state_6 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_border = yes } add_NIC = yes }
+								else = { 
+									if = {
+										limit = { any_state = { available_state_6 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_enemy_border = yes } } random_state = { limit = { available_state_6 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_enemy_border = yes } add_NIC = yes }
+										else = { random_state = { limit = { available_state_6 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes } add_NIC = yes } } 
+									}
+								}
+							}
+							else = {
+								if = { 
+									limit = { any_state = { available_state_5 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes } } 
+									if = { 
+										limit = { any_state = { available_state_5 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_border = yes } } random_state = { limit = { available_state_5 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_border = yes } add_NIC = yes }
+										else = { 
+											if = {
+												limit = { any_state = { available_state_5 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_enemy_border = yes } } random_state = { limit = { available_state_5 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_enemy_border = yes } add_NIC = yes }
+												else = { random_state = { limit = { available_state_5 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes } add_NIC = yes } } 
+											}
+										}
+									}
+									else = {
+										if = { 
+											limit = { any_state = { available_state_7 = yes available_NIC = yes is_coastal = yes no_border = yes } } random_state = { limit = { available_state_7 = yes available_NIC = yes is_coastal = yes no_border = yes } add_NIC = yes }
+											else = {
+												if = {
+													limit = { any_state = { available_state_6 = yes available_NIC = yes is_coastal = yes no_border = yes } } random_state = { limit = { available_state_6 = yes available_NIC = yes is_coastal = yes no_border = yes } add_NIC = yes }
+													else = {
+														if = { 
+															limit = { any_state = { available_state_5 = yes available_NIC = yes is_coastal = yes no_border = yes } } random_state = { limit = { available_state_5 = yes available_NIC = yes is_coastal = yes no_border = yes } add_NIC = yes }
+															else = {
+																if = {
+																	limit = { any_state = { available_state_7 = yes available_NIC = yes is_coastal = yes no_enemy_border = yes } } random_state = { limit = { available_state_7 = yes available_NIC = yes is_coastal = yes no_enemy_border = yes } add_NIC = yes }
+																	else = {
+																		if = { 
+																			limit = { any_state = { available_state_6 = yes available_NIC = yes is_coastal = yes no_enemy_border = yes } } random_state = { limit = { available_state_6 = yes available_NIC = yes is_coastal = yes no_enemy_border = yes } add_NIC = yes }
+																			else = {
+																				if = {
+																					limit = { any_state = { available_state_5 = yes available_NIC = yes is_coastal = yes no_enemy_border = yes } } random_state = { limit = { available_state_5 = yes available_NIC = yes is_coastal = yes no_enemy_border = yes } add_NIC = yes }
+																					else = { random_state = { limit = { available_state_5 = yes available_NIC = yes is_coastal = yes } add_NIC = yes } }
+																				}
+																			}
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				else = {
+					if = {
+						limit = { any_state = { available_state_2 = yes available_NIC = yes is_coastal = yes } }
+						if = {
+							limit = { any_state = { available_state_4 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes } } 
+							if = { 
+								limit = { any_state = { available_state_4 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_border = yes } } random_state = { limit = { available_state_4 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_border = yes } add_NIC = yes }
+								else = { 
+									if = {
+										limit = { any_state = { available_state_4 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_enemy_border = yes } } random_state = { limit = { available_state_4 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_enemy_border = yes } add_NIC = yes }
+										else = { random_state = { limit = { available_state_4 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes } add_NIC = yes } } 
+									}
+								}
+							}
+							else = {
+								if = {
+									limit = { any_state = { available_state_3 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes } } 
+									if = { 
+										limit = { any_state = { available_state_3 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_border = yes } } random_state = { limit = { available_state_3 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_border = yes } add_NIC = yes }
+										else = { 
+											if = {
+												limit = { any_state = { available_state_3 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_enemy_border = yes } } random_state = { limit = { available_state_3 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_enemy_border = yes } add_NIC = yes }
+												else = { random_state = { limit = { available_state_3 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes } add_NIC = yes } } 
+											}
+										}
+									}
+									else = {
+										if = {
+											limit = { any_state = { available_state_2 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes } } 
+											if = { 
+												limit = { any_state = { available_state_2 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_border = yes } } random_state = { limit = { available_state_2 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_border = yes } add_NIC = yes }
+												else = { 
+													if = {
+														limit = { any_state = { available_state_2 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_enemy_border = yes } } random_state = { limit = { available_state_2 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_enemy_border = yes } add_NIC = yes }
+														else = { random_state = { limit = { available_state_2 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes } add_NIC = yes } } 
+													}
+												}
+											}
+											else = {
+												if = {
+													limit = { any_state = { available_state_4 = yes available_NIC = yes is_coastal = yes no_border = yes } } random_state = { limit = { available_state_4 = yes available_NIC = yes is_coastal = yes no_border = yes } add_NIC = yes }
+													else = {
+														if = {
+															limit = { any_state = { available_state_3 = yes available_NIC = yes is_coastal = yes no_border = yes } } random_state = { limit = { available_state_3 = yes available_NIC = yes is_coastal = yes no_border = yes } add_NIC = yes }
+															else = {
+																if = {
+																	limit = { any_state = { available_state_2 = yes available_NIC = yes is_coastal = yes no_border = yes } } random_state = { limit = { available_state_2 = yes available_NIC = yes is_coastal = yes no_border = yes } add_NIC = yes }
+																	else = {
+																		if = {
+																			limit = { any_state = { available_state_4 = yes available_NIC = yes is_coastal = yes no_enemy_border = yes } } random_state = { limit = { available_state_4 = yes available_NIC = yes is_coastal = yes no_enemy_border = yes } add_NIC = yes }
+																			else = {
+																				if = {
+																					limit = { any_state = { available_state_3 = yes available_NIC = yes is_coastal = yes no_enemy_border = yes } } random_state = { limit = { available_state_3 = yes available_NIC = yes is_coastal = yes no_enemy_border = yes } add_NIC = yes }
+																					else = {
+																						if = {
+																							limit = { any_state = { available_state_2 = yes available_NIC = yes is_coastal = yes no_enemy_border = yes } } random_state = { limit = { available_state_2 = yes available_NIC = yes is_coastal = yes no_enemy_border = yes } add_NIC = yes }
+																							else = { random_state = { limit = { available_state_2 = yes available_NIC = yes is_coastal = yes } add_NIC = yes } }
+																						}
+																					}
+																				}
+																			}
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+						else = {
+							if = {
+								limit = { any_state = { available_state_0 = yes available_NIC = yes is_coastal = yes } }
+								if = { 
+									limit = { any_state = { available_state_1 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes } } 
+									if = { 
+										limit = { any_state = { available_state_1 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_border = yes } } random_state = { limit = { available_state_1 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_border = yes } add_NIC = yes }
+										else = { 
+											if = {
+												limit = { any_state = { available_state_1 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_enemy_border = yes } } random_state = { limit = { available_state_1 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_enemy_border = yes } add_NIC = yes }
+												else = { random_state = { limit = { available_state_1 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes } add_NIC = yes } } 
+											}
+										}
+									}
+									else = {
+										if = {
+											limit = { any_state = { available_state_0 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes } } 
+											if = { 
+												limit = { any_state = { available_state_0 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_border = yes } } random_state = { limit = { available_state_0 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_border = yes } add_NIC = yes }
+												else = { 
+													if = {
+														limit = { any_state = { available_state_0 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_enemy_border = yes } } random_state = { limit = { available_state_0 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes no_enemy_border = yes } add_NIC = yes }
+														else = { random_state = { limit = { available_state_0 = yes available_NIC = yes is_coastal = yes is_in_home_area = yes } add_NIC = yes } } 
+													}
+												}
+											}
+											else = {
+												if = { 
+													limit = { any_state = { available_state_1 = yes available_NIC = yes is_coastal = yes no_border = yes } } random_state = { limit = { available_state_1 = yes available_NIC = yes is_coastal = yes no_border = yes } add_NIC = yes }
+													else = {
+														if = {
+															limit = { any_state = { available_state_0 = yes available_NIC = yes is_coastal = yes no_border = yes } } random_state = { limit = { available_state_0 = yes available_NIC = yes is_coastal = yes no_border = yes } add_NIC = yes }
+															else = {
+																if = { 
+																	limit = { any_state = { available_state_1 = yes available_NIC = yes is_coastal = yes no_enemy_border = yes } } random_state = { limit = { available_state_1 = yes available_NIC = yes is_coastal = yes no_enemy_border = yes } add_NIC = yes }
+																	else = {
+																		if = {
+																			limit = { any_state = { available_state_0 = yes available_NIC = yes is_coastal = yes no_enemy_border = yes } } random_state = { limit = { available_state_0 = yes available_NIC = yes is_coastal = yes no_enemy_border = yes } add_NIC = yes }
+																			else = { random_state = { limit = { available_state_0 = yes available_NIC = yes is_coastal = yes } add_NIC = yes } }
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}	
+								else = { queue_MIC = yes }
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+queue_REF = { #build only in home area
+	if = {
+		limit = { any_state = { available_state_8 = yes region_priority = yes available_REF = yes } }
+		if = {
+			limit = { any_state = { available_state_10 = yes region_priority = yes available_REF = yes } } random_state = { limit = { available_state_10 = yes region_priority = yes available_REF = yes } add_REF = yes }
+			else = {
+				if = {
+					limit = { any_state = { available_state_9 = yes region_priority = yes available_REF = yes } } random_state = { limit = { available_state_9 = yes region_priority = yes available_REF = yes } add_REF = yes }
+					else = { random_state = { limit = { available_state_8 = yes region_priority = yes available_REF = yes } add_REF = yes } }
+				}
+			}
+		}
+		else = {
+			if = {
+				limit = { any_state = { available_state_5 = yes region_priority = yes available_REF = yes } }
+				if = {
+					limit = { any_state = { available_state_7 = yes region_priority = yes available_REF = yes } } random_state = { limit = { available_state_7 = yes region_priority = yes available_REF = yes } add_REF = yes }
+					else = {
+						if = {
+							limit = { any_state = { available_state_6 = yes region_priority = yes available_REF = yes } } random_state = { limit = { available_state_6 = yes region_priority = yes available_REF = yes } add_REF = yes }
+							else = { random_state = { limit = { available_state_5 = yes region_priority = yes available_REF = yes } add_REF = yes } }
+						}
+					}
+				}
+				else = {
+					if = {
+						limit = { any_state = { available_state_2 = yes region_priority = yes available_REF = yes } }
+						if = {
+							limit = { any_state = { available_state_4 = yes region_priority = yes available_REF = yes } } random_state = { limit = { available_state_4 = yes region_priority = yes available_REF = yes } add_REF = yes }
+							else = {
+								if = {
+									limit = { any_state = { available_state_3 = yes region_priority = yes available_REF = yes } } random_state = { limit = { available_state_3 = yes region_priority = yes available_REF = yes } add_REF = yes }
+									else = { random_state = { limit = { available_state_2 = yes region_priority = yes available_REF = yes } add_REF = yes } }
+								}
+							}
+						}
+						else = {
+							if = {
+								limit = { any_state = { available_state_0 = yes region_priority = yes available_REF = yes } }
+								if = {
+									limit = { any_state = { available_state_1 = yes region_priority = yes available_REF = yes } } random_state = { limit = { available_state_1 = yes region_priority = yes available_REF = yes } add_REF = yes }
+									else = { random_state = { limit = { available_state_0 = yes region_priority = yes available_REF = yes } add_REF = yes } }
+								}
+								else = {
+									queue_MIC = yes
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+queue_RUB = { #build only in home area
+	if = {
+		limit = { any_state = { available_state_8 = yes region_priority = yes available_RUB = yes } }
+		if = {
+			limit = { any_state = { available_state_10 = yes region_priority = yes available_RUB = yes } } random_state = { limit = { available_state_10 = yes region_priority = yes available_RUB = yes } add_RUB = yes }
+			else = {
+				if = {
+					limit = { any_state = { available_state_9 = yes region_priority = yes available_RUB = yes } } random_state = { limit = { available_state_9 = yes region_priority = yes available_RUB = yes } add_RUB = yes }
+					else = { random_state = { limit = { available_state_8 = yes region_priority = yes available_RUB = yes } add_RUB = yes } }
+				}
+			}
+		}
+		else = {
+			if = {
+				limit = { any_state = { available_state_5 = yes region_priority = yes available_RUB = yes } }
+				if = {
+					limit = { any_state = { available_state_7 = yes region_priority = yes available_RUB = yes } } random_state = { limit = { available_state_7 = yes region_priority = yes available_RUB = yes } add_RUB = yes }
+					else = {
+						if = {
+							limit = { any_state = { available_state_6 = yes region_priority = yes available_RUB = yes } } random_state = { limit = { available_state_6 = yes region_priority = yes available_RUB = yes } add_RUB = yes }
+							else = { random_state = { limit = { available_state_5 = yes region_priority = yes available_RUB = yes } add_RUB = yes } }
+						}
+					}
+				}
+				else = {
+					if = {
+						limit = { any_state = { available_state_2 = yes region_priority = yes available_RUB = yes } }
+						if = {
+							limit = { any_state = { available_state_4 = yes region_priority = yes available_RUB = yes } } random_state = { limit = { available_state_4 = yes region_priority = yes available_RUB = yes } add_RUB = yes }
+							else = {
+								if = {
+									limit = { any_state = { available_state_3 = yes region_priority = yes available_RUB = yes } } random_state = { limit = { available_state_3 = yes region_priority = yes available_RUB = yes } add_RUB = yes }
+									else = { random_state = { limit = { available_state_2 = yes region_priority = yes available_RUB = yes } add_RUB = yes } }
+								}
+							}
+						}
+						else = {
+							if = {
+								limit = { any_state = { available_state_0 = yes region_priority = yes available_RUB = yes } }
+								if = {
+									limit = { any_state = { available_state_1 = yes region_priority = yes available_RUB = yes } } random_state = { limit = { available_state_1 = yes region_priority = yes available_RUB = yes } add_RUB = yes }
+									else = { random_state = { limit = { available_state_0 = yes region_priority = yes available_RUB = yes } add_RUB = yes } }
+								}
+								else = {
+									queue_MIC = yes
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
