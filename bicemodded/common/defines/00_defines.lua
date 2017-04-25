@@ -128,7 +128,7 @@ NDiplomacy = {
 },
 
 NCountry = {
-	EVENT_PROCESS_OFFSET = 20,						-- Events are checked every X day per character or province (1 is ideal, but CPU heavy)
+	EVENT_PROCESS_OFFSET = 10,						-- Events are checked every X day per character or province (1 is ideal, but CPU heavy)
 	BASE_RESEARCH_SLOTS = 2,						-- Base number of research slots per country.
 	VP_TO_SUPPLY_BASE = 1,							-- Bonus to supply from a VP, no matter the level
 	VP_TO_SUPPLY_BONUS_CONVERSION = 0.1,			-- Bonus to supply local supplies from Victory Points, multiplied by this aspect and rounded to closest integer
@@ -831,7 +831,7 @@ NAI = {
 	AIR_ENEMY_SUPERIORITY_FACTOR = 5.0,			-- How much enemy air superiority counts relative to own
 	AIR_SUPERIORITY_FACTOR = 2.5,				-- Factor for air superiority score
 	AIR_MIN_ASSIGN_SCORE = 0,					-- Minimum total score for region to be considered for air missions
-	AIR_MIN_REASSIGN_SCORE = 50,				-- Minimum total score for region to be considered for reassigning air missions
+	AIR_MIN_REASSIGN_SCORE = 70,				-- Minimum total score for region to be considered for reassigning air missions
 	AIR_WING_SIZE_FACTOR = 1.0,					-- Impact on air score of assigning wings to mission
 	AIR_MISSION_MIN_COVEREAGE = 0.4,			-- Between 0 and 1, limit for % coverage for air mission to be considered
 	AIR_BASE_PRIORITY_DISTANCE_FACTOR = 25.0,	-- Weight of distance between region and airbase for airbase priority score
