@@ -160,7 +160,7 @@ focus_tree = {
 		icon = GFX_goal_generic_SS_focus
 		prerequisite = { focus = Hitleryouth }
 		prerequisite = { focus = GER_Schutzstaffel_divisions_III }
-		x = 28
+		x = 29
 		y = 6
 		cost = 5
 		
@@ -970,8 +970,7 @@ focus_tree = {
 			
 			add_tech_bonus = {
 				name = specialized_ground_attack_aircraft
-				bonus = 0.2
-				ahead_reduction = 0.1
+				bonus = 0.3
 				uses = 1
 				technology = tech_hs_129_equipment_1
 				}
@@ -1045,7 +1044,7 @@ focus_tree = {
 		id = GER_divebomber_focus
 		icon = GFX_goal_generic_CAS
 		prerequisite = { focus = GER_Battlefield_Support }
-		mutually_exclusive = { focus = GER_antitank_aircraft}
+		mutually_exclusive = { focus = GER_antitank_aircraft }
 		
 		x = -10
 		y = 3
@@ -1195,15 +1194,9 @@ focus_tree = {
 			
 			add_tech_bonus = {
 				name = fighter_focus
-				bonus = 0.2
-				uses = 1
-				technology = tech_fw_190_fighter_equipment_1	
-			}
-			add_tech_bonus = {
-				name = bomber_bonus
-				bonus = 0.2
-				uses = 1
-				technology = tech_fw_190_fighter_equipment_d				
+				bonus = 0.25
+				uses = 2
+				category = light_fighter				
 			}
 		}
 	}
@@ -1461,7 +1454,7 @@ focus_tree = {
 		id = GER_naval_patrol
 		text = GER_naval_patrol
 		icon = GFX_goal_generic_navy_anti_submarine
-		prerequisite = { focus = GER_air_innovation_2 }
+		prerequisite = { focus = GER_naval_bomber focus =  GER_air_innovation_2}
 		x = -4
 		y = 5
 		cost = 10
@@ -1499,6 +1492,12 @@ focus_tree = {
 				bonus = 0.25
 				uses = 1
 				technology = tech_fi_167_bomber_equipment_1
+			}
+			add_tech_bonus = {
+				name = nav_bomber_bonus
+				bonus = 0.25
+				uses = 1
+				technology = tech_naval_bomber_equipment_1
 			}
 		}
 	}
@@ -2736,7 +2735,7 @@ focus_tree = {
 		id = GER_weserubung
 		icon = GFX_goal_generic_more_territorial_claims
 		prerequisite = { focus = GER_danzig_or_war }
-		mutually_exclusive = { focus = GER_denmark_friend }
+		mutually_exclusive = { focus = GER_denmark_and_norway_friend }
 		will_lead_to_war_with = DEN 
 		will_lead_to_war_with = NOR
 		bypass = {
@@ -2822,7 +2821,7 @@ focus_tree = {
 	focus = {
 		id = GER_around_maginot
 		icon = GFX_goal_generic_attack_allies
-		prerequisite = { focus = GER_danzig_or_war }
+		prerequisite = { focus = GER_war_with_france }
 		
 		bypass = {
 		}		
@@ -2847,9 +2846,9 @@ focus_tree = {
 		will_lead_to_war_with = HOL
 		will_lead_to_war_with = LUX
 		will_lead_to_war_with = FRA
-		x = 15
-		y = 7
-		cost = 2.3
+		x = 12
+		y = 9
+		cost = 2
 		ai_will_do = {
 			factor = 12
 			modifier = {
@@ -3419,9 +3418,9 @@ focus_tree = {
 		bypass = {
             has_war_with = FRA
 		}
-		x = 16
+		x = 15
 		y = 8
-		cost = 1.5
+		cost = 1
 		bypass = {
 			OR = {
 				NOT = { country_exists = FRA }
@@ -3502,7 +3501,7 @@ focus_tree = {
 		text = GER_western_knowledge
 		prerequisite = { focus = GER_war_with_france }
 		
-		x = 16
+		x = 17
 		y = 9
 		cost = 10
 		available = { 
@@ -3743,27 +3742,44 @@ focus_tree = {
 		completion_reward = {
 			navy_experience = 50
 		    add_ideas = idea_plan_z
-			
-			add_tech_bonus = {
+			random_owned_controlled_state = {
+				limit = {
+					dockyard > 0
+					free_building_slots = {
+						building = dockyard
+						size > 2
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+				set_state_flag = GER_naval_rearmament_2dockyards
+			}
+				add_tech_bonus = {
 				name = bb_bonus
 				bonus = 0.3
 				uses = 1
 				category = bb_tech
-			}
-			add_tech_bonus = {
+				}
+				add_tech_bonus = {
 				name = cv_bonus
 				bonus = 0.3
 				uses = 1
 				category = cv_tech
-			}
-			add_tech_bonus ={
+				}
+				add_tech_bonus ={
 				name = bc_bonus
 				bonus = 0.3
 				uses = 1
 				category = bc_tech
+				}
 			}
 		}
-	}
+	
 
 	focus = {
 		id = GER_u_boat_effort
@@ -3832,7 +3848,7 @@ focus_tree = {
 		prerequisite = { focus = GER_u_boat_effort focus = GER_plan_z }
 		x = 23
 		y = 7
-		cost = 10
+		cost = 8
 		ai_will_do = {
 			factor = 8
 		}	
@@ -3847,9 +3863,69 @@ focus_tree = {
 			}
 		}
 	}
+	focus = {
+		id = GER_operation_paukenschlag
+		icon = GFX_goal_generic_navy_submarine
+		prerequisite = { focus = GER_trade_interdiction }
+		x = 23
+		y = 10
+		cost = 10
+		
+		available = {
+			has_war_with = USA
+		}
+		completion_reward = {
+				every_state = {
+				limit = { has_state_flag = GER_u_boat_effort_2dockyards }
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+			}
+			add_tech_bonus = {
+				name = GER_u_boat_effort
+				bonus = 0.25
+				uses = 4
+				category = ss_tech
+			}
+		}
+	}
+	focus = {
+		id = GER_operation_sealion
+		icon = GFX_focus_AST_never_gallipoli
+		prerequisite = { focus = GER_denmark_and_norway_friend focus = GER_weserubung}
+		prerequisite = { focus = GER_war_with_france }
+		
+		available = {
+			country_exists = ENG
+			FRA = { has_capitulated = yes }
+		}	
+		available_if_capitulated = yes
+		x = 18
+		y = 10
+		cost = 12
+		
+		completion_reward = {
+			create_wargoal = {
+ 				type = take_state_focus
+ 				target = ENG
+ 				generator = { 126 }
+ 			}
+			load_oob = GER_marines
+			
+			add_tech_bonus = {
+			name = GER_amp_tank
+			bonus = 0.3
+			uses = 1
+			category = amp_armor
+			}	
+		}
+	}
 
 	focus = {
-		id = GER_denmark_friend
+		id = GER_denmark_and_norway_friend
 		icon = GFX_goal_generic_improve_relations
 		prerequisite = { focus = GER_plan_z }
 		mutually_exclusive = { focus = GER_weserubung }
@@ -3878,6 +3954,34 @@ focus_tree = {
 			factor = 1
 		}	
 		completion_reward = {
+			NOR = {
+				add_opinion_modifier = { target = GER modifier = ger_naval_intimidation_focus }
+				if = {
+					limit = {
+						GER = {
+							has_government = fascism
+						}
+					}
+					add_ideas = fascist_influence
+				}
+				if = {
+					limit = {
+						GER = {
+							has_government = communism
+						}
+					}
+					add_ideas = communist_influence
+				}
+				if = {
+					limit = {
+						GER = {
+							has_government = democratic
+						}
+					}
+					add_ideas = democratic_influence
+				}
+				country_event = { id = generic.1 }
+			}
 			DEN = {
 				add_opinion_modifier = { target = GER modifier = ger_naval_intimidation_focus }
 				if = {
@@ -3912,136 +4016,12 @@ focus_tree = {
 		}
 	}
 
-	focus = {
-		id = GER_norway_friend
-		icon = GFX_goal_generic_military_deal
-		prerequisite = { focus = GER_denmark_friend }
-		available = {
-			NOT = { has_war_with = NOR }
-			NOR = {
-				custom_trigger_tooltip = {
-					tooltip = GER_alone_or_peace_faction_tt
-					is_alone_or_in_faction_at_peace_with_GER = yes
-				}
-			}
-		}
-		bypass = {
-			OR = {
-				is_in_faction_with = NOR
-				NOT = { country_exists = NOR }
-			}
-		}
-		x = 18
-		y = 8
-		cost = 12
-		ai_will_do = {
-			factor = 1
-		}	
-		completion_reward = {
-			NOR = {
-				add_opinion_modifier = { target = GER modifier = ger_naval_intimidation_focus }
-				if = {
-					limit = {
-						GER = {
-							has_government = fascism
-						}
-					}
-					add_ideas = fascist_influence
-				}
-				if = {
-					limit = {
-						GER = {
-							has_government = communism
-						}
-					}
-					add_ideas = communist_influence
-				}
-				if = {
-					limit = {
-						GER = {
-							has_government = democratic
-						}
-					}
-					add_ideas = democratic_influence
-				}
-				country_event = { id = generic.1 }
-			}
-			
-			add_tech_bonus = {
-				name = tp_bonus
-				bonus = 0.25
-				uses = 2
-				technology = transport
-				technology = landing_craft
-				technology = tank_landing_craft
-			}			
-		}
-	}
 
-	focus = {
-		id = GER_dutch_friend
-		icon = GFX_goal_generic_major_alliance
-		prerequisite = { focus = GER_denmark_friend }
-		available = {
-			NOT = { has_war_with = HOL }
-			HOL = {
-				custom_trigger_tooltip = {
-					tooltip = GER_alone_or_peace_faction_tt
-					is_alone_or_in_faction_at_peace_with_GER = yes
-				}
-			}
-		}
-		bypass = {
-			OR = {
-				HOL = { is_in_faction_with = GER }
-				NOT = { country_exists = HOL }
-			}
-		}
-		x = 20
-		y = 8
-		cost = 12
-		ai_will_do = {
-			factor = 1
-		}	
-		completion_reward = {
-			HOL = {
-				add_opinion_modifier = { target = GER modifier = ger_naval_intimidation_focus }
-				if = {
-					limit = {
-						GER = {
-							has_government = fascism
-						}
-					}
-					add_ideas = fascist_influence
-				}
-				if = {
-					limit = {
-						GER = {
-							has_government = communism
-						}
-					}
-					add_ideas = communist_influence
-				}
-				if = {
-					limit = {
-						GER = {
-							has_government = democratic
-						}
-					}
-					add_ideas = democratic_influence
-				}
-				country_event = { id = generic.1 }
-			}
-			JAP = {
-				add_opinion_modifier = { target = GER modifier = befriended_the_dutch }
-			}
-		}
-	}
 
 	focus = {
 		id = GER_sweden_friend
 		icon = GFX_goal_generic_propaganda
-		prerequisite = { focus = GER_norway_friend }
+		prerequisite = { focus = GER_weserubung focus = GER_denmark_and_norway_friend }
 		available = {
 			NOT = { has_war_with = SWE }
 			SWE = {
@@ -4057,9 +4037,9 @@ focus_tree = {
 				NOT = { country_exists = SWE }
 			}
 		}
-		x = 18
-		y = 9
-		cost = 12
+		x = 21
+		y = 8
+		cost = 8
 		ai_will_do = {
 			factor = 1
 		}	
@@ -4944,7 +4924,7 @@ focus_tree = {
 		icon = GFX_goal_generic_SS_focus
 		prerequisite = { focus = GER_Schutzstaffel_focus }
 		x = 27
-		y = 5
+		y = 3
 		cost = 3
 		available = {
 			date > 1937.1.1	
@@ -4965,7 +4945,7 @@ focus_tree = {
 		prerequisite = { focus = GER_Schutzstaffel_divisions_V }
 		prerequisite = { focus = GER_Schutzstaffel_junkerschulen }
 		x = 27
-		y = 7
+		y = 6
 		cost = 1
 		available = {
 			date > 1940.8.1
@@ -4983,7 +4963,7 @@ focus_tree = {
 		icon = GFX_goal_ger_nord
 		prerequisite = { focus = GER_Schutzstaffel_Expansion }
 		x = 27
-		y = 8
+		y = 7
 		cost = 3
 		
 		available = {
