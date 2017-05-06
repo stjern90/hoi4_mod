@@ -397,7 +397,7 @@ NMilitary = {
 	FIELD_EXPERIENCE_MAX_PER_DAY = 2.5,				-- Most xp you can gain per day
 	EXPEDITIONARY_FIELD_EXPERIENCE_SCALE = 0.5,		-- reduction factor in Xp from expeditionary forces
 	LEND_LEASE_FIELD_EXPERIENCE_SCALE = 0.005,		-- Experience scale for lend leased equipment used in combat.
-	LEADER_EXPERIENCE_SCALE = 1.0,
+	LEADER_EXPERIENCE_SCALE = 2.0,
 	SLOWEST_SPEED = 1,
 	REINFORCEMENT_REQUEST_MAX_WAITING_DAYS = 14,   -- Every X days the equipment will be sent, regardless if still didn't produced all that has been requested.
 	REINFORCEMENT_REQUEST_DAYS_FREQUENCY = 7,	   -- How many days must pass until we may give another reinforcement request
@@ -422,7 +422,7 @@ NMilitary = {
 	IS_AMPHIBIOUS_LIMNIT = 0.0,					   -- If the amphibious movement is _above_ this limit it is considered amphibious
 	EXILE_EQUIPMENT = 1.0,						   -- Amount of equipment to keep
 	EXILE_ORG = 0.0,							   -- Amount of org to keep
-	EXPERIENCE_LOSS_FACTOR = 1.00,                 -- percentage of experienced solders who die when manpower is removed
+	EXPERIENCE_LOSS_FACTOR = 0.50,                 -- percentage of experienced solders who die when manpower is removed
 	EQUIPMENT_COMBAT_LOSS_FACTOR = 0.4,	 	       -- was 0.6--% of equipment lost to strength ratio in combat, so some % is returned if below 1
 	SUPPLY_USE_FACTOR_MOVING = 1.8,                -- supply use when moving/fighting vs inactive
 	SUPPLY_USE_FACTOR_INACTIVE = 0.75,
@@ -515,8 +515,8 @@ NMilitary = {
 	STRATEGIC_REDEPLOY_ORG_RATIO = 0.3,				-- Ratio of max org while strategic redeployment
 	BATALION_NOT_CHANGED_EXPERIENCE_DROP = 0.0,		-- Division experience drop if unit has same batalion
 	BATALION_CHANGED_EXPERIENCE_DROP = 0.6,			-- Division experience drop if unit has different batalion
-	ARMOR_VS_AVERAGE = 0.6,			                -- how to weight in highest armor & pen vs the division average
-	PEN_VS_AVERAGE = 0.52,
+	ARMOR_VS_AVERAGE = 0.4,			                -- how to weight in highest armor & pen vs the division average
+	PEN_VS_AVERAGE = 0.4,
 
 	DECRYPTION_ADVANTAGE_BONUS = 0.04,				-- How much unit base damage and base defense is increased per decryption level compared to enemies average encryption level (ex: dec. level is 5 and enemy average enc. level is 3 then 5-3 = 2 which gives 10 % increase)
 	
