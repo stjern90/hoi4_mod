@@ -118,6 +118,7 @@ focus_tree = {
 		add_ideas = idea_homework
 		}
 	}
+	
 	focus = {
 		id = Arbeitsprogramm
 		icon = GFX_goal_generic_consumer_goods
@@ -137,45 +138,31 @@ focus_tree = {
 		}	
 	}
 	focus = {
-		id = Hitleryouth
-		icon = GFX_goal_generic_demand_territory
+		id = GER_Arbeitsprogramm_I
+		icon = GFX_goal_state_economy
 		prerequisite = { focus = Arbeitsprogramm }
-		prerequisite = { focus = GER_Schutzstaffel_divisions }
 		x = -18
 		y = 4
-		cost = 8
+		cost = 4
+		available_if_capitulated = yes
 		available = {
-			date > 1939.1.1
-		}
-		ai_will_do = {
-			factor = 5
-		}
+			is_puppet = no
+			POL = { has_capitulated = yes }
+			FRA = { has_capitulated = yes }
+			BEL = { has_capitulated = yes }
+			HOL = { has_capitulated = yes }
 		
-		completion_reward = { 
-		add_ideas = idea_hitleryouth
 		}
+			completion_reward = {
+				swap_ideas = { 
+				remove_idea = idea_homework
+				add_idea = idea_homework_2
+				}
+			}
+
 	}
-	focus = {
-		id = GER_Das_Vaterland_division # SS pz Division (1942)
-		icon = GFX_goal_generic_SS_focus
-		prerequisite = { focus = Hitleryouth }
-		prerequisite = { focus = GER_Schutzstaffel_divisions_III }
-		x = 29
-		y = 6
-		cost = 5
-		
-		available = {
-			date > 1942.1.1
-		}
-		
-		ai_will_do = {
-			factor = 0
-		}	
-		
-		completion_reward = {
-			country_event = ss_event.689
-		}
-	}
+
+	
 	focus = {
 		id = chemical_synthesis
 		icon = GFX_goal_generic_production
@@ -1375,7 +1362,12 @@ focus_tree = {
 				add_idea = GER_air_innovations_2_idea
 				}
 			
-	
+			add_tech_bonus = {
+				name = air_sup_bonus
+				bonus = 0.20
+				uses = 2
+				category = battlefield_support_tree
+			}
 			# Balance research bonus to next tech among radio, radio_detection, decimetric_radar, improved_decimetric_radar, centimetric_radar, improved_centimetric_radar, advanced_centimetric_radar
 			add_tech_bonus = {
 				name = radar_tech_bonus
@@ -1580,7 +1572,7 @@ focus_tree = {
 	focus = {
 		id = GER_liecht_division
 		text = GER_liecht_division
-		icon = GFX_goal_light_tanks
+		icon = GFX_goal_generic_army_tanks
 		prerequisite = { focus = GER_achtung_panzer }
 	
 		x = 6
@@ -2846,7 +2838,7 @@ focus_tree = {
 		will_lead_to_war_with = HOL
 		will_lead_to_war_with = LUX
 		will_lead_to_war_with = FRA
-		x = 12
+		x = 16
 		y = 9
 		cost = 2
 		ai_will_do = {
@@ -3286,7 +3278,7 @@ focus_tree = {
 		#		is_in_faction_with = GER
 		#	}
 		#}
-		x = 12
+		x = 13
 		y = 8
 		cost = 16
 		ai_will_do = {
@@ -3495,7 +3487,100 @@ focus_tree = {
 				news_event = { hours = 6 id = news.233 }
 			}
 		}
-	}	
+	}
+	focus = {
+		id = GER_africa_korps
+		icon = GFX_goal_generic_construction2
+		prerequisite = { focus = GER_italy_ally }
+		x = 12
+		y = 9
+		cost = 2
+		available = {
+			date > 1941.2.1
+		ITA = { owns_state = 448 }
+		}
+		completion_reward = {
+			GER = {
+			country_event = germany.233
+			}
+		}
+	}
+	focus = { 
+		id = GER_support_the_golden_square
+		icon = GFX_goal_generic_demand_territory
+		prerequisite = { focus = GER_secure_middle_east }
+		x = 12
+		y = 11
+		cost = 2
+		
+		completion_reward = {
+			IRQ = {
+				if = {
+					limit = { has_idea = neutrality_idea }
+					remove_ideas = neutrality_idea
+				}
+				if = {
+				limit = {
+					IRQ = {
+						is_ai = yes
+						NOT = {
+							is_in_faction = yes
+						}
+						NOT = {
+							is_puppet = yes
+						}
+					}
+					GER = { is_faction_leader = yes }
+					}
+				GER = { add_to_faction = IRQ }
+				}
+			}
+		}
+	}
+	focus = {
+		id = GER_secure_middle_east
+		icon = GFX_goal_generic_major_alliance
+		prerequisite = { focus = GER_africa_korps }
+		x = 12 
+		y = 10
+		cost = 8
+		available = {
+			date > 1941.4.1
+		ITA = { controls_state = 446 }	
+		ITA = { controls_state = 447 }
+		ITA = { controls_state = 453 }
+		ITA = { controls_state = 454 }
+		ITA = { controls_state = 455 }
+		ITA = { controls_state = 554 }	
+		ITA = { controls_state = 553 }
+		ITA = { controls_state = 677 }	
+		ITA = { controls_state = 680 }	
+		}
+		completion_reward = {
+			IRQ = {
+				add_opinion_modifier = { target = GER modifier = offered_support }
+				country_event = { id = germany.300 days = 1 }
+				add_popularity = {
+				ideology = fascism 
+				popularity = 0.6
+				}
+			} 
+			SAU = {
+				add_opinion_modifier = { target = GER modifier = offered_support }
+				add_popularity = {
+				ideology = fascism 
+				popularity = 0.2
+				}
+			}
+			PER = {
+				add_opinion_modifier = { target = GER modifier = offered_support }
+				add_popularity = {
+				ideology = fascism 
+				popularity = 0.2
+				}
+			}
+		}
+	}
 	focus = {
 		id = GER_western_knowledge
 		icon = GFX_focus_research
@@ -3520,6 +3605,7 @@ focus_tree = {
 			add_research_slot = 1
 		}
 	}
+	
 #	focus = {
 #		id = GER_Unternehmen_Anton
 #		icon = GFX_goal_generic_improve_relations
@@ -3652,7 +3738,7 @@ focus_tree = {
 	focus = {
 		id = GER_naval_effort
 		text = naval_effort
-		icon = GFX_goal_generic_navy_doctrines_tactics
+		icon = GFX_goal_generic_construct_naval_dockyard
 		prerequisite = { focus = GER_naval_rearmament }
 		x = 22
 		y = 3
@@ -3730,7 +3816,7 @@ focus_tree = {
 
 	focus = {
 		id = GER_plan_z
-		icon = GFX_goal_generic_large_fleet
+		icon = GFX_goal_generic_navy_doctrines_tactics
 		prerequisite = { focus = GER_naval_effort }
 		mutually_exclusive = { focus = GER_u_boat_effort }
 		x = 21
@@ -3781,7 +3867,50 @@ focus_tree = {
 			}
 		}
 	
-
+	focus = { 
+		id = GER_modern_battlefleet
+		icon = GFX_goal_generic_large_fleet
+		prerequisite = { focus = GER_plan_z }
+		mutually_exclusive = { focus = GER_operation_paukenschlag }
+		x = 21
+		y = 10
+		cost = 10
+		ai_will_do = {
+			factor = 0.25 
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					dockyard > 0
+					free_building_slots = {
+						building = dockyard
+						size > 2
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+				set_state_flag = GER_naval_rearmament_2dockyards
+			}
+				add_tech_bonus = {
+					name = cv_bonus
+					bonus = 0.3
+					uses = 2
+					category = cv_tech
+				}
+				add_tech_bonus = {
+				name = bb_bonus
+				bonus = 0.3
+				uses = 1
+				category = bb_tech
+				}
+		}
+	}
 	focus = {
 		id = GER_u_boat_effort
 		icon = GFX_goal_generic_navy_submarine
@@ -3868,6 +3997,7 @@ focus_tree = {
 		id = GER_operation_paukenschlag
 		icon = GFX_goal_generic_navy_submarine
 		prerequisite = { focus = GER_trade_interdiction }
+		mutually_exclusive = { focus = GER_modern_battlefleet }
 		x = 23
 		y = 10
 		cost = 10
@@ -4693,6 +4823,65 @@ focus_tree = {
 			}
 		}
 	}
+	focus = {
+		id = Hitleryouth
+		icon = GFX_goal_generic_demand_territory
+		prerequisite = { focus = GER_Schutzstaffel_focus }
+		x = 29
+		y = 2
+		cost = 8
+		available = {
+			date > 1939.1.1
+		}
+		ai_will_do = {
+			factor = 5
+		}
+		
+		completion_reward = { 
+		add_ideas = idea_hitleryouth
+		}
+	}
+	focus = {
+		id = GER_Bandenkampf
+		icon = GFX_goal_continuous_suppression
+		prerequisite = { focus = Hitleryouth }
+		prerequisite = { focus = GER_Schutzstaffel_divisions_II }
+		x = 29 
+		y = 5
+		cost = 5
+		
+		available = {
+			date > 1940.1.1
+		}
+		ai_will_do = {
+			factor = 2
+		}
+		
+		completion_reward = {
+			add_ideas = German_Suppression
+		}
+	}
+	focus = {
+		id = GER_Das_Vaterland_division # SS pz Division (1942)
+		icon = GFX_goal_generic_SS_focus
+		prerequisite = { focus = GER_Bandenkampf }
+		prerequisite = { focus = GER_Schutzstaffel_divisions_III }
+		x = 29
+		y = 6
+		cost = 5
+		
+		available = {
+			date > 1942.1.1
+		}
+		
+		ai_will_do = {
+			factor = 0
+		}	
+		
+		completion_reward = {
+			country_event = ss_event.689
+		}
+	}
 	##################### Historical SS Choice # loads historical OOBs
 	focus = {
 		id = GER_historical_Schutzstaffel
@@ -4917,8 +5106,8 @@ focus_tree = {
 	focus = {
 		id = GER_Schutzstaffel_divisions_VI
 		icon = GFX_goal_generic_SS_focus
-		prerequisite = { focus = Hitleryouth }
 		prerequisite = { focus = GER_Schutzstaffel_divisions_V }
+		prerequisite = { focus = GER_Das_Vaterland_division }
 		
 		x = 29
 		y = 8
@@ -4962,7 +5151,7 @@ focus_tree = {
 	focus = {
 		id = GER_Schutzstaffel_Expansion
 		icon = GFX_goal_generic_SS_focus
-		prerequisite = { focus = GER_Schutzstaffel_divisions_V }
+		prerequisite = { focus = GER_Bandenkampf }
 		prerequisite = { focus = GER_Schutzstaffel_junkerschulen }
 		x = 27
 		y = 6
