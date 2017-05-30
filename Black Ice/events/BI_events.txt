@@ -1,8 +1,8 @@
 ﻿###################################################
 add_namespace = blackiceevents
+add_namespace = ai_ideas
 
 #leave the swiss alone germany! dang
-
 country_event = {
 	id = blackiceevents.1
 	title = blackiceevents.1.t
@@ -178,6 +178,10 @@ country_event = {
 				transfer_state = 670
 				transfer_state = 671
 				transfer_state = 741
+				transfer_state = 744
+				transfer_state = 911
+			transfer_state = 912
+	
 			}
 			add_named_threat = { threat = 1 name = france.1.t }
 	}
@@ -469,6 +473,7 @@ country_event = {
 	trigger = {
 		tag = ITA
 		is_ai = yes
+		has_country_flag = impossible
 		GER = { is_ai = yes }
 		is_in_faction_with = GER
 		GER = { has_war_with = USA }
@@ -528,7 +533,7 @@ country_event = {
 		GER = { has_war_with = SOV }
 		SOV = {is_ai = no}
 		OR = {
-		    SOV = { surrender_progress > 0.5 }
+		    SOV = { surrender_progress > 0.2 }
 		    date > 1945.12.1
 		
 		}
@@ -602,7 +607,9 @@ country_event = {
 
 	trigger = {
 	    tag = JAP
+		
 	    NOT = { is_in_faction_with = USA }
+		NOT = { GER = { is_in_faction_with = USA } }
 	    is_ai = yes
 		date > 1941.12.7                            # make sure that they join
 	}
@@ -687,9 +694,18 @@ country_event = {
 	trigger = {
 		tag = USA
 		is_ai = yes
-		  NOT = { is_in_faction_with = GER }
-		    NOT = { is_in_faction_with = JAP }
-		date > 1941.12.10
+		
+		NOT = { is_in_faction_with = GER }
+		NOT = { is_in_faction_with = JAP }
+		or = {
+		date > 1942.1.1
+		 336 = { is_controlled_by = JAP }
+		  430 = { is_controlled_by = JAP }
+		   521 = { is_controlled_by = JAP }
+		   285 = { is_controlled_by = JAP }
+		   428 = { is_controlled_by = JAP }
+		   423 = { is_controlled_by = JAP }
+		}
 	}
 
 	fire_only_once = yes
@@ -1088,7 +1104,7 @@ country_event = {
 
 	trigger = {
 		tag = JAP
-		#has_country_flag = impossible
+		has_country_flag = impossible
 		is_ai = yes
 		has_war_with = USA
 		date > 1942.6.1
@@ -1784,6 +1800,7 @@ country_event = {
 		has_idea = neutrality_idea 
 		has_country_flag = MinorAIneutrality
 		NOT = { tag = FIN }
+		NOT = { has_country_flag = spanishneutrality }
 	}
 	fire_only_once = yes
 
@@ -1794,9 +1811,370 @@ country_event = {
 		name = blackiceevents.87.a
 		hidden_effect = {
 			remove_ideas = neutrality_idea 
+		}
+	}
+}
+################ Generic Armor choice tech ( also axis AI )
+country_event = {
+	id = blackiceevents.88
+	title = blackiceevents.88.t
+	desc = blackiceevents.88.d
+	
+	picture = GFX_event_ger_ss_panzer_iii
+
+	trigger = {
+		
+		date > 1936.1.1
+		has_tech = tech_Headquarters
+		NOT = { tag = GER } #Germany
+		NOT = { tag = FRA }	#France	
+		NOT = { has_tech = soviet_tech_a }	#Soviets + satellites
+		NOT = { tag = ITA }	#Italy
+		NOT = { tag = JAP }	#Japan
+		NOT = { tag = ENG }	#UK
+		NOT = { tag = USA }	#USA
+		or = {
+			tag = ROM
+			tag = HUN
+			tag = FIN
+			tag = AUS
+			tag = BUL
+			has_government = fascism
+			
+		}
+		#has_country_flag = impossible	
+		NOT = { has_country_flag = genericaxisarmor }
+	}
+		
+	mean_time_to_happen = {
+		days = 2
+	}
+	immediate = { set_country_flag = genericaxisarmor }
+	
+	option = {
+		name = blackiceevents.88.a	# axis generic
+		ai_chance = { factor = 100 }
+		set_technology = { generic_armor_axis = 1 }
+	}
+	option = {
+		name = blackiceevents.88.b	# allied generic
+		ai_chance = { factor = 0 }
+		set_technology = { generic_armor = 1 }
+	}	
+}
+################ Generic Armor choice tech ( also allied AI )
+country_event = {
+	id = blackiceevents.89
+	title = blackiceevents.89.t
+	desc = blackiceevents.89.d
+	
+	picture = GFX_report_event_canadian_ram_tank
+	
+	trigger = {
+		
+		date > 1936.1.1
+		has_tech = tech_Headquarters
+		NOT = { has_tech = german_tech } 		#Germany
+		NOT = { has_tech = tech_faf }			#France	
+		NOT = { has_tech = soviet_tech_a }		#Soviets + satellites
+		NOT = { has_tech = italian_tech }		#Italy
+		NOT = { has_tech = japanese_tech_a }	#Japan
+		NOT = { has_tech = british_tech_1 }		#UK
+		NOT = { has_tech = american_tech_1 }	#USA
+		NOT = {tag = ROM }
+		NOT = {tag = HUN }
+		NOT = {tag = FIN }
+		NOT = {tag = AUS }
+		NOT = {tag = BUL }
+		NOT = {has_government = fascism}
+		#has_country_flag = impossible
+		NOT = { has_country_flag = genericalliedarmor }
+	}
+	
+	mean_time_to_happen = {
+		days = 2
+	}
+		immediate = { set_country_flag = genericalliedarmor }
+		
+	option = {
+		name = blackiceevents.89.a	# axis generic
+		ai_chance = { factor = 0 }
+		set_technology = { generic_armor_axis = 1 }
+	}
+	option = {
+		name = blackiceevents.89.b	# allied generic
+		ai_chance = { factor = 100 }
+		set_technology = { generic_armor = 1 }
+	}	
+}	
+
+country_event = {
+	id = ai_ideas.1
+	title = ai_ideas.1.t
+	desc = ai_ideas.1.d
+	
+	hidden = yes
+	
+	fire_only_once = yes
+	
+	trigger = {
+		date > 1936.1.1
+		is_ai = no
+	}
+
+	option = {
+		name = ai_ideas.1.a
+		ai_chance = { factor = 0 }
+		if = {
+			limit = { 
+				AND = {
+					tag = GER 	
+					is_ai = no
+				}
 			}
+			custom_effect_tooltip = remove_interior_minister
+			show_ideas_tooltip = himmler_ai
+			remove_ideas = {
+				himmler_ai
+			}
+		}
+	}
+}
+country_event = {
+	id = blackiceevents.90
+	title = blackiceevents.90.t
+	desc = blackiceevents.90.d
+	
+	picture = GFX_report_event_spain_civil_war_franco_thank_you
+
+	trigger = {
+			original_tag = SPR
+			has_government = fascism
+			is_ai = yes
+			}
+			
+	fire_only_once = yes
+
+	mean_time_to_happen = {
+		days = 1
+	}
+	option = {
+		name = blackiceevents.90.a
+		hidden_effect = {
+			add_ideas = { neutrality_idea }
+			}
+			set_country_flag = MinorAIneutrality
+			set_country_flag = spanishneutrality
+		}
+		
+	}
+	country_event = {
+	id = blackiceevents.91
+	title = blackiceevents.91.t
+	desc = blackiceevents.91.d
+	
+	picture = GFX_report_event_soldiers_marching
+
+	trigger = {
+			or = {
+			has_war = yes
+			is_in_faction = yes
+			threat > 0.5
+			}
+			num_divisions < 50 
+			is_ai = yes
+			has_manpower < 10
+			NOT = { has_manpower > 11 }
+			#has_war = yes
+			#has_army_manpower = { size > 25000 }
+			NOT = { has_idea = Manpower_draft }			
+			}
+			
+
+	mean_time_to_happen = {
+		days = 2
+	}
+	immediate = { 
+			add_timed_idea = {
+				idea = Manpower_draft
+				days = 180
+			}
+	}
+	option = {
+		name = blackiceevents.91.a
+		hidden_effect = {
+			add_manpower = 150
 			
 		}
 		
 	}
-### EOF ###
+	}
+	country_event = {
+	id = blackiceevents.92
+	title = blackiceevents.92.t
+	desc = blackiceevents.92.d
+	
+	picture = GFX_report_event_polish_resistance1
+
+	is_triggered_only = yes
+			
+fire_only_once = yes
+
+	mean_time_to_happen = {
+		days = 1
+	}
+	option = {
+		name = blackiceevents.92.a	#yes to partisans
+			set_global_flag = yes_partisans
+			ai_chance = { factor = 100 }
+	}
+	option = {
+		name = blackiceevents.92.b # no to partisans...yes to a new pain
+			ai_chance = { factor = 0 }
+			set_global_flag = no_partisans
+		}
+		
+	}
+	country_event = {
+	id = blackiceevents.93
+	title = blackiceevents.93.t
+	desc = blackiceevents.93.d
+	
+	picture = GFX_report_event_polish_resistance1
+
+	trigger = {
+			has_global_flag = no_partisans
+			is_ai = no
+			and = { 
+			OR = {
+					has_government = fascism
+					tag = GER
+					has_war_with = SOV
+					
+				}
+			OR = {
+					has_government = fascism
+					tag = JAP
+					has_war_with = CHI
+					
+				}
+			OR = {
+					has_government = fascism
+					tag = JAP
+					has_war_with = PRC
+					
+				}
+			OR = {
+					tag = SPR
+					has_government = communism
+					has_war = yes
+					
+				}
+			OR = {
+					original_tag = SPR
+					has_government = fascism
+					has_war = yes
+					
+				}
+				}
+			}
+			
+fire_only_once = yes
+
+	mean_time_to_happen = {
+		days = 1
+	}
+	option = {
+		name = blackiceevents.93.a	#yes to partisans
+	
+			add_ideas = { Partisan_Hell }
+			
+		
+	}
+	
+	}
+country_event = {
+	id = blackiceevents.94
+	title = blackiceevents.94.t
+	desc = blackiceevents.94.d
+	
+	picture = GFX_report_event_soldiers_marching
+
+	trigger = {
+			or = {
+			has_war = yes
+			is_in_faction = yes
+			threat > 0.5
+			}
+		    	num_divisions > 50 
+			num_divisions < 100 
+			is_ai = yes
+			has_manpower < 100
+			NOT = { has_manpower > 101}
+			#has_war = yes
+			#has_army_manpower = { size > 25000 }
+			NOT = { has_idea = Manpower_draft }			
+			}
+			
+
+	mean_time_to_happen = {
+		days = 2
+	}
+	immediate = { 
+			add_timed_idea = {
+				idea = Manpower_draft
+				days = 180
+			}
+	}
+	option = {
+		name = blackiceevents.94.a
+		hidden_effect = {
+			add_manpower = 600
+			
+		}
+		
+	}
+	}
+country_event = {
+	id = blackiceevents.95
+	title = blackiceevents.95.t
+	desc = blackiceevents.95.d
+	
+	picture = GFX_report_event_soldiers_marching
+
+	trigger = {
+			or = {
+			has_war = yes
+			is_in_faction = yes
+			threat > 0.5
+			}
+		    	num_divisions > 100 
+			#num_divisions < 100 
+			is_ai = yes
+			has_manpower < 500
+			NOT = { has_manpower > 501}
+			#has_war = yes
+			#has_army_manpower = { size > 25000 }
+			NOT = { has_idea = Manpower_draft }			
+			}
+			
+
+	mean_time_to_happen = {
+		days = 2
+	}
+	immediate = { 
+			add_timed_idea = {
+				idea = Manpower_draft
+				days = 180
+			}
+	}
+	option = {
+		name = blackiceevents.95.a
+		hidden_effect = {
+			add_manpower = 1200
+			
+		}
+		
+	}
+	}
+	

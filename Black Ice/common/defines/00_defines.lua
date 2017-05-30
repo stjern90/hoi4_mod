@@ -39,8 +39,8 @@ NDiplomacy = {
 	WARGOAL_JUSTIFY_TENSION_FROM_PRODUCTION = 30.0,						-- Base value scaled by production capacity of country compared to biggest country
 	MIN_WARGOAL_JUSTIFY_COST = 2.0,										-- It always takes atleast 10 days to justify a wargoal
 	WARGOAL_PER_JUSTIFY_AND_WAR_COST_FACTOR = 1.5,						-- Cost factor per nation at war with or justifying against
-	BASE_BOOST_PARTY_POPULARITY_DAILY_PP = 0.25, 						-- Daily pp cost for boost party popularity
-	BASE_BOOST_PARTY_POPULARITY_DAILY_DRIFT = 0.1, 						-- Daily amount of popularity that will be added by the activity.
+	BASE_BOOST_PARTY_POPULARITY_DAILY_PP = 0.50, 						-- Daily pp cost for boost party popularity
+	BASE_BOOST_PARTY_POPULARITY_DAILY_DRIFT = 0.03, 						-- Daily amount of popularity that will be added by the activity.
 	BASE_STAGE_COUP_DAILY_PP = 0.5,										-- Daily pp cost for staging a coup
 	BASE_STAGE_COUP_TOTAL_COST = 200, 									-- Equipment consume factor for stage coup.
 	NAP_EXPIRY_MONTHS = 48,                        						-- NAPs expire after this many months
@@ -186,10 +186,10 @@ NCountry = {
 	MAX_INTELLIGENCE_INDUSTRY_DATA_DEVIATION = 0.4,		-- Max deviation in estimating enemy industry amount ( 0.0 - 1.0 )
 	MAX_INTELLIGENCE_CONVOY_DATA_DEVIATION = 0.3,		-- Max deviation in estimating enemy convoys amount ( 0.0 - 1.0 )
 	MIN_MANPOWER_RATIO = 0.15,							-- was 0.15 Min manpower ratio to show manpower alert
-	ARMY_IMPORTANCE_FACTOR = 5.0,						-- Army factor for AI and calculations
+	ARMY_IMPORTANCE_FACTOR = 8.0,						-- Army factor for AI and calculations
 	VICTORY_POINTS_IMPORTANCE_FACTOR = 5.0,				-- State victory points importance factor for AI and calculations
 	BUILDING_IMPORTANCE_FACTOR = 3.0,					-- State building importance factor for AI and calculations
-	RESOURCE_IMPORTANCE_FACTOR = 0.1,					-- State resource importance factor for AI and calculations
+	RESOURCE_IMPORTANCE_FACTOR = 0.2,					-- State resource importance factor for AI and calculations
 	INTERPOLATED_FRONT_STEPS_SHORT = 2,					-- Performance optimization - The amount of steps for interpolated fronts. Non-AI countries got full interpolated fronts, the rest has optimized version of it.
 	MIN_AIR_RESERVE_RATIO = 0.33,						-- Min manpower ratio to show air reserves alert
 	THEATRES_BIND_BORDER_DISTANCE = 25000,				-- Map distance (before sqrt) between the center of the borders that determines if theatres should be bound or not.
@@ -221,7 +221,7 @@ NProduction = {
 	RESOURCE_PENALTY_WARNING_CRITICAL_RATIO = 0.8, 			-- Switch to red progress bar if penalty is over threshold 
 	BASE_FACTORY_SPEED = 4.2, 								-- Base factory speed multiplier (how much hoi3 style IC each factory gives).
 	BASE_FACTORY_SPEED_MIL = 6.4, 							-- Base factory speed multiplier (how much hoi3 style IC each factory gives).
-	BASE_FACTORY_SPEED_NAV = 3.6, 							-- Base factory speed multiplier (how much hoi3 style IC each factory gives).
+	BASE_FACTORY_SPEED_NAV = 4.3, 							-- Base factory speed multiplier (how much hoi3 style IC each factory gives).
 	BASE_FACTORY_START_EFFICIENCY_FACTOR = 12,				-- Base start efficiency for factories expressed in %.
 	BASE_FACTORY_MAX_EFFICIENCY_FACTOR = 55,				-- Base max efficiency for factories expressed in %.
 	BASE_FACTORY_EFFICIENCY_GAIN = 1.2,					-- Base efficiency gain for factories per unit produced in %.
@@ -254,7 +254,7 @@ NTechnology = {
 NPolitics = {
 	BASE_LEADER_TRAITS = 3,							-- Base amount of leader traits.
 	MAX_RANDOM_LEADERS = 1,							-- Maximum amount random leader to have per party.
-	BASE_POLITICAL_POWER_INCREASE = 2,				-- Weekly increase of PP.
+	BASE_POLITICAL_POWER_INCREASE = 2.8,				-- Weekly increase of PP.
 	ARMY_LEADER_COST = 3,							-- cost for recruiting new leaders, 'this value' * number_of_existing_leaders_of_type
 	NAVY_LEADER_COST = 3,							-- cost for recruiting new leaders, 'this value' * number_of_existing_leaders_of_type
 	GOAL_COST_FACTOR = 1.0,							-- Multiplayer for cost of political goals
@@ -342,7 +342,7 @@ NMilitary = {
 	LAND_COMBAT_ORG_ARMOR_ON_SOFT_DICE_SIZE = 5,   			-- extra damage dice if our armor outclasses enemy
 	LAND_COMBAT_STR_ARMOR_DEFLECTION_FACTOR = 0.5, 			-- damage reduction if armor outclassing enemy
 	LAND_COMBAT_ORG_ARMOR_DEFLECTION_FACTOR = 0.5, 			-- damage reduction if armor outclassing enemy
-	LAND_COMBAT_COLLATERAL_FACTOR = 0.009,		   			-- Factor to scale collateral damage to infra and forts with.
+	LAND_COMBAT_COLLATERAL_FACTOR = 0.002,		   			-- Factor to scale collateral damage to infra and forts with.
 	LAND_COMBAT_FORT_DAMAGE_CHANCE = 1,						-- chance to get a hit to damage on forts. (out of 100)
 	ATTRITION_DAMAGE_ORG = 0.12,					   		-- damage from attrition to Organisation
 	ATTRITION_EQUIPMENT_LOSS_CHANCE = 0.1,		   			-- Chance for loosing equipment when suffer attrition. Scaled up the stronger attrition is. Then scaled down by equipment reliability.
@@ -531,7 +531,7 @@ NMilitary = {
 	SLOWER_ORG_REGAIN_MULT = -0.5,
 	
 	DISBAND_MANPOWER_LOSS = 0.7,
-	MIN_DIVISION_DEPLOYMENT_TRAINING = 0.3,					-- Min level of division training
+	MIN_DIVISION_DEPLOYMENT_TRAINING = 0.05,					-- Min level of division training
 	
 	FRONT_MIN_PATH_TO_REDEPLOY = 4,							-- If a units path is at least this long to reach its front location, it will strategically redeploy.
 	ARMY_INITIATIVE_REINFORCE_FACTOR = 0.25,				-- scales initiative for reinforce chance
@@ -630,14 +630,14 @@ NNavy = {
 	DETECTION_CHANCE_MULT_BASE = 0.04,									-- base multiplier value for detection chance. Later the chance is an average between our detection and enemy visibility, mult by surface/sub detection chance in the following defines.
 	DETECTION_CHANCE_MULT_FORMATION_SPREAD_PATROL = 1.6, 				-- formation spread (max recommended value 1.0). The higher value the higher detection chance, but less ships will be on the place when combat starts.
 	DETECTION_CHANCE_MULT_FORMATION_SPREAD_SEARCH_AND_DESTROY = 0.5, 	-- same as for patrol but for search and destroy missions, should be less then patrol
-	DETECTION_CHANCE_MULT_FORMATION_SPREAD_CONVOY_RAIDING = 2.5,			-- DNM, original 1.2
+	DETECTION_CHANCE_MULT_FORMATION_SPREAD_CONVOY_RAIDING = 1.8,			-- DNM, original 1.2
 	DETECTION_CHANCE_MULT_FORMATION_SPREAD_CONVOY_ESCORT = 0.9,
 	DETECTION_CHANCE_MULT_RADAR_BONUS = 0.08,							-- detection chance bonus from radars. 
 	DETECTION_CHANCE_MULT_AIR_SUPERIORITY_BONUS = 0.25,					-- bonus from air superiority.
 
 	DETECTION_CHANCE_BALANCE = 2.5,										-- Value to balance gameplay. The higher value = smaller detection chance. Notice: it doesn't affect the displayed detection chance numbers, as well balanced numbers could be a very small fractions like 0.012
 	DETECTION_SUBS_CHANCE_BALANCE = 50.0,								-- 10 Same as above, but for sub detection. It should be very hard to detect just the subs.
-	INTERCEPT_CONVOYS_BALANCE = 2.0,									-- Balance number to distinguish the chance of intercepting convoys in comparison to the interception of naval transfers. (Intercepting convoys happens 2x less often than naval transfers and invasions)
+	INTERCEPT_CONVOYS_BALANCE = 3.0,									-- Balance number to distinguish the chance of intercepting convoys in comparison to the interception of naval transfers. (Intercepting convoys happens 2x less often than naval transfers and invasions)
 	BEST_CAPITALS_TO_SCREENS_RATIO = 0.25, 								-- capitals / screens ratio used for creating FEX groups in naval combat
 	COMBAT_MIN_WIN_CHANCE_TO_ADVANCE_WITHOUT_WAIT = 0.8, 				-- compare our forces with enemy forces. 1.0 is equal win chances. Less then 1.0 is we have low chances. If we have at least X chances, then ships will attept to attack without waiting for the other ships that are on the way.
 	COMBAT_MIN_WIN_CHANCE_TO_KEEP_FIGHTING = 0.6,		 				-- DNM - original 0.2 - being at 60 per cent of the enemy's strength would usually lead to one side disengaging, and seems to work reasonably in tests -- compare our forces with enemy forces. 1.0 is equal win chances. Less then 1.0 is we have low chances. If we have at least X chances, then ships will attept to attack without waiting for the other ships that are on the way.
@@ -647,9 +647,9 @@ NNavy = {
 	COMBAT_TORPEDO_ATTACK_MAX_RANGE = 4.0,								-- DNM, consistent with vanilla changes, better for naval combat -- max range for torpedo attack
 	COMBAT_TORPEDO_ATTACK_USE_CHANCE = 0.25,							-- DNM, 0.5 is too high, vessels make more torpedo attacks than they would have been able too historically -- chance of using torpedo attack (to avoid torpedo spam when at close distance)
 	COMBAT_CLOSE_DISTANCE_MAX_HIT_CHANCE_BONUS = 0.3,					-- DNM, original 0.1.  Being closer is generally a very good thin in naval combat.  May increase again later -- max bonus to hit chance when target is near. So if base is 0.5, dist.bonus is 0.1, and we are facing enemy at distance 0, the total hit chance is 0.6 (60%). When enemy is barely at our max shooting range, the bonus is 0.
-	COMBAT_EVASION_TO_HIT_CHANCE = 0.0025,								-- BICE, we take ship evasion stats, and mult by this value, so it gives hit chance reduction. So if reduction is 0.025 and ship evasion = 10, then there will be 0.25 (25%) lower hit chance. (Fe. 50% base -25% from evasion +10% bcoz it's very close).
+	COMBAT_EVASION_TO_HIT_CHANCE = 0.008,								-- BICE, we take ship evasion stats, and mult by this value, so it gives hit chance reduction. So if reduction is 0.025 and ship evasion = 10, then there will be 0.25 (25%) lower hit chance. (Fe. 50% base -25% from evasion +10% bcoz it's very close).
 	COMBAT_EVASION_TO_HIT_CHANCE_TORPEDO_MULT = 2.0,					-- the above evasion hit chance is multiplied by 150% if shooting with torpedos. Torpedoes are slow, so evasion matters more.
-	MAX_EVASION_BONUS = 0.1,											-- largest evasion penalty to hitting
+	MAX_EVASION_BONUS = 0.2,											-- largest evasion penalty to hitting
 	TARGETING_STACKING_HIT_CHANCE_PENALTY = 0.08,                    	-- penalty to hit chance for each ship targeting same target
 	COMBAT_LOW_ORG_HIT_CHANCE_PENALTY = -0.8,							-- % of penalty applied to hit chance when ORG is very low.
 	COMBAT_DAMAGE_RANDOMNESS = 0.6,										-- DNM, original 0.3, BICE had 0.4 -- random factor in damage. So if max damage is fe. 10, and randomness is 30%, then damage will be between 7-10.
@@ -722,7 +722,7 @@ NNavy = {
 	SPREAD_BASE_SPEED_FACTOR = 0.3,										-- base factor between regular speed and spread speed
 	SPREAD_MAX_PROVINCES = 30,											-- When regions exceeds this amount of provs, we get full penalty
 	SPREAD_BIG_REGION_PENALTY = 0.9,
-	CONVOY_ATTACK_BASE_FACTOR = 0.2,                             	 	-- 0.15 base % of convoys that get intercepted
+	CONVOY_ATTACK_BASE_FACTOR = 0.13,                             	 	-- 0.15 base % of convoys that get intercepted
 	NAVAL_SPEED_MODIFIER = 0.1,	                    					-- basic speed control
 	NAVAL_RANGE_TO_INGAME_DISTANCE = 0.12,								-- Scale the ship stats "naval_range" to the ingame distance between the provinces. (Example: LosAngeles to Tokyo = 8805km, ingame distance betwen provinces = 553 units. So 1 unit is 8805/553=~15,92km.)
 	NAVAL_MISSION_COVERAGE_DEFAULT_PROVINCES = 13.0,					-- Amount of provinces for spotting efficiency for naval missions (Ex. If a ship has a 1.3 spotting efficiency then there is a 100 % effective spotting efficiency in a region with 13 provinces ( 10 * 1.3) )
@@ -779,11 +779,11 @@ NAI = {
 	DILPOMATIC_ACTION_DECLARE_WAR_WARGOAL_BASE = 50, 	-- Base diplomatic action score bonus to go to war per wargoal
 	DIPLOMATIC_ACTION_BREAK_SCORE = -10, 				-- AI must score a diplomatic action less than this to break it off	
 	DIPLOMACY_CREATE_FACTION_FACTOR = 0.75,				-- Factor for AI desire to create a new faction. Val < 1.0 makes it less likely to create than to join.
-	DIPLOMACY_FACTION_WRONG_IDEOLOGY_PENALTY = 75, 		-- AI penalty for diplomatic faction acitons between nations of different ideologies
+	DIPLOMACY_FACTION_WRONG_IDEOLOGY_PENALTY = 25, 		-- AI penalty for diplomatic faction acitons between nations of different ideologies
 	DIPLOMACY_FACTION_SAME_IDEOLOGY_MAJOR = 10, 		-- AI bonus acceptance when being asked about faction is a major of the same ideology
-	DIPLOMACY_FACTION_NEUTRALITY_PENALTY = 50,			-- Neutral nations have a separate penalty, not wanting to get involved at all, rather than caring much about the difference in ideology
+	DIPLOMACY_FACTION_NEUTRALITY_PENALTY = 75,			-- Neutral nations have a separate penalty, not wanting to get involved at all, rather than caring much about the difference in ideology
 	DIPLOMACY_FACTION_GLOBAL_TENSION_FACTOR = 0.2,		-- How much the AI takes global tension into account when considering faction actions
-	DIPLOMACY_LEAVE_FACTION_OPINION_FACTOR = 0.75,		-- How much the opinion of countries being targeted by faction leader matters when deciding to leave a faction (democratic only)
+	DIPLOMACY_LEAVE_FACTION_OPINION_FACTOR = 0.60,		-- How much the opinion of countries being targeted by faction leader matters when deciding to leave a faction (democratic only)
 	DIPLOMACY_FACTION_WAR_RELUCTANCE = -50,				-- Penalty to desire to enter a faction with a country that we are not fighting wars together with.
 	DIPLOMACY_SCARED_MINOR_EXTRA_RELUCTANCE = -50, 		-- extra reluctance to join stuff as scared minor
 	DIPLOMACY_FACTION_PLAYER_JOIN = 20,					-- Bonus for human players asking to join a faction.
@@ -834,9 +834,9 @@ NAI = {
 	AIR_BASE_PRIORITY_DISTANCE_FACTOR = 25.0,			-- Weight of distance between region and airbase for airbase priority score
 	MAX_VOLUNTEER_ARMY_FRACTION = 0.25,					-- Countries will not send more than their forces time this number to aid another country
 	WANTED_UNITS_INDUSTRY_FACTORY = 0.0, 				-- How many units a country wants is partially based on how much military industry that is available
-	DEPLOY_MIN_TRAINING_PEACE_FACTOR = 0.95,			-- Required percentage of training (1.0 = 100%) for AI to deploy unit in peacetime
-	DEPLOY_MIN_TRAINING_WAR_FACTOR = 0.25,				-- Required percentage of training (1.0 = 100%) for AI to deploy unit in wartime
-	DEPLOY_MIN_EQUIPMENT_PEACE_FACTOR = 0.6,			-- Required percentage of equipment (1.0 = 100%) for AI to deploy unit in peacetime
+	DEPLOY_MIN_TRAINING_PEACE_FACTOR = 0.05,			-- Required percentage of training (1.0 = 100%) for AI to deploy unit in peacetime
+	DEPLOY_MIN_TRAINING_WAR_FACTOR = 0.05,				-- Required percentage of training (1.0 = 100%) for AI to deploy unit in wartime
+	DEPLOY_MIN_EQUIPMENT_PEACE_FACTOR = 0.85,			-- Required percentage of equipment (1.0 = 100%) for AI to deploy unit in peacetime
 	DEPLOY_MIN_EQUIPMENT_WAR_FACTOR = 0.5,				-- Required percentage of equipment (1.0 = 100%) for AI to deploy unit in wartime
 	DYNAMIC_STRATEGIES_THREAT_FACTOR = 4.0,				-- How much threat generated by other countries effects generated strategies
 	WARGOAL_GENERATION_STRENGTH_FACTOR = 1.75,			-- Desire to generate wargoal effected negatevely if actor strength is less than this factor of target strength
@@ -860,7 +860,7 @@ NAI = {
 	JOIN_ALLY_FASCIST_DESIRE = -35,						-- Desire to join ally added for fascist AI
 	JOIN_ALLY_COMMUNIST_DESIRE = 75,					-- Desire to join ally added for communist AI
 	JOIN_FACTION_BOTH_LOSING = -300,					-- Desire to be in a faction when both we and htey are in losing wars
-	LENDLEASE_FRACTION_OF_PRODUCTION = 0.5,				-- Base fraction AI would send as lendlease
+	LENDLEASE_FRACTION_OF_PRODUCTION = 0.25,				-- Base fraction AI would send as lendlease
 	POLITICAL_IDEA_MIN_SCORE = 0.1,						-- Only replace or add an idea if score is above this score.
 	AT_WAR_THREAT_FACTOR = 2.0,							-- How much increase in threat does AI feel for being in war against osmeone
 	NEIGHBOUR_WAR_THREAT_FACTOR = 1.40, 				-- How much increase in threat does AI feel against neighbours who are at war
@@ -939,10 +939,10 @@ NAI = {
 	FASCISTS_BEFRIEND_FASCISTS = 10,
 	FASCISTS_BEFRIEND_DEMOCRACIES = -25,
 	FASCISTS_BEFRIEND_COMMUNISTS = -25,
-	FASCISTS_ALLY_FASCISTS = -20,
+	FASCISTS_ALLY_FASCISTS = -10,
 	FASCISTS_ALLY_DEMOCRACIES = -100,
 	FASCISTS_ALLY_COMMUNISTS = -100,
-	FASCISTS_ANTAGONIZE_FASCISTS = -25,
+	FASCISTS_ANTAGONIZE_FASCISTS = -10,
 	FASCISTS_ANTAGONIZE_DEMOCRACIES = 100,
 	FASCISTS_ANTAGONIZE_COMMUNISTS = 100,
 	DEMOCRACIES_BEFRIEND_FASCISTS = -25,
@@ -959,16 +959,16 @@ NAI = {
 	COMMUNISTS_BEFRIEND_COMMUNISTS = 25,
 	COMMUNISTS_ALLY_FASCISTS = -100,
 	COMMUNISTS_ALLY_DEMOCRACIES = -50,
-	COMMUNISTS_ALLY_COMMUNISTS = -25,
+	COMMUNISTS_ALLY_COMMUNISTS = -0,
 	COMMUNISTS_ANTAGONIZE_FASCISTS = 100,
 	COMMUNISTS_ANTAGONIZE_DEMOCRACIES = 10,
 	COMMUNISTS_ANTAGONIZE_COMMUNISTS = -10,
 
-	TENSION_MIN_FOR_GUARANTEE_VS_MINOR = 5, -- for non faction people AI will not consider you worth guaranteeing below this
+	TENSION_MIN_FOR_GUARANTEE_VS_MINOR = 10, -- for non faction people AI will not consider you worth guaranteeing below this
 	
 	NUM_AI_MESSAGES = 10,								-- Set to whatever category has the highest number of messages
 
-	DIPLOMACY_FACTION_WAR_WANTS_HELP = 30,				-- Desire to send to nations to join a faction if you are at war
+	DIPLOMACY_FACTION_WAR_WANTS_HELP = 50,				-- Desire to send to nations to join a faction if you are at war
 	DIPLOMACY_FACTION_CIVILWAR_WANTS_HELP = -50,
 	FACTION_UNSTABLE_ACCEPTANCE = -100,
 	DIPLOMACY_AT_WAR_WITH_ALLY_RELUCTANCE = -1000,
@@ -977,24 +977,24 @@ NAI = {
 	CALL_ALLY_FASCIST_DESIRE_WT = -60,                  -- less desire if we are below the tension limit
 
 	SHIPS_PRODUCTION_BASE_COST = 10000,					-- Used by the AI to normalize IC values when picking what ship to build.
-	NEEDED_NAVAL_FACTORIES_EXPENSIVE_SHIP_BONUS = 4,   	-- Amount of naval yards you need to get a bonus to building really expensive ships
+	NEEDED_NAVAL_FACTORIES_EXPENSIVE_SHIP_BONUS = 6,   	-- Amount of naval yards you need to get a bonus to building really expensive ships
 
 	AIR_WING_REINFORCEMENT_LIMIT = 60,					-- number of aircraft needed for reserves before the ai will deploy more, I think.
 	AIR_BASE_DANGER_ZONE_WEIGHT = 100,					-- Score used per province taken by enemy in a state to determine how dangerous it is to use an air base
 
 	MANPOWER_FREE_USAGE_THRESHOLD = 500000,				-- If AI has this much manpower he doesn't care about the percentage
-	MANPOWER_RESERVED_THRESHOLD = 0.25,					-- The AI will not deploy more units if he goes below this percentage
+	MANPOWER_RESERVED_THRESHOLD = 0.3,					-- The AI will not deploy more units if he goes below this percentage
 	START_TRAINING_EQUIPMENT_LEVEL = 0.9,              -- was 0.95 ai will not start to train if equipment drops below this level
-	STOP_TRAINING_EQUIPMENT_LEVEL = 0.8,                -- was 0.9 ai will not train if equipment drops below this level
-	BUILD_REFINERY_LACK_OF_RESOURCE_MODIFIER = 0.001,	-- How much lack of resources are worth when evaluating what to build.
+	STOP_TRAINING_EQUIPMENT_LEVEL = 0.75,                -- was 0.9 ai will not train if equipment drops below this level
+	BUILD_REFINERY_LACK_OF_RESOURCE_MODIFIER = 0.0,	-- was 0.001 How much lack of resources are worth when evaluating what to build.
 	DIVISION_DESIGN_WEIGHTS = {							-- Base values used by AI to evaluate value of a stat
 		-- Army Values
 		0.5, -- default_morale
 		1.0, -- defense
 		1.0, -- breakthrough
-		1.0, -- hardness
+		0.2, -- hardness
 		1.2, -- soft_attack
-		0.0, -- hard_attack
+		1.2, -- hard_attack
 		0.0, -- recon
 		0.0, -- entrenchment
 		0.0, -- initiative
@@ -1010,11 +1010,11 @@ NAI = {
 		0.0,   -- surface_visibility
 		0.0,   -- sub_visibility
 		0.0,   -- shore_bombardment
-		0.0,   -- fire_range
+		30.0,   -- fire_range
 		0.0,   -- evasion
-		0.0,   -- torpedo_attack
-		0.0,   -- sub_attack
-		20.0,   -- attack
+		20.0,   -- torpedo_attack
+		20.0,   -- sub_attack
+		50.0,   -- attack
 		0.0,   -- port_capacity_usage
 		0.0,   -- anti_air_attack
 		0.0,   -- amphibious_defense
@@ -1024,12 +1024,12 @@ NAI = {
 		0.0,   -- patrol_coordination
 		0.0,   -- search_and_destroy_coordination
 		-- Air Values
-		2.0,   -- air_range
+		1.2,   -- air_range
 		1.0,   -- air_defence
 		1.0,   -- air_attack
-		0.0,   -- air_agility
+		1.2,   -- air_agility
 		1.0,   -- air_bombing
-		0.0,   -- air_superiority
+		0.5,   -- air_superiority
 		0.0,   -- naval_strike_attack
 		0.0,   -- naval_strike_targetting
 		1.0,   -- air_ground_attack
@@ -1037,16 +1037,16 @@ NAI = {
 		-- Common Values
 		0.0,   -- max_organisation
 		1.0,   -- 1.0 max_strength
-		0.0,  -- build_cost_ic
+		0.5,  -- build_cost_ic
 		0.0,   -- maximum_speed
 		1.0,   -- armor_value
-		0.0,   -- ap_attack
-		1.0,   -- reliability
+		0.5,   -- ap_attack
+		0.3,   -- reliability
 		0.0,   -- reliability_factor
 		0.0, -- weight
 		-- Special Values
-		0.0,   -- strategic_attack
-		0.0,   -- carrier_size
+		0.5,   -- strategic_attack
+		2.0,   -- carrier_size
 	},
 	DIVISION_DESIGN_MANPOWER_WEIGHT = 0.000,
 	DIVISION_DESIGN_STOCKPILE_WEIGHT = 0.00,
@@ -1120,8 +1120,8 @@ NAI = {
 
 	FRONT_UNITS_CAP_FACTOR = 15.0,							-- A factor applied to total front size and supply use. Primarily effects small fronts
 	MAX_DIST_PORT_RUSH = 20.0,								-- If a unit is in enemy territory with no supply it will consider nearby ports within this distance.
-	MIN_FIELD_STRENGTH_TO_BUILD_UNITS = 0.7,				-- Cancel unit production if below this to get resources out to units in the field
-	MIN_MANPOWER_TO_BUILD_UNITS = 0.7,						-- Cancel unit production if below this to get resources out to units in the field
+	MIN_FIELD_STRENGTH_TO_BUILD_UNITS = 0.25,				-- Cancel unit production if below this to get resources out to units in the field
+	MIN_MANPOWER_TO_BUILD_UNITS = 0.2,						-- Cancel unit production if below this to get resources out to units in the field
 	
 	AVERAGE_SUPPLY_USE_PESSIMISM = 1.5,						-- Multiplier for when AI calculates average supply use of entire army.
 	
