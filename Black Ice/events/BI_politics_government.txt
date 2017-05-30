@@ -1,0 +1,322 @@
+﻿#Black I.C.E. Politics by Energico
+###################################################
+
+add_namespace = politics
+
+########## Monarchism ############
+
+#Royal Restoration - Set Government
+country_event = {
+	id = politics.70
+	title = politics.70.t
+	desc  = politics.70.desc
+	picture = GFX_report_event_lost_battle
+	
+	trigger = {
+		
+		has_government = monarchism
+		NOT = { 
+		has_country_flag = monarchy_set
+		}
+	}
+	mean_time_to_happen = {
+		days = 30
+	}
+	immediate = {
+		set_country_flag = royal_restoration
+		set_country_flag = monarchy_set
+	}
+	
+	option = { 
+		name = politics.70.a 
+		trigger = {
+			monarchism > 0.50
+			highest_monarchists = yes
+		}
+			set_politics = {
+				ruling_party = monarchism
+				elections_allowed = no
+			}
+			add_popularity = {
+				ideology = monarchism
+				popularity = 0.05
+			}
+			add_national_unity = 0.05
+			add_political_power = 50
+			add_ideas = royal_restoration
+		}	
+	option = { 
+		name = politics.70.b
+		trigger = {
+			monarchism < 0.50
+			highest_monarchists = yes
+		}
+			set_politics = {
+				ruling_party = monarchism
+				elections_allowed = no
+			}
+			add_popularity = {
+				ideology = monarchism
+				popularity = 0.05
+			}
+			add_national_unity = 0.01
+			add_political_power = 15
+			add_ideas = royal_restoration
+		}
+	option = { 
+		name = politics.70.c
+		trigger = {
+			
+		}
+			country_event = election.100
+			add_ideas = royal_restoration
+			if = { limit = { monarchism > 0.35 }
+			add_popularity = {
+				ideology = monarchism
+				popularity = -0.15
+				}
+			}
+			if = { limit = { monarchism < 0.35 }
+			add_popularity = {
+				ideology = monarchism
+				popularity = -0.10
+			}
+		}
+	}
+}
+
+#Royal Restoration - Absolutism?
+country_event = {
+	id = politics.71
+	title = politics.71.t
+	desc  = politics.71.desc
+	picture = GFX_report_event_lost_battle
+	
+	trigger = {
+	OR = {
+		has_government = conservatism
+		has_government = liberalism
+		has_government = socialism
+		}
+		has_country_flag = const_monarchy
+		NOT = { has_country_flag = royal_restoration }
+		monarchism > 0.40
+		highest_monarchists = yes
+	}
+	mean_time_to_happen = {
+		days = 720
+		modifier = {
+			factor = 0.70
+			monarchism > 0.40
+			monarchism < 0.50
+		}
+		modifier = {
+			factor = 0.50
+			monarchism > 0.50
+		}
+	}
+	immediate = {
+		#add_timed_idea = { idea = royal_check days = 720 }
+
+	}
+	option = { 
+		name = politics.71.a 
+			clr_country_flag = const_monarchy
+			set_politics = {
+				ruling_party = monarchism
+				elections_allowed = no
+			}
+			add_popularity = {
+				ideology = monarchism
+				popularity = 0.10
+			}
+		}	
+	option = { 
+		name = politics.71.b 
+		trigger = {
+			has_political_power > 15
+		}
+			add_political_power = -35
+			add_national_unity = -0.05
+			country_event = election.100
+			if = { limit = { monarchism > 0.50 }
+			add_popularity = {
+				ideology = monarchism
+				popularity = -0.10
+				}
+			}
+			if = { limit = { monarchism < 0.50 }
+			add_popularity = {
+				ideology = monarchism
+				popularity = -0.05
+			}
+		}
+	}
+}
+#Royal Restoration - Const Monarchy
+country_event = {
+	id = politics.72
+	title = politics.72.t
+	desc  = politics.72.desc
+	picture = GFX_report_event_lost_battle
+	
+	trigger = {
+		has_government = monarchism
+		NOT = { has_country_flag = royal_restoration }
+		OR = {
+		NOT = { highest_monarchists = yes }
+		monarchism < 0.40
+		}
+	}
+	mean_time_to_happen = {
+		days = 720
+		modifier = {
+			factor = 0.60
+			monarchism < 0.35
+			monarchism > 0.27
+		}
+		modifier = {
+			factor = 0.50
+			monarchism < 0.27
+		}
+	}
+	immediate = {
+		#add_timed_idea = { idea = royal_check days = 720 }
+
+	}
+	
+	option = { 
+		name = politics.72.a 
+			set_country_flag = const_monarchy
+			country_event = election.100
+			if = { limit = { monarchism > 0.40 }
+			add_popularity = {
+				ideology = monarchism
+				popularity = -0.15
+				}
+			}
+			if = { limit = { monarchism > 0.30 monarchism < 0.40}
+			add_popularity = {
+				ideology = monarchism
+				popularity = -0.10
+				}
+			}
+			if = { limit = { monarchism > 0.20 monarchism < 0.30 }
+			add_popularity = {
+				ideology = monarchism
+				popularity = -0.05
+				}
+			}
+		}
+	option = { 
+		name = politics.72.b 
+		trigger = {
+			has_political_power > 15
+		}
+			add_political_power = -50
+			add_national_unity = -0.05
+			if = { limit = { monarchism > 0.35 }
+			add_popularity = {
+				ideology = monarchism
+				popularity = -0.7
+				}
+			}
+			if = { limit = { monarchism > 0.25 monarchism < 0.35 }
+			add_popularity = {
+				ideology = monarchism
+				popularity = -0.05
+				}
+			}
+			if = { limit = { monarchism < 0.25 }
+			add_popularity = {
+				ideology = monarchism
+				popularity = -0.03
+			}
+		}
+	}
+}
+
+#Royal Restoration - Remove Royal Restoration Idea
+country_event = {
+	id = politics.73
+	title = politics.73.t
+	desc  = politics.73.desc
+	picture = GFX_report_event_lost_battle
+	hidden = yes
+	trigger = {
+		has_country_flag = royal_restoration
+	}
+	mean_time_to_happen = {
+		days = 720
+	}
+	immediate = {
+		clr_country_flag = royal_restoration
+	}
+	option = { 
+		name = politics.73.a 
+			remove_ideas = royal_restoration
+		}	
+}
+#Royal Restoration - Monarchy Gone Clean Up
+country_event = {
+	id = politics.74
+	title = politics.74.t
+	desc  = politics.74.desc
+	picture = GFX_report_event_lost_battle
+	hidden = yes
+	trigger = { 
+		NOT = {
+		OR = {
+			has_government = monarchism
+			AND = {
+			has_country_flag = const_monarchy
+			OR = {
+				has_government = conservatism
+				has_government = liberalism
+				has_government = socialism
+					}
+				}
+			}
+		}
+	}
+	mean_time_to_happen = {
+		days = 30
+	}
+	immediate = {
+		clr_country_flag = royal_restoration
+		clr_country_flag = const_monarchy
+		clr_country_flag = monarchy_set
+	}
+	option = { 
+		name = politics.74.a 
+			remove_ideas = royal_restoration
+		}	
+}
+
+
+
+########## Communism ############
+
+
+
+########## Fascism ############
+
+
+
+########## Liberalism ############
+
+
+
+########## Conservatism ############
+
+
+
+########## Socialism ############
+
+
+
+########## Neutrality/Authoritarianism ############
+
+
+
+### EOF ###

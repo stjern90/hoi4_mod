@@ -1,0 +1,243 @@
+ideas = {
+	## Press Laws
+	press = { 
+		law = yes
+		press_free = {
+		
+			available = {
+				NOT = {
+					has_government = fascism
+					has_government = neutrality
+					has_government = communism
+					has_government = monarchism
+					has_country_flag = security_police_state
+					has_country_flag = security_major_restrictions
+				}
+			}
+			cost = 75
+			removal_cost = -1
+			level = 4
+			
+			modifier = {
+				political_power_factor = -0.05
+				drift_defence_factor = -0.1
+				unity_factor = -0.05
+				trade_opinion_factor = 0.1
+				foreign_subversive_activites = 0.10
+				enemy_partisan_effect = -0.1
+				#fascism_drift = -0.01
+				#communism_drift = -0.01
+				#conservatism_drift = 0.01
+			}
+			
+			on_add = {
+				set_country_flag = press_free
+				clr_country_flag = press_regulated
+				clr_country_flag = press_censored
+				clr_country_flag = press_state
+			}
+			
+			cancel_if_invalid = no
+			
+			ai_will_do = {
+				factor = 1
+				modifier = {
+					factor = 10
+					OR = {
+					##has_government = democratic
+					has_government = conservatism
+					has_government = liberalism
+					}
+					has_war = no
+				}
+			}
+		}
+		press_regulated = {
+			available = {
+				NOT = { 
+				has_country_flag = security_police_state 
+				has_government = communism 
+				has_government = fascism
+				}
+			}
+			cost = 100
+			removal_cost = -1
+			level = 3
+			modifier = {
+				political_power_factor = -0.025
+				drift_defence_factor = -0.05
+				unity_factor = -0.025
+				trade_opinion_factor = 0.05
+				foreign_subversive_activites = 0.05
+				enemy_partisan_effect = -0.05
+				#liberalism_drift = 0.01
+				#socialism_drift = 0.01
+			}
+			
+			on_add = {
+				set_country_flag = press_regulated
+				clr_country_flag = press_free
+				clr_country_flag = press_censored
+				clr_country_flag = press_state
+			}
+			
+			default = yes
+			
+			cancel_if_invalid = no
+			
+			ai_will_do = {
+				factor = 1
+				modifier = {
+					factor = 10
+					AND = {
+						NOT = {
+							OR = {
+							has_government = fascism
+							has_government = communism
+							has_government = monarchism
+							has_government = neutrality
+							has_war = yes
+							}
+						}
+						threat > 0.30
+					}
+				}
+				modifier = {
+					factor = 0
+					OR = {
+						has_government = fascism
+						has_government = communism
+					}
+				}
+				modifier = {
+					factor = 10
+					has_government = socialism
+				}
+			}
+		}
+		press_censored = {
+			
+			available = {
+				OR = {
+					AND = {
+						OR = {
+					has_government = conservatism
+					has_government = liberalism
+					has_government = socialism
+					}
+						has_war = yes
+					}
+					has_government = fascism
+					has_government = communism
+					has_government = monarchism	
+					has_government = neutrality
+				}
+			}
+		
+			cost = 125
+			removal_cost = -1
+			level = 2
+			modifier = {
+				political_power_factor = 0.025
+				drift_defence_factor = 0.05
+				unity_factor = 0.025
+				trade_opinion_factor = -0.05
+				foreign_subversive_activites = -0.05
+				enemy_partisan_effect = 0.05
+				#monarchism_drift = 0.01
+				#neutrality_drift = 0.01
+			}
+			
+			on_add = {
+				set_country_flag = press_censored
+				clr_country_flag = press_regulated
+				clr_country_flag = press_free
+				clr_country_flag = press_state
+			}
+			
+			cancel_if_invalid = yes
+
+			ai_will_do = {
+   				factor = 1
+				modifier = {
+					factor = 100
+					has_war = yes
+					OR = {
+						has_government = socialism
+						has_government = conservatism
+						has_government = liberalism
+					}
+				}
+				modifier = {
+					factor = 10
+					has_government = monarchism
+				}
+				modifier = {
+					factor = 0					
+					OR = {
+					AND = {
+						has_government = fascism
+						OR = {
+						tag = GER
+						tag = JAP
+						tag = ITA
+							}
+						}
+					AND = {
+						has_government = communism
+						tag = SOV
+						}
+					}
+				}
+			}
+		}
+		press_state = {
+			
+			available = {
+
+				OR = { 
+					has_government = fascism
+					has_government = communism
+					has_government = monarchism
+					has_government = neutrality
+				}
+				NOT = { has_country_flag = security_liberty_first has_country_flag = security_minor_restrictions }
+			}
+			
+			cost = 150
+			removal_cost = -1
+			level = 1
+			modifier = {
+				political_power_factor = 0.05
+				drift_defence_factor = 0.10
+				unity_factor = 0.04
+				trade_opinion_factor = -0.10
+				foreign_subversive_activites = -0.10
+				enemy_partisan_effect = 0.10
+				#fascism_drift = 0.01
+				#communism_drift = 0.01
+			}
+			
+			on_add = {
+				set_country_flag = press_state
+				clr_country_flag = press_regulated
+				clr_country_flag = press_censored
+				clr_country_flag = press_free
+			}
+			
+			cancel_if_invalid = yes
+
+			ai_will_do = {
+   				factor = 1
+				modifier = {
+					factor = 1000
+					OR = { 
+						has_government = fascism
+						has_government = communism
+						has_government = neutrality
+					}
+				}
+   			}
+		}
+	}
+}

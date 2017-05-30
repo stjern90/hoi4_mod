@@ -1,0 +1,1479 @@
+﻿###########################
+# Election Events
+###########################
+
+add_namespace = election
+
+# Test Election Event
+country_event = {
+	id = election.1
+	title = election.1.t
+	desc = election.1.d
+	picture = GFX_report_event_election_vote
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = election.1.a
+	}
+}
+
+# Public Opposes Rearmament
+country_event = {
+	id = election.2
+	title = election.2.t
+	desc = election.2.d
+	picture = GFX_report_event_airplane_factory
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		NOT = { 
+			AND = { 
+				tag = USA 
+				date < 1.1.1949
+			} 
+		}
+		OR = { NOT = { tag = SPR } NOT = { date < 1937.1.1 } }
+		OR = {
+					#has_government = democratic
+					has_government = conservatism
+					has_government = liberalism
+					has_government = socialism
+					}
+		NOT = {
+			OR = {
+				has_war = yes
+				any_neighbor_country = {
+					has_war = yes
+				}
+				any_allied_country = {
+					has_war = yes
+				}
+			}
+		}
+		has_country_flag = partial_economic_mobilisation
+	}
+
+	option = {
+		ai_chance = { 
+			base = 1
+		}
+		name = election.2.a
+		add_ideas = low_economic_mobilisation
+		set_country_flag = low_economic_mobilisation
+		clr_country_flag = partial_economic_mobilisation
+		
+	}
+
+	option = {
+		name = election.2.b
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 10
+				can_lose_unity = yes
+			}
+		}
+		add_national_unity = -0.05
+		
+	}
+}
+
+
+# Public Demands Rearmament
+country_event = {
+	id = election.3
+	title = election.3.t
+	desc = election.3.d
+	picture = GFX_report_event_tank_factory
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		NOT = { 
+			AND = { 
+				tag = USA 
+				date < 1.1.1949
+			} 
+		}
+		OR = { NOT = { tag = SPR } NOT = { date < 1937.1.1 } }
+		OR = {
+					#has_government = democratic
+					has_government = conservatism
+					has_government = liberalism
+					has_government = socialism
+					}
+		has_war = no
+		OR = {
+			any_neighbor_country = {
+				has_war = yes
+			}
+			any_allied_country = {
+				has_war = yes
+			}
+		}
+		OR = {
+			has_country_flag = low_economic_mobilisation
+			has_country_flag = civilian_economy
+			has_idea = isolation
+			has_idea = undisturbed_isolation
+			has_country_flag = cons_volunteer
+			has_country_flag = mob_reserve
+		}
+	}
+
+	option = {
+		name = election.3.a
+		if = {
+			limit = { has_country_flag = low_economic_mobilisation }
+			add_ideas = partial_economic_mobilisation
+			set_country_flag = partial_economic_mobilisation
+			clr_country_flag = low_economic_mobilisation
+		}
+		if = {
+			limit = { has_country_flag = civilian_economy }
+			add_ideas = low_economic_mobilisation
+			set_country_flag = low_economic_mobilisation
+			clr_country_flag = civilian_economy
+		}
+		if = {
+			limit = { has_idea = isolation }
+			add_ideas = civilian_economy
+			set_country_flag = civilian_economy
+			clr_country_flag = isolation
+		}
+		if = {
+			limit = { has_idea = undisturbed_isolation }
+			add_ideas = isolation
+			set_country_flag = isolation
+			clr_country_flag = undisturbed_isolation
+		}
+		if = {
+			limit = { has_country_flag = cons_volunteer }
+			add_ideas = cons_one
+			set_country_flag = cons_one
+			clr_country_flag = cons_volunteer
+		}
+		if = {
+			limit = { has_country_flag = mob_reserve }
+			add_ideas = mob_standing
+			set_country_flag = mob_standing
+			clr_country_flag = mob_reserve
+		}
+		
+	}
+
+	option = {
+		name = election.3.b
+		ai_chance = {
+			base = 0
+		}
+		add_national_unity = -0.05
+		
+	}
+}
+
+# Fascists in Government?
+country_event = {
+	id = election.4
+	title = election.4.t
+	desc = election.4.d
+	picture = GFX_report_event_fascist_gathering
+	
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { 
+			AND = { 
+				tag = USA 
+				date < 1.1.1949
+			} 
+		}
+		OR = { NOT = { tag = SPR } NOT = { date < 1937.1.1 } }
+		OR = {
+					#has_government = democratic
+					has_government = conservatism
+					has_government = liberalism
+					has_government = socialism
+					}
+		NOT = { has_idea = fascism_defeated }
+		fascism > 0.15
+	}
+	
+	option = {
+		name = election.4.a
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 2
+				can_lose_democracy_support = yes
+			}
+			modifier = {
+				add = 1
+				can_lose_unity = no
+			}
+		}
+		add_national_unity = -0.02
+		add_popularity = {
+			ideology = fascism
+			popularity = 0.05
+		}
+		set_country_flag = coalition_with_fascists
+		
+	}
+
+	option = {
+		name = election.4.b
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 10
+				can_lose_unity = yes
+			}
+		}
+		add_national_unity = -0.05
+		add_popularity = {
+			ideology = conservatism
+			popularity = 0.03
+		}
+		add_popularity = {
+			ideology = liberalism
+			popularity = 0.03
+		}
+		add_popularity = {
+			ideology = socialism
+			popularity = 0.03
+		}
+		set_country_flag = government_declined_fascists
+		
+	}
+}
+
+# Communists in Government?
+country_event = {
+	id = election.5
+	title = election.5.t
+	desc = election.5.d
+	picture = GFX_report_event_worker_protests
+	
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { 
+			AND = { 
+				tag = USA 
+				date < 1.1.1949
+			} 
+		}
+		OR = { NOT = { tag = SPR } NOT = { date < 1937.1.1 } }
+		OR = {
+					#has_government = democratic
+					has_government = conservatism
+					has_government = liberalism
+					has_government = socialism
+					}
+		NOT = { has_idea = communism_defeated }
+		communism > 0.15
+	}
+	
+	option = {
+		name = election.5.a
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 2
+				can_lose_democracy_support = yes
+			}
+			modifier = {
+				add = 1
+				can_lose_unity = no
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					AND = {
+						tag = FRA
+						is_historical_focus_on = yes
+						date < 1937.1.1
+					}
+					communism > 0.38
+				}
+			}
+		}
+		add_national_unity = -0.02
+		add_popularity = {
+			ideology = communism
+			popularity = 0.05
+		}
+		set_country_flag = coalition_with_communists
+		
+	}
+
+	option = {
+		name = election.5.b
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 10
+				can_lose_unity = yes
+			}
+			modifier = {
+				add = 1
+				OR = {
+					AND = {
+						tag = FRA
+						is_historical_focus_on = yes
+						date < 1937.1.1
+					}
+					communism > 0.38
+				}
+			}
+		}
+		add_national_unity = -0.05
+		add_popularity = {
+			ideology = conservatism
+			popularity = 0.03
+		}
+		add_popularity = {
+			ideology = liberalism
+			popularity = 0.03
+		}
+		add_popularity = {
+			ideology = socialism
+			popularity = 0.03
+		}
+		set_country_flag = government_declined_communists
+		
+	}
+}
+
+# Democratic Parties in Minority
+country_event = {
+	id = election.6
+	title = election.6.t
+	desc = election.6.d
+	picture = GFX_report_event_journalists_speech
+	
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { 
+			AND = { 
+				tag = USA 
+				date < 1.1.1949
+			} 
+		}
+		OR = { NOT = { tag = SPR } NOT = { date < 1937.1.1 } }
+		OR = {
+			#has_government = democratic
+			has_government = conservatism
+			has_government = liberalism
+			has_government = socialism
+					}
+		socialism < 0.3
+		conservatism < 0.3
+		liberalism < 0.3
+		fascism < 0.3
+		communism < 0.3
+	}
+	
+	option = {
+		name = election.6.a
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 10
+				can_lose_democracy_support = yes
+			}
+		}
+		add_national_unity = -0.02
+		add_popularity = {
+			ideology = fascism
+			popularity = 0.05
+		}
+		set_country_flag = coalition_with_fascists
+		
+	}
+
+	option = {
+		name = election.6.b
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 10
+				can_lose_democracy_support = yes
+			}
+		}
+		add_national_unity = -0.02
+		add_popularity = {
+			ideology = communism
+			popularity = 0.05
+		}
+		set_country_flag = coalition_with_communists
+		
+	}
+
+	option = {
+		name = election.6.c
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 1
+				can_lose_democracy_support = no
+			}
+		}
+		add_national_unity = -0.02
+		add_popularity = {
+			ideology = conservatism
+			popularity = 0.03
+		}
+		add_popularity = {
+			ideology = liberalism
+			popularity = 0.03
+		}
+		add_popularity = {
+			ideology = socialism
+			popularity = 0.03
+		}
+		add_political_power = -80
+		
+	}
+}
+
+# Fascists Influence Foreign Policy
+country_event = {
+	id = election.7
+	title = election.7.t
+	desc = election.7.d
+	picture = GFX_report_event_fascist_gathering
+	
+	mean_time_to_happen = {
+		days = 730
+	}
+
+	trigger = {
+		NOT = { 
+			AND = { 
+				tag = USA 
+				date < 1.1.1949
+			} 
+		}
+		OR = { NOT = { tag = SPR } NOT = { date < 1937.1.1 } }
+		OR = {
+			#has_government = democratic
+			has_government = conservatism
+			has_government = liberalism
+			has_government = socialism
+					}
+		has_country_flag = coalition_with_fascists
+		any_other_country = {
+			has_government = fascism
+			is_faction_leader = yes
+		}
+	}
+	
+	option = {
+		name = election.7.a
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 2
+				can_lose_democracy_support = yes
+			}
+			modifier = {
+				add = 1
+				can_lose_unity = no
+			}
+		}
+		random_other_country = {
+			limit = {
+				has_government = fascism
+				is_faction_leader = yes
+			}
+			add_opinion_modifier = {
+				target = ROOT
+				modifier = fascists_in_government
+			}			
+		}
+		add_popularity = {
+			ideology = fascism
+			popularity = 0.05
+		}
+		
+	}
+
+	option = {
+		name = election.7.b
+		ai_chance = {
+			base = 10
+			modifier = {
+				factor = 0
+				can_lose_unity = no
+			}
+		}
+		add_national_unity = -0.05
+		add_popularity = {
+			ideology = conservatism
+			popularity = 0.03
+		}
+		add_popularity = {
+			ideology = liberalism
+			popularity = 0.03
+		}
+		add_popularity = {
+			ideology = socialism
+			popularity = 0.03
+		}
+		
+	}
+}
+
+# Communists Influence Foreign Policy
+country_event = {
+	id = election.8
+	title = election.8.t
+	desc = election.8.d
+	picture = GFX_report_event_worker_protests
+	
+	mean_time_to_happen = {
+		days = 730
+	}
+
+	trigger = {
+		NOT = { 
+			AND = { 
+				tag = USA 
+				date < 1.1.1949
+			} 
+		}
+		OR = { NOT = { tag = SPR } NOT = { date < 1937.1.1 } }
+		OR = {
+			#has_government = democratic
+			has_government = conservatism
+			has_government = liberalism
+			has_government = socialism
+					}
+		has_country_flag = coalition_with_communists
+		any_other_country = {
+			has_government = communism
+			is_faction_leader = yes
+		}
+	}
+	
+	option = {
+		name = election.8.a
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 2
+				can_lose_democracy_support = yes
+			}
+			modifier = {
+				add = 1
+				can_lose_unity = no
+			}
+		}
+		random_other_country = {
+			limit = {
+				has_government = communism
+				is_faction_leader = yes
+				NOT = { has_war_with = ROOT }
+			}
+			add_opinion_modifier = {
+				target = ROOT
+				modifier = communists_in_government
+			}
+		}
+		add_popularity = {
+			ideology = communism
+			popularity = 0.05
+		}
+		
+	}
+
+	option = {
+		name = election.8.b
+		ai_chance = {
+			base = 10
+			modifier = {
+				factor = 0
+				can_lose_unity = no
+			}
+		}
+		add_national_unity = -0.05
+		add_popularity = {
+			ideology = conservatism
+			popularity = 0.03
+		}
+		add_popularity = {
+			ideology = liberalism
+			popularity = 0.03
+		}
+		add_popularity = {
+			ideology = socialism
+			popularity = 0.03
+		}
+		
+	}
+}
+
+# Fascist Majority
+country_event = {
+	id = election.11
+	title = election.11.t
+	desc = election.11.d
+	picture = GFX_report_event_fascist_gathering
+	
+	is_triggered_only = yes
+
+	trigger = {
+		OR = {
+			#has_government = democratic
+			has_government = conservatism
+			has_government = liberalism
+			has_government = socialism
+					}
+		fascism > 0.5
+		is_puppet = no
+	}
+	
+	option = {	
+		name = "The People have spoken!"
+		ai_chance = {
+			base = 60	
+			modifier = {
+				factor = 0
+				has_national_unity < 0.50
+			}
+			modifier = {
+				factor = 100
+				has_national_unity > 0.60
+			}
+		}
+		set_politics = {
+			ruling_party = fascism
+			elections_allowed = no
+		}
+	}
+
+	option = {
+		name = "Defend Democracy!"
+		trigger = {
+			fascism > 0.50
+			fascism < 0.60
+		}
+		ai_chance = {
+			base = 40	
+			modifier = {
+				factor = 100
+				has_national_unity < 0.50
+			}
+			modifier = {
+				factor = 0
+				has_national_unity > 0.60
+			}
+		}
+		add_ideas = unity_civil_war
+		set_country_flag = nation_civil_war
+		clr_country_flag = nation_divided
+		clr_country_flag = nation_broken
+		clr_country_flag = nation_united
+		add_national_unity = -0.10
+		start_civil_war = {
+			ideology = fascism
+			size = 0.5
+		}
+		
+	}
+	option = {
+		name = "Defend Democracy!"
+		trigger = {
+			fascism > 0.60
+			fascism < 0.70
+		}
+		ai_chance = {
+			base = 40	
+			modifier = {
+				factor = 100
+				has_national_unity < 0.50
+			}
+			modifier = {
+				factor = 0
+				has_national_unity > 0.60
+			}
+		}
+		add_ideas = unity_civil_war
+		set_country_flag = nation_civil_war
+		clr_country_flag = nation_divided
+		clr_country_flag = nation_broken
+		clr_country_flag = nation_united
+		add_national_unity = -0.10
+		start_civil_war = {
+			ideology = fascism
+			size = 0.6
+		}
+		
+	}
+	option = {
+		name = "Defend Democracy!"
+		trigger = {
+			fascism > 0.70
+		}
+		ai_chance = {
+			base = 40	
+			modifier = {
+				factor = 100
+				has_national_unity < 0.50
+			}
+			modifier = {
+				factor = 0
+				has_national_unity > 0.60
+			}
+		}
+		add_ideas = unity_civil_war
+		set_country_flag = nation_civil_war
+		clr_country_flag = nation_divided
+		clr_country_flag = nation_broken
+		clr_country_flag = nation_united
+		add_national_unity = -0.10
+		start_civil_war = {
+			ideology = fascism
+			size = 0.7
+		}
+		
+	}
+}
+
+# Fascist Minority
+country_event = {
+	id = election.111
+	title = "Fascist Minority"
+	desc = "Fascist Minority"
+	picture = GFX_report_event_fascist_gathering
+	
+	is_triggered_only = yes
+
+	trigger = {
+		OR = {
+			#has_government = democratic
+			has_government = conservatism
+			has_government = liberalism
+			has_government = socialism
+				}
+		fascism > 0.25
+		fascism < 0.50
+		is_puppet = no
+	}
+	
+	option = {	
+		name = "Our institutions are strong!"
+		trigger = {
+			has_national_unity > 0.55
+		}
+		add_national_unity = 0.03
+		add_popularity = {
+			ideology = fascism
+			popularity = 0.03
+		}
+	}
+
+	option = {
+		name = "Our institutions are weak..."
+
+		trigger = {
+			has_national_unity < 0.55
+		}
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.03
+			}
+			add_national_unity = -0.03
+			
+	}
+}
+
+# Communist Majority
+country_event = {
+	id = election.12
+	title = election.12.t
+	desc = election.12.d
+	picture = GFX_report_event_gathering_protest
+	
+	is_triggered_only = yes
+
+	trigger = {
+
+		OR = {
+			#has_government = democratic
+			has_government = conservatism
+			has_government = liberalism
+			has_government = socialism
+				}
+		communism > 0.5
+		is_puppet = no
+		has_national_unity < 0.70
+	}
+	
+	option = {
+		name = "The People have spoken!"
+		ai_chance = {
+			base = 60
+			modifier = {
+				factor = 0
+				has_national_unity < 0.50
+			}
+			modifier = {
+				factor = 100
+				has_national_unity > 0.60
+			}
+		}
+		set_politics = {
+			ruling_party = communism
+			elections_allowed = no
+		}
+	}
+	
+	option = {
+		name = "Defend Democracy!"
+		trigger = {
+			communism > 0.50
+			communism < 0.60
+		}
+		ai_chance = {
+			base = 40	
+			modifier = {
+				factor = 100
+				has_national_unity < 0.50
+			}
+			modifier = {
+				factor = 0
+				has_national_unity > 0.60
+			}
+		}
+		add_ideas = unity_civil_war
+		set_country_flag = nation_civil_war
+		clr_country_flag = nation_divided
+		clr_country_flag = nation_broken
+		clr_country_flag = nation_united
+		add_national_unity = -0.10
+		start_civil_war = {
+			ideology = communism
+			size = 0.5
+		}
+		
+	}
+
+	option = {
+		name = "Defend Democracy!"
+		trigger = {
+			communism > 0.60
+			communism < 0.70
+		}
+		ai_chance = {
+			base = 40	
+			modifier = {
+				factor = 100
+				has_national_unity < 0.50
+			}
+			modifier = {
+				factor = 0
+				has_national_unity > 0.60
+			}
+		}
+		add_ideas = unity_civil_war
+		set_country_flag = nation_civil_war
+		clr_country_flag = nation_divided
+		clr_country_flag = nation_broken
+		clr_country_flag = nation_united
+		add_national_unity = -0.10
+		start_civil_war = {
+			ideology = communism
+			size = 0.6
+		}
+		
+	}
+	option = {
+		name = "Defend Democracy!"
+		trigger = {
+			communism > 0.70
+		}
+		ai_chance = {
+			base = 40	
+			modifier = {
+				factor = 100
+				has_national_unity < 0.50
+			}
+			modifier = {
+				factor = 0
+				has_national_unity > 0.60
+			}
+		}
+		add_ideas = unity_civil_war
+		set_country_flag = nation_civil_war
+		clr_country_flag = nation_divided
+		clr_country_flag = nation_broken
+		clr_country_flag = nation_united
+		add_national_unity = -0.10
+		start_civil_war = {
+			ideology = communism
+			size = 0.7
+		}
+		
+	}
+}
+
+# Communist Minority
+country_event = {
+	id = election.121
+	title = "Communist Minority"
+	desc = "Communist Minority"
+	picture = GFX_report_event_gathering_protest
+	
+	is_triggered_only = yes
+
+	trigger = {
+		OR = {
+					#has_government = democratic
+					has_government = conservatism
+					has_government = liberalism
+					has_government = socialism
+					}
+		communism > 0.25
+		communism < 0.50
+		is_puppet = no
+	}
+	
+	option = {	
+		name = "Our institutions are strong!"
+		trigger = {
+			has_national_unity > 0.55
+		}
+		add_national_unity = 0.03
+		
+		add_popularity = {
+			ideology = communism
+			popularity = -0.03
+		}
+	}
+
+	option = {
+		name = "Our institutions are weak..."
+		trigger = {
+			has_national_unity < 0.55
+		}
+			add_national_unity = -0.03
+			add_popularity = {
+				ideology = communism
+				popularity = 0.03
+			}
+			
+		}
+}
+
+# Magnate Favors Fascism
+country_event = {
+	id = election.13
+	title = election.13.t
+	desc = election.13.d
+	picture = GFX_report_event_fascist_gathering
+	
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { 
+			AND = {
+				Tag = USA
+				date < 1.1.1949
+			}
+		}
+		OR = {
+					#has_government = democratic
+					has_government = conservatism
+					has_government = liberalism
+					has_government = socialism
+					}
+		has_idea_with_trait = motorized_equipment_manufacturer
+	}
+	
+	option = {
+		name = election.13.a
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 1
+				can_lose_democracy_support = yes
+			}
+		}
+		add_popularity = {
+			ideology = fascism
+			popularity = 0.10
+		}
+	}
+
+	option = {
+		name = election.13.b
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 1
+				can_lose_democracy_support = no
+			}
+		}
+		add_popularity = {
+			ideology = conservatism
+			popularity = 0.05
+		}
+		add_popularity = {
+			ideology = liberalism
+			popularity = 0.05
+		}
+		add_popularity = {
+			ideology = socialism
+			popularity = 0.05
+		}
+		remove_ideas_with_trait = motorized_equipment_manufacturer
+		
+	}
+}
+
+# Wartime Exception
+country_event = {
+	id = election.14
+	title = election.14.t
+	desc = election.14.d
+	picture = GFX_report_event_tank_factory
+	
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { 
+			AND = { 
+				tag = USA 
+				date < 1.1.1949
+			} 
+		}
+		OR = { NOT = { tag = SPR } NOT = { date < 1937.1.1 } }
+		OR = {
+					#has_government = democratic
+					has_government = conservatism
+					has_government = liberalism
+					has_government = socialism
+					}
+		has_war = yes
+	}
+	
+	option = {
+		name = election.14.a
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 10
+				can_lose_unity = yes
+			}
+		}
+		add_national_unity = 0.05
+		
+	}
+
+	option = {
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 3
+				can_lose_democracy_support = yes
+			}			
+			modifier = {
+				add = 1
+				can_lose_unity = no
+			}
+		}
+		name = election.14.b
+		add_political_power = 20
+		add_national_unity = -0.05
+		add_popularity = {
+			ideology = communism
+			popularity = 0.05
+		}
+		add_popularity = {
+			ideology = fascism
+			popularity = 0.05
+		}
+		
+	}
+}
+
+# Government Contested
+country_event = {
+	id = election.15
+	title = election.15.t
+	desc = election.15.d
+	picture = GFX_report_event_gathering_protest
+	
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { 
+			AND = { 
+				tag = USA 
+				date < 1.1.1949
+			} 
+		}
+		OR = { NOT = { tag = SPR } NOT = { date < 1937.1.1 } }
+		OR = {
+					#has_government = democratic
+					has_government = conservatism
+					has_government = liberalism
+					has_government = socialism
+					}
+		has_war = yes
+		any_war_score < 20
+	}
+	
+	option = {
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 3
+				can_lose_democracy_support = no
+			}			
+		}
+		name = election.15.a
+		add_political_power = -50
+		add_national_unity = -0.05
+		
+	}
+
+	option = {
+		name = election.15.b
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 10
+				can_lose_democracy_support = yes
+			}			
+			modifier = {
+				add = 1
+				can_lose_unity = no
+			}
+		}
+		add_political_power = 25
+		add_national_unity = 0.05
+		add_popularity = {
+			ideology = communism
+			popularity = 0.07
+		}
+		add_popularity = {
+			ideology = fascism
+			popularity = 0.07
+		}
+		
+	}
+}
+
+# Election in Fascist Country (Supports Government)
+country_event = {
+	id = election.16
+	title = election.16.t
+	desc = election.16.d
+	picture = GFX_report_event_gathering_protest
+	
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { 
+			AND = { 
+				tag = USA 
+				date < 1.1.1949
+			} 
+		}
+		OR = { NOT = { tag = SPR } NOT = { date < 1937.1.1 } }
+		has_government = fascism
+		fascism > 0.5
+	}
+	
+	option = {
+		name = election.16.a
+		add_national_unity = 0.05
+		
+	}
+}
+
+# Rigged Election in Fascist Country
+country_event = {
+	id = election.17
+	title = election.17.t
+	desc = election.17.d
+	picture = GFX_report_event_gathering_protest
+	
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { 
+			AND = { 
+				tag = USA 
+				date < 1.1.1949
+			}
+		}
+		OR = { NOT = { tag = SPR } NOT = { date < 1937.1.1 } }
+		has_government = fascism
+		NOT = { fascism > 0.5 }
+	}
+	
+	option = {
+		name = election.17.a
+		add_national_unity = -0.05
+		
+	}
+}
+
+#General Elections
+country_event = {
+	id = election.100
+	title = election.100.t
+	desc = election.100.desc
+	picture = GFX_report_event_election_vote
+	
+	is_triggered_only = yes
+
+	trigger = {
+		OR = {
+			has_government = conservatism
+			has_government = liberalism
+			has_government = socialism
+			has_government = neutrality 
+			}
+		NOT = { tag = USA date < 1945.1.1 }
+		is_puppet = no
+		
+	}
+	immediate = { country_event = { id = politics.40 days = 3 } }
+	option = {
+		name = "Incumbent Party Wins!"
+		
+		trigger = { 
+			OR = {
+				AND = { has_government = socialism socialism > 0.25 }
+				AND = { has_government = conservatism conservatism > 0.25 }
+				AND = { has_government = liberalism liberalism > 0.25 }
+				AND = { has_government = neutrality neutrality > 0.25 }
+				AND = {
+					socialism < 0.25
+					conservatism < 0.25
+					liberalism < 0.25
+					neutrality < 0.25
+					communism < 0.25
+					monarchism < 0.25
+					fascism < 0.25
+				}
+			}
+		}
+		ai_chance = {
+			factor = 5
+			modifier = {
+				factor = 100
+				OR = {
+					AND = { 
+					has_government = socialism 
+					highest_socialists = yes		
+					}
+					AND = { 
+					has_government = conservatism 
+					highest_conservatives = yes
+					}
+					AND = { 
+					has_government = liberalism 
+					highest_liberals = yes
+					}
+					AND = { 
+					has_government = neutrality 
+					highest_neutrals = yes
+						}
+					}
+				}
+			}
+			add_political_power = 40
+			add_national_unity = 0.02
+	}
+	option = {	#Conservatives
+		name = "Conservatives Win!"
+		ai_chance = {
+			factor = 3
+			modifier = {
+				factor = 100
+			highest_conservatives = yes
+			}
+		}
+		trigger = {
+			NOT = { has_government = conservatism }
+			conservatism > 0.27
+		}
+		add_national_unity = 0.02
+		set_politics = {
+			ruling_party = conservatism
+			elections_allowed = yes
+		}
+		add_popularity = {
+			ideology = conservatism
+			popularity = 0.02
+		}
+	}
+	
+	option = {	#Liberals
+		name = "Liberals Win!"
+		trigger = {
+			NOT = { has_government = liberalism }
+			liberalism > 0.27
+		}
+		ai_chance = {
+			factor = 3
+			modifier = {
+				factor = 100
+				highest_liberals = yes
+			}
+			modifier = {
+				factor = 1000
+				tag = USA
+				is_historical_focus_on = yes
+				date < 1952.1.1
+			}
+		}
+		add_national_unity = 0.02
+		set_politics = {
+			ruling_party = liberalism
+			elections_allowed = yes
+		}
+		add_popularity = {
+			ideology = liberalism
+			popularity = 0.02
+		}
+	}
+	
+	option = {	#Socialists
+		name = "Socialists Win!"
+		ai_chance = {
+			factor = 4
+			modifier = {
+				factor = 100
+				highest_socialists = yes
+			}
+			modifier = {
+				factor = 1000
+				tag = FRA
+				is_historical_focus_on = yes
+				date < 1937.1.1
+			}
+		}
+		trigger = {
+			NOT = { has_government = socialism }
+			socialism > 0.27
+		}
+		add_national_unity = 0.02
+		set_politics = {
+			ruling_party = socialism
+			elections_allowed = yes
+		}
+		add_popularity = {
+			ideology = socialism
+			popularity = 0.02
+		}
+	}
+	option = {	#Monarchists
+		name = "Monarchists Win!"
+		trigger = {
+			NOT = { has_government = monarchism }
+			monarchism > 0.27
+		}
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 100
+			highest_monarchists = yes
+			}
+		}
+		
+		set_politics = {
+			ruling_party = monarchism
+			elections_allowed = no
+		}
+		add_popularity = {
+			ideology = monarchism
+			popularity = 0.02
+		}
+		add_national_unity = -0.02
+	}
+	
+	option = {	#Neutrals
+		name = "Authoritarians Win!"
+		ai_chance = {
+			factor = 3
+			modifier = {
+				factor = 100
+				highest_neutrals = yes
+			}
+		}	
+		trigger = {
+			NOT = { has_government = neutrality }
+			neutrality > 0.27
+		}
+		
+		set_politics = {
+			ruling_party = neutrality
+			elections_allowed = yes
+		}
+		add_popularity = {
+			ideology = neutrality
+			popularity = 0.02
+		}
+	}
+	
+	option = {	#Communists
+		name = "Communists Win!"
+		ai_chance = {
+			factor = 3
+			modifier = {
+				factor = 100
+				highest_communists = yes
+			}
+		}
+		trigger = {
+			NOT = { has_government = communism }
+			communism > 0.27
+		}
+		
+		set_politics = {
+			ruling_party = communism
+			elections_allowed = no
+		}
+		add_popularity = {
+			ideology = communism
+			popularity = 0.02
+		}
+		add_national_unity = -0.05
+	}
+	
+	option = {	#Fascists
+		name = "Fascists Win!"
+		ai_chance = {
+			factor = 3
+			modifier = {
+				factor = 100
+			highest_fascists = yes
+			}
+		}
+		trigger = {
+			NOT = { has_government = fascism }
+			fascism > 0.27
+		}
+		
+		set_politics = {
+			ruling_party = fascism
+			elections_allowed = no
+		}
+		add_popularity = {
+			ideology = fascism
+			popularity = 0.02
+		}
+		add_national_unity = -0.05
+	}
+}
