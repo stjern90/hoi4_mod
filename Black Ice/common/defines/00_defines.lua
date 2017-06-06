@@ -123,7 +123,7 @@ NDiplomacy = {
 	MASTER_BUILD_AUTONOMY_FACTOR = -0.7,           						-- scales autonomy gain from construction by this
 	VICTORY_POINT_WORTH_FACTOR = 10,									-- multiplier when calcualting proince worth (surrender)
 	VICTORY_POINT_WORTH_FACTOR_WARSCORE = 0.2,							-- multiplier when calcualting province worth with autonomy/warscore
-	IDEOLOGY_JOIN_FACTION_MIN_LEVEL = 0.3,								-- ideology limit required to join faction
+	IDEOLOGY_JOIN_FACTION_MIN_LEVEL = 0.10,								-- ideology limit required to join faction
 	JOIN_FACTION_LIMIT_CHANGE_AT_WAR = 0.5,							-- Change tension requirement for joining faction by amount when at war
 
 },
@@ -1082,8 +1082,8 @@ NAI = {
 	COMBINED_ARMS_LEVEL = 1,								-- 0 = Never, 1 = Infantry/Artillery, 2 = Go wild
 	MAX_DISTANCE_NALAV_INVASION = 100.0,					-- DNM, changed from 500 (AI Mod) -- AI is extremely unwilling to plan naval invasions above this naval distance limit.
 	ENEMY_NAVY_STRENGTH_DONT_BOTHER = 1.8,					-- If the enemy has a navy at least these many times stronger that the own, don't bother invading
-	MIN_SUPPLY_USE_SANITY_CAP = 100,						-- Ignore supply cap if below this value when deciding on how many divisions to produce.
-	MAX_SUPPLY_DIVISOR = 2.5,								-- DNM, original 2 (AI mod) To make sure the AI does not overdeploy divisions. Higher number means more supply per unit.
+	MIN_SUPPLY_USE_SANITY_CAP = 1000,						-- Ignore supply cap if below this value when deciding on how many divisions to produce.
+	MAX_SUPPLY_DIVISOR = 100,								-- DNM, original 2 (AI mod) To make sure the AI does not overdeploy divisions. Higher number means more supply per unit.
 	MISSING_CONVOYS_BOOST_FACTOR = 15.0,					-- The more convoys a country is missing, the more resources it diverts to cover this.
 	TRANSPORTS_PER_PARATROOPER = 20,						-- Air transports only duty is to drop paratroopers.
 	MAX_MICRO_ATTACKS_PER_ORDER = 3,						-- AI goes through its orders and checks if there are situations to take advantage of
