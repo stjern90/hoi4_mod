@@ -850,7 +850,7 @@ NAI = {
 	UPGRADE_XP_RUSH_UPDATE = 400,				-- If XP is above this on the daily tick the AI will attempt to spend it
 	FOCUS_TREE_CONTINUE_FACTOR = 1,			-- Factor for score of how likely the AI is to keep going down a focus tree rather than starting a new path.
 	VP_GARRISON_VALUE_FACTOR = 0.6,				-- Extent to which VP garrisons are prioritized, based on VP value and compared to other priority values.
-	PLAN_VALUE_TO_EXECUTE = -0.92,				-- AI will typically avoid carrying out a plan it below this value (0.0 is considered balanced).
+	PLAN_VALUE_TO_EXECUTE = -0.62,				-- AI will typically avoid carrying out a plan it below this value (0.0 is considered balanced).
 	DECLARE_WAR_NOT_NEIGHBOR_FACTOR = 0.25,		-- Multiplier applied before force factor if country is not neighbor with the one it is considering going to war
 	CALL_ALLY_BASE_DESIRE = 15,					-- exactly what it says
 	CALL_ALLY_DEMOCRATIC_DESIRE = 50,			-- Desire to call ally added for democratic AI
@@ -924,9 +924,9 @@ NAI = {
 	MIN_FORCE_RATIO_TO_PROTECT = 0.5,			-- Tiny countries should not feel protective or really large ones
 	
 	ORG_UNIT_STRONG = 0.9,						-- Organization % for unit to be considered strong
-	ORG_UNIT_WEAK = 0.15,						-- Organization % for unit to be considered weak
+	ORG_UNIT_WEAK = 0.18,						-- Organization % for unit to be considered weak
 	STR_UNIT_STRONG = 0.75,						-- Strength (equipment) % for unit to be considered strong
-	STR_UNIT_WEAK = 0.1,						-- Strength (equipment) % for unit to be considered weak
+	STR_UNIT_WEAK = 0.2,						-- Strength (equipment) % for unit to be considered weak
 	PLAN_FACTION_STRONG_TO_EXECUTE = 0.30,		-- % or more of units in an order to consider ececuting the plan
 	PLAN_FACTION_WEAK_TO_ABORT = 0.65,			-- % or more of units in an order to consider ececuting the plan
 	PLAN_AVG_PREPARATION_TO_EXECUTE = 0.3,		-- % or more average plan preparation before executing
@@ -1062,7 +1062,7 @@ NAI = {
 	BUILD_ARMOR_STRENGTH_MULTIPLIER_WEIGHT = 0.0,
 	BUILD_ARMOR_ORGANIZATION_MULTIPLIER_WEIGHT = 0.0,
 
-	UPGRADE_DIVISION_RELUCTANCE = 14,					-- How often to consider upgrading to new templates for units in the field
+	UPGRADE_DIVISION_RELUCTANCE = 15,					-- How often to consider upgrading to new templates for units in the field
 	UPGRADE_PERCENTAGE_OF_FORCES = 0.02,					-- How big part of the army that should be considered for upgrading
 
 	STRATEGIC_BOMBING_DEFENCE_IMPORTANCE = 500.0,
@@ -1105,7 +1105,7 @@ NAI = {
 	NAVAL_MISSION_ESCORT_NEAR_CONTROLLED = 5500,		-- Extra escort mission score near controlled provinces
 	NEW_LEADER_EXTRA_PP_FACTOR = 7.0,					-- Country must have at least this many times extra PP to get new admirals or army leaders
 	SCARY_LEVEL_AVERAGE_DEFENSE = -0.7,                 -- average front defense modifier to make it consider it as a PITA to go for
-	ATTACK_HEAVILY_DEFENDED_LIMIT = 0.00,				-- AI will not launch attacks against heavily defended fronts unless they consider to have this level of advantage (1.0 = 100%)
+	ATTACK_HEAVILY_DEFENDED_LIMIT = 0.95,				-- AI will not launch attacks against heavily defended fronts unless they consider to have this level of advantage (1.0 = 100%)
 	HOUR_BAD_COMBAT_REEVALUATE = 45,                   -- if we are in combat for this amount and it goes shitty then try skipping it 
 	MIN_PLAN_VALUE_TO_MICRO_INACTIVE = -0.6,				-- The AI will not consider members of groups which plan is not activated AND evaluates lower than this.
 	
