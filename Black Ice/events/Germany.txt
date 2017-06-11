@@ -7160,17 +7160,6 @@ country_event = {
 
 	trigger = {
 		tag = GER
-				OR = { 
-				has_government = monarchism
-				AND = {
-					OR = {
-					has_government = conservatism
-					has_government = socialism
-					has_government = liberalism
-						}
-					has_country_flag = const_kaiser
-				}
-			}
 		date > 1941.3.10
 	}
 	immediate = { set_country_flag = wilhelm_ii_dead }
@@ -7185,5 +7174,197 @@ country_event = {
 	option = {
 		name = germany.300.a
 		add_political_power = 10
+	}
+}
+# Wilhelm III dies
+country_event = {
+	id = germany.301
+	title = germany.301.t
+	desc = germany.301.desc
+	picture = GFX_report_event_generic_funeral
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = GER
+				OR = { 
+				has_government = monarchism
+				AND = {
+					OR = {
+					has_government = conservatism
+					has_government = socialism
+					has_government = liberalism
+						}
+					has_country_flag = const_kaiser
+				}
+			}
+		date > 1951.3.10
+		has_country_flag = wilhelm_iii_chosen
+	}
+	immediate = { set_country_flag = wilhelm_iii_dead clr_country_flag = wilhelm_iii_chosen }
+	mean_time_to_happen = {
+		days = 120
+		modifier = {
+			factor = 0.6
+			date > 1951.6.1
+		}
+	}
+
+	option = {
+		name = germany.301.a
+		add_national_unity = -0.02
+		create_country_leader = {
+			name = "Ferdinand I"
+			desc = "Kaiser of the German Empire"
+			picture = "Portrait_Germany_Louis_Ferdinand.dds"
+			expire = "1965.1.1"
+			ideology = imperial
+			traits = {
+				monarchist
+				great_leader
+			}
+		}
+	}
+}
+
+#Which Kaiser should we have?
+country_event = {
+	id = germany.302
+	title = germany.302.t
+	desc = germany.302.desc
+	picture = GFX_report_event_generic_funeral
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = GER
+				OR = { 
+				has_government = monarchism
+				AND = {
+					OR = {
+					has_government = conservatism
+					has_government = socialism
+					has_government = liberalism
+						}
+					has_country_flag = const_kaiser
+				}
+			}
+		NOT = { has_country_flag = kaiser_chosen }
+	}
+
+	mean_time_to_happen = {
+		days = 2
+	}
+
+	immediate = { set_country_flag = kaiser_chosen }
+	
+	option = { #Keep Wilhelm III
+		name = germany.302.a
+		add_political_power = 30
+		add_national_unity = -0.05
+		set_country_flag = wilhelm_iii_chosen
+		country_event = germany.303
+	}
+	option = { #Install Louis Ferdinand
+		name = germany.302.b
+		set_country_flag = ferdinand_chosen
+		add_political_power = -30
+		add_national_unity = 0.05
+		retire_country_leader = yes
+		create_country_leader = {
+			name = "Ferdinand I"
+			desc = "POLITICS_LOUIS_FERDINAND_DESC"
+			picture = "Portrait_Germany_Louis_Ferdinand.dds"
+			expire = "1965.1.1"
+			ideology = imperial
+			traits = {
+				monarchist
+				great_leader
+			}
+		}
+		country_event = germany.303
+	}
+}
+
+#Which Chancellor should we have?
+country_event = {
+	id = germany.303
+	title = germany.303.t
+	desc = germany.303.desc
+	picture = GFX_report_event_generic_funeral
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	immediate = { set_country_flag = chancellor_chosen }
+
+	option = { #von Papen
+		name = germany.303.a
+		set_country_flag = papen_chosen
+		add_ideas = franz_von_papen
+		add_political_power = 50
+		add_national_unity = -0.03
+		monarchism_minus_3 = yes
+		fascism_plus_2 = yes
+		socialism_plus_3 = yes
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 10
+				monarchism > 0.55
+			}
+		}
+	}
+	option = { #Lettow-Vorbeck
+		name = germany.303.b
+		set_country_flag = lv_chosen
+		add_ideas = paul_von_lettow_vorbeck
+		add_political_power = 10
+		add_national_unity = 0.06
+		monarchism_plus_3 = yes
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 10
+				monarchism < 0.35
+			}
+		}
+	}
+	option = { #v. Blumenthal
+		name = germany.303.c
+		set_country_flag = blumenthal_chosen
+		add_ideas = hans_jurgen_von_blumenthal
+		add_political_power = -30
+		add_national_unity = 0.05
+		conservatism_plus_3 = yes
+		monarchism_plus_3 = yes
+		socialism_plus_3 = yes
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 10
+				monarchism < 0.55
+				monarchism > 0.35
+			}
+		}
+	}
+	option = {
+		name = germany.303.d
+		set_country_flag = no_ger_chancellor
+		add_political_power = 75
+		add_national_unity = -0.05
+		if = { limit = { has_country_flag = wilhelm_iii_chosen }
+			add_ideas = wilhelm_iii
+		}
+		if = { limit = { has_country_flag = ferdinand_chosen }
+			add_ideas = louis_ferdinand
+		}
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 10
+				has_country_flag = wilhelm_iii_chosen
+				monarchism > 0.50
+			}
+		}
 	}
 }

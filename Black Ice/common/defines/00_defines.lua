@@ -338,10 +338,10 @@ NMilitary = {
 	LAND_AIR_COMBAT_STR_DAMAGE_MODIFIER = 0.03,    			-- air global damage modifier
 	LAND_AIR_COMBAT_ORG_DAMAGE_MODIFIER = 0.03,    			-- global damage modifier
 	LAND_AIR_COMBAT_MAX_PLANES_PER_ENEMY_WIDTH = 2, 		-- how many CAS/TAC can enter a combat depending on enemy width there A: was 1
-	LAND_COMBAT_STR_ARMOR_ON_SOFT_DICE_SIZE = 2,   			-- extra damage dice if our armor outclasses enemy
-	LAND_COMBAT_ORG_ARMOR_ON_SOFT_DICE_SIZE = 5,   			-- extra damage dice if our armor outclasses enemy
-	LAND_COMBAT_STR_ARMOR_DEFLECTION_FACTOR = 0.5, 			-- damage reduction if armor outclassing enemy
-	LAND_COMBAT_ORG_ARMOR_DEFLECTION_FACTOR = 0.5, 			-- damage reduction if armor outclassing enemy
+	LAND_COMBAT_STR_ARMOR_ON_SOFT_DICE_SIZE = 4,   			-- extra damage dice if our armor outclasses enemy
+	LAND_COMBAT_ORG_ARMOR_ON_SOFT_DICE_SIZE = 6,   			-- extra damage dice if our armor outclasses enemy
+	LAND_COMBAT_STR_ARMOR_DEFLECTION_FACTOR = 2, 			-- damage reduction if armor outclassing enemy
+	LAND_COMBAT_ORG_ARMOR_DEFLECTION_FACTOR = 3.5, 			-- damage reduction if armor outclassing enemy
 	LAND_COMBAT_COLLATERAL_FACTOR = 0.002,		   			-- Factor to scale collateral damage to infra and forts with.
 	LAND_COMBAT_FORT_DAMAGE_CHANCE = 1,						-- chance to get a hit to damage on forts. (out of 100)
 	ATTRITION_DAMAGE_ORG = 0.12,					   		-- damage from attrition to Organisation
@@ -508,13 +508,13 @@ NMilitary = {
 	COMBAT_OVER_WIDTH_PENALTY = -1,							-- over combat width penalty per %.
 	COMBAT_OVER_WIDTH_PENALTY_MAX = -0.33,					-- over combat width max (when you cant join no more).
 	RETREAT_SPEED_FACTOR = 0.25,                    		-- speed bonus when retreating
-	STRATEGIC_SPEED_BASE = 4.0,                 			-- Speed of strategic redeployment
+	STRATEGIC_SPEED_BASE = 6.0,                 			-- Speed of strategic redeployment
 	STRATEGIC_INFRA_SPEED = 12.0,                  			-- Max of additional speed gained trouh=gh level for strategic redeployment per infra
 	STRATEGIC_REDEPLOY_ORG_RATIO = 0.2,					-- Ratio of max org while strategic redeployment
 	BATALION_NOT_CHANGED_EXPERIENCE_DROP = 0.0,				-- Division experience drop if unit has same batalion
 	BATALION_CHANGED_EXPERIENCE_DROP = 0.4,					-- Division experience drop if unit has different batalion
-	ARMOR_VS_AVERAGE = 0.6,			                		-- how to weight in highest armor & pen vs the division average
-	PEN_VS_AVERAGE = 0.5,
+	ARMOR_VS_AVERAGE = 0.4,			                		-- how to weight in highest armor & pen vs the division average
+	PEN_VS_AVERAGE = 0.2,
 
 	DECRYPTION_ADVANTAGE_BONUS = 0.05,						-- How much unit base damage and base defense is increased per decryption level compared to enemies average encryption level (ex: dec. level is 5 and enemy average enc. level is 3 then 5-3 = 2 which gives 10 % increase)
 	
@@ -675,8 +675,8 @@ NNavy = {
 	COMBAT_LEAD_TOO_MANY_SHIPS_PENALTY_CHAOS_CHANCE = 0.6,				-- Chaos penalty - chance % of not taking a shot at the target.
 	COMBAT_BASE_CRITICAL_CHANCE = 0.05,									-- BICE 0.05,original 0.1 -- Base chance for receiving a critical chance. It get's scaled down with ship reliability.
 	COMBAT_CRITICAL_DAMAGE_MULT = 5.0,									-- BICE, Multiplier for the critical damage. Scaled down with the ship reliability.
-	COMBAT_ARMOR_PIERCING_CRITICAL_BONUS = 1,							-- BICE, original 3 --Bonus to critical chance when shooter armor piercing is higher then target armor.
-	COMBAT_ARMOR_PIERCING_DAMAGE_REDUCTION = -0.65,						-- BICE 0.65,DNM 0.9, to be consistent with changes to vanilla, makes armour more important, as it shold be -- All damage reduction % when target armor is >= then shooter armor piercing.
+	COMBAT_ARMOR_PIERCING_CRITICAL_BONUS = 3,							-- BICE, original 3 --Bonus to critical chance when shooter armor piercing is higher then target armor.
+	COMBAT_ARMOR_PIERCING_DAMAGE_REDUCTION = -0.9,						-- BICE 0.65,DNM 0.9, to be consistent with changes to vanilla, makes armour more important, as it shold be -- All damage reduction % when target armor is >= then shooter armor piercing.
 	REPAIR_AND_RETURN_PRIO_LOW = 0.4,									-- DNM, original 0.2 --  % of total Strength. When below, navy will go to home base to repair.
 	REPAIR_AND_RETURN_PRIO_MEDIUM = 0.6,								-- DNM, original 0.5 -- % of total Strength. When below, navy will go to home base to repair.
 	REPAIR_AND_RETURN_PRIO_HIGH = 0.9,									-- % of total Strength. When below, navy will go to home base to repair.
@@ -1039,8 +1039,8 @@ NAI = {
 		1.0,   -- 1.0 max_strength
 		0.5,  -- build_cost_ic
 		0.0,   -- maximum_speed
-		1.0,   -- armor_value
-		0.5,   -- ap_attack
+		1.8,   -- armor_value
+		1.2,   -- ap_attack
 		0.3,   -- reliability
 		0.0,   -- reliability_factor
 		0.0, -- weight
