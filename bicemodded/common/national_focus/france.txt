@@ -1620,36 +1620,65 @@ focus_tree = {
 	
 	focus = {
 		id = FRA_little_entente
-		icon = GFX_CZE_alliance
+		icon = GFX_goal_generic_alliance
 		available = {
 			is_puppet = no
 			is_in_faction = no
+			NOT = {
+				CZE = {
+	 				AND = {
+						is_in_faction = yes
+						is_faction_leader = no
+	 				}
+	 			}
+	 		}
 		}
-	 	prerequisite = { focus = FRA_status_quo }
+	 	prerequisite = { focus = FRA_support_status_quo }
 	 	mutually_exclusive = { focus = FRA_go_with_britain }
 	 	bypass = {
 	 		is_in_faction_with = CZE
 	 		is_faction_leader = yes
 	 	}
-		x = 18
-		y = 4
+		x = 11
+		y = 2
 		cost = 10
 
 		ai_will_do = {
-			factor = 0
+			factor = 0.1
+
+			modifier = {
+				factor = 10
+				ai_irrationality > 20
+			}
+			modifier = {
+				factor = 2
+				ai_irrationality > 30
+			}
 		}
 		completion_reward = {
 			add_national_unity = 0.05
-			set_rule = { can_create_factions = yes }
-			create_faction = "french_entente_alliance"
+			
+			if = {
+				limit = { 
+					has_dlc = "Death or Dishonor"
+					CZE = {
+						has_completed_focus = CZE_an_entente_of_our_own
+						is_faction_leader = yes
+					}
+				 }
+				 CZE = { country_event = generic.2 }
+			}
 			if = {
 				limit = {
 					CZE = { 
 						is_puppet = no
 						NOT = { has_war_with = FRA }
+						is_in_faction = no
 					}
 				}
 				CZE = { country_event = france.17 }
+				set_rule = { can_create_factions = yes }
+				create_faction = "french_entente_alliance"
 				hidden_effect = {
 					news_event = { hours = 6 id = news.177 }
 				}
@@ -1782,6 +1811,7 @@ focus_tree = {
 	 				is_puppet = yes
 	 				has_war_with = FRA
 					is_in_faction_with = FRA
+					is_in_faction = yes
 				}
 	 		}
 	 	}
@@ -1808,6 +1838,7 @@ focus_tree = {
 	 				is_puppet = yes
 	 				has_war_with = FRA
 					is_in_faction_with = FRA
+					is_in_faction = yes
 	 			}
 	 		}
 	 	}

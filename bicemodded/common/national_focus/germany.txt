@@ -2151,7 +2151,7 @@ focus_tree = {
 		prerequisite = { focus = GER_rhineland }
 		mutually_exclusive = { focus = GER_china_friend }
 		available = {
-			OR = {
+			AND = {
 				country_exists = JAP
 				JAP = { is_puppet = no }
 				NOT = { has_war_with = JAP }
@@ -2194,7 +2194,7 @@ focus_tree = {
 		prerequisite = { focus = GER_rhineland }
 		mutually_exclusive = { focus = GER_japan_friend }
 		available = {
-			OR = {
+			AND = {
 				country_exists = CHI
 				CHI = { is_puppet = no }
 				NOT = { has_war_with = CHI }
@@ -3052,6 +3052,7 @@ focus_tree = {
 					tooltip = GER_alone_or_peace_faction_tt
 					is_alone_or_in_faction_at_peace_with_GER = yes
 				}
+				exists = yes
 			}
 		}
 		bypass = {
@@ -3085,6 +3086,24 @@ focus_tree = {
 						target = GER
 						value > 20
 					}
+				}
+			}
+			modifier = {
+				factor = 4
+				CZE = {
+					has_completed_focus = CZE_german_leanings
+				}
+			}
+			modifier = {
+				factor = 4
+				CZE = {
+					has_completed_focus = CZE_deliver_sudetenland
+				}
+			}
+			modifier = {
+				factor = 2
+				CZE = {
+					has_completed_focus = CZE_go_right
 				}
 			}
 		}	
@@ -3125,27 +3144,35 @@ focus_tree = {
 	
 	focus = {
 		id = GER_demand_sudetenland
-		icon = GFX_goal_generic_political_pressure
+		icon = GFX_goal_demand_sudetenland
 		prerequisite = { focus = GER_anschluss }
 		mutually_exclusive = { focus = GER_czech_friend }
+		will_lead_to_war_with = CZE
+		will_lead_to_war_with = FRA
 		available = {
 			is_puppet = no
-			or = {
-			has_army_manpower = { size > 799999 } #80 div	
-			date > 1938.12.30
+			has_army_manpower = { size > 749999 } #80 div	
+            date > 1938.1.1			
+			NOT = {
+				AND = {
+					CZE = { is_in_faction_with = GER }
+					has_war = yes
+				}
 			}
 		}
 		bypass = {
 			OR = {
 				CZE = { is_puppet_of = GER }
-				GER = { owns_state = 69 }			
+				69 = { 
+					CONTROLLER = {
+						has_war_with = GER
+					}
+				}
+				GER = { controls_state = 69 }
 			}
 		}
 		cancel = {
-			OR = {
-				NOT = { CZE = { owns_state = 69 } }
-				has_war_with = CZE
-			}
+			is_puppet = yes
 		}
 		cancel_if_invalid = no
 		x = 14
@@ -3158,26 +3185,77 @@ focus_tree = {
 			if =  {
 				limit = {
 					OR = {
+						ENG = { exists = no }
 						has_war_with = ENG
 						has_war_with = FRA
-						CZE = { is_puppet = yes }
+						AND = {
+							CZE = { is_subject = yes }
+							OR = {
+								CZE = { 
+									NOT = {
+										is_puppet_of = HUN
+									}
+								}
+								NOT = { has_dlc = "Death or Dishonor" }
+							}
+						}
 						CZE = { has_war_with = ENG }
+						CZE = { has_war_with = FRA }
+						CZE = { is_in_faction_with = GER }
 					}
-					CZE = { owns_state = 69 }
+					CZE = { controls_state = 69 }
 				}
-				create_wargoal = {
-					type = take_state_focus
-					target = CZE
-					generator = { 69 }
+				if = {
+					limit = {
+						CZE = { is_subject = no }
+					}
+					CZE = {
+						country_event = { id = germany.122 }
+					}
+					else = {
+						CZE = {
+							OVERLORD = { country_event = { id = germany.122 } }
+						}
+					}
 				}
 			}
 			if = {
 				limit = {
+					has_dlc = "Death or Dishonor"
+					CZE = { NOT = { is_in_faction_with = GER } } #in case AH is in faction with GER and dragged a subject CZE along.
+					OR = {
+						69 = { is_owned_by = HUN } #AH restored
+						AND = {
+							CZE = { is_subject_of = HUN }
+							69 = { is_owned_by = CZE }
+						}
+					}
+				}
+				HUN = {
+					country_event = germany.122
+				}
+			}
+			if = {
+				limit = {
+					
+					ENG = { exists = yes }
+					ENG = { is_subject = no }
 					NOT = { has_war_with = ENG }
 					NOT = { has_war_with = FRA }
-					CZE = { is_puppet = no }
+					CZE = { is_subject = no }
+					CZE = { NOT = { is_in_faction_with = GER } }
 					CZE = { NOT = { has_war_with = ENG } }
-					CZE = { owns_state = 69 }
+					CZE = { controls_state = 69 }
+					OR = {
+						HUN = {
+							NOT = {
+								has_completed_focus = HUN_protect_czechoslovakia #DOD only
+							}
+						}
+						CZE = {
+							has_country_flag = HUN_AH_CZE_refused
+						}
+					}
 				}
 				ENG = {
 					country_event = germany.40
@@ -3190,6 +3268,10 @@ focus_tree = {
 			if = {
 				limit = {
 					NOT = { CZE = { controls_state = 69 } }
+					NOT = {
+						69 = { is_controlled_by = HUN }
+						HUN = { has_completed_focus = HUN_protect_czechoslovakia }
+					}
 					69 = {
 						controller = {
 							NOT = { is_in_faction_with = GER }
@@ -3223,6 +3305,8 @@ focus_tree = {
 				}
 				HUN = { is_friend_or_potential_friend_of_GER = no }
 			}
+			CZE = { is_puppet_of = GER }
+			CZE = { is_in_faction_with = GER }
 		}
 		available = {
 			is_puppet = no
@@ -3256,6 +3340,8 @@ focus_tree = {
 		available = { 
 			is_puppet = no
 			or = {
+				CZE = { is_puppet_of = GER }
+				CZE = { is_in_faction_with = GER }
 			has_army_manpower = { size > 949999 }
 			date > 1939.3.16
 			}
@@ -3284,9 +3370,30 @@ focus_tree = {
 
 		completion_reward = {
 			if = {
-				limit = { country_exists = CZE }
+				limit = { 
+					country_exists = CZE 
+					CZE = {
+						NOT = {
+							is_subject_of = HUN
+						}
+					}
+				}
 				set_global_flag = end_of_czechoslovakia
 				CZE = { country_event = germany.53 }
+			}
+			if = {
+				limit = { 
+					OR = {
+						CZE = {
+							is_subject_of = HUN
+						}
+						HUN = {
+							owns_state = 9#Prague - AH annexed CZE
+						}
+					}
+				}
+				add_state_claim = 9
+				add_state_claim = 75
 			}
 			if = {
 				limit = { NOT = { country_exists = CZE } }
@@ -3328,6 +3435,10 @@ focus_tree = {
 									NOT = { controls_state = 84 }
 								}
 								has_war_with = HUN
+								AND = {
+									is_in_faction_with = GER
+									HUN = { NOT = { is_in_faction_with = GER } }#GER should not want to give territory to Hungary if Romania joined the axis early.
+								}
 							}
 						}
 					}
@@ -3345,6 +3456,7 @@ focus_tree = {
 				ROM = { exists = no	}
 				HUN = { has_capitulated = yes }
 				ROM = { has_capitulated = yes }
+				HUN = { is_subject_of = ROM } #just rude
 			}
 		}
 		completion_reward = {
