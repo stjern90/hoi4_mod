@@ -535,14 +535,6 @@ country_event = {
 					set_state_controller = 553
 					FRA = { add_state_core = 553 }
 					}
-					#if = {
-					#	limit = {
-					#		1 = {
-					#			owner = { original_tag = FRA }
-					#		}
-					#	}
-					#	set_state_controller = 1
-					#}
 					if = {
 						limit = {
 							32 = {
@@ -580,7 +572,7 @@ country_event = {
 				ideology = fascism
 				size = 0.5
 				capital = 26
-				states = { 1 26 21 22 31 25 20 32 33 735 458 459 460 461 462 514 665 671 670 741 286 513}
+				states = { 26 21 22 31 25 20 32 33 1 735 677 680 554 458 459 460 461 462 514 665 557 272 556 671 670 741 286 513 553 543 708 706 268 713 310 694 730 }
 			}
 		}
 		random_other_country = {
@@ -632,24 +624,23 @@ country_event = {
 					}
 				}
 			}
-			MOR = { country_event = { id = france.66 }}
-			set_state_controller = 1
-			add_state_core = 1
-			
-			TUN = { country_event = { id = france.66 }}
-			
-			set_state_controller = 458
-			add_state_core = 458
-			
-			set_state_controller = 513
-			add_state_core = 513
-			
-			set_state_controller = 462
-			add_state_core = 462
-		
-			set_state_controller = 461
-			add_state_core = 461
-			
+			if = {
+				limit = {
+					FRA = { 
+						has_completed_focus = FRA_cagoule_coup
+					}
+				}
+				hidden_effect =  {
+					retire_country_leader = yes
+					create_country_leader = {
+						name = "Jacques Doriot"
+						desc = "POLITICS_JACQUES_DORIOT_DESC"
+						picture = "Portrait_France_Jacques_Doriot.dds"
+						expire = "1965.1.1"
+						ideology = fascism_ideology
+					}
+				}
+			}
 			# FRA Player Switches to Vichy
 			if = {
 				limit = { FRA = { has_country_flag = become_vichy } }
@@ -1214,7 +1205,14 @@ country_event = {
 	desc = france.32.d
 	picture = GFX_report_event_election_vote
 	
-	is_triggered_only = yes
+	fire_only_once = yes
+	
+	trigger = {
+        tag = FRA
+		democratic_govt = yes
+		has_start_date < 1936.01.02
+		date > 1936.5.03
+	}
 	
 	option = {
 		name = france.32.a
@@ -1225,7 +1223,6 @@ country_event = {
 			expire = "1965.1.1"
 				ideology = social_democracy
 		}
-		 FRA = { country_event = { id = france.36 } }
 		set_country_flag = legislative_election
 	}
 }
@@ -1251,7 +1248,7 @@ country_event = {
 	}
 	option = {
 		name = france.33.a
-		#retire_country_leader = yes
+		retire_country_leader = yes
 		create_country_leader = {
 			name = "Albert Sarraut"
 			desc = "POLITICS_ALBERT_SARRAUT_DESC"
@@ -1323,6 +1320,7 @@ country_event = {
 	
 	option = {
 		name = france.35.a
+		custom_effect_tooltip = FRA_inflation_tooltip
 		add_ideas = FRA_inflation1
 		set_country_flag = inflation
 	}
@@ -1335,11 +1333,19 @@ country_event = {
 	desc = france.36.d
 	picture = GFX_report_event_worker_protests
 	
-	is_triggered_only = yes
+	fire_only_once = yes
+
+	trigger = {
+        tag = FRA
+		democratic_govt = yes
+		has_start_date < 1936.01.02
+		date > 1936.6.08
+	}
 	
 	option = {
 		name = france.36.a
-		set_country_flag = matignon_agreements
+		custom_effect_tooltip = FRA_matignon_tooltip
+		set_global_flag = matignon_agreements
 	}
 }
 
@@ -1370,7 +1376,7 @@ country_event = {
 		name = france.37.a
 		add_popularity = {
 			ideology = communism
-			popularity = 0.15
+			popularity = 0.2
 		}
 		add_political_power = -50	
 		set_country_flag = communist_resigned
@@ -1390,7 +1396,7 @@ country_event = {
 		name = france.38.a
 		add_popularity = {
 			ideology = communism
-			popularity = -0.10
+			popularity = -0.15
 		}
 		add_political_power = 75	
 		set_country_flag = communist_support
@@ -1433,7 +1439,7 @@ country_event = {
 			add_idea = FRA_reforms_failed
 			remove_idea = FRA_disjointed_government
 		}
-		#retire_country_leader = yes
+		retire_country_leader = yes
 		create_country_leader = {
 			name = "Camille Chautemps"
 			desc = "POLITICS_CAMILLE_CHAUTEMPS_DESC"
@@ -1501,6 +1507,9 @@ country_event = {
 	
 	option = {
 		name = france.41.a
+		hidden_effect = {	
+			news_event = { hours = 6 id = worldnews.1 }
+		}
 	}
 }
 
@@ -1541,27 +1550,49 @@ country_event = {
 				ruling_party = fascism
 				elections_allowed = no
 			}
-			retire_country_leader = yes
-			create_country_leader = {
-				name = "Philippe Pétain"
-				desc = "POLITICS_PHILIPPE_PÉTAIN_DESC"
-				picture = "Portrait_France_Philippe_Petain.dds"
-				expire = "1965.1.1"
-				ideology = vichy
-				traits = {
-				}
-			}			
-			add_timed_idea = { idea = reign_of_terror days = 730 }
-			add_popularity = {
-				ideology = fascism
-				popularity = 0.2
-			}
 		}
+		set_party_name = { ideology = fascism long_name = FRA_fascism_party3_long name = FRA_fascism_party3 }
+		retire_country_leader = yes
+		create_country_leader = {
+			name = "Philippe Pétain"
+			desc = "POLITICS_PHILIPPE_PÉTAIN_DESC"
+			picture = "Portrait_France_Philippe_Petain.dds"
+			expire = "1965.1.1"
+			ideology = fascism_ideology
+			traits = {
+			}
+		}		
+		add_timed_idea = { idea = reign_of_terror days = 730 }
+		add_popularity = {
+			ideology = fascism
+			popularity = 0.2
+		}
+	}
+	
+	option = {
+		name = france.43.b
 		if = {
 			limit = {
-				has_government = fascism
+				NOT = { has_government = fascism }
 			}
-			add_political_power = 100
+			set_politics = {
+				ruling_party = fascism
+				elections_allowed = no
+			}
+		}
+		set_party_name = { ideology = fascism long_name = FRA_fascism_party3_long name = FRA_fascism_party3 }
+		retire_country_leader = yes
+		create_country_leader = {
+			name = "Louis Franchet d'Espèrey"
+			desc = "POLITICS_FRANCHET_ESPEREY_DESC"
+			picture = "Portrait_France_Louis_Franchet_Esperey.tga"
+			expire = "1965.1.1"
+			ideology = fascism_ideology
+		}		
+		add_timed_idea = { idea = reign_of_terror days = 730 }
+		add_popularity = {
+			ideology = fascism
+			popularity = 0.2
 		}
 	}
 }
@@ -1586,12 +1617,7 @@ country_event = {
 				elections_allowed = no
 			}
 		}
-		if = {
-			limit = {
-				has_government = fascism
-			}
-			add_political_power = 100
-		}
+		set_party_name = { ideology = fascism long_name = FRA_fascism_party2_long name = FRA_fascism_party2 }
 		retire_country_leader = yes
 		create_country_leader = {
 			name = "Jacques Doriot"
@@ -1817,7 +1843,7 @@ country_event = {
 	trigger = {
 		has_defensive_war_with = GER 
 		has_idea = FRA_reforms_failed
-		#date > 1941.3.21
+		date > 1941.3.21
 	}
 	option = {
 		name = france.53.a
@@ -2029,14 +2055,13 @@ country_event = {
 		ai_chance = { factor = 50 }
 		add_tech_bonus = {
 			bonus = 0.5
-			uses = 2
+			uses = 1
 			category = industry
 		}
-		FRA = {
-			add_opinion_modifier = { target = ENG modifier = aided_industry }
-		}
-		ENG = {
-			add_opinion_modifier = { target = FRA modifier = aided_industry }
+		add_tech_bonus = {
+			bonus = 0.5
+			uses = 3
+			category = electronics
 		}
 
 	}
@@ -2045,9 +2070,10 @@ country_event = {
 		name = france.61.b
 		ai_chance = { factor = 50 }
 		add_tech_bonus = {
+			name = FRA_economic_agreement
 			bonus = 0.5
-			uses = 3
-			category = electronics
+			uses = 2
+			category = land_doctrine
 		}
 	}
 	
@@ -2056,157 +2082,85 @@ country_event = {
 		ai_chance = { factor = 50 }
 		GER = {
 			add_opinion_modifier = { target = FRA modifier = embargo}
-			add_opinion_modifier = { target = FRA modifier = embargo }
+			add_opinion_modifier = { target = FRA modifier = sanctions_relations} 
 			add_opinion_modifier = { target = ENG modifier = embargo }
-			add_opinion_modifier = { target = ENG modifier = embargo } 
+			add_opinion_modifier = { target = ENG modifier = sanctions_relations } 
 		}
 	}
 }
-#country_event = {
-#	id = france.62
-#	title = france.62.t
-#	desc = france.62.d
-#	picture = GFX_report_event_chamberlain
-#
-#	fire_only_once = yes
-#	
-#	trigger = {
-#		tag = FRA
-#		is_ai = yes
-#		date > 1936.1.5	
-#		ENG = {
-#			is_faction_leader = yes
-#			NOT = { has_war_with = FRA }
-#		}
-#		is_in_faction = no
-#		is_puppet = no
-#	}
-#
-#	option = {
-#		name = france.62.a
-#		ENG = { add_to_faction = FRA }
-#		FRA = {
-#				add_ai_strategy = {
-#					type = alliance
-#					id = "ENG"
-#					value = 200
-
-#				}
-#	set_country_flag = Fra_Uk_alliance
-#	}
 
 
+# Appoint a Material Designer
+country_event = {
+	id = france.62
+	title = france.62.t
+	desc = france.62.d
+	picture = GFX_report_event_journalists_speech
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = france.62.a
+		ai_chance = { factor = 50 }
+		add_ideas = bayonne
+	}
 
-#	
-#}
-#}
-###########Cze dead. Join UK
+	option = {
+		name = france.62.b
+		ai_chance = { factor = 50 }
+		add_ideas = puteaux
+	}
+	
+	option = {
+		name = france.62.c
+		ai_chance = { factor = 50 }
+		add_ideas = bouton
+	}
+	
+	option = {
+		name = france.62.e
+		ai_chance = { factor = 50 }
+		add_political_power = 90	
+	}
+}
+
+# Commit a Tank Designer
 country_event = {
 	id = france.63
 	title = france.63.t
 	desc = france.63.d
-	picture = GFX_report_event_chamberlain
-
-	fire_only_once = yes
+	picture = GFX_report_event_journalists_speech
 	
-	trigger = {
-		tag = FRA
-		is_ai = yes
-		NOT = { has_war_with = ENG } 
-		is_in_faction = no
-		has_global_flag = end_of_czechoslovakia
-		NOT = { has_completed_focus = FRA_go_with_britain }
-		NOT = { has_completed_focus = FRA_little_entente }
+	is_triggered_only = yes
+	
+	option = {
+		name = france.63.a
+		ai_chance = { factor = 50 }
+		add_ideas = dietrich
 	}
 
 	option = {
-		name = france.63.a
-		ENG = { country_event = { id = britain.13 } }
-		unlock_national_focus = FRA_go_with_britain
-		give_guarantee = POL
+		name = france.63.b
+		ai_chance = { factor = 50 }
+		add_ideas = berliet
 	}
 	
+	option = {
+		name = france.63.c
+		ai_chance = { factor = 50 }
+		add_ideas = delaunay
+	}
+	
+	option = {
+		name = france.63.e
+		ai_chance = { factor = 50 }
+		add_political_power = 90	
+	}
 }
 country_event = {
 	id = france.64
 	title = france.64.t
 	desc = france.64.d
-	picture = GFX_report_event_chamberlain
-
-	fire_only_once = yes
-	
-	trigger = {
-		tag = FRA
-		is_ai = yes
-		date > 1936.1.1	
-	
-	}
-
-	option = {
-		name = france.64.a
-			hidden_effect = {
-			load_oob = "FRA_AI_starting_equipment"
-		}
-		
-	}
-	
-}
-country_event = {
-	id = france.65
-	title = france.65.t
-	desc = france.65.d
-	picture = GFX_report_event_chamberlain
-
-	fire_only_once = yes
-	
-	is_triggered_only = yes
-	
-	option = {
-		name = france.65.a
-		ai_chance = { factor = 100 }
-		if = {
-		limit = { original_tag = FRA has_government = fascism }
-		annex_country = {
-			target = MOR
-			transfer_troops = yes
-			}	
-		}
-	}
-	option = {
-		name = france.65.b # refuse
-		ai_chance = { factor = 0 }
-	}
-}
-country_event = {
-	id = france.66
-	title = france.66.t
-	desc = france.66.d
-	picture = GFX_report_event_chamberlain
-	
-	fire_only_once = yes
-
-	is_triggered_only = yes
-	
-	option = {
-		name = france.66.a
-		ai_chance = { factor = 100 }
-		if = {
-		limit = { original_tag = FRA has_government = fascism }
-			annex_country = {
-				target = TUN
-				transfer_troops = yes
-			}
-		}
-	}
-	option = {
-		name = france.66.b # refuse
-		ai_chance = { factor = 0 }
-	}
-}
-country_event = {
-	id = france.67
-	title = france.67.t
-	desc = france.67.d
 	picture = GFX_report_event_chamberlain
 
 	fire_only_once = yes
@@ -2222,7 +2176,7 @@ country_event = {
 	}
 
 	option = {
-		name = france.67.a
+		name = france.64.a
 		ENG = { add_to_faction = FRA }
 		FRA = { set_country_flag = in_allies }
 		FRA = {
@@ -2237,81 +2191,6 @@ country_event = {
 		}
 	}
 	
-}
-country_event = {
-	id = france.68
-	title = france.68.t
-	desc = france.68.d
-	picture = GFX_report_event_journalists_speech
-
-	fire_only_once = yes
-	
-	trigger = {
-		tag = FRA
-		not = { has_country_flag = french_africa }
-		has_global_flag = fall_of_france
-		or = {
-		GER = { controls_state = 272 }
-		GER = { controls_state = 556 }
-		GER = { controls_state = 515 }
-		GER = { controls_state = 660 }
-		GER = { controls_state = 539 }
-		}
-		
-	}
-	
-	mean_time_to_happen = {
-		days = 3
-	}
-	
-	option = {
-		name = france.68.a
-		
-		hidden_effect = {
-			GER = {
-				country_event = { id = france.69 hours = 1 }
-			}
-		}
-		set_country_flag = french_africa
-	}
 }	
-country_event = {
-	id = france.69
-	title = france.69.t
-	desc = france.69.d
-	picture = GFX_report_event_journalists_speech
-
+	#### END MOD #### -------------------------------------------------------------------------------------------
 	
-	fire_only_once = yes
-
-	is_triggered_only = yes
-
-	option = {
-		name = france.69.a
-		
-		hidden_effect = {
-			set_state_controller = 272
-			FRA = { 
-			transfer_state = 272
-			}
-			set_state_controller = 556
-			FRA = { 
-			transfer_state = 556
-			}
-			set_state_controller = 515
-			FRA = { 
-			transfer_state = 515
-			}
-			set_state_controller = 660
-			FRA = { 
-			transfer_state = 660
-			}
-			set_state_controller = 539
-			FRA = { 
-			transfer_state = 539
-			}
-		}
-	}
-	
-}				
-					

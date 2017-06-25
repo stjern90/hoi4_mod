@@ -47,6 +47,12 @@ set_technology = {
 	
 }
 add_ideas = { 	
+		#Ministers
+		HUN_miklos_horthy
+		HUN_kalman_daranyi
+		HUN_vilmos_roder
+		
+		#Laws
 		export_focus
 		tax_high
 		tariffs_average
@@ -69,21 +75,66 @@ add_ideas = {
 		unity_divided_nation	
 		foreign_neutral
 }
+if = {
+	limit = {
+		has_dlc = "Death or Dishonor"
+	}
+	add_ideas = {
+		cons_volunteer
+		HUN_treaty_of_triannon
+	}
+}
 1939.1.1 = {
+remove_ideas = HUN_treaty_of_triannon
 
 	add_political_power = 1198
-	
-	#generic focuses
-	complete_national_focus = army_effort
-	complete_national_focus = equipment_effort
-	complete_national_focus = motorization_effort
-	complete_national_focus = aviation_effort
-	complete_national_focus = construction_effort_2
-	complete_national_focus = production_effort_2
-	complete_national_focus = infrastructure_effort
-	complete_national_focus = industrial_effort
-	complete_national_focus = construction_effort
-	complete_national_focus = production_effort
+
+	if = {
+		limit = {
+			has_dlc = "Death or Dishonor"
+		}
+		complete_national_focus = HUN_economic_intervention
+		complete_national_focus = HUN_secret_rearmament
+		complete_national_focus = HUN_war_games
+		complete_national_focus = HUN_theoretical_air_efforts
+		complete_national_focus = HUN_trade_deal_with_germany
+		complete_national_focus = HUN_joint_aluminum_mining_company
+		complete_national_focus = HUN_reaffirm_territorial_claims
+		complete_national_focus = HUN_announce_the_gyor_program
+		complete_national_focus = HUN_civilian_industry
+		complete_national_focus = HUN_reintegrate_the_railroads
+		complete_national_focus = HUN_invite_foreign_investors
+		complete_national_focus = HUN_bled_agreement
+		complete_national_focus = HUN_army_maneuvers
+		complete_national_focus = HUN_establish_the_air_force
+		complete_national_focus = HUN_demand_southern_slovakia
+		complete_national_focus = HUN_mobile_focus
+		complete_national_focus = HUN_license_foreign_designs
+		
+		#Handle this manually
+		unlock_national_focus = HUN_renounce_the_treaty_of_trianon
+		add_ideas = {
+			cons_two
+			HUN_treaty_of_triannon_3
+		}
+
+		unlock_national_focus = HUN_lean_germany #To avoid leader ID clash
+		add_ideas = HUN_lean_germany
+
+		else = {
+			#generic focuses
+			complete_national_focus = army_effort
+			complete_national_focus = equipment_effort
+			complete_national_focus = motorization_effort
+			complete_national_focus = aviation_effort
+			complete_national_focus = construction_effort_2
+			complete_national_focus = production_effort_2
+			complete_national_focus = infrastructure_effort
+			complete_national_focus = industrial_effort
+			complete_national_focus = construction_effort
+			complete_national_focus = production_effort		
+		}
+	}
 	
 	oob = "HUN_1939"
 	set_technology = {
@@ -157,25 +208,61 @@ set_politics = {
 	elections_allowed = yes
 }
 
-create_country_leader = {
-	name = "Regent Miklós Horthy"
-	desc = "POLITICS_MIKLOS_HORTHY_DESC"
-	picture = "Portrait_Hungary_Miklos_Horthy.dds"
-	expire = "1965.1.1"
-	ideology = absolutism
-	traits = {
-		#
+#BICE = Horthy is monarchist and not fascist, fascist Szalasi will replace him if HUN is losing to SOV
+if = {
+	limit = {
+		has_dlc = "Death or Dishonor"
+	}
+	create_country_leader = { #DOD version modified for BICE
+		name = "Regent Miklós Horthy"
+		desc = "POLITICS_MIKLOS_HORTHY_DESC"
+		picture = "Portrait_Hungary_Miklos_Horthy.dds"
+		expire = "1965.1.1"
+		ideology = absolutism
+		traits = {
+			monarchist
+			anti_communist
+			political_dancer
+		}
+		#id = 500 #Horthy Neutral
+	}
+	else = {
+		create_country_leader = { #BICE version
+			name = "Regent Miklós Horthy"
+			desc = "POLITICS_MIKLOS_HORTHY_DESC"
+			picture = "Portrait_Hungary_Miklos_Horthy.dds"
+			expire = "1965.1.1"
+			ideology = absolutism
+		traits = {
+			anti_communist
+			monarchist
+			political_dancer
+			}
+		}
+		#create_country_leader = { #BICE version
+		#	name = "Miklós Horthy"
+		#	desc = "POLITICS_MIKLOS_HORTHY_DESC"
+		#	picture = "Portrait_Hungary_Miklos_Horthy.dds"
+		#	expire = "1965.1.1"
+		#	ideology = fascism_ideology
+		#traits = {
+		#	anti_communist
+		#	fascist
+		#	political_dancer
+		#	}
+		#}
 	}
 }
 
 create_country_leader = {
 	name = "Ferenc Szálasi"
-	desc = "POLITICS_MIKLOS_HORTHY_DESC"
-	picture = "Portrait_Hungary_Miklos_Horthy.dds"
+	desc = "Leader of the Arrow Cross Party"
+	picture = "Portrait_Europe_generic_5.dds"
 	expire = "1965.1.1"
-	ideology = fascism_ideology
+	ideology = nazism
 	traits = {
-		#
+		fascist
+		demagogue
 	}
 }
 
@@ -202,6 +289,24 @@ create_country_leader = {
 }
 
 1939.1.1 = {
+	if = {
+		limit = {
+			has_dlc = "Death or Dishonor"
+		}
+		#Remove neutral Horty add fascist
+		retire_country_leader = yes
+		create_country_leader = {
+			name = "Miklós Horthy"
+			desc = "POLITICS_MIKLOS_HORTHY_DESC"
+			picture = "Portrait_Hungary_Miklos_Horthy.dds"
+			expire = "1965.1.1"
+			ideology = fascism_ideology
+			traits = {
+				anti_communist
+			}
+			id = 503 #Horty fascist
+		}
+	}
 	set_politics = {
 
 		parties = {
@@ -292,7 +397,7 @@ create_corps_commander = {
 create_corps_commander = {
 	name = "Bangha"
 	portrait_path = "gfx/leaders/Europe/Portrait_Europe_Generic_land_5.dds"
-	traits = { Competent_General trait_engineer_CC old_guard }
+	traits = { Competent_General engineer_CC old_guard }
 	skill = 2
 }
 
@@ -320,7 +425,7 @@ create_corps_commander = {
 create_corps_commander = {
 	name = "Barthá von Dálnokfalva"
 	portrait_path = "gfx/leaders/Europe/Portrait_Europe_Generic_land_4.dds"
-	traits = { Bad_General trait_engineer_CC old_guard }
+	traits = { Bad_General engineer_CC old_guard }
 	skill = 1
 }
 
@@ -460,7 +565,7 @@ create_corps_commander = {
 create_corps_commander = {
 	name = "Deseö-Rödl"
 	portrait_path = "gfx/leaders/Europe/Portrait_Europe_Generic_land_4.dds"
-	traits = { Competent_General trait_engineer_CC }
+	traits = { Competent_General engineer_CC }
 	skill = 1
 }
 
@@ -516,7 +621,7 @@ create_corps_commander = {
 create_corps_commander = {
 	name = "Feketehalmy-Czeydner"
 	portrait_path = "gfx/leaders/Europe/Portrait_Europe_Generic_land_2.dds"
-	traits = { Competent_General trait_engineer_CC }
+	traits = { Competent_General engineer_CC }
 	skill = 2
 }
 
@@ -558,7 +663,7 @@ create_corps_commander = {
 create_corps_commander = {
 	name = "Gálócsy"
 	portrait_path = "gfx/leaders/Europe/Portrait_Europe_Generic_land_3.dds"
-	traits = { Decent_General trait_engineer_CC }
+	traits = { Decent_General engineer_CC }
 	skill = 2
 }
 
@@ -651,7 +756,7 @@ create_corps_commander = {
 create_corps_commander = {
 	name = "Harmos"
 	portrait_path = "gfx/leaders/Europe/Portrait_Europe_Generic_land_1.dds"
-	traits = { Decent_General trait_engineer_CC }
+	traits = { Decent_General engineer_CC }
 	skill = 1
 }
 
@@ -700,7 +805,7 @@ create_corps_commander = {
 create_corps_commander = {
 	name = "Hollósy-Kuthy"
 	portrait_path = "gfx/leaders/Europe/Portrait_Europe_Generic_land_3.dds"
-	traits = { Competent_General trait_engineer_CC }
+	traits = { Competent_General engineer_CC }
 	skill = 2
 }
 
@@ -798,7 +903,7 @@ create_corps_commander = {
 create_corps_commander = {
 	name = "Kassay-Farkas"
 	portrait_path = "gfx/leaders/Europe/Portrait_Europe_Generic_land_2.dds"
-	traits = { Decent_General trait_engineer_CC }
+	traits = { Decent_General engineer_CC }
 	skill = 1
 }
 
@@ -1092,7 +1197,7 @@ create_corps_commander = {
 create_corps_commander = {
 	name = "Murahidy"
 	portrait_path = "gfx/leaders/Europe/Portrait_Europe_Generic_land_5.dds"
-	traits = { Decent_General trait_engineer_CC }
+	traits = { Decent_General engineer_CC }
 	skill = 1
 }
 

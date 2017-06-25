@@ -948,7 +948,7 @@ country_event = {
 			add_ai_strategy = {
 				type = alliance
 				id = "ENG"
-				value = 200
+				value = 200000
 			}
 		}
 		if = {
@@ -1101,6 +1101,7 @@ country_event = {
 			set_rule = { can_create_factions = yes }
 			add_to_faction = CZE
 			CZE = {
+				set_country_flag = in_little_entente
 				add_ai_strategy = {
 					type = alliance
 					id = "FRA"
@@ -1636,7 +1637,10 @@ country_event = {
 	picture = GFX_report_event_german_troops
 	
 	is_triggered_only = yes
-	
+	immediate = {
+		remove_opinion_modifier = { target = ENG modifier = early_ENG_GER_relations }
+		ENG = { remove_opinion_modifier = { target = GER modifier = early_ENG_GER_relations } }
+	}
 	option = {
 		name = germany.55.a
 		ai_chance = { factor = 80 }
@@ -1682,8 +1686,10 @@ country_event = {
 		
 		if = {
 			limit = {
-				NOT = { 154 = { is_owned_by = HUN } }
-				HUN = { is_friend_or_potential_friend_of_GER = no }				
+				OR = {
+					NOT = { 154 = { is_owned_by = HUN } }
+					HUN = { is_friend_or_potential_friend_of_GER = no }
+				}			
 				73 = {
 					OR = {
 						is_owned_by = CZE
@@ -2105,6 +2111,7 @@ country_event = {
 			limit = { FRA = { is_in_faction = no } }
 			add_to_faction = FRA
 			FRA = {
+				set_country_flag = in_allies
 				add_ai_strategy = {
 					type = alliance
 					id = "ENG"
@@ -3178,6 +3185,28 @@ country_event = {
 			target = POL
 			type = take_state
 			generator = { 85 }
+		}
+		if = {
+			limit = {
+				CZE = {
+					exists = yes
+					is_subject = no
+					democratic_govt = yes
+					NOT = { is_in_faction_with = GER }
+				}	
+			}	
+			CZE = {
+				add_ai_strategy = {
+					type = conquer
+					id = "GER"			
+					value = 200
+				}
+				add_ai_strategy = {
+					type = alliance
+					id = "POL"			
+					value = 200
+				}	
+			}
 		}
 	}
 }
@@ -5078,6 +5107,13 @@ country_event = {
 		ai_chance = {
 			factor = 100
 		}
+		if = {
+			limit = {
+				is_in_faction_with = GER
+				is_subject = no
+			}
+			remove_from_faction = CZE #kicked from faction
+		}
 		effect_tooltip = {
 			GER = {
 				add_state_claim = 69
@@ -5131,10 +5167,27 @@ country_event = {
 		name = germany.123.a
 		add_state_claim = 69
 		add_state_claim = 74
-		create_wargoal = {
-			type = take_state_focus
-			target = CZE
-			generator = { 69 74 }
+		if = {
+			limit = {
+				CZE = { is_subject_of = FROM }
+				FROM = {
+					is_in_faction_with = GER
+					is_faction_leader = no
+				}
+			}
+			remove_from_faction = CZE
+			remove_from_faction = FROM
+		}
+		69 = {
+			controller = {
+				GER = {
+					create_wargoal = {
+						type = take_state_focus
+						target = PREV
+						generator = { 69 74 }
+					}
+				}
+			}
 		}
 	}
 }
@@ -5296,7 +5349,7 @@ country_event = {
 	id = germany.224
 	title = germany.224.t
 	desc = germany.224.d
-	picture = GFX_report_event_german_troops
+	picture = GFX_report_event_GER_InfDiv_II
 
 	fire_only_once = yes
 	
@@ -5330,7 +5383,7 @@ country_event = {
 	id = germany.225
 	title = germany.225.t
 	desc = germany.225.d
-	picture = GFX_report_event_german_troops
+	picture = GFX_report_event_GER_InfDiv_III
 
 	fire_only_once = yes
 	
@@ -5363,7 +5416,7 @@ country_event = {
 	id = germany.226
 	title = germany.226.t
 	desc = germany.226.d
-	picture = GFX_report_event_german_troops
+	picture = GFX_report_event_GER_InfDiv_IV
 
 	fire_only_once = yes
 	
@@ -5397,7 +5450,7 @@ country_event = {
 	id = germany.227
 	title = germany.227.t
 	desc = germany.227.d
-	picture = GFX_report_event_german_troops
+	picture = GFX_report_event_GER_InfDiv_V
 
 	fire_only_once = yes
 	
@@ -5554,7 +5607,7 @@ country_event = {
 	id = germany.230
 	title = germany.230.t
 	desc = germany.230.d
-	picture = GFX_report_event_german_troops
+	picture = GFX_report_event_GER_InfDiv_VI
 
 	fire_only_once = yes
 	
@@ -5596,7 +5649,7 @@ country_event = {
 	
 	trigger = {
 		tag = GER
-		is_ai = no
+		#is_ai = no
 		not = { has_country_flag = GERgrossdeutschland }
 		date > 1939.9.15 	#date = 1939.9.15
 		has_tech = subtech_panzer_iii_td_equipment_1
@@ -5834,7 +5887,7 @@ country_event = {
 	
 	trigger = {
 		tag = GER
-		is_ai = no
+		#is_ai = no
 		not = { has_country_flag = GERgebirgs }
 	}
 	
@@ -6314,7 +6367,7 @@ country_event = {
 		tag = GER
 		
 		not = { has_country_flag = mot_29 }
-		is_ai = no
+		#is_ai = no
 		date > 1937.10.11
 	}
 	
@@ -6345,7 +6398,7 @@ country_event = {
 		tag = GER
 		not = { has_country_flag = mot_2 }
 		has_country_flag = mot_29
-		is_ai = no
+		#is_ai = no
 		date > 1937.10.12
 	}
 	
@@ -6376,7 +6429,7 @@ country_event = {
 		tag = GER
 		not = { has_country_flag = mot_13 }
 		has_country_flag = mot_29
-		is_ai = no
+		#is_ai = no
 		date > 1937.10.11
 	}
 	
@@ -6408,7 +6461,7 @@ country_event = {
 		#9347 = { is_controlled_by = GER } # doesnt work
 		not = { has_country_flag = mot_20 }
 		has_country_flag = mot_29
-		is_ai = no
+		#is_ai = no
 		date > 1937.10.11
 	}
 	
@@ -6438,7 +6491,7 @@ country_event = {
 	trigger = {
 		tag = GER
 		is_ai = no
-		date > 1936.1.1
+		#date > 1936.1.1
 		has_army_size = { type = infantry size > 50 }
 		not = { has_country_flag = ger_army_inf_50 }
 	}
@@ -6530,7 +6583,7 @@ country_event = {
 		#9347 = { is_controlled_by = GER } # doesnt work
 		not = { has_country_flag = mot_16 }
 		has_country_flag = mot_16
-		is_ai = no
+		#is_ai = no
 		date > 1940.8.6
 	}
 	
@@ -6564,7 +6617,7 @@ country_event = {
 		#9347 = { is_controlled_by = GER } # doesnt work
 		not = { has_country_flag = mot_3 }
 		has_country_flag = mot_3
-		is_ai = no
+		#is_ai = no
 		date > 1940.10.27
 	}
 	
