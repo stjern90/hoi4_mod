@@ -1410,6 +1410,23 @@ country_event = {
 		CZE = {
 			add_opinion_modifier = { target = ENG modifier = western_betrayal }
 		}
+				if = {
+			limit = {
+				CZE = { is_guaranteed_by = ENG }
+			}
+			ENG = {
+				diplomatic_relation = {
+   					country = CZE
+   					relation = guarantee
+   					active = no
+  				}
+  				add_ai_strategy = {
+					type = ignore
+					id = "CZE"
+					value = 100
+				}
+			}
+		}
 	}
 	option = { # Support the Czechs
 		name = germany.40.b	
@@ -1528,6 +1545,23 @@ country_event = {
 					is_faction_leader = yes
 				}
 				remove_from_faction = FRA
+			}
+		}
+		if = {
+			limit = {
+				CZE = { is_guaranteed_by = FRA }
+			}
+			FRA = {
+				diplomatic_relation = {
+   					country = CZE
+   					relation = guarantee
+   					active = no
+  				}
+  				add_ai_strategy = {
+					type = ignore
+					id = "CZE"
+					value = 100
+				}
 			}
 		}
 	}
@@ -1727,6 +1761,23 @@ country_event = {
 				factor = 0
 			}
 		}
+				if = {
+			limit = {
+				CZE = { is_guaranteed_by = FRA }
+			}
+			FRA = {
+				diplomatic_relation = {
+   					country = CZE
+   					relation = guarantee
+   					active = no
+  				}
+  				add_ai_strategy = {
+					type = ignore
+					id = "CZE"
+					value = 100
+				}
+			}
+		}
 		CZE = {
 			country_event = germany.44
 			add_opinion_modifier = { target = FRA modifier = western_betrayal }
@@ -1890,6 +1941,14 @@ country_event = {
 			set_global_flag = CZE_refused_sudetenland
 			country_event = germany.49
 			effect_tooltip = {
+				if = {
+					limit = {
+						CZE = {
+							is_in_faction_with = GER
+						}
+					}		
+					GER = { remove_from_faction = CZE }
+				}
 				create_wargoal = {
 					type = take_state_focus
 					target = CZE
@@ -1967,6 +2026,14 @@ country_event = {
 		}
 		add_state_claim = 69
 		add_state_claim = 74
+		if = {
+			limit = {
+				CZE = {
+					is_in_faction_with = GER
+				}
+			}
+			GER = { remove_from_faction = CZE }
+		}
 		hidden_effect = {
 			country_event = { hours = 6 id = news.59 }
 		}
@@ -3889,6 +3956,28 @@ country_event = {
 			target = POL
 			type = take_state
 			generator = { 85 }
+		}
+		if = {
+			limit = {
+				CZE = {
+					exists = yes
+					is_subject = no
+					has_government = democratic
+					NOT = { is_in_faction_with = GER }
+				}	
+			}	
+			CZE = {
+				add_ai_strategy = {
+					type = conquer
+					id = "GER"			
+					value = 200
+				}
+				add_ai_strategy = {
+					type = alliance
+					id = "POL"			
+					value = 200
+				}	
+			}
 		}
 	}
 }
@@ -5971,6 +6060,7 @@ country_event = {
 		if = {
 			limit = {
 				is_in_faction_with = GER
+				is_subject = no
 			}
 			remove_from_faction = CZE #kicked from faction
 		}
@@ -6027,10 +6117,27 @@ country_event = {
 		name = germany.123.a
 		add_state_claim = 69
 		add_state_claim = 74
-		create_wargoal = {
-			type = take_state_focus
-			target = CZE
-			generator = { 69 74 }
+		if = {
+			limit = {
+				CZE = { is_subject_of = FROM }
+				FROM = {
+					is_in_faction_with = GER
+					is_faction_leader = no
+				}
+			}
+			remove_from_faction = CZE
+			remove_from_faction = FROM
+		}
+		69 = {
+			controller = {
+				GER = {
+					create_wargoal = {
+						type = take_state_focus
+						target = PREV
+						generator = { 69 74 }
+					}
+				}
+			}
 		}
 	}
 }
