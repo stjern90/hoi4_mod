@@ -19,7 +19,7 @@ focus_tree = {
 		icon = GFX_goal_generic_construct_civ_factory
 		x = -16
 		y = 0
-		cost = 8
+		cost = 6
 		available = {
 		
 		}
@@ -30,15 +30,15 @@ focus_tree = {
 		completion_reward = {
 			GER = {
 			country_event = NF_events.37
-			add_ideas = GER_four_year_plan
-		}
+				add_timed_idea = {
+					idea = GER_four_year_plan
+					days = 1460
+				} 
+			}
 		custom_effect_tooltip = available_political_advisor
 			show_ideas_tooltip = goering_e
-		#add_ideas = todt
-			custom_effect_tooltip = available_political_advisor
-			show_ideas_tooltip = todt	
+		
 		}
-
 	}
 	focus = {
 		id = GER_autobahn_I
@@ -738,7 +738,6 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			remove_ideas = GER_four_year_plan
 			random_owned_controlled_state = {
 				limit = {
 					free_building_slots = {
@@ -816,7 +815,7 @@ focus_tree = {
 		icon = GFX_focus_CZE_military_aeronautical_institute
 		x = -7
 		y = 0
-		cost = 7.5
+		cost = 7
 		ai_will_do = {
 			factor = 5
 		}
@@ -863,7 +862,12 @@ focus_tree = {
 				uses = 2
 				category = battlefield_support_tree
 			}
-
+			add_tech_bonus = {
+				name = radar_tech_bonus
+				bonus = 0.25
+				uses = 1
+				category = radar_tech
+			}
 			if = {
 				limit = {
 					NOT = {
@@ -944,6 +948,7 @@ focus_tree = {
 			show_ideas_tooltip = ritter_von_greim
 		}
 	}
+	
 	focus = {
 		id = GER_Legion_Condor
 		icon = GFX_goal_generic_occupy_start_war
@@ -951,7 +956,7 @@ focus_tree = {
 		
 		x = -12
 		y = 1
-		cost = 6
+		cost = 2
 		ai_will_do = {
 			factor = 10
 		}
@@ -975,67 +980,65 @@ focus_tree = {
 		
 		completion_reward = {
 			air_experience = 40
-			
-			add_tech_bonus = {
-				name = fighter_focus
-				bonus = 0.15
-				uses = 2
-				category = light_fighter
-			}
 		}
 	}
-	focus = { 
-		id = GER_Battlefield_Support
-		icon = GFX_goal_generic_air_fighter2
-		prerequisite = { focus = GER_Legion_Condor }
-		
-		x = -9
-		y = 2
-		cost = 5
-		ai_will_do = {
-			factor = 5
-		}
-		available_if_capitulated = yes		
-		completion_reward = {
-			air_experience = 35
-			
-			add_tech_bonus = {
-				name = op_dest_bonus
-				bonus = 0.2
-				uses = 2
-				category = battlefield_support_tree
-			}
-		}
-	}
+	
 	focus = {
-		id = GER_antitank_aircraft
-		icon = GFX_goal_generic_air_fighter
-		prerequisite = { focus= GER_Battlefield_Support }
-		mutually_exclusive = { focus = GER_divebomber_focus}
+		id = GER_messerschmitt
+		icon = GFX_idea_messerschmitt
+		prerequisite = { focus = GER_Legion_Condor}
+		mutually_exclusive = { focus = GER_heinkel }
 		
-		x = -8
-		y = 3
-		cost = 6
+		x = -12 
+		y = 2 
+		cost = 4
 		ai_will_do = {
-			factor = 0.1
+			factor = 10 
 		}
+		available = { has_tech = tech_me_109_fighter_equipment_1 }
 		available_if_capitulated = yes
 		completion_reward = {
-			air_experience = 20
-			
-			add_tech_bonus = {
-				name = specialized_ground_attack_aircraft
-				bonus = 0.3
-				uses = 1
-				technology = tech_hs_129_equipment_1
-				}
+			set_technology = { 
+				tech_me_109_early_fighter_equipment_1 = 1 
 			}
-		}	
+			add_tech_bonus = { 
+				name = fighter_focus 
+				bonus = 0.15 
+				uses = 1 
+				technology = tech_me_109_mid_fighter_equipment_1
+			}
+		}
+	}
+	
+	focus = {
+		id = GER_heinkel 
+		icon = GFX_idea_heinkel
+		prerequisite = { focus = GER_Legion_Condor }
+		mutually_exclusive = { focus = GER_messerschmitt }
 		
+		x = -10 
+		y = 2 
+		cost = 4 
+		ai_will_do = {
+			factor = 0 
+		}
+		completion_reward = {
+			set_technology = { 
+				tech_he_112_equipment_1 = 1 
+			}
+			add_tech_bonus = { 
+				name = fighter_focus 
+				bonus = 0.15 
+				uses = 1 
+				technology = tech_he_100_equipment_1 
+			}
+		}
+	}
+
 	focus = {
 		id = GER_fighter_air_effort
 		icon = GFX_goal_generic_air_fighter
-		prerequisite = { focus = GER_Legion_Condor }
+		prerequisite = { focus = GER_messerschmitt focus = GER_heinkel }
 	
 		x = -12
 		y = 4
@@ -1061,7 +1064,8 @@ focus_tree = {
 		
 		completion_reward = {
 			air_experience = 25
-			
+			custom_effect_tooltip = available_theorist
+			show_ideas_tooltip = erhard_milch_t
 			add_tech_bonus = {
 				name = fighter_focus
 				bonus = 0.25
@@ -1070,13 +1074,60 @@ focus_tree = {
 			}
 		}
 	}
-	
+	focus = { 
+		id = GER_Battlefield_Support
+		icon = GFX_goal_generic_air_fighter2
+		prerequisite = { focus = GER_Legion_Condor }
+		
+		x = -8
+		y = 2
+		cost = 5
+		ai_will_do = {
+			factor = 5
+		}
+		available_if_capitulated = yes		
+		completion_reward = {
+			air_experience = 35
+			
+			add_tech_bonus = {
+				name = op_dest_bonus
+				bonus = 0.2
+				uses = 2
+				category = battlefield_support_tree
+			}
+		}
+	}
+	focus = {
+		id = GER_antitank_aircraft
+		icon = GFX_idea_henschel
+		prerequisite = { focus = GER_Battlefield_Support }
+		mutually_exclusive = { focus = GER_divebomber_focus }
+		
+		x = -7
+		y = 3
+		cost = 6
+		ai_will_do = {
+			factor = 0.1
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			air_experience = 20
+			
+			add_tech_bonus = {
+				name = specialized_ground_attack_aircraft
+				bonus = 0.3
+				uses = 1
+				technology = tech_hs_129_equipment_1
+				}
+			}
+		}	
+		
 	focus = {
 		id = GER_tactical_air_effort
 		icon = GFX_goal_generic_air_bomber
 		prerequisite = { focus = GER_Fast_Bomber }
 	
-		x = -6
+		x = -5
 		y = 3
 		cost = 9
 		ai_will_do = {
@@ -1097,11 +1148,11 @@ focus_tree = {
 	}
 	focus = {
 		id = GER_divebomber_focus
-		icon = GFX_goal_generic_CAS
+		icon = GFX_idea_junkers
 		prerequisite = { focus = GER_Battlefield_Support }
 		mutually_exclusive = { focus = GER_antitank_aircraft }
 		
-		x = -10
+		x = -9
 		y = 3
 		cost = 5
 		ai_will_do = {
@@ -1153,7 +1204,7 @@ focus_tree = {
 		prerequisite = { focus = GER_divebomber_focus }
 		prerequisite = { focus = GER_air_innovation_2 }
 		
-		x = -10
+		x = -9
 		y = 6
 		cost = 10
 		ai_will_do = {
@@ -1183,7 +1234,7 @@ focus_tree = {
 		prerequisite = {focus = GER_antitank_aircraft }
 		prerequisite = {focus = GER_air_innovation_2 }
 		
-		x = -8
+		x = -7
 		y = 7
 		cost = 10
 		ai_will_do = {
@@ -1213,7 +1264,7 @@ focus_tree = {
 		prerequisite = { focus = GER_tactical_air_effort }
 		prerequisite = { focus = GER_air_innovation_2 }
 		
-		x = -6
+		x = -5
 		y = 8
 		cost = 10
 		ai_will_do = {
@@ -1239,7 +1290,7 @@ focus_tree = {
 		
 		x = -12
 		y = 6
-		cost = 10
+		cost = 9
 		ai_will_do = {
 			factor = 5
 		}
@@ -1263,14 +1314,12 @@ focus_tree = {
 		
 		x = -11
 		y = 5
-		cost = 10
+		cost = 7
 		ai_will_do = {
 			factor = 5
 		}
 		available_if_capitulated = yes	
 		completion_reward = {
-			air_experience = 25
-			
 			add_tech_bonus = {
 				name = fighter_focus
 				bonus = 0.25
@@ -1310,7 +1359,7 @@ focus_tree = {
 		
 		available = { has_global_flag = wever_dead }
 		
-		x = -6
+		x = -5
 		y = 1
 		cost = 5
 		ai_will_do = {
@@ -1410,12 +1459,20 @@ focus_tree = {
 		text = GER_air_innovation_2
 		icon = GFX_goal_generic_air_fighter2
 		prerequisite = { focus = GER_antitank_aircraft focus = GER_tactical_air_effort focus = GER_divebomber_focus focus = GER_strategic_air_effort }
-		x = -7
+		x = -6
 		y = 4
-		cost = 10
+		cost = 9
 		ai_will_do = {
 			factor = 5
-		}	
+		}
+		available = {
+			date > 1940.1.1
+			or = {
+			has_war_with = SOV
+			has_war_with = ENG
+			date > 1941.1.1
+			}
+		}
 		available_if_capitulated = yes
 		completion_reward = { 
 			air_experience = 50
@@ -1430,12 +1487,6 @@ focus_tree = {
 				category = battlefield_support_tree
 			}
 			
-			add_tech_bonus = {
-				name = radar_tech_bonus
-				bonus = 0.25
-				uses = 1
-				category = radar_tech
-			}
 			if = {
 				limit = {
 					has_opinion_modifier = sov_ger_treaty
@@ -2234,6 +2285,8 @@ focus_tree = {
 		completion_reward = {
 			GER = {
 				country_event = { id = germany.27 days = 1 }
+				custom_effect_tooltip = available_political_advisor
+				show_ideas_tooltip = todt
 			}
 		}
 	}	
