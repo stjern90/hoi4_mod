@@ -101,7 +101,7 @@ NDiplomacy = {
 	MAX_OPINION_FROM_VOLUNTEERS = 30,				-- Opinion bonus per one sent volunteer division
 	MAX_PARTICIPANTS_FOR_MAJOR_COUNTRIES = 5,		-- If we have more then x aggressors/defenders we only list major countries in tooltip for warscore progressbar or entry in world tension view
 	OPINION_FOR_DEMO_FROM_WT_GENERATION = -2.0,		-- How much less do democracies like us if we generate world tension
-	NOT_READY_FOR_WAR_BASE = -50,					-- AI should be unwilling to enter accept a call to war if not ready for war against the relevant enemies.
+	NOT_READY_FOR_WAR_BASE = -400,					-- AI should be unwilling to enter accept a call to war if not ready for war against the relevant enemies.
 	NOT_READY_FOR_WAR_VAL_PER_DAY_SINCE_CALL = 1,	-- Value modifying the not ready base over time.
 	PEACE_MIN_SCORE = 0.3,							-- Value how much of your score you are always allowed to take
 	TAKE_STATES_PUPPET_COST_MULT = 0.5,				-- Cost multiplier for feeding states to a puppet that you have created, assuming the puppet currently owns the states
@@ -477,8 +477,8 @@ NMilitary = {
 	PLAN_CONSIDERED_GOOD = 0.25,					-- Plan evaluations above this value are considered more or less safe
 	PLAN_CONSIDERED_BAD = -0.25,					-- Plan evaluations below this value are considered unsafe
 	PLAN_MIN_AUTOMATED_EMPTY_POCKET_SIZE = 2,		-- The battle plan system will only automatically attack provinces in pockets that has no resistance and are no bigger than these many provinces
-	PLAN_SPREAD_ATTACK_WEIGHT = 13.0,				-- The higher the value, the less it should crowd provinces with multiple attacks.
-	PLAN_SUPPLY_FACTOR = 0.1,						-- Factor applied to available supply on a front location when determining priority
+	PLAN_SPREAD_ATTACK_WEIGHT = 50.0,				-- The higher the value, the less it should crowd provinces with multiple attacks.
+	PLAN_SUPPLY_FACTOR = 10,						-- Factor applied to available supply on a front location when determining priority
 	PLAN_NEIGHBORING_ENEMY_PROVINCE_FACTOR = 0.7,	-- When calculating the importance of provinces, it takes number of enemy provinces into account, factored by this
 	PLAN_PROVINCE_BASE_IMPORTANCE = 1.0,			-- Used when calculating the calue of front and defense area provinces for the battle plan system
 	
@@ -893,7 +893,7 @@ NAI = {
 	UPGRADE_XP_RUSH_UPDATE = 400,				-- If XP is above this on the daily tick the AI will attempt to spend it
 	FOCUS_TREE_CONTINUE_FACTOR = 1,			-- Factor for score of how likely the AI is to keep going down a focus tree rather than starting a new path.
 	VP_GARRISON_VALUE_FACTOR = 0.6,				-- Extent to which VP garrisons are prioritized, based on VP value and compared to other priority values.
-	PLAN_VALUE_TO_EXECUTE = -0.5,				-- AI will typically avoid carrying out a plan it below this value (0.0 is considered balanced).
+	PLAN_VALUE_TO_EXECUTE = -0.35,				-- AI will typically avoid carrying out a plan it below this value (0.0 is considered balanced).
 	DECLARE_WAR_NOT_NEIGHBOR_FACTOR = 0.25,		-- Multiplier applied before force factor if country is not neighbor with the one it is considering going to war
 	CALL_ALLY_BASE_DESIRE = 15,					-- exactly what it says
 	CALL_ALLY_DEMOCRATIC_DESIRE = 50,			-- Desire to call ally added for democratic AI
@@ -929,8 +929,8 @@ NAI = {
 	PLAN_FRONT_SECTION_MIN_LENGTH = 6,			-- When two front sections together are this short they will be merged for the AI
 	PLAN_MIN_SIZE_FOR_FALLBACK = 50,			-- A country with less provinces than this will not draw fallback plans, but rather station their troops along the front
 	SEND_VOLUNTEER_EVAL_BASE_DISTANCE = 105.0,  -- How far away it will evaluate sending volunteers if not a major power
-	SEND_VOLUNTEER_EVAL_MAJOER_POWER = 2.0, 	-- How willing major powers are to send volunteers.
-	SEND_VOLUNTEER_EVAL_CONTAINMENT_FACTOR = 0.1, -- How much AI containment factors into its evaluation of sending volunteers.
+	SEND_VOLUNTEER_EVAL_MAJOER_POWER = 1.5, 	-- How willing major powers are to send volunteers.
+	SEND_VOLUNTEER_EVAL_CONTAINMENT_FACTOR = 0.5, -- How much AI containment factors into its evaluation of sending volunteers.
 	GIVE_STATE_CONTROL_MIN_CONTROLLED = 1,		-- AI needs to control more than this number of states before considering giving any away
 	GIVE_STATE_CONTROL_MIN_CONTROL_DIFF = 2,	-- The difference in number of controlled states compared to war participation needs to be bigger than this for the AI to consider giving a state to a country
 	RELATIVE_STRENGTH_TO_INVADE = 0.08,			-- Compares the estimated strength of the country/faction compared to it's enemies to see if it should invade or stay at home to defend.
@@ -947,9 +947,9 @@ NAI = {
 	GENERATE_WARGOAL_THREAT_BASELINE = 1.0,	-- The baseline for what the AI considers the world is getting dangerous and we want to generate wargoals	
 	RESERVE_TO_COMMITTED_BALANCE = 0.1,			-- How many reserves compared to number of committed divisions in a combat (1.0 = as many as reserves as committed)
 	DIPLOMACY_COMMUNIST_NOT_NEIGHBOUR = -10,	-- Communists want to stay consolidated with their influence
-	MAIN_ENEMY_FRONT_IMPORTANCE = 3.0,			-- How much extra focus the AI should put on who it considers to be its current main enemy.
-	EASY_TARGET_FRONT_IMPORTANCE = 3.5,			-- How much extra focus the AI should put on who it considers to be the easiest target.
-	AI_FRONT_MOVEMENT_FACTOR_FOR_READY = 0.45,	-- If less than this fraction of units on a front is moving, AI sees it as ready for action	
+	MAIN_ENEMY_FRONT_IMPORTANCE = 20.0,			-- How much extra focus the AI should put on who it considers to be its current main enemy.
+	EASY_TARGET_FRONT_IMPORTANCE = 10.0,			-- How much extra focus the AI should put on who it considers to be the easiest target.
+	AI_FRONT_MOVEMENT_FACTOR_FOR_READY = 0.25,	-- If less than this fraction of units on a front is moving, AI sees it as ready for action	
 	MICRO_POCKET_SIZE = 4,						-- Pockets with a size equal to or lower than this will be mocroed by the AI, for efficiency.
 	POCKET_DISTANCE_MAX = 20000,				-- shortest square distance we bother about chasing pockets
 	VP_LEVEL_IMPORTANCE_HIGH = 30,				-- Victory points with values higher than or equal to this are considered to be of high importance.
@@ -975,7 +975,7 @@ NAI = {
 	STATE_GARRISON_MAX_UNITS = 1,				-- Max units to guard a garrison under normal circumstances (isolated core areas like England has is excempt)
 	
 	REDEPLOY_DISTANCE_VS_ORDER_SIZE = 1.0,		-- Factor applied to the path length of a unit compared to length of an order to determine if it should use strategic redeployment
-	UNIT_ASSIGNMENT_TERRAIN_IMPORTANCE = 2.0,	-- Terrain score for units are multiplied by this when the AI is deciding which front they should be assigned to
+	UNIT_ASSIGNMENT_TERRAIN_IMPORTANCE = 20.0,	-- Terrain score for units are multiplied by this when the AI is deciding which front they should be assigned to
 	
 	MIN_STATE_VALUE_TO_PROTECT = 7.5,			-- When AI is considering which states to protect it looks at state values to consider if it is worth it.
 	
@@ -1147,20 +1147,20 @@ NAI = {
 	NEW_LEADER_EXTRA_PP_FACTOR = 7.0,					-- Country must have at least this many times extra PP to get new admirals or army leaders
 	SCARY_LEVEL_AVERAGE_DEFENSE = -0.7,                 -- average front defense modifier to make it consider it as a PITA to go for
 	ATTACK_HEAVILY_DEFENDED_LIMIT = 0.95,				-- AI will not launch attacks against heavily defended fronts unless they consider to have this level of advantage (1.0 = 100%)
-	HOUR_BAD_COMBAT_REEVALUATE = 36,                   -- if we are in combat for this amount and it goes shitty then try skipping it 
+	HOUR_BAD_COMBAT_REEVALUATE = 18,                   -- if we are in combat for this amount and it goes shitty then try skipping it 
 	MIN_PLAN_VALUE_TO_MICRO_INACTIVE = -0.6,				-- The AI will not consider members of groups which plan is not activated AND evaluates lower than this.
 	
 	MAX_UNITS_FACTOR_AREA_ORDER = 1.0,					-- Factor for max number of units to assign to area defense orders
-	DESIRED_UNITS_FACTOR_AREA_ORDER = 1.0,				-- Factor for desired number of units to assign to area defense orders
-	MIN_UNITS_FACTOR_AREA_ORDER = 1.0,					-- Factor for min number of units to assign to area defense orders
+	DESIRED_UNITS_FACTOR_AREA_ORDER = 0.25,				-- Factor for desired number of units to assign to area defense orders
+	MIN_UNITS_FACTOR_AREA_ORDER = 0.25,					-- Factor for min number of units to assign to area defense orders
 
-	MAX_UNITS_FACTOR_FRONT_ORDER = 1.5,					-- Factor for max number of units to assign to area front orders
-	DESIRED_UNITS_FACTOR_FRONT_ORDER = 1.5,				-- Factor for desired number of units to assign to area front orders
-	MIN_UNITS_FACTOR_FRONT_ORDER = 1.0,					-- Factor for min number of units to assign to area front orders
+	MAX_UNITS_FACTOR_FRONT_ORDER = 5.0,					-- Factor for max number of units to assign to area front orders
+	DESIRED_UNITS_FACTOR_FRONT_ORDER = 5.5,				-- Factor for desired number of units to assign to area front orders
+	MIN_UNITS_FACTOR_FRONT_ORDER = 3.0,					-- Factor for min number of units to assign to area front orders
 
-	MAX_UNITS_FACTOR_INVASION_ORDER = 1.2,				-- Factor for max number of units to assign to naval invasion orders
-	DESIRED_UNITS_FACTOR_INVASION_ORDER = 1.1,			-- Factor for desired number of units to assign to naval invasion orders
-	MIN_UNITS_FACTOR_INVASION_ORDER = 1.0,				-- Factor for min number of units to assign to naval invasion orders
+	MAX_UNITS_FACTOR_INVASION_ORDER = 0.6,				-- Factor for max number of units to assign to naval invasion orders
+	DESIRED_UNITS_FACTOR_INVASION_ORDER = 0.2,			-- Factor for desired number of units to assign to naval invasion orders
+	MIN_UNITS_FACTOR_INVASION_ORDER = 0.1,				-- Factor for min number of units to assign to naval invasion orders
 	
 	FRONT_UNITS_CAP_FACTOR = 15.0,						-- A factor applied to total front size and supply use. Primarily effects small fronts
 	MAX_DIST_PORT_RUSH = 20.0,							-- If a unit is in enemy territory with no supply it will consider nearby ports within this distance.
