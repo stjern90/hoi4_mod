@@ -733,7 +733,7 @@ focus_tree = {
 		icon = GFX_goal_generic_air_doctrine
 		prerequisite = { focus = SOV_positive_heroism }
 		x = 8
-		y = 3
+		y = 2
 		cost = 10
 		ai_will_do = {
 			factor = 1
@@ -760,7 +760,7 @@ focus_tree = {
 		icon = GFX_goal_support_communism
 		prerequisite = { focus = SOV_aviation_cult }
 		x = 8
-		y = 4
+		y = 3
 		cost = 10
 		ai_will_do = {
 			factor = 1
@@ -1163,9 +1163,9 @@ focus_tree = {
 	focus = {
 		id = SOV_war_with_japan
 		icon = GFX_goal_generic_major_war
-		prerequisite = { focus = SOV_annex_tannu_tuva }
-		x = 10
-		y = 6
+		prerequisite = { focus = SOV_operation_zet }
+		x = 8
+		y = 5
 		available = {
 			country_exists = JAP
 			NOT = { has_idea = trotskyite_plot }
@@ -1429,7 +1429,7 @@ focus_tree = {
 		id = SOV_baltic_security
 		icon = GFX_goal_generic_forceful_treaty
 		prerequisite = { focus = SOV_claims_on_baltic }
-		x = 12
+		x = 14
 		y = 5
 		cost = 10
 		ai_will_do = {
@@ -1478,9 +1478,9 @@ focus_tree = {
 	focus = {
 		id = SOV_claims_on_poland
 		icon = GFX_goal_generic_occupy_states_ongoing_war
-		prerequisite = { focus = SOV_baltic_security }
+		prerequisite = { focus = SOV_claims_on_baltic }
 		x = 12
-		y = 6
+		y = 5
 		cost = 10
 		ai_will_do = {
 			factor = 10
@@ -1557,7 +1557,7 @@ focus_tree = {
 		prerequisite = { focus = SOV_claims_on_poland }
 		mutually_exclusive = { focus = SOV_offer_poland_protection }
 		x = 12
-		y = 7
+		y = 6
 		cost = 10
 		available = {
 			is_puppet = no
@@ -1780,7 +1780,7 @@ focus_tree = {
 			}
 		}
 		x = 14
-		y = 7
+		y = 6
 		cost = 10
 		ai_will_do = {
 			factor = 10
@@ -1855,13 +1855,16 @@ focus_tree = {
 		icon = GFX_goal_generic_more_territorial_claims
 		prerequisite = { focus = SOV_claims_on_poland }
 		x = 10
-		y = 8
+		y = 6
 		cost = 10
+		available = {
+			date > 1940.3.1
+		}
 		ai_will_do = {
 			factor = 2.5
 			modifier = {
 				factor = 0
-				date < 1939.1.1
+				date < 1940.4.1
 			}			
 		}
 		bypass = {
@@ -1901,11 +1904,361 @@ focus_tree = {
 		}
 	}
 
-
+	focus = {
+		id = SOV_secure_romania
+		icon = GFX_goal_generic_attack_allies
+		prerequisite = { focus = SOV_claim_bessarabia }
+		will_lead_to_war_with = ROM
+		x = 10
+		y = 7
+		cost = 10
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+			modifier = {
+				factor = 0
+				date < 1942.5.1
+			}		
+		}
+		available = {
+			date > 1941.7.1
+			has_political_power > 60
+			ROM = { 
+				OR = {
+					exists = yes
+					is_subject = no
+					is_puppet = no
+				}
+			}
+			OR = {
+				NOT = { has_war_with = GER}
+				AND = {
+					has_war_with = GER
+					GER = { has_capitulated = yes }
+				}
+			}
+		}
+		bypass = {
+			has_war_with = ROM
+		}
+		completion_reward = {
+			custom_effect_tooltip = SOV_secure_romania_tooltip
+			add_named_threat = { threat = 3 name = SOV_puppet_rom }
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = ROM
+			}
+			add_political_power = -85
+		}
+	}
+	
+	focus = {
+		id = SOV_secure_bulgaria
+		icon = GFX_goal_generic_attack_allies
+		prerequisite = { focus = SOV_secure_romania }
+		will_lead_to_war_with = BUL
+		x = 10
+		y = 8
+		cost = 10
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				date < 1942.8.1
+			}
+			modifier = {
+				factor = 0
+				NOT = { ROM = { is_puppet_of = SOV } }
+			}
+		}
+		available = {
+			date > 1942.4.1
+			has_political_power > 50
+			BUL = { 
+				OR = {
+					exists = yes
+					is_subject = no
+					is_puppet = no
+				}
+			}
+			OR = {
+				NOT = { has_war_with = GER}
+				AND = {
+					has_war_with = GER
+					GER = { has_capitulated = yes }
+				}
+			}
+		}
+		bypass = {
+			has_war_with = BUL
+		}
+		completion_reward = {
+			add_named_threat = { threat = 3 name = SOV_puppet_bul }
+			add_political_power = -75
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = BUL
+			}
+		}
+	}
+	
+	focus = {
+		id = SOV_secure_greece
+		icon = GFX_goal_generic_attack_allies
+		prerequisite = { focus = SOV_secure_bulgaria }
+		will_lead_to_war_with = GRE
+		x = 10
+		y = 9
+		cost = 10
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				date < 1942.11.1
+			}
+			modifier = {
+				factor = 0
+				NOT = { BUL = { is_puppet_of = SOV } }
+			}			
+		}
+		available = {
+			date > 1942.8.1
+			has_political_power > 50
+			GRE = { 
+				OR = {
+					exists = yes
+					is_subject = no
+					is_puppet = no
+				}
+			}
+			OR = {
+				NOT = { has_war_with = GER}
+				AND = {
+					has_war_with = GER
+					GER = { has_capitulated = yes }
+				}
+			}
+		}
+		bypass = {
+			has_war_with = GRE
+		}
+		completion_reward = {
+			add_named_threat = { threat = 4 name = SOV_puppet_gre }
+			add_political_power = -75
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = GRE
+			}
+		}
+	}
+	
+	focus = {
+		id = SOV_secure_hungary
+		icon = GFX_goal_generic_attack_allies
+		prerequisite = { focus = SOV_secure_romania }
+		will_lead_to_war_with = HUN
+		x = 12
+		y = 8
+		cost = 10
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				date < 1943.3.1
+			}
+			modifier = {
+				factor = 0
+				NOT = { ROM = { is_puppet_of = SOV } }
+			}
+		}
+		available = {
+			date > 1942.4.1
+			has_political_power > 60
+			HUN = { 
+				OR = {
+					exists = yes
+					is_subject = no
+					is_puppet = no
+				}
+			}
+			OR = {
+				NOT = { has_war_with = GER}
+				AND = {
+					has_war_with = GER
+					GER = { has_capitulated = yes }
+				}
+			}
+		}
+		bypass = {
+			has_war_with = HUN
+		}
+		completion_reward = {
+			add_named_threat = { threat = 4 name = SOV_puppet_hun }
+			add_political_power = -85
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = HUN
+			}
+		}
+	}
+	
+	focus = {
+		id = SOV_secure_austria
+		icon = GFX_goal_generic_attack_allies
+		prerequisite = { focus = SOV_secure_hungary }
+		will_lead_to_war_with = AUS
+		x = 14
+		y = 9
+		cost = 10
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				date < 1943.6.1
+			}		
+			modifier = {
+				factor = 0
+				NOT = { HUN = { is_puppet_of = SOV } }
+			}
+		}
+		available = {
+			date > 1942.8.1
+			has_political_power > 50
+			AUS = { 
+				OR = {
+					exists = yes
+					is_subject = no
+					is_puppet = no
+				}
+			}
+			OR = {
+				NOT = { has_war_with = GER}
+				AND = {
+					has_war_with = GER
+					GER = { has_capitulated = yes }
+				}
+			}
+		}
+		bypass = {
+			has_war_with = AUS
+		}
+		completion_reward = {
+			add_named_threat = { threat = 3 name = SOV_puppet_aus }
+			add_political_power = -75
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = AUS
+			}
+		}
+	}
+	
+	focus = {
+		id = SOV_secure_yugoslavia
+		icon = GFX_goal_generic_attack_allies
+		prerequisite = { focus = SOV_secure_hungary }
+		will_lead_to_war_with = YUG
+		x = 12
+		y = 9
+		cost = 10
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				date < 1943.10.1
+			}	
+			modifier = {
+				factor = 0
+				NOT = { HUN = { is_puppet_of = SOV } }
+			}
+		}
+		available = {
+			date > 1943.2.1
+			has_political_power > 75
+			YUG = { 
+				OR = {
+					exists = no
+					is_subject = yes
+					is_puppet = yes
+				}
+			}
+			OR = {
+				NOT = { has_war_with = GER}
+				AND = {
+					has_war_with = GER
+					GER = { has_capitulated = yes }
+				}
+			}
+		}
+		bypass = {
+			has_war_with = YUG
+		}
+		completion_reward = {
+			add_named_threat = { threat = 5 name = SOV_puppet_yug }
+			add_political_power = -100
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = YUG
+			}
+		}
+	}
+	
+	focus = {
+		id = SOV_secure_albania
+		icon = GFX_goal_generic_attack_allies
+		prerequisite = { focus = SOV_secure_yugoslavia }
+		will_lead_to_war_with = ALB
+		x = 12
+		y = 10
+		cost = 10
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				date < 1944.3.1
+			}	
+			modifier = {
+				factor = 0
+				NOT = { YUG = { is_puppet_of = SOV } }
+			}
+		}
+		available = {
+			date > 1943.5.1
+			has_political_power > 35
+			ALB = { 
+				OR = {
+					exists = no
+					is_subject = yes
+					is_puppet = yes
+				}
+			}
+			OR = {
+				NOT = { has_war_with = GER}
+				AND = {
+					has_war_with = GER
+					GER = { has_capitulated = yes }
+				}
+			}
+		}
+		bypass = {
+			has_war_with = ALB
+		}
+		completion_reward = {
+			add_named_threat = { threat = 3 name = SOV_puppet_alb }
+			add_political_power = -50
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = ALB
+			}
+		}
+	}
+	
 	focus = {
 		id = SOV_war_with_germany
 		icon = GFX_goal_generic_major_war
-		prerequisite = { focus = SOV_claim_bessarabia }
+		prerequisite = { focus = SOV_demand_eastern_poland focus = SOV_offer_poland_protection }
 		available = {
 			country_exists = GER
 			custom_trigger_tooltip = {
@@ -1931,8 +2284,8 @@ focus_tree = {
 			has_war_with = GER
 		}
 		will_lead_to_war_with = GER
-		x = 10
-		y = 9
+		x = 13
+		y = 7
 		cost = 10
 		ai_will_do = {
 			factor = 1
@@ -2614,6 +2967,10 @@ focus_tree = {
 			if = {
 				limit = { NOT = { has_country_flag = counter_purge } }
 				custom_effect_tooltip = SOV_permanent_revolution_tt2
+			}
+			swap_ideas = {
+				remove_idea = home_of_revolution
+				add_idea = world_revolution
 			}
 		}
 	}
