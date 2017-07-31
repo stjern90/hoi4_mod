@@ -59,14 +59,17 @@ country_event = {
 		ai_chance = {
 			base = 40
 			modifier = {
-				factor = 0				
+				factor = 0
+				OR = {
 				any_other_country = {
 					is_major = yes
 					NOT = { tag = ITA }
 					OR = {
 						has_guaranteed = ALB
 						is_in_faction_with = ALB
+						}
 					}
+				is_in_faction_with = YUG
 				}
 			}
 		}
@@ -86,7 +89,7 @@ country_event = {
 						is_in_faction_with = ITA
 						ITA = { is_faction_leader = yes }
 					}
-					is_historical_focus_on = yes
+					#is_historical_focus_on = yes
 					AND = {
 						is_in_faction = no 
 						NOT = {
@@ -570,6 +573,169 @@ country_event = {
 			}
 		}
 		}
+	}
+}
+#If ITA attacked YUG and CZE joined, white peace option for ITA with CZE once YUG is down
+country_event = {
+	id = italy.20
+	title = italy.20.t
+	desc = italy.20.desc
+	picture = GFX_report_event_albania_falls
+
+	fire_only_once = yes
+	
+	trigger = {
+		tag = ITA
+		has_war_with = CZE
+		has_war_with = YUG
+		OR = {
+			YUG = { has_capitulated = yes }
+			YUG = { surrender_progress > 0.75 }
+		}
+		GER = { NOT = { has_war_with = YUG is_in_faction_with = ITA is_in_faction_with = YUG } }
+	
+	}
+	mean_time_to_happen = {
+		days = 15
+	}
+	#Offer Peace
+	option = {
+		name = italy.20.a
+		CZE = { country_event = italy.21 }
+		ai_chance = {
+			base = 95
+			modifier = {
+				factor = 0.5
+				YUG = { surrender_progress > 0.25 }
+			}
+			modifier = {
+				factor = 0
+				YUG = { surrender_progress > 0.6 }
+			}
+		}
+	}
+	
+	#Keep Fighting
+	option = {
+		name = italy.20.a
+		if = { limit = {
+			surrender_progress > 0.15
+			CZE = { surrender_progress < 0.2 }
+			}
+			add_national_unity = -0.10
+			add_political_power = -50
+		}
+		if = { limit = {
+			surrender_progress < 0.1
+			CZE = { surrender_progress > 0.25 surrender_progress < 0.5 }
+			}
+			add_national_unity = -0.03
+			add_political_power = -15
+		}
+		if = { limit = {
+			surrender_progress < 0.1
+			CZE = { surrender_progress > 0.5 }
+			}
+			add_national_unity = -0.01
+			add_political_power = -5
+		}
+		ai_chance = {
+			base = 5
+			modifier = {
+				factor = 8
+				CZE = { surrender_progress > 0.25 surrender_progress < 0.5 }
+			}
+			modifier = {
+				factor = 20
+				CZE = { surrender_progress > 0.5 }
+			}
+			modifier = {
+				factor = 0
+				surrender_progress > 0.15
+			}
+		}
+	}
+}
+#CZE Response
+country_event = {
+	id = italy.21
+	title = italy.21.t
+	desc = italy.21.desc
+	picture = GFX_report_event_albania_falls
+
+	fire_only_once = yes
+	
+	is_triggered_only = yes 
+	
+	#Accept Offer
+	option = {
+		name = italy.21.a
+		ITA = { country_event = italy.22 }
+		ai_chance = {
+			base = 75
+			modifier = {
+				factor = 5
+				surrender_progress > 0.25
+			}
+			modifier = {
+				factor = 0
+				ITA = { surrender_progress > 0.75 }
+			}
+		}
+	}
+	
+	#Keep Fighting
+	option = {
+		name = italy.21.b
+		ITA = { country_event = italy.23 }
+		add_national_unity = -0.03
+		add_political_power = -25
+		ai_chance = {
+			base = 25
+			modifier = {
+				factor = 0
+				surrender_progress > 0.25
+			}
+			modifier = {
+				factor = 2
+				ITA = { surrender_progress > 0.75 }
+			}
+		}
+	}
+}
+
+#CZE Accepts
+country_event = {
+	id = italy.22
+	title = italy.22.t
+	desc = italy.22.desc
+	picture = GFX_report_generic_sign_treaty2
+	
+	is_triggered_only = yes 
+	
+	#Finally this pointless war ends
+	option = {
+		name = italy.22.a
+		white_peace = CZE
+		add_political_power = 25
+		add_national_unity = 0.02
+	}
+}
+
+#CZE Refuses
+country_event = {
+	id = italy.23
+	title = italy.23.t
+	desc = italy.23.desc
+	picture = GFX_report_event_mussolini_flag
+	
+	is_triggered_only = yes 
+	
+	#We must fight on
+	option = {
+		name = italy.23.a
+		add_political_power = -15
+		add_national_unity = -0.02
 	}
 }
 
