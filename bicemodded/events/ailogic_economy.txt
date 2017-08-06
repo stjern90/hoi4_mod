@@ -333,26 +333,57 @@ country_event = {
 		is_ai = yes 
 		OR = { AND = { has_political_power > 70 date > 1937.6.1 } AND = { has_political_power > 110 date < 1937.6.1 } }
 		
-		OR = { tag = GER tag = ITA tag = JAP tag = SOV tag = ENG tag = FRA tag = USA }
 		
 		OR = {
 			AND = {
-				OR = { tag = USA tag = SOV } 
-				NOT = { num_of_military_factories < 120 }
-			}
-			OR = { tag = ENG tag = FRA } 
-			AND = {
-				OR = { tag = ITA tag = JAP } 
-				num_of_military_factories < 80
+				original_tag = SOV #switch to export on high industry
+				NOT = { num_of_military_factories < 100 }
+				num_of_military_factories < 150
+				has_war = yes
 			}
 			AND = {
-				tag = GER
-				num_of_military_factories < 110
-				NOT = { num_of_military_factories < 90 }
+				original_tag = GER
+				num_of_military_factories < 200
+				NOT = { num_of_military_factories < 70 }
 			}
-		}
+			AND = {
+				original_tag = USA
+				num_of_military_factories < 90
+				NOT = { num_of_military_factories < 140 }
+				has_war = yes
+			}
+			AND = {
+				original_tag = ENG
+				num_of_military_factories < 130
+				has_war = yes
+			}
+			AND = {
+				NOT = { original_tag = GER original_tag = ITA original_tag = JAP original_tag = SOV original_tag = ENG original_tag = FRA original_tag = USA }
+				OR = { oil > 30 rubber > 30 chromium > 30 tungsten > 30 steel > 45 }
+				NOT = { num_of_military_factories < 50 }
+				num_of_military_factories < 75
+				has_war = yes
+			}
+			AND = {
+				NOT = { original_tag = GER original_tag = ITA original_tag = JAP original_tag = SOV original_tag = ENG original_tag = FRA original_tag = USA }
+				OR = { steel > 40 oil > 30 }
+				NOT = { num_of_military_factories < 30 }
+				num_of_military_factories < 50
+				has_war = yes
+			}
+			AND = {
+				NOT = { original_tag = GER original_tag = ITA original_tag = JAP original_tag = SOV original_tag = ENG original_tag = FRA original_tag = USA }
+				OR = { steel > 30 }
+				NOT = { num_of_military_factories < 15 }
+				num_of_military_factories < 30
+				has_war = yes
+			}
+}
 		
-		NOT = { has_idea = export_focus }
+		NOT = { has_idea = export_focus 
+		        has_idea = limited_exports
+		}
+
 	}
 	option = { add_ideas = export_focus add_political_power = -150 }
 }
@@ -372,6 +403,18 @@ country_event = {
 			AND = {
 				NOT = { num_of_military_factories < 80 } 
 				OR = { tag = ITA tag = JAP }
+				NOT = {
+				AND = {
+				tag = JAP
+				has_war = yes
+				any_enemy_country = {
+					ic_ratio = { 
+						tag = ROOT 
+					    ratio > 0.8
+					}
+				}
+				}
+				}
 			}
 			AND = {
 				NOT = { num_of_military_factories < 110 }
@@ -417,9 +460,10 @@ country_event = {
 		}
 	
 	trigger = {	
+	is_ai = yes
+	    OR = {
 		AND = {
-				tag = GER
-				is_ai = yes			
+				tag = GER	
 				has_war = yes
 				any_enemy_country = {
 					ic_ratio = { 
@@ -433,6 +477,23 @@ country_event = {
 				}
 				
 			}
+			
+		AND = {
+				tag = JAP	
+				has_war = yes
+				any_enemy_country = {
+					ic_ratio = { 
+						tag = ROOT 
+					    ratio > 0.8
+					}
+				}
+				num_of_military_factories > 85 
+				NOT = { 
+					has_idea = closed_economy
+				}
+				
+		}
+	    }
 	}
 	
 	immediate = {
