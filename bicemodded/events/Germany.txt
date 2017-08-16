@@ -1294,6 +1294,10 @@ country_event = {
 				add = 40
 				GER = { has_army_size = { size > 62 } }
 			}
+			modifier = {
+				add = 20
+				is_in_faction_with = GER
+			}
 		}
 		GER = {
 			country_event = { hours = 2 id = germany.4 }
@@ -1321,6 +1325,17 @@ country_event = {
 			modifier = {
 				add = 50
 				HUN = { has_completed_focus = HUN_protect_austria }
+			}
+			modifier = {
+				factor = 2
+				is_in_faction = yes
+				NOt = { is_in_faction_with = GER }
+			}
+			modifier = {
+				any_other_country = {
+					has_guaranteed = AUS
+				}
+				factor = 5
 			}
 		}
 		GER = {
@@ -1655,6 +1670,23 @@ country_event = {
 				add_ai_strategy = {
 					type = alliance
 					id = "FRA"
+					value = 200
+				}
+			}
+		}
+		if = {
+			limit = {
+				NOT = { is_in_faction_with = CZE }
+				CZE = { 
+					is_faction_leader = yes 
+					has_completed_focus = CZE_an_entente_of_our_own
+				}
+			}
+			CZE = { add_to_faction = FRA }
+			FRA = {
+				add_ai_strategy = {
+					type = alliance
+					id = "CZE"
 					value = 200
 				}
 			}
@@ -3530,11 +3562,16 @@ country_event = {
 	}
 	
 	option = {
+		name = germany.79.b
 		ai_chance = { 
 			factor = 10 
 			modifier = {
 				GER = { surrender_progress > 0.25 }
 				factor = 5 #seems safe
+			}
+			modifier = {
+				has_government = democratic
+				factor = 5
 			}
 		}
 		trigger = {
@@ -3569,7 +3606,34 @@ country_event = {
 	
 	option = {
 		name = germany.79.c
-		ai_chance = { factor = 20 }
+		ai_chance = { 
+			factor = 20 
+			modifier = {
+				NOT = {
+					has_government = fascism
+				}
+				factor = 5
+			}
+			modifier = {
+			
+				AND = {
+					ENG = { 
+						has_capitulated = no 
+						has_war_with = GER
+					}
+					SOV = { 
+						has_capitulated = no 
+						has_war_with = GER
+					}
+					USA = { 
+						has_capitulated = no 
+						has_war_with = GER
+					}
+				}
+			
+				factor = 5 #lol come at me bro
+			}
+		}
 		GER = {
 			create_wargoal = {
 				target = TUR
