@@ -234,7 +234,7 @@ NProduction = {
 	BASE_FACTORY_SPEED_NAV = 2.8, 				-- Base factory speed multiplier (how much hoi3 style IC each factory gives).
 	BASE_FACTORY_START_EFFICIENCY_FACTOR = 25,	-- Base start efficiency for factories expressed in %.
 	BASE_FACTORY_MAX_EFFICIENCY_FACTOR = 60,	-- Base max efficiency for factories expressed in %.
-	BASE_FACTORY_EFFICIENCY_GAIN = 1.00,		-- Base efficiency gain for factories per unit produced in %.
+	BASE_FACTORY_EFFICIENCY_GAIN = 0.95,		-- Base efficiency gain for factories per unit produced in %. 1.00
 	BASE_FACTORY_EFFICIENCY_BALANCE_FACTOR = 0.1, 			-- Factory efficiency balancing factor
 	BASE_FACTORY_EFFICIENCY_VARIANT_CHANGE_FACTOR = 90,		-- Base factor for changing production variants in %.
 	BASE_FACTORY_EFFICIENCY_PARENT_CHANGE_FACTOR = 72,		-- Base factor for changing production parent<->children in %.
@@ -415,7 +415,7 @@ NMilitary = {
 	TRAINING_EXPERIENCE_SCALE = 62.0,
 	TRAINING_ORG = 0.2,
 	ARMY_EXP_BASE_LEVEL = 1,
-	UNIT_EXP_LEVELS = { 0.1, 0.3, 0.7, 0.85 },		-- Experience needed to progress to the next level
+	UNIT_EXP_LEVELS = { 0.1, 0.3, 0.65, 0.85 },		-- Experience needed to progress to the next level Changed vets to 0.55 instead 0.7 ***
 	FIELD_EXPERIENCE_SCALE = 0.002,
 	FIELD_EXPERIENCE_MAX_PER_DAY = 2.5,				-- Most xp you can gain per day
 	EXPEDITIONARY_FIELD_EXPERIENCE_SCALE = 0.5,		-- reduction factor in Xp from expeditionary forces
@@ -445,7 +445,7 @@ NMilitary = {
 	IS_AMPHIBIOUS_LIMNIT = 0.0,					   -- If the amphibious movement is _above_ this limit it is considered amphibious
 	EXILE_EQUIPMENT = 1.0,						   -- Amount of equipment to keep
 	EXILE_ORG = 0.0,							   -- Amount of org to keep
-	EXPERIENCE_LOSS_FACTOR = 1.00,                 -- percentage of experienced solders who die when manpower is removed
+	EXPERIENCE_LOSS_FACTOR = 0.9,                 -- percentage of experienced solders who die when manpower is removed	Was 1.0 *** 
 	EQUIPMENT_COMBAT_LOSS_FACTOR = 0.38,	 	       -- was 0.6--% of equipment lost to strength ratio in combat, so some % is returned if below 1
 	SUPPLY_USE_FACTOR_MOVING = 1.8,                -- supply use when moving/fighting vs inactive
 	SUPPLY_USE_FACTOR_INACTIVE = 0.75,
@@ -475,8 +475,8 @@ NMilitary = {
 	CIVILWAR_ORGANIZATION_FACTOR = 0.3,			  	-- Multiplier of org for both sides when civilwar.
 	LAND_COMBAT_ATTACKER_WINNING = 0.65,		  	-- Above this means attacker is winning
 	LAND_COMBAT_DEFENDER_WINNING = 0.35,		  	-- Below this means defender is winning
-	PLAN_CONSIDERED_GOOD = 0.25,					-- Plan evaluations above this value are considered more or less safe
-	PLAN_CONSIDERED_BAD = -0.25,					-- Plan evaluations below this value are considered unsafe
+	PLAN_CONSIDERED_GOOD = 0.6,					-- Plan evaluations above this value are considered more or less safe
+	PLAN_CONSIDERED_BAD = 0.15,					-- Plan evaluations below this value are considered unsafe
 	PLAN_MIN_AUTOMATED_EMPTY_POCKET_SIZE = 2,		-- The battle plan system will only automatically attack provinces in pockets that has no resistance and are no bigger than these many provinces
 	PLAN_SPREAD_ATTACK_WEIGHT = 50.0,				-- The higher the value, the less it should crowd provinces with multiple attacks.
 	PLAN_SUPPLY_FACTOR = 10.0,						-- Factor applied to available supply on a front location when determining priority
@@ -919,11 +919,11 @@ NAI = {
 	DIFFERENT_FACTION_THREAT = 30,				-- Threat caused by not being in the same faction
 	PLAN_MOVE_MIN_ORG_TO_ENEMY_PROVINCE = 20.0,	-- Minimum organization a unit must have to consider moving into an enemy province (not attack move)
 	PLAN_ATTACK_MIN_ORG_FACTOR_LOW = 0.85,		-- Minimum org % for a unit to actively attack an enemy unit when executing a plan
-	PLAN_ATTACK_MIN_STRENGTH_FACTOR_LOW = 0.4,	-- Minimum strength for a unit to actively attack an enemy unit when executing a plan
-	PLAN_ATTACK_MIN_ORG_FACTOR_MED = 0.75,		-- (LOW,MED,HIGH) corresponds to the plan execution agressiveness level.
-	PLAN_ATTACK_MIN_STRENGTH_FACTOR_MED = 0.3,	
-	PLAN_ATTACK_MIN_ORG_FACTOR_HIGH = 0.2,		
-	PLAN_ATTACK_MIN_STRENGTH_FACTOR_HIGH = 0.15,	
+	PLAN_ATTACK_MIN_STRENGTH_FACTOR_LOW = 0.45,	-- Minimum strength for a unit to actively attack an enemy unit when executing a plan
+	PLAN_ATTACK_MIN_ORG_FACTOR_MED = 0.7,		-- (LOW,MED,HIGH) corresponds to the plan execution agressiveness level.
+	PLAN_ATTACK_MIN_STRENGTH_FACTOR_MED = 0.35,	
+	PLAN_ATTACK_MIN_ORG_FACTOR_HIGH = 0.25,		
+	PLAN_ATTACK_MIN_STRENGTH_FACTOR_HIGH = 0.2,	
 	PLAN_FRONTUNIT_DISTANCE_FACTOR = 10,		-- Factor for candidate units distance to front positions.
 	PLAN_ATTACK_DEPTH_FACTOR = 0.5,				-- Factor applied to size or enemy being attacked.
 	PLAN_STEP_COST_LIMIT = 11,					-- When stepping to draw a plan this cost makes it break if it hits hard terrain (multiplied by number of desired steps)
@@ -936,7 +936,7 @@ NAI = {
 	SEND_VOLUNTEER_EVAL_CONTAINMENT_FACTOR = 0.5, -- How much AI containment factors into its evaluation of sending volunteers.
 	GIVE_STATE_CONTROL_MIN_CONTROLLED = 1,		-- AI needs to control more than this number of states before considering giving any away
 	GIVE_STATE_CONTROL_MIN_CONTROL_DIFF = 2,	-- The difference in number of controlled states compared to war participation needs to be bigger than this for the AI to consider giving a state to a country
-	RELATIVE_STRENGTH_TO_INVADE = 0.08,			-- Compares the estimated strength of the country/faction compared to it's enemies to see if it should invade or stay at home to defend.
+	RELATIVE_STRENGTH_TO_INVADE = 0.9,			-- Compares the estimated strength of the country/faction compared to it's enemies to see if it should invade or stay at home to defend.
 	RELATIVE_STRENGTH_TO_INVADE_DEFENSIVE = 0.4,-- Compares the estimated strength of the country/faction compared to it's enemies to see if it should invade or stay at home to defend, but while being a defensive country.
 	GIVE_STATE_CONTROL_BASE_SCORE = 50,			-- Base diplo score for giving away control of states
 	GIVE_STATE_CONTROL_DIFF_FACTOR = 2.0,		-- Diplo score multiplier for state control compared to war participation difference
@@ -969,10 +969,10 @@ NAI = {
 	MIN_FORCE_RATIO_TO_PROTECT = 0.5,			-- Tiny countries should not feel protective or really large ones
 	
 	ORG_UNIT_STRONG = 0.9,						-- Organization % for unit to be considered strong
-	ORG_UNIT_WEAK = 0.18,						-- Organization % for unit to be considered weak
-	STR_UNIT_STRONG = 0.75,						-- Strength (equipment) % for unit to be considered strong
-	STR_UNIT_WEAK = 0.25,						-- Strength (equipment) % for unit to be considered weak
-	PLAN_FACTION_STRONG_TO_EXECUTE = 0.50,		-- % or more of units in an order to consider ececuting the plan
+	ORG_UNIT_WEAK = 0.25,						-- Organization % for unit to be considered weak
+	STR_UNIT_STRONG = 0.85,						-- Strength (equipment) % for unit to be considered strong
+	STR_UNIT_WEAK = 0.35,						-- Strength (equipment) % for unit to be considered weak
+	PLAN_FACTION_STRONG_TO_EXECUTE = 0.60,		-- % or more of units in an order to consider ececuting the plan
 	PLAN_FACTION_WEAK_TO_ABORT = 0.65,			-- % or more of units in an order to consider ececuting the plan
 	PLAN_AVG_PREPARATION_TO_EXECUTE = 0.6,		-- % or more average plan preparation before executing
 	STATE_GARRISON_MAX_UNITS = 1,				-- Max units to guard a garrison under normal circumstances (isolated core areas like England has is excempt)
@@ -1094,7 +1094,7 @@ NAI = {
 		0.0,  -- build_cost_ic
 		1.0,   -- maximum_speed
 		1.0,   -- armor_value
-		0.0,   -- ap_attack
+		0.5,   -- ap_attack
 		0.5,   -- reliability
 		0.0,   -- reliability_factor
 		0.0, -- weight

@@ -3715,7 +3715,7 @@ focus_tree = {
 		}
 		x = 11
 		y = 8
-		cost = 1
+		cost = 3
 		ai_will_do = {
 			factor = 0
 		}
@@ -3726,6 +3726,18 @@ focus_tree = {
 				target = SPR
 				generator = { 41 }
 				}
+			}
+			if = { limit = { NOT = { SOV = { has_goverment = fascism } }
+			}
+		    	SOV = {
+		             add_opinion_modifier = { target = GER modifier = large_decrease }
+	        	}
+			}
+			if = { limit = { NOT = { POR = { has_goverment = fascism } }
+			}
+		    	POR = {
+		             add_opinion_modifier = { target = GER modifier = large_decrease }
+	        	}
 			}
 		}
 	}
@@ -3774,17 +3786,12 @@ focus_tree = {
 			any_other_country = {
 				original_tag = SPR
 				has_government = fascism
+				is_puppet = no
+				no is_in_faction = no
 				NOT = { has_war_with = GER }
 				NOT = { has_idea = SPA_recovering_from_civil_war }
 			}
 			FRA = {
-				OR = {
-					exists = no
-					has_capitulated = yes
-					has_government = fascism
-				}
-			}
-			ENG = {
 				OR = {
 					exists = no
 					has_capitulated = yes
@@ -3807,33 +3814,31 @@ focus_tree = {
 			factor = 10
 		}	
 		completion_reward = {
-			random_country = {
-				limit = {
-					original_tag = SPR
-					has_government = fascism
-				}
+		
+		     if = {
+                limit = { any_other_country = { tag = D01 original_tag = SPR has_government = fascism has_civil_war = no is_puppet = no is_in_faction = no } }
 				if = {
 					limit = { has_idea = neutrality_idea }
 					remove_ideas = neutrality_idea
 				}
-			
+				GER = { add_to_faction = D01 } # REVISIT Might be a better way to handle this
+            }
+			if = {
+                limit = { any_other_country = { tag = D02 original_tag = SPR has_government = fascism has_civil_war = no is_puppet = no is_in_faction = no } }
 				if = {
-				limit = {
-						D01 = {
-							is_ai = yes
-							NOT = {
-								is_in_faction = yes
-							}
-							NOT = {
-								is_puppet = yes
-							}
-						}
-						GER = { is_faction_leader = yes }
-					}
-					GER = { add_to_faction = D01 } # REVISIT Might be a better way to handle this
-				}	
-			}
-		}
+					limit = { has_idea = neutrality_idea }
+					remove_ideas = neutrality_idea
+				}
+				GER = { add_to_faction = D02 } # REVISIT Might be a better way to handle this
+            }
+			if = {
+                limit = { any_other_country = { tag = D03 original_tag = SPR has_government = fascism has_civil_war = no is_puppet = no is_in_faction = no } }
+				if = {
+					limit = { has_idea = neutrality_idea }
+					remove_ideas = neutrality_idea
+				}
+				GER = { add_to_faction = D03 } # REVISIT Might be a better way to handle this
+            }
 	}
 
 #remove_ideas = SPA_recovering_from_civil_war
