@@ -1,12 +1,8 @@
 ﻿###########################
 # German SS Events
 ###########################
-
 add_namespace = ss_event
-
 ###########################
-
-
 # LSSAH Starting OOB player
 country_event = {
 	id = ss_event.665
@@ -29,8 +25,7 @@ country_event = {
 		}
 	}
 }
-
-# Starting SS Regiments
+# Starting SS Battalion
 country_event = {
 	id = ss_event.666
 	title = ss_event.666.t
@@ -51,7 +46,6 @@ country_event = {
 		}
 	}
 }
-
 # SS-Totenkopfverbände ss garrisons
 country_event = {
 	id = ss_event.667
@@ -81,7 +75,8 @@ country_event = {
 
 	}
 }
-# SS-Verfügungstruppe combat division
+# SS-Verfügungstruppe combat brigade
+## Adding 3 SS Infantry (s-mot), 1 SS Artillery-Btl (mot) and 1 SS Div-stab
 country_event = {
 	id = ss_event.668
 	title = ss_event.668.t
@@ -97,12 +92,611 @@ country_event = {
 	option = {
 		name = ss_event.668.a
 		hidden_effect = {
-			load_oob = "GER_SS_VT"
-			set_country_flag = SS_VT
+			if = {
+				limit = {
+					has_army_experience < 44
+				}
+				army_experience = 43
+			}
+			
+			#load_oob = "GER_SS_VT_brig"
+			set_country_flag = SS_VT_brig
 		}
 		ai_chance = { factor = 100 }
-}
 	}
+}
+#### START LSSAH event chain ####
+country_event = {
+	id = ss_event.664
+	title = ss_event.664.t
+	desc = ss_event.664.d
+	picture = GFX_event_ss_division_lssah
+	
+	is_triggered_only = yes
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = ss_event.664.a
+		trigger = { is_ai = no }
+		hidden_effect = {
+			load_oob = "GER_LSSAH_regiment_39"
+			set_country_flag = LSSAH_regiment_38
+		}
+	}
+}
+### Adding 1 SS Arty-Btl, 1 SS Enigeer Comp, 1 SS Motorcycle Recon Comp
+country_event = {
+	id = ss_event.663
+	title = ss_event.663.t
+	desc = ss_event.663.d
+	picture = GFX_report_event_ss_lssah_regiment_38
+	
+	fire_only_once = yes
+	
+	trigger = {
+		tag = GER
+		is_ai = no
+		date > 1939.2.1
+		has_tech = ss_combat_engineer_tech
+		has_country_flag = LSSAH_regiment_38
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = ss_event.663.a
+		trigger = { is_ai = no }
+		hidden_effect = {
+			if = {
+				limit = {
+					has_army_experience < 45
+				}
+				army_experience = 44
+			}
+			set_country_flag = LSSAH_regiment_39_exp
+		}
+	}
+}
+country_event = {
+	id = ss_event.596
+	title = ss_event.596.t
+	desc = ss_event.596.d
+	
+	fire_only_once = yes
+	
+	trigger = {
+		tag = GER
+		is_ai = yes
+		date > 1939.2.1
+		has_tech = ss_combat_engineer_tech
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = ss_event.596.a
+		ai_chance = { factor = 100 }
+		hidden_effect = {
+			load_oob = "GER_LSSAH_inf_division_39"
+			set_country_flag = LSSAH_inf_division_39_ai
+		}
+	}
+}
+### Motorize regiment to mot Inf.-Btl and mot Art.-Btl
+country_event = {
+	id = ss_event.662
+	title = ss_event.662.t
+	desc = ss_event.662.d
+	picture = GFX_report_event_ss_lssah_regiment_39
+	
+	fire_only_once = yes
+	
+	trigger = {
+		is_ai = no
+		date > 1939.10.1
+		has_country_flag = LSSAH_regiment_39_exp
+		has_tech = vehicle_radio
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = ss_event.662.a
+		trigger = { is_ai = no }
+		hidden_effect = {
+			if = {
+				limit = {
+					has_army_experience < 36
+				}
+				army_experience = 35
+			}
+			set_country_flag = LSSAH_regiment_39_mot
+		}
+	}
+}
+### ss_event.661 early 1940 Expand LSSAH Regt 1 Flak Batterie, 1 more Arty btl, 1 Assaultgun btl
+country_event = {
+	id = ss_event.661
+	title = ss_event.661.t
+	desc = ss_event.661.d
+	picture = GFX_report_event_ss_lssah_regiment_40
+	
+	fire_only_once = yes
+	
+	trigger = {
+		is_ai = no
+		date > 1940.2.1
+		has_country_flag = LSSAH_regiment_39_mot
+		has_tech = subtech_panzer_iii_td_equipment_1
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = ss_event.661.a
+		trigger = { is_ai = no }
+		hidden_effect = {
+			if = {
+				limit = {
+					has_army_experience < 19
+				}
+				army_experience = 18
+			}
+			set_country_flag = LSSAH_regiment_40_mot
+		}
+	}
+}
+### ss_event.660 June 1940 Expand LSSAH Rgt to LSSAH Brigade (2 mot-Inf.-Rgt)
+country_event = {
+	id = ss_event.660
+	title = ss_event.660.t
+	desc = ss_event.660.d
+	picture = GFX_report_event_ss_lssah_brigade_40
+	
+	fire_only_once = yes
+	
+	trigger = {
+		tag = GER
+		is_ai = no
+		date > 1940.6.1
+		has_country_flag = LSSAH_regiment_40_mot
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = ss_event.660.a
+		
+		hidden_effect = {
+			if = {
+				limit = {
+					has_army_experience < 11
+				}
+				army_experience = 10
+			}
+
+			set_country_flag = LSSAH_regiment_40_brig
+		}
+	}
+}
+## AI
+country_event = {
+	id = ss_event.595
+	title = ss_event.595.t
+	desc = ss_event.595.d
+	
+	fire_only_once = yes
+	
+	trigger = {
+		tag = GER
+		is_ai = yes
+		date > 1940.6.1
+		has_country_flag = LSSAH_inf_division_39_ai
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = ss_event.595.a
+		ai_chance = { factor = 100 }
+		hidden_effect = {
+			load_oob = "GER_LSSAH_mot_division_40"
+			set_country_flag = LSSAH_mot_division_40_ai
+		}
+	}
+}
+### ss_event.659 Febr 1942 Expand LSSAH Brigade to Division 
+### adding 1 Pz-Rgt (2xPZ III and 1 PzIV Btl),1 Recon AC Comp.
+### AI gets SS Pzgren-Div LSSAH #make option B
+country_event = {
+	id = ss_event.659
+	title = ss_event.659.t
+	desc = ss_event.659.d
+	picture = GFX_report_event_ss_lssah_div_mot_42
+	
+	fire_only_once = yes
+	
+	trigger = {
+		tag = GER
+		is_ai = no
+		date > 1942.2.12
+		has_country_flag = LSSAH_regiment_40_brig
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = ss_event.659.a
+		
+		hidden_effect = {
+			if = {
+				limit = {
+					has_army_experience < 44
+				}
+				# Use army XP to upgrade
+				army_experience = 43
+			}
+
+			set_country_flag = LSSAH_brig_42_div
+		}
+	}
+}
+country_event = {
+	id = ss_event.594
+	title = ss_event.594.t
+	desc = ss_event.594.d
+	
+	fire_only_once = yes
+	
+	trigger = {
+		tag = GER
+		is_ai = yes
+		date > 1942.2.12
+		has_country_flag = LSSAH_mot_division_40_ai
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = ss_event.594.a
+		trigger = { is_ai = yes }
+		hidden_effect = {
+			load_oob = "GER_LSSAH_pzgrendiv_42"
+			set_country_flag = LSSAH_pzgren_div_42_ai
+		}
+	}
+}
+### ss_event.658 Nov 1942 Mechanize to SS Pzgren-Div LSSAH
+### Mechanise the Inf.Rgt.(mot), Change 1 Pz.III to Pz.VI
+country_event = {
+	id = ss_event.658
+	title = ss_event.658.t
+	desc = ss_event.658.d
+	picture = GFX_report_event_ss_lssah_pzgrendiv_42
+	
+	fire_only_once = yes
+	
+	trigger = {
+		is_ai = no
+		date > 1942.11.12
+		has_tech = mechanised_infantry2
+		has_tech = tech_heavy_panzer_equipment_2
+		has_country_flag = LSSAH_brig_42_div
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = ss_event.658.a
+		trigger = { is_ai = no }
+		hidden_effect = {
+			if = {
+				limit = {
+					has_army_experience < 36
+				}
+				# Use army XP to upgrade
+				army_experience = 35
+			}
+			set_country_flag = LSSAH_pzgren_div_42
+		}
+	}
+}
+### ss_event.657 Nov 1942 Refit SS Pzgren-Div LSSAH to SS Pz.-Div LSSAH
+### Change Art-Rgt.(mot to Pz-Art-Rgt. Add 1 SS Rocket-Art-Btl. Move StuG to 5th Rgt
+### AI gets also SS Pz.-Div. LSSAH full. #make option B
+country_event = {
+	id = ss_event.657
+	title = ss_event.657.t
+	desc = ss_event.657.d
+	picture = GFX_report_event_ss_lssah_pzdiv_43
+	
+	fire_only_once = yes
+	
+	trigger = {
+		tag = GER
+		is_ai = no
+		date > 1943.11.12
+		has_country_flag = LSSAH_pzgren_div_42
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = ss_event.657.a
+		trigger = { is_ai = no }
+		hidden_effect = {
+			if = {
+				limit = {
+					has_army_experience < 16
+				}
+				# Use army XP to upgrade
+				army_experience = 15
+			}
+
+			set_country_flag = LSSAH_pz_div_43
+		}
+	}
+}
+## AI-event
+country_event = {
+	id = ss_event.593
+	title = ss_event.593.t
+	desc = ss_event.593.d
+	picture = GFX_report_event_ss_lssah_pzdiv_43
+	
+	fire_only_once = yes
+	
+	trigger = {
+		tag = GER
+		is_ai = yes
+		date > 1943.11.12
+		has_country_flag = LSSAH_pzgren_div_42_ai
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = ss_event.593.a
+		ai_chance = { factor = 100 }
+		hidden_effect = {
+			load_oob = "GER_LSSAH_pzdiv_43"
+			set_country_flag = LSSAH_pz_div_43_ai
+		}
+	}
+}
+#### End LSSAH event-chain ####
+#### Totenkopf-division event-chain ####
+country_event = {
+	id = ss_event.650
+	title = ss_event.650.t
+	desc = ss_event.650.d
+	picture = GFX_report_event_totenkopf_inf_division
+	
+	fire_only_once = yes
+	
+	is_triggered_only = yes
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = ss_event.650.a
+		hidden_effect = {
+			load_oob = "GER_Totenkopf_division"
+			set_country_flag = totenkopf_div_39
+		}
+	}
+}
+## AI
+country_event = {
+	id = ss_event.592
+	title = ss_event.592.t
+	desc = ss_event.592.d
+	
+	fire_only_once = yes
+	
+	trigger = {
+		tag = GER
+		is_ai = yes
+		date > 1939.10.8
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = ss_event.592.b
+		hidden_effect = {
+			load_oob = "GER_Totenkopf_division"
+			set_country_flag = totenkopf_div_39_ai
+		}
+	}
+}
+## PLAYER
+country_event = {
+	id = ss_event.651
+	title = ss_event.651.t
+	desc = ss_event.651.d
+	picture = GFX_report_event_totenkopf_pzgren_division
+	
+	fire_only_once = yes
+	
+	trigger = {
+		tag = GER
+		is_ai = no
+		date > 1942.11.8
+		has_tech = mechanised_infantry2
+		has_country_flag = totenkopf_div_39
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = ss_event.651.b
+		hidden_effect = {
+			if = {
+				limit = {
+					has_army_experience < 36
+				}
+				# Use army XP to upgrade
+				army_experience = 35
+			}
+			set_country_flag = totenkopf_pzgren_div_42
+		}
+	}
+}
+## AI ##
+country_event = {
+	id = ss_event.591
+	title = ss_event.591.t
+	desc = ss_event.591.d
+	
+	fire_only_once = yes
+	
+	trigger = {
+		tag = GER
+		is_ai = yes
+		date > 1942.11.8
+		has_tech = mechanised_infantry2
+		has_country_flag = totenkopf_div_39_ai
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = ss_event.591.a
+		hidden_effect = {
+			load_oob = "GER_Totenkopf_pzgren_div_42"
+			set_country_flag = totenkopf_pzgren_div_42_ai
+		}
+	}
+}
+## PLAYER ##
+country_event = {
+	id = ss_event.652
+	title = ss_event.652.t
+	desc = ss_event.652.d
+	picture = GFX_report_event_totenkopf_pz_division
+	
+	fire_only_once = yes
+	
+	trigger = {
+		tag = GER
+		is_ai = no
+		date > 1943.10.21
+		has_country_flag = totenkopf_pzgren_div_42
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = ss_event.652.b
+		hidden_effect = {
+			if = {
+				limit = {
+					has_army_experience < 16
+				}
+				# Use army XP to upgrade
+				army_experience = 15
+			}
+
+			set_country_flag = totenkopf_pz_div_44
+		}
+	}
+}
+## AI ##
+country_event = {
+	id = ss_event.590
+	title = ss_event.590.t
+	desc = ss_event.590.d
+	picture = GFX_report_event_totenkopf_pz_division
+	
+	fire_only_once = yes
+	
+	trigger = {
+		tag = GER
+		is_ai = yes
+		date > 1943.10.21
+		has_country_flag = totenkopf_pzgren_div_42_ai
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = ss_event.590.a
+		hidden_effect = {
+			load_oob = "GER_Totenkopf_pz_div_44"
+			set_country_flag = totenkopf_pz_div_44_ai
+		}
+	}
+}
+#### End Totenkopf-division event-chain ####
+#### Reich-division event-chain ####
+### Forming the SS-VT Division   ###
+country_event = {
+	id = ss_event.640
+	title = ss_event.640.t
+	desc = ss_event.640.d
+	picture = GFX_report_event_SS_VT_Division
+	
+	fire_only_once = yes
+	
+	is_triggered_only = yes
+
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = ss_event.640.a
+		hidden_effect = {
+			if = {
+				limit = {
+					has_army_experience < 42
+				}
+				army_experience = 41
+			}
+
+			set_country_flag = ss_vt_division_39
+		}
+	}
+}
+#### End Reich-division event-chain ####
 # Schutzstaffel_divisions 1 
 country_event = {
 	id = ss_event.669
@@ -134,6 +728,7 @@ country_event = {
 	picture = GFX_report_event_german_soldiers_in_line
 
 	is_triggered_only = yes
+	fire_only_once = yes
 	
 	mean_time_to_happen = {
 		days = 1
@@ -142,12 +737,11 @@ country_event = {
 	option = {
 		name = ss_event.670.a
 		hidden_effect = {
-			load_oob = "GER_LSSAH_division"	#Leibstandarte SS Adolf Hitler Expands
+			load_oob = "GER_LSSAH_division"	#Leibstandarte SS Adolf Hitler Expands to regiment
 			#set_country_flag = 
 		}
 		ai_chance = { factor = 100 }
 	}
-	
 }
 # Schutzstaffel_divisions 3
 country_event = {
@@ -170,7 +764,6 @@ country_event = {
 		}
 		ai_chance = { factor = 100 }
 	}
-	
 }
 # Schutzstaffel_divisions 4
 country_event = {
@@ -437,8 +1030,7 @@ country_event = {
 		name = ss_event.676.a
 		set_country_flag = division_LSSAH_39
 		hidden_effect = {
-			load_oob = "GER_LSSAH_division_39"
-			
+			load_oob = "GER_LSSAH_inf_division_39"
 		}
 		ai_chance = { factor = 1 }
 	}
@@ -525,8 +1117,15 @@ country_event = {
 		has_tech = tech_panzer_iii_equipment_1
 		not = { has_country_flag = hiddentech_ss_panzer_iii }
 		or = {
+		and = {
 			has_country_flag = ahistorical_ss
 			date > 1940.1.1
+			}
+		
+		and = {
+			has_country_flag = SS_Start
+			date > 1943.6.1
+			}
 		}
 	}
 	
@@ -572,8 +1171,15 @@ country_event = {
 		has_tech = tech_panzer_iv_equipment_1
 		not = { has_country_flag = hiddentech_ss_panzer_iv }
 		or = {
+		and = {
 			has_country_flag = ahistorical_ss
 			date > 1940.1.1
+			}
+		
+		and = {
+			has_country_flag = SS_Start
+			date > 1943.6.1
+			}
 		}
 	}
 	
@@ -591,7 +1197,7 @@ country_event = {
 			set_technology = { hiddentech_ss_panzer_iv = 1 }
 			
 		}
-		ai_chance = { factor = 1 }
+		ai_chance = { factor = 100 }
 	}
 	option = {
 		name = ss_event.682.b
@@ -604,7 +1210,7 @@ country_event = {
 			set_technology = { hiddentech_ss_panzer_iv = 1 }
 			
 		}
-		ai_chance = { factor = 1 }
+		ai_chance = { factor = 100 }
 	}
 }
 country_event = {
@@ -620,8 +1226,15 @@ country_event = {
 		has_tech = tech_panzer_v_equipment_1
 		not = { has_country_flag = hiddentech_ss_panzer_v }
 		or = {
+			and = {
 			has_country_flag = ahistorical_ss
 			date > 1940.7.31
+		}
+		
+		and = {
+			has_country_flag = SS_Start
+			date > 1943.6.1
+			}
 		}
 	}
 	
@@ -784,13 +1397,13 @@ country_event = {
 			load_oob = "GER_SS_Danzig_ahist"	# Danzig Heimwehr
 		}
 		
-		ai_chance = { factor = 1 }
+		ai_chance = { factor = 0 }
 	}
 	option = {
 		name = ss_event.686.c
 		set_country_flag = ss_danzig_heimwehr_no
 		
-		ai_chance = { factor = 1 }
+		ai_chance = { factor = 0 }
 	}
 }
 # SS junkerschulen

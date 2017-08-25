@@ -141,7 +141,6 @@ country_event = {
 			country_event = { id = DOD_hungary.5 }
 		}
 	}
-
 }
 #country votes yes - hungary
 country_event = {
@@ -159,7 +158,9 @@ country_event = {
 			annex_country = { target = AUS transfer_troops = yes }
 		}
 		news_event = { id = news.291 days = 1 }
-		add_manpower = 500000
+		add_manpower = 90000
+		add_named_threat = { threat = 2 name = HUN_annex_AUS }
+		39 = { add_core_of = HUN }
 	}
 }
 #country votes no - hungary
@@ -283,6 +284,33 @@ country_event = {
 		news_event = { id = news.292 days = 1 }
 	}
 }
+
+#If AH gets Austria through war, needs the South Tyrol core
+country_event = {
+	id = DOD_hungary.193 
+	title = DOD_hungary.193.t
+	desc = DOD_hungary.193.desc
+	picture = GFX_report_event_vote
+	hidden = yes
+	
+	fire_only_once = yes
+	
+	trigger = {
+		tag = HUN
+		controls_state = 153
+		has_completed_focus = HUN_demand_a_referendum
+	}
+	
+	mean_time_to_happen = {
+		days = 15
+	}
+	option = { 
+		name = DOD_hungary.193.a
+		39 = { add_core_of = HUN }	
+	}
+}
+
+
 #protect Czechoslovakia
 country_event = {
 	id = DOD_hungary.10 
@@ -320,7 +348,7 @@ country_event = {
 		}
 		custom_effect_tooltip =  GAME_OVER_TT
 		HUN = { country_event = { id = DOD_hungary.11 hours = 6 } }
-		
+		add_named_threat = { threat = 2 name = HUN_annex_CZE }
 	}
 	option = { #A close association status
 		name = DOD_hungary.10.b
@@ -328,6 +356,7 @@ country_event = {
 			factor = 50
 		}
 		HUN = { country_event = { id = DOD_hungary.12 hours = 6 } }
+		add_named_threat = { threat = 1 name = HUN_puppet_CZE }
 	}
 	option = { #Refuse
 		name = DOD_hungary.10.c
@@ -356,7 +385,7 @@ country_event = {
 	option = {
 		name = DOD_hungary.11.a
 		annex_country = { target = CZE transfer_troops = yes }
-		add_manpower = 500000
+		add_manpower = 150000
 	}
 
 }
@@ -1408,8 +1437,9 @@ country_event = {
 			}
 			if = {
 				limit = {
-					82 = { is_claimed_by = HUN }
-					82 = { is_controlled_by = FROM }
+					FROM = {
+						controls_state = 82
+					}
 				}
 				transfer_state = 82
 			}
@@ -5235,22 +5265,22 @@ country_event = {
 		remove_ideas = HUN_treaty_of_triannon
 		every_country = { 
 			limit = { has_country_flag = bled_refusal_stood_firm }
-			country_event = DOD_hungary.171
+			country_event = DOD_hungary.190
 		}
 	}
 }
 
 #Bled Agreement - Hungary stands firm, FRA/ROM chance to go to war
 country_event = {
-	id = DOD_hungary.171
-	title = DOD_hungary.171.t
-	desc = DOD_hungary.171.desc 
+	id = DOD_hungary.190
+	title = DOD_hungary.190.t
+	desc = DOD_hungary.190.desc 
 	picture = GFX_report_event_generic_military_parade
 	
 	is_triggered_only = yes
 
 	option = {#We shall put an end to this!
-		name = DOD_hungary.171.a
+		name = DOD_hungary.190.a
 		create_wargoal = {
 			type = puppet_wargoal_focus
 			target = HUN
@@ -5260,7 +5290,7 @@ country_event = {
 		opposition_pop_plus_7 = yes
 	}
 	option = {#We have gone too far, back down
-		name = DOD_hungary.171.b
+		name = DOD_hungary.190.b
 		ruling_pop_minus_10 = yes
 		clr_country_flag = bled_refusal_stood_firm
 	}
@@ -7180,5 +7210,579 @@ country_event = {
 			limit = { has_idea = HUN_treaty_of_triannon_2 }
 			remove_ideas = HUN_treaty_of_triannon_2
 		}
+	}
+}
+
+####### German Reactions to A-H #######
+#GER reaction to AUS referendum for A-H formation
+country_event = {
+	id = DOD_hungary.171
+	title = DOD_hungary.171.t
+	desc = DOD_hungary.171.desc 
+	picture = GFX_report_event_horthy2
+	is_triggered_only = yes
+
+	option = {#We cannot allow this
+		name = DOD_hungary.171.a
+		HUN = { country_event = DOD_hungary.173 }
+		add_political_power = 10
+		ai_chance = {
+			base = 65
+			modifier = {
+				factor = 0.5
+				HUN = { is_ai = no }
+			}
+		}
+	}
+	option = {#Allow it
+		name = DOD_hungary.171.b
+		HUN = { country_event = DOD_hungary.172 }
+		add_political_power = -15
+		ruling_pop_minus_3 = yes
+		ai_chance = {
+			base = 35
+			modifier = {
+				factor = 2
+				HUN = { is_ai = no }
+			}
+		}
+	}
+}
+
+#GER says yes, proceed as normal #####CHAIN BRANCH END#####
+country_event = {
+	id = DOD_hungary.172
+	title = DOD_hungary.172.t
+	desc = DOD_hungary.172.desc 
+	picture = GFX_report_event_horthy2
+	is_triggered_only = yes
+
+	option = {#Excellent
+		name = DOD_hungary.172.a
+		AUS = { country_event = DOD_hungary.1 }
+	}
+}
+
+#GER says no, what do?
+country_event = {
+	id = DOD_hungary.173
+	title = DOD_hungary.173.t
+	desc = DOD_hungary.173.desc 
+	picture = GFX_report_event_horthy2
+	is_triggered_only = yes
+
+	option = {#Proceed Anyway
+		name = DOD_hungary.173.a
+		add_political_power = 15
+		ruling_pop_plus_5 = yes
+		GER = { country_event = DOD_hungary.175 }
+		ai_chance = {
+			base = 70
+		}
+	}
+	option = {#Back Down
+		name = DOD_hungary.173.b
+		add_political_power = -35
+		ruling_pop_minus_7 = yes
+		GER = { country_event = DOD_hungary.174 }
+		ai_chance = {
+			base = 30
+		}
+	}
+}
+
+#HUN backs down, no referendum - #####CHAIN BRANCH END#####
+country_event = {
+	id = DOD_hungary.174
+	title = DOD_hungary.174.t
+	desc = DOD_hungary.174.desc 
+	picture = GFX_report_event_horthy2
+	is_triggered_only = yes
+
+	option = {#Good
+		name = DOD_hungary.174.a
+		add_political_power = 25
+		ruling_pop_plus_3 = yes
+	}
+}
+
+#AUS Referendum - HUN holds referendum anyways
+country_event = {
+	id = DOD_hungary.175
+	title = DOD_hungary.175.t
+	desc = DOD_hungary.175.desc 
+	picture = GFX_report_event_horthy2
+	is_triggered_only = yes
+
+	option = {#Prepare to invade AUS
+		name = DOD_hungary.175.a
+		HUN = { country_event = DOD_hungary.176 }
+		ai_chance = {
+			base = 40
+		}
+	}
+	option = {#Back Down
+		name = DOD_hungary.175.b
+		add_political_power = -25
+		ruling_pop_minus_5 = yes
+		ai_chance = {
+			base = 60
+		}
+	}
+}
+
+#AUS Referendum - GER is preparing invasion of AUS
+country_event = {
+	id = DOD_hungary.176
+	title = DOD_hungary.176.t
+	desc = DOD_hungary.176.desc 
+	picture = GFX_report_event_horthy2
+	is_triggered_only = yes
+
+	option = {#Offer AUS protection
+		name = DOD_hungary.176.a
+		AUS = { country_event = DOD_hungary.178 }
+		ai_chance = {
+			base = 80
+		}
+	}
+	option = {#Back Down 
+		name = DOD_hungary.176.b
+		add_political_power = -15
+		ruling_pop_minus_3 = yes
+		GER = { country_event = DOD_hungary.177 }
+		ai_chance = {
+			base = 20
+		}
+	}
+}
+
+#AUS Referendum - HUN backs down after GER threat of war
+country_event = {
+	id = DOD_hungary.177
+	title = DOD_hungary.177.t
+	desc = DOD_hungary.177.desc 
+	picture = GFX_report_event_horthy2
+	is_triggered_only = yes
+
+	option = {#Invade anyway #####CHAIN BRANCH END##### FOR NOW
+		name = DOD_hungary.177.a
+		create_wargoal = {
+			type = annex_everything
+			target = AUS
+		}
+		add_political_power = -25
+		ruling_pop_minus_5 = yes
+		ai_chance = {
+			base = 10
+			modifier = {
+				strength_ratio = { tag = AUS ratio > 1.1 }
+				factor = 5
+			}
+		}
+	}
+	option = {#Stand down #####CHAIN BRANCH END#####
+		name = DOD_hungary.177.b
+		ai_chance = {
+			base = 90
+		}
+	}
+}
+
+#AUS Referendum - HUN offers AUS protection
+country_event = {
+	id = DOD_hungary.178
+	title = DOD_hungary.178.t
+	desc = DOD_hungary.178.desc 
+	picture = GFX_report_event_horthy2
+	is_triggered_only = yes
+
+	option = {#Accept offer
+		name = DOD_hungary.178.a
+		HUN = { country_event = DOD_hungary.179 }
+		ai_chance = {
+			base = 85
+		}
+	}
+	#option = {#Offer alliance instead
+	#	name = DOD_hungary.178.b
+	#	HUN = { country_event = DOD_hungary.182 }
+	#	ai_chance = {
+	#		base = 15
+	#	}
+	#}
+}
+
+#AUS Referendum - AUS accepts protection/annexation
+country_event = {
+	id = DOD_hungary.179
+	title = DOD_hungary.179.t
+	desc = DOD_hungary.179.desc 
+	picture = GFX_report_event_horthy2
+	is_triggered_only = yes
+
+	option = {#Excellent
+		name = DOD_hungary.179.a
+		annex_country = { target = AUS transfer_troops = yes }
+		add_manpower = 500000
+		add_political_power = 75
+		add_national_unity = 0.05
+		ruling_pop_plus_10 = yes
+		GER = { country_event = DOD_hungary.180 }
+	}
+}
+
+#AUS Referendum - HUN protects/annexes AUS, GER response
+country_event = {
+	id = DOD_hungary.180
+	title = DOD_hungary.180.t
+	desc = DOD_hungary.180.desc 
+	picture = GFX_report_event_horthy2
+	is_triggered_only = yes
+
+	option = {#Invade
+		name = DOD_hungary.180.a
+		create_wargoal = {
+			type = annex_everything
+			target = HUN
+		}
+		HUN = { country_event = DOD_hungary.181 }
+		ai_chance = {
+			base = 10
+			modifier = {
+				strength_ratio = { tag = HUN ratio > 1.2 }
+				factor = 5
+			}
+		}
+	}
+	option = {#Back down #####CHAIN BRANCH END#####
+		name = DOD_hungary.180.b
+		add_political_power = -25
+		ruling_pop_minus_5 = yes
+		ai_chance = {
+			base = 90
+		}
+	}
+}
+
+#AUS Referendum - GER invades
+country_event = {
+	id = DOD_hungary.181
+	title = DOD_hungary.181.t
+	desc = DOD_hungary.181.desc 
+	picture = GFX_report_event_horthy2
+	is_triggered_only = yes
+
+	option = {#We fight! #####CHAIN BRANCH END#####
+		name = DOD_hungary.181.a
+		add_political_power = 50
+		ruling_pop_plus_10 = yes
+	}
+}
+
+#AUS Referendum - AUS asks for alliance instead
+country_event = {
+	id = DOD_hungary.182
+	title = DOD_hungary.182.t
+	desc = DOD_hungary.182.desc 
+	picture = GFX_report_event_horthy2
+	is_triggered_only = yes
+
+	#option = {#Fine
+	#	name = DOD_hungary.182.a
+	#	#set_rule = { can_create_factions = yes }
+	#	#create_faction = AUS_HUN_alliance
+	#	#set_country_flag = aus_hun_alliance_leader
+	#	#set_country_flag = in_aus_hun_alliance
+	#	#add_to_faction = AUS
+	#	#AUS = { set_country_flag = in_aus_hun_alliance }
+	#	ai_chance = {
+	#		base = 60
+	#	}
+	#}
+	option = {#Nah 
+		name = DOD_hungary.182.b
+		ai_chance = {
+			base = 40
+		}
+	}
+}
+
+#AUS Referendum - GER response to HUN-AUS alliance
+country_event = {
+	id = DOD_hungary.183
+	title = DOD_hungary.183.t
+	desc = DOD_hungary.183.desc 
+	picture = GFX_report_event_horthy2
+	is_triggered_only = yes
+
+	option = {#Invade #####CHAIN BRANCH END#####
+		name = DOD_hungary.183.a
+		create_wargoal = {
+			type = annex_everything
+			target = AUS
+		}
+		add_political_power = -40
+		ruling_pop_minus_7 = yes
+		ai_chance = {
+			base = 30
+			modifier = {
+				strength_ratio = { tag = AUS ratio > 1.2 }
+				factor = 2
+			}
+		}
+	}
+	option = {#Back down #####CHAIN BRANCH END#####
+		name = DOD_hungary.183.b
+		add_political_power = -15
+		ruling_pop_minus_3 = yes
+		ai_chance = {
+			base = 70
+		}
+	}
+}
+
+#AUS Referendum - AUS is alone
+country_event = {
+	id = DOD_hungary.184
+	title = DOD_hungary.184.t
+	desc = DOD_hungary.184.desc 
+	picture = GFX_report_event_horthy2
+	is_triggered_only = yes
+
+	option = {#Invade #####CHAIN BRANCH END#####
+		name = DOD_hungary.184.a
+		add_political_power = -25
+		ruling_pop_minus_3 = yes
+		create_wargoal = {
+			type = annex_everything
+			target = AUS
+		}
+		ai_chance = {
+			base = 5
+			modifier = {
+				strength_ratio = { tag = AUS ratio > 1.2 }
+				factor = 10
+			}
+		}
+	}
+	option = {#Back down #####CHAIN BRANCH END#####
+		name = DOD_hungary.184.b
+		add_political_power = 15
+		ruling_pop_plus_5 = yes
+		ai_chance = {
+			base = 95
+		}
+	}
+}
+
+#### AH takes CZE - Sudetenland Crisis ####
+#AH Sudetenland - GER offers Polish claims for Sudetenland
+country_event = {
+	id = DOD_hungary.185
+	title = DOD_hungary.185.t
+	desc = DOD_hungary.185.desc 
+	picture = GFX_report_event_horthy2
+	is_triggered_only = yes
+
+	option = {#Sounds Good
+		name = DOD_hungary.185.a
+		add_state_claim = 88
+		add_state_claim = 89
+		add_state_claim = 91
+		GER = { country_event = DOD_hungary.186 }
+		ai_chance = {
+			base = 60
+		}
+	}
+	option = {#We can get those anyways!
+		name = DOD_hungary.185.b
+		GER = { country_event = DOD_hungary.187 }
+		ai_chance = {
+			base = 40
+		}
+	}
+}
+
+#AH Sudetenland - HUN agrees
+country_event = {
+	id = DOD_hungary.186
+	title = DOD_hungary.186.t
+	desc = DOD_hungary.186.desc 
+	picture = GFX_report_event_horthy2
+	is_triggered_only = yes
+
+	option = {#Excellent
+		name = DOD_hungary.186.a
+		set_country_flag = ah_ger_poland_pact
+	}
+}
+
+#AH Sudetenland - AH refuses Poland offer
+country_event = {
+	id = DOD_hungary.187
+	title = DOD_hungary.187.t
+	desc = DOD_hungary.187.desc 
+	picture = GFX_report_event_horthy2
+	is_triggered_only = yes
+
+	immediate = { set_global_flag = ah_says_no_ger_pact }
+	option = {#Demand Sudetenland - GO BACK TO MUNICH STUFF
+		name = DOD_hungary.187.a
+		country_event = germany.349
+		ai_chance = {
+			base = 95
+		}
+	}
+	option = {#We don't dare risk an international crisis #####CHAIN BRANCH END#####
+		name = DOD_hungary.187.b
+		add_political_power = -35
+		ruling_pop_minus_7 = yes
+		add_national_unity = -0.03
+		ai_chance = {
+			base = 5
+		}
+	}
+}
+
+#AH - Austrian Manpower
+country_event = {
+	id = DOD_hungary.188
+	title = DOD_hungary.188.t
+	desc = DOD_hungary.188.desc 
+	picture = GFX_report_event_horthy2
+	trigger = {
+		tag = HUN
+		4 = { #Lower Austria
+			owner = { tag = HUN }
+		 }
+		NOT = {
+			9 = { #Bohemia
+				owner = { tag = HUN }
+			}
+		}
+		NOT = { 
+			has_country_flag = HUN_austrian_manpower_check
+		}
+	}
+
+	mean_time_to_happen = {
+		days = 30
+	}
+	
+	option = {#Excellent
+		name = DOD_hungary.188.a
+		add_ideas = HUN_austrian_manpower
+		remove_ideas = HUN_czech_manpower
+		set_country_flag = HUN_austrian_manpower_check
+		clr_country_flag = HUN_combined_manpower_check
+	}
+}
+
+#AH - Czech Manpower
+country_event = {
+	id = DOD_hungary.189
+	title = DOD_hungary.189.t
+	desc = DOD_hungary.189.desc 
+	picture = GFX_report_event_horthy2
+	trigger = {
+		tag = HUN
+		9 = { #Bohemia
+			owner = { tag = HUN }
+		 }
+		NOT = {
+			4 = { #Lower Austria
+				owner = { tag = HUN }
+			}
+		}
+		NOT = { 
+			has_country_flag = HUN_czech_manpower_check
+		}
+	}
+
+	mean_time_to_happen = {
+		days = 30
+	}
+	
+	option = {#Excellent
+		name = DOD_hungary.189.a
+		add_ideas = HUN_czech_manpower
+		remove_ideas = HUN_austrian_manpower
+		set_country_flag = HUN_czech_manpower_check
+		clr_country_flag = HUN_combined_manpower_check
+	}
+}
+
+#AH - Combined Manpower
+country_event = {
+	id = DOD_hungary.191
+	title = DOD_hungary.191.t
+	desc = DOD_hungary.191.desc 
+	picture = GFX_report_event_horthy2
+	trigger = {
+		tag = HUN
+		AND = {
+			4 = {
+				owner = { tag = HUN }
+			}
+			9 = {
+				owner = { tag = HUN }
+			}		
+		}
+		NOT = { 
+			has_country_flag = HUN_combined_manpower_check
+		}
+	}
+
+	mean_time_to_happen = {
+		days = 30
+	}
+	
+	option = {#Excellent
+		name = DOD_hungary.191.a
+		remove_ideas = HUN_austrian_manpower
+		remove_ideas = HUN_czech_manpower
+		add_ideas = HUN_combined_manpower
+		set_country_flag = HUN_combined_manpower_check
+		clr_country_flag = HUN_czech_manpower_check
+		clr_country_flag = HUN_austrian_manpower_check
+	}
+}
+
+#AH - Lost both Austria/Czechoslovakia
+country_event = {
+	id = DOD_hungary.192
+	title = DOD_hungary.192.t
+	desc = DOD_hungary.192.desc 
+	picture = GFX_report_event_horthy2
+	trigger = {
+		tag = HUN
+		OR = {
+			has_idea = HUN_combined_manpower
+			has_idea = HUN_austrian_manpower
+			has_idea = HUN_czech_manpower
+		}
+		NOT = {
+			4 = { #Lower Austria
+				owner = { tag = HUN }
+			}
+			9 = { #Bohemia
+				owner = { tag = HUN }
+			}		
+		}
+	}
+
+	mean_time_to_happen = {
+		days = 30
+	}
+	
+	option = {#Damn
+		name = DOD_hungary.192.a
+		remove_ideas = HUN_combined_manpower
+		remove_ideas = HUN_austrian_manpower
+		remove_ideas = HUN_czech_manpower
+		clr_country_flag = HUN_combined_manpower_check
+		clr_country_flag = HUN_austrian_manpower_check
+		clr_country_flag = HUN_czech_manpower_check
 	}
 }

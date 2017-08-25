@@ -13,8 +13,22 @@ country_event = {
 	picture = GFX_report_event_king_george_inspects_canadian_army
 	
 	trigger = {
-		has_government = monarchism
-		NOT = { has_country_flag = monarchy_set }
+		OR = {
+			AND = {
+				has_government = monarchism
+				NOT = { has_country_flag = monarchy_set }
+			}
+			AND = {
+				tag = HUN
+				has_government = monarchism
+				NOT = { has_country_flag = monarchy_set }
+				OR = {
+					has_completed_focus = HUN_elect_a_democratic_king
+					has_completed_focus = HUN_elect_a_fascist_king
+					has_completed_focus = HUN_invite_the_habsburg_prince
+				}
+			}
+		}
 	}
 	
 	mean_time_to_happen = {
@@ -319,4 +333,844 @@ country_event = {
 
 ########## Neutrality/Authoritarianism ############
 
+
+########## Influence Resisting ############
+#Someone is influencing us!
+country_event = {
+	id = politics.300
+	title = politics.300.t
+	desc  = { #
+		text = politics.300.d.a
+		trigger = {
+			has_idea = fascist_influence
+		}
+	}
+	desc = { #
+		text = politics.300.d.b
+		trigger = {
+			has_idea = monarchist_influence
+		}
+	}
+	desc  = { #
+		text = politics.300.d.c
+		trigger = {
+			has_idea = communist_influence
+		}
+	}
+	desc = { #
+		text = politics.300.d.d
+		trigger = {
+			has_idea = democratic_influence
+		}
+	}
+	desc  = { #
+		text = politics.300.d.e
+		trigger = {
+			has_idea = liberalism_influence
+		}
+	}
+	desc = { #
+		text = politics.300.d.f
+		trigger = {
+			has_idea = socialism_influence
+		}
+	}
+	desc = { #
+		text = politics.300.d.g
+		trigger = {
+			has_idea = conservatism_influence
+		}
+	}
+	picture = GFX_report_event_king_george_inspects_canadian_army
+	
+	trigger = { 
+		OR = {
+			has_idea = fascist_influence
+			has_idea = monarchist_influence
+			has_idea = communist_influence
+			has_idea = democratic_influence
+			has_idea = liberalism_influence
+			has_idea = socialism_influence
+			has_idea = conservatism_influence
+		}
+		NOT = { has_country_flag = foreign_influence_check }
+	}
+	
+	mean_time_to_happen = {
+		days = 60
+	}
+	
+	immediate = {
+		set_country_flag = foreign_influence_check
+	}
+	
+	option = { #Allow it
+		name = politics.300.a 
+		
+		ai_chance = {
+			base = 65
+		}
+	}
+
+	option = { #Fight it!
+		name = politics.300.b
+		country_event = politics.302
+		set_country_flag = fighting_foreign_influence
+		add_ideas = fighting_foreign_influence
+		ai_chance = {
+			base = 35
+		}
+	}
+}
+
+#No more influence
+country_event = {
+	id = politics.301
+	title = politics.301.t
+	desc  = politics.301.desc
+	picture = GFX_report_event_king_george_inspects_canadian_army
+	hidden = yes
+	
+	trigger = { 
+		NOT = {
+			has_idea = fascist_influence
+			has_idea = monarchist_influence
+			has_idea = communist_influence
+			has_idea = democratic_influence
+			has_idea = liberalism_influence
+			has_idea = socialism_influence
+			has_idea = conservatism_influence
+		}
+		has_country_flag = foreign_influence_check
+	}
+	
+	mean_time_to_happen = {
+		days = 30
+	}
+	
+	immediate = {
+		clr_country_flag = foreign_influence_check
+		clr_country_flag = fighting_foreign_influence
+	}
+	
+	option = { #ok
+		name = politics.301.a 
+		
+	}
+
+}
+
+#How to fight the influence
+country_event = {
+	id = politics.302
+	title = politics.302.t
+	desc  = politics.302.desc
+	picture = GFX_report_event_king_george_inspects_canadian_army
+	
+	is_triggered_only = yes
+	
+	immediate = { set_country_flag = first_event_check }
+	
+	option = { #Increase propaganda
+		name = politics.302.a 
+		
+		set_country_flag = fighting_foreign_influence_propaganda
+		if = {
+			limit = {
+				NOT = {
+					has_idea_with_trait = speechwriter
+					has_idea_with_trait = hearts_and_minds
+				}
+			}
+			add_ideas = fighting_foreign_influence_propaganda			
+		}
+		if = {
+			limit = { 
+				OR = {
+					AND = {
+						has_idea_with_trait = speechwriter
+						NOT = { has_idea_with_trait = hearts_and_minds }					
+					}
+					AND = {
+						has_idea_with_trait = hearts_and_minds
+						NOT = { has_idea_with_trait = speechwriter }				
+					}
+				}
+			}
+			add_ideas = fighting_foreign_influence_propaganda2
+		}
+		if = {
+			limit = {
+				has_idea_with_trait = speechwriter
+				has_idea_with_trait = hearts_and_minds
+			}
+			add_ideas = fighting_foreign_influence_propaganda3			
+		}
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	option = { #Arrest them
+		name = politics.302.b
+		trigger = {
+			OR = {
+				AND = {
+					democratic_govt = yes
+					NOT = {
+						has_country_flag = security_liberty_first					
+					}
+				}
+				has_government = monarchism
+				has_government = neutrality
+				has_government = fascism
+				has_government = communism
+			}
+		}
+		set_country_flag = fighting_foreign_influence_arrest
+		if = {
+			limit = {
+				NOT = {
+					has_idea_with_trait = sympathetic_judge
+					has_idea_with_trait = crime_fighter
+				}
+			}
+			add_ideas = fighting_foreign_influence_arrest			
+		}
+		if = {
+			limit = { 
+				OR = {
+					AND = {
+						has_idea_with_trait = sympathetic_judge
+						NOT = { has_idea_with_trait = crime_fighter }					
+					}
+					AND = {
+						has_idea_with_trait = crime_fighter
+						NOT = { has_idea_with_trait = sympathetic_judge }				
+					}
+				}
+			}
+			add_ideas = fighting_foreign_influence_arrest2
+		}
+		if = {
+			limit = {
+				has_idea_with_trait = crime_fighter
+				has_idea_with_trait = sympathetic_judge
+			}
+			add_ideas = fighting_foreign_influence_arrest3			
+		}
+		ai_chance = {
+			base = 1
+		}
+	}
+	
+	option = { #Kill them
+		name = politics.302.c
+		trigger = {
+			OR = {
+				AND = {
+					democratic_govt = yes
+					NOT = {
+						has_country_flag = security_liberty_first
+						has_country_flag = security_minor_restrictions
+					}
+				}
+				has_government = monarchism
+				has_government = neutrality
+				has_government = fascism
+				has_government = communism
+			}
+		}
+		set_country_flag = fighting_foreign_influence_kill
+		if = {
+			limit = {
+				NOT = {
+					has_idea_with_trait = silent_workhorse
+					has_idea_with_trait = efficient_sociopath
+					has_idea_with_trait = prince_of_terror
+				}
+			}
+			add_ideas = fighting_foreign_influence_kill			
+		}
+		if = {
+			limit = { 
+				OR = {
+					AND = {
+						NOT = {
+							has_idea_with_trait = prince_of_terror
+							has_idea_with_trait = efficient_sociopath					
+							}
+						has_idea_with_trait = silent_workhorse				
+					}
+					AND = {
+						OR = {
+							has_idea_with_trait = prince_of_terror
+							has_idea_with_trait = efficient_sociopath					
+						}
+						NOT = { has_idea_with_trait = silent_workhorse }				
+					}
+				}
+			}
+			add_ideas = fighting_foreign_influence_kill2
+		}
+		if = {
+			limit = {
+				OR = {
+					has_idea_with_trait = prince_of_terror
+					has_idea_with_trait = efficient_sociopath					
+				}
+				has_idea_with_trait = silent_workhorse
+			}
+			add_ideas = fighting_foreign_influence_kill3			
+		}
+		ai_chance = {
+			base = 1
+		}
+	}
+}
+
+#First checkpoint to see if foreign agents are beaten
+country_event = {
+	id = politics.303
+	title = politics.303.t
+	desc  = politics.303.desc
+	picture = GFX_report_event_king_george_inspects_canadian_army
+	hidden = yes
+	trigger = {
+		has_country_flag = first_event_check
+	}
+	
+	mean_time_to_happen = {
+		days = 180
+	}
+	
+	immediate = { clr_country_flag = first_event_check }
+	
+	option = { 
+		name = politics.303.a 
+		if = {
+			limit = {
+				has_idea = fighting_foreign_influence_propaganda
+			}
+			random_list = {
+				15 = { country_event = politics.305 }
+				85 = { set_country_flag = second_event_check }
+			}
+		}
+		if = {
+			limit = {
+				has_idea = fighting_foreign_influence_propaganda2
+			}
+			random_list = {
+				20 = { country_event = politics.305 }
+				80 = { set_country_flag = second_event_check }
+			}
+		}
+		if = {
+			limit = {
+				has_idea = fighting_foreign_influence_propaganda3
+			}
+			random_list = {
+				25 = { country_event = politics.305 }
+				75 = { set_country_flag = second_event_check }
+			}
+		}
+		if = {
+			limit = {
+				has_idea = fighting_foreign_influence_arrest
+			}
+			random_list = {
+				15 = { country_event = politics.305 }
+				85 = { set_country_flag = second_event_check }
+			}
+		}
+		if = {
+			limit = {
+				has_idea = fighting_foreign_influence_arrest2
+			}
+			random_list = {
+				20 = { country_event = politics.305 }
+				80 = { set_country_flag = second_event_check }
+			}
+		}
+		if = {
+			limit = {
+				has_idea = fighting_foreign_influence_arrest3
+			}
+			random_list = {
+				25 = { country_event = politics.305 }
+				75 = { set_country_flag = second_event_check }
+			}
+		}
+		if = {
+			limit = {
+				has_idea = fighting_foreign_influence_kill
+			}
+			random_list = {
+				15 = { country_event = politics.305 }
+				85 = { set_country_flag = second_event_check }
+			}
+		}
+		if = {
+			limit = {
+				has_idea = fighting_foreign_influence_kill2
+			}
+			random_list = {
+				20 = { country_event = politics.305 }
+				80 = { set_country_flag = second_event_check }
+			}
+		}
+		if = {
+			limit = {
+				has_idea = fighting_foreign_influence_kill3
+			}
+			random_list = {
+				25 = { country_event = politics.305 }
+				75 = { set_country_flag = second_event_check }
+			}
+		}
+		ai_chance = {
+			base = 1
+		}
+	}
+}
+
+#Second, regular checkpoint to see if foreign agents are beaten
+country_event = {
+	id = politics.304
+	title = politics.304.t
+	desc  = politics.304.desc
+	picture = GFX_report_event_king_george_inspects_canadian_army
+	hidden = yes
+	trigger = {
+		has_country_flag = second_event_check
+	}
+	
+	mean_time_to_happen = {
+		days = 90
+	}
+	
+	immediate = {  }
+	
+	option = { 
+		name = politics.304.a 
+		if = {
+			limit = {
+				has_idea = fighting_foreign_influence_propaganda
+			}
+			random_list = {
+				25 = { country_event = politics.305 }
+				75 = {  }
+			}
+		}
+		if = {
+			limit = {
+				has_idea = fighting_foreign_influence_propaganda2
+			}
+			random_list = {
+				30 = { country_event = politics.305 }
+				70 = {  }
+			}
+		}
+		if = {
+			limit = {
+				has_idea = fighting_foreign_influence_propaganda3
+			}
+			random_list = {
+				35 = { country_event = politics.305 }
+				65 = {  }
+			}
+		}
+		if = {
+			limit = {
+				has_idea = fighting_foreign_influence_arrest
+			}
+			random_list = {
+				30 = { country_event = politics.305 }
+				70 = {  }
+			}
+		}
+		if = {
+			limit = {
+				has_idea = fighting_foreign_influence_arrest2
+			}
+			random_list = {
+				35 = { country_event = politics.305 }
+				65 = {  }
+			}
+		}
+		if = {
+			limit = {
+				has_idea = fighting_foreign_influence_arrest3
+			}
+			random_list = {
+				40 = { country_event = politics.305 }
+				60 = {  }
+			}
+		}
+		if = {
+			limit = {
+				has_idea = fighting_foreign_influence_kill
+			}
+			random_list = {
+				30 = { country_event = politics.305 }
+				70 = {  }
+			}
+		}
+		if = {
+			limit = {
+				has_idea = fighting_foreign_influence_kill2
+			}
+			random_list = {
+				35 = { country_event = politics.305 }
+				65 = {  }
+			}
+		}
+		if = {
+			limit = {
+				has_idea = fighting_foreign_influence_kill3
+			}
+			random_list = {
+				40 = { country_event = politics.305 }
+				60 = {  }
+			}
+		}
+		
+		ai_chance = {
+			base = 1
+		}
+	}
+}
+
+#Successful Removal
+country_event = {
+	id = politics.305
+	title = politics.305.t
+	desc  = politics.305.desc
+	picture = GFX_report_event_king_george_inspects_canadian_army
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		clr_country_flag = foreign_influence_check
+		clr_country_flag = fighting_foreign_influence
+		clr_country_flag = fighting_foreign_influence_arrest
+		clr_country_flag = fighting_foreign_influence_kill
+		clr_country_flag = fighting_foreign_influence_propaganda
+		clr_country_flag = second_event_check
+	}
+	
+	option = { #Wonderful!
+		name = politics.305.a 
+		remove_ideas = fascist_influence
+		remove_ideas = monarchist_influence
+		remove_ideas = communist_influence
+		remove_ideas = liberalism_influence
+		remove_ideas = conservatism_influence
+		remove_ideas = democratic_influence
+		remove_ideas = socialism_influence
+		remove_ideas = fighting_foreign_influence_arrest
+		remove_ideas = fighting_foreign_influence_arrest2
+		remove_ideas = fighting_foreign_influence_arrest3
+		remove_ideas = fighting_foreign_influence_kill
+		remove_ideas = fighting_foreign_influence_kill2
+		remove_ideas = fighting_foreign_influence_kill3
+		remove_ideas = fighting_foreign_influence_propaganda
+		remove_ideas = fighting_foreign_influence_propaganda2
+		remove_ideas = fighting_foreign_influence_propaganda3
+		remove_ideas = fighting_foreign_influence
+		add_political_power = 35
+		add_national_unity = 0.05
+		ruling_pop_plus_5 = yes
+	}
+
+}
+
+#If country adds new ministers, check for better ideas
+country_event = {
+	id = politics.306
+	title = politics.306.t
+	desc  = politics.306.desc
+	picture = GFX_report_event_king_george_inspects_canadian_army
+	
+	trigger = { 
+		OR = {
+			has_idea = fascist_influence
+			has_idea = monarchist_influence
+			has_idea = communist_influence
+			has_idea = democratic_influence
+			has_idea = liberalism_influence
+			has_idea = socialism_influence
+			has_idea = conservatism_influence
+		}
+		OR = {
+			AND = {
+				has_idea = fighting_foreign_influence_propaganda
+				OR = {
+					has_idea_with_trait = speechwriter
+					has_idea_with_trait = hearts_and_minds
+				}
+			}
+			AND = {
+				has_idea = fighting_foreign_influence_propaganda2
+				OR = {
+					AND = {
+						has_idea_with_trait = speechwriter
+						has_idea_with_trait = hearts_and_minds						
+					}
+					NOT = {
+						has_idea_with_trait = speechwriter
+						has_idea_with_trait = hearts_and_minds	
+					}
+				}
+			}
+			AND = {
+				has_idea = fighting_foreign_influence_propaganda3
+				OR = {
+					NOT = {
+						has_idea_with_trait = speechwriter
+						has_idea_with_trait = hearts_and_minds
+					}
+					OR = {
+						AND = {
+							has_idea_with_trait = speechwriter
+							NOT = { has_idea_with_trait = hearts_and_minds }
+						}
+						AND = {
+							has_idea_with_trait = hearts_and_minds
+							NOT = { has_idea_with_trait = speechwriter }
+						}
+					}
+				}
+			}
+			AND = {
+				has_idea = fighting_foreign_influence_arrest
+				OR = {
+					has_idea_with_trait = sympathetic_judge
+					has_idea_with_trait = crime_fighter
+				}
+			}
+			AND = {
+				has_idea = fighting_foreign_influence_arrest2
+				OR = {
+					AND = {
+						has_idea_with_trait = crime_fighter
+						has_idea_with_trait = sympathetic_judge						
+					}
+					NOT = {
+						has_idea_with_trait = crime_fighter
+						has_idea_with_trait = sympathetic_judge	
+					}
+				}
+			}
+			AND = {
+				has_idea = fighting_foreign_influence_arrest3
+				OR = {
+					NOT = {
+						has_idea_with_trait = crime_fighter
+						has_idea_with_trait = sympathetic_judge
+					}
+					OR = {
+						AND = {
+							has_idea_with_trait = crime_fighter
+							NOT = { has_idea_with_trait = sympathetic_judge }
+						}
+						AND = {
+							has_idea_with_trait = sympathetic_judge
+							NOT = { has_idea_with_trait = crime_fighter }
+						}
+					}
+				}
+			}
+			AND = {
+				has_idea = fighting_foreign_influence_kill
+				OR = {
+					has_idea_with_trait = prince_of_terror
+					has_idea_with_trait = efficient_sociopath
+					has_idea_with_trait = silent_workhorse
+				}
+			}
+			AND = {
+				has_idea = fighting_foreign_influence_kill2
+				OR = {
+					AND = {
+						OR = {
+							has_idea_with_trait = prince_of_terror
+							has_idea_with_trait = efficient_sociopath					
+						}
+						has_idea_with_trait = silent_workhorse					
+					}
+					NOT = {
+						has_idea_with_trait = silent_workhorse
+						has_idea_with_trait = efficient_sociopath
+						has_idea_with_trait = prince_of_terror
+					}
+				}
+			}
+			AND = {
+				has_idea = fighting_foreign_influence_kill3
+				OR = {
+					NOT = {
+						has_idea_with_trait = prince_of_terror
+						has_idea_with_trait = efficient_sociopath
+						has_idea_with_trait = silent_workhorse
+					}
+					OR = {
+						AND = {
+							NOT = {
+								has_idea_with_trait = prince_of_terror
+								has_idea_with_trait = efficient_sociopath					
+								}
+							has_idea_with_trait = silent_workhorse				
+						}
+						AND = {
+							OR = {
+								has_idea_with_trait = prince_of_terror
+								has_idea_with_trait = efficient_sociopath					
+							}
+							NOT = { has_idea_with_trait = silent_workhorse }				
+						}
+					}
+				}
+			}		
+		}
+	}
+	
+	mean_time_to_happen = {
+		days = 30
+	}
+	
+	immediate = {
+		clr_country_flag = foreign_influence_check
+		clr_country_flag = fighting_foreign_influence
+	}
+	
+	option = { #ok
+		name = politics.301.a 
+		if = {
+			limit = {
+				NOT = {
+					has_idea_with_trait = speechwriter
+					has_idea_with_trait = hearts_and_minds
+				}
+			}
+			add_ideas = fighting_foreign_influence_propaganda
+			remove_ideas = fighting_foreign_influence_propaganda2
+			remove_ideas = fighting_foreign_influence_propaganda3				
+		}
+		if = {
+			limit = { 
+				OR = {
+					AND = {
+						has_idea_with_trait = speechwriter
+						NOT = { has_idea_with_trait = hearts_and_minds }					
+					}
+					AND = {
+						has_idea_with_trait = hearts_and_minds
+						NOT = { has_idea_with_trait = speechwriter }				
+					}
+				}
+			}
+			add_ideas = fighting_foreign_influence_propaganda2
+			remove_ideas = fighting_foreign_influence_propaganda
+			remove_ideas = fighting_foreign_influence_propaganda3	
+		}
+		if = {
+			limit = {
+				has_idea_with_trait = speechwriter
+				has_idea_with_trait = hearts_and_minds
+			}
+			add_ideas = fighting_foreign_influence_propaganda3
+			remove_ideas = fighting_foreign_influence_propaganda2
+			remove_ideas = fighting_foreign_influence_propaganda
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_idea_with_trait = sympathetic_judge
+					has_idea_with_trait = crime_fighter
+				}
+			}
+			add_ideas = fighting_foreign_influence_arrest	
+			remove_ideas = fighting_foreign_influence_arrest2
+			remove_ideas = fighting_foreign_influence_arrest3	
+		}
+		if = {
+			limit = { 
+				OR = {
+					AND = {
+						has_idea_with_trait = sympathetic_judge
+						NOT = { has_idea_with_trait = crime_fighter }					
+					}
+					AND = {
+						has_idea_with_trait = crime_fighter
+						NOT = { has_idea_with_trait = sympathetic_judge }				
+					}
+				}
+			}
+			add_ideas = fighting_foreign_influence_arrest2
+			remove_ideas = fighting_foreign_influence_arrest
+			remove_ideas = fighting_foreign_influence_arrest3	
+		}
+		if = {
+			limit = {
+				has_idea_with_trait = crime_fighter
+				has_idea_with_trait = sympathetic_judge
+			}
+			add_ideas = fighting_foreign_influence_arrest3
+			remove_ideas = fighting_foreign_influence_arrest2
+			remove_ideas = fighting_foreign_influence_arrest			
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_idea_with_trait = silent_workhorse
+					has_idea_with_trait = efficient_sociopath
+					has_idea_with_trait = prince_of_terror
+				}
+			}
+			add_ideas = fighting_foreign_influence_kill		
+			remove_ideas = fighting_foreign_influence_kill2
+			remove_ideas = fighting_foreign_influence_kill3		
+		}
+		if = {
+			limit = { 
+				OR = {
+					AND = {
+						NOT = {
+							has_idea_with_trait = prince_of_terror
+							has_idea_with_trait = efficient_sociopath					
+							}
+						has_idea_with_trait = silent_workhorse				
+					}
+					AND = {
+						OR = {
+							has_idea_with_trait = prince_of_terror
+							has_idea_with_trait = efficient_sociopath					
+						}
+						NOT = { has_idea_with_trait = silent_workhorse }				
+					}
+				}
+			}
+			remove_ideas = fighting_foreign_influence_kill
+			remove_ideas = fighting_foreign_influence_kill3
+			add_ideas = fighting_foreign_influence_kill2
+		}
+		if = {
+			limit = {
+				OR = {
+					has_idea_with_trait = prince_of_terror
+					has_idea_with_trait = efficient_sociopath					
+				}
+				has_idea_with_trait = silent_workhorse
+			}
+			remove_ideas = fighting_foreign_influence_kill
+			remove_ideas = fighting_foreign_influence_kill2
+			add_ideas = fighting_foreign_influence_kill3			
+		}
+	}
+}
+
+
+########### Strong Opposing Ideology Events ############
 ### EOF ###
