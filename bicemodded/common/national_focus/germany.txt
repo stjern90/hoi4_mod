@@ -2837,6 +2837,83 @@ focus_tree = {
 			}
 		}
 	}
+	
+	focus = {
+		id = GER_south_tyrol
+		icon = GFX_goal_generic_political_pressure
+		prerequisite = { focus = GER_anschluss }
+		available = {
+			NOT = { 
+				is_in_faction_with = ITA
+				has_completed_focus = GER_italy_ally
+				owns_state = 39 #South Tyrol
+				} 
+			is_puppet = no
+			OR = {
+				has_army_manpower = { size > 999999 }
+				date > 1938.11.1
+			}
+			NOT = { has_idea = rhineland_challenge_met }
+		}
+		cancel = {
+			OR = {
+				is_puppet = yes
+				has_idea = rhineland_challenge_met
+			}
+		}
+		bypass = {
+			OR = {
+				ITA = {	NOT = { exists = yes } }
+				owns_state = 39 #South Tyrol
+			}
+		}
+		cancel_if_invalid = no
+		x = 15
+		y = 3
+		cost = 8
+		ai_will_do = {
+			factor = 1
+		}	
+		completion_reward = {
+			if = {
+				limit = {
+					ITA = { 
+						NOT = {
+							has_government = fascism
+							has_government = communism
+						}
+					}
+					ENG = {
+						has_government = democratic
+					}
+					FRA = {
+						has_government = democratic
+					}
+				}
+				## some opinion modifier?
+			}
+		
+			if = {
+				limit = {
+					ITA = { 
+						has_government = democratic
+					}
+					ENG = {
+						has_government = democratic
+					}
+					FRA = {
+						has_government = democratic
+					}
+				}
+				## some opinion modifier?
+			}
+			
+
+			add_state_claim = 39 #South Tyrol  
+			add_named_threat = { threat = 4 name = GER_south_tyrol_threat }
+			ITA = { country_event = germany.308 }   
+		}
+	}
 
 	focus = {
 		id = GER_demand_memel
@@ -3727,13 +3804,13 @@ focus_tree = {
 				generator = { 41 }
 				}
 			}
-			if = { limit = { NOT = { SOV = { has_goverment = fascism } }
+			if = { limit = { NOT = { SOV = { has_government = fascism } }
 			}
 		    	SOV = {
 		             add_opinion_modifier = { target = GER modifier = large_decrease }
 	        	}
 			}
-			if = { limit = { NOT = { POR = { has_goverment = fascism } }
+			if = { limit = { NOT = { POR = { has_government = fascism } }
 			}
 		    	POR = {
 		             add_opinion_modifier = { target = GER modifier = large_decrease }
@@ -3839,6 +3916,7 @@ focus_tree = {
 				}
 				GER = { add_to_faction = D03 } # REVISIT Might be a better way to handle this
             }
+		}
 	}
 
 #remove_ideas = SPA_recovering_from_civil_war
@@ -4306,18 +4384,20 @@ focus_tree = {
 				name = dd_bonus
 				bonus = 0.25
 				uses = 1
-				technology = improved_destroyer
-				technology = advanced_destroyer
+				category = dd_tech
 			}
 			add_tech_bonus = {
 				name = cr_bonus
 				bonus = 0.25
 				uses = 1
-				technology = improved_light_cruiser
-				technology = advanced_light_cruiser
-				technology = improved_heavy_cruiser
-				technology = advanced_heavy_cruiser
+				    category = cl_tech
 			}
+			add_tech_bonus = {
+				name = bb_bonus
+				bonus = 0.3
+				uses = 1
+				category = bc_tech
+				}
 		}
 
 		completion_reward = {
@@ -4340,10 +4420,22 @@ focus_tree = {
 				set_state_flag = GER_naval_effort_2dockyards
 			}
 			add_tech_bonus = {
+				name = dd_bonus
+				bonus = 0.25
+				uses = 1
+				category = dd_tech
+			}
+			add_tech_bonus = {
+				name = cr_bonus
+				bonus = 0.25
+				uses = 1
+				    category = cl_tech
+			}
+			add_tech_bonus = {
 				name = bb_bonus
 				bonus = 0.3
 				uses = 1
-				technology = basic_battlecruiser
+				category = bc_tech
 				}
 		}
 	}
@@ -4363,14 +4455,17 @@ focus_tree = {
 		
 		complete_tooltip = {
 			navy_experience = 50
-		    add_ideas = idea_plan_z
+			add_timed_idea = {
+					idea = idea_plan_z
+					days = 1095
+			}
 			
 			every_state = {
 				limit = {	has_state_flag = GER_naval_rearmament_3dockyards }
-				add_extra_state_shared_building_slots = 5
+				add_extra_state_shared_building_slots = 6
 				add_building_construction = {
 					type = dockyard
-					level = 3
+					level = 4
 					instant_build = yes
 				}
 				add_building_construction = {
@@ -4384,26 +4479,21 @@ focus_tree = {
 					name = dd_bonus
 					bonus = 0.3
 					uses = 1
-					technology = improved_destroyer
-					technology = advanced_destroyer
+					category = dd_tech
 				}
 				add_tech_bonus = {
 					name = cr_bonus
 					bonus = 0.3
-					uses = 1
-					technology = improved_light_cruiser
-					technology = advanced_light_cruiser
-					technology = improved_heavy_cruiser
-					technology = advanced_heavy_cruiser
+					uses = 2
+				    category = cl_tech
+			    	category = ca_tech
 					}
 					add_tech_bonus = {
 					name = cv_bonus
 					bonus = 0.25
 					uses = 2
-					technology = basic_carrier
-					technology = improved_carrier
-					technology = light_carrier_1
-					technology = light_carrier_2
+					category = cv_tech
+					category = cvl_tech
 				}
 
 
@@ -4412,7 +4502,10 @@ focus_tree = {
 		
 		completion_reward = {
 			navy_experience = 50
-		    add_ideas = idea_plan_z
+			add_timed_idea = {
+					idea = idea_plan_z
+					days = 1095
+			}
 			random_owned_controlled_state = {
 				limit = {
 					free_building_slots = {
@@ -4421,10 +4514,10 @@ focus_tree = {
 						include_locked = yes
 					}
 				}
-				add_extra_state_shared_building_slots = 5
+				add_extra_state_shared_building_slots = 6
 				add_building_construction = {
 					type = dockyard
-					level = 3
+					level = 4
 					instant_build = yes
 				}
 				add_building_construction = {
@@ -4438,26 +4531,21 @@ focus_tree = {
 					name = dd_bonus
 					bonus = 0.3
 					uses = 1
-					technology = improved_destroyer
-					technology = advanced_destroyer
+				    category = dd_tech
 				}
 				add_tech_bonus = {
 					name = cr_bonus
 					bonus = 0.3
 					uses = 1
-					technology = improved_light_cruiser
-					technology = advanced_light_cruiser
-					technology = improved_heavy_cruiser
-					technology = advanced_heavy_cruiser
+				    category = cl_tech
+			    	category = ca_tech
 					}
 					add_tech_bonus = {
 					name = cv_bonus
 					bonus = 0.25
 					uses = 2
-					technology = basic_carrier
-					technology = improved_carrier
-					technology = light_carrier_1
-					technology = light_carrier_2
+					category = cv_tech
+					category = cvl_tech
 				}
 			}
 		}
@@ -4504,10 +4592,10 @@ focus_tree = {
 			
 			every_state = {
 				limit = {	has_state_flag = GER_naval_rearmament_4dockyards }
-				add_extra_state_shared_building_slots = 2
+				add_extra_state_shared_building_slots = 3
 				add_building_construction = {
 					type = dockyard
-					level = 2
+					level = 3
 					instant_build = yes
 				}
 			}
@@ -4516,10 +4604,8 @@ focus_tree = {
 					name = cv_bonus
 					bonus = 0.25
 					uses = 2
-					technology = improved_carrier
-					technology = advanced_carrier
-					technology = light_carrier_2
-					technology = light_carrier_3
+					category = cv_tech
+					category = cvl_tech
 				}
 				add_tech_bonus = {
 				name = bb_bonus
@@ -4542,10 +4628,10 @@ focus_tree = {
 						include_locked = yes
 					}
 				}
-				add_extra_state_shared_building_slots = 2
+				add_extra_state_shared_building_slots = 3
 				add_building_construction = {
 					type = dockyard
-					level = 2
+					level = 3
 					instant_build = yes
 				}
 				set_state_flag = GER_naval_rearmament_4dockyards
@@ -4554,10 +4640,8 @@ focus_tree = {
 					name = cv_bonus
 					bonus = 0.25
 					uses = 2
-					technology = improved_carrier
-					technology = advanced_carrier
-					technology = light_carrier_2
-					technology = light_carrier_3
+					category = cv_tech
+					category = cvl_tech
 				}
 				add_tech_bonus = {
 				name = bb_bonus
@@ -4915,6 +4999,44 @@ focus_tree = {
 		}
 	}
 
+	
+	#focus = {
+	#	id = GER_naval_excercise_mittlemeer  #LEADS TO WORSE RELLATIONS WITH UK AND NAVY XP TO GER AND ITA.
+	#	icon = GFX_goal_generic_improve_relations
+	#	prerequisite = { focus = GER_plan_z }
+	#	available = {
+	#		country_exists = ITA
+	#		has_war = no
+	#		ITA = {
+	#		    is_in_faction_with = GER
+	#		}
+	#	}
+	#	bypass = {}
+	#	x = 19
+	#	y = 7
+	#	cost = 10
+	#	ai_will_do = {	factor = 1}	
+	#	completion_reward = {}
+	#}
+	#
+	#focus = {
+	#	id = GER_challenge_suez    #### UPRISING IN EGYPT, GERMAN/ITALIAN PLAN TO TAKE SUEZ. LEADS TO WW2, INTERNATIONAL CRISIS OF SUEZ
+	#	icon = GFX_goal_generic_improve_relations
+	#	prerequisite = { focus = GER_naval_excercise_mittlemeer }
+	#	available = {
+	#		country_exists = ITA
+	#		has_war = no
+	#		ITA = {
+	#		    is_in_faction_with = GER
+	#		}
+	#	}
+	#	bypass = {}
+	#	x = 19
+	#	y = 7
+	#	cost = 10
+	#	ai_will_do = {	factor = 1}	
+	#	completion_reward = {}
+	#}
 
 
 	focus = {
