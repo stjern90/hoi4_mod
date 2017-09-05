@@ -144,7 +144,7 @@ NCountry = {
 	REINFORCEMENT_AIRBASE_PRIORITY_COUNT = 3,
 	REINFORCEMENT_AIRBASE_PRIORITY_DEFAULT = 1,
 	REINFORCEMENT_DELIVERY_SPEED_MIN = 0.6,			-- The distance from the supply region to capital should affect the speed only a little bit. Main factor for penalty is overcrowded areas, and not the route length.
-	REINFORCEMENT_EQUIPMENT_DELIVERY_SPEED = 0.3,	-- was 0.3 -- Modifier for army equipment reinforcement speed
+	REINFORCEMENT_EQUIPMENT_DELIVERY_SPEED = 0.3,	-- Modifier for army equipment reinforcement speed
 	REINFORCEMENT_MANPOWER_DELIVERY_SPEED = 10.0,	-- Modifier for army manpower reinforcement delivery speed (travel time)
 	REINFORCEMENT_MANPOWER_CHUNK = 0.1,				-- Chunk size of manpower reinforcement delivery, in % of total manpower needed by the template.
 	EQUIPMENT_UPGRADE_CHUNK_MAX_SIZE = 10,			-- Maximum chunk size of equipment upgrade distribution per update.
@@ -161,7 +161,7 @@ NCountry = {
 	RESOURCE_ORIGIN_PRIORITY = 1,					-- Default convoy priority for resources shipped internally
 	RESOURCE_EXPORT_PRIORITY = 0.85,					-- Default convoy priority for export trade
 	RESOURCE_LENDLEASE_PRIORITY = 0.85,				-- Default convoy priority for export lend lease
-	SUPPLY_CONVOY_FACTOR = 0.14,					-- How many convoys each supply needs
+	SUPPLY_CONVOY_FACTOR = 0.15,					-- How many convoys each supply needs
 	CONVOY_RANGE_FACTOR = 1.2,                        -- how much range affects convoy need
 	LOCAL_MANPOWER_ACCESSIBLE_FACTOR = 0.35,         -- was 0.45 accessible recruitable factor base
 	LOCAL_MANPOWER_ACCESSIBLE_NON_CORE_FACTOR = 0.02,  -- accessible recruitable factor base
@@ -226,7 +226,7 @@ NProduction = {
 	EQUIPMENT_LEND_LEASE_WEIGHT_FACTOR = 0.01, -- Base equipment lend lease factor
 	ANNEX_STOCKPILES_RATIO = 0.9,		-- How much stockpiled equipment will be transferred on annexation
 	ANNEX_FIELD_EQUIPMENT_RATIO = 0.3,	-- How much equipment from deployed divisions will be transferred on annexation
-	ANNEX_CONVOYS_RATIO = 0.2,			-- How many convoys will be transferred on annexation
+	ANNEX_CONVOYS_RATIO = 0.4,			-- How many convoys will be transferred on annexation
 	MIN_POSSIBLE_TRAINING_MANPOWER = 100000,	-- How many deployment lines minimum can be training
 	MIN_FIELD_TO_TRAINING_MANPOWER_RATIO = 0.65,	-- Ratio which % of army in field can be trained
 },
@@ -258,8 +258,8 @@ NBuildings = {
 	MAX_BUILDING_LEVELS = 15,			-- Max levels a building can have.
 	AIRBASE_CAPACITY_MULT = 200,		-- Each level of airbase building multiplied by this, gives capacity (max operational value). Value is int. 1 for each airplane.
 	ROCKETSITE_CAPACITY_MULT = 100,		-- Each level of rocketsite building multiplied by this, gives capacity (max operational value). Value is int. 1 for each rocket.
-	NAVALBASE_CAPACITY_MULT = 10.0,		-- Each level of navalbase building multiplied by this, gives max capacity. Value is float. Each ship takes port_capacity_usage space.
-	NAVALBASE_REPAIR_MULT = 0.075,		-- Each level of navalbase building repairs X strength. The value is spread on all ships needed reparation. Fe Navalbase lvl 5 x 0.5 str repair = 2.5 str repaired over 10 ships, so each ship repair hourly 0.25 str.
+	NAVALBASE_CAPACITY_MULT = 20.0,		-- Each level of navalbase building multiplied by this, gives max capacity. Value is float. Each ship takes port_capacity_usage space.
+	NAVALBASE_REPAIR_MULT = 0.2,		-- Each level of navalbase building repairs X strength. The value is spread on all ships needed reparation. Fe Navalbase lvl 5 x 0.5 str repair = 2.5 str repaired over 10 ships, so each ship repair hourly 0.25 str.
 	RADAR_RANGE_MIN = 20,				-- Radar range (from state center to province center) in measure of map pixels. Exluding techs.
 	RADAR_RANGE_MAX = 220,				-- Range is interpolated between building levels 1-15.
 	RADAR_INTEL_EFFECT = 40,			-- Province covered by radar increases intel by 10 (where 255 is max). Province may be covered by multiple radars, then the value sums up.
@@ -637,14 +637,14 @@ NNavy = {
 	COMBAT_TORPEDO_ATTACK_MAX_RANGE = 4.0,							-- DNM, consistent with vanilla changes, better for naval combat -- max range for torpedo attack
 	COMBAT_TORPEDO_ATTACK_USE_CHANCE = 0.25,						-- DNM, 0.5 is too high, vessels make more torpedo attacks than they would have been able too historically -- chance of using torpedo attack (to avoid torpedo spam when at close distance)
 	COMBAT_CLOSE_DISTANCE_MAX_HIT_CHANCE_BONUS = 0.6,				-- DNM, original 0.1.  Being closer is generally a very good thin in naval combat.  May increase again later -- max bonus to hit chance when target is near. So if base is 0.5, dist.bonus is 0.1, and we are facing enemy at distance 0, the total hit chance is 0.6 (60%). When enemy is barely at our max shooting range, the bonus is 0.
-	COMBAT_EVASION_TO_HIT_CHANCE = 0.005,							-- we take ship evasion stats, and mult by this value, so it gives hit chance reduction. So if reduction is 0.025 and ship evasion = 10, then there will be 0.25 (25%) lower hit chance. (Fe. 50% base -25% from evasion +10% bcoz it's very close).
+	COMBAT_EVASION_TO_HIT_CHANCE = 0.0025,							-- BICE, we take ship evasion stats, and mult by this value, so it gives hit chance reduction. So if reduction is 0.025 and ship evasion = 10, then there will be 0.25 (25%) lower hit chance. (Fe. 50% base -25% from evasion +10% bcoz it's very close).
 	COMBAT_EVASION_TO_HIT_CHANCE_TORPEDO_MULT = 2.0,				-- the above evasion hit chance is multiplied by 150% if shooting with torpedos. Torpedoes are slow, so evasion matters more.
 	MAX_EVASION_BONUS = 0.1,										-- largest evasion penalty to hitting
 	TARGETING_STACKING_HIT_CHANCE_PENALTY = 0.08,                    -- penalty to hit chance for each ship targeting same target
 	COMBAT_LOW_ORG_HIT_CHANCE_PENALTY = -0.8,						-- % of penalty applied to hit chance when ORG is very low.
 	COMBAT_DAMAGE_RANDOMNESS = 0.6,								-- DNM, original 0.3, BICE had 0.4 -- random factor in damage. So if max damage is fe. 10, and randomness is 30%, then damage will be between 7-10.
 	COMBAT_TORPEDO_CRITICAL_CHANCE = 0.2,							-- chance for critical hit from torpedo.
-	COMBAT_TORPEDO_CRITICAL_DAMAGE_MULT = 3.0,						-- multiplier to damage when got critical hit from torpedo. (Critical hits are devastating as usualy torpedo_attack are pretty high base values).
+	COMBAT_TORPEDO_CRITICAL_DAMAGE_MULT = 3.0,						-- BICE, multiplier to damage when got critical hit from torpedo. (Critical hits are devastating as usualy torpedo_attack are pretty high base values).
 	COMBAT_DAMAGE_TO_STR_FACTOR = 1.6,								-- casting damage value to ship strength multiplier. Use it to balance the game difficulty.
 	COMBAT_DAMAGE_TO_ORG_FACTOR = 1.9,							-- casting damage value to ship organisation multiplier. Use it to balance the game difficulty.
 	COMBAT_DAMAGE_REDUCTION_ON_RETREAT = 0.5,						-- Retreating ships are using their rear cannons, so the damage should be reduced.
@@ -654,7 +654,7 @@ NNavy = {
 	COMBAT_CHASE_RUNNERS_SPEED_COMPARE_BALANCE = 0.6,				-- When we chanse runners and they are faster then us, then we resign. But if we are faster then them by a very small speed difference, the chase may takes weeks. So this tweak value allows to resign chasing if speed difference is not so big.
 	COMABT_CHASE_RUNNERS_TIMEOUT_HOURS = 10,						-- Stop chasing after timeout
 	COMBAT_CHASE_RESIGNATION_HOURS = 8,								-- Before we resign chasing enemy, give them some minimum time so the combat doesn't end instantly.
-	COMBAT_SHIP_SPEED_TO_FIELD_FACTOR = 0.3,						-- Modifier to the ships speed in the combat. For better balance, make it lower to slow down the speed of approaching.
+	COMBAT_SHIP_SPEED_TO_FIELD_FACTOR = 0.6,						-- Modifier to the ships speed in the combat. For better balance, make it lower to slow down the speed of approaching.
 	COMBAT_MAX_DISTANCE_TO_CENTER_LINE = 50,						-- Max distance to center line. Use fire_range in subunits or equipment to compare how big is the battlefield.
 	COMBAT_MAX_DISTANCE_TO_ARRIVE = 160,							-- DNM, original 80 -- Max distance to arrive. When ships are on their way, their distance will never exceed this value.
 	COMBAT_MAX_GROUPS = 3,										-- Max amount of "Fire Exchange" groups (FEX).
@@ -663,10 +663,10 @@ NNavy = {
 	COMBAT_DETECTED_CONVOYS_FROM_SURFACE_DETECTION_STAT = 0.1,		-- Each 1.0 of surface_detection that ship has (equipment stat), gives x% of convoys discovered from total travelling along the route.
 	COMBAT_LEAD_TOO_MANY_SHIPS_PENALTY_SPEED = 0.15,					-- Speed penalty in % for ships coming into the battle (Those in the "incoming" field). Fe. 0.1 makes the ordinary speed drop down to 10% of the original speed when penalty is at max. Value should be between 0.0 and 1.0
 	COMBAT_LEAD_TOO_MANY_SHIPS_PENALTY_CHAOS_CHANCE = 0.6,			-- Chaos penalty - chance % of not taking a shot at the target.
-	COMBAT_BASE_CRITICAL_CHANCE = 0.1,								-- Base chance for receiving a critical chance. It get's scaled down with ship reliability.
-	COMBAT_CRITICAL_DAMAGE_MULT = 5.0,								-- Multiplier for the critical damage. Scaled down with the ship reliability.
-	COMBAT_ARMOR_PIERCING_CRITICAL_BONUS = 3.0,						-- Bonus to critical chance when shooter armor piercing is higher then target armor.
-	COMBAT_ARMOR_PIERCING_DAMAGE_REDUCTION = -0.9,					-- DNM, to be consistent with changes to vanilla, makes armour more important, as it shold be -- All damage reduction % when target armor is >= then shooter armor piercing.
+	COMBAT_BASE_CRITICAL_CHANCE = 0.05,								-- BICE 0.05,original 0.1 -- Base chance for receiving a critical chance. It get's scaled down with ship reliability.
+	COMBAT_CRITICAL_DAMAGE_MULT = 5.0,								-- BICE, Multiplier for the critical damage. Scaled down with the ship reliability.
+	COMBAT_ARMOR_PIERCING_CRITICAL_BONUS = 1,						-- BICE, original 3 --Bonus to critical chance when shooter armor piercing is higher then target armor.
+	COMBAT_ARMOR_PIERCING_DAMAGE_REDUCTION = -0.65,					-- BICE 0.65,DNM 0.9, to be consistent with changes to vanilla, makes armour more important, as it shold be -- All damage reduction % when target armor is >= then shooter armor piercing.
 	REPAIR_AND_RETURN_PRIO_LOW = 0.4,								-- DNM, original 0.2 --  % of total Strength. When below, navy will go to home base to repair.
 	REPAIR_AND_RETURN_PRIO_MEDIUM = 0.6,							-- DNM, original 0.5 -- % of total Strength. When below, navy will go to home base to repair.
 	REPAIR_AND_RETURN_PRIO_HIGH = 0.9,								-- % of total Strength. When below, navy will go to home base to repair.
@@ -681,20 +681,18 @@ NNavy = {
 	EXPERIENCE_LOSS_FACTOR = 1.00,                 					-- percentage of experienced solders who die when manpower is removed
 	NAVY_EXPENSIVE_IC = 5500,										-- How much IC is considering the fleet to be expensive. Those expensive will triger the alert, when are on low STR.
 	MISSION_MAX_REGIONS = 0,										-- Limit of the regions that can be assigned to naval mission. Set to 0 for unlimited.
-	CONVOY_EFFICIENCY_LOSS_MODIFIER = 1.5,							-- How much efficiency drops when losing convoys. If modifier is 0.5, then losing 100% of convoys in short period, the efficiency will drop by 50%.
+	CONVOY_EFFICIENCY_LOSS_MODIFIER = 0.8,							-- How much efficiency drops when losing convoys. If modifier is 0.5, then losing 100% of convoys in short period, the efficiency will drop by 50%.
 	CONVOY_EFFICIENCY_REGAIN_AFTER_DAYS = 3,						-- Convoy starts regaining it's efficiency after X days without any convoys being sink.
 	CONVOY_EFFICIENCY_REGAIN_BASE_SPEED = 0.05,						-- How much efficiency regains every day.
 	CONVOY_EFFICIENCY_INTERPOLATION_SPEED = 0.35,					-- To avoid values going up/down really quick we slowly interpolate efficiency, this is how smooth it happens.
 	CONVOY_EFFICIENCY_MIN_VALUE = 0.05,								-- To avoid complete 0% efficiency, set the lower limit.
 	ANTI_AIR_TARGETTING_TO_CHANCE = 0.07,							-- Balancing value to convert averaged equipment stats (anti_air_targetting and naval_strike_agility) to probability chances of airplane being hit by navies AA.
-	ANTI_AIR_ATTACK_TO_AMOUNT = 0.005,								-- Balancing value to convert equipment stat anti_air_attack to the random % value of airplanes being hit.
-	
+	ANTI_AIR_ATTACK_TO_AMOUNT = 0.01,								-- BICE, original 0.05 -- Balancing value to convert equipment stat anti_air_attack to the random % value of airplanes being hit.
 	NO_LEADER_MAX_SHIPS = 30,										-- Max amount of ships that can be used in the unit
-
 	UNIT_EXPERIENCE_PER_COMBAT_HOUR = 10,
 	UNIT_EXPERIENCE_SCALE = 1,
 	EXPERIENCE_FACTOR_CONVOY_ATTACK = 2,							-- DNM, original 0.05, increased because sub XP gain very slow.
-	EXPERIENCE_FACTOR_NON_CARRIER_GAIN = 0.07,						-- DNM, original 0.05 -- Xp gain by non-carrier ships in the combat
+	EXPERIENCE_FACTOR_NON_CARRIER_GAIN = 0.1,						-- DNM, original 0.05 -- Xp gain by non-carrier ships in the combat
 	EXPERIENCE_FACTOR_CARRIER_GAIN = 0.01,							-- DNM, original 0.1, and they still level up quickly.  Xp gain by carrier ships in the combat
 	FIELD_EXPERIENCE_SCALE = 0.15,
 	FIELD_EXPERIENCE_MAX_PER_DAY = 50,								-- Most xp you can gain per day
@@ -726,7 +724,7 @@ NNavy = {
 	NAVAL_SUPREMACY_CAN_INVADE = 0.75,								-- required naval supremacy to perform invasions on an area
 	BATTLE_ARRIVAL_SPEED_BONUS_ON_ENEMY_WITH_NO_MISSION = 3.0,		-- Idle fleet with no pending mission has a bit of advantage over spreaded ones. To balance it, increase the speed for ships that are on it's way to arrive on the battle. Value is a speed MULTIPLIER.
 	CARRIER_STACK_PENALTY = 12,										-- The most efficient is 4 carriers in combat. 5+ brings the penalty to the amount of wings in battle.
-	CARRIER_STACK_PENALTY_EFFECT = 0.2,								-- DNM (and vanilla) - if this is too high the AI can't cope -- Each carrier above the optimal amount decreases the amount of airplanes being able to takeoff by such %.
+	CARRIER_STACK_PENALTY_EFFECT = 0.4,								-- DNM (and vanilla) - if this is too high the AI can't cope -- Each carrier above the optimal amount decreases the amount of airplanes being able to takeoff by such %.
 	SUBMARINE_HIDE_TIMEOUT = 4,										-- Amount of in-game-hours that takes the submarine (with position unrevealed), to hide.
 	SUBMARINE_REVEALED_TIMEOUT = 12,								-- Amount of in-game-hours that makes the submarine visible if it is on the defender side.
 	SUBMARINE_REVEAL_BASE_CHANCE = 0.05,							-- Base chance for submarine detection. It's modified by the difference of a spootter's submarines detection vs submarine visibility. Use this variable for game balancing.
@@ -804,9 +802,9 @@ NAI = {
 	TRADEABLE_FACTORIES_FRACTION = 0.5,		-- DNM, original 0.3 (AI Mod) -- Will at most trade away this fraction of factories.
 	MIN_DELIVERED_TRADE_FRACTION = 0.75,			-- AI will cancel trade deals that are not able to deliver more than this fraction of the agreed amount
 	NAVAL_TRANSPORTS_FACTOR = 1.6,				-- Factor applied to the relative size of army compared to naval capacity.
-	NAVAL_DOCKYARDS_SHIP_FACTOR = 2,			-- The extent to which number of dockyards play into amount of sips a nation wants
-	NAVAL_BASES_SHIP_FACTOR = 1.0,				-- The extent to which number of naval bases play into amount of sips a nation wants
-	NAVAL_STATES_SHIP_FACTOR = 0.8,				-- The extent to which number of states play into amount of sips a nation wants
+	NAVAL_DOCKYARDS_SHIP_FACTOR = 4.0,			-- BICE -- The extent to which number of dockyards play into amount of sips a nation wants
+	NAVAL_BASES_SHIP_FACTOR = 2.0,				-- BICE -- The extent to which number of naval bases play into amount of sips a nation wants
+	NAVAL_STATES_SHIP_FACTOR = 1.0,				-- BICE -- The extent to which number of states play into amount of sips a nation wants
 	NAVAL_MAX_PRIO_THEATRES = 5,				-- A nation may have a large number of theatres, but all of them having stationed/assigned navy is redundant
 	NAVAL_THEATRE_PRIO_CAPITAL_SCORE = 100,		-- Weight of capital when calculating naval theatre assignment
 	NAVAL_THEATRE_PRIO_NAVAL_BASE_SCORE = 1,	-- Weight of naval bases when calculating naval theatre assignment
@@ -1002,14 +1000,14 @@ NAI = {
 		0.0,   -- shore_bombardment
 		0.0,   -- fire_range
 		0.0,   -- evasion
-		0.0,   -- torpedo_attack
-		0.0,   -- sub_attack
-		0.0,   -- attack
+		40.0,   -- torpedo_attack
+		5.0,   -- sub_attack
+		40.0,   -- attack
 		0.0,   -- port_capacity_usage
-		0.0,   -- anti_air_attack
+		30.0,   -- anti_air_attack
 		0.0,   -- amphibious_defense
 		0.0,   -- naval_speed
-		0.0,   -- naval_range
+		25.0,   -- naval_range
 		0.0,   -- convoy_raiding_coordination
 		0.0,   -- patrol_coordination
 		0.0,   -- search_and_destroy_coordination
@@ -1036,7 +1034,7 @@ NAI = {
 		0.00, -- weight
 		-- Special Values
 		0.0,   -- strategic_attack
-		0.0,   -- carrier_size
+		70.0,   -- carrier_size
 	},
 	DIVISION_DESIGN_MANPOWER_WEIGHT = 0.006,
 	DIVISION_DESIGN_STOCKPILE_WEIGHT = 0.01,
@@ -1141,6 +1139,55 @@ NAI = {
 	ORDER_ASSIGNMENT_DISTANCE_FACTOR = 5.0,				-- When the AI assigns units to orders, it attempts to calculate the distance.
 	RELUCTANCE_TO_CHANGE_FRONT_FACTOR = 0.5,			-- Factor for how reluctant the AI is to change a units order group.
 	REVISITED_PROV_PENALTY_FACTOR = 1.5,				-- When the AI picks units for a front, it tries to spread out a bit which units it grabs.
+	
+	AIR_SCORE_DISTANCE_IMPACT = 0.1,					-- Effect of distance applied to the score calculations
+	
+	NAVAL_AIR_SUPERIORITY_IMPORTANCE = 0.10,			-- Strategic importance of air superiority ( amount of enemy planes in area )
+	NAVAL_SHIP_AIR_IMPORTANCE = 2.0,					-- Naval ship air importance
+	NAVAL_SHIP_IN_PORT_AIR_IMPORTANCE = 6.0,			-- Naval ship in the port air importance
+	NAVAL_COMBAT_AIR_IMPORTANCE = 12.0,					-- Naval combat air importance
+	NAVAL_TRANSFER_AIR_IMPORTANCE = 25.0,				-- Naval transfer air importance
+	NAVAL_COMBAT_TRANSFER_AIR_IMPORTANCE = 50.0,		-- Naval combat involving enemy land units
+	
+	NAVAL_FIGHTERS_PER_PLANE = 1.1,						-- Amounts of air superiority planes requested per enemy plane
+	NAVAL_STRIKE_PLANES_PER_ARMY = 15,					-- Amount of planes requested per enemy army
+	NAVAL_STRIKE_PLANES_PER_SHIP = 5,					-- Amount of bombers requested per enemy ship
+	PORT_STRIKE_PLANES_PER_SHIP = 10,					-- Amount of bombers request per enemy ship in the port
+	
+	LAND_DEFENSE_AIR_SUPERIORITY_IMPORTANCE = 0.10,		-- Strategic importance of air superiority ( amount of enemy planes in area )
+	LAND_DEFENSE_CIVIL_FACTORY_IMPORTANCE = 50,			-- Strategic importance of civil factories
+	LAND_DEFENSE_MILITARY_FACTORY_IMPORTANCE = 70,		-- Strategic importance of military factories
+	LAND_DEFENSE_NAVAL_FACTORY_IMPORTANCE = 30,			-- Strategic importance of naval factories
+	
+	LAND_DEFENSE_MIN_FACTORIES_FOR_AIR_IMPORTANCE = 6,	-- If amount of factories is less importance of factories won't apply
+	
+	LAND_DEFENSE_FIGHERS_PER_PLANE = 1.1,				-- Amount of air superiority planes requested per enemy plane
+	LAND_DEFENSE_INTERSEPTORS_PER_BOMBERS = 0.2,		-- Amount of air interceptor planes requested per enemy plane
+	
+	LAND_COMBAT_AIR_SUPERIORITY_IMPORTANCE = 0.20,		-- Strategic importance of air superiority ( amount of enemy planes in area )
+	LAND_COMBAT_OUR_ARMIES_AIR_IMPORTANCE = 12,		-- Strategic importance of our armies
+	LAND_COMBAT_OUR_COMBATS_AIR_IMPORTANCE = 55,		-- Strategic importance of our armies in the combats
+	LAND_COMBAT_FRIEND_ARMIES_AIR_IMPORTANCE = 12,	-- Strategic importance of friendly armies
+	LAND_COMBAT_FRIEND_COMBATS_AIR_IMPORTANCE = 6,		-- Strategic importance of friendly armies in the combat
+	LAND_COMBAT_ENEMY_ARMIES_AIR_IMPORTANCE = 8,		-- Strategic importance of our armies
+	LAND_COMBAT_ENEMY_LAND_FORTS_AIR_IMPORTANCE = 5,	-- Strategic importance of enemy land forts in the region
+	LAND_COMBAT_ENEMY_COASTAL_FORTS_AIR_IMPORTANCE = 3,-- Strategic importance of enemy coastal fronts in the region
+	
+	LAND_COMBAT_FIGHTERS_PER_PLANE = 1.1,				-- Amount of air superiority planes requested per enemy plane
+	LAND_COMBAT_CAS_PER_ENEMY_ARMY = 25,				-- Amount of CAS planes requested per enemy army
+	LAND_COMBAT_BOMBERS_PER_LAND_FORT_LEVEL = 15,		-- Amount of bomber planes requested per enemy land fort level
+	LAND_COMBAT_BOMBERS_PER_COASTAL_FORT_LEVEL = 10,	-- Amount of bomber planes requested per enemy coastal fort level
+	
+	STR_BOMB_AIR_SUPERIORITY_IMPORTANCE = 0.10,		-- Strategic importance of air superiority ( amount of enemy planes in area )
+	STR_BOMB_CIVIL_FACTORY_IMPORTANCE = 50,			-- Strategic importance of enemy civil factories
+	STR_BOMB_MILITARY_FACTORY_IMPORTANCE = 70,		-- Strategic importance of enemy military factories
+	STR_BOMB_NAVAL_FACTORY_IMPORTANCE = 30,			-- Strategic importance of enemy naval factories
+	
+	STR_BOMB_MIN_ENEMY_FIGHTERS_IN_AREA = 300,		-- If amount of enemy fighters is higher than this mission won't perform
+	STR_BOMB_FIGHTERS_PER_PLANE = 1.1,				-- Amount of air superiority planes requested per enemy plane
+	STR_BOMB_PLANES_PER_CIV_FACTORY = 20,			-- Amount of planes requested per enemy civ factory
+	STR_BOMB_PLANES_PER_MIL_FACTORY = 25,			-- Amount of planes requested per enemy military factory
+	STR_BOMB_PLANES_PER_NAV_FACTORY = 15,			-- Amount of planes requested per enemy naval factory
 },
 
 NFocus = {
