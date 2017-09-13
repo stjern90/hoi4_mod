@@ -422,6 +422,7 @@ focus_tree = {
 		}
 		
 		completion_reward = { 
+			add_political_power = 120
 			GER = { 
 				add_opinion_modifier = { target = USA modifier = quarantine_speech }
 			}
@@ -859,7 +860,10 @@ focus_tree = {
 					instant_build = yes
 				}
 			}
-			add_ideas = springfield_armory_idea
+			swap_ideas = {
+				remove_idea = rock_island_arsenal_idea
+				add_idea = springfield_armory_and_rock_island_arsenal_idea
+			}
 			add_tech_bonus = {
 				name = USA_support_springfield
 				uses = 3
@@ -1502,7 +1506,7 @@ focus_tree = {
 		}
 		available_if_capitulated = no
 		completion_reward = {
-			#set_rule = { can_send_volunteers = yes }
+			set_rule = { can_send_volunteers = yes }
 			add_ideas = limited_interventionism
 		}
 	}
@@ -1598,21 +1602,16 @@ focus_tree = {
 		available_if_capitulated = yes 
 		completion_reward = {
 			add_ideas = USA_prepare_intervention
-			if = {
-				limit = { 
-				    has_idea = disarmed_nation
-				}
-				add_ideas = volunteer_only
-			}
+			
 		}
 	}
 	focus = {
 		id = USA_cash_and_carry 
 		icon = GFX_goal_tfv_strengthen_commonwealth_ties 
 		x = 19 
-		y = 5
+		y = 4
 		cost = 10 
-		prerequisite = { focus = USA_plan_dog_memo }
+		prerequisite = { focus = USA_support_roosevelt }
 		available = {
 			country_exists = GER
 			is_puppet = no
@@ -1683,7 +1682,7 @@ focus_tree = {
 		icon = GFX_goal_generic_position_armies
 		x = 15
 		y = 4 
-		cost = 5 
+		cost = 7
 		prerequisite = { focus = USA_support_roosevelt }
 		ai_will_do = {
 			factor = 10 
@@ -1707,13 +1706,50 @@ focus_tree = {
 		}
 	}
 	focus = {
+		id = USA_Selective_Service_System
+		icon = GFX_focus_generic_military_mission
+		x = 17 
+		y = 4
+		cost = 7
+		prerequisite = { focus = USA_support_roosevelt }
+		ai_will_do = {
+			factor = 5
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			if = {
+			limit = { 
+				has_idea = disarmed_nation
+			}
+				add_ideas = volunteer_only
+			}
+		}
+	}
+	focus = {
+		id = USA_Four_Freedoms
+		icon = GFX_focus_generic_self_management
+		x = 16 
+		y = 5 
+		cost = 6
+		prerequisite = { focus = USA_plan_dog_memo }
+		prerequisite = { focus = USA_Selective_Service_System }
+		ai_will_do = {
+			factor = 5 
+		}
+		available_if_capitulated = no
+		completion_reward = {
+		set_rule = { can_join_factions = yes }
+		set_rule = { can_create_factions = yes }
+		}
+	}
+	focus = {
 		id = USA_b 
 		icon = GFX_goal_generic_navy_carrier
 		x = 14
 		y = 6
-		cost = 10 
+		cost = 8 
 		mutually_exclusive = { focus = USA_c focus = USA_d }
-		prerequisite = { focus = USA_plan_dog_memo }
+		prerequisite = { focus = USA_Four_Freedoms }
 		ai_will_do = {
 			factor = 0
 		}
@@ -1742,9 +1778,9 @@ focus_tree = {
 		icon = GFX_goal_generic_navy_doctrines_tactics
 		x = 16
 		y = 6
-		cost = 10 
+		cost = 8
 		mutually_exclusive = { focus = USA_b focus = USA_d }
-		prerequisite = { focus = USA_plan_dog_memo }
+		prerequisite = { focus = USA_Four_Freedoms }
 		ai_will_do = {
 			factor = 0
 		}
@@ -1788,9 +1824,9 @@ focus_tree = {
 		icon = GFX_mobilisation
 		x = 18
 		y = 6
-		cost = 10 
+		cost = 8 
 		mutually_exclusive = { focus = USA_b focus = USA_c }
-		prerequisite = { focus = USA_plan_dog_memo }
+		prerequisite = { focus = USA_Four_Freedoms }
 		ai_will_do = {
 			factor = 0
 		}
@@ -1818,7 +1854,7 @@ focus_tree = {
 		icon = GFX_goal_generic_major_alliance
 		x = 16 
 		y = 7 
-		cost = 10 
+		cost = 5
 		prerequisite = { focus = USA_b focus = USA_c focus = USA_d }
 		available = {
 			OR = {
@@ -1867,7 +1903,7 @@ focus_tree = {
 		icon = GFX_goal_generic_improve_relations
 		x = 16 
 		y = 9
-		cost = 10 
+		cost = 5
 		prerequisite = { focus = USA_pearl_harbor_gambit }
 		available = {
 			has_war = yes
