@@ -855,7 +855,7 @@ focus_tree = {
 		icon = GFX_focus_CZE_military_aeronautical_institute
 		x = -7
 		y = 0
-		cost = 7
+		cost = 6
 		ai_will_do = {
 			factor = 5
 		}
@@ -990,35 +990,13 @@ focus_tree = {
 	}
 	
 	focus = {
-		id = GER_Legion_Condor
-		icon = GFX_goal_generic_occupy_start_war
-		prerequisite = { focus = GER_air_innovation }
-		
-		x = -12
-		y = 1
-		cost = 2
-		ai_will_do = {
-			factor = 10
-		}
-
-		available = { has_country_flag = cas_germany }
-		available_if_capitulated = yes
-		
-		completion_reward = {
-			air_experience = 40
-			custom_effect_tooltip = available_theorist
-			show_ideas_tooltip = wolfram_von_richthofen
-		}
-	}
-	
-	focus = {
 		id = GER_messerschmitt
 		icon = GFX_idea_messerschmitt
-		prerequisite = { focus = GER_Legion_Condor}
+		prerequisite = { focus = GER_air_innovation }
 		mutually_exclusive = { focus = GER_heinkel }
 		
 		x = -12 
-		y = 2 
+		y = 1 
 		cost = 4
 		ai_will_do = {
 			factor = 10 
@@ -1041,11 +1019,11 @@ focus_tree = {
 	focus = {
 		id = GER_heinkel 
 		icon = GFX_idea_heinkel
-		prerequisite = { focus = GER_Legion_Condor }
+		prerequisite = { focus = GER_air_innovation }
 		mutually_exclusive = { focus = GER_messerschmitt }
 		
 		x = -10 
-		y = 2 
+		y = 1
 		cost = 4 
 		ai_will_do = {
 			factor = 0 
@@ -1060,6 +1038,27 @@ focus_tree = {
 				uses = 1 
 				technology = tech_he_100_equipment_1 
 			}
+		}
+	}
+	focus = {
+		id = GER_Legion_Condor
+		icon = GFX_goal_generic_occupy_start_war
+		prerequisite = { focus = GER_heinkel focus = GER_messerschmitt }
+		
+		x = -11
+		y = 2
+		cost = 2
+		ai_will_do = {
+			factor = 10
+		}
+
+		available = { has_country_flag = cas_germany }
+		available_if_capitulated = yes
+		
+		completion_reward = {
+			air_experience = 40
+			custom_effect_tooltip = available_theorist
+			show_ideas_tooltip = wolfram_von_richthofen
 		}
 	}
 
@@ -1105,7 +1104,7 @@ focus_tree = {
 	focus = { 
 		id = GER_Battlefield_Support
 		icon = GFX_goal_generic_air_fighter2
-		prerequisite = { focus = GER_Legion_Condor }
+		prerequisite = { focus = GER_air_innovation }
 		
 		x = -8
 		y = 2
@@ -2428,7 +2427,7 @@ focus_tree = {
 
 		x = 10
 		y = 3
-		cost = 3
+		cost = 2
 		ai_will_do = {
 			factor = 15
 		}	
@@ -2439,6 +2438,32 @@ focus_tree = {
 			}
 			ITA = {
 				add_opinion_modifier = { target = GER modifier = ger_ita_alliance_focus }
+			}
+		}
+	}
+	focus = {
+		id = GER_war_with_greece
+		prerequisite = { focus = GER_italy_ally }
+		 
+		icon = GFX_goal_generic_occupy_states_ongoing_war
+		will_lead_to_war_with = GRE
+		available = {
+			GRE = { 
+				exists = yes
+				has_war = yes
+			}
+			NOT = { is_in_faction_with = GRE }
+		}
+		x = 11
+		y = 4
+		cost = 1
+		ai_will_do = {
+			factor = 10
+		}	
+		completion_reward = {
+			create_wargoal = {
+				target = GRE
+				type = annex_everything
 			}
 		}
 	}
@@ -5171,11 +5196,11 @@ focus_tree = {
 	############################################
 	
 	focus = { 
-		id = GER_influence_balkan
-		icon = GFX_goal_generic_improve_relations
+		id = GER_presure_yugoslavia
+		icon = GFX_goal_generic_annexation
 		prerequisite = { focus = GER_anschluss }
+		mutually_exclusive = { focus = GER_fate_of_yugoslavia }
 		available = {
-			date > 1940.1.1
 			POL = { has_capitulated = yes }
 			FRA = { has_capitulated = yes }
 			BEL = { has_capitulated = yes }
@@ -5185,24 +5210,47 @@ focus_tree = {
 		y = 2
 		cost = 6
 		completion_reward = {
-			ROM = {
-				add_opinion_modifier = { target = GER modifier = offered_support }
-				add_opinion_modifier = { target = GER modifier = pact_of_steel_opinion }
+			YUG = {
+				country_event = germany.312
+				}				
+		}
+	}
+	focus = {
+		id = GER_fate_of_yugoslavia
+		prerequisite = { focus = GER_anschluss }
+		mutually_exclusive = { focus = GER_presure_yugoslavia }
+		icon = GFX_goal_generic_territory_or_war
+		available = {
+		    date > 1941.1.1
+			is_puppet = no
+			NOT = { has_war_with = YUG }
+			NOT = { is_in_faction_with = YUG }
+		}
+		bypass = {
+			OR = {
+				NOT = { country_exists = YUG }
+				any_other_country = {
+					is_in_faction_with = ROOT
+					YUG = {
+						is_puppet_of = PREV
+					}
+				}
 			}
-			BUL = {
-				add_opinion_modifier = { target = GER modifier = offered_support }
-				add_opinion_modifier = { target = GER modifier = pact_of_steel_opinion }
-			}
-			HUN = {
-				add_opinion_modifier = { target = GER modifier = offered_support }
-				add_opinion_modifier = { target = GER modifier = pact_of_steel_opinion }
-			}
+		}
+		x = 20
+		y = 2
+		cost = 8
+		ai_will_do = {
+			factor = 10
+		}	
+		completion_reward = {
+			country_event = { id = germany.98 }
 		}
 	}
 	focus = { 
 		id = GER_oil_weapon_treaty
 		icon = GFX_goal_generic_positive_trade_relations
-		prerequisite = { focus = GER_influence_balkan }
+		prerequisite = { focus = GER_fate_of_yugoslavia focus = GER_presure_yugoslavia }
 		available = {
 		}
 		x = 18 
@@ -5477,37 +5525,7 @@ focus_tree = {
 #		}
 #	}
 
-	focus = {
-		id = GER_fate_of_yugoslavia
-		prerequisite = { focus = GER_second_vienna_award }
-		icon = GFX_goal_generic_territory_or_war
-		available = {
-		    date > 1941.1.1
-			is_puppet = no
-			NOT = { has_war_with = YUG }
-			NOT = { is_in_faction_with = YUG }
-		}
-		bypass = {
-			OR = {
-				NOT = { country_exists = YUG }
-				any_other_country = {
-					is_in_faction_with = ROOT
-					YUG = {
-						is_puppet_of = PREV
-					}
-				}
-			}
-		}
-		x = 18
-		y = 5
-		cost = 6
-		ai_will_do = {
-			factor = 10
-		}	
-		completion_reward = {
-			country_event = { id = germany.98 }
-		}
-	}
+
 
 #	focus = {
 #		id = GER_second_ljubljana_award
@@ -5655,54 +5673,49 @@ focus_tree = {
 #		}
 #	}
 
+
 	focus = {
-		id = GER_war_with_greece
-		prerequisite = { focus = GER_fate_of_yugoslavia }
-		 
-		icon = GFX_goal_generic_occupy_states_ongoing_war
-		will_lead_to_war_with = GRE
+		id = GER_fate_of_bulgaria 
+		prerequisite = { focus = GER_second_vienna_award }
+		icon = GFX_goal_generic_forceful_treaty 
 		available = {
-			GRE = { 
-				exists = yes
-				has_war = yes
+			country_exists = BUL
+			NOT = { has_war_with = GER }
+			BUL = {
+				is_puppet = no
 			}
-			NOT = { is_in_faction_with = GRE }
+		}
+		x = 18 
+		y = 5 
+		cost = 6
+		ai_will_do = {
+			factor = 0 
+		}
+		completion_reward = {
+			BUL = {	country_event = { id = bulgaria.6 hours = 6 } }
+		}
+	}
+	focus = {
+		id = GER_fate_of_greece
+		prerequisite = { focus = GER_fate_of_bulgaria }
+		icon = GFX_goal_demand_sudetenland
+		available = {
+			country_exists = GRE
+			NOT = { has_war_with = GRE }
+			GRE = {
+				is_puppet = no
+			}
 		}
 		x = 18
 		y = 6
-		cost = 1
+		cost = 6
 		ai_will_do = {
 			factor = 10
 		}	
 		completion_reward = {
-			create_wargoal = {
-				target = GRE
-				type = annex_everything
-			}
+			GRE = { country_event = { id = greece.3 hours = 6 } }
 		}
 	}
-
-#	focus = {
-#		id = GER_fate_of_greece
-#		prerequisite = { focus = GER_second_ljubljana_award }
-#		icon = GFX_goal_demand_sudetenland
-#		available = {
-#			country_exists = GRE
-#			NOT = { has_war_with = GRE }
-#			GRE = {
-#				is_puppet = no
-#			}
-#		}
-#		x = 18
-#		y = 6
-#		cost = 10
-#		ai_will_do = {
-#			factor = 10
-#		}	
-#		completion_reward = {
-#			GRE = { country_event = { id = greece.3 hours = 6 } }
-#		}
-#	}
 
 #	focus = { #added
 #		id = GER_alsace_lorraine
