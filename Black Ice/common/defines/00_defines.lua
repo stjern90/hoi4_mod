@@ -229,12 +229,12 @@ NProduction = {
 	EFFICIENCY_LOSS_PER_UNUSED_DAY = 1,						-- Daily loss of efficiency for unused factory slots ( efficiency is tracked per factory slot in the production line )
 	MAX_LINE_RESOURCE_PENALTY = 85,							-- Max penalty factor for production lines lacking strategic resources in %.
 	RESOURCE_PENALTY_WARNING_CRITICAL_RATIO = 0.8, 			-- Switch to red progress bar if penalty is over threshold 
-	BASE_FACTORY_SPEED = 3.8, 								-- Base factory speed multiplier (how much hoi3 style IC each factory gives).
+	BASE_FACTORY_SPEED = 4.2, 								-- Base factory speed multiplier (how much hoi3 style IC each factory gives).
 	BASE_FACTORY_SPEED_MIL = 5.8, 							-- Base factory speed multiplier (how much hoi3 style IC each factory gives).
 	BASE_FACTORY_SPEED_NAV = 3.8, 							-- Base factory speed multiplier (how much hoi3 style IC each factory gives).
 	BASE_FACTORY_START_EFFICIENCY_FACTOR = 20,				-- Base start efficiency for factories expressed in %.
 	BASE_FACTORY_MAX_EFFICIENCY_FACTOR = 60,				-- Base max efficiency for factories expressed in %.
-	BASE_FACTORY_EFFICIENCY_GAIN = 1,					-- Base efficiency gain for factories per unit produced in %.
+	BASE_FACTORY_EFFICIENCY_GAIN = 1,						-- Base efficiency gain for factories per unit produced in %.
 	BASE_FACTORY_EFFICIENCY_BALANCE_FACTOR = 0.1, 			-- Factory efficiency balancing factor
 	BASE_FACTORY_EFFICIENCY_VARIANT_CHANGE_FACTOR = 85,		-- Base factor for changing production variants in %.
 	BASE_FACTORY_EFFICIENCY_PARENT_CHANGE_FACTOR = 50,		-- Base factor for changing production parent<->children in %.
@@ -546,8 +546,8 @@ NMilitary = {
 	LAND_EQUIPMENT_RAMP_COST = 5,					
 	NAVAL_EQUIPMENT_BASE_COST = 25,
 	NAVAL_EQUIPMENT_RAMP_COST = 2,
-	AIR_EQUIPMENT_BASE_COST = 25,
-	AIR_EQUIPMENT_RAMP_COST = 2,
+	AIR_EQUIPMENT_BASE_COST = 5,
+	AIR_EQUIPMENT_RAMP_COST = 5,
 	
 	FASTER_ORG_REGAIN_LEVEL = 0.25,
 	FASTER_ORG_REGAIN_MULT = 1.0,
@@ -589,10 +589,10 @@ NAir = {
 	AIR_REGION_SUPERIORITY_PIXEL_SCALE = 0.04,           -- air superiority scale = superiority/(pixels*this)
 	COMBAT_SUP_VS_SUP_ATTACK_CHANCE_SPEED_DIFF = 0.25, 	-- How much diff in speed between aircrafts affects the chance of who attacks first in superiority vs superiority.( Naval air combat only )
 	COMBAT_MULTIPLANE_CAP = 3.0,						-- How many planes can shoot at each plane on other side ( if there are 100 planes we are atttacking COMBAT_MULTIPLANE_CAP * 100 of our planes can shoot )
-	COMBAT_DAMAGE_SCALE = 0.1,							-- Higher value = more shot down planes
+	COMBAT_DAMAGE_SCALE = 0.5,							-- Higher value = more shot down planes ALEN 0.1
 	DETECT_CHANCE_FROM_OCCUPATION = 0.10, 				-- How much the controlled provinces in area affects the air detection base value.
 	DETECT_CHANCE_FROM_RADARS = 0.5, 					-- How much the radars in area affects detection chance.
-	DETECT_CHANCE_FROM_AIRCRAFTS_EFFECTIVE_COUNT = 3000, -- Max amount of aircrafts in region to give full detection bonus.
+	DETECT_CHANCE_FROM_AIRCRAFTS_EFFECTIVE_COUNT = 600, -- Max amount of aircrafts in region to give full detection bonus. ALEN 3000
 	DETECT_CHANCE_FROM_AIRCRAFTS = 0.8,					-- How much aircrafts in region improves air detection (up to effective count).
 	DETECT_CHANCE_FROM_NIGHT = -0.2,					-- How much the night can reduce the air detection. (see static modifiers to check how weather affects it too.)
 	DETECT_EFFICIENCY_BASE = 0.1,						-- Base value for detection efficiency (once something detected, efficiency says how many airplanes was detected).
@@ -666,7 +666,7 @@ NAir = {
 	DISRUPTION_DEFENCE_SPEED_FACTOR = 1.0,
 	DISRUPTION_DEFENCE_ATTACK_FACTOR = 0.5,
 	
-	CAS_NIGHT_ATTACK_FACTOR = 0.1,                      -- CAS damaged get multiplied by this in land combats at night
+	CAS_NIGHT_ATTACK_FACTOR = 0.25,                      -- CAS damaged get multiplied by this in land combats at night ALEN 0.1
 },
 
 NNavy = {
@@ -866,17 +866,17 @@ NAI = {
 	NAVAL_THEATRE_PRIO_MIN_DISTANCE = 2000,				-- Minimum distance (in km) between priority theatres for naval assignment, to spread navy out
 	PRODUCTION_UNAVAILABLE_RESORCE_FACTORY_FACTOR = 0.7, -- was 0.75 Assign/queue this proportion of desired factories when resources are short 
 	PRODUCTION_EQUIPMENT_SURPLUS_FACTOR = 0.15,			-- Base value for how much of currently used equipment the AI will at least strive to have in stock
-	AIR_CONTROLLED_TERRITORY_INTERCEPT_SCORE = 6,		-- Interception score per controlled state in mission region
+	AIR_CONTROLLED_TERRITORY_INTERCEPT_SCORE = 3,		-- Interception score per controlled state in mission region ALEN 6
 	AIR_ALLY_TERRITORY_INTERCEPT_SCORE = -400,				-- Interception score per ally controlled state in mission region
-	INTERCEPT_NAVAL_BOMBING_FACTOR = 15.0,				-- Factors the weight of intercepting naval bombers in sea regions where friendly ships are
+	INTERCEPT_NAVAL_BOMBING_FACTOR = 20.0,				-- Factors the weight of intercepting naval bombers in sea regions where friendly ships are ALEN 15.0
 	AIR_CAS_SCORE_FACTOR = 20,							-- Factor applied to (friendly units) x (enemy units)) to get CAS score for region
-	AIR_ENEMY_SUPERIORITY_FACTOR = 3.0,					-- How much enemy air superiority counts relative to own
-	AIR_SUPERIORITY_FACTOR = 3.0,						-- Factor for air superiority score
-	AIR_MIN_ASSIGN_SCORE = 1,							-- Minimum total score for region to be considered for air missions
-	AIR_MIN_REASSIGN_SCORE = 1,						-- Minimum total score for region to be considered for reassigning air missions
-	AIR_WING_SIZE_FACTOR = 500.0,							-- Impact on air score of assigning wings to mission
-	AIR_MISSION_MIN_COVEREAGE = 0.2,					-- Between 0 and 1, limit for % coverage for air mission to be considered
-	AIR_BASE_PRIORITY_DISTANCE_FACTOR = 25.0,			-- Weight of distance between region and airbase for airbase priority score
+	AIR_ENEMY_SUPERIORITY_FACTOR = 5.0,					-- How much enemy air superiority counts relative to own ALEN 3
+	AIR_SUPERIORITY_FACTOR = 5.0,						-- Factor for air superiority score ALEN 3
+	AIR_MIN_ASSIGN_SCORE = 10,							-- Minimum total score for region to be considered for air missions ALEN 1
+	AIR_MIN_REASSIGN_SCORE = 25,						-- Minimum total score for region to be considered for reassigning air missions ALEN 1
+	AIR_WING_SIZE_FACTOR = 1.0,							-- Impact on air score of assigning wings to mission ALEN 500
+	AIR_MISSION_MIN_COVEREAGE = 0.25,					-- Between 0 and 1, limit for % coverage for air mission to be considered ALEN 0.2
+	AIR_BASE_PRIORITY_DISTANCE_FACTOR = 50.0,			-- Weight of distance between region and airbase for airbase priority score ALEN 25
 	MAX_VOLUNTEER_ARMY_FRACTION = 0.25,					-- Countries will not send more than their forces time this number to aid another country
 	WANTED_UNITS_INDUSTRY_FACTORY = 0.0, 				-- How many units a country wants is partially based on how much military industry that is available
 	DEPLOY_MIN_TRAINING_PEACE_FACTOR = 0.55,			-- Required percentage of training (1.0 = 100%) for AI to deploy unit in peacetime
@@ -886,9 +886,9 @@ NAI = {
 	DYNAMIC_STRATEGIES_THREAT_FACTOR = 4.0,				-- How much threat generated by other countries effects generated strategies
 	WARGOAL_GENERATION_STRENGTH_FACTOR = 1.75,			-- Desire to generate wargoal effected negatevely if actor strength is less than this factor of target strength
 	LOCATION_BALANCE_TO_ADVANCE = 0.0,					-- Limit on location strength balance between country and enemy for unit to dare to move forward.
-	DIVISION_UPGRADE_MIN_XP = 100,						-- Minimum XP before attempting to upgrade a division template.
+	DIVISION_UPGRADE_MIN_XP = 350,						-- Minimum XP before attempting to upgrade a division template.
 	DIVISION_CREATE_MIN_XP = 800,						-- Minimum XP before attempting to create a fresh new division template.
-	VARIANT_UPGRADE_MIN_XP = 500,						-- Minimum XP before attempting to create a new variant.
+	VARIANT_UPGRADE_MIN_XP = 800,						-- Minimum XP before attempting to create a new variant.
 	UPGRADE_XP_RUSH_UPDATE = 500,						-- If XP is above this on the daily tick the AI will attempt to spend it
 	FOCUS_TREE_CONTINUE_FACTOR = 0.95,					-- Factor for score of how likely the AI is to keep going down a focus tree rather than starting a new path.
 	VP_GARRISON_VALUE_FACTOR = 0.8,						-- BICE, originally 0.5, not sure why changed, might help with repressing partisans? -- Extent to which VP garrisons are prioritized, based on VP value and compared to other priority values.
@@ -1073,7 +1073,7 @@ NAI = {
 		0.0,   -- patrol_coordination
 		0.0,   -- search_and_destroy_coordination
 		-- Air Values
-		3.0,   -- air_range
+		0.1,   -- air_range
 		3.0,   -- air_defence
 		3.0,   -- air_attack
 		1.0,   -- air_agility
@@ -1087,7 +1087,7 @@ NAI = {
 		0.0,   -- max_organisation
 		1.0,   -- 1.0 max_strength
 		0.0,  -- build_cost_ic
-		0.0,   -- maximum_speed
+		0.5,   -- maximum_speed
 		1.0,   -- armor_value
 		0.0,   -- ap_attack
 		0.5,   -- reliability
@@ -1123,7 +1123,7 @@ NAI = {
 	REGION_CONVOY_DANGER_DAILY_DECAY = 1,					-- When convoys are sunk it generates threat in the region which the AI uses to prio nalval missions
 
 	ESCORT_BOMBERS_IMPORTANCE_MODIFIER = 3.0,				-- DNM, original 1 (AI Mod)
-	PRODUCTION_LINE_SWITCH_SURPLUS_NEEDED_MODIFIER = 0.1,	-- Is modified by efficency modifiers.
+	PRODUCTION_LINE_SWITCH_SURPLUS_NEEDED_MODIFIER = 0.15,	-- Is modified by efficency modifiers.
 	PLAN_ACTIVATION_MAJOR_WEIGHT_FACTOR = 0.0,				-- AI countries will hold on activating plans if stronger countries have plans in the same location. Majors count extra (value of 1 will negate this)
 	PLAN_ACTIVATION_PLAYER_WEIGHT_FACTOR = 0.0,			-- AI countries will hold on activating plans if player controlled countries have plans in the same location. Majors count extra (value of 1 will negate this)
 	AREA_DEFENSE_BASE_IMPORTANCE = 3,						-- Area defense order base importance value (used for determining order of troop selections)
@@ -1225,26 +1225,26 @@ NAI = {
 	LAND_DEFENSE_AA_IMPORTANCE_FACTOR = 1.0,				-- Factor of AA influence on strategic importance ( 0.0 - 1.0 )
 	LAND_DEFENSE_INFRA_IMPORTANCE_FACTOR = 0.5,				-- Factor of infrastructure influence on strategic importance ( 0.0 - 1.0 )
 	LAND_DEFENSE_IMPORTANCE_SCALE = 1.5,					-- Lend defence total importance scale (every land defence score get's multiplied by it)
-	LAND_DEFENSE_MIN_FACTORIES_FOR_AIR_IMPORTANCE = 4,		-- If amount of factories is less importance of factories won't apply
+	LAND_DEFENSE_MIN_FACTORIES_FOR_AIR_IMPORTANCE = 6,		-- If amount of factories is less importance of factories won't apply ALEN 4
 
 	LAND_DEFENSE_FIGHERS_PER_PLANE = 1.8,					-- Amount of air superiority planes requested per enemy plane
 	LAND_DEFENSE_INTERSEPTORS_PER_BOMBERS = 2.0,			-- Amount of air interceptor planes requested per enemy plane A: was 0.2
 	LAND_COMBAT_AIR_SUPERIORITY_IMPORTANCE = 1,			-- Strategic importance of air superiority ( amount of enemy planes in area )
-	LAND_COMBAT_OUR_ARMIES_AIR_IMPORTANCE = 80,				-- Strategic importance of our armies
+	LAND_COMBAT_OUR_ARMIES_AIR_IMPORTANCE = 15,				-- Strategic importance of our armies ALEN 80
 	LAND_COMBAT_OUR_COMBATS_AIR_IMPORTANCE = 80,			-- Strategic importance of our armies in the combats
-	LAND_COMBAT_FRIEND_ARMIES_AIR_IMPORTANCE = 80,			-- Strategic importance of friendly armies
-	LAND_COMBAT_FRIEND_COMBATS_AIR_IMPORTANCE = 80,			-- Strategic importance of friendly armies in the combat
+	LAND_COMBAT_FRIEND_ARMIES_AIR_IMPORTANCE = 10,			-- Strategic importance of friendly armies ALEN 80
+	LAND_COMBAT_FRIEND_COMBATS_AIR_IMPORTANCE = 20,			-- Strategic importance of friendly armies in the combat ALEN 80
 	LAND_COMBAT_ENEMY_ARMIES_AIR_IMPORTANCE = 8,			-- Strategic importance of our armies
 	LAND_COMBAT_ENEMY_LAND_FORTS_AIR_IMPORTANCE = 5,		-- Strategic importance of enemy land forts in the region
 	LAND_COMBAT_ENEMY_COASTAL_FORTS_AIR_IMPORTANCE = 3,		-- Strategic importance of enemy coastal fronts in the region
 	LAND_COMBAT_IMPORTANCE_SCALE = 1.5,						-- Lend combat total importance scale (every land combat score get's multiplied by it)
-	LAND_COMBAT_FIGHTERS_PER_PLANE = 2,				-- Amount of air superiority planes requested per enemy plane
-	LAND_COMBAT_CAS_WINGS_PER_ENEMY_ARMY_LIMIT = 4,		-- Limit of CAS wings requested by enemy armies
-	LAND_COMBAT_CAS_PER_ENEMY_ARMY = 80,				-- Amount of CAS planes requested per enemy army
-	LAND_COMBAT_CAS_PER_COMBAT = 50,					-- Amount of CAS requested per combat
+	LAND_COMBAT_FIGHTERS_PER_PLANE = 1.5,				-- Amount of air superiority planes requested per enemy plane ALEN 2
+	LAND_COMBAT_CAS_WINGS_PER_ENEMY_ARMY_LIMIT = 50,		-- Limit of CAS wings requested by enemy armies ALEN 4
+	LAND_COMBAT_CAS_PER_ENEMY_ARMY = 300,				-- Amount of CAS planes requested per enemy army ALEN 80
+	LAND_COMBAT_CAS_PER_COMBAT = 60,					-- Amount of CAS requested per combat ALEN 50
 
-	LAND_COMBAT_BOMBERS_PER_LAND_FORT_LEVEL = 2,		-- Amount of bomber planes requested per enemy land fort level
-	LAND_COMBAT_BOMBERS_PER_COASTAL_FORT_LEVEL = 1,	-- Amount of bomber planes requested per enemy coastal fort level
+	LAND_COMBAT_BOMBERS_PER_LAND_FORT_LEVEL = 10,		-- Amount of bomber planes requested per enemy land fort level ALEN 2
+	LAND_COMBAT_BOMBERS_PER_COASTAL_FORT_LEVEL = 5,	-- Amount of bomber planes requested per enemy coastal fort level ALEN 1
 	LAND_COMBAT_MIN_EXCORT_WINGS = 2,					-- Min amount of airwings requested to excort operations
 
 	STR_BOMB_AIR_SUPERIORITY_IMPORTANCE = 0.10,		-- Strategic importance of air superiority ( amount of enemy planes in area )
@@ -1255,10 +1255,10 @@ NAI = {
 	STR_BOMB_INFRA_IMPORTANCE_FACTOR = 0.25,			-- Factor of infrastructure influence on strategic importance ( 0.0 - 1.0 )
 	STR_BOMB_IMPORTANCE_SCALE = 1.0,					-- str bombing total importance scale (every str bombing score get's multiplied by it)
 
-	STR_BOMB_MIN_ENEMY_FIGHTERS_IN_AREA = 400,		-- If amount of enemy fighters is higher than this mission won't perform
+	STR_BOMB_MIN_ENEMY_FIGHTERS_IN_AREA = 500,		-- If amount of enemy fighters is higher than this mission won't perform ALEN 400
 	STR_BOMB_FIGHTERS_PER_PLANE = 2,				-- Amount of air superiority planes requested per enemy plane
-	STR_BOMB_PLANES_PER_CIV_FACTORY = 20,			-- Amount of planes requested per enemy civ factory
-	STR_BOMB_PLANES_PER_MIL_FACTORY = 25,			-- Amount of planes requested per enemy military factory
+	STR_BOMB_PLANES_PER_CIV_FACTORY = 30,			-- Amount of planes requested per enemy civ factory ALEN 20
+	STR_BOMB_PLANES_PER_MIL_FACTORY = 30,			-- Amount of planes requested per enemy military factory ALEN 25
 	STR_BOMB_PLANES_PER_NAV_FACTORY = 15,			-- Amount of planes requested per enemy naval factory
 	STR_BOMB_MIN_EXCORT_WINGS = 2,						-- Min amount of airwings requested to excort operations
 	
