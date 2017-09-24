@@ -201,7 +201,6 @@ focus_tree = {
 									tag = SOV
 									is_in_faction_with = SOV
 									AND = {
-										has_government = communism
 										has_opinion = {
 											target = SOV
 											value > 0
@@ -212,13 +211,16 @@ focus_tree = {
 										tag = SIK
 									}
 								}
+								has_opinion = {
+									target = ROOT
+									value > 9
+								}
 							}
 							controller = {
 								OR = { 
 									tag = SOV
 									is_in_faction_with = SOV
 									AND = {
-										has_government = communism
 										has_opinion = {
 											target = SOV
 											value > 0
@@ -228,6 +230,10 @@ focus_tree = {
 										}
 										tag = SIK
 									}
+								}
+								has_opinion = {
+									target = ROOT
+									value > 9
 								}
 							}
 						}
@@ -269,9 +275,6 @@ focus_tree = {
 			}
 		}
 		cancel_if_invalid = yes
-		bypass = {
-			has_war_with = JAP
-		}
 		x = 0
 		y = 3
 		cost = 10
@@ -544,6 +547,7 @@ focus_tree = {
 			has_war = yes
 		}
 		continue_if_invalid = yes
+		available_if_capitulated = yes
 		x = 21
 		y = 4
 		cost = 10
@@ -586,6 +590,7 @@ focus_tree = {
 			has_war = yes
 		}
 		continue_if_invalid = yes
+		available_if_capitulated = yes
 		x = 23
 		y = 4
 		cost = 10
@@ -970,7 +975,108 @@ focus_tree = {
 			custom_effect_tooltip = prc_set_government_rank
 			hidden_effect = {
 				drop_cosmetic_tag = yes
+				if = {
+					limit = {
+						YUN = {
+							exists = yes
+							NOT = {
+								OR = {
+									is_puppet_of = ROOT
+									has_war_with = ROOT
+								}
+							}
+							any_owned_state = {
+								is_core_of = ROOT
+							}
+						}
+					}
+					create_wargoal = {
+						target = YUN
+						type = annex_everything
+					}
+				}
+				if = {
+					limit = {
+						GXC = {
+							exists = yes
+							NOT = {
+								OR = {
+									is_puppet_of = ROOT
+									has_war_with = ROOT
+								}
+							}
+							any_owned_state = {
+								is_core_of = ROOT
+							}
+						}
+					}
+					create_wargoal = {
+						target = GXC
+						type = annex_everything
+					}
+				}
+				if = {
+					limit = {
+						SHX = {
+							exists = yes
+							NOT = {
+								OR = {
+									is_puppet_of = ROOT
+									has_war_with = ROOT
+								}
+							}
+							any_owned_state = {
+								is_core_of = ROOT
+							}
+						}
+					}
+					create_wargoal = {
+						target = SHX
+						type = annex_everything
+					}
+				}
+				if = {
+					limit = {
+						MAN = {
+							exists = yes
+							NOT = {
+								OR = {
+									is_puppet_of = ROOT
+									has_war_with = ROOT
+								}
+							}
+							any_owned_state = {
+								is_core_of = ROOT
+							}
+						}
+					}
+					create_wargoal = {
+						target = MAN
+						type = annex_everything
+					}
+				}
+				if = {
+					limit = {
+						XSM = {
+							exists = yes
+							NOT = {
+								OR = {
+									is_puppet_of = ROOT
+									has_war_with = ROOT
+								}
+							}
+							any_owned_state = {
+								is_core_of = ROOT
+							}
+						}
+					}
+					create_wargoal = {
+						target = XSM
+						type = annex_everything
+					}
+				}
 			}
+			country_event = { id = prc.152 }
 			add_research_slot = 1
 		}
 	}	
@@ -1605,6 +1711,45 @@ focus_tree = {
 					instant_build = yes
 				}
 			}
+			custom_effect_tooltip = PRC_some_navy_commander_tt
+			hidden_effect = {
+				create_navy_leader = {
+					name = "Wei Mingsen"
+					portrait_path = "gfx/leaders/kmt_mod/Portrait_Wei_Mingsen.dds"
+					traits = { }
+					skill = 3
+				}
+				create_navy_leader = {
+					name = "Liu Huaqing"
+					portrait_path = "gfx/leaders/kmt_mod/Portrait_Liu_Huaqing.dds"
+					traits = { }
+					skill = 3
+				}
+				create_navy_leader = {
+					name = "Chen Weiwen"
+					portrait_path = "gfx/leaders/kmt_mod/Portrait_Chen_Weiwen.dds"
+					traits = { }
+					skill = 3
+				}
+				create_navy_leader = {
+					name = "Wang Hongkun"
+					portrait_path = "gfx/leaders/kmt_mod/Portrait_Wang_Hongkun.dds"
+					traits = { }
+					skill = 3
+				}
+				create_navy_leader = {
+					name = "Luo Shunchu"
+					portrait_path = "gfx/leaders/kmt_mod/Portrait_Luo_Shunchu.dds"
+					traits = { }
+					skill = 3
+				}
+				create_navy_leader = {
+					name = "Fang Qiang"
+					portrait_path = "gfx/leaders/kmt_mod/Portrait_Fang_Qiang.dds"
+					traits = { }
+					skill = 3
+				}
+			}
 		}
 	}
 	
@@ -1730,10 +1875,6 @@ focus_tree = {
 		mutually_exclusive = { focus = PRC_the_new_communism_beacon }
 		available = {
 			SOV = {
-				has_opinion = {
-					target = ROOT
-					value > 4
-				}
 				OR = {
 					NOT = { has_country_flag = counter_purge }
 					AND = {
@@ -1859,6 +2000,11 @@ focus_tree = {
 		id = PRC_liberate_tibet
 		icon = GFX_goal_demand_sudetenland
 		prerequisite = { focus = PRC_ndcprc }
+		available = {
+			any_neighbor_country = {
+				tag = TIB
+			}
+		}
 		bypass = {
 			322 = { owner = { tag = ROOT }}
 		}
@@ -2210,6 +2356,7 @@ focus_tree = {
 					has_war_with = GER
 				}
 				date > 1940.1.1
+				has_country_flag = prc_capital_decided
 			}
 			has_government = communism
 			has_completed_focus = PRC_purge_dissident_element
@@ -3816,6 +3963,7 @@ focus_tree = {
 		cost = 10
 		prerequisite = { focus = PRC_increase_credibility_of_theory }
 		cancel = { surrender_progress > 0.20 }
+		cancel_if_invalid = no
 		
 		completion_reward = {
 			add_ideas = PRC_exploit_our_enemys_mistake_idea
@@ -3845,9 +3993,10 @@ focus_tree = {
 		prerequisite = { focus = PRC_the_goal_of_our_war }
 		prerequisite = { focus = PRC_military_civilian_corporation }
 		available = { has_war = yes }
-		x = 20
+		x = 19
 		y = 3
 		cost = 10
+		continue_if_invalid = yes
 		completion_reward = {
 			add_ideas = kmt_dare_to_die_corps_idea
 			custom_effect_tooltip = kmt_dtdc_tt
@@ -4002,6 +4151,7 @@ focus_tree = {
 				has_global_flag = PRC_defy_sov_order
 				has_global_flag = PRC_sov_approve
 			}
+			
 		}
 		x = 5
 		y = 2
@@ -4123,6 +4273,12 @@ focus_tree = {
 		x = 15
 		y = 1
 		cost = 10
+		bypass = {
+			NOT = {
+				has_completed_focus = PRC_fight_alone
+			}
+			is_in_faction_with = CHI
+		}
 		prerequisite = {
 			focus = PRC_government_reshuffle
 		}
@@ -4177,7 +4333,6 @@ focus_tree = {
 		id = PRC_trust_in_communism
 		icon = GFX_goal_support_communism
 		available = { 
-			
 			has_country_leader = {
 				name = "Zhang Xueliang"
 				ruling_only = yes
@@ -4185,6 +4340,7 @@ focus_tree = {
 			NOT = {
 				has_completed_focus = PRC_the_second_northeast_flag_replacement
 			}
+			has_government = communism
 		}
 		mutually_exclusive = { focus = PRC_destroy_mao_and_his_clique }
 		x = 6
@@ -4421,7 +4577,7 @@ focus_tree = {
 			has_completed_focus = PRC_form_the_grand_northwest_united
 		}
 		prerequisite = { focus = PRC_government_reshuffle focus = PRC_boost_the_morale }
-		x = 18
+		x = 17
 		y = 1
 		cost = 5
 		completion_reward = {
@@ -4504,10 +4660,7 @@ focus_tree = {
 		id = PRC_military_knowledge_exchange
 		icon = GFX_goal_generic_intelligence_exchange
 		available = { 
-			custom_trigger_tooltip = {
-				tooltip = chi_accept_prc71_tt
-				has_global_flag = chi_accepted_prc71
-			}
+			is_in_faction_with = CHI
 		}
 		x = 15
 		y = 2
@@ -4565,18 +4718,15 @@ focus_tree = {
 		icon = GFX_goal_generic_forceful_treaty
 		available = { 
 			has_global_flag = PRC_defy_sov_order
-			custom_trigger_tooltip = {
-				tooltip = chi_accept_prc71_tt
-				has_global_flag = chi_accepted_prc71
+			is_in_faction_with = CHI
+			OR = {
+				has_completed_focus = PRC_unite_against_the_jap
+				has_completed_focus = PRC_the_united_front
 			}
-			has_government = communism
 		}
 		x = 17
-		y = 2
-		cost = 10
-		prerequisite = {
-			focus = PRC_unite_against_the_jap
-		}
+		y = 0
+		cost = 5
 		completion_reward = {
 			SOV = { 
 				country_event = { id = prc.77 }
@@ -5561,19 +5711,6 @@ focus_tree = {
 			drop_cosmetic_tag = yes
 			set_cosmetic_tag = FengClique
 			set_party_name = { ideology = fascism long_name = FengClique_party name = FengClique_party}
-			every_state = {
-				limit = {
-					region = 328
-					is_core_of = ROOT
-					controller = {
-						tag = ROOT
-					}
-				}
-				ROOT = {
-					transfer_state = PREV
-				}
-			}
-			set_capital = 716
 			add_political_power = 200
 			if = {
 				limit = {
@@ -5609,6 +5746,10 @@ focus_tree = {
 			has_country_leader = {
 				name = "Zhang Xueliang"
 				ruling_only = yes
+			}
+			country_exists = CHI
+			CHI = {
+				is_puppet = no
 			}
 		}
 		mutually_exclusive = {
@@ -5945,7 +6086,6 @@ focus_tree = {
 		id = PRC_establish_general_staff
 		icon = GFX_goal_generic_army_doctrines
 		available = {
-			has_idea = PRC_our_general_staff
 		}
 		x = 58
 		y = 3
