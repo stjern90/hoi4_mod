@@ -313,7 +313,11 @@ country_event = {
 	    tag = JAP
 	    NOT = { is_in_faction_with = USA }
 	    is_ai = yes
-		date > 1941.12.7                            # make sure that they join
+		date > 1941.11.15                            # make sure that they join
+	}
+	
+	mean_time_to_happen = {
+		days = 26
 	}
 
     immediate = {
@@ -329,39 +333,6 @@ country_event = {
 }
 
 
-country_event = {
-	id = blackiceevents.34
-	title = blackiceevents.34.t
-	desc = blackiceevents.34.d
-	
-	picture = GFX_report_event_japanese_soldiers_02
-
-	trigger = {
-		tag = JAP
-		is_ai = yes
-		FRA = {is_ai = yes}
-		FRA = { has_capitulated = yes }
-		OR = {
-		    627 = { is_controlled_by = FRA }
-		    335 = { is_controlled_by = FRA }
-		    667 = { is_controlled_by = FRA }
-        }
-	}
-
-	fire_only_once = yes
-
-	option = {
-		name = blackiceevents.34.a
-		ai_chance = { factor = 1 }
-		effect_tooltip = {
-		    JAP = {
-		        transfer_state = 627
-		        transfer_state = 335
-		        transfer_state = 667
-		    }
-		}
-	}
-}
 country_event = {
 	id = blackiceevents.35
 	title = blackiceevents.35.t
@@ -489,6 +460,7 @@ country_event = {
 		NOT = { has_war_with = HOL }
 		HOL = { NOT = { is_in_faction = yes } }
 		HOL = {is_ai = yes}
+		HOL = { OR = { has_government = democratic has_government = neutrality } }
 		GER = { has_war_with = HOL }
 	}
 	# needs news event for historical mod
@@ -525,6 +497,7 @@ country_event = {
 		is_puppet = no
 		NOT = { has_war_with = DEN }
 		DEN = { NOT = { is_in_faction = yes } }
+		DEN = { OR = { has_government = democratic has_government = neutrality } }
 		GER = { has_war_with = DEN }
 	}
 	# needs news event for historical mod
@@ -561,6 +534,7 @@ country_event = {
 		is_puppet = no
 		NOT = { has_war_with = BEL }
 		BEL = { NOT = { is_in_faction = yes } }
+		BEL = { OR = { has_government = democratic has_government = neutrality } }
 		GER = { has_war_with = BEL }
 	}
 	# needs news event for historical mod
@@ -764,66 +738,7 @@ country_event = {
     	name = blackiceevents.53.b
     }
 }
-country_event = {
-	id = blackiceevents.64
-	title = blackiceevents.64.t
-	desc = blackiceevents.64.d
-	
-	picture = GFX_report_event_nationalist_china_machinegun_firing
 
-	trigger = {
-		tag = JAP
-		#has_country_flag = impossible
-		is_ai = yes
-		has_war_with = USA
-		date > 1942.6.1
-		CHI = { surrender_progress > 0.99 }
-	}
-
-	fire_only_once = yes
-
-	mean_time_to_happen = { days = 20 } 
-
-	immediate = {
-	    hidden_effect = {
-	        if = {
-	            limit = {
-	                country_exists = PRC
-	            }
-	            white_peace = PRC
-	        }
-	        white_peace = CHI
-	        transfer_state = 622
-	        transfer_state = 611
-	        transfer_state = 612
-		    transfer_state = 591
-		    transfer_state = 592
-		    transfer_state = 593
-		    transfer_state = 594
-		    transfer_state = 595
-		    transfer_state = 596
-		    transfer_state = 597
-		    transfer_state = 598
-		    transfer_state = 599
-		    transfer_state = 600
-		    transfer_state = 602
-		    transfer_state = 603
-		    transfer_state = 605
-		    transfer_state = 606
-		    transfer_state = 607
-		    transfer_state = 608
-		    transfer_state = 613
-		    transfer_state = 614
-		    transfer_state = 615
-		    transfer_state = 620
-		    transfer_state = 621
-		    set_global_flag = china_is_back_jap
-		}
-	}
-	option = {
-    	name = blackiceevents.36.a
-    }
-}
 
 country_event = {
 	id = blackiceevents.66
@@ -838,7 +753,7 @@ country_event = {
 		tag = SOV
 		is_ai = yes
 		GER = { has_war_with = POL}
-		ENG = { is_in_faction_with =POL}
+		ENG = { is_in_faction_with = POL}
 		#NOT = { is_in_faction_with = GER }
 		POL = { has_war_with = SOV }
 	}
@@ -850,12 +765,15 @@ country_event = {
 	}
 	option = {
 		name = blackiceevents.66.a
-		every_country = {
+		if = { limit = { NOT = { ENG = { has_war_with = SOV } }}
+			every_country = {
 				limit = {
 					is_in_faction_with = ENG
 				}
 				white_peace = SOV
 			}
+		}
+
 		add_opinion_modifier = { target = ENG modifier =  improve_relation }
 	}
 }
