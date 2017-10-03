@@ -765,7 +765,7 @@ NNavy = {
 	AMPHIBIOUS_INVADE_DEFEND_LOW = 1.5, 							-- low and high cap of defend modifier scale. Scale interpolated by invasion progress.
 	AMPHIBIOUS_INVADE_DEFEND_HIGH = 1.0,
 	AMPHIBIOUS_INVADE_LANDING_PENALTY_DECREASE = 3.5, 				-- scale of bonus that decreases "amphibious penalty" during combat, relative to invading transporter tech.
-	BASE_CARRIER_SORTIE_EFFICIENCY = 0.7,							-- factor of planes that can sortie by default from a carrier
+	BASE_CARRIER_SORTIE_EFFICIENCY = 0.75,							-- factor of planes that can sortie by default from a carrier
 	SPREAD_BASE_SPEED = 0.04,										-- base speed when spreading/shrinkign a fleet
 	SPREAD_BASE_SPEED_FACTOR = 0.3,								-- base factor between regular speed and spread speed
 	SPREAD_MAX_PROVINCES = 30,									-- When regions exceeds this amount of provs, we get full penalty
@@ -1031,7 +1031,7 @@ NAI = {
 	CALL_ALLY_FASCIST_DESIRE_WT = -60,                  -- less desire if we are below the tension limit
 
 	SHIPS_PRODUCTION_BASE_COST = 10000,					-- Used by the AI to normalize IC values when picking what ship to build.
-	NEEDED_NAVAL_FACTORIES_EXPENSIVE_SHIP_BONUS = 6,   -- Amount of naval yards you need to get a bonus to building really expensive ships
+	NEEDED_NAVAL_FACTORIES_EXPENSIVE_SHIP_BONUS = 16,   -- Amount of naval yards you need to get a bonus to building really expensive ships
 
 	AIR_WING_REINFORCEMENT_LIMIT = 180,
 	AIR_BASE_DANGER_ZONE_WEIGHT = 100,					-- Score used per province taken by enemy in a state to determine how dangerous it is to use an air base
