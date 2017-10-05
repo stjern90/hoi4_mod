@@ -2,22 +2,18 @@
 USA_save_the_aussies = {
 	enable = {
 		tag = USA
-		OR = {
-			has_government = conservatism
-			has_government = socialism
-			has_government = liberalism
-		}
+		has_government = democratic
 		is_in_faction = no
 		has_war = no
 
 		JAP = {	has_war_with = AST }
 		AST = {
-			OR = {
-				has_government = conservatism
-				has_government = socialism
-				has_government = liberalism
-			}		
+			has_government = democratic			
 			surrender_progress > 0.15
+		}
+		has_opinion = {
+			target = AST
+			value > 0 # not if we hate AST
 		}
 	}
 	abort = {
@@ -43,3 +39,269 @@ USA_save_the_aussies = {
 	}
 }
 
+USA_save_india = { # in the case where japan has beaten china and is moving on india we should step up
+	enable = {
+		tag = USA
+		has_government = democratic
+		is_in_faction = no
+		has_war = no
+
+		JAP = {	
+			has_war_with = RAJ 
+			NOT = { has_war_with = CHI }
+		}
+		RAJ = {
+			is_in_faction_with = ENG
+			surrender_progress > 0.15
+		}
+	}
+	abort = {
+		OR = {
+			has_war_with = RAJ
+			is_in_faction_with = JAP
+			JAP = {	
+				NOT = { has_war_with = RAJ } 
+			}
+		}
+	}
+	
+	ai_strategy = {
+		type = contain
+		id = "JAP"			
+		value = 200
+	}
+	
+	ai_strategy = {
+		type = protect
+		id = "RAJ"			
+		value = 200
+	}
+}
+
+USA_stop_soviet_from_falling = {
+	enable = {
+		tag = USA
+		has_war = no
+		num_divisions > 85 # we must have some divisions ourselves
+
+		NOT = { has_government = fascism }
+		NOT = { is_in_faction_with = GER }
+		NOT = { has_war_with = SOV }
+		GER = { 
+			has_war_with = SOV 
+			has_war_with = ENG
+		}
+		SOV = {
+			surrender_progress > 0.05
+			has_capitulated = no
+		}
+	}
+
+	abort = {
+		OR = {
+			has_war = yes
+			has_war_with = SOV
+			NOT = { GER = { has_war_with = SOV } }
+			is_in_faction_with = GER
+			has_government = fascism
+			SOV = { has_war = no }
+			SOV = { surrender_progress < 0.01 }
+		}
+	}
+
+	ai_strategy = {
+		type = support
+		id = "SOV"
+		value = 100
+	}
+
+	ai_strategy = {
+		type = role_ratio
+		id = infantry
+		value = -75
+	}
+
+	ai_strategy = {
+		type = template_prio
+		id = light_armor
+		value = -25
+	}
+
+	ai_strategy = {
+		type = template_prio
+		id = medium_armor
+		value = -25
+	}
+
+	ai_strategy = {
+		type = template_prio
+		id = heavy_armor
+		value = -25
+	}
+}
+
+# this one is same as above, but if you have entered the war yourself
+USA_stop_soviet_from_falling_2 = {
+	enable = {
+		tag = USA
+		has_war = yes
+		NOT = { has_government = fascism }
+		NOT = { is_in_faction_with = GER }
+		NOT = { has_war_with = SOV }
+		GER = { 
+			has_war_with = SOV 
+			has_war_with = ENG
+		}
+		SOV = {
+			surrender_progress > 0.05
+			has_capitulated = no
+		}
+	}
+
+	abort = {
+		OR = {
+			has_war = no
+			has_war_with = SOV
+			NOT = { GER = { has_war_with = SOV } }
+			is_in_faction_with = GER
+			has_government = fascism
+			SOV = { has_war = no }
+			SOV = { surrender_progress < 0.01 }
+		}
+	}
+
+	ai_strategy = {
+		type = support
+		id = "SOV"
+		value = 100
+	}
+}
+
+USA_template_design_1 = {
+	enable = {
+		original_tag = USA
+		date < 1940.1.1				
+	}
+	abort = { 
+		date > 1940.1.1
+	}
+
+	ai_strategy = {
+		type = template_prio
+		id = motorized
+		value = 10
+	}
+
+	ai_strategy = {
+		type = template_prio
+		id = cavalry
+		value = -100
+	}
+	
+	ai_strategy = {
+		type = template_prio
+		id = light_armor
+		value = 50
+	}
+
+	ai_strategy = {
+		type = template_prio
+		id = medium_armor
+		value = -10
+	}
+
+	ai_strategy = {
+		type = template_prio
+		id = heavy_armor
+		value = -50
+	}
+
+	ai_strategy = {
+		type = template_prio
+		id = paratroopers
+		value = -50
+	}
+	
+	ai_strategy = {
+		type = template_prio
+		id = infantry
+		value = 60
+	}
+}
+
+USA_template_design_2 = {
+	enable = {
+		original_tag = USA
+		date > 1940.1.1				
+	}
+
+	ai_strategy = {
+		type = template_prio
+		id = mechanized
+		value = -20
+	}
+
+	ai_strategy = {
+		type = template_prio
+		id = cavalry
+		value = -100
+	}
+	
+	ai_strategy = {
+		type = template_prio
+		id = light_armor
+		value = 10
+	}
+
+	ai_strategy = {
+		type = template_prio
+		id = medium_armor
+		value = 20
+	}
+	
+	ai_strategy = {
+		type = template_prio
+		id = modern_armor
+		value = 40
+	}
+
+	ai_strategy = {
+		type = template_prio
+		id = heavy_armor
+		value = -20
+	}
+
+	ai_strategy = {
+		type = template_prio
+		id = paratroopers
+		value = -50
+	}
+	
+	ai_strategy = {
+		type = template_prio
+		id = infantry
+		value = 10
+	}
+	
+	ai_strategy = {
+		type = template_prio
+		id = marines
+		value = 100
+	}
+}
+
+USA_garrison_production = {
+	enable = {
+		original_tag = USA
+		ai_wants_divisions >  12 #Massively decreasing the amount of paratroopers the AI wants
+	}
+	abort = {
+		ai_wants_divisions < 13 #Massively decreasing the amount of paratroopers the AI wants
+	}
+
+	ai_strategy = {
+		type = role_ratio
+		id = garrison
+		value = 3
+	}
+}
