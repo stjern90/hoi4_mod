@@ -13,6 +13,7 @@ focus_tree = {
 	default = no
 
 	continuous_focus_position = { x = 50 y = 1100 }
+	##############################################################
 	########################## Goering 4 year plan ###############
 	focus = {
 		id = GER_Goering_Plan
@@ -1672,7 +1673,7 @@ focus_tree = {
 			# Balance research bonus to 2 techs in armor, also in event
 			add_tech_bonus = {
                 name = armor_bonus
-                technology = tech_panzer_ii_equipment_2     # Liecht divison tech template
+                technology = tech_panzer_ii_equipment_3     # Liecht divison tech template
                 bonus = 0.25
                 uses = 2
                 category = cat_light_armor
@@ -4516,7 +4517,6 @@ focus_tree = {
 	############################################
 	############## BALKAN BRANCH ###############
 	############################################
-
 	focus = {
 		id = GER_demand_slovenia
 		prerequisite = { focus = GER_anschluss }
@@ -4537,6 +4537,11 @@ focus_tree = {
 					NOT = { HUN = { is_puppet_of = GER } }
 					NOT = { is_in_faction_with = HUN }
 				}
+				AND = {
+					YUG = { owns_state = 913 }
+					NOT = { YUG = { is_puppet_of = GER } }
+					NOT = { is_in_faction_with = YUG }
+				}
 			}
 		}
 		cancel = {
@@ -4552,6 +4557,11 @@ focus_tree = {
 					NOT = { HUN = { owns_state = 102 } }
 					is_in_faction_with = HUN
 					HUN = { is_puppet_of = GER }
+				}
+				AND = {
+					NOT = { YUG = { owns_state = 913 } }
+					is_in_faction_with = YUG
+					YUG = { is_puppet_of = GER }				
 				}
 			}
 		}
@@ -4606,8 +4616,18 @@ focus_tree = {
 			}
 			add_named_threat = { threat = 2 name = GER_demand_slovenia_threat }
 			if = {
-				limit = { YUG = { owns_state = 102 } }
-				YUG = { add_opinion_modifier = { target = GER modifier = GER_demand_slovenia_YUG } }
+				limit = {
+					YUG = {
+						owns_state = 102
+						owns_state = 913
+					}
+				}
+				YUG = {
+					add_opinion_modifier = {
+						target = GER
+						modifier = GER_demand_slovenia_YUG
+					}
+				}
 				if = {
 					limit = {
 						NOT = { has_war_with = ENG }
@@ -4639,7 +4659,10 @@ focus_tree = {
 					102 = { is_owned_by = HUN }
 				}
 				HUN = { 
-					add_opinion_modifier = { target = GER modifier = GER_demand_slovenia_YUG }
+					add_opinion_modifier = {
+						target = GER
+						modifier = GER_demand_slovenia_YUG
+					}
 					country_event = germany.373
 				}
 			}
@@ -5148,7 +5171,7 @@ focus_tree = {
 		
 			GRE = { country_event = { id = greece.3 hours = 6 } }
 		}
-}
+	}
 	focus = { #added
 		id = GER_eupen_malmedy
 		icon = GFX_goal_anschluss
@@ -5359,14 +5382,6 @@ focus_tree = {
 	#		OR = {
 	#			NOT = { country_exists = FRA }
 	#			#has_war_with = FRA     ## Need to leave this there, so AI always has to run it, so it can get Paris Wargoal - cost shall be low however
-    #
-    #
-    #
-    #
-    #
-    #
-    #
-    #
 	#		}
 	#	}
 	#	#historical_ai = {   ## removing because this causes AI to skip this NF
@@ -5393,6 +5408,110 @@ focus_tree = {
  	#		}
 	#	}
 	#}
+	############################################
+	############## AFRIKA BRANCH ###############
+	############################################
+	focus = {
+		id = GER_afrika_korps
+		icon = GFX_goal_afrikakorps
+		cost = 5
+		x = 20
+		y = 6
+		prerequisite = { focus = GER_italy_ally }
+		prerequisite = { focus = GER_around_maginot }
+		available = {
+			date > 1940.1.1
+			GER = { has_war_with = SOV }
+			ITA={
+				owns_state=448 #Tripoli
+			}
+			NOT = {
+				ITA = { controls_state = 450 }
+			} # benghazi
+			ITA = {
+				is_in_faction_with = GER
+			}
+			ITA = {
+				OR = {
+					has_war_with = EGY
+					has_war_with = ENG
+				}
+			}
+			OR = {
+				has_war_with = EGY
+				has_war_with = ENG	
+			}
+		}
+		completion_reward = { 
+			GER = {
+				country_event = germany.233
+				set_country_flag = ger_afrikakorps
+			}
+		}
+	}
+	focus = {
+		id = GER_devils_gardens
+		icon = GFX_goal_generic_fortify_city
+		cost = 10
+		x = 19
+		y = 7
+		prerequisite = {focus = GER_afrika_korps}
+		available = {
+			ITA = {
+				is_in_faction_with = GER
+			}
+			OR = {
+				ITA={
+					controls_state=452
+				}
+				GER={
+					controls_state=452
+				}
+			}
+		}
+	
+		completion_reward = {
+			452={
+				add_building_construction = {
+					type = bunker
+					level = 4
+					province = 11910
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = GER_feldmarshall
+		icon = GFX_goal_generic_position_armies
+		cost = 10
+		x = 21
+		y = 7
+		prerequisite = {focus = GER_afrika_korps}
+		available = {
+			ITA = {
+				is_in_faction_with = GER
+			}
+			OR = {
+				ITA={
+					controls_state=452
+				}
+				GER={
+					controls_state=452
+				}
+			}
+		}
+	
+		completion_reward = {
+			remove_unit_leader = 4
+			create_field_marshal = { 
+				name = "Rommel, Erwin"
+				gfx = "Portrait_Germany_Erwin_Rommel_FM.dds"
+				traits = { GER_tag Pour_le_Merite Iron_Cross Military_Merit_Order Awesome_General desert_fox_FM panzer_leader }
+				skill = 5
+			}
+		}
+	}
 	###################### Schutzstaffel National Focus ####################
 	focus = {
 		id = GER_Schutzstaffel_focus
