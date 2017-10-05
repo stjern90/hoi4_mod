@@ -39,6 +39,12 @@ country_event = {
 				add_core_of = GER
 			}
 		}
+		910 = {
+			if = {
+				limit = { is_owned_by = AUS }
+				add_core_of = GER
+			}
+		}
 		if = { limit = { 
 			153 = { is_owned_by = AUS }
 				}
@@ -224,7 +230,7 @@ country_event = {
 			add_state_claim = 97
 			add_state_claim = 80
 			add_state_claim = 840
-			add_state_claim = 930
+		
 			
 			hidden_effect =  {
 				add_timed_idea = {
@@ -9255,17 +9261,7 @@ country_event = {
 
 	fire_only_once = yes
 	
-	trigger = {
-		tag = GER
-		is_in_faction_with = ITA
-		has_war = yes
-		is_puppet = no
-		not = { has_country_flag = GERafrikakorp }
-		NOT = { ITA = { controls_state = 450 }} # benghazi
-	
-		ITA = { owns_state = 448 } # controls tripoli
-		#date > 1940.2.1	
-	}
+	is_triggered_only = yes
 	
 	mean_time_to_happen = {
 		days = 1
@@ -9273,17 +9269,37 @@ country_event = {
 	
 	option = {
 		name = germany.233.a
+		trigger = { 
+			tag = GER
+			is_ai = yes
+		}
 		ai_chance = { factor = 100 }
 		
 		hidden_effect = {
-			set_technology = {desert_equipment = 1 }
-			set_technology = {HVantiair2 =  1 }
+			set_technology = { desert_equipment = 1 }
+			set_technology = { HVantiair2 =  1 }
+			load_oob = "GER_afrikakorps_ai"
+			set_country_flag = GERafrikakorp
+		}
+	}
+	option = {
+		name = germany.233.b
+		trigger = {
+			tag = GER
+			date > 1941.2.9
+			is_ai = no
+			GER = { has_tech = desert_equipment }
+			GER = { has_tech = HVantiair2 }
+		}
+		ai_chance = { factor = 100 }
+		
+		hidden_effect = {
 			load_oob = "GER_afrikakorps"
 			set_country_flag = GERafrikakorp
 		}
 	}
 	option = {
-		name = germany.233.b		#refuse
+		name = germany.233.c		#refuse
 		ai_chance = { factor = 0 }
 		set_country_flag = GERafrikakorp
 	}
@@ -11966,6 +11982,7 @@ country_event = {
 		effect_tooltip = {
 			GER = {
 				transfer_state = 102
+				transfer_state = 913
 			}
 		}
 	}
@@ -11976,7 +11993,7 @@ country_event = {
 				create_wargoal = {
 					type = take_state_focus
 					target = HUN
-					generator = { 102 }
+					generator = { 102 913 }
 				}
 			}
 		}
@@ -11995,7 +12012,10 @@ country_event = {
 	
 	option = {
 		name = germany.374.a	#Excellent
-		GER = { transfer_state = 102 }
+		GER = {
+			transfer_state = 102
+			transfer_state = 913
+		}
 		set_country_flag = slovenia_acquired
 		hidden_effect = {
 			news_event = { id = news.163 hours = 6 }
@@ -12017,7 +12037,7 @@ country_event = {
 		create_wargoal = {
 					type = take_state_focus
 					target = HUN
-					generator = { 102 }
+					generator = { 102 913 }
 		}
 		add_political_power = -35
 	}
@@ -12025,6 +12045,7 @@ country_event = {
 	option = {
 		name = germany.375.b	#We must back down for now...
 		add_state_claim = 102
+		add_state_claim = 913
 		ruling_pop_minus_5 = yes
 		add_national_unity = -0.03
 		add_political_power = 10
@@ -12084,7 +12105,6 @@ country_event = {
 		clr_country_flag = recent_major_land_acquisition
 	}
 }
-
 #Allied Anger: Been awhile since GER did something, goes down a level
 country_event = {
 	id = germany.378
@@ -12092,18 +12112,107 @@ country_event = {
 	desc = germany.378.desc
 	picture = GFX_report_event_german_politician_speech
 	hidden = yes
+	
 	trigger = {
 		has_country_flag = good_boy_GER
 	}
+	
 	mean_time_to_happen = {
 		days = 365
 	}
+	
 	option = {
 		name = germany.378.a	
 		decrease_allied_anger = yes
 	}
 }
+#### arrival of 15. Panzer Division in Tripoli.
+country_event = {
+	id = germany.392
+	title = germany.392.t
+	desc = germany.392.d
+	picture = GFX_report_event_kubelwagon_in_afrika
 
+	fire_only_once = yes
+	
+	trigger = {
+		tag = GER
+		is_ai = no
+		date > 1941.3.1
+		has_country_flag = GERafrikakorp
+		NOT = { has_country_flag = GERafrikakorp_15PzD }
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = germany.392.a
+		trigger = { 
+			tag = GER
+			is_ai = no
+		}
+		
+		hidden_effect = {
+			load_oob = "GER_15_Panzer_Division_DAK"
+			set_country_flag = GERafrikakorp_15PzD
+		}
+	}
+	
+	option = {
+		name = germany.392.b		#refuse
+		set_country_flag = GERafrikakorp_15PzD_no
+	}
+}
+### Reinforcing 5. LD and renaming to 21. Pz-Division.
+country_event = {
+	id = germany.393
+	title = germany.393.t
+	desc = germany.393.d
+	picture = GFX_report_event_kubelwagon_in_afrika
+
+	fire_only_once = yes
+	
+	trigger = {
+		tag = GER
+		is_ai = no
+		date > 1941.8.1
+		has_country_flag = GERafrikakorp_15PzD
+		NOT = { has_country_flag = GERafrikakorp_21PzD }
+		
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = germany.393.a
+		trigger = { 
+			tag = GER
+			is_ai = no
+		}
+		
+		hidden_effect = {
+			if = {
+				limit = { 
+					is_ai = no
+					has_army_experience < 66
+				}
+				army_experience = 65
+				#use army_experience to enhance division_template Leicht Afrika-Div.(DAK)
+			}
+			set_country_flag = GERafrikakorp_21PzD
+		}
+		
+	}
+	
+	option = {
+		name = germany.393.b		#refuse
+		set_country_flag = GERafrikakorp_21PzD_no
+	}
+}
 #### Forming Infanterie Regiment Grossdeutschland ####
 country_event = {
 	id = germany.400
@@ -12386,6 +12495,7 @@ country_event = {
 		
 		hidden_effect = {
 			set_technology = {tech_airborne_engineers = 1 }
+			set_technology = {desert_equipment = 1 }
 			load_oob = "GER_afrikakorps_II"
 			set_country_flag = GERafrikakorpII
 		}
