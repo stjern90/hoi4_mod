@@ -266,14 +266,14 @@ NProduction = {
 NTechnology = {
 	MAX_SUBTECHS = 3,					    -- Max number of sub technologies a technology can have.
 	BASE_RESEARCH_POINTS_SAVED = 50.0,		-- Base amount of research points a country can save per slot.
-	BASE_YEAR_AHEAD_PENALTY_FACTOR = 2.4,		-- 3 Base year ahead penalty
+	BASE_YEAR_AHEAD_PENALTY_FACTOR = 2.5,		-- 3 Base year ahead penalty
 	BASE_TECH_COST = 105,					-- base cost for a tech. multiplied with tech cost and ahead of time penalties
 	MAX_TECH_SHARING_BONUS = 0.5, 			-- Max technology sharing bonus that can be applied instantly
 	LICENSE_PRODUCTION_TECH_BONUS = 0.2,	-- License production tech bonus
 },
 
 NPolitics = {
-	BASE_LEADER_TRAITS = 3,				-- Base amount of leader traits.
+	BASE_LEADER_TRAITS = 2,				-- Base amount of leader traits.
 	MAX_RANDOM_LEADERS = 1,				-- Maximum amount random leader to have per party.
 	BASE_POLITICAL_POWER_INCREASE = 2,	-- Weekly increase of PP.
 	ARMY_LEADER_COST = 5,					-- cost for recruiting new leaders, 'this value' * number_of_existing_leaders_of_type
