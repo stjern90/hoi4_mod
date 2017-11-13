@@ -174,7 +174,7 @@ focus_tree = {
 					}
 				}
 			random_owned_controlled_state = {
-				prioritize = { 59 }
+				prioritize = { 51 }
 					add_building_construction = {
 						type = anti_air_building
 						level = 2
@@ -4612,7 +4612,6 @@ focus_tree = {
 		id = GER_africa_korps
 		icon = GFX_goal_generic_construction2
 		prerequisite = { focus = GER_italy_ally }
-		mutually_exclusive = { focus = GER_UK_ally }
 		x = 9
 		y = 6
 		cost = 2
@@ -4842,13 +4841,18 @@ focus_tree = {
 	}
 	
 	focus = {
-		id = GER_naval_effort
-		text = naval_effort
-		icon = GFX_goal_generic_construct_naval_dockyard
+		id = GER_prepare_the_navy_to_be_at_war_with_uk
+		icon = GFX_goal_generic_navy_battleship
 		prerequisite = { focus = GER_naval_rearmament }
 		x = 22
 		y = 3
-		cost = 8
+		cost = 2
+		available = {
+			OR = {
+			date > 1939.1.1 
+			has_completed_focus = GER_demand_sudetenland
+			}
+		}
 		ai_will_do = {
 			factor = 1
 		}
@@ -4903,92 +4907,81 @@ focus_tree = {
 				}
 				set_state_flag = GER_naval_effort_2dockyards
 			}
-			add_tech_bonus = {
-				name = dd_bonus
-				bonus = 0.25
-				uses = 1
-				category = dd_tech
+			GER = {
+				country_event = germany.325 
 			}
-			add_tech_bonus = {
-				name = cr_bonus
-				bonus = 0.25
-				uses = 1
-				    category = cl_tech
-			}
-			add_tech_bonus = {
-				name = bb_bonus
-				bonus = 0.3
-				uses = 1
-				category = bc_tech
+		}
+	}
+	focus = {
+		id = GER_expand_the_dockyards 
+		icon = GFX_goal_generic_construct_naval_dockyard
+		prerequisite = { focus = GER_prepare_the_navy_to_be_at_war_with_uk }
+		x = 22 
+		y = 5 
+		cost = 5 
+		available = { has_country_flag = listen_to_both }
+		ai_will_do = {
+			factor = 5 
+		}
+		available_if_capitulated = yes	
+		completion_reward = {
+			add_ideas = idea_dockyard_expansion 
+			set_country_flag = expanded_dockyards
+			random_owned_controlled_state = {
+				prioritize = { 56 }
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = dockyard
+						level = 2
+						instant_build = yes
+					}
 				}
 		}
 	}
-
 	focus = {
 		id = GER_plan_z
 		icon = GFX_goal_generic_large_fleet
-		prerequisite = { focus = GER_naval_effort }
+		prerequisite = { focus = GER_prepare_the_navy_to_be_at_war_with_uk focus = GER_expand_the_dockyards }
 		mutually_exclusive = { focus = GER_u_boat_effort }
 		x = 21
 		y = 6
-		cost = 15
+		cost = 10
+		available = { 
+		has_completed_focus = GER_wirtschaftliche_forschungsgesellschaft
+		OR = {
+		has_country_flag = listen_to_raeder  
+		has_country_flag = expanded_dockyards 
+		}
+		}
 		ai_will_do = {
 			factor = 0.25
 		}
 		available_if_capitulated = yes	
 		
-		complete_tooltip = {
-		    custom_effect_tooltip = available_high_command
-			show_ideas_tooltip = otto_schniewind
-			show_ideas_tooltip = martin_harlinghausen
+		completion_reward = {
+			add_resource = {
+				type = oil
+				amount = -12
+				state = 59
+			}
 			navy_experience = 50
-			add_ideas = idea_plan_z
-
-			
-			every_state = {
-				limit = {	has_state_flag = GER_naval_rearmament_3dockyards }
-				add_extra_state_shared_building_slots = 6
-				add_building_construction = {
-					type = dockyard
-					level = 4
-					instant_build = yes
+			if = {
+				limit = { 
+				NOT = { has_idea = idea_dockyard_expansion }
 				}
-				add_building_construction = {
-					type = shipyard
-					level = 2
-					instant_build = yes
+			add_ideas = idea_plan_z
+			}
+			if = {
+				limit = { has_idea = idea_dockyard_expansion }
+				swap_ideas = {
+				remove_idea = idea_dockyard_expansion 
+				add_idea = idea_plan_z_expanded_dockyards
 				}
 			}
-
-			add_tech_bonus = {
-					name = dd_bonus
-					bonus = 0.3
-					uses = 1
-					category = dd_tech
-				}
-				add_tech_bonus = {
-					name = cr_bonus
-					bonus = 0.3
-					uses = 2
-				    category = cl_tech
-			    	category = ca_tech
-					}
-					add_tech_bonus = {
-					name = cv_bonus
-					bonus = 0.25
-					uses = 2
-					category = cv_tech
-					category = cvl_tech
-				}
-
-
-		}
-		
-		
-		completion_reward = {
-			navy_experience = 50
-			add_ideas = idea_plan_z
-
+			custom_effect_tooltip = available_military_high_command
+			show_ideas_tooltip = martin_harlinghausen
+			custom_effect_tooltip = available_military_high_command
+			show_ideas_tooltip = otto_schniewind
 			random_owned_controlled_state = {
 				limit = {
 					free_building_slots = {
@@ -5031,7 +5024,7 @@ focus_tree = {
 					category = cvl_tech
 				}
 			}
-		}
+	}
 	focus = {
 		id = GER_surface_raiders 
 		icon = GFX_goal_generic_navy_doctrines_tactics
@@ -5047,7 +5040,7 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 				name = navy_doctrine_bonus 
-				bonus = 0.20 
+				bonus = 0.25 
 				uses = 2 
 				technology = raider_patrols
 				technology = capital_ship_raiders
@@ -5062,7 +5055,7 @@ focus_tree = {
 		prerequisite = { focus = GER_surface_raiders }
 		mutually_exclusive = { focus = GER_operation_paukenschlag }
 		x = 21
-		y = 10
+		y = 11
 		cost = 10
 		ai_will_do = {
 			factor = 0.25 
@@ -5077,7 +5070,7 @@ focus_tree = {
 				limit = {	has_state_flag = GER_naval_rearmament_4dockyards }
 				add_extra_state_shared_building_slots = 3
 				add_building_construction = {
-					type = dockyard
+					type = dockyard 
 					level = 3
 					instant_build = yes
 				}
@@ -5085,8 +5078,8 @@ focus_tree = {
 
 				add_tech_bonus = {
 					name = cv_bonus
-					bonus = 0.25
-					uses = 2
+					bonus = 0.4
+					uses = 1
 					category = cv_tech
 					category = cvl_tech
 				}
@@ -5095,7 +5088,7 @@ focus_tree = {
 				bonus = 0.25
 				uses = 1
 				ahead_reduction = 0.5
-				technology = advanced_battleship
+				technology = refitted_battleship     
 				}
 
 
@@ -5138,38 +5131,41 @@ focus_tree = {
 	focus = {
 		id = GER_u_boat_effort
 		icon = GFX_goal_generic_navy_submarine
-		prerequisite = { focus = GER_naval_effort }
+		prerequisite = { focus = GER_prepare_the_navy_to_be_at_war_with_uk focus = GER_expand_the_dockyards }
 		mutually_exclusive = { focus = GER_plan_z }
 		x = 23
 		y = 6
 		cost = 8
+		available = { 
+		OR = {
+		has_country_flag = listen_to_donitz
+		has_country_flag = expanded_dockyards 
+		}
+		}
 		ai_will_do = {
 			factor = 12
 		}
 		available_if_capitulated = yes
-		complete_tooltip = {
-			navy_experience = 25
-			add_ideas = idea_plan_uboat
-			every_state = {
-				limit = { has_state_flag = GER_u_boat_effort_5dockyards }
-				add_extra_state_shared_building_slots = 3
-				add_building_construction = {
-					type = dockyard
-					level = 3
-					instant_build = yes
-				}
-			}
-			add_tech_bonus = {
-				name = GER_u_boat_effort
-				bonus = 0.25
-				uses = 4
-				category = ss_tech
-			}
-		}
+		
 		
 		completion_reward = {
 			navy_experience = 25
+			if = {
+				limit = { 
+				NOT = { has_idea = idea_dockyard_expansion }
+				}
 			add_ideas = idea_plan_uboat
+			}
+			if = {
+				limit = { has_idea = idea_dockyard_expansion }
+				swap_ideas = {
+				remove_idea = idea_dockyard_expansion 
+				add_idea = idea_plan_uboat_expanded_dockyards
+				}
+			}
+			custom_effect_tooltip = available_military_high_command
+			show_ideas_tooltip = viktor_schutze
+
 			random_owned_controlled_state = {
 				limit = {
 					dockyard > 0
@@ -5190,7 +5186,7 @@ focus_tree = {
 			add_tech_bonus = {
 				name = GER_u_boat_effort
 				bonus = 0.25
-				uses = 4
+				uses = 3
 				category = ss_tech
 			}
 		}
@@ -5199,7 +5195,7 @@ focus_tree = {
 	focus = {
 		id = GER_trade_interdiction
 		icon = GFX_goal_generic_wolf_pack
-		prerequisite = { focus = GER_u_boat_effort focus = GER_plan_z }
+		prerequisite = { focus = GER_u_boat_effort }
 		x = 23
 		y = 7
 		cost = 8
@@ -5211,7 +5207,7 @@ focus_tree = {
 			add_tech_bonus = {
 				name = ti_bonus
 				name = GER_trade_interdiction
-				bonus = 0.25
+				bonus = 0.3
 				uses = 3
 				technology = convoy_interdiction_ti
 				technology = unrestricted_submarine_warfare
@@ -5225,31 +5221,14 @@ focus_tree = {
 		id = GER_operation_paukenschlag
 		icon = GFX_goal_generic_navy_submarine
 		prerequisite = { focus = GER_trade_interdiction }
+		prerequisite = { focus = GER_war_with_usa }
 		mutually_exclusive = { focus = GER_modern_battlefleet }
 		x = 23
-		y = 10
+		y = 11
 		cost = 10
 		
 		available = {
 			has_war_with = USA
-		}
-		
-		complete_tooltip = {
-			every_state = {
-				limit = { has_state_flag = GER_u_boat_effort_6dockyards }
-				add_extra_state_shared_building_slots = 3
-				add_building_construction = {
-					type = dockyard
-					level = 3
-					instant_build = yes
-				}
-			}
-			add_tech_bonus = {
-				name = GER_u_boat_effort
-				bonus = 0.25
-				uses = 4
-				category = ss_tech
-			}
 		}
 		completion_reward = {
 			random_owned_controlled_state = {
@@ -5271,10 +5250,75 @@ focus_tree = {
 			}
 			add_tech_bonus = {
 				name = GER_u_boat_effort
-				bonus = 0.25
-				uses = 4
+				bonus = 0.7
+				uses = 1
 				category = ss_tech
 			}
+		}
+	}
+	focus = {
+		id = GER_french_naval_bases 
+		icon = GFX_goal_generic_navy_cruiser
+		prerequisite = { focus = GER_war_with_france }
+		prerequisite = { focus = GER_plan_z focus = GER_u_boat_effort }
+		available = {
+			controls_state = 14 
+			controls_state = 30
+			controls_state = 23 
+			controls_state = 19 
+		}
+		bypass = {
+		}
+		available_if_capitulated = no
+		x = 22 
+		y = 9 
+		cost = 6 
+		completion_reward = {
+			GER = {
+				country_event = germany.327 
+			}
+		}
+	}
+	focus = {
+		id = GER_war_with_usa 
+		icon = GFX_focus_generic_strike_at_democracy3
+		prerequisite = { focus = GER_war_with_uk }
+		available = {
+			country_exists = USA
+		}
+		bypass = {
+			is_in_faction_with = USA
+			has_war_with = USA
+		}
+		available_if_capitulated = no
+		x = 22 
+		y = 10 
+		cost = 1 
+		completion_reward = {
+			create_wargoal = {
+ 				type = take_state_focus
+ 				target = USA
+ 				generator = { 847 }
+ 			}
+		}
+	}
+	focus = {
+		id = GER_build_u_boat_bunker 
+		icon = GFX_goal_generic_construct_military
+		prerequisite = { focus = GER_u_boat_effort }
+		available = { 
+			has_completed_focus = GER_organisation_todt
+			controls_state = 56 
+			controls_state = 59
+			controls_state = 58
+		}
+		x = 24
+		y = 8 
+		cost = 5 
+		completion_reward = {
+		GER = { 
+			country_event = germany.326 
+		}
 		}
 	}
 	focus = { 
@@ -5289,8 +5333,9 @@ focus_tree = {
 		}
 		bypass = {
 			is_in_faction_with = ENG
+			has_war_with = ENG
 		}	
-		available_if_capitulated = yes
+		available_if_capitulated = no
 		x = 19
 		y = 9
 		cost = 1
@@ -5322,7 +5367,7 @@ focus_tree = {
 		
 		completion_reward = {
 			custom_effect_tooltip = GER_Marines
-			#
+			
 			add_tech_bonus = {
 					name = GER_amp_tank
 					bonus = 0.3
