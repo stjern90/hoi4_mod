@@ -471,7 +471,7 @@ NMilitary = {
 
 	PLANNING_DECAY = 0.01,
 	PLANNING_GAIN = 0.03,
-	PLANNING_MAX = 0.32,                           	-- can get more from techs
+	PLANNING_MAX = 0.3,                           	-- can get more from techs
 	CIVILWAR_ORGANIZATION_FACTOR = 0.3,			  	-- Multiplier of org for both sides when civilwar.
 	LAND_COMBAT_ATTACKER_WINNING = 0.65,		  	-- Above this means attacker is winning
 	LAND_COMBAT_DEFENDER_WINNING = 0.35,		  	-- Below this means defender is winning
