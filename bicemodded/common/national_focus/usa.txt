@@ -673,9 +673,11 @@ focus_tree = {
 		icon = GFX_goal_generic_position_armies
 		prerequisite = { focus = USA_joint_army_and_navy_board }
 		available = {
-			date < 1939.1.1 
-			has_war_with = GER
+			date < 1940.1.1
 			country_exists = GER
+			GER = { has_added_tension_amount > 65 }
+			GER = { has_war_with = ENG }
+		
 		}
 		available_if_capitulated = yes
 
@@ -686,6 +688,11 @@ focus_tree = {
 		#	factor = 1
 		#}
 		completion_reward = {
+			hidden_effect = {
+				set_rule = { can_join_factions = yes }
+				set_rule = { can_create_factions = yes }
+			}
+			custom_effect_tooltip = USA_join_the_allies_tt 
 			create_wargoal = {
 				type = puppet_wargoal_focus
 				target = GER
@@ -703,9 +710,10 @@ focus_tree = {
 		icon = GFX_goal_generic_position_armies
 		prerequisite = { focus = USA_joint_army_and_navy_board }
 		available = {
-			date < 1939.1.1 
-			has_war_with = JAP
 			country_exists = JAP
+			date < 1940.1.1
+			JAP = { has_added_tension_amount > 65 }
+			JAP = { has_war_with = ENG }
 		}
 		continue_if_invalid = yes
 		available_if_capitulated = yes
@@ -716,6 +724,11 @@ focus_tree = {
 		#	factor = 1
 		#}
 		completion_reward = {
+			hidden_effect = {
+				set_rule = { can_join_factions = yes }
+				set_rule = { can_create_factions = yes }
+			}
+			custom_effect_tooltip = USA_join_the_allies_tt 
 			create_wargoal = {
 				type = puppet_wargoal_focus
 				target = JAP
@@ -729,9 +742,65 @@ focus_tree = {
 		}
 	}
 	focus = {
+		id = USA_savior_of_the_world 
+		icon = GFX_goal_generic_dangerous_deal
+		prerequisite = { focus = USA_military_construction }
+		available = {
+			OR = {
+			has_completed_focus = USA_join_the_allies
+			has_completed_focus = USA_war_plan_black
+			has_completed_focus = USA_war_plan_orange
+			}
+		}
+		continue_if_invalid = yes
+		available_if_capitulated = yes
+		
+		x = 14
+		y = 8 
+		cost = 5 
+		completion_reward = {
+			random_owned_controlled_state = {
+				prioritize = { 371 }
+					add_extra_state_shared_building_slots = 5
+					add_building_construction = {
+						type = industrial_complex
+						level = 5
+						instant_build = yes
+					}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 366 }
+					add_extra_state_shared_building_slots = 5
+					add_building_construction = {
+						type = industrial_complex
+						level = 5
+						instant_build = yes
+					}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 370 }
+					add_extra_state_shared_building_slots = 5
+					add_building_construction = {
+						type = arms_factory
+						level = 5
+						instant_build = yes
+					}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 367 }
+					add_extra_state_shared_building_slots = 5
+					add_building_construction = {
+						type = industrial_complex
+						level = 5
+						instant_build = yes
+					}
+			}
+		}
+	}
+	focus = {
 		id = USA_military_construction
 		icon = GFX_goal_generic_build_tank
-		prerequisite = { focus = USA_the_giant_wakes }
+		prerequisite = { focus = USA_nationalisation }
 		available = {
 			OR = {
 				threat > 0.45
@@ -2048,7 +2117,7 @@ focus_tree = {
 		icon = GFX_goal_tfv_strengthen_commonwealth_ties 
 		x = 11 
 		y = 5
-		cost = 10 
+		cost = 6 
 		prerequisite = { focus = USA_prepare_european_intervention }
 		available = {
 			country_exists = GER
@@ -2059,13 +2128,22 @@ focus_tree = {
 			has_government = democratic
 			GER = { has_government = fascism }
 			has_equipment = { motorized_equipment > 2999 }
-			has_equipment = { infantry_equipment_1 > 1999 }
+			has_equipment = { infantry_equipment > 1999 }
 		}
 		ai_will_do = {
 			factor = 5 
 		}
 		available_if_capitulated = yes 
 		completion_reward = {
+			random_owned_controlled_state = {
+				prioritize = { 384 }
+					add_extra_state_shared_building_slots = 4
+					add_building_construction = {
+						type = arms_factory
+						level = 4
+						instant_build = yes
+					}
+			}
 			ENG = {
 				custom_effect_tooltip = needs_approval
 				country_event = { id = usa.56 days = 1 }
@@ -2095,7 +2173,7 @@ focus_tree = {
 		
 		x = 11
 		y = 7
-		cost = 10
+		cost = 6
 		#ai_will_do = {
 		#	factor = 1
 		#}
@@ -2390,6 +2468,9 @@ focus_tree = {
 		}
 		ai_will_do = {
 			factor = 5 
+		}
+		bypass = {
+			is_in_faction_with = ENG
 		}
 		available_if_capitulated = no 
 		completion_reward = { 
