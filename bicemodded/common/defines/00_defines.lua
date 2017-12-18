@@ -607,8 +607,8 @@ NAir = {
 	HOURS_DELAY_AFTER_EACH_COMBAT = 4,					-- How many hours needs the wing to be ready for the next combat. Use for tweaking if combats happens too often. (generally used as double because of roundtrip)
 	CARRIER_HOURS_DELAY_AFTER_EACH_COMBAT = 4,          -- how often carrier planes do battle inside naval combat
 	NAVAL_STRIKE_TARGETTING_TO_AMOUNT = 0.3,			-- Balancing value to convert the naval_strike_targetting equipment stats to chances of how many airplanes managed to do successfull strike.
-	NAVAL_STRIKE_DAMAGE_TO_STR = 2.5,					-- Balancing value to convert damage ( naval_strike_attack * hits ) to Strength reduction.
-	NAVAL_STRIKE_DAMAGE_TO_ORG = 2.5,					-- Balancing value to convert damage ( naval_strike_attack * hits ) to Organisation reduction.
+	NAVAL_STRIKE_DAMAGE_TO_STR = 2.2,					-- Balancing value to convert damage ( naval_strike_attack * hits ) to Strength reduction.
+	NAVAL_STRIKE_DAMAGE_TO_ORG = 2.2,					-- Balancing value to convert damage ( naval_strike_attack * hits ) to Organisation reduction.
 	NAVAL_STRIKE_AIR_VS_AIR_PASS_CHANCE = 0.5,			-- Balancing value to control
 	FIELD_EXPERIENCE_SCALE = 0.002,
 	FIELD_EXPERIENCE_MAX_PER_DAY = 1,					-- Most xp you can gain per day
@@ -682,13 +682,13 @@ NNavy = {
 	DETECTION_CHANCE_MULT_AIR_SUPERIORITY_BONUS = 0.25,			-- bonus from air superiority.
 
 	DETECTION_CHANCE_BALANCE = 2.7,								-- Value to balance gameplay. The higher value = smaller detection chance. Notice: it doesn't affect the displayed detection chance numbers, as well balanced numbers could be a very small fractions like 0.012
-	DETECTION_SUBS_CHANCE_BALANCE = 20.0,						-- Same as above, but for sub detection. It should be very hard to detect just the subs.
+	DETECTION_SUBS_CHANCE_BALANCE = 22.0,						-- Same as above, but for sub detection. It should be very hard to detect just the subs.
 	INTERCEPT_CONVOYS_BALANCE = 2.0,							-- Balance number to distinguish the chance of intercepting convoys in comparison to the interception of naval transfers. (Intercepting convoys happens 2x less often than naval transfers and invasions)
 	BEST_CAPITALS_TO_SCREENS_RATIO = 0.25, 							-- capitals / screens ratio used for creating FEX groups in naval combat
 	COMBAT_MIN_WIN_CHANCE_TO_ADVANCE_WITHOUT_WAIT = 0.8, 			-- compare our forces with enemy forces. 1.0 is equal win chances. Less then 1.0 is we have low chances. If we have at least X chances, then ships will attept to attack without waiting for the other ships that are on the way.
 	COMBAT_MIN_WIN_CHANCE_TO_KEEP_FIGHTING = 0.5,		 			-- DNM - original 0.2 - being at 60 per cent of the enemy's strength would usually lead to one side disengaging, and seems to work reasonably in tests -- compare our forces with enemy forces. 1.0 is equal win chances. Less then 1.0 is we have low chances. If we have at least X chances, then ships will attept to attack without waiting for the other ships that are on the way.
 	COMBAT_MIN_WIN_CHANCE_TO_KEEP_FIGHTING_DESPITE_NO_ENGAGE = 10.0,	-- compare our forces with enemy forces. 1.0 is equal win chances. Less then 1.0 is we have low chances. If we have at least X chances, then ships will attept to attack without waiting for the other ships that are on the way.
-	COMBAT_BASE_HIT_CHANCE = 0.45,									-- base chance for hit
+	COMBAT_BASE_HIT_CHANCE = 0.4,									-- base chance for hit
 	COMBAT_MIN_HIT_CHANCE = 0.01,									-- never less hit chance then 1%?
 	COMBAT_TORPEDO_ATTACK_MAX_RANGE = 4.0,							-- DNM, consistent with vanilla changes, better for naval combat -- max range for torpedo attack
 	COMBAT_TORPEDO_ATTACK_USE_CHANCE = 0.25,						-- DNM, 0.5 is too high, vessels make more torpedo attacks than they would have been able too historically -- chance of using torpedo attack (to avoid torpedo spam when at close distance)
@@ -704,7 +704,7 @@ NNavy = {
 	COMBAT_DAMAGE_TO_STR_FACTOR = 1.4,								-- casting damage value to ship strength multiplier. Use it to balance the game difficulty.
 	COMBAT_DAMAGE_TO_ORG_FACTOR = 1.75,							-- casting damage value to ship organisation multiplier. Use it to balance the game difficulty.
 	COMBAT_DAMAGE_REDUCTION_ON_RETREAT = 0.6,						-- Retreating ships are using their rear cannons, so the damage should be reduced.
-	NAVY_MAX_XP = 120,
+	NAVY_MAX_XP = 140,
 	
 	COMBAT_ESCAPING_SPEED_BALANCE = 0.45,							-- DNM, original 0.8, should make it a little easier for disengaging ships to escape -- Same as above, but used to balance when escaping.
 	COMBAT_ON_THE_WAY_INIT_DISTANCE_BALANCE = 0.5, 					-- Value to balance initial distance to arrive for ships that are "on the way"	
@@ -721,8 +721,8 @@ NNavy = {
 	COMBAT_LEAD_TOO_MANY_SHIPS_PENALTY_SPEED = 0.15,					-- Speed penalty in % for ships coming into the battle (Those in the "incoming" field). Fe. 0.1 makes the ordinary speed drop down to 10% of the original speed when penalty is at max. Value should be between 0.0 and 1.0
 	COMBAT_LEAD_TOO_MANY_SHIPS_PENALTY_CHAOS_CHANCE = 0.6,			-- Chaos penalty - chance % of not taking a shot at the target.
 	COMBAT_BASE_CRITICAL_CHANCE = 0.05,								-- Base chance for receiving a critical chance. It get's scaled down with ship reliability.
-	COMBAT_CRITICAL_DAMAGE_MULT = 4.0,								-- Multiplier for the critical damage. Scaled down with the ship reliability.
-	COMBAT_ARMOR_PIERCING_CRITICAL_BONUS = 2.0,						-- Bonus to critical chance when shooter armor piercing is higher then target armor.
+	COMBAT_CRITICAL_DAMAGE_MULT = 3.0,								-- Multiplier for the critical damage. Scaled down with the ship reliability.
+	COMBAT_ARMOR_PIERCING_CRITICAL_BONUS = 1.5,						-- Bonus to critical chance when shooter armor piercing is higher then target armor.
 	COMBAT_ARMOR_PIERCING_DAMAGE_REDUCTION = -0.7,					-- DNM, to be consistent with changes to vanilla, makes armour more important, as it shold be -- All damage reduction % when target armor is >= then shooter armor piercing.
 	REPAIR_AND_RETURN_PRIO_LOW = 0.4,								-- DNM, original 0.2 --  % of total Strength. When below, navy will go to home base to repair.
 	REPAIR_AND_RETURN_PRIO_MEDIUM = 0.6,							-- DNM, original 0.5 -- % of total Strength. When below, navy will go to home base to repair.
@@ -743,7 +743,7 @@ NNavy = {
 	CONVOY_EFFICIENCY_REGAIN_BASE_SPEED = 0.05,						-- How much efficiency regains every day.
 	CONVOY_EFFICIENCY_INTERPOLATION_SPEED = 0.35,					-- To avoid values going up/down really quick we slowly interpolate efficiency, this is how smooth it happens.
 	CONVOY_EFFICIENCY_MIN_VALUE = 0.05,								-- To avoid complete 0% efficiency, set the lower limit.
-	ANTI_AIR_TARGETTING_TO_CHANCE = 0.07,							-- Balancing value to convert averaged equipment stats (anti_air_targetting and naval_strike_agility) to probability chances of airplane being hit by navies AA.
+	ANTI_AIR_TARGETTING_TO_CHANCE = 0.08,							-- Balancing value to convert averaged equipment stats (anti_air_targetting and naval_strike_agility) to probability chances of airplane being hit by navies AA.
 	ANTI_AIR_ATTACK_TO_AMOUNT = 0.005,								-- Balancing value to convert equipment stat anti_air_attack to the random % value of airplanes being hit.
 	NO_LEADER_MAX_SHIPS = 30,										-- Max amount of ships that can be used in the unit
 
