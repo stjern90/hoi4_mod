@@ -324,7 +324,7 @@ focus_tree = {
 	focus = {
 		id = GER_deutsche_arbeitsfront
 		prerequisite = { focus = GER_Goering_Plan }
-		icon = GFX_goal_generic_national_unity
+		icon = GFX_goal_ger_arbeitsfront
 		x = -9 
 		y = 1 
 		cost = 6 
@@ -372,7 +372,7 @@ focus_tree = {
 	
 	focus = {
 		id = GER_expand_cooperation_between_military_and_civilian_industry
-		icon = GFX_goal_generic_consumer_goods
+		icon = GFX_goal_expand_civ_cooperation
 		prerequisite = { focus = GER_reichsarbeitsdienst }
 		x = -9
 		y = 3  
@@ -602,12 +602,48 @@ focus_tree = {
 		}
 	}
 	focus = {
+		id = GER_rationing
+		icon = GFX_goal_generic_consumer_goods
+		prerequisite = { focus = GER_reorganise_the_industry }
+		x = -9 
+		y = 6 
+		cost = 6 
+		available = {
+			OR = {
+			has_global_flag = speer_in_office 
+			has_tech = dispersed_industry5
+			surrender_progress > 0.2 
+			}
+		}
+		completion_reward = {
+			if = {
+				limit = {
+					 has_idea = tot_economic_mobilisation 
+				}
+				
+				add_political_power = 200
+			}
+			if = {
+				limit = {
+					OR = {
+						has_idea = isolation 
+						has_idea = undisturbed_isolation 
+						has_idea = low_economic_mobilisation
+						has_idea = partial_economic_mobilisation
+						has_idea = war_economy
+					}
+				}
+				add_ideas = tot_economic_mobilisation
+			}
+		}
+	}
+	focus = {
 		id = GER_extra_tech_slot
 		icon = GFX_goal_continuous_research
 		text = extra_tech_slot
 		prerequisite = { focus = GER_reorganise_the_industry }
 		prerequisite = { focus = GER_more_resource_efficient_desings }
-		x = -8
+		x = -7
 		y = 6
 		cost = 10
 		ai_will_do = {
@@ -879,7 +915,7 @@ focus_tree = {
 		id = GER_augustplan 
 		prerequisite = { focus = GER_Goering_Plan }
 		prerequisite = { focus = GER_Wehrmacht }
-		icon = GFX_focus_secret_rearmament
+		icon = GFX_goal_august_programme
 		x = -3 
 		y = 1 
 		cost = 6 
@@ -1400,7 +1436,7 @@ focus_tree = {
 	}
 	focus = {
 		id = GER_antitank_aircraft
-		icon = GFX_idea_henschel
+		icon = GFX_goal_henschel
 		prerequisite = { focus = GER_Battlefield_Support }
 		mutually_exclusive = { focus = GER_divebomber_focus }
 		
@@ -1449,7 +1485,7 @@ focus_tree = {
 	}
 	focus = {
 		id = GER_divebomber_focus
-		icon = GFX_idea_junkers
+		icon = GFX_goal_junkers
 		prerequisite = { focus = GER_Battlefield_Support }
 		mutually_exclusive = { focus = GER_antitank_aircraft }
 		
@@ -2044,7 +2080,7 @@ focus_tree = {
 	focus = { 
 		id = GER_fast_light_tanks
 		text = GER_fast_light_tanks
-		icon = GFX_goal_generic_army_tanks
+		icon = GFX_goal_liechte_division_advanced
 		prerequisite = { focus = GER_liecht_division }
 		
 		x = 6 
@@ -2068,7 +2104,7 @@ focus_tree = {
 	focus = {
 		id = GER_support_tanks
 		text = GER_support_tanks
-		icon = GFX_goal_generic_army_tanks
+		icon = GFX_goal_TD
 		prerequisite = { focus = GER_liecht_division }
 		
 		x = 7 
@@ -2134,7 +2170,7 @@ focus_tree = {
 	focus = {
 		id = GER_Panzer_division
 		text = GER_Panzer_division
-		icon = GFX_goal_generic_army_tanks
+		icon = GFX_goal_medium_panzer
 		prerequisite = { focus =  GER_achtung_panzer }
 	
 		x = 4
@@ -2163,7 +2199,7 @@ focus_tree = {
 	focus = {
 		id = GER_Heavy_panzer
 		text = GER_Heavy_panzer
-		icon = GFX_goal_tank_axis
+		icon = GFX_goal_schwere_panzer
 		prerequisite = { focus = GER_Panzer_division }
 		
 				
@@ -2193,7 +2229,7 @@ focus_tree = {
 	focus = {
 		id = GER_infanterie_tactics			# infantry tactics
 		text = GER_infanterie_tactics	
-		icon = GFX_goal_generic_axis_build_infantry
+		icon = GFX_goal_infanterie_taktik
 		prerequisite = { focus = GER_die_abwehr }
 		x = 0
 		y = 2
@@ -2366,7 +2402,7 @@ focus_tree = {
 	}
 	focus = {
 		id = GER_advanced_blitzkrieg 
-		icon = GFX_goal_generic_position_armies
+		icon = GFX_goal_advanced_blitzkrieg
 		prerequisite = { focus = GER_kampfgruppes }
 		mutually_exclusive = { focus = GER_Heer_expansion }
 		
@@ -2728,7 +2764,7 @@ focus_tree = {
 	}
 	focus = {
 		id = GER_italy_ally
-		icon = GFX_goal_generic_major_alliance
+		icon = GFX_goal_ger_alliance_with_italy
 		prerequisite = { focus = GER_japan_friend focus = GER_china_friend }
 		mutually_exclusive = { focus = GER_south_tyrol }
 		available = {
@@ -4534,9 +4570,6 @@ focus_tree = {
 			}
 			NOT = { is_in_faction_with = FRA }
 		}
-		bypass = {
-            has_war_with = FRA
-		}
 		x = 15
 		y = 8
 		cost = 1
@@ -4615,8 +4648,14 @@ focus_tree = {
 		y = 6
 		cost = 2
 		available = {
+		ITA = { has_war_with = ENG }
 		is_in_faction_with = ITA
 		448 = { is_owned_and_controlled_by = ITA }
+		}
+		bypass = {
+			ITA = {
+				exists = no
+			}
 		}
 		completion_reward = {
 			GER = {
