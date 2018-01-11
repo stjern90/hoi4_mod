@@ -543,7 +543,7 @@ NMilitary = {
 	STRATEGIC_REDEPLOY_ORG_RATIO = 0.25,				-- Ratio of max org while strategic redeployment
 	BATALION_NOT_CHANGED_EXPERIENCE_DROP = 0.0,		-- Division experience drop if unit has same batalion
 	BATALION_CHANGED_EXPERIENCE_DROP = 0.6,			-- Division experience drop if unit has different batalion
-	ARMOR_VS_AVERAGE = 0.6,			                -- how to weight in highest armor & pen vs the division average
+	ARMOR_VS_AVERAGE = 0.54,			                -- how to weight in highest armor & pen vs the division average
 	PEN_VS_AVERAGE = 0.52,
 
 	DECRYPTION_ADVANTAGE_BONUS = 0.04,				-- How much unit base damage and base defense is increased per decryption level compared to enemies average encryption level (ex: dec. level is 5 and enemy average enc. level is 3 then 5-3 = 2 which gives 10 % increase)
@@ -895,7 +895,7 @@ NAI = {
 	VARIANT_UPGRADE_MIN_XP = 87,				-- Minimum XP before attempting to create a new variant.
 	UPGRADE_XP_RUSH_UPDATE = 400,				-- If XP is above this on the daily tick the AI will attempt to spend it
 	FOCUS_TREE_CONTINUE_FACTOR = 1,			-- Factor for score of how likely the AI is to keep going down a focus tree rather than starting a new path.
-	VP_GARRISON_VALUE_FACTOR = 0.6,				-- Extent to which VP garrisons are prioritized, based on VP value and compared to other priority values.
+	VP_GARRISON_VALUE_FACTOR = 0.9,				-- Extent to which VP garrisons are prioritized, based on VP value and compared to other priority values.
 	PLAN_VALUE_TO_EXECUTE = 0.2,				-- AI will typically avoid carrying out a plan it below this value (0.0 is considered balanced).
 	DECLARE_WAR_NOT_NEIGHBOR_FACTOR = 0.25,		-- Multiplier applied before force factor if country is not neighbor with the one it is considering going to war
 	CALL_ALLY_BASE_DESIRE = 15,					-- exactly what it says
@@ -955,9 +955,9 @@ NAI = {
 	AI_FRONT_MOVEMENT_FACTOR_FOR_READY = 0.25,	-- If less than this fraction of units on a front is moving, AI sees it as ready for action	
 	MICRO_POCKET_SIZE = 4,						-- Pockets with a size equal to or lower than this will be mocroed by the AI, for efficiency.
 	POCKET_DISTANCE_MAX = 40000,				-- shortest square distance we bother about chasing pockets
-	VP_LEVEL_IMPORTANCE_HIGH = 30,				-- Victory points with values higher than or equal to this are considered to be of high importance.
-	VP_LEVEL_IMPORTANCE_MEDIUM = 10,			-- Victory points with values higher than or equal to this are considered to be of medium importance.
-	VP_LEVEL_IMPORTANCE_LOW = 5,				-- Victory points with values higher than or equal to this are considered to be of low importance.
+	VP_LEVEL_IMPORTANCE_HIGH = 25,				-- Victory points with values higher than or equal to this are considered to be of high importance.
+	VP_LEVEL_IMPORTANCE_MEDIUM = 5,			-- Victory points with values higher than or equal to this are considered to be of medium importance.
+	VP_LEVEL_IMPORTANCE_LOW = 2,				-- Victory points with values higher than or equal to this are considered to be of low importance.
 	ESTIMATED_CONVOYS_PER_DIVISION = 6,			-- Not always correct, but mainly used to make sure AI does not go crazy
 	FRONT_REASSIGN_DISTANCE = 120.0,			-- If a unit is this far away from a front it is not considered to be assigned to it unless the new front is much more important
 	OLD_FRONT_IMPORTANCE_FACTOR = 1.50,			-- If a unit is considered for reassignment, the importance of both new and old front is considered with a weight applied to the old ones score
@@ -975,12 +975,12 @@ NAI = {
 	PLAN_FACTION_STRONG_TO_EXECUTE = 0.60,		-- % or more of units in an order to consider ececuting the plan
 	PLAN_FACTION_WEAK_TO_ABORT = 0.65,			-- % or more of units in an order to consider ececuting the plan
 	PLAN_AVG_PREPARATION_TO_EXECUTE = 0.6,		-- % or more average plan preparation before executing
-	STATE_GARRISON_MAX_UNITS = 1,				-- Max units to guard a garrison under normal circumstances (isolated core areas like England has is excempt)
+	STATE_GARRISON_MAX_UNITS = 3,				-- Max units to guard a garrison under normal circumstances (isolated core areas like England has is excempt)
 	
 	REDEPLOY_DISTANCE_VS_ORDER_SIZE = 1.0,		-- Factor applied to the path length of a unit compared to length of an order to determine if it should use strategic redeployment
 	UNIT_ASSIGNMENT_TERRAIN_IMPORTANCE = 20.0,	-- Terrain score for units are multiplied by this when the AI is deciding which front they should be assigned to
 	
-	MIN_STATE_VALUE_TO_PROTECT = 7.5,			-- When AI is considering which states to protect it looks at state values to consider if it is worth it.
+	MIN_STATE_VALUE_TO_PROTECT = 6.5,			-- When AI is considering which states to protect it looks at state values to consider if it is worth it.
 	
 	SUPPLY_CRISIS_LIMIT = 0.9,					-- If a unit is standing in an area with 
 	
@@ -1160,16 +1160,16 @@ NAI = {
 	MIN_PLAN_VALUE_TO_MICRO_INACTIVE = 0.2,				-- The AI will not consider members of groups which plan is not activated AND evaluates lower than this.
 	
 	MAX_UNITS_FACTOR_AREA_ORDER = 1.0,					-- Factor for max number of units to assign to area defense orders
-	DESIRED_UNITS_FACTOR_AREA_ORDER = 0.25,				-- Factor for desired number of units to assign to area defense orders
-	MIN_UNITS_FACTOR_AREA_ORDER = 0.25,					-- Factor for min number of units to assign to area defense orders
+	DESIRED_UNITS_FACTOR_AREA_ORDER = 1.0,				-- Factor for desired number of units to assign to area defense orders
+	MIN_UNITS_FACTOR_AREA_ORDER = 1.0,					-- Factor for min number of units to assign to area defense orders
 
-	MAX_UNITS_FACTOR_FRONT_ORDER = 5.0,					-- Factor for max number of units to assign to area front orders
-	DESIRED_UNITS_FACTOR_FRONT_ORDER = 5.5,				-- Factor for desired number of units to assign to area front orders
-	MIN_UNITS_FACTOR_FRONT_ORDER = 3.0,					-- Factor for min number of units to assign to area front orders
+	MAX_UNITS_FACTOR_FRONT_ORDER = 1.8,					-- Factor for max number of units to assign to area front orders
+	DESIRED_UNITS_FACTOR_FRONT_ORDER = 1.6,				-- Factor for desired number of units to assign to area front orders
+	MIN_UNITS_FACTOR_FRONT_ORDER = 1.1,					-- Factor for min number of units to assign to area front orders
 
-	MAX_UNITS_FACTOR_INVASION_ORDER = 0.6,				-- Factor for max number of units to assign to naval invasion orders
-	DESIRED_UNITS_FACTOR_INVASION_ORDER = 0.2,			-- Factor for desired number of units to assign to naval invasion orders
-	MIN_UNITS_FACTOR_INVASION_ORDER = 0.1,				-- Factor for min number of units to assign to naval invasion orders
+	MAX_UNITS_FACTOR_INVASION_ORDER = 0.7,				-- Factor for max number of units to assign to naval invasion orders
+	DESIRED_UNITS_FACTOR_INVASION_ORDER = 0.35,			-- Factor for desired number of units to assign to naval invasion orders
+	MIN_UNITS_FACTOR_INVASION_ORDER = 0.2,				-- Factor for min number of units to assign to naval invasion orders
 	
 	FRONT_UNITS_CAP_FACTOR = 15.0,						-- A factor applied to total front size and supply use. Primarily effects small fronts
 	MAX_DIST_PORT_RUSH = 20.0,							-- If a unit is in enemy territory with no supply it will consider nearby ports within this distance.
