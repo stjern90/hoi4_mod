@@ -15,9 +15,9 @@ focus_tree = {
 	focus = {
 		id = ITA_ethiopian_war_logistics
 		icon = GFX_goal_generic_position_armies
-		x = 0
+		x = 16
 		y = 0
-		cost = 10
+		cost = 8
 		ai_will_do = {
 			factor = 10
 		}
@@ -85,7 +85,7 @@ focus_tree = {
 							instant_build = yes
 						}
 				}
-      	559 = {
+				559 = {
 					add_building_construction = {
 						type = naval_base
 						level = 4
@@ -96,384 +96,960 @@ focus_tree = {
 			}
 		}
 	}
-
 	focus = {
-		id = ITA_industrial_effort
-		icon = GFX_goal_generic_construct_civ_factory
-		text = industrial_effort
+		id = ITA_learn_from_the_ethiopian_war
+		icon = GFX_goal_generic_position_armies
 		prerequisite = { focus = ITA_ethiopian_war_logistics }
-		x = 0
+		mutually_exclusive = { focus = ITA_victory_by_any_means }
+		x = 15
 		y = 1
-		cost = 13
+		cost = 5
 		ai_will_do = {
-			factor = 1
+			factor = 10
 		}
 
 		available_if_capitulated = yes
-		bypass = {
-			custom_trigger_tooltip = {
-				tooltip = construction_effort_tt
-				NOT = {
-					any_owned_state = {
-						is_controlled_by = ROOT
-						free_building_slots = {
-							building = industrial_complex
-							size > 2
-							include_locked = yes
-						}
-					}
-				}
+
+		available = {
+			OR = { 
+				NOT = { country_exists = ETH }
+				ETH = { is_puppet_of = ITA }
 			}
 		}
-
 		completion_reward = {
+		army_experience = 35
+		air_experience = 20
+		add_tech_bonus = {
+				name = air_doc_bonus
+				bonus = 0.15
+				uses = 1
+				category = air_doctrine
+				
+			}
+           add_tech_bonus = {
+				name = land_doc_bonus
+				bonus = 0.15
+				uses = 1
+				category = land_doctrine
+			}			
+		}
+	}
+	focus = {
+		id = ITA_victory_by_any_means
+		icon = GFX_goal_generic_position_armies
+		prerequisite = { focus = ITA_ethiopian_war_logistics }
+		mutually_exclusive = { focus = ITA_learn_from_the_ethiopian_war }
+		x = 17
+		y = 1
+		cost = 3
+		ai_will_do = {
+			factor = 10
+		}
+
+		available_if_capitulated = yes
+
+		available = {
+			has_war_with = ETH
+		}
+		completion_reward = {
+		army_experience = 5
+		air_experience = 5
 			add_tech_bonus = {
-				name = construction_tech_bonus
+				name = infantry_weapons1 
 				bonus = 0.2
-				uses = 2
-				category = construction_tech
+				uses = 1
+				technology = infantry_weapons1
 			}
 			random_owned_controlled_state = {
-				limit = {
-					free_building_slots = {
-						building = industrial_complex
-						size > 3
-						include_locked = yes
-					}
-					is_on_continent = europe
-				}
-				add_extra_state_shared_building_slots = 3
-				add_building_construction = {
-					type = industrial_complex
-					level = 3
-					instant_build = yes
-				}
-			}
-			random_owned_controlled_state = {
-				limit = {
-					free_building_slots = {
-						building = industrial_complex
-						size > 3
-						include_locked = yes
-					}
-					is_on_continent = europe
-				}
-				add_extra_state_shared_building_slots = 3
-				add_building_construction = {
-					type = industrial_complex
-					level = 3
-					instant_build = yes
-				}
-			}
-			if = {
-				limit = {
-					NOT = {
-						any_owned_state = {
-							free_building_slots = {
-								building = industrial_complex
-								size > 3
-								include_locked = yes
-							}
-							is_on_continent = europe
-						}
-					}
-				}
-				random_owned_controlled_state = {
-					limit = {
-						free_building_slots = {
-							building = industrial_complex
-							size > 3
-							include_locked = yes
-						}
-					}
-					add_extra_state_shared_building_slots = 3
+				prioritize = { 157 }
+					add_extra_state_shared_building_slots = 2
 					add_building_construction = {
-						type = industrial_complex
-						level = 3
+						type = arms_factory
+						level = 2
 						instant_build = yes
 					}
-				}
-				random_owned_controlled_state = {
-					limit = {
-						free_building_slots = {
-							building = industrial_complex
-							size > 3
-							include_locked = yes
-						}
-					}
-					add_extra_state_shared_building_slots = 3
-					add_building_construction = {
-						type = industrial_complex
-						level = 3
-						instant_build = yes
-					}
-				}				
 			}
 		}
 	}
-
 	focus = {
-		id = ITA_industrial_effort_2
-		icon = GFX_goal_generic_construct_mil_factory
-		text = industrial_effort_2
-		prerequisite = { focus = ITA_industrial_effort }
-		x = 0
-		y = 2
-		cost = 13
-		ai_will_do = {
-			factor = 1
+		id = ITA_victoryinETH
+		icon = GFX_ITA_Fist
+		prerequisite = { focus = ITA_victory_by_any_means focus = ITA_learn_from_the_ethiopian_war }
+		available = {
+			OR = {
+				owns_state = 271
+				ETH = { is_puppet_of = ITA }
+			}
 		}
-
 		available_if_capitulated = yes
-
-		bypass = {
-			custom_trigger_tooltip = {
-				tooltip = production_effort_tt
-				NOT = {
-					any_owned_state = {
-						is_controlled_by = ROOT
-						free_building_slots = {
-							building = arms_factory
-							size > 2
-							include_locked = yes
-						}
-					}
-				}
-			}
-		}
-
-		completion_reward = {
-			random_owned_controlled_state = {
-				limit = {
-					arms_factory > 0
-					free_building_slots = {
-						building = arms_factory
-						size > 1
-						include_locked = yes
-					}
-					is_on_continent = europe
-				}
-				add_extra_state_shared_building_slots = 5
-				add_building_construction = {
-					type = arms_factory
-					level = 5
-					instant_build = yes
-				}
-			}
-			random_owned_controlled_state = {
-				limit = {
-					arms_factory > 0
-					free_building_slots = {
-						building = arms_factory
-						size > 1
-						include_locked = yes
-					}
-					is_on_continent = europe
-				}
-				add_extra_state_shared_building_slots = 4
-				add_building_construction = {
-					type = arms_factory
-					level = 4
-					instant_build = yes
-				}
-			}
-			if = {
-				limit = {
-					NOT = {
-						any_owned_state = {
-							arms_factory > 0
-							free_building_slots = {
-								building = arms_factory
-								size > 1
-								include_locked = yes
-							}
-							is_on_continent = europe
-						}
-					}					
-				}
-				random_owned_controlled_state = {
-					limit = {
-						arms_factory > 0
-						free_building_slots = {
-							building = arms_factory
-							size > 1
-							include_locked = yes
-						}
-						is_on_continent = europe
-					}
-					add_extra_state_shared_building_slots = 1
-					add_building_construction = {
-						type = arms_factory
-						level = 1
-						instant_build = yes
-					}
-				}
-				random_owned_controlled_state = {
-					limit = {
-						arms_factory > 0
-						free_building_slots = {
-							building = arms_factory
-							size > 1
-							include_locked = yes
-						}
-						is_on_continent = europe
-					}
-					add_extra_state_shared_building_slots = 1
-					add_building_construction = {
-						type = arms_factory
-						level = 1
-						instant_build = yes
-					}
-				}			
-			}
-			if = {
-				limit = {
-					NOT = {
-						any_owned_state = {
-							free_building_slots = {
-								building = arms_factory
-								size > 1
-								include_locked = yes
-							}
-							is_on_continent = europe
-						}
-					}					
-				}
-				random_owned_controlled_state = {
-					limit = {
-						free_building_slots = {
-							building = arms_factory
-							size > 1
-							include_locked = yes
-						}
-					}
-					add_extra_state_shared_building_slots = 1
-					add_building_construction = {
-						type = arms_factory
-						level = 1
-						instant_build = yes
-					}
-				}
-				random_owned_controlled_state = {
-					limit = {
-						free_building_slots = {
-							building = arms_factory
-							size > 1
-							include_locked = yes
-						}
-					}
-					add_extra_state_shared_building_slots = 1
-					add_building_construction = {
-						type = arms_factory
-						level = 1
-						instant_build = yes
-					}
-				}			
-			}
-		}
-	}
-
-	focus = {
-		id = ITA_fortification_effort
-		icon = GFX_goal_generic_construct_military
-		prerequisite = { focus = ITA_industrial_effort_2 }
-		x = 0
-		y = 4
+		x = 16
+		y = 2
 		cost = 10
 		ai_will_do = {
 			factor = 1
 		}	
 		completion_reward = {
-			# French border
-			158 = {
-				custom_effect_tooltip = ITA_fortification_effort_forts
-				hidden_effect = {
-					add_building_construction = {
-						type = bunker
-						level = 3
-						province = 611
-						instant_build = yes
-					}
-					add_building_construction = {
-						type = bunker
-						level = 3
-						province = 6780
-						instant_build = yes
-					}
-					add_building_construction = {
-						type = bunker
-						level = 3
-						province = 9738
-						instant_build = yes
-					}
-					add_building_construction = {
-						type = bunker
-						level = 3
-						province = 11721
-						instant_build = yes
-					}
-					add_building_construction = {
-						type = bunker
-						level = 3
-						province = 11891
-						instant_build = yes
+			add_national_unity = 0.1
+			add_political_power = 120
+			add_ideas = impero_di_argilla
+		}
+	}
+	focus = {
+		id = ITA_regia_marina
+		icon = GFX_goal_generic_build_navy
+		prerequisite = { focus = ITA_victoryinETH }
+		x = 1
+		y = 3
+		cost = 10
+		ai_will_do = {
+			factor = 5
+		}	
+		available_if_capitulated = yes
+		completion_reward = {
+			navy_experience = 50
+			random_owned_controlled_state = {
+				limit = {
+					dockyard > 0
+					free_building_slots = {
+						building = dockyard
+						size > 1
+						include_locked = yes
 					}
 				}
-			}
-			# Dodecanese
-			164 = {
+				add_extra_state_shared_building_slots = 2
 				add_building_construction = {
-					type = coastal_bunker
-					level = 3
-					province = 10007
+					type = dockyard
+					level = 2
 					instant_build = yes
 				}
 			}
-			# Sardinia
-			114 = {
+			random_owned_controlled_state = {
+				limit = {
+					dockyard > 0
+					free_building_slots = {
+						building = dockyard
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
 				add_building_construction = {
-					type = coastal_bunker
-					level = 3
-					province = 9863
+					type = dockyard
+					level = 2
 					instant_build = yes
 				}
 			}
-			# Sicily
-			115 = {
-				add_building_construction = {
-					type = coastal_bunker
-					level = 3
-					province = 4159
-					instant_build = yes
+
+			if = {
+				limit = {
+					NOT = {
+						any_owned_state = {
+							dockyard > 0
+							free_building_slots = {
+								building = dockyard
+								size > 0
+								include_locked = yes
+							}
+						}
+					}
 				}
+				random_owned_controlled_state = {
+					limit = {
+						free_building_slots = {
+							building = dockyard
+							size > 1
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = dockyard
+						level = 2
+						instant_build = yes
+					}
+				}
+				random_owned_controlled_state = {
+					limit = {
+						free_building_slots = {
+							building = dockyard
+							size > 1
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = dockyard
+						level = 2
+						instant_build = yes
+					}
+				}				
+			}
+
+			add_tech_bonus = {
+				name = naval_doctrine_bonus
+				bonus = 0.25
+				uses = 2
+				category = naval_doctrine
 			}
 		}
 	}
-
 	focus = {
-		id = ITA_extra_tech_slot
-		icon = GFX_focus_research
-		text = extra_tech_slot
-		prerequisite = { focus = ITA_industrial_effort_2 }
+		id = ITA_modernisation_attempt
+		icon = GFX_goal_generic_navy_cruiser
+		prerequisite = { focus = ITA_regia_marina }
 		x = 1
-		y = 3
-		cost = 13
+		y = 4
+		cost = 10
 		ai_will_do = {
 			factor = 1
 		}	
 		available_if_capitulated = yes
 		completion_reward = {
-			add_research_slot = 1
+			add_tech_bonus = {
+				bonus = 0.2
+				uses = 3
+				category = naval_equipment
+			}
 		}
 	}
+	focus = {
+		id = ITA_capital_ships
+		icon = GFX_goal_generic_navy_battleship
+		prerequisite = { focus = ITA_modernisation_attempt }
+		x = 1
+		y = 5
+		cost = 10
+		ai_will_do = {
+			factor = 1
+		}	
+		available_if_capitulated = yes
+		completion_reward = {
+			add_tech_bonus = {
+				navy_experience = 25
+				name = bb_bonus
+				bonus = 0.25
+				uses = 2
+				technology = basic_battleship
+				technology = improved_battleship
+				technology = advanced_battleship
+				technology = heavy_battleship
+				technology = heavy_battleship2
+			}
+			add_tech_bonus = {
+				name = cr_bonus
+				bonus = 0.25
+				uses = 2
+				technology = improved_light_cruiser
+				technology = advanced_light_cruiser
+				technology = improved_heavy_cruiser
+				technology = advanced_heavy_cruiser
+			}
+		}
+	}
+	focus = {
+		id = ITA_X_Flottiglia_MAS
+		icon = GFX_goal_generic_amphibious_assault
+		prerequisite = { focus = ITA_capital_ships }
+		x = 0
+		y = 6
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+		available_if_capitulated = yes
 
+		completion_reward = {
+			add_ideas = X_Flottiglia_MAS
+			add_tech_bonus = {
+				bonus = 0.2
+				uses = 2
+				category = marine_tech
+			}
+			add_tech_bonus = {
+				bonus = 0.25
+				uses = 1
+				technology = landing_craft
+                technology = tank_landing_craft
+			}
+		}
+	}
+	focus = {
+		id = ITA_Escape_the_cage
+		icon = GFX_goal_generic_large_fleet
+		prerequisite = { focus = ITA_capital_ships }
+		x = 2
+		y = 6
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			add_tech_bonus = {
+				name = radar_focus
+				bonus = 0.35
+				uses = 1
+				category = radar_tech
+			}
+			add_tech_bonus = {
+				name = naval_doctrine_bonus
+				bonus = 0.4
+				uses = 1
+				category = naval_doctrine
+			}
+		}
+	}
+	focus = {
+		id = ITA_Mare_Nostrum 
+		icon = GFX_goal_generic_navy_doctrines_tactics
+		prerequisite = { focus = ITA_Escape_the_cage }
+		prerequisite = { focus = ITA_X_Flottiglia_MAS }
+		x = 1
+		y = 7
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+		add_political_power = 300
+		}
+	}
+	
+	
+	focus = {
+		id = ITA_Modern_naval_bomber_effort
+		icon = GFX_goal_generic_air_naval_bomber
+		prerequisite = { focus = ITA_regia_marina }
+		prerequisite = { focus = ITA_Regia_Aeronautica }
+		x = 4
+		y = 4
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+
+		available_if_capitulated = yes
+
+
+		completion_reward = {
+			add_tech_bonus = {
+				name = ITA_Modern_naval_bomber_effort
+				bonus = 0.3
+				uses = 1
+				technology = naval_bomber1
+				technology = naval_bomber2
+				technology = naval_bomber3
+			}
+		}
+	}
+	
+	focus = {
+		id = ITA_Navy_Airforce_Coordination
+		icon = GFX_goal_generic_air_fighter2
+		prerequisite = { focus = ITA_Modern_naval_bomber_effort }
+		x = 4
+		y = 5
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+
+		available_if_capitulated = yes
+		
+		available = {
+			has_war = no
+		}
+
+		completion_reward = {
+			}
+	}
+	
+	
+	focus = {
+		id = ITA_Regia_Aeronautica
+		icon = GFX_focus_CZE_military_aeronautical_institute
+		prerequisite = { focus = ITA_victoryinETH }
+		x = 6
+		y = 3
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+
+		available_if_capitulated = yes
+
+	
+		completion_reward = {
+		add_tech_bonus = {
+				name = air_doc_bonus
+				bonus = 0.15
+				uses = 2
+				category = air_doctrine
+			}
+			
+		}
+	}
+	focus = {
+		id = ITA_Fiat_g50_Freccia
+		icon = GFX_goal_generic_air_fighter
+		prerequisite = { focus = ITA_Regia_Aeronautica }
+		x = 6
+		y = 4
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+		add_tech_bonus = {
+				name = air_fighter
+				bonus = 0.2
+				uses = 1
+			    technology = fighter1
+			}
+			
+		}
+	}
+	focus = {
+		id = ITA_Learn_from_the_Luftwaffe
+		icon = GFX_goal_generic_intelligence_exchange
+		prerequisite = { focus = ITA_Fiat_g50_Freccia }
+		x = 6
+		y = 5
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+
+		available_if_capitulated = yes
+		
+		available = {
+			is_in_faction_with = GER
+		}
+
+		completion_reward = {
+			add_tech_bonus = {
+				name = air_CAS
+				bonus = 0.2
+				uses = 1
+			    technology = cas2
+			}
+		}
+	}
+	focus = {
+		id = ITA_Picchiatello
+		icon =  GFX_goal_junkers
+		prerequisite = { focus = ITA_Learn_from_the_Luftwaffe }
+		x = 5
+		y = 6
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+
+		available_if_capitulated = yes
+
+		bypass = {
+			
+		}
+
+		completion_reward = {
+			
+		}
+	}
+	focus = {
+		id = ITA_Macchi_MC_202
+		icon = GFX_goal_generic_air_fighter2   
+		prerequisite = { focus = ITA_Learn_from_the_Luftwaffe }
+		x = 7
+		y = 6
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+
+		available_if_capitulated = yes
+
+
+
+		completion_reward = {
+			add_tech_bonus = {
+				name = air_fighter
+				bonus = 0.2
+				uses = 1
+			    technology = fighter2
+			}
+		}
+	}
+	
+	
+	
+	focus = {
+		id = ITA_Regio_Esercito
+		icon = GFX_goal_generic_axis_build_infantry
+		prerequisite = { focus = ITA_victoryinETH }
+		x = 11
+		y = 3
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+
+		available_if_capitulated = yes
+
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				prioritize = { 161 }
+					add_extra_state_shared_building_slots = 3 
+						add_building_construction = {
+							type = arms_factory
+							level = 3 
+							instant_build = yes
+						}
+			}
+		}
+	}
+	focus = {
+		id = ITA_Artillery_Modernisation
+		icon = GFX_goal_generic_army_artillery2
+		prerequisite = { focus = ITA_Regio_Esercito }
+		x = 10
+		y = 4
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+
+		available_if_capitulated = yes
+
+
+		completion_reward = {
+		add_tech_bonus = {
+				name = arty_bonus
+				bonus = 0.25
+				uses = 2
+				category = artillery
+			}
+			
+		}
+	}
+	focus = {
+		id = ITA_Convert_WW1_Weapons_and_equipment
+		icon = GFX_goal_generic_production2
+		prerequisite = { focus = ITA_Artillery_Modernisation }
+		x = 10
+		y = 5
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+		add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 1000 producer = ITA }
+		add_equipment_to_stockpile = { type = artillery_equipment_1 amount = 350 producer = ITA }
+			
+		}
+	}
+	focus = {
+		id = ITA_Expand_Northern_Italy_weapons_manifactures
+		icon = GFX_goal_generic_construct_mil_factory
+		prerequisite = { focus = ITA_Convert_WW1_Weapons_and_equipment }
+		x = 10
+		y = 6
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+
+		available_if_capitulated = yes
+
+
+		completion_reward = {
+			add_tech_bonus = {
+				name = industrial_bonus
+				bonus = 0.2
+				uses = 2
+				category = industry
+			}
+			random_owned_controlled_state = {
+				prioritize = { 161 }
+					add_extra_state_shared_building_slots = 3 
+						add_building_construction = {
+							type = arms_factory
+							level = 3 
+							instant_build = yes
+						}
+			}
+		}
+	}
+	focus = {
+		id = ITA_Alpini
+		icon = GFX_goal_generic_special_forces
+		prerequisite = { focus = ITA_Regio_Esercito }
+		x = 12
+		y = 4
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+		add_tech_bonus = {
+				name = special_bonus
+				Bonus = 0.35
+				uses = 1
+				technology = tech_mountaineers2
+			}
+			add_tech_bonus = {
+				name = support_companies
+				Bonus = 0.2
+				uses = 2
+				category = support_tech
+			}
+			
+		}
+	}
+	focus = {
+		id = ITA_ARMIR
+		icon = GFX_focus_generic_military_mission
+		prerequisite = { focus = ITA_Alpini }
+		x = 12
+		y = 5
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+		available = { has_war_with = SOV }
+		available_if_capitulated = yes
+
+		bypass = {
+			
+		}
+
+		completion_reward = {
+			
+		}
+	}
+	focus = {
+		id = ITA_Learn_from_the_Wehrmacht
+		icon = GFX_goal_generic_scientific_exchange
+		prerequisite = { focus = ITA_ARMIR }
+		x = 12
+		y = 6
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+		
+		available_if_capitulated = yes
+		available = { is_in_faction_with = GER }
+		bypass = {
+			
+		}
+
+		completion_reward = {
+			GER = {
+				country_event = { id = italy.5 days = 1 }
+				custom_effect_tooltip = needs_approval
+			}
+			# Actual reward effects added in event if Soviets approve
+			effect_tooltip = {
+				add_tech_bonus = {
+					name = synth_bonus
+					bonus = 0.25
+					uses = 1
+					category = synth_resources
+				}
+				# Balance research bonus to 2 techs in armor, also in event
+				add_tech_bonus = {
+					name = armor_bonus
+					bonus = 0.25
+					uses = 2
+					category = armor
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = ITA_The_Old_guard
+		icon = GFX_focus_generic_little_entente
+		prerequisite = { focus = ITA_Regio_Esercito }
+		mutually_exclusive = { focus = ITA_Innovative_theories }
+		x = 15
+		y = 4
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+
+		available_if_capitulated = yes
+
+		bypass = {
+			
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = available_theorist
+			show_ideas_tooltip = rodolfo_graziani
+			add_tech_bonus = {
+				name = land_doc_bonus
+				bonus = 0.2
+				uses = 2
+				category = cat_grand_battle_plan
+			}
+		}
+	}
+	focus = {
+		id = ITA_Legacy_of_the_Arditi
+		icon = GFX_goal_generic_cavalry
+		prerequisite = { focus = ITA_The_Old_guard }
+		x = 15
+		y = 5
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+
+		available_if_capitulated = yes
+
+		bypass = {
+			
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = available_chief_of_army
+			show_ideas_tooltip = vittorio_ambrosio
+			custom_effect_tooltip = appoint_ambrosio
+			hidden_effect = {
+				create_corps_commander = {
+				name = "Vittorio Ambrosio"
+				portrait_path = "gfx/leaders/ITA/Portrait_Italy_Vittorio_Ambrosio.dds"
+				traits = { ITA_tag trait_engineer_CC ranger_CC Decent_General }
+				skill = 3
+				}
+			}
+		}
+	}
+	focus = {
+		id = ITA_Heavy_Infantry_Division
+		icon = GFX_goal_generic_small_arms
+		prerequisite = { focus = ITA_Legacy_of_the_Arditi }
+		x = 15
+		y = 6
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+
+		available_if_capitulated = yes
+
+		bypass = {
+			
+		}
+
+		completion_reward = {
+			
+		}
+	}
+	focus = {
+		id = ITA_AVANTI
+		icon = GFX_goal_generic_army_doctrines
+		prerequisite = { focus = ITA_Heavy_Infantry_Division }
+		x = 15
+		y = 7
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+
+		available_if_capitulated = yes
+
+		bypass = {
+			
+		}
+
+		completion_reward = {
+			add_tech_bonus = {
+				name = land_doc_bonus
+				bonus = 0.2
+				uses = 2
+				category = cat_grand_battle_plan
+			}
+		}
+	}
+	focus = {
+		id = ITA_6_Million_Bayonets
+		icon = GFX_goal_generic_political_pressure
+		prerequisite = { focus = ITA_AVANTI }
+		x = 15
+		y = 8
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+
+		available_if_capitulated = yes
+
+		bypass = {
+			
+		}
+
+		completion_reward = {
+			swap_ideas = { 
+				remove_idea = italian_leadership
+				add_idea = italian_leadership_improved
+			}
+		}
+	}
+	focus = {
+		id = ITA_Innovative_theories
+		icon = GFX_goal_generic_army_tanks
+		prerequisite = { focus = ITA_Regio_Esercito }
+		mutually_exclusive = { focus = ITA_The_Old_guard }
+		x = 17
+		y = 4
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+
+		available_if_capitulated = yes
+
+		bypass = {
+			
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = available_theorist
+			show_ideas_tooltip = giovanni_messe
+			add_tech_bonus = {	
+				name = land_doc_bonus
+				bonus = 0.1 
+				uses = 3
+				category = cat_mobile_warfare
+			}
+			add_tech_bonus = {
+				name = armor_bonus
+				bonus = 0.15
+				uses = 1
+				category = armor
+			}
+		}
+	}
+	focus = {
+		id = ITA_Modern_Celere_Divisions 
+		icon = GFX_goal_generic_build_tank
+		prerequisite = { focus = ITA_Innovative_theories }
+		x = 17
+		y = 5
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+
+		available_if_capitulated = yes
+
+		bypass = {
+			
+		}
+
+		completion_reward = {
+			
+		}
+	}
+	focus = {
+		id = ITA_Appoint_Messe
+		icon = GFX_goal_generic_position_armies
+		prerequisite = { focus = ITA_Modern_Celere_Divisions }
+		x = 17
+		y = 6
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+
+		available_if_capitulated = yes
+
+		bypass = {
+			
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = available_military_high_command
+			show_ideas_tooltip = giovanni_messe_hc
+			custom_effect_tooltip = appoint_messe
+			hidden_effect = {
+				create_corps_commander = {
+					name = "Giovanni Messe"
+					picture = "Portrait_Italy_Giovanni_Messe.dds"
+					traits = { ITA_tag panzer_leader Competent_General}
+					skill = 3
+				}
+			}
+		}
+	}
+	focus = {
+		id = ITA_Reform_the_army_command_structure
+		icon = GFX_goal_generic_military_deal
+		prerequisite = { focus = ITA_Appoint_Messe }
+		x = 17
+		y = 7
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+
+		available_if_capitulated = yes
+
+		bypass = {
+			
+		}
+
+		completion_reward = {
+			remove_ideas = italian_leadership
+		}
+	}
+	focus = {
+		id = ITA_Autarchia
+		icon = GFX_goal_autarky
+		prerequisite = { focus = ITA_victoryinETH }
+		x = 23 
+		y = 3
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+
+		available_if_capitulated = yes
+
+		bypass = {
+			
+		}
+
+		completion_reward = {
+			add_ideas = autarchia
+		}
+	}
 	focus = {
 		id = ITA_italian_highways
 		icon = GFX_goal_generic_construct_infrastructure
 		text = ITA_italian_highways
-		prerequisite = { focus = ITA_extra_tech_slot }
-		x = 1
-		y = 5
+		prerequisite = { focus = ITA_victoryinETH }
+		x = 21
+		y = 3
 		cost = 10
 		ai_will_do = {
 			factor = 1
@@ -571,80 +1147,309 @@ focus_tree = {
 			}									
 			
 		}
-	}	
-	
-	
+	}
 	focus = {
-		id = ITA_prospect_for_oil
-		icon = GFX_goal_oil
-		text = ITA_prospect_for_oil
+		id = ITA_The_industrial_triangle
+		icon = GFX_goal_generic_construct_civ_factory
 		prerequisite = { focus = ITA_italian_highways }
-		available = {
-			ITA = {
-				controls_state = 662
-			}
-		}
-		
-		x = 1
-		y = 6
-		cost = 12
-		available_if_capitulated = yes
+		x = 20
+		y = 4
+		cost = 10
 		ai_will_do = {
-			factor = 1
-		}	
+			factor = 10
+		}
+
+		available_if_capitulated = yes
+
+		bypass = {
+			
+		}
+
 		completion_reward = {
-			add_resource = {
-				type = oil
-				amount = 20
-				state = 662
+			random_owned_controlled_state = {
+				prioritize = { 159 }
+					limit = {
+					}
+					add_extra_state_shared_building_slots = 3
+					add_building_construction = {
+						type = industrial_complex
+						level = 3
+						instant_build = yes
+					}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 158 }
+					limit = {
+					}
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = industrial_complex
+						level = 2
+						instant_build = yes
+					}
 			}
 		}
 	}
-	
 	focus = {
-		id = ITA_libyan_refineries
-		icon = GFX_ITA_oil
-		text = ITA_libyan_refineries
-		prerequisite = { focus = ITA_prospect_for_oil }
-		available = {
-			ITA = {
-				controls_state = 450
+		id = ITA_Increase_research_founding
+		icon = GFX_focus_research
+		prerequisite = { focus = ITA_Istituto_LUCE }
+		x = 20
+		y = 5
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+
+		available_if_capitulated = yes
+
+		bypass = {
+			
+		}
+
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+	focus = {
+		id = ITA_Expand_ILVA_and_IRI
+		icon = GFX_goal_steel
+		prerequisite = { focus = ITA_The_industrial_triangle }
+		x = 20
+		y = 6
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+
+		available_if_capitulated = yes
+
+		bypass = {
+			
+		}
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				prioritize = { 156 }
+					limit = {
+					}
+					add_extra_state_shared_building_slots = 5
+					add_building_construction = {
+						type = industrial_complex
+						level = 3
+						instant_build = yes
+					}
+					add_building_construction = {
+						type = steel_refinery
+						level = 2
+						instant_build = yes
+					}
 			}
 		}
-		x = 0
+	}
+	focus = {
+		id = ITA_Dockyards_effort
+		icon = GFX_goal_generic_construct_naval_dockyard
+		prerequisite = { focus = ITA_Expand_ILVA_and_IRI }
+		mutually_exclusive = { focus = ITA_Armor_Effort }
+		mutually_exclusive = { focus = ITA_Increase_factory_output }
+		x = 21
 		y = 7
-		cost = 11
-		available_if_capitulated = yes
+		cost = 10
 		ai_will_do = {
-			factor = 1
-		}	
+			factor = 10
+		}
+
+		available_if_capitulated = yes
+
+		bypass = {
+			
+		}
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				prioritize = { 2 }
+					add_extra_state_shared_building_slots = 4
+					add_building_construction = {
+						type = dockyard
+						level = 4
+						instant_build = yes
+					}
+			}
+		}
+	}
+	focus = {
+		id = ITA_Prioritise_naval_industry
+		icon = GFX_goal_generic_navy_doctrines_tactics
+		prerequisite = { focus = ITA_Dockyards_effort }
+		x = 21
+		y = 8
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+
+		available_if_capitulated = yes
+
+		bypass = {
+			
+		}
+
+		completion_reward = {
+			add_ideas = navy_prioritised
+			random_owned_controlled_state = {
+				prioritize = { 2 }
+					add_extra_state_shared_building_slots = 4
+					add_building_construction = {
+						type = dockyard
+						level = 4
+						instant_build = yes
+					}
+			}
+		}
+	}
+	focus = {
+		id = ITA_Armor_Effort
+		icon = GFX_ITA_tank
+		prerequisite = { focus = ITA_Expand_ILVA_and_IRI }
+		prerequisite = { focus = ITA_Innovative_theories }
+		mutually_exclusive = { focus = ITA_Dockyards_effort }
+		x = 19
+		y = 7
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+
+		available_if_capitulated = yes
+
+		bypass = {
+			
+		}
+
+		completion_reward = {
+			
+		}
+	}
+	focus = {
+		id = ITA_Italian_tank_divisions
+		icon = GFX_goal_generic_position_armies
+		prerequisite = { focus = ITA_Armor_Effort }
+		x = 19
+		y = 8
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+
+		available_if_capitulated = yes
+
+		bypass = {
+			
+		}
+
+		completion_reward = {
+			
+		}
+	}
+	focus = {
+		id = ITA_Increase_factory_output
+		icon = GFX_goal_generic_construct_mil_factory
+		prerequisite = { focus = ITA_Expand_ILVA_and_IRI }
+		mutually_exclusive = { focus = ITA_Dockyards_effort }
+		x = 23
+		y = 7
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+
+		available_if_capitulated = yes
+
+		bypass = {
+			
+		}
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				prioritize = { 157 }
+					add_extra_state_shared_building_slots = 4
+						add_building_construction = {
+							type = arms_factory
+							level = 4
+							instant_build = yes
+						}
+			}
+		}
+	}
+	focus = {
+		id = ITA_Exploit_the_new_empire
+		icon = GFX_ITA_africa
+		prerequisite = { focus = ITA_Autarchia }
+		x = 24
+		y = 4
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+		available = { 
+			271 = {
+				CONTROLLER = {
+					OR = {
+						tag = ITA
+						is_subject_of = ITA
+					}
+				}
+			}
+		}
+		available_if_capitulated = yes
+
+		bypass = {
+			
+		}
+
 		completion_reward = {
 			add_resource = {
-				type = oil
-				amount = 10
-				state = 450
+				type = rubber
+				amount = 7
+				state = 271
 			}
-			450 = {
-				add_extra_state_shared_building_slots = 4
-				add_building_construction = {
-					type = synthetic_refinery
-					level = 4
-					instant_build = yes
-				}
-			}	
-		
 		}
-	}	
-	
-	
-	
+	}
+	focus = {
+		id = ITA_Pursue_oil_autarchy
+		icon = GFX_goal_oil
+		prerequisite = { focus = ITA_Autarchia }
+		prerequisite = { focus = ITA_italian_highways }
+		x = 22
+		y = 4
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+
+		available_if_capitulated = yes
+
+		bypass = {
+			
+		}
+
+		completion_reward = {
+			add_tech_bonus = {
+					name = synth_bonus
+					bonus = 0.25
+					uses = 1
+					category = synth_resources
+			}
+		}
+	}
 	focus = {
 		id = ITA_libyan_infrastructure
-		icon = GFX_ITA_africa
+		icon = GFX_goal_generic_construction2
 		text = ITA_libyan_infrastructure
-		prerequisite = { focus = ITA_prospect_for_oil }
-		x = 2
-		y = 7
+		prerequisite = { focus = ITA_Pursue_oil_autarchy }
+		x = 22
+		y = 5
 		cost = 8
 		ai_will_do = {
 			factor = 1
@@ -703,737 +1508,547 @@ focus_tree = {
 			}
 			
 		}
-	}		
-
-		
-
+	}
 	focus = {
-		id = ITA_army_primacy
-		icon = GFX_goal_generic_axis_build_infantry
-		x = 4
-		y = 0
-		cost = 12 
+		id = ITA_Lybian_oil_fields
+		icon = GFX_ITA_oil
+		prerequisite = { focus = ITA_libyan_infrastructure }
+		x = 22
+		y = 6
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+		available = {
+			ITA = {
+				controls_state = 450
+				controls_state = 662
+			}
+		}
+		available_if_capitulated = yes
+
+		bypass = {
+			
+		}
+
+		completion_reward = {
+			add_resource = {
+				type = oil
+				amount = 7
+				state = 450
+			}
+			add_resource = {
+				type = oil
+				amount = 8
+				state = 662
+			}
+			450 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = synthetic_refinery
+					level = 2
+					instant_build = yes
+				}
+			}	
+		}
+	}
+	focus = {
+		id = ITA_Minculpop
+		icon = GFX_focus_generic_support_the_left_right
+		prerequisite = { focus = ITA_victoryinETH }
+		x = 26
+		y = 3
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+
+		available_if_capitulated = yes
+
+		bypass = {
+			
+		}
+
+		completion_reward = {
+			add_political_power = 100
+		}
+	}
+	focus = {
+		id = ITA_Istituto_LUCE
+		icon = GFX_goal_generic_political_pressure
+		prerequisite = { focus = ITA_Minculpop }
+		x = 26
+		y = 4
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+
+		available_if_capitulated = yes
+
+		bypass = {
+			
+		}
+
+		completion_reward = {
+			add_ideas = istituto_luce
+		}
+	}
+	focus = {
+		id = ITA_german_millitary_cooperation
+		icon = GFX_doctrine_tank_warfare
+		prerequisite = { focus = ITA_pact_of_steel }
+		prerequisite = { focus = ITA_Istituto_LUCE }
+
+		available = {
+			NOT = { has_war_with = GER }
+		}
+		
+		x = 26
+		y = 5
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}	
+		completion_reward = {
+			add_ideas = ITA_german_millitary_cooperation_focus
+			add_ideas = ITA_idea_license
+		}
+	}
+	focus = {
+		id = ITA_Hitler_visits_Rome
+		icon = GFX_goal_ger_alliance_with_italy
+		prerequisite = { focus = ITA_victoryinETH }
+		x = 28
+		y = 3
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+
+		available_if_capitulated = yes
+
+		bypass = {
+			
+		}
+
+		completion_reward = {
+			
+		}
+	}
+	focus = {
+		id = ITA_bulgaria_friend
+		icon = GFX_ITA_BUL
+		prerequisite = { focus = ITA_victoryinETH }
+		x = 30
+		y = 3
+		cost = 10
+		ai_will_do = {
+			factor = 1
+		}
+		available = {
+			country_exists = BUL
+			NOT = {
+				has_war_with = BUL
+			}
+		}
+		bypass = {
+			NOT = { country_exists = BUL }
+		}
+		completion_reward = {
+			BUL = {
+				add_opinion_modifier = { target = ITA modifier = ita_diplomacy_focus }
+				if = {
+					limit = { ROOT = { has_government = fascism } }
+					add_ideas = fascist_influence
+				}
+				if = {
+					limit = { ROOT = { has_government = democratic } }
+					add_ideas = democratic_influence
+				}
+				if = {
+					limit = { ROOT = { has_government = communism } }
+					add_ideas = communist_influence
+				}
+				country_event = { id = generic.1 }
+			}
+		}
+	}
+	focus = {
+		id = ITA_romania_friend
+		icon = GFX_ITA_ROM
+		prerequisite = { focus = ITA_bulgaria_friend }
+		x = 32
+		y = 4
+		cost = 11
+		ai_will_do = {
+			factor = 1
+		}
+		available = {
+			country_exists = ROM
+			NOT = {
+				has_war_with = ROM
+			}
+		}
+		bypass = {
+			ROM = {
+				OR = {
+					NOT = { country_exists = ROM }
+					has_capitulated = yes
+				}
+			}
+		}
+		completion_reward = {
+			ROM = {
+				add_opinion_modifier = { target = ITA modifier = ita_diplomacy_focus }
+				if = {
+					limit = { ROOT = { has_government = fascism } }
+					add_ideas = fascist_influence
+				}
+				if = {
+					limit = { ROOT = { has_government = democratic } }
+					add_ideas = democratic_influence
+				}
+				if = {
+					limit = { ROOT = { has_government = communism } }
+					add_ideas = communist_influence
+				}
+				country_event = { id = generic.1 }
+			}
+		}
+	}
+	focus = {
+		id = ITA_yugoslavia_friend
+		icon = GFX_ITA_YUG
+		prerequisite = { focus = ITA_bulgaria_friend }
+		
+		x = 30
+		y = 4
+		cost = 10
 		ai_will_do = {
 			factor = 0.25
 		}
 
-		available_if_capitulated = yes
-		completion_reward = {
-			army_experience = 5
-			random_owned_controlled_state = {
-				limit = {
-					arms_factory > 0
-					free_building_slots = {
-						building = arms_factory
-						size > 0
-						include_locked = yes
-					}
-				}
-				add_extra_state_shared_building_slots = 3 
-				add_building_construction = {
-					type = arms_factory
-					level = 3
-					instant_build = yes
-				}
-			}
-			random_owned_controlled_state = {
-				limit = {
-					arms_factory > 0
-					free_building_slots = {
-						building = arms_factory
-						size > 0
-						include_locked = yes
-					}
-				}
-				add_extra_state_shared_building_slots = 3
-				add_building_construction = {
-					type = arms_factory
-					level = 3
-					instant_build = yes
-				}
-			}
-
-			if = {
-				limit = {
-					NOT = {
-						any_owned_state = {
-							arms_factory > 0
-							free_building_slots = {
-								building = arms_factory
-								size > 0
-								include_locked = yes
-							}
-						}
-					}
-				}
-				random_owned_controlled_state = {
-					limit = {
-						free_building_slots = {
-							building = arms_factory
-							size > 0
-							include_locked = yes
-						}
-					}
-					add_extra_state_shared_building_slots = 1
-					add_building_construction = {
-						type = arms_factory
-						level = 1
-						instant_build = yes
-					}
-				}
-				random_owned_controlled_state = {
-					limit = {
-						free_building_slots = {
-							building = arms_factory
-							size > 0
-							include_locked = yes
-						}
-					}
-					add_extra_state_shared_building_slots = 1
-					add_building_construction = {
-						type = arms_factory
-						level = 1
-						instant_build = yes
-					}
-				}				
-			}
-
-			add_tech_bonus = {
-				name = land_doc_bonus
-				bonus = 0.25
-				uses = 2
-				category = land_doctrine
-			}
-		}
-	}
-
-	focus = {
-		id = ITA_modernized_artillery
-		icon = GFX_goal_generic_army_artillery2
-		prerequisite = { focus = ITA_army_primacy }
-		x = 3
-		y = 1
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}	
-		available_if_capitulated = yes
-		completion_reward = {
-			add_tech_bonus = {
-				name = arty_bonus
-				bonus = 0.25
-				uses = 2
-				category = artillery
-			}
-		}
-	}
-
-	focus = {
-		id = ITA_modernized_army
-		icon = GFX_goal_generic_small_arms
-		prerequisite = { focus = ITA_modernized_artillery }
-		prerequisite = { focus = ITA_industrial_effort }
-		x = 3
-		y = 2
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}	
-		available_if_capitulated = yes
-		completion_reward = {
-			army_experience = 5
-			add_tech_bonus = {
-				name = special_bonus
-				bonus = 0.25
-				uses = 1
-				technology = tech_recon
-				technology = tech_recon2
-				technology = tech_recon3
-			}
-			add_tech_bonus = {
-				name = land_doc_bonus
-				bonus = 0.25
-				uses = 2
-				category = land_doctrine
-			}
-		}
-	}
-
-	focus = {
-		id = ITA_special_forces
-		icon = GFX_goal_generic_special_forces
-		text = special_forces
-		prerequisite = { focus = ITA_modernized_army }
-		x = 3
-		y = 4
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}	
-		available_if_capitulated = yes
-		completion_reward = {
-			army_experience = 5
-			add_tech_bonus = {
-				name = special_bonus
-				bonus = 0.25
-				uses = 1
-				technology = paratroopers
-				technology = paratroopers2
-			}
-			add_tech_bonus = {
-				name = special_bonus
-				ahead_reduction = 1
-				uses = 1
-				technology = tech_mountaineers2
-			}
-		}
-	}
-
-	focus = {
-		id = ITA_armored_effort
-		icon = GFX_ITA_tank
-		prerequisite = { focus = ITA_special_forces }
-		x = 3
-		y = 5
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}	
-		available_if_capitulated = yes
-		completion_reward = {
-			army_experience = 5
-			add_tech_bonus = {
-				name = armor_bonus
-				bonus = 0.3
-				uses = 1
-				category = armor
-			}
-			add_tech_bonus = {
-				name = armor_bonus
-				bonus = 0.2
-				uses = 1 
-				ahead_reduction = 0.50 
-				category = cat_light_armor
-			}
-		}
-	}
-
-	focus = {
-		id = ITA_mare_nostrum
-		icon = GFX_goal_generic_build_navy
-		x = 6
-		y = 0
-		cost = 10
-		ai_will_do = {
-			factor = 5
-		}	
-		available_if_capitulated = yes
-		completion_reward = {
-			navy_experience = 50
-			random_owned_controlled_state = {
-				limit = {
-					dockyard > 0
-					free_building_slots = {
-						building = dockyard
-						size > 1
-						include_locked = yes
-					}
-				}
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-					type = dockyard
-					level = 2
-					instant_build = yes
-				}
-			}
-			random_owned_controlled_state = {
-				limit = {
-					dockyard > 0
-					free_building_slots = {
-						building = dockyard
-						size > 1
-						include_locked = yes
-					}
-				}
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-					type = dockyard
-					level = 2
-					instant_build = yes
-				}
-			}
-
-			if = {
-				limit = {
-					NOT = {
-						any_owned_state = {
-							dockyard > 0
-							free_building_slots = {
-								building = dockyard
-								size > 0
-								include_locked = yes
-							}
-						}
-					}
-				}
-				random_owned_controlled_state = {
-					limit = {
-						free_building_slots = {
-							building = dockyard
-							size > 1
-							include_locked = yes
-						}
-					}
-					add_extra_state_shared_building_slots = 2
-					add_building_construction = {
-						type = dockyard
-						level = 2
-						instant_build = yes
-					}
-				}
-				random_owned_controlled_state = {
-					limit = {
-						free_building_slots = {
-							building = dockyard
-							size > 1
-							include_locked = yes
-						}
-					}
-					add_extra_state_shared_building_slots = 2
-					add_building_construction = {
-						type = dockyard
-						level = 2
-						instant_build = yes
-					}
-				}				
-			}
-
-			add_tech_bonus = {
-				name = naval_doctrine_bonus
-				bonus = 0.25
-				uses = 2
-				category = naval_doctrine
-			}
-		}
-	}
-
-	focus = {
-		id = ITA_air_innovation
-		icon = GFX_goal_generic_air_fighter
-		text = air_innovation
-		prerequisite = { focus = ITA_army_primacy focus = ITA_mare_nostrum }
-		x = 5
-		y = 1
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}	
-		available_if_capitulated = yes
-		completion_reward = {
-			air_experience = 25
-			add_tech_bonus = {
-				name = fighter_bonus
-				bonus = 0.25
-				uses = 1
-				technology = early_fighter
-				technology = fighter1
-				technology = fighter2
-				technology = fighter3
-				technology = jet_fighter1
-				technology = jet_fighter2
-			}
-			add_tech_bonus = {
-				name = air_doc_bonus
-				bonus = 0.25
-				uses = 2
-				category = air_doctrine
-			}
-		}
-	}
-
-	focus = {
-		id = ITA_carrier_effort
-		icon = GFX_goal_generic_navy_carrier
-		prerequisite = { focus = ITA_mare_nostrum }
-		x = 7
-		y = 1
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}	
-		available_if_capitulated = yes
-		completion_reward = {
-			add_tech_bonus = {
-				name = cv_bonus
-				bonus = 0.25
-				uses = 2
-				technology = early_carrier
-				technology = basic_carrier
-				technology = improved_carrier
-				technology = advanced_carrier
-			}
-		}
-	}
-
-	focus = {
-		id = ITA_capital_ships
-		icon = GFX_goal_generic_navy_battleship
-		prerequisite = { focus = ITA_mare_nostrum }
-		x = 9
-		y = 1
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}	
-		available_if_capitulated = yes
-		completion_reward = {
-			add_tech_bonus = {
-				navy_experience = 25
-				name = bb_bonus
-				bonus = 0.25
-				uses = 2
-				technology = basic_battleship
-				technology = improved_battleship
-				technology = advanced_battleship
-				technology = heavy_battleship
-				technology = heavy_battleship2
-			}
-			add_tech_bonus = {
-				name = cr_bonus
-				bonus = 0.25
-				uses = 2
-				technology = improved_light_cruiser
-				technology = advanced_light_cruiser
-				technology = improved_heavy_cruiser
-				technology = advanced_heavy_cruiser
-			}
-		}
-	}
-
-	focus = {
-		id = ITA_bomber_effort
-		icon = GFX_goal_generic_air_bomber
-		prerequisite = { focus = ITA_army_primacy }
-		prerequisite = { focus = ITA_air_innovation }
-		x = 4
-		y = 3
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}	
-		available_if_capitulated = yes
-		completion_reward = {
-
-			add_tech_bonus = {
-				name = ITA_bomber_effort
-				bonus = 0.25
-				uses = 1
-				technology = tactical_bomber2
-				technology = tactical_bomber3
-			}
-			add_tech_bonus = {
-				name = ITA_bomber_effort
-				bonus = 0.25
-				uses = 1
-				technology = CAS2
-				technology = CAS3
-			}
-		}
-	}
-
-	focus = {
-		id = ITA_naval_air_effort
-		icon = GFX_goal_generic_air_naval_bomber
-		text = naval_air_effort
-		prerequisite = { focus = ITA_air_innovation }
-		prerequisite = { focus = ITA_carrier_effort }
-		x = 6
-		y = 3
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}	
-		available_if_capitulated = yes
-		completion_reward = {
-			air_experience = 25
-
-			add_tech_bonus = {
-				name = ITA_naval_air_effort
-				bonus = 0.25
-				uses = 1
-				technology = naval_bomber1
-				technology = naval_bomber2
-				technology = naval_bomber3
-			}
-		}
-	}
-
-	focus = {
-		id = ITA_atlantic_fleet
-		icon = GFX_goal_generic_large_fleet
-		prerequisite = { focus = ITA_carrier_effort }
-		prerequisite = { focus = ITA_capital_ships }
-		x = 8
-		y = 3
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}	
-		available_if_capitulated = yes
-		completion_reward = {
-			navy_experience = 25
-			add_tech_bonus = {
-				name = ITA_atlantic_fleet
-				bonus = 0.25
-				uses = 1
-				category = cv_tech
-			}
-			add_tech_bonus = {
-				name = ITA_atlantic_fleet
-				bonus = 0.25
-				uses = 1
-				category = bb_tech
-			}
-		}
-	}
-
-	focus = {
-		id = ITA_marines_and_landing_craft
-		icon = GFX_goal_generic_amphibious_assault
-		prerequisite = { focus = ITA_atlantic_fleet }
-		x = 8
-		y = 4
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}	
-		available_if_capitulated = yes
-		completion_reward = {
-			add_tech_bonus = {
-				name = ITA_marines_and_landing_craft
-				bonus = 0.25
-				uses = 1
-				technology = marines
-				technology = marines2
-			}
-			add_tech_bonus = {
-				name = ITA_marines_and_landing_craft
-				bonus = 0.25
-				uses = 1
-				technology = transport
-				technology = landing_craft
-				technology = tank_landing_craft
-			}
-		}
-	}
-
-	focus = {
-		id = ITA_air_innovation_2
-		icon = GFX_goal_generic_air_fighter2
-		text = air_innovation_2
-		prerequisite = { focus = ITA_bomber_effort focus = ITA_naval_air_effort }
-		x = 5
-		y = 4
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}	
-		available_if_capitulated = yes
-		completion_reward = {
-			add_tech_bonus = {
-				name = fighter_bonus
-				bonus = 0.25
-				uses = 1
-				technology = early_fighter
-				technology = fighter1
-				technology = fighter2
-				technology = fighter3
-				technology = jet_fighter1
-				technology = jet_fighter2
-			}
-			add_tech_bonus = {
-				name = air_doc_bonus
-				bonus = 0.25
-				uses = 2
-				category = air_doctrine
-			}
-		}
-	}
-
-	focus = {
-		id = ITA_jet_engine_effort
-		icon = GFX_focus_rocketry
-		prerequisite = { focus = ITA_air_innovation_2 }
-		x = 5
-		y = 5
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}	
-		available_if_capitulated = yes
-		completion_reward = {
-		# Caproni Campini N.1
-			add_tech_bonus = {
-				name = ITA_jet_engine_effort
-				bonus = 0.25
-				uses = 1
-				technology = jet_engines
-				technology = jet_fighter1
-			}
-		}
-	}
-
-	focus = {
-		id = ITA_light_ship_effort
-		icon = GFX_goal_generic_navy_cruiser
-		x = 11
-		y = 0
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}	
-		available_if_capitulated = yes
-		completion_reward = {
-			add_tech_bonus = {
-				name = dd_bonus
-				bonus = 0.25
-				uses = 1
-				technology = basic_destroyer
-				technology = improved_destroyer
-				technology = advanced_destroyer
-			}
-			add_tech_bonus = {
-				name = con_def_bonus
-				bonus = 0.25
-				uses = 1
-				technology = convoy_sailing
-				technology = convoy_sailing_ti
-				technology = convoy_sailing_bs
-			}
-		}
-	}
-
-	focus = {
-		id = ITA_escort_effort
-		icon = GFX_goal_generic_navy_anti_submarine
-		prerequisite = { focus = ITA_light_ship_effort }
-		x = 12
-		y = 1
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}	
-		available_if_capitulated = yes
-		completion_reward = {
-			add_tech_bonus = {
-				name = ITA_escort_effort
-				bonus = 0.25
-				uses = 1
-				technology = basic_destroyer
-				technology = improved_destroyer
-				technology = advanced_destroyer
-			}
-			add_tech_bonus = {
-				name = ITA_escort_effort
-				bonus = 0.25
-				uses = 2
-				technology = convoy_escorts
-				technology = convoy_escorts_bs
-				technology = escort_carriers
-			}
-		}
-	}
-
-	focus = {
-		id = ITA_submarine_effort
-		icon = GFX_goal_generic_navy_submarine
-		text = submarine_effort
-		prerequisite = { focus = ITA_light_ship_effort }
-		x = 10
-		y = 2
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}	
-		available_if_capitulated = yes
-		completion_reward = {
-			add_tech_bonus = {
-				name = ss_bonus
-				bonus = 0.25
-				uses = 1
-				technology = basic_submarine
-				technology = improved_submarine
-				technology = advanced_submarine
-			}
-			add_tech_bonus = {
-				name = sub_op_bonus
-				bonus = 0.25
-				uses = 2
-				technology = submarine_operations
-				technology = undersea_blockade
-				technology = convoy_interdiction
-				technology = submarine_offensive
-			}
-		}
-	}
-
-	focus = {
-		id = ITA_sea_wolves
-		icon = GFX_goal_generic_wolf_pack
-		prerequisite = { focus = ITA_submarine_effort }
-		prerequisite = { focus = ITA_german_millitary_cooperation }
-		x = 9
-		y = 5
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}	
-		available_if_capitulated = yes
-		completion_reward = {
-			navy_experience = 25
-			add_tech_bonus = {
-				name = ITA_sea_wolves
-				bonus = 0.25
-				uses = 1
-				category = ss_tech
-			}
-			add_tech_bonus = {
-				name = ITA_sea_wolves
-				bonus = 0.25
-				uses = 2
-				category = submarine_doctrine
-			}
-		}
-	}
-
-	focus = {
-		id = ITA_victoryinETH
-		icon = GFX_ITA_Fist
 		available = {
-			OR = {
-				owns_state = 271
-				ETH = { is_puppet_of = ITA }
+			country_exists = YUG
+			NOT = {
+				has_war_with = YUG
 			}
 		}
-		available_if_capitulated = yes
-		x = 15
-		y = 0
+
+		completion_reward = {
+			YUG = {
+				add_opinion_modifier = { target = ITA modifier = ita_diplomacy_focus }
+				if = {
+					limit = { ROOT = { has_government = fascism } }
+					add_ideas = fascist_influence
+				}
+				if = {
+					limit = { ROOT = { has_government = democratic } }
+					add_ideas = democratic_influence
+				}
+				if = {
+					limit = { ROOT = { has_government = communism } }
+					add_ideas = communist_influence
+				}
+				country_event = { id = generic.1 }
+			}
+			hidden_effect = {
+				news_event = { id = news.193 }
+			}
+		}
+	}
+	focus = {
+		id = ITA_pact_of_steel
+		icon = GFX_goal_generic_major_alliance
+		prerequisite = { focus = ITA_Hitler_visits_Rome }
+		prerequisite = { focus = ITA_Minculpop }
+		mutually_exclusive = { focus = ITA_italy_first }
+		available = {
+			has_government = fascism
+			NOT = { has_war_with = GER }
+			GER = { 
+				has_government = fascism 
+				country_exists = GER
+			}
+		}
+		x = 28
+		y = 4
 		cost = 10
 		ai_will_do = {
 			factor = 1
-		}	
+
+			modifier = {
+				factor = 0.5
+				ai_irrationality > 20
+			}
+
+			modifier = {
+				factor = 0.5
+				ai_irrationality > 25
+			}
+
+			modifier = {
+				factor = 0.1
+				ai_irrationality > 30
+			}
+		}
 		completion_reward = {
-			add_national_unity = 0.2
+			GER = {
+				add_opinion_modifier = { target = ITA modifier = pact_of_steel_opinion }
+			}
+			GER = {
+				add_opinion_modifier = { target = SWE modifier = pact_of_steel_opinion }
+			}
+			SWE = {
+				add_opinion_modifier = { target = GER modifier = pact_of_steel_opinion }
+			}
+			SWE = {
+				add_opinion_modifier = { target = ITA modifier = pact_of_steel_opinion }
+			}
+			ITA = {
+				add_opinion_modifier = { target = GER modifier = pact_of_steel_opinion }
+			}
+			ITA = {
+				add_opinion_modifier = { target = SWE modifier = pact_of_steel_opinion }
+			}
+			hidden_effect = {
+				news_event = { hours = 6 id = news.184 }
+			}
 		}
 	}
-	
+	focus = {
+		id = ITA_albania_war_goal
+		icon = GFX_goal_generic_more_territorial_claims
+		prerequisite = { focus = ITA_pact_of_steel focus = ITA_yugoslavia_friend }
+		will_lead_to_war_with = ALB
+		x = 29
+		y = 5
+		
+		available = {
+			country_exists = ALB
+		}
+
+		cost = 10
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				factor = 0
+				date < 1937.1.1
+			}	
+		}	
+		completion_reward = {
+			ALB = { country_event = { id = italy.3 } }
+		}
+	}
+	focus = {
+		id = ITA_italy_first
+		icon = GFX_focus_generic_italy_first
+		prerequisite = { focus = ITA_yugoslavia_friend focus = ITA_albania_war_goal }
+		mutually_exclusive = { focus = ITA_join_the_axis }
+		available = {
+			is_puppet = no
+			NOT = { has_war_with = BUL }
+			NOT = { is_in_faction_with = GER }
+			OR = {
+				owns_state = 44
+				owns_state = 102
+			}
+			BUL = {
+				is_in_faction = no
+				is_puppet = no
+			}
+		}
+		cancel = {
+			is_in_faction_with = GER
+		}
+		x = 30
+		y = 6
+		cost = 10
+		ai_will_do = {
+			factor = 2.5
+
+			modifier = {
+				factor = 2
+				ai_irrationality > 20
+			}
+
+			modifier = {
+				factor = 2
+				ai_irrationality > 30
+			}
+
+			modifier = {
+				factor = 2
+				ai_irrationality > 35
+			}
+		}	
+		completion_reward = {
+			add_political_power = 120
+			set_rule = { can_create_factions = yes }
+			create_faction = "italy_empire_faction"
+
+			if = {
+				limit = {
+					BUL = { 
+						is_ai = yes
+						is_puppet = no
+					}					
+				}
+				add_to_faction = BUL
+				BUL = {
+					add_ai_strategy = {
+						type = alliance
+						id = "ITA"
+						value = 200
+					}
+				}
+			}
+			YUG = {
+				add_opinion_modifier = { target = ITA modifier = ita_diplomacy_focus }
+				# REVISIT Possibly clear old negative modifier if Slovenia and Dalmatia were taken
+			}
+			hidden_effect = {
+				news_event = { hours = 6 id = news.185 }
+			}
+		}
+	}
+	focus = {
+		id = ITA_go_after_france
+		icon = GFX_attack_FRA
+		prerequisite = { focus = ITA_italy_first }
+		available = {
+			country_exists = FRA
+			FRA = {
+				OR = {
+					owns_state = 1
+					owns_state = 735
+					owns_state = 458
+				}
+			}
+		}
+		will_lead_to_war_with = FRA
+		x = 30
+		y = 9
+		cost = 10
+		ai_will_do = {
+			factor = 1
+
+			modifier = {
+				factor = 1.5
+				ai_irrationality > 25
+			}
+
+			modifier = {
+				factor = 1.5
+				ai_irrationality > 30
+			}
+
+			modifier = {
+				factor = 2
+				ai_irrationality > 35
+			}
+		}			
+		completion_reward = {
+			create_wargoal = {
+				target = FRA
+				type = take_state_focus
+				generator = { 1 735 458 }
+			}
+		}
+	}
+	focus = {
+		id = ITA_anti_uk_war_goals
+		icon = GFX_attack_ENG
+		prerequisite = { focus = ITA_italy_first }		
+		bypass = {
+			OR = {
+				has_war_with = ENG
+				is_in_faction_with = GER
+				NOT = { country_exists = ENG }
+			}
+		}
+		will_lead_to_war_with = ENG
+		x = 32
+		y = 9
+		cost = 10
+		ai_will_do = {
+			factor = 1
+
+			modifier = {
+				factor = 1.5
+				ai_irrationality > 25
+			}
+
+			modifier = {
+				factor = 1.5
+				ai_irrationality > 30
+			}
+
+			modifier = {
+				factor = 2
+				ai_irrationality > 35
+			}
+		}	
+		completion_reward = {
+			create_wargoal = {
+				type = take_state_focus
+				target = ENG
+				generator = { 118 453 116 183 } # Gibraltar, Suez, Malta, Cyprus
+			}
+		}
+	}
+
+	focus = {
+		id = ITA_japan_friend
+		icon = GFX_goal_molotov_ribbentrop_pact
+		prerequisite = { focus = ITA_anti_uk_war_goals }
+		available = {
+			JAP = { 
+				is_in_faction = no
+				country_exists = JAP
+			}
+		}
+		x = 32
+		y = 10
+		cost = 10
+		available_if_capitulated = yes
+		ai_will_do = {
+			factor = 1
+		}			
+		completion_reward = {
+			add_opinion_modifier = { target = ITA modifier = ita_diplomacy_focus }
+		}
+	}
+	focus = {
+		id = ITA_join_the_axis
+		icon = GFX_victor
+		prerequisite = { focus = ITA_albania_war_goal focus = ITA_pact_of_steel }
+		mutually_exclusive = { focus = ITA_italy_first }
+		x = 28
+		y = 6
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+
+		available_if_capitulated = yes
+
+		bypass = {
+			
+		}
+
+		completion_reward = {
+			
+		}
+	}
 	focus = {
 		id = ITA_slovenia_dalmatia_claims
 		icon = GFX_goal_generic_demand_territory
-		prerequisite = { focus = ITA_victoryinETH }
-		mutually_exclusive = { focus = ITA_yugoslavia_friend }
-		x = 14
-		y = 1
+		prerequisite = { focus = ITA_join_the_axis }
+		
+		x = 27
+		y = 7
 		cost = 10
 		ai_will_do = {
 			factor = 1
@@ -1493,697 +2108,10 @@ focus_tree = {
 			}
 		}
 	}
-
-	focus = {
-		id = ITA_yugoslavia_friend
-		icon = GFX_ITA_YUG
-		prerequisite = { focus = ITA_victoryinETH }
-		mutually_exclusive = { focus = ITA_slovenia_dalmatia_claims }
-		x = 16
-		y = 1
-		cost = 10
-		ai_will_do = {
-			factor = 0.25
-		}
-
-		available = {
-			country_exists = YUG
-			NOT = {
-				has_war_with = YUG
-			}
-		}
-
-		completion_reward = {
-			YUG = {
-				add_opinion_modifier = { target = ITA modifier = ita_diplomacy_focus }
-				if = {
-					limit = { ROOT = { has_government = fascism } }
-					add_ideas = fascist_influence
-				}
-				if = {
-					limit = { ROOT = { has_government = democratic } }
-					add_ideas = democratic_influence
-				}
-				if = {
-					limit = { ROOT = { has_government = communism } }
-					add_ideas = communist_influence
-				}
-				country_event = { id = generic.1 }
-			}
-			hidden_effect = {
-				news_event = { id = news.193 }
-			}
-		}
-	}
-
-	focus = {
-		id = ITA_support_nationalist_spain
-		icon = GFX_goal_LEC_armsSPA
-		prerequisite = { focus = ITA_victoryinETH }
-		available = {
-			any_other_country = {
-				original_tag = SPR
-				has_government = fascism
-				has_volunteers_amount_from = {
-					tag = ITA
-					count > 1
-				}
-			}
-		}
-		cancel = {
-			SPR = {
-				has_civil_war = no
-			}
-		}
-		cancel_if_invalid = no
-		x = 20
-		y = 1
-		cost = 4.4
-		ai_will_do = {
-			factor = 1
-		}	
-		completion_reward = {
-			random_other_country = {
-				limit = {
-					original_tag = SPR
-					has_government = fascism
-				}
-				add_opinion_modifier = { target = ITA modifier = ita_supported_spain_civil_war }
-			}
-		}
-	}
-
-	focus = {
-		id = ITA_demand_balearic_islands
-		icon = GFX_goal_generic_territory_or_war
-		prerequisite = { focus = ITA_support_nationalist_spain }
-		mutually_exclusive = { focus = ITA_spanish_italian_faction }
-		available = {
-			any_other_country = {
-				original_tag = SPR
-				has_government = fascism
-				has_war = no
-				owns_state = 177
-			}
-			is_puppet = no
-		}
-		cancel = {
-			any_other_country = {
-				original_tag = SPR
-				has_government = fascism
-				has_war_with = ROOT
-				owns_state = 177
-			}
-		}
-		x = 21
-		y = 4
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}	
-		completion_reward = {
-			random_other_country = {
-				limit = {
-					owns_state = 177
-				}
-				country_event = { id = italy.9 }
-			}
-		}
-	}
-
-	focus = {
-		id = ITA_bulgaria_friend
-		icon = GFX_ITA_BUL
-		prerequisite = { focus = ITA_slovenia_dalmatia_claims focus = ITA_yugoslavia_friend }
-		x = 14
-		y = 2
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}
-		available = {
-			country_exists = BUL
-			NOT = {
-				has_war_with = BUL
-			}
-		}
-		bypass = {
-			NOT = { country_exists = BUL }
-		}
-		completion_reward = {
-			BUL = {
-				add_opinion_modifier = { target = ITA modifier = ita_diplomacy_focus }
-				if = {
-					limit = { ROOT = { has_government = fascism } }
-					add_ideas = fascist_influence
-				}
-				if = {
-					limit = { ROOT = { has_government = democratic } }
-					add_ideas = democratic_influence
-				}
-				if = {
-					limit = { ROOT = { has_government = communism } }
-					add_ideas = communist_influence
-				}
-				country_event = { id = generic.1 }
-			}
-		}
-	}
-
-	focus = {
-		id = ITA_albania_war_goal
-		icon = GFX_goal_generic_more_territorial_claims
-		prerequisite = { focus = ITA_slovenia_dalmatia_claims focus = ITA_yugoslavia_friend }
-		will_lead_to_war_with = ALB
-		x = 16
-		y = 2
-		
-		available = {
-			country_exists = ALB
-		}
-
-		cost = 10
-		ai_will_do = {
-			factor = 10
-			modifier = {
-				factor = 0
-				date < 1937.1.1
-			}	
-		}	
-		completion_reward = {
-			ALB = { country_event = { id = italy.3 } }
-		}
-	}
-
-	focus = {
-		id = ITA_pact_of_steel
-		icon = GFX_goal_generic_major_alliance
-		prerequisite = { focus = ITA_bulgaria_friend }
-		mutually_exclusive = { focus = ITA_italy_first }
-		available = {
-			has_government = fascism
-			NOT = { has_war_with = GER }
-			GER = { 
-				has_government = fascism 
-				country_exists = GER
-			}
-		}
-		x = 13
-		y = 3
-		cost = 10
-		ai_will_do = {
-			factor = 1
-
-			modifier = {
-				factor = 0.5
-				ai_irrationality > 20
-			}
-
-			modifier = {
-				factor = 0.5
-				ai_irrationality > 25
-			}
-
-			modifier = {
-				factor = 0.1
-				ai_irrationality > 30
-			}
-		}
-		completion_reward = {
-			GER = {
-				add_opinion_modifier = { target = ITA modifier = pact_of_steel_opinion }
-			}
-			GER = {
-				add_opinion_modifier = { target = SWE modifier = pact_of_steel_opinion }
-			}
-			SWE = {
-				add_opinion_modifier = { target = GER modifier = pact_of_steel_opinion }
-			}
-			SWE = {
-				add_opinion_modifier = { target = ITA modifier = pact_of_steel_opinion }
-			}
-			ITA = {
-				add_opinion_modifier = { target = GER modifier = pact_of_steel_opinion }
-			}
-			ITA = {
-				add_opinion_modifier = { target = SWE modifier = pact_of_steel_opinion }
-			}
-			hidden_effect = {
-				news_event = { hours = 6 id = news.184 }
-			}
-		}
-	}
-
-	focus = {
-		id = ITA_german_millitary_cooperation
-		icon = GFX_doctrine_tank_warfare
-		prerequisite = { focus = ITA_pact_of_steel }
-
-		available = {
-			NOT = { has_war_with = GER }
-		}
-		
-		x = 10
-		y = 4
-		cost = 10
-		ai_will_do = {
-			factor = 10
-		}	
-		completion_reward = {
-			add_ideas = ITA_german_millitary_cooperation_focus
-			add_ideas = ITA_idea_license
-		}
-	}
-
-	
-
-	focus = {
-		id = ITA_italy_first
-		icon = GFX_focus_generic_italy_first
-		prerequisite = { focus = ITA_bulgaria_friend }
-		mutually_exclusive = { focus = ITA_pact_of_steel }
-		available = {
-			is_puppet = no
-			NOT = { has_war_with = BUL }
-			NOT = { is_in_faction_with = GER }
-			OR = {
-				owns_state = 44
-				owns_state = 102
-			}
-			BUL = {
-				is_in_faction = no
-				is_puppet = no
-			}
-		}
-		cancel = {
-			is_in_faction_with = GER
-		}
-		x = 15
-		y = 3
-		cost = 10
-		ai_will_do = {
-			factor = 2.5
-
-			modifier = {
-				factor = 2
-				ai_irrationality > 20
-			}
-
-			modifier = {
-				factor = 2
-				ai_irrationality > 30
-			}
-
-			modifier = {
-				factor = 2
-				ai_irrationality > 35
-			}
-		}	
-		completion_reward = {
-			add_political_power = 120
-			set_rule = { can_create_factions = yes }
-			create_faction = "italy_empire_faction"
-
-			if = {
-				limit = {
-					BUL = { 
-						is_ai = yes
-						is_puppet = no
-					}					
-				}
-				add_to_faction = BUL
-				BUL = {
-					add_ai_strategy = {
-						type = alliance
-						id = "ITA"
-						value = 200
-					}
-				}
-			}
-			YUG = {
-				add_opinion_modifier = { target = ITA modifier = ita_diplomacy_focus }
-				# REVISIT Possibly clear old negative modifier if Slovenia and Dalmatia were taken
-			}
-			hidden_effect = {
-				news_event = { hours = 6 id = news.185 }
-			}
-		}
-	}
-
-	focus = {
-		id = ITA_go_after_france
-		icon = GFX_attack_FRA
-		prerequisite = { focus = ITA_italy_first }
-		available = {
-			country_exists = FRA
-			FRA = {
-				OR = {
-					owns_state = 1
-					owns_state = 735
-					owns_state = 458
-				}
-			}
-		}
-		will_lead_to_war_with = FRA
-		x = 17
-		y = 4
-		cost = 10
-		ai_will_do = {
-			factor = 1
-
-			modifier = {
-				factor = 1.5
-				ai_irrationality > 25
-			}
-
-			modifier = {
-				factor = 1.5
-				ai_irrationality > 30
-			}
-
-			modifier = {
-				factor = 2
-				ai_irrationality > 35
-			}
-		}			
-		completion_reward = {
-			create_wargoal = {
-				target = FRA
-				type = take_state_focus
-				generator = { 1 735 458 }
-			}
-		}
-	}	
-
-	focus = {
-		id = ITA_romania_friend
-		icon = GFX_ITA_ROM
-		prerequisite = { focus = ITA_bulgaria_friend }
-		x = 17
-		y = 3
-		cost = 11
-		ai_will_do = {
-			factor = 1
-		}
-		available = {
-			country_exists = ROM
-			NOT = {
-				has_war_with = ROM
-			}
-		}
-		bypass = {
-			ROM = {
-				OR = {
-					NOT = { country_exists = ROM }
-					has_capitulated = yes
-				}
-			}
-		}
-		completion_reward = {
-			ROM = {
-				add_opinion_modifier = { target = ITA modifier = ita_diplomacy_focus }
-				if = {
-					limit = { ROOT = { has_government = fascism } }
-					add_ideas = fascist_influence
-				}
-				if = {
-					limit = { ROOT = { has_government = democratic } }
-					add_ideas = democratic_influence
-				}
-				if = {
-					limit = { ROOT = { has_government = communism } }
-					add_ideas = communist_influence
-				}
-				country_event = { id = generic.1 }
-			}
-		}
-	}
-
-	focus = {
-		id = ITA_german_rd_treaty
-		icon = GFX_goal_generic_scientific_exchange
-		prerequisite = { focus = ITA_pact_of_steel }
-		cancel = { has_war_with = GER }
-		x = 12
-		y = 4
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}	
-		available_if_capitulated = yes
-		completion_reward = {
-			GER = {
-				country_event = { id = italy.5 days = 1 }
-				custom_effect_tooltip = needs_approval
-			}
-			# Actual reward effects added in event if Soviets approve
-			effect_tooltip = {
-				add_tech_bonus = {
-					name = synth_bonus
-					bonus = 0.25
-					uses = 1
-					category = synth_resources
-				}
-				# Balance research bonus to 2 techs in armor, also in event
-				add_tech_bonus = {
-					name = armor_bonus
-					bonus = 0.25
-					uses = 2
-					category = armor
-				}
-			}
-		}
-	}
-
-	focus = {
-		id = ITA_secret_weapons
-		icon = GFX_goal_generic_secret_weapon
-		text = secret_weapons
-		prerequisite = { focus = ITA_german_millitary_cooperation }
-		x = 11
-		y = 5
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}	
-		available_if_capitulated = yes
-		completion_reward = {
-			add_tech_bonus = {
-				name = secret_bonus
-				bonus = 0.25
-				uses = 2
-				category = electronics
-				category = rocketry
-				category = nuclear
-			}
-		}
-	}
-
-	focus = {
-		id = ITA_spanish_italian_faction
-		icon = GFX_ITA_SPA
-		prerequisite = { focus = ITA_italy_first }
-		prerequisite = { focus = ITA_support_nationalist_spain }
-		mutually_exclusive = { focus = ITA_demand_balearic_islands }
-		available = {
-			any_other_country = {
-				original_tag = SPR
-				has_government = fascism
-				has_civil_war = no
-				NOT = { has_war_with = ROOT }
-				OR = {
-					is_in_faction = no
-					is_in_faction_with = ROOT
-				}
-			}
-			FRA = {
-				OR = {
-					NOT = { country_exists = THIS }
-					has_capitulated = yes
-					has_government = fascism
-				}
-			}			
-		}
-		bypass = {
-			any_other_country = {
-				original_tag = SPR
-				has_government = fascism
-				is_in_faction_with = ROOT
-			}
-		}
-		x = 19
-		y = 4
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}	
-		completion_reward = {
-			random_other_country = {
-				limit = {
-					original_tag = SPR
-					has_government = fascism
-				}
-				add_opinion_modifier = { target = ITA modifier = ita_diplomacy_focus }
-				add_ideas = fascist_influence 
-				country_event = { id = generic.1 }           
-			}
-		}
-	}
-
-	focus = {
-		id = ITA_portugal_friend
-		icon = GFX_goal_generic_major_alliance
-		prerequisite = { focus = ITA_spanish_italian_faction }
-		x = 19
-		y = 5
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}
-
-		available = {
-			country_exists = POR
-			NOT = {
-				has_war_with = POR
-			}
-		}
-
-		completion_reward = {
-			POR = {
-				add_opinion_modifier = { target = ITA modifier = ita_diplomacy_focus }
-				if = {
-					limit = { ROOT = { has_government = fascism } }
-					add_ideas = fascist_influence
-				}
-				if = {
-					limit = { ROOT = { has_government = democratic } }
-					add_ideas = democratic_influence
-				}
-				if = {
-					limit = { ROOT = { has_government = communism } }
-					add_ideas = communist_influence
-				}
-				country_event = { id = generic.1 }
-			}
-		}
-	}
-
-	focus = {
-		id = ITA_greece_war_goal
-		icon = GFX_goal_generic_occupy_states_ongoing_war
-		prerequisite = { focus = ITA_pact_of_steel focus = ITA_italy_first }
-		mutually_exclusive = { focus = ITA_greece_friend }
-		available = {
-			NOT = { is_in_faction_with = GRE }
-			country_exists = GRE
-		}
-		will_lead_to_war_with = GRE
-		x = 14
-		y = 6
-		cost = 10
-		ai_will_do = {
-			factor = 10
-		}	
-		completion_reward = {
-			create_wargoal = {
-				type = take_state_focus
-				target = GRE
-				generator = { 47 } # Athens
-			}
-
-			hidden_effect = {
-				news_event = { hours = 6 id = news.186 } 
-			}
-		}
-	}
-
-	focus = {
-		id = ITA_greece_friend
-		icon = GFX_goal_generic_improve_relations
-		prerequisite = { focus = ITA_italy_first }
-		mutually_exclusive = { focus = ITA_greece_war_goal focus = ITA_turkey_friend }
-		x = 16
-		y = 6
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}
-		available = {
-			country_exists = GRE
-			NOT = {
-				has_war_with = GRE
-			}
-		}
-
-		bypass = {
-			NOT = { country_exists = GRE }
-		}
-
-		completion_reward = {
-			GRE = {
-				add_opinion_modifier = { target = ITA modifier = ita_diplomacy_focus }
-				if = {
-					limit = { ROOT = { has_government = fascism } }
-					add_ideas = fascist_influence
-				}
-				if = {
-					limit = { ROOT = { has_government = democratic } }
-					add_ideas = democratic_influence
-				}
-				if = {
-					limit = { ROOT = { has_government = communism } }
-					add_ideas = communist_influence
-				}
-				country_event = { id = generic.1 }
-			}
-
-			hidden_effect = {
-				news_event = { hours = 6 id = news.187 } 
-			}
-		}
-	}
-
-	focus = {
-		id = ITA_claims_on_turkey
-		icon = GFX_goal_generic_demand_territory
-		prerequisite = { focus = ITA_greece_friend }
-		available = {
-			TUR = {
-				owns_state = 342
-			}
-		}
-		will_lead_to_war_with = TUR
-		x = 16
-		y = 7
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}	
-		completion_reward = {
-			if = {
-				limit = {
-					is_in_faction_with = GRE
-					TUR = { owns_state = 339 }
-				}
-
-				GRE = { country_event = greece.4 }
-			}
-			create_wargoal = {
-			target = TUR
-			type = take_state_focus
-			generator = { 342 }
-			}
-
-			hidden_effect = {
-				news_event = { hours = 6 id = news.189 }
-			}
-		}
-	}
-
 	focus = {
 		id = ITA_claims_on_france
 		icon = GFX_goal_generic_territory_or_war
-		prerequisite = { focus = ITA_pact_of_steel }
+		prerequisite = { focus = ITA_join_the_axis }
 		available = {
 			is_puppet = no
 			is_in_faction_with = GER
@@ -2203,8 +2131,8 @@ focus_tree = {
 				}
 			}
 		}
-		x = 13
-		y = 5
+		x = 28
+		y = 8
 		cost = 10
 		ai_will_do = {
 			factor = 1
@@ -2249,15 +2177,122 @@ focus_tree = {
 			GER = { country_event = germany.104 }			
 		}
 	}
-	
+	focus = {
+		id = ITA_greece_war_goal
+		icon = GFX_goal_generic_occupy_states_ongoing_war
+		prerequisite = { focus = ITA_join_the_axis	focus = ITA_italy_first }
+		mutually_exclusive = { focus = ITA_greece_friend }
+		available = {
+			NOT = { is_in_faction_with = GRE }
+			country_exists = GRE
+		}
+		will_lead_to_war_with = GRE
+		x = 29
+		y = 7
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}	
+		completion_reward = {
+			create_wargoal = {
+				type = take_state_focus
+				target = GRE
+				generator = { 47 } # Athens
+			}
 
+			hidden_effect = {
+				news_event = { hours = 6 id = news.186 } 
+			}
+		}
+	}
+	focus = {
+		id = ITA_greece_friend
+		icon = GFX_goal_generic_improve_relations
+		prerequisite = { focus = ITA_italy_first }
+		mutually_exclusive = { focus = ITA_greece_war_goal focus = ITA_turkey_friend }
+		x = 31
+		y = 7
+		cost = 10
+		ai_will_do = {
+			factor = 1
+		}
+		available = {
+			country_exists = GRE
+			NOT = {
+				has_war_with = GRE
+			}
+		}
+
+		bypass = {
+			NOT = { country_exists = GRE }
+		}
+
+		completion_reward = {
+			GRE = {
+				add_opinion_modifier = { target = ITA modifier = ita_diplomacy_focus }
+				if = {
+					limit = { ROOT = { has_government = fascism } }
+					add_ideas = fascist_influence
+				}
+				if = {
+					limit = { ROOT = { has_government = democratic } }
+					add_ideas = democratic_influence
+				}
+				if = {
+					limit = { ROOT = { has_government = communism } }
+					add_ideas = communist_influence
+				}
+				country_event = { id = generic.1 }
+			}
+
+			hidden_effect = {
+				news_event = { hours = 6 id = news.187 } 
+			}
+		}
+	}
+	focus = {
+		id = ITA_claims_on_turkey
+		icon = GFX_goal_generic_demand_territory
+		prerequisite = { focus = ITA_greece_friend }
+		available = {
+			TUR = {
+				owns_state = 342
+			}
+		}
+		will_lead_to_war_with = TUR
+		x = 31
+		y = 8
+		cost = 10
+		ai_will_do = {
+			factor = 1
+		}	
+		completion_reward = {
+			if = {
+				limit = {
+					is_in_faction_with = GRE
+					TUR = { owns_state = 339 }
+				}
+
+				GRE = { country_event = greece.4 }
+			}
+			create_wargoal = {
+			target = TUR
+			type = take_state_focus
+			generator = { 342 }
+			}
+
+			hidden_effect = {
+				news_event = { hours = 6 id = news.189 }
+			}
+		}
+	}
 	focus = {
 		id = ITA_turkey_friend
 		icon = GFX_goal_generic_improve_relations
 		prerequisite = { focus = ITA_italy_first }
 		mutually_exclusive = { focus = ITA_greece_friend }
-		x = 18
-		y = 6
+		x = 33
+		y = 7
 		cost = 10
 		ai_will_do = {
 			factor = 1
@@ -2294,70 +2329,195 @@ focus_tree = {
 			}
 		}
 	}
-
 	focus = {
-		id = ITA_anti_uk_war_goals
-		icon = GFX_attack_ENG
-		prerequisite = { focus = ITA_italy_first }		
-		bypass = {
-			OR = {
-				has_war_with = ENG
-				is_in_faction_with = GER
-				NOT = { country_exists = ENG }
-			}
-		}
-		will_lead_to_war_with = ENG
-		x = 15
+		id = ITA_corpo_truppe_volontarie
+		icon = GFX_goal_LEC_armsSPA
+		prerequisite = { focus = ITA_victoryinETH }
+		x = 35
 		y = 4
 		cost = 10
 		ai_will_do = {
-			factor = 1
+			factor = 10
+		}
 
-			modifier = {
-				factor = 1.5
-				ai_irrationality > 25
-			}
+		available_if_capitulated = yes
 
-			modifier = {
-				factor = 1.5
-				ai_irrationality > 30
-			}
 
-			modifier = {
-				factor = 2
-				ai_irrationality > 35
-			}
-		}	
 		completion_reward = {
-			create_wargoal = {
-				type = take_state_focus
-				target = ENG
-				generator = { 118 453 116 183 } # Gibraltar, Suez, Malta, Cyprus
-			}
+		add_ideas = ITA_Corpo_truppe_volontarie_focus
+			
 		}
 	}
-
 	focus = {
-		id = ITA_japan_friend
-		icon = GFX_goal_molotov_ribbentrop_pact
-		prerequisite = { focus = ITA_anti_uk_war_goals }
-		available = {
-			JAP = { 
-				is_in_faction = no
-				country_exists = JAP
-			}
-		}
-		x = 15
+		id = ITA_send_planes_to_Franco
+		icon = GFX_goal_generic_occupy_start_war
+		prerequisite = { focus = ITA_corpo_truppe_volontarie }
+		x = 35
 		y = 5
 		cost = 10
-		available_if_capitulated = yes
 		ai_will_do = {
-			factor = 1
-		}			
+			factor = 10
+		}
+
+		available_if_capitulated = yes
+
 		completion_reward = {
-			add_opinion_modifier = { target = ITA modifier = ita_diplomacy_focus }
+			
 		}
 	}
+	focus = {
+		id = ITA_send_ships_to_Franco
+		icon = GFX_goal_generic_navy_battleship
+		prerequisite = { focus = ITA_send_planes_to_Franco }
+		x = 35
+		y = 6
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			
+		}
+	}
+	focus = {
+		id = ITA_spanish_italian_faction
+		icon = GFX_ITA_SPA
+		prerequisite = { focus = ITA_italy_first }
+		prerequisite = { focus = ITA_send_ships_to_Franco }
+		mutually_exclusive = { focus = ITA_demand_balearic_islands }
+		available = {
+			any_other_country = {
+				original_tag = SPR
+				has_government = fascism
+				has_civil_war = no
+				NOT = { has_war_with = ROOT }
+				OR = {
+					is_in_faction = no
+					is_in_faction_with = ROOT
+				}
+			}
+			FRA = {
+				OR = {
+					NOT = { country_exists = THIS }
+					has_capitulated = yes
+					has_government = fascism
+				}
+			}			
+		}
+		bypass = {
+			any_other_country = {
+				original_tag = SPR
+				has_government = fascism
+				is_in_faction_with = ROOT
+			}
+		}
+		x = 35
+		y = 7
+		cost = 10
+		ai_will_do = {
+			factor = 1
+		}	
+		completion_reward = {
+			random_other_country = {
+				limit = {
+					original_tag = SPR
+					has_government = fascism
+				}
+				add_opinion_modifier = { target = ITA modifier = ita_diplomacy_focus }
+				add_ideas = fascist_influence 
+				country_event = { id = generic.1 }           
+			}
+		}
+	}
+	focus = {
+		id = ITA_demand_balearic_islands
+		icon = GFX_goal_generic_territory_or_war
+		prerequisite = { focus = ITA_send_ships_to_Franco }
+		mutually_exclusive = { focus = ITA_spanish_italian_faction }
+		available = {
+			any_other_country = {
+				original_tag = SPR
+				has_government = fascism
+				has_war = no
+				owns_state = 177
+			}
+			is_puppet = no
+		}
+		cancel = {
+			any_other_country = {
+				original_tag = SPR
+				has_government = fascism
+				has_war_with = ROOT
+				owns_state = 177
+			}
+		}
+		x = 37
+		y = 7
+		cost = 10
+		ai_will_do = {
+			factor = 1
+		}	
+		completion_reward = {
+			random_other_country = {
+				limit = {
+					owns_state = 177
+				}
+				country_event = { id = italy.9 }
+			}
+		}
+	}
+	focus = {
+		id = ITA_portugal_friend
+		icon = GFX_goal_generic_major_alliance
+		prerequisite = { focus = ITA_spanish_italian_faction }
+		x = 35
+		y = 8
+		cost = 10
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			country_exists = POR
+			NOT = {
+				has_war_with = POR
+			}
+		}
+
+		completion_reward = {
+			POR = {
+				add_opinion_modifier = { target = ITA modifier = ita_diplomacy_focus }
+				if = {
+					limit = { ROOT = { has_government = fascism } }
+					add_ideas = fascist_influence
+				}
+				if = {
+					limit = { ROOT = { has_government = democratic } }
+					add_ideas = democratic_influence
+				}
+				if = {
+					limit = { ROOT = { has_government = communism } }
+					add_ideas = communist_influence
+				}
+				country_event = { id = generic.1 }
+			}
+		}
+	}
+
+	
+
+		
+
+
+
+	
+
+	
+
+
 #######################################################
 
 
