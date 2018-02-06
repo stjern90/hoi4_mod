@@ -808,12 +808,12 @@ NTrade = {
 	ALLOW_TRADE_CUT_OFF = 20,				-- If trade factor is less than this, no trade will be allowed
 	MONTH_TRADE_FACTOR = 2,					-- Each month a trade gets this much boost to it's trade factor
 	MAX_MONTH_TRADE_FACTOR = 50,			-- This is the maximum bonus that can be gained from time
-	BASE_TRADE_FACTOR = 100,				-- This is the base trade factor
-	PUPPET_MASTER_TRADE_FACTOR = 600,		-- This is priority for puppet master
+	BASE_TRADE_FACTOR = 80,				-- This is the base trade factor
+	PUPPET_MASTER_TRADE_FACTOR = 500,		-- This is priority for puppet master
 	PUPPET_TRADE_FACTOR = 0,				-- This is unpriority for puppets
 	LACK_OF_CONVOYS_TRADE_FACTOR = -0.1,	-- Every hour without convoys will lower trade factor this much (regain is the same)
 	BASE_LAND_TRADE_RANGE = 180,
-	PARTY_SUPPORT_TRADE_FACTOR = 60,		-- Trade factor bonus at the other side having 100 % party popularity for my party
+	PARTY_SUPPORT_TRADE_FACTOR = 50,		-- Trade factor bonus at the other side having 100 % party popularity for my party
 	ANTI_MONOPOLY_TRADE_FACTOR_THRESHOLD = 0.5,		-- What percentage of resources has to be sold to the buyer for the anti-monopoly factor to take effect
 	ANTI_MONOPOLY_TRADE_FACTOR = -70,		-- This is added to the factor value when anti-monopoly threshold is exceeded
 },
