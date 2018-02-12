@@ -342,7 +342,7 @@ NMilitary = {
 	MAX_DIVISION_BRIGADE_WIDTH = 5,			-- Max width of regiments in division designer.
 	MAX_DIVISION_BRIGADE_HEIGHT = 4,		-- Max height of regiments in division designer.
 	MAX_DIVISION_SUPPORT_WIDTH = 2,			-- Max width of support in division designer.
-	MAX_DIVISION_SUPPORT_HEIGHT = 5,		-- Max height of support in division designer.
+	MAX_DIVISION_SUPPORT_HEIGHT = 4,		-- Max height of support in division designer.
 	
 	BASE_DIVISION_BRIGADE_GROUP_COST = 8, 	--Base cost to unlock a regiment slot,
 	BASE_DIVISION_BRIGADE_CHANGE_COST = 4,	--Base cost to change a regiment column.
@@ -378,8 +378,8 @@ NMilitary = {
 	COMBAT_MOVEMENT_SPEED = 0.27,	               -- speed reduction base modifier in combat
 	TACTIC_SWAP_FREQUENCEY = 24,                   -- hours between tactic swaps
 	INITIATIVE_PICK_COUNTER_ADVANTAGE_FACTOR  = 0.35, -- advantage per leader level for picking a counter
-	BASE_COMBAT_WIDTH = 110,                       -- DNM, original 80 -- base combat width
-	ADDITIONAL_COMBAT_WIDTH = 50,                  -- DNM, original 40 -- more opened up by support attack
+	BASE_COMBAT_WIDTH = 120,                       -- DNM, original 80 -- base combat width
+	ADDITIONAL_COMBAT_WIDTH = 60,                  -- DNM, original 40 -- more opened up by support attack
 	AMPHIBIOUS_INVADE_MOVEMENT_COST = 24.0,        -- total progress cost of movement while amphibious invading
 	LAND_SPEED_MODIFIER = 0.03,                    -- basic speed control
 	RIVER_CROSSING_PENALTY = -0.35,                 -- small river crossing
@@ -534,7 +534,7 @@ NMilitary = {
 	COMBAT_SUPPLY_LACK_IMPACT = -0.35,				-- combat penalty if out of supply
 	COMBAT_STACKING_START = 9,						-- at what nr of divisions stacking penalty starts
 	COMBAT_STACKING_EXTRA = 4,                      -- extra stacking from directions
-	COMBAT_STACKING_PENALTY = -0.02,                -- how much stackign penalty per division
+	COMBAT_STACKING_PENALTY = -0.025,                -- how much stackign penalty per division
 	COMBAT_OVER_WIDTH_PENALTY = -1,					-- over combat width penalty per %.
 	COMBAT_OVER_WIDTH_PENALTY_MAX = -0.33,			-- over combat width max (when you cant join no more).
 	RETREAT_SPEED_FACTOR = 0.25,                    -- speed bonus when retreating
@@ -543,8 +543,8 @@ NMilitary = {
 	STRATEGIC_REDEPLOY_ORG_RATIO = 0.25,				-- Ratio of max org while strategic redeployment
 	BATALION_NOT_CHANGED_EXPERIENCE_DROP = 0.0,		-- Division experience drop if unit has same batalion
 	BATALION_CHANGED_EXPERIENCE_DROP = 0.6,			-- Division experience drop if unit has different batalion
-	ARMOR_VS_AVERAGE = 0.54,			                -- how to weight in highest armor & pen vs the division average
-	PEN_VS_AVERAGE = 0.52,
+	ARMOR_VS_AVERAGE = 0.52,			                -- how to weight in highest armor & pen vs the division average
+	PEN_VS_AVERAGE = 0.50,
 
 	DECRYPTION_ADVANTAGE_BONUS = 0.04,				-- How much unit base damage and base defense is increased per decryption level compared to enemies average encryption level (ex: dec. level is 5 and enemy average enc. level is 3 then 5-3 = 2 which gives 10 % increase)
 	
