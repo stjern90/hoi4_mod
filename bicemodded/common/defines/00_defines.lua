@@ -457,8 +457,7 @@ NMilitary = {
 	OUT_OF_SUPPLY_MORALE = -0.35,                   -- max org regain reduction from supply
 	TRAINING_ATTRITION = 0.06,		  			   -- amount of extra attrition from being in training
 	TRAINING_MIN_STRENGTH = 0.1,					-- if strength is less than this, the unit will pause training until it's been reinforced
-	AIR_SUPPORT_BASE = 0.33,                        -
-		- base ground bonus to troops when active planes helping them
+	AIR_SUPPORT_BASE = 0.33,                        -- base ground bonus to troops when active planes helping them
 	LOW_SUPPLY = 0.99,							   -- DNM, just in case 0.75 makes AI too attrition-happy -- When the supply status of an unit becomes low.
 	UNIT_LEADER_MAX_SKILL_XP_BOOST_FACTOR = 2.0,   -- When a commander is at maximum level, he gains ranks faster.
 	BORDER_WAR_ATTRITION_FACTOR = 0.1,			   -- How much of borderwar balance of power makes it into attrition
@@ -800,7 +799,7 @@ NNavy = {
 	ENEMY_AIR_SUPERIORITY_IMPACT = -0.4,           					-- effect on ship efficiency due to enemy air superiorty
 	DECRYPTION_SPOTTING_BONUS = 0.2,
 	DISBAND_MANPOWER_LOSS = 0.5,
-	},
+},
 
 NTrade = {
 	DISTANCE_TRADE_FACTOR = -0.02,			-- Trade factor is modified by distance times this
