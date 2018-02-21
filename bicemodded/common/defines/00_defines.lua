@@ -799,7 +799,7 @@ NNavy = {
 	ENEMY_AIR_SUPERIORITY_IMPACT = -0.4,           					-- effect on ship efficiency due to enemy air superiorty
 	DECRYPTION_SPOTTING_BONUS = 0.2,
 	DISBAND_MANPOWER_LOSS = 0.5,
-	},
+},
 
 NTrade = {
 	DISTANCE_TRADE_FACTOR = -0.02,			-- Trade factor is modified by distance times this
