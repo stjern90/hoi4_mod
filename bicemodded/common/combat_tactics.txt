@@ -3,7 +3,8 @@
 # NOTE: tactics must start with "tactic_" in their name to work with techs.
 ###############################################################################
 
-phases = { # phase = no is the standard phase
+phases = {
+	default
 	close_combat
 	tactical_withdrawal
 	seize_bridge
@@ -25,7 +26,6 @@ tactic_basic_attack = {
 	
 	countered_by = tactic_counterattack
 
-	attacker = 0.05
 }
 
 tactic_basic_defend = {
@@ -40,7 +40,33 @@ tactic_basic_defend = {
 	base = 4
 	picture = defend
 }
+tactic_default_attack = {
 
+	is_attacker = yes
+	trigger = { # combined scope for both country and combatant
+		is_attacker = yes
+		phase = default
+	}
+	
+	active = yes
+
+	base = 4
+	picture = attack
+	
+	countered_by = tactic_default_counterattack 
+}
+tactic_default_defend = {
+	is_attacker = no
+	trigger = {
+		is_attacker = no
+		phase = default
+	}
+	
+	active = yes
+	
+	base = 4
+	picture = defend
+}
 tactic_counterattack = { # counters basic attack, assault
 	is_attacker = no
 	trigger = {
@@ -76,6 +102,42 @@ tactic_assault = {
 	
 	attacker = 0.2			#attacker gets a bonus to doing damage
 }
+
+tactic_default_counterattack = { # counters basic attack, assault
+	is_attacker = no
+	trigger = {
+		is_attacker = no
+		skill_advantage > 0
+		phase = default
+	}
+	
+	active = yes
+	
+	base = 4
+	picture = counterattack
+	
+	defender = 0.25
+}
+
+
+tactic_default_assault = { 
+	is_attacker = yes
+	trigger = {
+		is_attacker = yes
+		phase = default
+	}
+	
+	active = yes
+	
+	base = 2 #Revisit ideally this should be more common in urban terrain
+	
+	picture = assault
+	countered_by = tactic_default_counterattack
+	
+	phase = close_combat #changes phase to close combat
+	
+	attacker = 0.2			#attacker gets a bonus to doing damage
+}
 ###close combat tactics here
 tactic_cc_attack = { 
 	is_attacker = yes
@@ -106,6 +168,7 @@ tactic_cc_defend = {
 	picture = cc_defend
 	display_phase = close_combat
 
+	
 	attacker = 0.05
 	defender = 0.1			#defender gets a bonus to doing damage
 }
@@ -135,6 +198,8 @@ tactic_cc_local_strong_point = {
 	active = yes
 	display_phase = close_combat
 
+
+	
 	base = 2
 	picture = cc_local_strong_point
 	
@@ -151,9 +216,8 @@ tactic_cc_withdraw = {
 	
 	base = 1
 	picture = cc_withdraw
-	display_phase = close_combat
 
-	phase = no #changes phase to no
+	phase = default #changes phase to no
 	
 	attacker = -0.05
 	defender = -0.05
@@ -189,8 +253,7 @@ tactic_encirclement = {
 	countered_by = tactic_tactical_withdrawal
 
 	combat_width = 0.5		#increased combat_width
-	attacker = 0.2
-	defender = 0.05
+	defender = -0.1
 }
 
 tactic_delay = {
@@ -224,7 +287,72 @@ tactic_shock = { #counters delay
 	picture = shock
 	countered_by = tactic_ambush
 	
-	defender = -0.2
+	defender = -0.25
+}
+
+tactic_default_encirclement = {
+	is_attacker = yes
+	trigger = {
+		is_attacker = yes
+		phase = default
+		frontage_full = yes
+		has_reserves = yes
+		OR = {
+			skill_advantage > 0
+			has_trait = panzer_leader
+			has_trait = panzer_leader_improved
+			has_trait = panzer_leader_optimized
+			has_trait = trickster_CC
+			has_trait = trickster_CC_II
+			has_trait = trickster_CC_III
+			has_trait = trickster_FM
+			has_trait = trickster_FM_II
+			has_trait = trickster_FM_III
+		}
+	}
+	
+	active = yes
+	
+	base = 4
+	picture = encircle
+	countered_by = tactic_default_tactical_withdrawal
+
+	combat_width = 0.5		#increased combat_width
+	defender = -0.1
+}
+
+tactic_default_delay = {
+	is_attacker = no
+	trigger = {
+		is_attacker = no
+		phase = default
+	}
+	
+	active = no
+	
+	base = 4
+	picture = delay
+	countered_by = tactic_default_shock
+	
+	attacker_movement_speed = -0.25		#
+	attacker = -0.25
+	defender = -0.15
+}
+
+tactic_default_shock = { #counters delay
+	is_attacker = yes
+	trigger = {
+		is_attacker = yes
+		phase = default
+	}
+	
+	active = yes
+	
+	base = 4
+	picture = shock
+	countered_by = tactic_default_ambush
+	
+	defender = -0.25
 }
 
 tactic_tactical_withdrawal = { #counters encirclement
@@ -243,7 +371,7 @@ tactic_tactical_withdrawal = { #counters encirclement
 		}
 	}
 	
-	active = yes
+	active = no
 	
 	base = 4
 	picture = withdraw
@@ -251,7 +379,35 @@ tactic_tactical_withdrawal = { #counters encirclement
 	phase = tactical_withdrawal
 	
 	combat_width = -0.25
-	attacker = -0.2
+	attacker = -0.25
+	defender = -0.05
+}
+
+tactic_default_tactical_withdrawal = { #counters encirclement
+	is_attacker = no
+	trigger = {
+		is_attacker = no
+		phase = default
+		OR = {
+			skill_advantage > 0
+			has_trait = trickster_CC
+			has_trait = trickster_CC_II
+			has_trait = trickster_CC_III
+			has_trait = trickster_FM
+			has_trait = trickster_FM_II
+			has_trait = trickster_FM_III
+		}
+	}
+	
+	active = no
+	
+	base = 4
+	picture = withdraw
+	
+	phase = tactical_withdrawal
+	
+	combat_width = -0.25
+	attacker = -0.25
 	defender = -0.05
 }
 ###tactical withdrawal tactics
@@ -267,7 +423,7 @@ tactic_tw_attack = {
 	display_phase = tactical_withdrawal
 	
 	combat_width = -0.25	
-	attacker = -0.2
+	attacker = -0.3
 	defender = -0.1
 }
 tactic_tw_defend = { 
@@ -282,7 +438,7 @@ tactic_tw_defend = {
 	display_phase = tactical_withdrawal
 	
 	combat_width = -0.25		
-	attacker = -0.25
+	attacker = -0.3
 	defender = -0.05
 }
 tactic_tw_chase = { 
@@ -328,7 +484,7 @@ tactic_tw_intercept = {
 	picture = tw_intercept
 	display_phase = tactical_withdrawal
 	
-	phase = no
+	phase = default
 		
 	attacker = -0.05
 	defender = -0.1
@@ -354,9 +510,32 @@ tactic_breakthrough = { #counters ambush
 	
 	countered_by = tactic_backhand_blow
 	
-	attacker_movement_speed = 0.5
-	attacker = 0.2
-	defender = -0.1
+	attacker_movement_speed = 0.4
+	attacker = 0.15
+	defender = -0.15
+}
+
+tactic_default_breakthrough = { #counters ambush
+	is_attacker = yes
+	trigger = {
+		is_attacker = yes
+		phase = default
+		OR = {
+			hardness > 0.35
+			skill_advantage > 1
+		}
+	}
+	
+	active = no
+	
+	base = 4
+	picture = breakthrough
+	
+	countered_by = tactic_default_backhand_blow
+	
+	attacker_movement_speed = 0.4
+	attacker = 0.15
+	defender = -0.15
 }
 
 tactic_ambush = { #counters shock
@@ -382,14 +561,40 @@ tactic_ambush = { #counters shock
 	picture = ambush
 	countered_by = tactic_breakthrough
 	
-	attacker = -0.2
+	attacker = -0.25
+}
+
+tactic_default_ambush = { #counters shock
+	is_attacker = no
+	trigger = {
+		is_attacker = no
+		phase = default
+		OR = {
+			skill_advantage > 1
+			skill > 2
+			has_trait = trickster_CC
+			has_trait = trickster_CC_II
+			has_trait = trickster_CC_III
+			has_trait = trickster_FM
+			has_trait = trickster_FM_II
+			has_trait = trickster_FM_III
+		}
+	}
+	
+	active = yes
+	
+	base = 4
+	picture = ambush
+	countered_by = tactic_default_breakthrough
+	
+	attacker = -0.25
 }
 
 tactic_blitz = {
 	is_attacker = yes
 	trigger = {
 		is_attacker = yes
-		hardness > 0.2
+		hardness > 0.25
 		phase = no
 		OR = {
 			skill > 2
@@ -406,8 +611,34 @@ tactic_blitz = {
 	picture = blitz
 	countered_by = tactic_elastic_defense
 	
-	attacker_movement_speed = 0.3
-	attacker = 0.1
+	attacker_movement_speed = 0.35
+	attacker = 0.15
+	defender = -0.05
+}
+
+tactic_default_blitz = {
+	is_attacker = yes
+	trigger = {
+		is_attacker = yes
+		hardness > 0.5
+		phase = default
+		OR = {
+			skill > 2
+			has_trait = panzer_leader
+            has_trait = panzer_leader_improved
+			has_trait = panzer_leader_optimized
+			skill_advantage > 1
+		}
+	}
+	
+	active = no
+	
+	base = 4
+	picture = blitz
+	countered_by = tactic_default_elastic_defense
+	
+	attacker_movement_speed = 0.35
+	attacker = 0.15
 	defender = -0.05
 }
 
@@ -424,7 +655,6 @@ tactic_elastic_defense = { #counters blitz
 			has_trait = defensive_doctrine_FM
 			has_trait = defensive_doctrine_FM_II
 			has_trait = defensive_doctrine_FM_III
-
 			skill > 2
 		}
 	}
@@ -435,8 +665,33 @@ tactic_elastic_defense = { #counters blitz
 	picture = elastic_defence
 	
 	attacker_movement_speed = -0.25
-	attacker = -0.05
-	defender = 0.10
+	attacker = -0.2
+
+}
+
+tactic_default_elastic_defense = { #counters blitz
+	is_attacker = no
+	trigger = {
+		is_attacker = no
+		phase = default
+		OR = {
+			has_trait = defensive_doctrine_CC
+			has_trait = defensive_doctrine_CC_II
+			has_trait = defensive_doctrine_CC_III
+			has_trait = defensive_doctrine_FM
+			has_trait = defensive_doctrine_FM_II
+			has_trait = defensive_doctrine_FM_III
+			skill > 2
+		}
+	}
+	
+	active = no
+	
+	base = 4
+	picture = elastic_defence
+	
+	attacker_movement_speed = -0.25
+	attacker = -0.2
 }
 
 tactic_backhand_blow = { #counters breakthrough
@@ -457,6 +712,35 @@ tactic_backhand_blow = { #counters breakthrough
 			}
 		}
 	}
+	active = no
+	
+	base = 4
+	picture = backhand_blow
+	
+	attacker_movement_speed = -0.2
+	attacker = -0.2
+	defender = 0.15
+}
+
+tactic_default_backhand_blow = { #counters breakthrough
+	is_attacker = no
+	trigger = {
+		is_attacker = no
+		phase = default
+		OR = {
+			skill > 4
+			AND = {
+			OR= { has_trait = defensive_doctrine_CC
+			has_trait = defensive_doctrine_CC_II
+			has_trait = defensive_doctrine_CC_III
+			has_trait = defensive_doctrine_FM
+			has_trait = defensive_doctrine_FM_II
+			has_trait = defensive_doctrine_FM_III }
+				skill > 3
+			}
+		}
+	}
+	active = no
 	
 	base = 4
 	picture = backhand_blow
@@ -475,13 +759,12 @@ tactic_seize_bridge = {
 		OR = {
 			skill > 3
 			AND = {
-				has_trait = offensive_doctrine_CC
+				OR = { has_trait = offensive_doctrine_CC
 				has_trait = offensive_doctrine_CC_II
 				has_trait = offensive_doctrine_CC_III
 				has_trait = offensive_doctrine_FM
 				has_trait = offensive_doctrine_FM_II
-				has_trait = offensive_doctrine_FM_III
-
+				has_trait = offensive_doctrine_FM_III }
 				skill > 2
 			}
 		}
@@ -497,6 +780,38 @@ tactic_seize_bridge = {
 	attacker = 0.15
 	defender = -0.05
 }
+
+tactic_default_seize_bridge = { 
+	is_attacker = yes
+	trigger = {
+		is_attacker = yes
+		has_combat_modifier = river_crossing
+		phase = default
+		OR = {
+			skill > 3
+			AND = {
+				OR = { has_trait = offensive_doctrine_CC
+				has_trait = offensive_doctrine_CC_II
+				has_trait = offensive_doctrine_CC_III
+				has_trait = offensive_doctrine_FM
+				has_trait = offensive_doctrine_FM_II
+				has_trait = offensive_doctrine_FM_III }
+				skill > 2
+			}
+		}
+	}
+	
+	base = 2
+	picture = seize_bridge
+	
+	phase = seize_bridge
+	
+	attacker_movement_speed = 0.1
+	combat_width = -0.25
+	attacker = 0.15
+	defender = -0.05
+}
+
 tactic_attacker_sb_hold = { 
 	is_attacker = yes
 	trigger = {
@@ -612,6 +927,35 @@ tactic_hold_bridge = {
 	attacker = 0.15
 	defender = -0.05
 }
+
+tactic_default_hold_bridge = { 
+	is_attacker = no
+	trigger = {
+		has_combat_modifier = river_crossing
+		is_attacker = no
+		phase = default
+		OR = {
+			skill > 2
+			has_trait = defensive_doctrine_CC
+			has_trait = defensive_doctrine_CC_II
+			has_trait = defensive_doctrine_CC_III
+			has_trait = defensive_doctrine_FM
+			has_trait = defensive_doctrine_FM_II
+			has_trait = defensive_doctrine_FM_III
+		}
+	}
+	
+	base = 2
+	picture = tactic_hold_bridge
+	
+	phase = hold_bridge
+	
+	attacker_movement_speed = 0.1
+	combat_width = -0.25
+	attacker = 0.15
+	defender = -0.05
+}
+
 tactic_attacker_hb_attack = { 
 	is_attacker = yes
 	trigger = {
@@ -727,11 +1071,56 @@ tactic_guerrilla_tactics = { #People's army defender tactic. also for German vol
 	defender = -0.5
 }
 
+tactic_default_guerrilla_tactics = { #People's army defender tactic. also for German volksturm branch.
+	is_attacker = no
+	trigger = {
+		is_attacker = no
+		phase = default
+		OR = {
+			skill > 2
+			has_trait = trickster_CC
+			has_trait = trickster_CC_II
+			has_trait = trickster_CC_III
+			has_trait = trickster_FM
+			has_trait = trickster_FM_II
+			has_trait = trickster_FM_III
+		}
+	}
+	
+	active = no
+	
+	base = 4
+	picture = tactic_guerrilla_tactics
+	
+	combat_width = -0.5
+	attacker = -0.6
+	defender = -0.5
+}
+
 tactic_human_wave_tactics = { #People's army attacker tactic
 	is_attacker = yes
 	trigger = {
 		is_attacker = yes
 		phase = no
+		frontage_full = yes
+		has_reserves = yes
+	}
+	
+	active = no
+	
+	base = 4
+	picture = tactic_human_wave_tactics
+	
+	combat_width = 0.5
+	attacker = 0.1 
+	defender = 0.1
+}
+
+tactic_default_human_wave_tactics = { #People's army attacker tactic
+	is_attacker = yes
+	trigger = {
+		is_attacker = yes
+		phase = default
 		frontage_full = yes
 		has_reserves = yes
 	}
@@ -766,6 +1155,26 @@ tactic_banzai_charge = { #Special Japan attacker tactic
 	defender = 0.1
 }
 
+tactic_default_banzai_charge = { #Special Japan attacker tactic
+	is_attacker = yes
+	trigger = {
+		tag = JAP
+		is_attacker = yes
+		phase = default
+	}
+	
+	active = yes
+	
+	countered_by = tactic_default_overwhelming_fire
+	
+	base = 4
+	picture = tactic_banzai_charge
+	
+	attacker_movement_speed = 0.1
+	attacker = 0.2 
+	defender = 0.1
+}
+
 tactic_infantry_charge = { #GBP -> Infantry attacker tactic
 	is_attacker = yes
 	trigger = {
@@ -778,7 +1187,23 @@ tactic_infantry_charge = { #GBP -> Infantry attacker tactic
 	base = 4
 	picture = tactic_infantry_charge
 	
-	attacker = 0.1 
+	attacker = 0.05 
+	defender = -0.05
+}
+
+tactic_default_infantry_charge = { #GBP -> Infantry attacker tactic
+	is_attacker = yes
+	trigger = {
+		is_attacker = yes
+		phase = default
+	}
+	
+	active = no
+	
+	base = 4
+	picture = tactic_infantry_charge
+	
+	attacker = 0.05 
 	defender = -0.05
 }
 
@@ -797,11 +1222,43 @@ tactic_planned_attack = { #GBP -> Armor attacker tactic
 	attacker = 0.1 
 }
 
+tactic_default_planned_attack = { #GBP -> Armor attacker tactic
+	is_attacker = yes
+	trigger = {
+		is_attacker = yes
+		phase = default
+	}
+	
+	active = no
+	
+	base = 4
+	picture = tactic_planned_attack
+	
+	attacker = 0.1 
+}
+
 tactic_relentless_assault = { #Deep battle attacker tactic
 	is_attacker = yes
 	trigger = {
 		is_attacker = yes
 		phase = no
+	}
+	
+	active = no
+	
+	base = 4
+	picture = tactic_relentless_assault
+	
+	attacker_movement_speed = 0.15
+	attacker = 0.15
+	defender = 0.05	
+}
+
+tactic_default_relentless_assault = { #Deep battle attacker tactic
+	is_attacker = yes
+	trigger = {
+		is_attacker = yes
+		phase = default
 	}
 	
 	active = no
@@ -830,11 +1287,43 @@ tactic_unexpected_thrust = { #Mobile warfare attacker tactic
 	attacker = 0.15 
 }
 
+tactic_default_unexpected_thrust = { #Mobile warfare attacker tactic
+	is_attacker = yes
+	trigger = {
+		is_attacker = yes
+		phase = default
+	}
+	
+	active = no
+	
+	base = 4
+	picture = tactic_unexpected_thrust
+	
+	attacker_movement_speed = 0.15
+	attacker = 0.15 
+}
+
 tactic_overwhelming_fire = { # Counters Banzai charge
 	is_attacker = no
 	trigger = {
 		is_attacker = no
 		phase = no
+	}
+	
+	active = no
+	
+	base = 2
+	picture = tactic_overwhelming_fire
+	
+	attacker = -0.1
+	defender = 0.1
+}
+
+tactic_default_overwhelming_fire = { # Counters Banzai charge
+	is_attacker = no
+	trigger = {
+		is_attacker = no
+		phase = default
 	}
 	
 	active = no
@@ -858,39 +1347,22 @@ tactic_barrage = { #Superior firepower attacker tactic
 	base = 4
 	picture = tactic_barrage
 	
-	attacker = 0.1
-	defender = -0.2	
+	attacker = 0.05
+	defender = -0.25	
 }
 
-tactic_dtd_operation_attack = {
+tactic_default_barrage = { #Superior firepower attacker tactic
 	is_attacker = yes
 	trigger = {
 		is_attacker = yes
-		OR = {
-			phase = no
-			phase = close_combat
-		}
-		has_reserves = yes
-		OR = {
-			hardness < 0.25
-			skill_advantage < 1
-			has_trait = trickster_CC
-			has_trait = trickster_CC_II
-			has_trait = trickster_CC_III
-			has_trait = trickster_FM
-			has_trait = trickster_FM_II
-			has_trait = trickster_FM_III
-		}
+		phase = default
 	}
 	
 	active = no
 	
 	base = 4
-	picture = encircle
-	countered_by = tactic_tactical_withdrawal
+	picture = tactic_barrage
 	
-	attacker_movement_speed = 0.15
-	combat_width = 0.75		#increased combat_width
-	attacker = 0.10
-	defender = 0.10
+	attacker = 0.05
+	defender = -0.25	
 }
