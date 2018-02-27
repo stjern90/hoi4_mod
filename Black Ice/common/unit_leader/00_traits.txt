@@ -60,10 +60,14 @@ leader_traits = {
 			always = no
 		}
 		modifier = {
-			army_armor_speed_factor = -0.08
+			army_speed_factor = -0.08
+			#army_armor_speed_factor = -0.08
 			army_armor_attack_factor = -0.08
+			army_infantry_attack_factor = -0.08
+			land_reinforce_rate  = -0.03
+			army_org_factor = -0.04
 			army_morale_factor = -0.08
-			offence = -0.08
+			#offence = -0.08
 			defence = -0.08
 		}
 		
@@ -78,8 +82,11 @@ leader_traits = {
 			always = no
 		}
 		modifier = {
-			army_armor_speed_factor = -0.05
+			army_speed_factor = -0.05
+			#army_armor_speed_factor = -0.05
 			army_armor_attack_factor = -0.05 
+			army_infantry_attack_factor = -0.05
+			land_reinforce_rate  = -0.02
 			army_morale_factor = -0.05
 			offence = -0.05
 			defence = -0.05
@@ -96,10 +103,14 @@ leader_traits = {
 			always = no
 		}
 		modifier = {
-			army_armor_speed_factor = -0.02
+			army_speed_factor = -0.02
+			#army_armor_speed_factor = -0.02
 			army_armor_attack_factor = -0.02
+			army_infantry_attack_factor = -0.02
+			land_reinforce_rate  = -0.01
+			army_org_factor = -0.02
 			army_morale_factor = -0.02
-			offence = -0.02
+			#offence = -0.02
 			defence = -0.02
 		}
 		
@@ -114,10 +125,14 @@ leader_traits = {
 			always = no
 		}
 		modifier = {
-			army_armor_speed_factor = -0.01
+			army_speed_factor = -0.01
+			#army_armor_speed_factor = -0.01
 			army_armor_attack_factor = -0.01 
+			army_infantry_attack_factor = -0.01
+			land_reinforce_rate  = -0.01
+			army_org_factor = -0.01
 			army_morale_factor = -0.01
-			offence = -0.01
+			#offence = -0.01
 			defence = -0.01
 		}
 		
@@ -143,10 +158,14 @@ leader_traits = {
 			always = no
 		}
 		modifier = {
-			army_armor_speed_factor = 0.02
+			army_speed_factor = 0.01
+			#army_armor_speed_factor = 0.02
 			army_armor_attack_factor = 0.02 
+			army_infantry_attack_factor = 0.02
+			land_reinforce_rate  = 0.01
+			army_org_factor = 0.02
 			army_morale_factor = 0.02
-			offence = 0.02
+			#offence = 0.02
 			defence = 0.02
 		}
 		
@@ -161,10 +180,14 @@ leader_traits = {
 			always = no
 		}
 		modifier = {
-			army_armor_speed_factor = 0.05
+			army_speed_factor = 0.025
+			#army_armor_speed_factor = 0.05
 			army_armor_attack_factor = 0.05 
+			army_infantry_attack_factor = 0.05
+			land_reinforce_rate  = 0.025
+			army_org_factor = 0.05
 			army_morale_factor = 0.05
-			offence = 0.05
+			#offence = 0.05
 			defence = 0.05
 		}
 		
@@ -179,10 +202,14 @@ leader_traits = {
 			always = no
 		}
 		modifier = {
-			army_armor_speed_factor = 0.08
+			army_speed_factor = 0.04
+			#army_armor_speed_factor = 0.08
 			army_armor_attack_factor = 0.08
+			army_infantry_attack_factor = 0.08
+			land_reinforce_rate  = 0.04
+			army_org_factor = 0.08
 			army_morale_factor = 0.08
-			offence = 0.08
+			#offence = 0.08
 			defence = 0.08
 		}
 		
@@ -197,10 +224,14 @@ leader_traits = {
 			always = no
 		}
 		modifier = {
-			army_armor_speed_factor = 0.1
+			army_speed_factor = 0.05
+			#army_armor_speed_factor = 0.1
 			army_armor_attack_factor = 0.1
+			army_infantry_attack_factor = 0.1
+			land_reinforce_rate  = 0.05
+			army_org_factor = 0.1
 			army_morale_factor = 0.1
-			offence = 0.1
+			#offence = 0.1
 			defence = 0.1
 		}
 		
@@ -4576,7 +4607,14 @@ leader_traits = {
 	
 ##################################
 # Naval traits.
+# Revision 1.6.1
 ##################################
+# Naval Traits work properly, and all of them are now gainable at a 
+# reasonable pace. They are much more robust, with a little more flavor.
+# 
+#
+# Old Guard Trait Revision 1.1 ~ Riever
+# Not sure it's even being used but it has some upside now.
 	old_guard_navy = { 
 		type = all
 		allowed = {
@@ -4584,6 +4622,9 @@ leader_traits = {
 		}
 		modifier = {
 			experience_gain_factor = -0.25 
+			naval_retreat_chance = 0.1
+			navy_capital_ship_defence_factor = 0.05
+			navy_screen_defence_factor = 0.05
 		}
 		
 		ai_will_do = {
@@ -4591,14 +4632,39 @@ leader_traits = {
 		}
 	}
 	
+# Seawolf Traits Revision 1.6.1 ~ Riever
+
 	seawolf = { 
 		type = navy
-		gain_xp = {
-			submarine > 0.5 # at least 80% subs
+		gain_xp = { 
+			OR = {
+				submarine > 0.32 # lowered, all friendlies in combat affect it 
+				AND = {
+					submarine > 0.19 # alt-qualifier for same reason
+					OR = {
+						is_winning = yes
+						#skill_advantage = yes					
+						skill > 3								
+					}
+					OR = {
+						has_trait = spotter
+						has_trait = ironside
+						has_trait = fly_swatter
+						has_trait = air_controller
+						has_trait = blockade_runner
+						has_trait = superior_tactician
+					}
+				}
+			}
 		}
-		cost = 700
+		cost = 21 
 		modifier = {
-			navy_submarine_attack_factor = 0.2 # +X% stronger damage for submarines
+			navy_submarine_attack_factor = 0.2 # +X% stronger sub damage
+			navy_submarine_defence_factor = 0.1 				
+			convoy_raiding_efficiency_factor = 0.1
+			spotting_chance = 0.05 							
+			naval_torpedo_range_factor = 0.03					
+			naval_hit_chance = 0.03								
 		}
 		
 		ai_will_do = {
@@ -4606,15 +4672,39 @@ leader_traits = {
 		}
 	}
 
-	seawolf_II = { 
+# Incremental works using "has_trait" to require seawolf first. 
+	seawolf_II = {
 		type = navy
 		gain_xp = {
 			has_trait = seawolf
-			submarine > 0.5 # at least 80% subs
+			OR = {
+				submarine > 0.32 
+				AND = {
+					submarine > 0.19 
+					OR = {
+						is_winning = yes
+						#skill_advantage = yes					
+						skill > 3								
+					}
+					OR = {
+						has_trait = spotter
+						has_trait = ironside
+						has_trait = fly_swatter
+						has_trait = air_controller
+						has_trait = blockade_runner
+						has_trait = superior_tactician
+					}
+				}
+			}
 		}
-		cost = 1000
+		cost = 18
 		modifier = {
-			navy_submarine_attack_factor = 0.4 # +X% stronger damage for submarines
+			navy_submarine_attack_factor = 0.4 # +X% stronger sub damage
+			navy_submarine_defence_factor = 0.2 				
+			convoy_raiding_efficiency_factor = 0.2
+			spotting_chance = 0.1 							
+			naval_torpedo_range_factor = 0.06					
+			naval_hit_chance = 0.06								
 		}
 		
 		ai_will_do = {
@@ -4622,15 +4712,39 @@ leader_traits = {
 		}
 	}
 	
+# Incremental works using "has_trait" to require seawolf_II first. 
 	seawolf_III = { 
 		type = navy
 		gain_xp = {
 			has_trait = seawolf_II
-			submarine > 0.5 # at least 80% subs
+			OR = {
+				submarine > 0.32 
+				AND = {
+					submarine > 0.19 
+					OR = {
+						is_winning = yes
+						#skill_advantage = yes					
+						skill > 3								
+					}
+					OR = {
+						has_trait = spotter
+						has_trait = ironside
+						has_trait = fly_swatter
+						has_trait = air_controller
+						has_trait = blockade_runner
+						has_trait = superior_tactician
+					}
+				}
+			}
 		}
-		cost = 1300
+		cost = 15
 		modifier = {
-			navy_submarine_attack_factor = 0.8 # +X% stronger damage for submarines
+			navy_submarine_attack_factor = 0.6 
+			navy_submarine_defence_factor = 0.3
+			convoy_raiding_efficiency_factor = 0.3
+			spotting_chance = 0.15 							
+			naval_torpedo_range_factor = 0.1
+			naval_hit_chance = 0.1
 		}
 		
 		ai_will_do = {
@@ -4638,14 +4752,41 @@ leader_traits = {
 		}
 	}
 	
+# Blockade Runner Trait Revision 1.6.1 ~ Riever	
 	blockade_runner = { 
 		type = navy
-		allowed = {
-			always = no
+		gain_xp = {
+			OR = {
+				opponent = { 
+					capital_ship > 0.0 
+				}
+				opponent = { 
+					NOT { submarine > 0.32 }
+				}
+				is_fighting_air_units = yes
+			}
+			OR = {
+				#skill_advantage = yes					
+				is_winning = yes
+				skill > 3								
+			}
+			OR = {
+				has_trait = spotter
+				has_trait = ironside
+				has_trait = fly_swatter
+				has_trait = air_controller
+				has_trait = blockade_runner
+				has_trait = superior_tactician
+			}
 		}
+		cost = 32 
 		modifier = {
-			naval_retreat_chance = 0.2
-			naval_retreat_speed = 0.25
+			naval_retreat_speed = 0.25								
+			naval_retreat_chance = 0.2								
+			naval_coordination = 0.1		
+			navy_capital_ship_defence_factor = 0.05
+			navy_screen_defence_factor = 0.05
+			naval_speed_factor = 0.05								
 		}
 		
 		ai_will_do = {
@@ -4653,30 +4794,59 @@ leader_traits = {
 		}
 	}
 
+# Superior Tactician Trait Revision 1.6.1 ~ Riever	
 	superior_tactician = { 
 		type = navy
 		gain_xp = {
-			is_winning = yes
+			OR = {
+				is_winning = yes
+				AND = {
+					OR = {
+						#skill_advantage = yes					
+						skill > 3								
+					}
+					OR = {
+						has_trait = seawolf
+						has_trait = spotter
+						has_trait = ironside
+						has_trait = fly_swatter
+						has_trait = air_controller
+						has_trait = blockade_runner
+					}
+				}
+			}
 		}
-		cost = 700
+		cost = 35 
 		modifier = {
-			ships_at_battle_start = 0.25
+			ships_at_battle_start = 0.25					
+			naval_coordination = 0.15						
+			navy_org_factor = 0.1							
+			naval_morale_factor = 0.1						
+			experience_gain_factor = 0.1 					
+			naval_hit_chance = 0.1							
 		}
-		
+			
 		ai_will_do = {
 			factor = 1
 		}
 	}
 
+# Spotter Traits Revision 1.6.1 ~ Riever
 	spotter = { 
 		type = navy
-		gain_xp = { # This trigger is not needed as it gets xp from spotting (not by combat)
-			always = no 
-		}
-		gain_xp_on_spotting = 20
-		cost = 700
+		gain_xp = { 
+			NOT = { submarine > 0.49 } # b/c subs acquire points much faster
+			skill > 1 # b/c L1 and L2 get points much faster	
+		} # This trigger not needed . XP from spotting doesn't need combat
+		gain_xp_on_spotting = 10
+		cost = 2250
 		modifier = {
-			spotting_chance = 0.1
+			spotting_chance = 0.1 							
+			convoy_escort_efficiency = 0.05					
+			convoy_raiding_efficiency_factor = 0.05			
+			naval_retreat_chance = 0.03						
+			ships_at_battle_start = 0.03
+			naval_torpedo_range_factor = 0.02				
 		}
 		
 		ai_will_do = {
@@ -4686,13 +4856,19 @@ leader_traits = {
 
 	spotter_II = { 
 		type = navy
-		gain_xp = { # This trigger is not needed as it gets xp from spotting (not by combat)
-			has_trait = spotter 
-		}
-		gain_xp_on_spotting = 40
-		cost = 1000
+		gain_xp = { 
+			NOT = { submarine > 0.49 } # b/c subs acquire points much faster
+			skill > 1 # b/c L1 and L2 get points much faster	
+		} 
+		gain_xp_on_spotting = 10 
+		cost = 3750 
 		modifier = {
-			spotting_chance = 0.2
+			spotting_chance = 0.2							
+			convoy_escort_efficiency = 0.1					
+			convoy_raiding_efficiency_factor = 0.1			
+			naval_retreat_chance = 0.06						
+			ships_at_battle_start = 0.06
+			naval_torpedo_range_factor = 0.03				
 		}
 		
 		ai_will_do = {
@@ -4702,27 +4878,19 @@ leader_traits = {
 	
 	spotter_III = { 
 		type = navy
-		gain_xp = { # This trigger is not needed as it gets xp from spotting (not by combat)
-			has_trait = spotter_II 
-		}
-		gain_xp_on_spotting = 80
-		cost = 1000
+		gain_xp = { 
+			NOT = { submarine > 0.49 } # b/c subs acquire points much faster
+			skill > 2 # b/c L1 and L2 get points much faster	
+		} 
+		gain_xp_on_spotting = 10 
+		cost = 5000 
 		modifier = {
-			spotting_chance = 0.4
-		}
-		
-		ai_will_do = {
-			factor = 1
-		}
-	}
-	fly_swatter = {
-		type = navy
-		gain_xp = {
-			is_fighting_air_units = yes
-		}
-		cost = 700
-		modifier = {
-			navy_anti_air_attack_factor = 0.1
+			spotting_chance = 0.3							
+			convoy_escort_efficiency = 0.15					
+			convoy_raiding_efficiency_factor = 0.15			
+			naval_retreat_chance = 0.1						
+			ships_at_battle_start = 0.1
+			naval_torpedo_range_factor = 0.05				
 		}
 		
 		ai_will_do = {
@@ -4730,17 +4898,60 @@ leader_traits = {
 		}
 	}
 
+# Fly Swatter Trait Revision 1.6.1 ~ Riever	
+	fly_swatter = {
+		type = navy
+		gain_xp = {
+			is_fighting_air_units = yes
+		}
+		cost = 32 
+		modifier = {
+			navy_anti_air_attack_factor = 0.2 		
+			navy_capital_ship_defence_factor = 0.05
+			navy_screen_defence_factor = 0.05
+			navy_submarine_defence_factor = 0.05
+			convoy_escort_efficiency = 0.05					
+		}
+		
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+# Ironside Trait Revision 1.6.1 ~ Riever	
 	ironside = {
 		type = navy
 		gain_xp = {
 			capital_ship > 0.0
-			opponent = {
-				capital_ship > 0.0
+			OR = {
+				opponent = {
+					capital_ship > 0.0
+				}
+				AND = { 
+					opponent = {
+						NOT = { submarine > 0.32 }
+					}
+					OR = {
+						#skill_advantage = yes					
+						is_winning = yes
+						skill > 3
+					}
+					OR = {
+						has_trait = superior_tactician
+						has_trait = blockade_runner
+						has_trait = spotter
+						has_trait = seawolf
+					}
+				}
 			}
 		}
-		cost = 700
+		cost = 33 
 		modifier = {
-			navy_capital_ship_defence_factor = 0.1
+			navy_capital_ship_defence_factor = 0.15 	
+			navy_capital_ship_attack_factor = 0.1 		
+			naval_morale_factor = 0.1					
+			navy_screen_defence_factor = 0.1 			
+			naval_hit_chance = 0.05						
 		}
 
 		ai_will_do = {
@@ -4748,23 +4959,31 @@ leader_traits = {
 		}		
 	}
 
+# Air Controller Trait Revision 1.5.1 ~ Riever
+# Not Tested; need feedback on how fast this accumulates
+	
 	air_controller = {
 		type = navy
 		gain_xp = {
+			skill > 1	
 			OR = {
+				carrier > 0.0
 				has_carrier_airwings_on_mission = yes
 				has_carrier_airwings_in_own_combat = yes
 			}
 		}
-		cost = 700
+		cost = 300 # This trait still untested, this will need adjusting
 		modifier = {
-			navy_carrier_air_targetting_factor = 0.1 # Airplanes from carriers has better naval targetting
-			sortie_efficiency = 0.1
+			navy_carrier_air_targetting_factor = 0.15 	
+			navy_carrier_air_attack_factor = 0.1		
+			navy_carrier_air_agility_factor = 0.1		
+			sortie_efficiency = 0.1					 	
+			carrier_capacity_penalty_reduction = -0.1	
+			convoy_escort_efficiency = 0.05					
 		}
-		
+
 		ai_will_do = {
 			factor = 1
 		}
 	}
-
 }

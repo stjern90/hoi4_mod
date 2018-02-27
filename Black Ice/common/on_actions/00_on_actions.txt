@@ -505,7 +505,9 @@ on_actions = {
 					is_puppet = no
 				}
 				drop_cosmetic_tag = yes
+				add_national_unity = 0.3
 			}
+			add_national_unity = 0.2
 		}
 	}
 
@@ -681,6 +683,22 @@ on_actions = {
 	#ROOT is new controller #FROM is old controller #FROM.FROM is state ID
 	on_state_control_changed = {
 		effect = {
+			if = {
+				limit = {
+					FROM = { tag = SOV }
+					ROOT = { OR = { tag = GER is_in_faction_with = GER }}
+					FROM.FROM = { is_core_of = SOV }
+				}
+				FROM.FROM = { remove_building = { type = infrastructure level = 1 } set_state_flag = GER_conquered }
+			}
+			if = {
+				limit = {
+					FROM = { OR = { tag = GER is_in_faction_with = GER }}
+					ROOT = { tag = SOV }
+					FROM.FROM = { has_state_flag = GER_conquered }
+				}
+				FROM.FROM = { add_building_construction = { type = infrastructure level = 1 } clr_state_flag = GER_conquered }
+			}
 
 		}
 	}

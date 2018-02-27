@@ -13,34 +13,86 @@
 # contain
 # area_priority
 
-protect_poland_against_germany = {
+ENG_war_against_ITA = {
 	enable = {
 		tag = ENG
-		#GER = { has_completed_focus = GER_end_of_czechoslovakia }
-		GER = { NOT = { has_war_with = POL } }
-		country_exists = POL
+		has_government = democratic
+		is_historical_focus_on = yes
+		has_war_with = ITA
+		NOT = { 
+			ITA = { has_capitulated = yes }
+			ITA = { exists = no }
+			ITA = { is_puppet = yes }
+			is_in_faction_with = ITA
+		}
+		ITA = { has_government = fascism }
 	}
 	abort = {
-		NOT = { country_exists = POL }
+		OR = { 
+			ITA = { has_capitulated = yes }
+			ITA = { exists = no }
+			ITA = { is_puppet = yes }
+			is_in_faction_with = ITA
+			NOT = { ITA = { has_government = fascism } }
+			
+			NOT = { has_war_with = ITA }
+			NOT = { has_government = democratic }
+		}
 	}
 	
 	ai_strategy = {
-		type = befriend
-		id = "POL"			
-		value = 200
+		type = conquer
+		id = "ITA"
+		value = 1000
 	}
+}
+
+i_fin_eng = {
+	enable = {
+		tag = ENG
+		country_exists = FIN
+		is_historical_focus_on = yes
+	}
+	abort = {
+		OR = {
+			FIN = { is_in_faction_with = GER }
+			FIN = { is_in_faction_with = SOV }
+		}
+	}
+	
 	ai_strategy = {
-		type = alliance
-		id = "POL"			
-		value = 200
-	}	
+		type = ignore
+		id = "FIN"
+		value = 400
+	}
+}
+
+i_fin_eng2 = {
+	enable = {
+		tag = FIN
+		country_exists = ENG
+		is_historical_focus_on = yes
+	}
+	abort = {
+		FIN = { is_in_faction_with = GER }
+		FIN = { is_in_faction_with = SOV }
+	}
+	
+	ai_strategy = {
+		type = ignore
+		id = "FIN"
+		value = 400
+	}
 }
 
 defend_poland_against_germany = {
 	enable = {
 		tag = ENG
-		GER = { has_war_with = POL }
 		country_exists = POL
+		OR = { 
+			GER = { has_war_with = POL }
+			GER = { has_completed_focus = Solution_for_danzig }
+		}
 	}
 	abort = {
 		NOT = { country_exists = POL }
@@ -49,55 +101,25 @@ defend_poland_against_germany = {
 	ai_strategy = {
 		type = befriend
 		id = "POL"			
-		value = 200
+		value = 5000
 	}
 	ai_strategy = {
 		type = alliance
 		id = "POL"			
-		value = 200
+		value = 5000
 	}	
 }
 
-defend_bel_against_germany = {
-	enable = {
-		tag = ENG
-		GER = { has_war_with = BEL }
-		country_exists = BEL
-	}
-	abort = {
-		NOT = { country_exists = BEL }
-	}
-	
-	ai_strategy = {
-		type = befriend
-		id = "BEL"			
-		value = 200
-	}
-	ai_strategy = {
-		type = alliance
-		id = "BEL"			
-		value = 200
-	}	
-	ai_strategy = {
-		type = befriend
-		id = "HOL"			
-		value = 200
-	}
-	ai_strategy = {
-		type = alliance
-		id = "HOL"			
-		value = 200
-	}	
-}
 
-defend_hol_against_germany = {
+defend_benelux_against_germany = {
 	enable = {
 		tag = ENG
 		GER = { has_war_with = HOL }
-		country_exists = HOL
+		GER = { has_war_with = BEL }
 	}
 	abort = {
-		NOT = { country_exists = HOL }
+		HOL = { has_capitulated = yes }
+		BEL = { has_capitulated = yes }
 	}
 	
 	ai_strategy = {
@@ -108,7 +130,7 @@ defend_hol_against_germany = {
 	ai_strategy = {
 		type = alliance
 		id = "BEL"			
-		value = 200
+		value = 2000
 	}	
 	ai_strategy = {
 		type = befriend
@@ -118,10 +140,53 @@ defend_hol_against_germany = {
 	ai_strategy = {
 		type = alliance
 		id = "HOL"			
-		value = 200
+		value = 2000
 	}	
 }
-
+defend_DEN_against_germany = {
+	enable = {
+		tag = ENG
+		GER = { has_war_with = DEN }
+		country_exists = DEN
+	}
+	abort = {
+		DEN = { has_capitulated = yes }
+	}
+	
+	ai_strategy = {
+		type = befriend
+		id = "DEN"			
+		value = 200
+	}
+	ai_strategy = {
+		type = alliance
+		id = "DEN"			
+		value = 200
+	}	
+		
+}
+defend_LUX_against_germany = {
+	enable = {
+		tag = ENG
+		GER = { has_war_with = LUX }
+		country_exists = LUX
+	}
+	abort = {
+		NOT = { country_exists = LUX }
+	}
+	
+	ai_strategy = {
+		type = befriend
+		id = "LUX"			
+		value = 200
+	}
+	ai_strategy = {
+		type = alliance
+		id = "LUX"			
+		value = 200
+	}	
+		
+}
 turkey_ignore_eng = {
 	enable = {
 		tag = TUR
@@ -143,39 +208,6 @@ turkey_ignore_eng = {
 	}	
 }
 
-disable_invasion = {  # just complete bullshit invasions
-	enable = {
-		tag = ENG
-		tag = FRA
-		date < 1942.1.1
-	}
-	abort = {
-		date > 1942.1.1
-	}
-	ai_strategy = {
-		type = invade
-		id = "FIN"
-		value = -1000
-	}
-	
-	ai_strategy = {
-		type = invade
-		id = "GER"
-		value = -200
-	}
-	
-	ai_strategy = {
-		type = invade
-		id = "ITA"
-		value = -200
-	}
-	
-	ai_strategy = {
-		type = invade
-		id = "D02"
-		value = -1000
-	}	
-}
 
 royal_air_force = {
 	enable = {
@@ -191,220 +223,14 @@ royal_air_force = {
 	
 	ai_strategy = {
 		type = air_factory_balance
-		value = 100
+		value = 80
 	}
 
 }
-stay_in_commonwealth = {
-    enable = {
-		OR = {
-			AND = {
-				tag = CAN
-				CAN = { democratic_govt = yes }
-			}
-			AND = {
-				tag = BUR
-				BUR = { democratic_govt = yes }
-			}
-			AND = {
-				tag = RAJ
-				RAJ = { democratic_govt = yes }
-			}
-			AND = {
-				tag = AST
-				AST = { democratic_govt = yes }
-			}
-			AND = {
-				tag = NZL
-				NZL = { democratic_govt = yes }
-			}
-			AND = {
-				tag = SAF
-				SAF = { democratic_govt = yes }
-			}
-		}
-		NOT = { is_faction_leader = yes }
-        ENG = { is_faction_leader = yes }
-    }
-    abort = {
-       ENG = { is_faction_leader = no NOT = { has_government = communism has_government = fascism } }
-    }
 
-    ai_strategy = {
-        type = alliance
-        id = "ENG"     
-        value = 100000
-    }
-}
-canada_stay_in_commonwealth = {
-    enable = {
-		tag = CAN
-		democratic_govt = yes
-        ENG = { is_faction_leader = yes has_country_flag = allies_leader }
-    }
-    abort = {
-       ENG = { is_faction_leader = no }
-    }
 
-    ai_strategy = {
-        type = alliance
-        id = "ENG"     
-        value = 300000
-    }
-}
-southafrica_stay_in_commonwealth = {
-    enable = {
-		tag = SAF
-		democratic_govt = yes
-        ENG = { is_faction_leader = yes has_country_flag = allies_leader }
-    }
-    abort = {
-       ENG = { is_faction_leader = no }
-    }
-
-    ai_strategy = {
-        type = alliance
-        id = "ENG"     
-        value = 300000
-    }
-}
-newzealand_stay_in_commonwealth = {
-    enable = {
-		tag = NZL
-		democratic_govt = yes
-        ENG = { is_faction_leader = yes has_country_flag = allies_leader }
-    }
-    abort = {
-       ENG = { is_faction_leader = no }
-    }
-
-    ai_strategy = {
-        type = alliance
-        id = "ENG"     
-        value = 300000
-    }
-}
-australia_stay_in_commonwealth = {
-    enable = {
-		tag = AST
-		democratic_govt = yes
-        ENG = { is_faction_leader = yes has_country_flag = allies_leader }
-    }
-    abort = {
-       ENG = { is_faction_leader = no }
-    }
-
-    ai_strategy = {
-        type = alliance
-        id = "ENG"     
-        value = 300000
-    }
-}
-burma_stay_in_commonwealth = {
-    enable = {
-		tag = BUR
-		democratic_govt = yes
-        ENG = { is_faction_leader = yes has_country_flag = allies_leader }
-    }
-    abort = {
-       ENG = { is_faction_leader = no }
-    }
-
-    ai_strategy = {
-        type = alliance
-        id = "ENG"     
-        value = 300000
-    }
-}
-raj_stay_in_commonwealth = {
-    enable = {
-		tag = RAJ
-		democratic_govt = yes
-        ENG = { is_faction_leader = yes has_country_flag = allies_leader }
-    }
-    abort = {
-       ENG = { is_faction_leader = no }
-    }
-
-    ai_strategy = {
-        type = alliance
-        id = "ENG"     
-        value = 300000
-    }
-}
-
-# lets make sure the allies dont overcommit to invasions early on
-careful_with_early_invasions = {
-	enable = {
-		NOT = { has_tech = landing_craft }
 		
-		OR = {
-			is_in_faction_with = ENG # anyone in allies
-			tag = FRA
-		}
 
-		date < 1942.1.1
-		NOT = {
-			GER = { has_war_with = SOV }
-		}
-	}
-	abort = {
-		has_tech = landing_craft
-		OR = {
-			GER = { has_war_with = SOV }
-			date > 1942.1.1
-			is_in_faction_with = USA
-		}
-	}
 
-	ai_strategy = {
-		type = invade
-		id = "ITA"			
-		value = -500
-	}
 
-	ai_strategy = {
-		type = invade
-		id = "GER"			
-		value = -500
-	}
-}
 
-east_prussia_invasion_is_death_trap = {
-	enable = {
-		
-		OR = {
-			is_in_faction_with = ENG # anyone in allies
-			tag = FRA
-		}
-
-		GER = { has_war_with = POL }
-		POL = { 
-			OR = {
-				exists = yes 
-				has_capitulated = no
-			}
-		}
-
-		date < 1940.1.1
-	}
-	
-	abort = {
-		OR = {
-			NOT = { GER = { has_war_with = POL } }
-			POL = { 
-				OR = {
-					exists = no
-					has_capitulated = yes
-				}
-			}
-			date > 1940.1.1
-		}
-	}
-
-	ai_strategy = {
-		type = invade
-		id = "GER"			
-		value = -2000
-	}
-}

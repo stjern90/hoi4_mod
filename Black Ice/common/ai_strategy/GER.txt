@@ -13,6 +13,74 @@
 # contain
 # area_priority
 
+#Spanish volunteers
+spanish_civil_war = {
+	enable = { 
+		tag = GER 
+		SPA = { has_war_with = SPR} 
+	}
+	
+	abort = { 
+		country_exists = SPA 
+		NOT = { SPA = { has_war_with = SPR }}
+	}
+	
+	ai_strategy = { type = send_volunteers_desire 	id = "SPA" 		                value = 5000 }
+}
+spanish_civil_war = {
+	enable = { 
+		tag = SOV 
+		SPR = { has_war_with = SPA} 
+	}
+	
+	abort = { 
+		SPR = { has_war = no }
+	}
+	
+	ai_strategy = { type = send_volunteers_desire 	id = "SPR" 		                value = 5000 }
+}
+
+i_vic = { 
+	enable = {
+		tag = GER
+		is_historical_focus_on = yes
+		has_government = fascism
+		has_war_with = SOV
+	}
+	abort = {
+		NOT = { has_war_with = SOV }
+	}
+	ai_strategy = {
+		type = ignore
+		id = "VIC"
+		value = 5000
+	}
+	ai_strategy = {
+		type = ignore
+		id = "SPA"
+		value = 5000
+	}
+}
+i_swe = {
+	enable = {
+		tag = GER
+		is_historical_focus_on = yes
+	}
+	abort = {
+		OR = {
+			SOV = { has_capitulated = yes }
+			SOV = { exists = no }
+			SOV = { is_puppet = yes }
+			SOV = { has_government = fascism }
+			is_in_faction_with = SOV
+		}
+	}
+	ai_strategy = {
+		type = ignore
+		id = "SWE"
+		value = 3000
+	}
+}
 war_with_france = {
 	enable = {
 		tag = GER
@@ -154,7 +222,6 @@ iron_pact_italy = {
 	}
 	
 	ai_strategy = { type = befriend id = "ITA"					value = 100 		}
-	ai_strategy = { type = befriend id = "SWE"					value = 40 		}
 	ai_strategy = { type = alliance id = "ITA"					value = 100 		}	
 }
 
@@ -423,32 +490,7 @@ GER_stay_in_berlin_moscow_axis = {
         value = 300000
     }
 }
-SOV_stay_in_berlin_moscow_axis = {
-    enable = {
-		tag = SOV
-		has_country_flag = in_berlin_moscow_axis
-		NOT = { has_country_flag = berlin_moscow_leader }
-		GER = {
-			has_country_flag = berlin_moscow_leader
-		}
-    }
-    abort = {
-		NOT = { has_country_flag = in_berlin_moscow_axis }
-		GER = { 
-			NOT = { 
-				exists = yes
-				has_country_flag = berlin_moscow_leader
-				is_faction_leader = yes
-			}
-		}
-    }
 
-    ai_strategy = {
-        type = alliance
-        id = "GER"     
-        value = 300000
-    }
-}
 
 invading_france_is_pointless_because_we_go_through_benelux_soon = {
 	enable = {
@@ -476,62 +518,210 @@ invading_france_is_pointless_because_we_go_through_benelux_soon = {
 		value = -500 
 	}
 }
-
-
-axis_stay_away_from_the_royal_navy = {
-	enable = {
+friend_anti_russian_allies = {
+	enable = { 
+		tag = GER
 		has_war_with = ENG
-		date < 1942.1.1
-		
-		OR = {
-			GER = {
-				naval_strength_ratio = {
-					tag = ENG 
-  					ratio < 0.5
-  				}
-  			}
+		country_exists = ROM
+		date > 1940.1.1
+	}
+	
+	abort = {
+		OR = { 
+			NOT = { country_exists = ROM }
+			NOT = { country_exists = BUL }
+			NOT = { country_exists = HUN }
+		}
+	}
+	
+	ai_strategy = {
+		type = befriend
+		id = "ROM"
+		value = 100
+	}
+	ai_strategy = {
+		type = befriend
+		id = "BUL" 
+		value = 100 
+	}
+	ai_strategy = {
+		type = befriend
+		id = "HUN" 
+		value = 100 
+	}
+}
 
-			# if we manage to get a foothold in UK we must do what we can to exploit it! (checks coastal states)
-			divisions_in_state = { state = 127 size > 0 }
-			divisions_in_state = { state = 126 size > 0 }
-			divisions_in_state = { state = 125 size > 0 }
-			divisions_in_state = { state = 129 size > 0 }
-			divisions_in_state = { state = 130 size > 0 }
-			divisions_in_state = { state = 131 size > 0 }
-			divisions_in_state = { state = 123 size > 0 }
-			divisions_in_state = { state = 122 size > 0 }
-			divisions_in_state = { state = 132 size > 0 }
-			divisions_in_state = { state = 121 size > 0 }
-			divisions_in_state = { state = 136 size > 0 }
-			divisions_in_state = { state = 120 size > 0 }
-			divisions_in_state = { state = 133 size > 0 }
-		}		
+
+play_nice_with_fin = {
+	enable = { 
+		tag = GER
+		has_war_with = ENG
+		country_exists = FIN 
+		date > 1940.1.1
+	}
+	
+	abort = {
+		NOT = { country_exists = FIN }
+	}
+	
+	ai_strategy = {
+		type = antagonize
+		id = "FIN"
+		value = -300
+	}
+}
+play_nice_with_swe = {
+	enable = { 
+		tag = GER
+		has_war_with = ENG
+		country_exists = SWE 
+		date > 1939.1.1
+	}
+	
+	abort = {
+		NOT = { country_exists = SWE }
+	}
+	
+	ai_strategy = {
+		type = antagonize
+		id = "SWE"
+		value = -500
+	}
+	ai_strategy = {
+		type = conquer
+		id = "SWE"
+		value = -500
+	}
+	ai_strategy = {
+		type = ignore
+		id = "SWE"
+		value = 500
+	}
+}
+play_nice_with_LIB = {
+	enable = { 
+		tag = GER
+		has_war_with = ENG
+		country_exists = LIB 
+		date > 1940.1.1
+	}
+	
+	abort = {
+		NOT = { country_exists = LIB }
+	}
+	
+	ai_strategy = {
+		type = antagonize
+		id = "LIB"
+		value = -300
+	}
+}
+play_nice_with_SWI = {
+	enable = { 
+		tag = GER
+		has_war_with = ENG
+		country_exists = SWI 
+		date > 1939.1.1
+	}
+	
+	abort = {
+		NOT = { country_exists = SWI }
+	}
+	
+	ai_strategy = {
+		type = antagonize
+		id = "SWI"
+		value = -500
+	}
+	ai_strategy = {
+		type = conquer
+		id = "SWI" 
+		value = -300 
+	}
+}
+
+i_spr = { #why is GER using 50 divisions to guard against Spain?
+	enable = {
+		tag = GER
+		is_historical_focus_on = yes
+		has_government = fascism
+		has_war_with = SOV
+	}
+	abort = {
+		NOT = { has_war_with = SOV }
+	}
+	ai_strategy = {
+		type = ignore
+		id = "SPR"
+		value = 500
+	}
+	ai_strategy = {
+		type = ignore
+		id = "SPA"
+		value = 500
+	}
+}
+i_swe = {
+	enable = {
+		tag = GER
+		is_historical_focus_on = yes
 	}
 	abort = {
 		OR = {
-			date > 1942.1.1
+			SOV = { has_capitulated = yes }
+			SOV = { exists = no }
+			SOV = { is_puppet = yes }
+			SOV = { has_government = fascism }
+			is_in_faction_with = SOV
+		}
+	}
+	ai_strategy = {
+		type = ignore
+		id = "SWE"
+		value = 500
+	}
+}
+axis_stay_away_from_the_royal_navy = { 
+	enable = {
+		has_war_with = ENG
+		
+		GER = {
+			naval_strength_ratio = {
+				tag = ENG 
+				ratio < 0.5
+			}
+		}
+
+		# if we manage to get a foothold in UK we must do what we can to exploit it! (checks coastal states)
+		NOT = {
+			any_state = {
+				is_owned_by = ENG
+				is_in_home_area = yes
+				is_coastal = yes
+				
+				ROOT = { divisions_in_state = { state = PREV size > 0 } }
+			}
+		}
+	}
+	abort = {
+		OR = {
 			NOT = { has_war_with = ENG }
-			AND = {
+
+			NOT = {
 				GER = {
 					naval_strength_ratio = {
 						tag = ENG 
-	  					ratio > 0.5
-	  				}
-	  			}
+						ratio < 0.5
+					}
+				}
+			}
 
-				divisions_in_state = { state = 127 size < 1 }
-				divisions_in_state = { state = 126 size < 1 }
-				divisions_in_state = { state = 125 size < 1 }
-				divisions_in_state = { state = 129 size < 1 }
-				divisions_in_state = { state = 130 size < 1 }
-				divisions_in_state = { state = 131 size < 1 }
-				divisions_in_state = { state = 123 size < 1 }
-				divisions_in_state = { state = 122 size < 1 }
-				divisions_in_state = { state = 132 size < 1 }
-				divisions_in_state = { state = 121 size < 1 }
-				divisions_in_state = { state = 136 size < 1 }
-				divisions_in_state = { state = 120 size < 1 }
-				divisions_in_state = { state = 133 size < 1 }
+			any_state = {
+				is_owned_by = ENG
+				is_in_home_area = yes
+				is_coastal = yes
+				
+				ROOT = { divisions_in_state = { state = PREV size > 0 } }
 			}
 		}
 	}
@@ -539,7 +729,119 @@ axis_stay_away_from_the_royal_navy = {
 	ai_strategy = {
 		type = naval_avoid_region
 		id = 18 #english channel
-		value = 100
+		value = 2000
+	}
+	ai_strategy = {
+		type = naval_avoid_region
+		id = 42
+		value = 2000
+	}
+	ai_strategy = {
+		type = naval_avoid_region
+		id = 47
+		value = 2000
+	}
+	ai_strategy = {
+		type = naval_avoid_region
+		id = 48
+		value = 2000
+	}
+	ai_strategy = {
+		type = naval_avoid_region
+		id = 68
+		value = 2000
+	}
+	
+	ai_strategy = {
+		type = naval_avoid_region
+		id = 61
+		value = 2000
+	}
+	ai_strategy = {
+		type = naval_avoid_region
+		id = 62
+		value = 2000
+	}
+	ai_strategy = {
+		type = naval_avoid_region
+		id = 65
+		value = 2000
+	}
+	ai_strategy = {
+		type = naval_avoid_region
+		id = 103
+		value = 2000
+	}
+	ai_strategy = {
+		type = naval_avoid_region
+		id = 102
+		value = 2000
+	}
+	ai_strategy = {
+		type = naval_avoid_region
+		id = 100
+		value = 2000
 	}
 }
+
+
+GER_protect_core = {
+	enable = {
+		original_tag = GER		
+		surrender_progress > 0.13
+		NOT = { has_capitulated = yes }
+		any_owned_state = { OR = { region = 6 region = 7 region = 8 } controller = { has_war_with = GER } }
+	}
+	abort = {
+		OR = {
+			NOT = { surrender_progress > 0.07 }
+			has_capitulated = yes
+			NOT = { any_owned_state = { OR = { region = 6 region = 7 region = 8 } controller = { has_war_with = GER } } }
+		}
+	}
+	ai_strategy = { type = area_priority id = germany	 		value = 1000 }
+	ai_strategy = { type = area_priority id = britain	 		value = -100 }
+	ai_strategy = { type = area_priority id = atlantic	 		value = -100 }
+	ai_strategy = { type = area_priority id = north_africa	 	value = -100 }
+	ai_strategy = { type = area_priority id = south_africa	 	value = -100 }
+	ai_strategy = { type = area_priority id = asia	 			value = -100 }
+	ai_strategy = { type = area_priority id = north_america	 	value = -100 }
+	ai_strategy = { type = area_priority id = south_america	 	value = -100 }
+	ai_strategy = { type = area_priority id = middle_east 		value = -100 }
+	ai_strategy = { type = area_priority id = italy	 			value = -100 }
+	ai_strategy = { type = area_priority id = mediterranean	 	value = -100 }
+	ai_strategy = { type = area_priority id = france	 		value = -100 }
+	ai_strategy = { type = area_priority id = benelux	 		value = -100 }
+	ai_strategy = { type = area_priority id = balkans	 		value = -100 }
+	ai_strategy = { type = area_priority id = turkey	 		value = -100 }
+	ai_strategy = { type = area_priority id = north_europe	 	value = -100 }
+	ai_strategy = { type = area_priority id = east_europe	 	value = -100 }
+	ai_strategy = { type = area_priority id = west_russia	 	value = -100 }
+	ai_strategy = { type = area_priority id = spain	 			value = -100 }
+	ai_strategy = { type = area_priority id = australia_only 	value = -100 }
+	ai_strategy = { type = area_priority id = newzealand		value = -100 }
+	ai_strategy = { type = area_priority id = newguinea	 		value = -100 }
+	ai_strategy = { type = area_priority id = borneo	 		value = -100 }
+	ai_strategy = { type = area_priority id = sunda	 			value = -100 }
+	ai_strategy = { type = area_priority id = singapore	 		value = -100 }
+	ai_strategy = { type = area_priority id = philippines	 	value = -100 }
+	ai_strategy = { type = area_priority id = india	 			value = -100 }
+	ai_strategy = { type = area_priority id = japan	 			value = -100 }
+	ai_strategy = { type = area_priority id = pacific 			value = -100 }
+	ai_strategy = { type = area_priority id = oceania 			value = -100 }
+	
+	#ai_strategy = { type = area_priority id = europe 			value = 100 }
+	#ai_strategy = { type = area_priority id = north_america 	value = -100 }
+	#ai_strategy = { type = area_priority id = south_america 	value = -100 }
+	#ai_strategy = { type = area_priority id = middle_east 		value = -100 }
+	#ai_strategy = { type = area_priority id = africa 			value = -100 }
+	#ai_strategy = { type = area_priority id = asia 				value = -100 }
+	#ai_strategy = { type = area_priority id = pacific 			value = -100 }
+}
+
+
+
+
+
+
 ### EOF ###

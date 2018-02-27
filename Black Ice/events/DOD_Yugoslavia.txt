@@ -30,7 +30,7 @@ country_event = {
 	option = { #welp
 		name = DOD_yugoslavia.1.a
 		ai_chance = {
-			factor = 70
+			factor = 100
 		}	
 		retire_country_leader = yes
 		create_country_leader = {
@@ -58,7 +58,7 @@ country_event = {
 	option = { #resistance to the coup, call on Germans for support
 		name = DOD_yugoslavia.1.b
 		ai_chance = {
-			factor = 30
+			factor = 0
 		}	
 		GER = { country_event = DOD_yugoslavia.3 }
 		if = {
@@ -118,15 +118,7 @@ country_event = {
 			type = annex_everything
 			target = YUG
 		}
-		if = {
-			limit = {
-				CRO = { 
-					exists = yes 
-					is_subject_of = YUG
-				}
-			}
-			puppet = CRO
-		}
+		
 	}
 }
 
@@ -146,7 +138,7 @@ country_event = {
 			white_peace = FRA
 		}
 		ai_chance = {
-			factor = 70
+			factor = 100
 		}	
 		create_wargoal = {
 			type = annex_everything
@@ -157,7 +149,7 @@ country_event = {
 	option = { #rescue
 		name = DOD_yugoslavia.3.b	
 		ai_chance = {
-			factor = 30
+			factor = 0
 		}
 		white_peace = GER
 		add_to_faction = YUG
@@ -196,7 +188,7 @@ country_event = {
 	option = { 
 		name = DOD_yugoslavia.10.a
 		ai_chance = {
-			factor = 70
+			factor = 0
 		}	
 		if = {
 			limit = {
@@ -252,6 +244,12 @@ country_event = {
 			}
 		}
 	}
+	option = { 
+		name = DOD_yugoslavia.10.b
+		ai_chance = {
+			factor = 100
+		}	
+		}
 }
 
 #Yugoslavia wants to buy planes - event for GER,FRA,ENG,ITA
@@ -861,16 +859,19 @@ country_event = {
 	picture = GFX_report_event_german_troops_paris
 	
 	mean_time_to_happen = {
-		days = 5
+		days = 2
 	}
 	fire_only_once = yes
 	trigger = {
 		tag = GER
+		is_ai = yes
+		has_completed_focus = GER_demand_slovenia
 		NOT = {
 			has_war_with = YUG
 		}
 		YUG = {
 			is_in_faction = no
+			exists = yes
 		}
 		FRA = {
 			OR = {
@@ -883,18 +884,18 @@ country_event = {
 	option = { # put the squeeze on them
 		name = DOD_yugoslavia.34.a
 		ai_chance = {
-			factor = 90
+			factor = 100
 		}
 		YUG = { country_event = DOD_yugoslavia.35 }
 		hidden_effect = {
-			country_event = { id = DOD_yugoslavia.36 days = 90 random = 168 }
+			country_event = { id = DOD_yugoslavia.36 }
 		}
 		
 	}	
 	option = { # not interested
 		name = DOD_yugoslavia.34.b
 		ai_chance = {
-			factor = 10
+			factor = 0
 		}
 		
 	}
@@ -914,7 +915,7 @@ country_event = {
 	option = { # not that bad
 		name = DOD_yugoslavia.35.a
 		ai_chance = {
-			factor = 30
+			factor = 100
 		}
 		
 	}
@@ -931,39 +932,57 @@ country_event = {
 	
 	is_triggered_only = yes
 	fire_only_once = yes
-	trigger = {
-		tag = GER
-		YUG = {
-			is_in_faction = no 
-			exists = yes
-			NOT = {
-				focus_progress = { focus = YUG_join_axis progress > 0 } #that would just be mean
-			}
-		}
-	}
-	
+		
 	option = { # put the squeeze on them
 		name = DOD_yugoslavia.36.a
 		ai_chance = {
-			factor = 90
+			factor = 100
 		}
-		declare_war_on = {
-			target = YUG
-			type = puppet_wargoal_focus
-		}
-		
+		country_event = DOD_yugoslavia.176
+		country_event = DOD_yugoslavia.177
+		#ITA = {country_event = DOD_yugoslavia.37 }
 	}	
 	option = { # not interested
 		name = DOD_yugoslavia.36.b
 		ai_chance = {
-			factor = 10
+			factor = 0
 		}
 		
 	}
 		
 	
 }
-
+country_event = {
+	id = DOD_yugoslavia.37
+	title = DOD_yugoslavia.37.t
+	desc = DOD_yugoslavia.37.desc
+	picture = GFX_report_event_planning
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+		
+	option = { # put the squeeze on them
+		name = DOD_yugoslavia.37.a
+		ai_chance = {
+			factor = 100
+		}
+	
+		ITA = { declare_war_on = {
+			target = YUG
+			type = annex_everything }
+		}
+		
+	}	
+	option = { # not interested
+		name = DOD_yugoslavia.37.b
+		ai_chance = {
+			factor = 0
+		}
+		
+	}
+		
+	
+}
 #Yugoslavia pressured by Britain - Balkan Strategy
 country_event = {
 	id = DOD_yugoslavia.40
@@ -3381,3 +3400,287 @@ country_event = {
 	}
 	
 }
+country_event = {
+	id = DOD_yugoslavia.172
+	title = DOD_yugoslavia.172.t
+	desc = DOD_yugoslavia.172.desc
+	picture = GFX_report_event_generic_read_write
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	fire_only_once = yes
+	trigger = {
+		tag = GER
+		CRO = { exists = no } 
+		
+		YUG = {
+			
+				not = { 107 = { is_controlled_by = YUG }}
+				not = { 109 = { is_controlled_by = YUG }}
+				not = {is_subject_of = GER }
+			}
+	}
+	
+	
+	option = {
+		name = DOD_yugoslavia.172.a #Croatia
+		 ai_chance = { factor = 100 }
+		GER = { annex_country = { target = YUG transfer_troops = no } }
+			release = CRO
+			if = {
+		limit = {
+			has_dlc = "Together for Victory"
+	}
+	set_autonomy = {
+		target = CRO
+		autonomous_state = autonomy_reichsprotectorate
+				}
+	
+		else = {
+			puppet = CRO
+		
+				}
+			}
+		
+		}
+	option = {
+		name = DOD_yugoslavia.172.b #no
+		 ai_chance = { factor = 0 }
+		GER = { annex_country = { target = YUG transfer_troops = no } }
+		}
+	}
+country_event = {
+	id = DOD_yugoslavia.173
+	title = DOD_yugoslavia.173.t
+	desc = DOD_yugoslavia.173.desc
+	picture = GFX_report_event_generic_read_write
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	fire_only_once = yes
+	
+	trigger = {
+		tag = GER
+		
+		SER = { exists = no } 
+		
+		YUG = {
+			
+				not = { 107 = { is_controlled_by = YUG }}
+				not = { 109 = { is_controlled_by = YUG }}
+				not = {is_subject_of = GER }
+			}
+	}
+	
+	
+	option = {
+		name = DOD_yugoslavia.173.a #Serbia
+		 ai_chance = { factor = 100 }
+		GER = { annex_country = { target = YUG transfer_troops = no } }
+			release = SER
+			if = {
+		limit = {
+			has_dlc = "Together for Victory"
+	}
+	set_autonomy = {
+		target = SER
+		autonomous_state = autonomy_reichsprotectorate
+				}
+	
+		else = {
+			puppet = SER
+		
+				}
+			}
+		
+		}
+	option = {
+		name = DOD_yugoslavia.173.b #no
+		 ai_chance = { factor = 0 }
+		GER = { annex_country = { target = YUG transfer_troops = no } }
+		}
+	}
+country_event = {
+	id = DOD_yugoslavia.174
+	title = DOD_yugoslavia.174.t
+	desc = DOD_yugoslavia.174.desc
+	picture = GFX_report_event_generic_read_write
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	fire_only_once = yes
+	trigger = {
+		tag = ITA
+		
+		CRO = { exists = no } 
+		YUG = {
+			
+				not = { 107 = { is_controlled_by = YUG }}
+				not = { 109 = { is_controlled_by = YUG }}
+				not = {is_subject_of = ITA }
+			}
+	
+				not = { 107 = { is_controlled_by = GER }}
+				not = { 109 = { is_controlled_by = GER }}
+		
+	}
+	
+	
+	option = {
+		name = DOD_yugoslavia.174.a #Croatia
+		 ai_chance = { factor = 100 }
+		ITA = { annex_country = { target = YUG transfer_troops = no } }
+			GER = { release = CRO }
+			if = {
+		limit = {
+			has_dlc = "Together for Victory"
+	}
+	GER = {set_autonomy = {
+		target = CRO
+		autonomous_state = autonomy_reichsprotectorate
+				}}
+	
+		else = {
+			GER = {puppet = CRO}
+		
+				}
+			}
+		
+	}
+	option = {
+		name = DOD_yugoslavia.174.b #no
+		 ai_chance = { factor = 0 }
+		ITA = { annex_country = { target = YUG transfer_troops = no } }
+		}
+	}
+country_event = {
+	id = DOD_yugoslavia.175
+	title = DOD_yugoslavia.175.t
+	desc = DOD_yugoslavia.175.desc
+	picture = GFX_report_event_generic_read_write
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	fire_only_once = yes
+	
+	trigger = {
+		tag = ITA
+		
+		SER = { exists = no } 
+		
+		YUG = {
+				not = { 107 = { is_controlled_by = YUG }}
+				not = { 109 = { is_controlled_by = YUG }}
+				not = {is_subject_of = ITA }
+		}
+			not = { 107 = { is_controlled_by = GER }}
+			not = { 109 = { is_controlled_by = GER }}
+	}
+	
+	
+	option = {
+		name = DOD_yugoslavia.175.a #Serbia
+		 ai_chance = { factor = 100 }
+		ITA = { annex_country = { target = YUG transfer_troops = no } }
+			GER = { release = SER }
+			if = {
+		limit = {
+			has_dlc = "Together for Victory"
+	}
+	GER = { set_autonomy = {
+		target = SER
+		autonomous_state = autonomy_reichsprotectorate
+				}
+	}
+		else = {
+			GER = {puppet = SER }
+		
+				}
+			
+		}
+	}
+	option = {
+		name = DOD_yugoslavia.175.b #no
+		 ai_chance = { factor = 0 }
+		ITA = { annex_country = { target = YUG transfer_troops = no } }
+		}
+	}
+	country_event = {
+	id = DOD_yugoslavia.176
+	title = DOD_yugoslavia.176.t
+	desc = DOD_yugoslavia.176.desc
+	picture = GFX_report_event_generic_read_write
+	
+	fire_only_once = yes
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = DOD_yugoslavia.176.a #Serbia
+		 ai_chance = { factor = 100 }
+		GER = { annex_country = { target = YUG transfer_troops = no } }
+			release = SER
+			if = {
+		limit = {
+			has_dlc = "Together for Victory"
+	}
+	set_autonomy = {
+		target = SER
+		autonomous_state = autonomy_reichsprotectorate
+				}
+	
+		else = {
+			puppet = SER
+		
+				}
+			}
+		
+		}
+	option = {
+		name = DOD_yugoslavia.176.b #no
+		 ai_chance = { factor = 0 }
+		GER = { annex_country = { target = YUG transfer_troops = no } }
+		}
+	}
+country_event = {
+	id = DOD_yugoslavia.177
+	title = DOD_yugoslavia.177.t
+	desc = DOD_yugoslavia.177.desc
+	picture = GFX_report_event_generic_read_write
+	
+	
+	fire_only_once = yes
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = DOD_yugoslavia.177.a #Croatia
+		 ai_chance = { factor = 100 }
+		GER = { annex_country = { target = YUG transfer_troops = no } }
+			release = CRO
+			if = {
+		limit = {
+			has_dlc = "Together for Victory"
+	}
+	set_autonomy = {
+		target = CRO
+		autonomous_state = autonomy_reichsprotectorate
+				}
+	
+		else = {
+			puppet = CRO
+		
+				}
+			}
+		
+		}
+	option = {
+		name = DOD_yugoslavia.177.b #no
+		 ai_chance = { factor = 0 }
+		GER = { annex_country = { target = YUG transfer_troops = no } }
+		}
+	}
