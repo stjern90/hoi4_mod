@@ -1,0 +1,78 @@
+﻿add_namespace = EAI_DM
+
+country_event = { #immediate call to arms for AI on war declarations, otherwise the AI fronts get messed up
+	id = EAI_DM.5
+	is_triggered_only = yes
+	hidden = yes
+	immediate = {
+		every_enemy_country = {
+			limit = { any_country = { is_ai = yes is_in_faction_with = ROOT NOT = { has_war_with = PREV } } }
+			every_country = {
+				limit = { is_ai = yes is_in_faction_with = ROOT NOT = { has_war_with = PREV tag = JAP } }
+				add_to_war = {
+					targeted_alliance = ROOT
+					enemy = PREV
+				}
+			}
+		}
+		if = {
+			limit = {
+				GER = { is_ai = no }
+				ENG = { is_ai = yes }
+				POL = { 
+					is_ai = yes
+					has_war_with = GER
+					NOT = { has_country_flag = allies }
+					OR = {
+						is_in_faction = no
+						is_in_faction_with = LIT
+					}
+				}
+				is_historical_focus_on = yes
+			}
+			ENG = { add_to_faction = POL } 
+			ENG = { add_to_war = { targeted_alliance = POL enemy = GER } }
+			POL = { set_country_flag = allies }
+		}
+		if = {
+			limit = {
+				GER = { is_ai = no }
+				ENG = { is_ai = yes }
+				DEN = { 
+					is_ai = yes
+					has_war_with = GER
+					NOT = { has_country_flag = allies }
+					is_in_faction = no
+					
+				}
+				is_historical_focus_on = yes
+			}
+			ENG = { add_to_faction = DEN } 
+			ENG = { add_to_war = { targeted_alliance = DEN enemy = GER } }
+			DEN = { set_country_flag = allies }
+		}
+		if = {
+			limit = {
+				GER = { is_ai = no }
+				ENG = { is_ai = yes }
+				LUX = { 
+					is_ai = yes
+					has_war_with = GER
+					NOT = { has_country_flag = allies }
+					is_in_faction = no
+				}
+				is_historical_focus_on = yes
+			}
+			ENG = { add_to_faction = POL } 
+			ENG = { add_to_war = { targeted_alliance = LUX enemy = GER } }
+			LUX = { set_country_flag = allies }
+		}
+	}
+
+	option = {}
+}
+
+
+
+
+
