@@ -348,9 +348,9 @@ NMilitary = {
 	BASE_DIVISION_BRIGADE_CHANGE_COST = 4,	--Base cost to change a regiment column.
 	BASE_DIVISION_SUPPORT_SLOT_COST = 6, 	--Base cost to unlock a support slot
 	
-	MAX_ARMY_EXPERIENCE = 500,			--Max army experience a country can store
-	MAX_NAVY_EXPERIENCE = 500,			--Max navy experience a country can store
-	MAX_AIR_EXPERIENCE = 500,			--Max air experience a country can store
+	MAX_ARMY_EXPERIENCE = 750,			--Max army experience a country can store
+	MAX_NAVY_EXPERIENCE = 750,			--Max navy experience a country can store
+	MAX_AIR_EXPERIENCE = 750,			--Max air experience a country can store
 	
 	COMBAT_MINIMUM_TIME = 8,			-- Shortest time possible for a combat in hours
 	SPOTTING_QUALITY_DROP_HOURS = 4, 	-- Each X hours the intel quality drops after unit was spotted.
