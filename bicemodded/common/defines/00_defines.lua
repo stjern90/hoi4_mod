@@ -543,7 +543,7 @@ NMilitary = {
 	STRATEGIC_REDEPLOY_ORG_RATIO = 0.25,				-- Ratio of max org while strategic redeployment
 	BATALION_NOT_CHANGED_EXPERIENCE_DROP = 0.0,		-- Division experience drop if unit has same batalion
 	BATALION_CHANGED_EXPERIENCE_DROP = 0.6,			-- Division experience drop if unit has different batalion
-	ARMOR_VS_AVERAGE = 0.52,			                -- how to weight in highest armor & pen vs the division average
+	ARMOR_VS_AVERAGE = 0.56,			                -- how to weight in highest armor & pen vs the division average
 	PEN_VS_AVERAGE = 0.50,
 
 	DECRYPTION_ADVANTAGE_BONUS = 0.04,				-- How much unit base damage and base defense is increased per decryption level compared to enemies average encryption level (ex: dec. level is 5 and enemy average enc. level is 3 then 5-3 = 2 which gives 10 % increase)
