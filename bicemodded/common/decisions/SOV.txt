@@ -1418,3 +1418,216 @@ political_actions = {
 	}	
 
 }
+
+SOV_global_revolution = {
+
+	SOV_guns_for_china = {
+
+		icon = generic_prepare_civil_war
+
+		allowed = {
+			original_tag = SOV
+		}
+
+		available = {
+			has_equipment = { infantry_equipment > 999 }
+			PRC = {
+				has_war_with = JAP
+			}
+		}
+
+		visible = {
+			PRC = {
+				has_war_with = JAP
+			}
+		}
+
+		cost = 25
+		ai_will_do = {
+			factor = 25
+
+			modifier = {
+				factor = 0.5
+				has_war_support < 0.6
+			}
+
+			modifier = {
+				factor = 2
+				has_war_with = JAP
+			}
+		}
+
+		fire_only_once = no	
+
+		days_re_enable = 180
+
+		complete_effect = {
+			ROOT = {
+				send_equipment = {
+					target = PRC
+					type = infantry_equipment
+					amount = 1000
+					old_prioritised = yes
+				}
+			}
+		}
+	}
+
+	SOV_support_china_with_factories = {
+
+		icon = generic_industry
+
+		allowed = {
+			original_tag = SOV
+		}
+
+		available = {
+			any_other_country = {
+				PRC = { 
+					has_war_with = JAP
+				}
+			}
+		}
+
+		visible = {
+			any_other_country = {
+				PRC = { 
+					has_war_with = JAP
+				}
+			}
+		}
+
+		cost = 25
+		ai_will_do = {
+			factor = 50
+
+			modifier = {
+				factor = 0.5
+				has_war_support > 0.6
+			}
+
+			modifier = {
+				factor = 2
+				has_war_with = JAP
+			}
+		}
+
+		fire_only_once = no
+
+		modifier = {
+			civilian_factory_use = 5			
+		}
+
+		days_remove = 180
+
+		complete_effect = {
+			random_country = {
+				limit = {
+					Tag = PRC
+				}
+				add_offsite_building = { type = arms_factory level = 3 }
+				set_country_flag = SOV_support_china_with_factories
+			}
+		}
+
+		remove_effect = {
+			add_war_support = 0.05
+				PRC = {
+					if = {
+						limit = {
+							NOT = { any_other_country = { has_country_flag = SOV_support_china_with_factories } }
+						}
+						else = { has_country_flag = SOV_support_china_with_factories }
+					}
+				}
+				add_offsite_building = { type = arms_factory level = -3 }
+			
+		}
+	
+	SOV_guns_for_Spain = {
+
+		icon = generic_prepare_civil_war
+
+		allowed = {
+			original_tag = SOV
+		}
+
+		available = {
+			has_equipment = { infantry_equipment > 1999 }
+			SPR = { has_civil_war = yes }
+		}
+
+		visible = {
+			SPR = { has_civil_war = yes }
+		}
+
+		cost = 5
+
+		fire_only_once = no	
+
+		days_re_enable = 180
+
+		complete_effect = {		
+					send_equipment = {
+						target = random_country = {
+						limit = { original_tag = SPR has_government = communism }
+						}
+					type = infantry_equipment
+					amount = 2000
+					old_prioritised = yes
+					}
+		}
+	}
+
+	SOV_support_spain_with_factories = {
+
+		icon = generic_industry
+
+		allowed = {
+			original_tag = SOV
+		}
+
+		available = {
+			SPR = { has_civil_war = yes }
+			has_completed_focus = SOV_support_spain
+			
+		}
+
+		visible = {
+			SPR = { has_civil_war = yes }
+		}
+
+		cost = 5
+
+		fire_only_once = no
+
+		modifier = {
+			civilian_factory_use = 4			
+		}
+
+		days_remove = 180
+
+		complete_effect = {
+			random_country = {
+				limit = {
+					limit = { original_tag = SPR has_government = communism }
+				}
+				add_offsite_building = { type = arms_factory level = 5 }
+				set_country_flag = SOV_support_spain_with_factories
+			}
+		}
+
+		remove_effect = {
+			add_war_support = 0.05
+				PRC = {
+					if = {
+						limit = {
+							NOT = { any_other_country = { has_country_flag = SOV_support_spain_with_factories } }
+						}
+						else = { has_country_flag = SOV_support_spain_with_factories }
+					}
+				}
+				add_offsite_building = { type = arms_factory level = -5 }
+		}
+	}
+}
