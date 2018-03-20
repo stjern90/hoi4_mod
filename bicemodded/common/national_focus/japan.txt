@@ -12,7 +12,7 @@ focus_tree = {
 	continuous_focus_position = { x = 50 y = 1250 }
 	focus = {
 		id = test_the_ussr_focus
-		x = 15
+		x = 18
 		y = 0
 		cost = 4
 		icon = GFX_goal_generic_construction2
@@ -39,7 +39,7 @@ focus_tree = {
 		icon = GFX_goal_generic_occupy_states_ongoing_war
 		prerequisite = { focus = test_the_ussr_focus }
 		will_lead_to_war_with = CHI
-		x = 15
+		x = 18
 		y = 2
 		cost = 10
 
@@ -143,7 +143,7 @@ focus_tree = {
 		id = JAP_secure_china
 		icon = GFX_goal_generic_demand_territory
 		prerequisite = { focus = JAP_intervene_in_china }
-		x = 15
+		x = 18
 		y = 3
 
 		cost = 10
@@ -160,7 +160,6 @@ focus_tree = {
 			CHI = {
 				surrender_progress > 0.3
 			}
-			has_war_with = USA
 		}
 
 		bypass = {
@@ -185,10 +184,44 @@ focus_tree = {
 			unlock_decision_tooltip = JAP_ichi_go
 		}
 	}
+
+	focus = {
+		id = oust_germans_focus
+		icon = GFX_goal_generic_propaganda_axis
+		prerequisite = { focus = JAP_secure_china }
+		x = 18
+		y = 4
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 10
+		}	
+		
+		bypass = {
+			OR = {
+				NOT = { country_exists = CHI }
+				CHI = { is_puppet_of = ROOT }
+			}
+		}
+		
+		completion_reward = {
+			GER = {
+				country_event = germany.24
+				custom_effect_tooltip = needs_approval
+				effect_tooltip = {
+					CHI = { 
+						remove_ideas = german_advisors
+						show_ideas_tooltip = german_advisors
+					}
+				}
+			}
+		}
+	}
 	
 	focus = { 
 		id = defence_of_korea
-		x = 16
+		x = 18
 		y = 5
 		prerequisite = { focus = oust_germans_focus }
 		cost = 3
@@ -247,39 +280,6 @@ focus_tree = {
 					level = 3
 					province = 6928
 					instant_build = yes
-				}
-			}
-		}
-	}
-	
-	focus = {
-		id = oust_germans_focus
-		prerequisite = { JAP_secure_china }
-		bypass = { NOT = { country_exists = CHI } }
-		x = 16
-		y = 4
-		cost = 5
-		icon = GFX_goal_generic_propaganda_axis
-		ai_will_do = {
-			factor = 10
-		}	
-		
-		bypass = {
-			OR = {
-				NOT = { country_exists = CHI }
-				CHI = { is_puppet_of = ROOT }
-			}
-		}
-		
-		completion_reward = {
-			GER = {
-				country_event = germany.24
-				custom_effect_tooltip = needs_approval
-				effect_tooltip = {
-					CHI = { 
-						remove_ideas = german_advisors
-						show_ideas_tooltip = german_advisors
-					}
 				}
 			}
 		}
@@ -705,11 +705,150 @@ focus_tree = {
 			}
 		}
 	}
-		
+
+	focus = {
+		id = JAP_challenge_the_zaibatsus
+		mutually_exclusive = { focus = JAP_guide_the_zaibatsus }
+		icon = GFX_focus_jap_zaibatsu
+		x = 25
+		y = 0
+		relative_position_id = JAP_support_the_kodoha_faction
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		available = {
+			has_idea = JAP_kodoha_idea 
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		complete_tooltip = {
+			random_state = {
+				limit = {
+					has_state_flag = JAP_zaibatsus_factories
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+			swap_ideas = {
+				remove_idea = JAP_zaibatsus
+				add_idea = JAP_nationalize_the_zaibatsus			
+			}
+		}
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					ROOT = { has_full_control_of_state = PREV }
+					is_core_of = ROOT
+					free_building_slots = {
+						building = industrial_complex
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+				set_state_flag = JAP_zaibatsus_factories
+			}
+			swap_ideas = {
+				remove_idea = JAP_zaibatsus
+				add_idea = JAP_nationalize_the_zaibatsus
+			}
+		}
+	}
+
+	focus = {
+		id = JAP_guide_the_zaibatsus
+		mutually_exclusive = { focus = JAP_challenge_the_zaibatsus }
+		icon = GFX_focus_jap_zaibatsu
+		x = 23
+		y = 0
+		relative_position_id = JAP_purge_the_kodoha_faction
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		available = {
+			has_idea = JAP_toseiha_idea 
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		complete_tooltip = {
+			random_state = {
+				limit = {
+					has_state_flag = JAP_zaibatsus_factories
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+			swap_ideas = {
+				remove_idea = JAP_zaibatsus
+				add_idea = JAP_guide_the_zaibatsus				
+			}
+		}
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					ROOT = { has_full_control_of_state = PREV }
+					is_core_of = ROOT
+					free_building_slots = {
+						building = industrial_complex
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+				set_state_flag = JAP_zaibatsus_factories
+			}
+			swap_ideas = {
+				remove_idea = JAP_zaibatsus
+				add_idea = JAP_guide_the_zaibatsus
+			}
+		}
+	}
+	
 	focus = {
 		id = JAP_Zaibatsu
-		x = 20
-		y = 0
+		prerequisite = { focus = JAP_challenge_the_zaibatsus focus = JAP_guide_the_zaibatsus }
+		x = 24
+		y = 1
 		icon = GFX_goal_generic_production
 		cost = 6
 		ai_will_do = {
@@ -745,8 +884,8 @@ focus_tree = {
 	
 	focus = {
 		id = JAP_Mitsui
-		x = 19
-		y = 1
+		x = 23
+		y = 2
 		icon = GFX_goal_generic_construct_mil_factory
 		prerequisite = { focus = JAP_Zaibatsu }
 		cost = 6
@@ -776,8 +915,8 @@ focus_tree = {
 	
 	focus = {
 		id = JAP_Mitsubishi
-		x = 21
-		y = 1
+		x = 25
+		y = 2
 		icon = GFX_goal_generic_construct_civ_factory
 		prerequisite = { focus = JAP_Zaibatsu }
 		cost = 6
@@ -1095,8 +1234,8 @@ focus_tree = {
 		icon = GFX_focus_research
 		prerequisite = { focus = JAP_Mitsui }
 		prerequisite = { focus = JAP_Mitsubishi }
-		x = 20
-		y = 2
+		x = 24
+		y = 4
 		cost = 10
 		ai_will_do = {
 			factor = 4
@@ -1117,8 +1256,8 @@ focus_tree = {
 		id = JAP_Slot_1
 		icon = GFX_goal_generic_scientific_exchange
 		prerequisite = { focus = JAP_Research }
-		x = 20
-		y = 3
+		x = 24
+		y = 5
 		cost = 12
 		ai_will_do = {
 			factor = 6
@@ -1200,43 +1339,6 @@ focus_tree = {
 	}
 	
 	focus = {
-		id = advanced_torpedoes_focus
-		icon = GFX_goal_generic_occupy_start_war
-		prerequisite = { focus = JAP_Mitsubishi }
-		x = 23
-		y = 2
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}	
-		completion_reward = {
-			navy_experience = 25
-			add_ideas = the_long_lance
-		}
-	}
-	
-	focus = {
-		id = shbb_focus
-		icon = GFX_goal_generic_battleship
-		prerequisite = { focus = advanced_torpedoes_focus }
-		x = 23
-		y = 4
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}	
-		completion_reward = {
-			navy_experience = 25
-			add_tech_bonus = {
-				name = bb_bonus
-				bonus = 0.25
-				uses = 1
-				category = bb_tech
-			}
-		}
-	}
-	
-	focus = {
 		id = carrier_focus
 		icon = GFX_goal_generic_navy_carrier
 		mutually_exclusive = { focus = battleship_focus }
@@ -1279,72 +1381,6 @@ focus_tree = {
 				bonus = 0.250
 				uses = 1
 				category = bc_tech
-			}
-		}
-	}
-	
-	focus = {
-		id = southern_expansion_focus
-		icon = GFX_focus_generic_strike_at_democracy2
-		prerequisite = { focus = JAP_Southern }	
-		bypass = {
-			NOT = {
-				country_exists = ENG
-				country_exists = HOL
-			}
-		}
-		will_lead_to_war_with = ENG 
-		will_lead_to_war_with = HOL
-		x = 7
-		y = 3
-		cost = 10
-		ai_will_do = {
-			factor = 10
-			modifier = {
-				factor = 0
-				NOT = { ENG = { has_war_with = GER } }
-			}
-			modifier = {
-				factor = 0
-				NOT = { SOV = { has_war_with = GER } }
-			}
-			modifier = {
-				factor = 0
-				OR = {
-					any_other_country = {
-						has_war_with = ROOT
-						is_major = yes
-					}
-					has_war_with_amount > 1
-				}
-			}			
-		}
-		completion_reward = {
-			add_ideas = JAP_Kaigun_shinko_doctrine
-			create_wargoal = {
-				type = annex_everything
-				target = MAL
-				#generator = { 336 333 }
-			}
-			create_wargoal = {
-				type = annex_everything
-				target = INS
-				#generator = { 334 672} 
-			}
-			create_wargoal = {
-				type = annex_everything
-				target = PHL
-				#generator = { 334 672} 
-			}
-			hidden_effect = {
-				news_event = { hours = 6 id = news.208 }
-			}
-		}
-		select_effect = {
-			diplomatic_relation = {
-				country = SOV
-				relation = non_aggression_pact
-				active = yes
 			}
 		}
 	}
@@ -1538,7 +1574,7 @@ focus_tree = {
 	focus = {
 		id = spiritual_mobilization_focus
 		icon = GFX_goal_generic_propaganda
-		x = 28
+		x = 32
 		y = 0
 		cost = 5
 		ai_will_do = {
@@ -1554,7 +1590,7 @@ focus_tree = {
 		id = warrior_traditions_focus
 		icon = GFX_goal_generic_warrior_traditions
 		prerequisite = { focus = spiritual_mobilization_focus }
-		x = 30
+		x = 36
 		y = 1
 		cost = 5
 		ai_will_do = {
@@ -1570,7 +1606,7 @@ focus_tree = {
 		id = divine_wind_focus
 		icon = GFX_goal_generic_divine_wind
 		prerequisite = { focus = warrior_traditions_focus } 
-		x = 30
+		x = 36
 		y = 3
 		cost = 10
 		ai_will_do = {
@@ -1603,7 +1639,7 @@ focus_tree = {
 		icon = GFX_focus_generic_japanese_imperial_glory
 		prerequisite = { focus = divine_wind_focus }
 		prerequisite = { focus = secret_weapon_focus}
-		x = 30
+		x = 36
 		y = 5
 		cost = 10
 		ai_will_do = {
@@ -1621,7 +1657,7 @@ focus_tree = {
 		id = student_movement_focus
 		icon = GFX_goal_japanese_imperialism
 		prerequisite = { focus = spiritual_mobilization_focus }
-		x = 28
+		x = 34
 		y = 1
 		cost = 5
 		ai_will_do = {
@@ -1636,7 +1672,7 @@ focus_tree = {
 		text = extra_tech_slot
 		prerequisite = { focus = student_movement_focus }
 		#available = { }
-		x = 28
+		x = 34
 		y = 2
 		cost = 10
 		icon = GFX_focus_research
@@ -1657,7 +1693,7 @@ focus_tree = {
 		id = synth_oil_focus
 		prerequisite = { focus = extra_tech_focus }
 		prerequisite = { focus = industrial_effort_focus2 }
-		x = 28
+		x = 34
 		y = 3
 		cost = 10
 		icon = GFX_goal_generic_japan_oil
@@ -1679,7 +1715,7 @@ focus_tree = {
 		id = secret_weapon_focus
 		icon = GFX_focus_rocketry
 		prerequisite = { focus = synth_oil_focus }
-		x = 28
+		x = 34
 		y = 4
 		cost = 6
 		ai_will_do = {
@@ -1708,10 +1744,26 @@ focus_tree = {
 	}
 
 	focus = {
+		id = advanced_torpedoes_focus
+		icon = GFX_goal_generic_occupy_start_war
+		prerequisite = { focus = secret_weapon_focus }
+		x = 34
+		y = 5
+		cost = 10
+		ai_will_do = {
+			factor = 1
+		}	
+		completion_reward = {
+			navy_experience = 25
+			add_ideas = the_long_lance
+		}
+	}
+		
+	focus = {
 		id = industrial_effort_focus
 		icon = GFX_goal_JAP_yen
 		prerequisite = { focus = spiritual_mobilization_focus }
-		x = 26
+		x = 32
 		y = 1
 		cost = 10
 		ai_will_do = {
@@ -1726,7 +1778,7 @@ focus_tree = {
 		id = industrial_effort_focus2
 		icon = GFX_goal_generic_construct_civilian
 		prerequisite = { focus = industrial_effort_focus }
-		x = 26
+		x = 32
 		y = 2
 		cost = 11
 		ai_will_do = {
@@ -1827,7 +1879,7 @@ focus_tree = {
 		id = JAP_industrial_research_focus
 		icon = GFX_goal_generic_production2
 		prerequisite = { focus = industrial_effort_focus2 }
-		x = 26
+		x = 32
 		y = 3
 		cost = 10
 		ai_will_do = {
@@ -1845,7 +1897,7 @@ focus_tree = {
 	focus = {
 		id = fortress_japan_focus
 		prerequisite = { focus = industrial_effort_focus2 }
-		x = 24
+		x = 30
 		y = 3
 		cost = 10
 		icon = GFX_focus_generic_coastal_fort
@@ -1931,9 +1983,10 @@ focus_tree = {
 	focus = {
 		id = JAP_Arty
 		prerequisite = { focus = JAP_Mitsui }
+		prerequisite = { focus = JAP_intervene_in_china }
 		icon = GFX_goal_generic_army_artillery
-		x = 18
-		y = 2
+		x = 21
+		y = 3
 		cost = 10
 		ai_will_do = {
 			factor = 2
@@ -1952,8 +2005,8 @@ focus_tree = {
 		id = JAP_Tanks
 		prerequisite = { focus = JAP_Arty }
 		icon = GFX_goal_generic_army_tanks
-		x = 18
-		y = 3
+		x = 21
+		y = 4
 		cost = 10
 		ai_will_do = {
 			factor = 2
@@ -1975,8 +2028,8 @@ focus_tree = {
 		id = JAP_Air
 		prerequisite = { focus = JAP_Tanks }
 		icon = GFX_goal_generic_build_airforce
-		x = 18
-		y = 4
+		x = 21
+		y = 5
 		cost = 10
 		ai_will_do = {
 			factor = 2
@@ -2112,7 +2165,120 @@ focus_tree = {
 			}
 		}
 	}
-	
+
+	focus = {
+		id = JAP_strike_on_the_southern_resource_area
+		icon = GFX_focus_jap_strike_south
+		prerequisite = { focus = siamese_puppet_focus focus = befriend_siam_focus }
+		x = 10
+		y = 7
+
+		cost = 4
+
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				factor = 0
+				date < 1940.1.1
+			}
+			modifier = {
+				factor = 0
+				ENG = { has_war = no }
+				HOL = { has_war = no }
+			}
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+			OR = {			
+				has_wargoal_against = INS
+				has_war_with = INS
+			}
+			OR = {
+				has_wargoal_against = MAL
+				has_war_with = MAL
+			}
+			OR = {
+				AND = {
+					671 = {
+						NOT = { is_controlled_by = FRA }
+					}
+					670 = {
+						NOT = { is_controlled_by = FRA }
+					}
+					286 = {
+						NOT = { is_controlled_by = FRA }
+					}
+					741 = {
+						NOT = { is_controlled_by = FRA }
+					}
+				}
+				has_wargoal_against = FRA
+				has_war_with = FRA
+			}
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		complete_tooltip = {
+
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					NOT = { has_wargoal_against = INS }
+					NOT = { has_war_with = INS }
+				}
+				create_wargoal = {
+					target = INS
+					type = annex_everything
+				}
+			}
+			if = {
+				limit = {
+					NOT = { has_wargoal_against = MAL }
+					NOT = { has_war_with = MAL }
+				}
+				create_wargoal = {
+					target = MAL
+					type = annex_everything
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						671 = {
+							is_controlled_by = FRA
+						}
+						670 = {
+							is_controlled_by = FRA
+						}
+						286 = {
+							is_controlled_by = FRA
+						}
+						741 = {
+							is_controlled_by = FRA
+						}
+					}
+					NOT = { has_wargoal_against = FRA }
+					NOT = { has_war_with = FRA }
+				}
+				#Might be generating on states FRA does not own, but not worth the time to get it exact. Should have no gameplay impact.
+				create_wargoal = {
+					target = FRA
+					type = take_state_focus
+					generator = { 671 670 286 741 }
+				}
+			}
+		}
+	}
+
 	focus = {
 		id = found_own_faction_focus
 		available = {
