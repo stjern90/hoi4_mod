@@ -35,225 +35,161 @@ focus_tree = {
 	}
 	
 	focus = {
-		id = test_the_chinese_focus
-		icon = GFX_goal_JAP_kohoda
-		available = { is_puppet = no }
+		id = JAP_intervene_in_china
+		icon = GFX_goal_generic_occupy_states_ongoing_war
 		prerequisite = { focus = test_the_ussr_focus }
-				bypass = {
-			OR = {
-				NOT = { country_exists = CHI }
-				has_global_flag = KMT_pro_japanese
-			}
-		}
-		x = 15
-		y = 1
-		cost = 5
 		will_lead_to_war_with = CHI
-		ai_will_do = {
-			factor = 12
-			modifier = {
-				factor = 0
-				date < 1937.1.1
-			}
-		}	
-		completion_reward = {
-			CHI = {
-				country_event = china.1
-			}
-			add_named_threat = { threat = 1 name = test_the_chinese_focus }
-		}
-	}
-	
-	focus = {
-		id = chinese_puppet_focus
-		icon = GFX_goal_generic_military_deal
-		prerequisite = { focus = test_the_chinese_focus }
-		mutually_exclusive = { focus = chinese_war_focus }
-		available = {
-			is_puppet = no
+		x = 15
+		y = 2
+		cost = 10
+
+		available = { 
+			is_puppet = no 
 			NOT = { has_war_with = CHI }
 		}
 		bypass = {
 			OR = {
-				CHI = { is_puppet_of = JAP }
-				has_global_flag = KMT_pro_japanese
-			}
-		}
-		x = 14
-		y = 2
-		cost = 2
-		ai_will_do = {
-			factor = 2.5
-			modifier = {
-				factor = 100
-				has_idea = JAP_kodoha_idea
-			}	
-		}	
-		completion_reward = {
-			CHI = {
-				country_event = japan.16
-			}
-		}
-	}
-	focus = {
-		id = chinese_war_focus
-		icon = GFX_goal_generic_major_war
-		prerequisite = { focus = test_the_chinese_focus }
-		mutually_exclusive = { focus = chinese_puppet_focus }
-		available = {
-			NOT = { CHI = { is_puppet_of = JAP } }
-		}
-		bypass = {
-			OR = {
+				AND = {
+					608 = {
+						NOT = {
+							is_controlled_by = CHI
+							is_controlled_by = PRC
+							is_controlled_by = SHX
+						}
+					}
+					597 = {
+						NOT = {
+							is_controlled_by = CHI
+							is_controlled_by = PRC
+							is_controlled_by = SHX
+						}
+					}
+					614 = {
+						NOT = {
+							is_controlled_by = CHI
+							is_controlled_by = PRC
+							is_controlled_by = SHX
+						}
+					}
+				}
 				has_war_with = CHI
-				NOT = { country_exists = CHI }
 			}
 		}
+
 		will_lead_to_war_with = CHI
-		will_lead_to_war_with = PRC
-		will_lead_to_war_with = SHX
-		x = 16
-		y = 2
-		cost = 2
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
 		ai_will_do = {
 			factor = 10
 			modifier = {
 				factor = 0
-				OR = {
-					any_other_country = {
-						has_war_with = ROOT
-						is_major = yes
-					}
-					#has_war_with_amount > 2
-				}
+				date < 1937.1.1
 			}
-			modifier = {
-				factor = 0
-				has_idea = JAP_kodoha_idea
-			}			
-		}	
+		}
+
 		completion_reward = {
 			if = {
 				limit = {
-					is_ai = yes
-				}
-				declare_war_on = {
-					type = take_state_focus
-					target = CHI
-					generator = owned_states
-				}
-				declare_war_on = {
-					type = annex_everything
-					target = SHX
-				}
-				else = {
-					create_wargoal = {
-						type = take_state_focus
-						target = CHI
-						generator = owned_states
-					}
-					create_wargoal = {
-						type = annex_everything
-						target = SHX
+					CHI = { #if CHI owns one of these states, they get the event
+						OR = {
+							controls_state = 608
+							controls_state = 597
+							controls_state = 614
+						}
 					}
 				}
+				CHI = {
+					country_event = china.1
+				}
 			}
-			hidden_effect ={
-				news_event = { hours = 6 id = news.231 }
+			if = {
+				limit = {
+					PRC = { #only fires the event for PRC if they control ALL of the states (to ensure that only one of them gets it, to avoid issues when one selects to turn over the states and the other doesn't)
+						AND = {
+							controls_state = 608
+							controls_state = 597
+							controls_state = 614
+						}
+					}
+				}
+				PRC = {
+					country_event = china.1
+				}
 			}
+			if = {
+				limit = {
+					SHX = { #only fires the event for SHX if they control ALL of the states (to ensure that only one of them gets it, to avoid issues when one selects to turn over the states and the other doesn't)
+						AND = {
+							controls_state = 608
+							controls_state = 597
+							controls_state = 614
+						}
+					}
+				}
+				SHX = {
+					country_event = china.1
+				}
+			}
+			add_named_threat = { threat = 1 name = JAP_intervene_in_china }
+			add_ideas = JAP_intervene_in_china_5
+			unlock_decision_tooltip = JAP_china_step_up_war_effort
 		}
 	}
+	
 	focus = {
-		id = subdue_warlords_focus
-		prerequisite = { 
-				focus = chinese_puppet_focus 
-				focus = chinese_war_focus 
-		}
-		available = {
-			NOT = { has_war_with = CHI }
-			OR = {
-				CHI = { exists = no }
-				CHI = { is_puppet_of = JAP }
-				CHI = { is_in_faction_with = JAP }
-			}
-			OR = {
-				country_exists = PRC
-				country_exists = SHX
-				country_exists = GXC
-				country_exists = XSM
-				country_exists = YUN
-			}
-		}
-		will_lead_to_war_with = PRC
-		will_lead_to_war_with = SHX
-		will_lead_to_war_with = GXC
-		will_lead_to_war_with = XSM
-		will_lead_to_war_with = YUN
-		x = 14
+		id = JAP_secure_china
+		icon = GFX_goal_generic_demand_territory
+		prerequisite = { focus = JAP_intervene_in_china }
+		x = 15
 		y = 3
+
 		cost = 10
-		icon = GFX_goal_JAP_toseiha
+
 		ai_will_do = {
-			factor = 1
+			factor = 3
 			modifier = {
 				factor = 0
-				OR = {
-					any_other_country = {
-						has_war_with = ROOT
-						is_major = yes
-					}
-					#has_war_with_amount > 2
-				}
-			}			
-		}	
+				threat < 0.9
+			}
+		}
+
+		available = {
+			CHI = {
+				surrender_progress > 0.3
+			}
+			has_war_with = USA
+		}
+
+		bypass = {
+			OR = {
+				NOT = { JAP_has_idea_JAP_intervene_in_china = yes }
+				CHI = { has_capitulated = yes }
+			}
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		complete_tooltip = {
+
+		}
+
 		completion_reward = {
-			if = {
-				limit = { country_exists = PRC }
-				create_wargoal = {
-					type = take_state_focus
-					target = PRC
-					generator = owned_states
-				}
-			}
-			if = {
-				limit = { country_exists = SHX }
-				create_wargoal = {
-					type = take_state_focus
-					target = SHX
-					generator = owned_states
-				}
-			}
-			if = {
-				limit = { country_exists = GXC }
-				create_wargoal = {
-					type = take_state_focus
-					target = GXC
-					generator = owned_states
-				}
-			}
-			if = {
-				limit = { country_exists = XSM }
-				create_wargoal = {
-					type = take_state_focus
-					target = XSM
-					generator = owned_states
-				}
-			}
-			if = {
-				limit = { country_exists = YUN }
-				create_wargoal = {
-					type = take_state_focus
-					target = YUN
-					generator = owned_states
-				}
-			}
+			JAP_intervene_in_china_remove = yes
+			add_named_threat = { threat = 15 name = JAP_secure_china }		
+			USA = { add_war_support = 0.05 }	
+			unlock_decision_tooltip = JAP_ichi_go
 		}
 	}
 	
 	focus = { 
 		id = defence_of_korea
 		x = 16
-		y = 4
+		y = 5
 		prerequisite = { focus = oust_germans_focus }
 		cost = 3
 		icon = GFX_human_tsunami
@@ -318,10 +254,10 @@ focus_tree = {
 	
 	focus = {
 		id = oust_germans_focus
-		prerequisite = { focus = chinese_puppet_focus focus = chinese_war_focus }
+		prerequisite = { JAP_secure_china }
 		bypass = { NOT = { country_exists = CHI } }
 		x = 16
-		y = 3
+		y = 4
 		cost = 5
 		icon = GFX_goal_generic_propaganda_axis
 		ai_will_do = {
