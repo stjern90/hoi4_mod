@@ -1,7 +1,8 @@
 ﻿capital = 613 # Nanjing
 
 oob = "CHI_1936"
-
+set_stability = 0.2
+set_war_support = 0.5
 # Starting tech
 set_technology = {
 	##################### infantry ###############
@@ -60,48 +61,108 @@ set_technology = {
 	uniform_industry0 = 1
 }
 
-
 add_ideas = {
 	german_advisors
-	CHI_communist_uprisings
-	KMT_warlord_cliques_pre_war
-	KMT_weak_army
-	public_iliteracy
-	incompetent_industry_real
-	incompetent_industry_fake_navy
-	falkenhausen
-	civilian_economy
+}
+
+if = {
+	limit = {
+		NOT = {
+			has_dlc = "Waking the Tiger"
+		}
+	}
+	add_ideas = {
+		CHI_communist_uprisings
+	}
+}
+
+
+if = {
+	limit = {
+		has_dlc = "Waking the Tiger"
+	}		
+	add_ideas = {
+		CHI_nine_power_treaty
+		CHI_army_corruption_1
+		CHI_ineffective_bureaucracy
+		CHI_incompetent_officers
+		free_trade
+		CHI_hyper_inflation_1
+	}
 }
 save_global_event_target_as = WTT_current_china_leader
 
-set_research_slots = 5
-set_convoys = 110
-set_stability = 0.65
-set_war_support = 0.5
+set_convoys = 40
 
 1939.1.1 = {
 
 	add_political_power = 1198
+	set_stability = 0.5
+	set_war_support = 0.7
 	
-	#generic focuses
-	complete_national_focus = army_effort
-	complete_national_focus = equipment_effort
-	complete_national_focus = motorization_effort
-	complete_national_focus = aviation_effort
-	complete_national_focus = naval_effort
-	complete_national_focus = flexible_navy
-	complete_national_focus = industrial_effort
-	complete_national_focus = construction_effort
-	complete_national_focus = production_effort
+	if = {
+		limit = { has_dlc = "Waking the Tiger" }
+		complete_national_focus = CHI_unified_industrial_planning
+		complete_national_focus = CHI_mission_to_germany
+		complete_national_focus = CHI_rural_reconstruction_movement
+		complete_national_focus = CHI_british_cooperation
+		unlock_national_focus = CHI_fighter_purchases
+		complete_national_focus = CHI_mission_to_the_us
+		complete_national_focus = CHI_mission_to_the_soviet_union
+		complete_national_focus = CHI_hire_chennault
+		complete_national_focus = CHI_rapprochement_with_soviet_union
+		complete_national_focus = CHI_invite_soviet_advisers
+		complete_national_focus = CHI_military_affairs_commission
+		complete_national_focus = CHI_burma_road
+		unlock_national_focus = CHI_the_soviet_volunteer_group
+		complete_national_focus = CHI_bureau_of_investigation_and_statistics
+		complete_national_focus = CHI_camco
+		complete_national_focus = CHI_three_principles_of_the_people
+		complete_national_focus = CHI_army_reform
+		complete_national_focus = CHI_nationalism
+		else = {
+			#generic focuses
+			complete_national_focus = army_effort
+			complete_national_focus = equipment_effort
+			complete_national_focus = motorization_effort
+			complete_national_focus = aviation_effort
+			complete_national_focus = naval_effort
+			complete_national_focus = flexible_navy
+			complete_national_focus = industrial_effort
+			complete_national_focus = construction_effort
+			complete_national_focus = production_effort
+		}
+	}
 
 	add_ideas = {
 		#laws
-		tot_economic_mobilisation
+		war_economy
 		service_by_requirement
 		closed_economy
 
 		#ministers
-		
+		CHI_bo_yibo
+		CHI_xiao_yisu
+		CHI_chen_shaokuan
+		jiangnan_shipyard_group
+		camco
+
+	}
+	if = {
+		limit = {
+			has_dlc = "Waking the Tiger"
+		}
+		remove_ideas = CHI_army_corruption_1
+		add_ideas = {
+			#national spirits
+			CHI_hyper_inflation_1
+			CHI_nine_power_treaty
+			CHI_army_corruption_2
+			CHI_ineffective_bureaucracy
+			CHI_incompetent_officers
+			free_trade
+			CHI_military_affairs_commission
+		}
 	}
 	
 	set_global_flag = fall_of_nanjing
@@ -151,8 +212,6 @@ set_war_support = 0.5
 	}
 }
 
-set_party_name = { ideology = fascism long_name = KMT_blueshirt name = KMT_blueshirt }
-
 set_politics = {
 
 	parties = {
@@ -181,21 +240,20 @@ set_politics = {
 }
 
 create_country_leader = {
-	name = "Chiang Kai-shek"
+	name = "Chiang Kai-Shek"
 	desc = "POLITICS_CHIANG_KAI-SHEK_DESC"
 	picture = "Portrait_China_Chiang_Kai_Shek.dds"
 	expire = "1965.1.1"
-	ideology = the_peoples_tutelage
+	ideology = despotism
 	traits = {
-		tenacious_defender
-		cornered_fox
+		generallissimo
 	}
 }
 
 create_country_leader = {
-	name = "Mao Zedong"
-	desc = "POLITICS_MAO_ZEDONG_DESC"
-	picture = "Portrait_China_Mao_Zedong.dds"
+	name = "Zhang Guotao"
+	desc = "POLITICS_ZHANG_GUOTAO_DESC"
+	picture = "gfx/leaders/Asia/Portrait_Asia_Generic_land_4.dds"
 	expire = "1965.1.1"
 	ideology = leninism
 	traits = {
@@ -206,7 +264,7 @@ create_country_leader = {
 create_country_leader = {
 	name = "Wang Jingwei"
 	desc = "POLITICS_WANG_JINGWEI_DESC"
-	picture = "gfx/leaders/CHI/Portrait_China_Wang_Jingwei.dds"
+	picture = "GFX_portrait_chi_wang_jingwei"
 	expire = "1965.1.1"
 	ideology = fascism_ideology
 	traits = {
@@ -215,9 +273,9 @@ create_country_leader = {
 }
 
 create_country_leader = {
-	name = "Zhang Lan"
+	name = "Zhang Lan" #WTT_TODO_CD: this guy is now a possible leader in communist china. Replace? Chiang should probably stay chairman if China goes democratic
 	desc = "POLITICS_ZHANG_LAN_DESC"
-	picture = "gfx/leaders/CHI/Zhang_Lan.tga"
+	picture = "gfx/leaders/Asia/Portrait_Asia_Generic_land_3.dds"
 	expire = "1965.1.1"
 	ideology = socialism
 	traits = {
@@ -364,43 +422,4 @@ create_field_marshal = {
 	defense_skill = 3
 	planning_skill = 2
 	logistics_skill = 2
-}
-
-########################################################################
-## BICE variants
-########################################################################
-create_equipment_variant = {
-	name = "Chao Ho Class"
-	type = light_cruiser_1
-	parent_version = 0
-	upgrades = {
-		ship_quality_upgrade = 0
-		ship_engine_upgrade = 0
-		ship_barrels_upgrade = 0
-		ship_anti_air_upgrade = 0
-	}
-	obsolete = yes
-}
-create_equipment_variant = {
-	name = "Hai Chi Class"
-	type = light_cruiser_1
-	parent_version = 0
-	upgrades = {
-		ship_quality_upgrade = 0
-		ship_engine_upgrade = 0
-		ship_barrels_upgrade = 0
-		ship_anti_air_upgrade = 0
-	}
-	obsolete = yes
-}
-create_equipment_variant = {
-	name = "Ning Hai Class"
-	type = light_cruiser_1
-	parent_version = 0
-	upgrades = {
-		ship_quality_upgrade = 0
-		ship_engine_upgrade = 0
-		ship_barrels_upgrade = 1
-		ship_anti_air_upgrade = 0
-	}
 }
