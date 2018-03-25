@@ -209,7 +209,7 @@ NCountry = {
 	MAX_STABILITY = 1.0,
 	MIN_WAR_SUPPORT = 0.0,
 	MAX_WAR_SUPPORT = 1.0,
-
+	
 	FRONT_PROVINCE_SCORE = 20,    					-- Max province score of a front. Used for the hostile troop alert
 	FRONT_PROVINCE_SCORE_HOSTILE_TROOPS = -1, 		-- If province score in a front is below this value we are losing territory, and hostile troop alert will show.
 	MAJOR_IC_RATIO = 3,                             -- difference in total factories needed to be considered major with respect to other nation
@@ -451,7 +451,7 @@ NMilitary = {
 	DIG_IN_FACTOR = 0.02,						   -- bonus factor for each dug-in level
 	LEADER_SKILL_FACTOR = 0.05,                    -- bonus per skill level of leader
 	ARMY_LEADER_XP_GAIN_PER_UNIT_IN_COMBAT = 0.06, -- XP gain per unit in combat
-	CONSTANT_XP_RATIO_FOR_MULTIPLE_LEADERS_IN_SAME_COMBAT = 0.5, -- if there are multiple leaders in same combat, each one gets thisratio + 1-thisratio/num leaders. it scales 1 0.75 0.66 etc
+	CONSTANT_XP_RATIO_FOR_MULTIPLE_LEADERS_IN_SAME_COMBAT = 0.5, -- if there are multiple leaders in same combat, each one gets thisratio + 1-thisratio/num leaders. amount of xp each general gets scales 1 0.75 0.66 etc for 1 2 3 generals
 	BASE_LEADER_TRAIT_GAIN_XP = 1,				   -- Base xp gain for traits per hour.
 	MAX_NUM_TRAITS = -1,					-- cant have more
 	ENEMY_AIR_SUPERIORITY_IMPACT = -0.33,           -- effect on defense due to enemy air superiorty
@@ -697,6 +697,15 @@ NMilitary = {
 	ATTACHED_WINGS_ORDER_UPDATE_DAYS = 5,					-- Days untill the attached wing will update the order
 	
 	BORDER_WAR_WIN_DAYS_AGAINST_EMPTY_OPPONENTS = 14,		-- border wars will be automatically won if no opponent shows up for this duration
+		
+	MAX_RELATIVE_COMBAT_DAMAGE_TO_MODIFY_XP = 4.0,			-- you gain more XP if you are doing more damage relative to enemy, this is the max relative amount to gain following RATe
+	XP_GAIN_FACTOR_FOR_MAX_RELATIVE_COMBAT_DAMAGE = 4.0,	-- XP factor scaling for max relative combat damage
+	
+	XP_DECAY_RATE_PER_HOUR_IN_COMBAT = 0.03,				-- you get reduced XP as combat drags
+	MIN_XP_RATE_TO_DECAY = 0.1,								-- minimum XP factor for dragged combats
+	
+	XP_GAIN_PER_OVERRUN_UNIT = 30.0,						-- fixed XP gain per overrun unit
+	XP_GAIN_FOR_SHATTERING = 10.0,                          -- extra multiplier on XP gain on shattering an encircled enemy
 },
 
 
@@ -791,6 +800,13 @@ NAir = {
 	AIR_MORE_GROUND_CREWS_COST = 20.0,					-- CP cost to maintain more ground crews
 	AIR_MORE_GROUND_CREWS_BOOST = 0.1,					-- Efficienct boost for more ground crews
 	
+	EFFICIENCY_REGION_CHANGE_PENALTY_FACTOR = 0.9,				-- Penalty applied for changing region
+	EFFICIENCY_REGION_CHANGE_DAILY_GAIN_DEFAULT = 1,	-- Default how much efficiency to regain per day. Gain applied hourly.
+	EFFICIENCY_REGION_CHANGE_DAILY_GAIN_CAS = 0.9,				-- How much efficiency to regain per day. Gain applied hourly.
+	EFFICIENCY_REGION_CHANGE_DAILY_GAIN_NAVAL_BOMBER = 0.2,		-- How much efficiency to regain per day. Gain applied hourly.
+	EFFICIENCY_REGION_CHANGE_DAILY_GAIN_TACTICAL_BOMBER = 0.2,	-- How much efficiency to regain per day. Gain applied hourly.
+	EFFICIENCY_REGION_CHANGE_DAILY_GAIN_FIGHTER = 0.9,			-- How much efficiency to regain per day. Gain applied hourly.
+	EFFICIENCY_REGION_CHANGE_DAILY_GAIN_STRATEGIC_BOMBER = 0.072,	-- How much efficiency to regain per day. Gain applied hourly.
 	
 	DISRUPTION_FACTOR = 4.0,							-- multiplier on disruption damage to scale its effects on planes
 	DISRUPTION_SPEED_FACTOR = 1.0,
