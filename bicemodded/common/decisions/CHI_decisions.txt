@@ -23,45 +23,523 @@
 #   #  # #  # #    #  #  # #  #       # #  # #    #    #  # #  #  #  
 #    ##  #  # ### ###  ##  #  #     ##   ##  #    #     ##  #  #  #  
 
-foreign_support = {
-	CHI_flying_tigers = {
-		icon = generic_air
-		available = {
-			CHI = {
-				has_war_with = JAP
+CHI_opening_roads = {
+	
+	CHI_expand_the_burma_road = {
+		icon = generic_construction
+		allowed = {
+			OR = {
+				original_tag = ENG
+				is_literally_china = yes
 			}
-			tag = CHI
+		}
+
+		available = { #WTT_TODO_CD: Make this tooltip not look like complete garbage
+			ENG = {
+				has_completed_focus = ENG_burma_road
+			}
+			288 = {
+				CONTROLLER = {
+					NOT = {
+						has_war_with = ROOT
+					}
+				}
+			}
+			640 = {
+				CONTROLLER = {
+					NOT = {
+						has_war_with = ROOT
+					}
+				}
+			}
+			325 = {
+				CONTROLLER = {
+					NOT = {
+						has_war_with = ROOT
+					}
+				}
+			}
+			747 = {
+				CONTROLLER = {
+					NOT = {
+						has_war_with = ROOT
+					}
+				}
+			}
+			ENG = {
+				any_state = {
+					OR = {
+						state = 288
+						state = 640
+						state = 325
+						state = 747
+					}
+					CONTROLLER = {
+						OR = {
+							is_in_faction_with = ENG
+						}
+					}
+				}
+			}
 		}
 		visible = {
-			CHI = {
-				has_war_with = JAP
-			}
-			tag = CHI
-		}
-		cost = 25
-		ai_will_do = {
-			factor = 1
-		}
-		days_remove = 90
-		days_re_enable = 90
-
-		fire_only_once = no
-		complete_effect = {
-				random_country = {
-					hidden_effect = {
-						USA = {
-							send_equipment = {
-								target = CHI
-								type = light_fighter
-								amount = 300
-								old_prioritised = yes
+			NOT = { has_global_flag = CHI_burma_3 }
+			OR = {
+				AND = {
+					OR = {
+						controls_state = 325
+						325 = {
+							CONTROLLER = {
+								OR = {
+									is_subject_of = ROOT
+									is_in_faction_with = ROOT
+								}
 							}
 						}
 					}
 				}
+				AND = {
+					controls_state = 288
+					controls_state = 640
+				}
+				AND = {
+					288 = { CONTROLLER = { is_in_faction_with = ROOT } }
+					640 = { CONTROLLER = { is_in_faction_with = ROOT } }
+				}
+			}
 		}
+		days_re_enable = 360
+		ai_will_do = {
+			factor = 1
+		}
+		cost = 25
+		days_remove = 60
 		modifier = {
-			air_volunteer_cap = 100
+			civilian_factory_use = 2
+		}
+		complete_effect = {
+			if = {
+				limit = {
+					AND = {
+						has_war = no
+						has_war_support < 0.6
+					}
+				}
+				add_war_support = 0.05
+			}
+		}
+		remove_effect = {
+			288 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			640 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			325 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			if = {
+				limit = {
+					has_global_flag = CHI_burma_2
+				}
+				set_global_flag = CHI_burma_3
+			}
+			if = {
+				limit = {
+					NOT = { has_global_flag = CHI_burma_2} # 
+				}
+				set_global_flag = CHI_burma_2
+			}
+			
+			random_country = {
+				limit = { check_variable = { CHI_burma_road > 0 } }
+				add_to_variable = { var = CHI_burma_road value = 1 }
+
+				#Country that had the burma road open
+				add_offsite_building = { type = arms_factory level = 1 }
+			}
+		}
+	}
+
+	CHI_ledo_road_decision = {
+	
+		cost = 25
+
+		icon = generic_prepare_civil_war
+
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 4
+				tag = CHI
+			}
+			modifier = {
+				RAJ = {
+					exists = yes
+					NOT = {
+						is_in_faction_with = ENG
+					}
+				}
+				factor = 0
+			}
+		}
+		visible ={
+
+		}
+
+		fire_only_once = yes	
+
+		available = {
+			OR = {
+				is_subject = no
+				is_subject_of = ENG
+			}
+			CHI ={
+				has_war_with = JAP
+			}
+			tag = CHI
+			325 = { #Yunnan
+				CONTROLLER = {
+					OR = {
+						tag = ROOT
+						is_subject_of = ROOT
+						is_in_faction_with = ROOT
+					}
+				}
+			}
+			432 = { #Assam
+				CONTROLLER = {
+					NOT = { has_war_with = ROOT }
+					OR = {
+						original_tag = ENG
+						is_subject_of = ENG
+					}				
+				}
+			}
+			640 = { #Mandalay
+				CONTROLLER = {
+					NOT = { has_war_with = ROOT }
+					OR = {
+						original_tag = ENG
+						is_subject_of = ENG
+					}				
+				}
+			}
+		}
+
+
+		complete_effect = {
+			432 = { #Assam
+				set_state_flag = CHI_needed_for_ledo_road
+			}
+			325 = { #Yunnan
+				set_state_flag = CHI_needed_for_ledo_road
+			}
+			640 = { #Mandalay
+				set_state_flag = CHI_needed_for_ledo_road
+			}
+			set_variable = { CHI_ledo_road_current_level = 1 }
+			add_offsite_building = { type = arms_factory level = 1 }
+		}
+	}
+	CHI_the_hump_decision = {
+		cost = 25
+
+		icon = generic_prepare_civil_war
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 4
+				tag = CHI
+			}
+			modifier = {
+				RAJ = {
+					exists = yes
+					NOT = {
+						is_in_faction_with = ENG
+					}
+				}
+				factor = 0
+			}
+		}
+		visible ={
+
+		}
+		fire_only_once = yes
+
+		available = {
+			OR = {
+				is_subject = no
+				is_subject_of = ENG
+			}
+			tag =  CHI
+			CHI = {
+				has_war_with = JAP
+			}
+			601 = { #Xikang
+				CONTROLLER = {
+					OR = {
+						tag = ROOT
+						is_subject_of = ROOT
+						is_in_faction_with = ROOT
+					}
+				}
+			}
+			434 = { #Arunachal Pradesh
+				CONTROLLER = {
+					NOT = { has_war_with = ROOT }
+					OR = {
+						original_tag = ENG
+						is_subject_of = ENG
+					}				
+				}
+			}
+		}
+
+
+		complete_effect = {		
+			434 = { #Arunachal Pradesh
+				set_state_flag = CHI_needed_for_the_hump
+			}
+			601 = { #Xikang
+				set_state_flag = CHI_needed_for_the_hump
+			}	
+			set_variable = { CHI_the_hump_current_level = 1 }
+			add_offsite_building = { type = arms_factory level = 1 }
+		}
+	}
+	CHI_guarantee_the_hanoi_route_decision = {
+
+		cost = 25
+
+		icon = generic_prepare_civil_war
+
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				FRA = {
+					has_war = yes
+				}
+				factor = 0
+			}
+		}
+
+		visible ={
+
+		}
+
+		fire_only_once = yes
+
+		available = {
+			tag =  CHI
+			CHI = {
+				has_war_with = JAP
+			}
+			325 = { #Yunnan
+				CONTROLLER = {
+					OR = {
+						tag = ROOT
+						is_subject_of = ROOT
+						is_in_faction_with = ROOT
+					}
+				}
+			}
+			671 = { #Tonkin
+				CONTROLLER = {
+					NOT = { has_war_with = ROOT }
+					OR = {
+						original_tag = FRA
+						is_subject_of = FRA
+					}
+				}
+			}
+		}
+
+		complete_effect = {
+			671 = { #Tonkin
+				set_state_flag = CHI_needed_for_hanoi_route
+			}
+			325 = { #Yunnan
+				set_state_flag = CHI_needed_for_hanoi_route
+			}	
+			set_variable = { CHI_hanoi_route_current_level = 2 }
+			add_offsite_building = { type = arms_factory level = 2 }
+		}
+	}
+	CHI_expand_the_ledo_road = {
+		icon = generic_construction
+		available = {
+			any_country = {
+				has_completed_focus = CHI_ledo_road
+			}
+			OR = {
+				controls_state = 640
+				640 = {
+					CONTROLLER = {
+						is_in_faction_with = ROOT
+					}
+				}
+				controls_state = 325
+				325 = {
+					CONTROLLER = {
+						is_in_faction_with = ROOT
+					}
+				}
+			}
+		}
+		visible = {
+			OR = {
+				controls_state = 640
+				640 = {
+					CONTROLLER = {
+						is_in_faction_with = ROOT
+					}
+				}
+			}
+			NOT = {
+				has_global_flag = CHI_ledo_3
+			}
+		}
+		days_re_enable = 360
+		ai_will_do = {
+			factor = 1
+		}
+		cost = 25
+		days_remove = 60
+		modifier = {
+			civilian_factory_use = 2
+		}
+
+		remove_effect = {
+			if = {
+				limit = {
+					has_global_flag = CHI_ledo_2
+				}
+				set_global_flag = CHI_ledo_3
+			}
+			if = {
+				limit = {
+					NOT = { has_global_flag = CHI_ledo_2} # 
+				}
+				set_global_flag = CHI_ledo_2
+			}
+
+			random_country = {
+				limit = { check_variable = { CHI_ledo_road > 0 } }
+				add_to_variable = { var = CHI_ledo_road value = 1 }
+
+				#Country that had the ledo road open
+				add_offsite_building = { type = arms_factory level = 1 }
+			}
+		}
+	}
+	CHI_expand_the_airlift = {
+		icon = generic_construction
+		available = {	
+		AND = {
+			OR = {
+				ENG = {
+					434 = {
+						CONTROLLER = {
+							NOT = {
+								has_war_with = CHI
+							}
+							is_in_faction_with = ENG
+						}
+					}
+				}
+			}
+			OR ={	
+				controls_state = 601
+				601 = {
+					CONTROLLER = {
+						OR = {
+							is_in_faction_with = ROOT
+						}
+					}
+				}
+			}
+		}
+		}
+		visible = {
+			OR = { 
+				controls_state = 601
+				601 = {
+					CONTROLLER = {
+						is_in_faction_with = ROOT
+					}
+				}
+			}
+		
+			NOT = {
+				has_global_flag = CHI_hump_3
+			}
+		}
+		cost = 25
+		days_re_enable = 360
+		ai_will_do = {
+			factor = 1
+		}
+		days_remove = 60
+		modifier = {
+			civilian_factory_use = 2
+		}
+		complete_effect = {
+			if = {
+				limit = {
+					AND = {
+						has_war = no
+						has_war_support < 0.6
+					}
+				}
+				add_war_support = 0.05
+			}
+		}
+		remove_effect = {
+			434 = {
+				add_building_construction = {
+					type = air_base
+					level = 1
+					instant_build = yes
+				}
+			}
+			601 = {
+				add_building_construction = {
+					type = air_base
+					level = 1
+					instant_build = yes
+				}
+			}
+			if = {
+				limit = {
+					has_global_flag = CHI_hump_2
+				}
+				set_global_flag = CHI_hump_3 # Hump 3: Revenge of the Hump: The Humpening
+			}
+			if = {
+				limit = {
+					NOT = { has_global_flag = CHI_hump_2} # Hump 2: Hump Harder
+				}
+				set_global_flag = CHI_hump_2
+			}
+			601 = {
+				CONTROLLER = {
+					add_to_variable = { var = CHI_the_hump value = 1 }
+					add_offsite_building = { type = arms_factory level = 1 }
+				}
+			}
 		}
 	}
 }
