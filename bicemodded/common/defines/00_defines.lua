@@ -834,7 +834,7 @@ NAir = {
 		0.0, -- PARADROP		
 		0.0, -- NAVAL_KAMIKAZE	
         0.0, -- PORT_STRIKE		
-		0.3, -- AIR_SUPPLY		
+		0.1, -- AIR_SUPPLY		
 	},
 	
 	BOMBING_TARGETING_RANDOM_FACTOR = 0.25,							-- % of picking the wrong target
