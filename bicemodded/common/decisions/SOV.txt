@@ -1327,6 +1327,130 @@ political_actions = {
 
 SOV_global_revolution = {
 
+	SOV_guns_for_china_against_china = {
+
+		icon = generic_prepare_civil_war
+
+		allowed = {
+			original_tag = SOV
+		}
+
+		available = {
+			has_equipment = { infantry_equipment > 4999 }
+			CCP = {
+				has_war_with = CHI
+			}
+		}
+
+		visible = {
+			CCP = {
+				has_war_with = CHI
+			}
+		}
+
+		cost = 5
+		ai_will_do = {
+			factor = 25
+
+			modifier = {
+				factor = 0.5
+				has_war_support < 0.6
+			}
+
+			modifier = {
+				factor = 2
+				has_war_with = CHI
+			}
+		}
+
+		fire_only_once = no	
+
+		days_re_enable = 180
+
+		complete_effect = {
+			ROOT = {
+				send_equipment = {
+					target = CCP
+					type = infantry_equipment
+					amount = 5000
+					old_prioritised = yes
+				}
+			}
+		}
+	}
+
+	SOV_support_china_with_factories_against_china = {
+
+		icon = generic_industry
+
+		allowed = {
+			original_tag = SOV
+		}
+
+		available = {
+			any_other_country = {
+				CCP = { 
+					has_war_with = CHI
+				}
+			}
+			num_of_civilian_factories_available_for_projects > 9
+		}
+
+		visible = {
+			any_other_country = {
+				CCP = { 
+					has_war_with = CHI
+				}
+			}
+		}
+
+		cost = 5
+		ai_will_do = {
+			factor = 50
+
+			modifier = {
+				factor = 0.5
+				has_war_support > 0.6
+			}
+
+			modifier = {
+				factor = 2
+				has_war_with = CHI
+			}
+		}
+
+		fire_only_once = no
+
+		modifier = {
+			civilian_factory_use = 10			
+		}
+
+		days_remove = 180
+
+		complete_effect = {
+			random_country = {
+				limit = {
+					Tag = CCP
+				}
+				add_offsite_building = { type = arms_factory level = 10 }
+				set_country_flag = SOV_support_china_with_factories_against_china
+			}
+		}
+
+		remove_effect = {
+			add_war_support = 0.05
+				CCP = {
+					if = {
+						limit = {
+							NOT = { any_other_country = { has_country_flag = SOV_support_china_with_factories_against_china } }
+						}
+					}
+				}
+				add_offsite_building = { type = arms_factory level = -10 }
+			
+		}
+	}
+
 	SOV_guns_for_china = {
 
 		icon = generic_prepare_civil_war
@@ -1393,6 +1517,7 @@ SOV_global_revolution = {
 					has_war_with = JAP
 				}
 			}
+			num_of_civilian_factories_available_for_projects > 4
 		}
 
 		visible = {
@@ -1497,6 +1622,7 @@ SOV_global_revolution = {
 		available = {
 			SPR = { has_civil_war = yes }
 			has_completed_focus = SOV_support_spain
+			num_of_civilian_factories_available_for_projects > 3
 			
 		}
 
