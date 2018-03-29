@@ -1359,16 +1359,16 @@ NAI = {
 	MIN_PLAN_VALUE_TO_MICRO_INACTIVE = 0.2,				-- The AI will not consider members of groups which plan is not activated AND evaluates lower than this.
 	
 	MAX_UNITS_FACTOR_AREA_ORDER = 1.0,					-- Factor for max number of units to assign to area defense orders
-	DESIRED_UNITS_FACTOR_AREA_ORDER = 1.0,				-- Factor for desired number of units to assign to area defense orders
-	MIN_UNITS_FACTOR_AREA_ORDER = 1.0,					-- Factor for min number of units to assign to area defense orders
+	DESIRED_UNITS_FACTOR_AREA_ORDER = 0.8,				-- Factor for desired number of units to assign to area defense orders
+	MIN_UNITS_FACTOR_AREA_ORDER = 0.6,					-- Factor for min number of units to assign to area defense orders
 
-	MAX_UNITS_FACTOR_FRONT_ORDER = 1.5,					-- Factor for max number of units to assign to area front orders
-	DESIRED_UNITS_FACTOR_FRONT_ORDER = 1.5,				-- Factor for desired number of units to assign to area front orders
-	MIN_UNITS_FACTOR_FRONT_ORDER = 1.0,					-- Factor for min number of units to assign to area front orders
+	MAX_UNITS_FACTOR_FRONT_ORDER = 1.8,					-- Factor for max number of units to assign to area front orders
+	DESIRED_UNITS_FACTOR_FRONT_ORDER = 1.6,				-- Factor for desired number of units to assign to area front orders
+	MIN_UNITS_FACTOR_FRONT_ORDER = 1.1,					-- Factor for min number of units to assign to area front orders
 
-	MAX_UNITS_FACTOR_INVASION_ORDER = 1.0,				-- Factor for max number of units to assign to naval invasion orders
-	DESIRED_UNITS_FACTOR_INVASION_ORDER = 1.0,			-- Factor for desired number of units to assign to naval invasion orders
-	MIN_UNITS_FACTOR_INVASION_ORDER = 1.0,				-- Factor for min number of units to assign to naval invasion orders
+	MAX_UNITS_FACTOR_INVASION_ORDER = 0.7,				-- Factor for max number of units to assign to naval invasion orders
+	DESIRED_UNITS_FACTOR_INVASION_ORDER = 0.35,			-- Factor for desired number of units to assign to naval invasion orders
+	MIN_UNITS_FACTOR_INVASION_ORDER = 0.2,				-- Factor for min number of units to assign to naval invasion orders
 	
 	FRONT_UNITS_CAP_FACTOR = 15.0,						-- A factor applied to total front size and supply use. Primarily effects small fronts
 	MAX_DIST_PORT_RUSH = 20.0,							-- If a unit is in enemy territory with no supply it will consider nearby ports within this distance.
@@ -1390,7 +1390,7 @@ NAI = {
 	FRONT_BULGE_RATIO_UPPER_CUTOFF = 1.5,				-- If total bulginess is lower than this, the front is ignored.
 	FRONT_BULGE_RATIO_LOWER_CUTOFF = 0.95,				-- If local bulginess drops below this, a point of interest is found
 	FRONT_CUTOFF_MIN_EDGE_PROXIMITY = 2,				-- Minimum number of provinces to the front edge to determine for cutoff oportunity.
-	INVASION_DISTANCE_RANDOMNESS = 50,					-- This higher the value, the more unpredictable the invasions. Compares to actual map distance in pixels.
+	INVASION_DISTANCE_RANDOMNESS = 30,					-- This higher the value, the more unpredictable the invasions. Compares to actual map distance in pixels.
 	
 	AIR_SUPERIORITY_MISSION_FACTOR = 1.0,				-- AI air superiority mission factor
 	CAS_MISSION_FACTOR = 1.4,							-- AI cas mission factor
