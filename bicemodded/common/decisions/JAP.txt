@@ -5,158 +5,151 @@ JAP_intervene_in_china = {
 		icon = jap_conquer_china
 
 		available = {
-		    has_country_flag = impossible
-			is_ai = yes	
-			has_country_flag = impossible
-			or = { 
-				if ={
-					608 = { is_controlled_by_ROOT_or_ally = yes }
-					614 = { is_controlled_by_ROOT_or_ally = yes }
-					597 = { is_controlled_by_ROOT_or_ally = yes }
-					743 = { is_controlled_by_ROOT_or_ally = yes }
-					598 = { is_controlled_by_ROOT_or_ally = yes }
-					613 = { is_controlled_by_ROOT_or_ally = yes }
-					596 = { is_controlled_by_ROOT_or_ally = yes }
-					595 = { is_controlled_by_ROOT_or_ally = yes }
+			OR = {
+				is_ai = yes
+				if = {
+					JAP = { is_ai = no }
+					CHI = { is_ai = no }
 				}
-				surrender_progress > 0.75	
+			}
+			GXC = { exists = no }
+			NOT = {
+				any_country = {
+					is_literally_china = yes
+					has_war_with = ROOT
+				}
+			}	
+			if ={
+				608 = { is_controlled_by_ROOT_or_ally = yes }
+				614 = { is_controlled_by_ROOT_or_ally = yes }
+				597 = { is_controlled_by_ROOT_or_ally = yes }
+				743 = { is_controlled_by_ROOT_or_ally = yes }
+				598 = { is_controlled_by_ROOT_or_ally = yes }
+				613 = { is_controlled_by_ROOT_or_ally = yes }
+				596 = { is_controlled_by_ROOT_or_ally = yes }
+				595 = { is_controlled_by_ROOT_or_ally = yes }
+				593 = { is_controlled_by_ROOT_or_ally = yes }
+				592 = { is_controlled_by_ROOT_or_ally = yes }
 			}
 		}
-
+		
 		ai_will_do = {
 			factor = 400
 		}
+
 		fire_only_once = yes
-		days_mission_timeout = 1200
+		days_mission_timeout = 2000
 
 		activation = {
 			has_completed_focus = JAP_intervene_in_china
 		}
+
 		visible = {
 			has_completed_focus = JAP_intervene_in_china
 			is_ai = yes
 		}
+
 		complete_effect = {
-			country_event = { id = jap.3 }
-			white_peace = GXC
-			white_peace = CHI
-			white_peace = CCP
+			add_named_threat = { threat = -30 name = JAP_reorginized_china_instatement }
 			diplomatic_relation = { country = CHI relation = non_aggression_pact }
 			diplomatic_relation = { country = CCP relation = non_aggression_pact }
+			set_global_flag = jap_china_peace_deal_white
 			add_stability = 0.15
 			add_war_support = 0.10
-			CHI = {
-				set_capital = 605
-				transfer_state = 605
-				hidden_effect = {
-					set_state_controller = 608
-					set_state_controller = 614
-					set_state_controller = 597
-					set_state_controller = 743
-					set_state_controller = 598
-					set_state_controller = 613
-					set_state_controller = 596
-					set_state_controller = 595
-					set_state_controller = 593
-					set_state_controller = 592
-					set_state_controller = 591
-					set_state_controller = 594
-					if = {
-						limit = {
-							608 = {
-								owner = { original_tag = CHI }
-							}
+			GXC = {
+				transfer_state = 592 
+				transfer_state = 593 
+				transfer_state = 595 
+				transfer_state = 596 
+				transfer_state = 597 
+				transfer_state = 598 
+				transfer_state = 608 
+				transfer_state = 613 
+				transfer_state = 614 
+				transfer_state = 743 
+
+				595 = { add_core_of = GXC }
+				596 = { add_core_of = GXC }
+				597 = { add_core_of = GXC }
+				598 = { add_core_of = GXC }
+				608 = { add_core_of = GXC }
+				613 = { add_core_of = GXC }
+				614 = { add_core_of = GXC }
+				743 = { add_core_of = GXC }
+			}
+			GXC = {
+				ROOT = { puppet = PREV }
+				set_capital = 613
+				set_politics = {
+					ruling_party = fascism
+					elections_allowed = no
+					parties = {
+						neutrality = { 
+							popularity = 22
 						}
-						set_state_controller = 608
+
+						fascism = {
+							popularity = 66
+						}
+					
+						communism = {
+							popularity = 12
+						}
 					}
-					if = {
-						limit = {
-							614 = {
-								owner = { original_tag = CHI }
-							}
-						}
-						set_state_controller = 614
+				}
+			
+				create_country_leader = {
+					name = "Wang Jingwei"
+					desc = "POLITICS_WANG_JINGWEI_DESC"
+					picture = "gfx/leaders/kmt_mod/Portrait_Wang_Jingwei.dds"
+					expire = "1965.1.1"
+					ideology = fascism_ideology
+					traits = {
+						#
 					}
-					if = {
-						limit = {
-							597 = {
-								owner = { original_tag = CHI }
-							}
+				}
+				set_country_flag = JAP_puppet
+				set_party_name = { ideology = fascism long_name = KMT_wjw name = KMT_wjw }
+				add_ideas = KMT_jap_military_advisors
+				if = {
+					limit = {
+						CCP = {
+							has_completed_focus = CCP_front_line_behind_enemy_line
 						}
-						set_state_controller = 597
 					}
-					if = {
-						limit = {
-							743 = {
-								owner = { original_tag = CHI }
-							}
-						}
-						set_state_controller = 743
+					add_ideas = CCP_enemy_partisan
+				}
+				JAP = {
+					set_autonomy = {
+						target = PREV
+						autonomous_state = autonomy_puppet
 					}
-					if = {
-						limit = {
-							598 = {
-								owner = { original_tag = CHI }
-							}
-						}
-						set_state_controller = 598
+				}
+				diplomatic_relation = {
+					relation = military_access
+					country = MAN
+					active = yes
+				}
+				diplomatic_relation = {
+					relation = military_access
+					country = MEN
+					active = yes
+				}
+			
+			
+				MAN = {
+					diplomatic_relation = {
+						relation = military_access
+						country = PREV
+						active = yes
 					}
-					if = {
-						limit = {
-							613 = {
-								owner = { original_tag = CHI }
-							}
-						}
-						set_state_controller = 613
+				}
+				MEN = {
+					diplomatic_relation = {
+						relation = military_access
+						country = PREV
+						active = yes
 					}
-					if = {
-						limit = {
-							596 = {
-								owner = { original_tag = CHI }
-							}
-						}
-						set_state_controller = 596
-					}
-					if = {
-						limit = {
-							595 = {
-								owner = { original_tag = CHI }
-							}
-						}
-						set_state_controller = 595
-					}
-					if = {
-						limit = {
-							593 = {
-								owner = { original_tag = CHI }
-							}
-						}
-						set_state_controller = 593
-					}
-					if = {
-						limit = {
-							592 = {
-								owner = { original_tag = CHI }
-							}
-						}
-						set_state_controller = 592
-					}
-					if = {
-						limit = {
-							591 = {
-								owner = { original_tag = CHI }
-							}
-						}
-						set_state_controller = 591
-					}
-					if = {
-						limit = {
-							594 = {
-								owner = { original_tag = CHI }
-							}
-						}
-						set_state_controller = 594
-					}					
 				}
 			}
 		}
@@ -166,157 +159,155 @@ JAP_intervene_in_china = {
 		icon = jap_conquer_china
 
 		available = {
-			has_country_flag = impossible
-			608 = { is_controlled_by_ROOT_or_ally = yes }
-			614 = { is_controlled_by_ROOT_or_ally = yes }
-			597 = { is_controlled_by_ROOT_or_ally = yes }
-			743 = { is_controlled_by_ROOT_or_ally = yes }
-			598 = { is_controlled_by_ROOT_or_ally = yes }
-			613 = { is_controlled_by_ROOT_or_ally = yes }
-			596 = { is_controlled_by_ROOT_or_ally = yes }
-			595 = { is_controlled_by_ROOT_or_ally = yes }
-			593 = { is_controlled_by_ROOT_or_ally = yes }
-			592 = { is_controlled_by_ROOT_or_ally = yes }
-			591 = { is_controlled_by_ROOT_or_ally = yes }
-			594 = { is_controlled_by_ROOT_or_ally = yes }
-			has_government = fascism
-		 	is_ai = no		
+			OR = {
+				is_ai = no
+				if = {
+					JAP = { is_ai = no }
+					CHI = { is_ai = no }
+				}
+			}
+			GXC = { exists = no }
+			NOT = {
+				any_country = {
+					is_literally_china = yes
+					has_war_with = ROOT
+				}
+			}	
+			if ={
+				608 = { is_controlled_by_ROOT_or_ally = yes }
+				614 = { is_controlled_by_ROOT_or_ally = yes }
+				597 = { is_controlled_by_ROOT_or_ally = yes }
+				743 = { is_controlled_by_ROOT_or_ally = yes }
+				598 = { is_controlled_by_ROOT_or_ally = yes }
+				613 = { is_controlled_by_ROOT_or_ally = yes }
+				596 = { is_controlled_by_ROOT_or_ally = yes }
+				595 = { is_controlled_by_ROOT_or_ally = yes }
+				593 = { is_controlled_by_ROOT_or_ally = yes }
+				592 = { is_controlled_by_ROOT_or_ally = yes }
+			}
+		}
+		
+		ai_will_do = {
+			factor = 0
 		}
 		selectable_mission = yes
 		fire_only_once = yes
+		days_mission_timeout = 2000
 
-		cost = 25
-
-		visible = {
+		activation = {
 			has_completed_focus = JAP_intervene_in_china
 		}
 
+		visible = {
+			has_completed_focus = JAP_intervene_in_china
+			is_ai = yes
+		}
+
 		complete_effect = {
-			country_event = { id = jap.3 }
-			white_peace = CHI
-			white_peace = CCP
-			white_peace = GXC
+			add_named_threat = { threat = -40 name = JAP_reorginized_china_instatement }
 			diplomatic_relation = { country = CHI relation = non_aggression_pact }
 			diplomatic_relation = { country = CCP relation = non_aggression_pact }
+			set_global_flag = jap_china_peace_deal_white
 			add_stability = 0.15
 			add_war_support = 0.10
-			CHI = {
-				transfer_state = 605
-				set_capital = 605
-				hidden_effect = {
-					set_state_controller = 608
-					set_state_controller = 614
-					set_state_controller = 597
-					set_state_controller = 743
-					set_state_controller = 598
-					set_state_controller = 613
-					set_state_controller = 596
-					set_state_controller = 595
-					set_state_controller = 593
-					set_state_controller = 592
-					set_state_controller = 591
-					set_state_controller = 594
-					if = {
-						limit = {
-							608 = {
-								owner = { original_tag = CHI }
-							}
+			GXC = {
+				transfer_state = 592 
+				transfer_state = 593 
+				transfer_state = 595 
+				transfer_state = 596 
+				transfer_state = 597 
+				transfer_state = 598 
+				transfer_state = 608 
+				transfer_state = 613 
+				transfer_state = 614 
+				transfer_state = 743 
+
+				595 = { add_core_of = GXC }
+				596 = { add_core_of = GXC }
+				597 = { add_core_of = GXC }
+				598 = { add_core_of = GXC }
+				608 = { add_core_of = GXC }
+				613 = { add_core_of = GXC }
+				614 = { add_core_of = GXC }
+				743 = { add_core_of = GXC }
+			}
+			GXC = {
+				ROOT = { puppet = PREV }
+				set_capital = 613
+				set_politics = {
+					ruling_party = fascism
+					elections_allowed = no
+					parties = {
+						neutrality = { 
+							popularity = 22
 						}
-						set_state_controller = 608
+
+						fascism = {
+							popularity = 66
+						}
+					
+						communism = {
+							popularity = 12
+						}
 					}
-					if = {
-						limit = {
-							614 = {
-								owner = { original_tag = CHI }
-							}
-						}
-						set_state_controller = 614
+				}
+			
+				create_country_leader = {
+					name = "Wang Jingwei"
+					desc = "POLITICS_WANG_JINGWEI_DESC"
+					picture = "gfx/leaders/kmt_mod/Portrait_Wang_Jingwei.dds"
+					expire = "1965.1.1"
+					ideology = fascism_ideology
+					traits = {
+						#
 					}
-					if = {
-						limit = {
-							597 = {
-								owner = { original_tag = CHI }
-							}
+				}
+				set_country_flag = JAP_puppet
+				set_party_name = { ideology = fascism long_name = KMT_wjw name = KMT_wjw }
+				add_ideas = KMT_jap_military_advisors
+				if = {
+					limit = {
+						CCP = {
+							has_completed_focus = CCP_front_line_behind_enemy_line
 						}
-						set_state_controller = 597
 					}
-					if = {
-						limit = {
-							743 = {
-								owner = { original_tag = CHI }
-							}
-						}
-						set_state_controller = 743
+					add_ideas = CCP_enemy_partisan
+				}
+				JAP = {
+					set_autonomy = {
+						target = PREV
+						autonomous_state = autonomy_puppet
 					}
-					if = {
-						limit = {
-							598 = {
-								owner = { original_tag = CHI }
-							}
-						}
-						set_state_controller = 598
+				}
+				diplomatic_relation = {
+					relation = military_access
+					country = MAN
+					active = yes
+				}
+				diplomatic_relation = {
+					relation = military_access
+					country = MEN
+					active = yes
+				}
+			
+			
+				MAN = {
+					diplomatic_relation = {
+						relation = military_access
+						country = PREV
+						active = yes
 					}
-					if = {
-						limit = {
-							613 = {
-								owner = { original_tag = CHI }
-							}
-						}
-						set_state_controller = 613
+				}
+				MEN = {
+					diplomatic_relation = {
+						relation = military_access
+						country = PREV
+						active = yes
 					}
-					if = {
-						limit = {
-							596 = {
-								owner = { original_tag = CHI }
-							}
-						}
-						set_state_controller = 596
-					}
-					if = {
-						limit = {
-							595 = {
-								owner = { original_tag = CHI }
-							}
-						}
-						set_state_controller = 595
-					}
-					if = {
-						limit = {
-							593 = {
-								owner = { original_tag = CHI }
-							}
-						}
-						set_state_controller = 593
-					}
-					if = {
-						limit = {
-							592 = {
-								owner = { original_tag = CHI }
-							}
-						}
-						set_state_controller = 592
-					}
-					if = {
-						limit = {
-							591 = {
-								owner = { original_tag = CHI }
-							}
-						}
-						set_state_controller = 591
-					}
-					if = {
-						limit = {
-							594 = {
-								owner = { original_tag = CHI }
-							}
-						}
-						set_state_controller = 594
-					}					
 				}
 			}
 		}
 	}
-	
 	JAP_china_step_up_war_effort = {
 
 		icon = jap_conquer_china
@@ -347,11 +338,12 @@ JAP_intervene_in_china = {
 		}
 
 		days_remove = 0
-		days_re_enable = 30
+		days_re_enable = 60
 
 		cost = 25
 
 		complete_effect = {
+			add_named_threat = { threat = 2.5 name = JAP_china_step_up_war_effort }
 			USA = { add_war_support = 0.025 }
 			JAP_intervene_in_china_level_down = yes
 		}
@@ -1017,7 +1009,6 @@ JAP_southern_expansion = {
 	JAP_install_philip_puppet = {
 		available = {
 			is_ai = no
-			has_country_flag =  impossible
 			623 = { is_controlled_by_ROOT_or_ally = yes }
 			327 = { is_controlled_by_ROOT_or_ally = yes }
 			624 = { is_controlled_by_ROOT_or_ally = yes }
@@ -1156,7 +1147,6 @@ JAP_southern_expansion = {
 	JAP_install_Indonesia_puppet = {
 		available = {
 			is_ai = no
-			has_country_flag =  impossible
 			335 = { is_controlled_by_ROOT_or_ally = yes }
 			672 = { is_controlled_by_ROOT_or_ally = yes }
 			334 = { is_controlled_by_ROOT_or_ally = yes }
