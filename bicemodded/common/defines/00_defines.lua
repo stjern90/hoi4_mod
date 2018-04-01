@@ -445,7 +445,7 @@ NMilitary = {
 	RIVER_SMALL_START_INDEX = 0,                   -- color indices for rivers
 	RIVER_SMALL_STOP_INDEX = 6,
 	RIVER_LARGE_STOP_INDEX = 11,
-	BASE_FORT_PENALTY = -0.24, 					   -- fort penalty
+	BASE_FORT_PENALTY = -0.25, 					   -- fort penalty
 	BASE_STACKING_PENALTY = -0.1,                  -- multiple direction attack penalty
 	MULTIPLE_COMBATS_PENALTY = -0.4,               -- defender penalty if attacked from multiple directions
 	DIG_IN_FACTOR = 0.02,						   -- bonus factor for each dug-in level
@@ -717,7 +717,7 @@ NAir = {
 	AIR_WING_MAX_STATS_SPEED = 1500,
 	AIR_WING_MAX_STATS_BOMBING = 100,
 	AIR_WING_MAX_SIZE = 1000, 							-- Max amount of airplanes in wing
-	AIR_WING_BOMB_DAMAGE_FACTOR = 2,					-- Used to balance the damage done while bombing.
+	AIR_WING_BOMB_DAMAGE_FACTOR = 1.9,					-- Used to balance the damage done while bombing.
 	COMBAT_STACK_LIMIT = 2,								-- The biggest allowed dogfight combination (1vs1 or 2vs1). Bigger value cause that amount of airplanes matters more then their stats. Only used in naval air combat, for land air combat see COMBAT_MULTIPLANE_CAP
 	COMBAT_STAT_IMPORTANCE_SPEED = 1, 				-- How important is speed when comparing stats.
 	COMBAT_STAT_IMPORTANCE_AGILITY = 1, 				-- How important is agility when comparing stats.
@@ -735,7 +735,7 @@ NAir = {
 	AIR_REGION_SUPERIORITY_PIXEL_SCALE = 0.04,           -- air superiority scale = superiority/(pixels*this)
 	COMBAT_SUP_VS_SUP_ATTACK_CHANCE_SPEED_DIFF = 0.25, 	-- How much diff in speed between aircrafts affects the chance of who attacks first in superiority vs superiority.( Naval air combat only )
 	COMBAT_MULTIPLANE_CAP = 3.0,						-- How many planes can shoot at each plane on other side ( if there are 100 planes we are atttacking COMBAT_MULTIPLANE_CAP * 100 of our planes can shoot )
-	COMBAT_DAMAGE_SCALE = 0.1,							-- Higher value = more shot down planes
+	COMBAT_DAMAGE_SCALE = 0.11,							-- Higher value = more shot down planes
 	DETECT_CHANCE_FROM_OCCUPATION = 0.10, 				-- How much the controlled provinces in area affects the air detection base value.
 	DETECT_CHANCE_FROM_RADARS = 0.5, 					-- How much the radars in area affects detection chance.
 	DETECT_CHANCE_FROM_AIRCRAFTS_EFFECTIVE_COUNT = 3000, -- Max amount of aircrafts in region to give full detection bonus.
@@ -788,7 +788,7 @@ NAir = {
 	AA_INDUSTRY_AIR_DAMAGE_FACTOR = -0.12,				-- 5x levels = 60% defense from bombing
 	NAVAL_STRIKE_DETECTION_BALANCE_FACTOR = 0.7,		-- Value used to scale the surface_visibility stats to balance the gameplay, so 100% detection chance still won't spam the strikes.
 	LEND_LEASED_EQUIPMENT_EXPERIENCE_GAIN = 0.5,		-- Value used for equipment
-	ANTI_AIR_PLANE_DAMAGE_FACTOR = 0.5,					-- Anti Air Gun Damage factor
+	ANTI_AIR_PLANE_DAMAGE_FACTOR = 0.45,					-- Anti Air Gun Damage factor
 	ANTI_AIR_PLANE_DAMAGE_CHANCE = 0.2,					-- Anti Air Gun hit chance
 	ANTI_AIR_ATTACK_TO_DAMAGE_REDUCTION_FACTOR = 1.0,	-- Balancing value to convert equipment stat anti_air_attack to the damage reduction modifier apply to incoming air attacks against units with AA.
 	ANTI_AIR_MAXIMUM_DAMAGE_REDUCTION_FACTOR = 0.75,	-- Maximum damage reduction factor applied to incoming air attacks against units with AA.
@@ -917,7 +917,7 @@ NNavy = {
 	CONVOY_EFFICIENCY_REGAIN_BASE_SPEED = 0.05,						-- How much efficiency regains every day.
 	CONVOY_EFFICIENCY_MIN_VALUE = 0.05,								-- To avoid complete 0% efficiency, set the lower limit.
 	ANTI_AIR_TARGETTING_TO_CHANCE = 0.08,							-- Balancing value to convert averaged equipment stats (anti_air_targetting and naval_strike_agility) to probability chances of airplane being hit by navies AA.
-	ANTI_AIR_ATTACK_TO_AMOUNT = 0.008,								-- Balancing value to convert equipment stat anti_air_attack to the random % value of airplanes being hit.
+	ANTI_AIR_ATTACK_TO_AMOUNT = 0.01,								-- Balancing value to convert equipment stat anti_air_attack to the random % value of airplanes being hit.
 	NO_LEADER_MAX_SHIPS = 30,										-- Max amount of ships that can be used in the unit
 
 	UNIT_EXPERIENCE_PER_COMBAT_HOUR = 10,
@@ -1311,8 +1311,8 @@ NAI = {
 	BUILD_ARMOR_STRENGTH_MULTIPLIER_WEIGHT = 0.0,
 	BUILD_ARMOR_ORGANIZATION_MULTIPLIER_WEIGHT = 0.0,
 
-	UPGRADE_DIVISION_RELUCTANCE = 6,					-- How often to consider upgrading to new templates for units in the field
-	UPGRADE_PERCENTAGE_OF_FORCES = 0.02,					-- How big part of the army that should be considered for upgrading
+	UPGRADE_DIVISION_RELUCTANCE = 4,					-- How often to consider upgrading to new templates for units in the field
+	UPGRADE_PERCENTAGE_OF_FORCES = 0.07,					-- How big part of the army that should be considered for upgrading
 
 	STRATEGIC_BOMBING_DEFENCE_IMPORTANCE = 500.0,
 	
