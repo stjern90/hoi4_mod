@@ -45,7 +45,7 @@ NDiplomacy = {
 	BASE_IMPROVE_RELATION_SAME_IDEOLOGY_GROUP_MAINTAIN_COST = 0.2, -- Political power cost each update when boosting relations with nation of same ideology
 	BASE_IMPROVE_RELATION_DIFFERENT_IDEOLOGY_GROUP_MAINTAIN_COST = 0.4,    -- Political power cost each update when boosting relations with nation of different ideology
 	BASE_SEND_ATTACHE_COST = 100,					-- Political power cost to send attache
-	BASE_SEND_ATTACHE_CP_COST = 50.0,				-- Command Power sent attache usage cost
+	BASE_SEND_ATTACHE_CP_COST = 10.0,				-- Command Power sent attache usage cost
 	BASE_SEND_ATTACHE_MAINTAIN_COST = 0,			-- Political power cost each update when sending the attache to another country
 	BASE_GENERATE_WARGOAL_DAILY_PP = 0.8,	-- Daily pp cost for generation of wargoals # was 0.2
 	WARGOAL_VERSUS_MAJOR_AT_WAR_REDUCTION = -0.4, 	-- reduction of pp cost for wargoal vs major at war. # was -0.75
@@ -1060,7 +1060,7 @@ NAI = {
 	AIR_WING_SIZE_FACTOR = 1.0,					-- Impact on air score of assigning wings to mission
 	AIR_MISSION_MIN_COVEREAGE = 0.2,			-- Between 0 and 1, limit for % coverage for air mission to be considered
 	AIR_BASE_PRIORITY_DISTANCE_FACTOR = 25.0,	-- Weight of distance between region and airbase for airbase priority score
-	MAX_VOLUNTEER_ARMY_FRACTION = 0.12,			-- Countries will not send more than their forces time this number to aid another country
+	MAX_VOLUNTEER_ARMY_FRACTION = 0.08,			-- Countries will not send more than their forces time this number to aid another country
 	WANTED_UNITS_INDUSTRY_FACTORY = 0.0, 		-- How many units a country wants is partially based on how much military industry that is available
 	DEPLOY_MIN_TRAINING_PEACE_FACTOR = 0.95,		-- Required percentage of training (1.0 = 100%) for AI to deploy unit in peacetime
 	DEPLOY_MIN_TRAINING_WAR_FACTOR = 0.25,		-- Required percentage of training (1.0 = 100%) for AI to deploy unit in wartime
@@ -1071,11 +1071,11 @@ NAI = {
 	LOCATION_BALANCE_TO_ADVANCE = 0.0,			-- Limit on location strength balance between country and enemy for unit to dare to move forward.
 	DIVISION_UPGRADE_MIN_XP = 1000,				-- Minimum XP before attempting to upgrade a division template.
 	DIVISION_CREATE_MIN_XP = 1000,				-- Minimum XP before attempting to create a fresh new division template.
-	VARIANT_UPGRADE_MIN_XP = 50,				-- Minimum XP before attempting to create a new variant.
+	VARIANT_UPGRADE_MIN_XP = 81,				-- Minimum XP before attempting to create a new variant.
 	UPGRADE_XP_RUSH_UPDATE = 150,				-- If XP is above this on the daily tick the AI will attempt to spend it
 	FOCUS_TREE_CONTINUE_FACTOR = 1.5,			-- Factor for score of how likely the AI is to keep going down a focus tree rather than starting a new path.
 	VP_GARRISON_VALUE_FACTOR = 0.75,				-- Extent to which VP garrisons are prioritized, based on VP value and compared to other priority values.
-	PLAN_VALUE_TO_EXECUTE = -0.15,				-- AI will typically avoid carrying out a plan it below this value (0.0 is considered balanced).
+	PLAN_VALUE_TO_EXECUTE = 0.07,				-- AI will typically avoid carrying out a plan it below this value (0.0 is considered balanced).
 	DECLARE_WAR_NOT_NEIGHBOR_FACTOR = 0.25,		-- Multiplier applied before force factor if country is not neighbor with the one it is considering going to war
 	CALL_ALLY_BASE_DESIRE = 20,					-- exactly what it says
 	CALL_ALLY_DEMOCRATIC_DESIRE = 50,			-- Desire to call ally added for democratic AI
@@ -1097,12 +1097,12 @@ NAI = {
 	NEUTRAL_THREAT_PARANOIA = 10,				-- How scared neutrals are of everyone
 	DIFFERENT_FACTION_THREAT = 30,				-- Threat caused by not being in the same faction
 	PLAN_MOVE_MIN_ORG_TO_ENEMY_PROVINCE = 20.0,	-- Minimum organization a unit must have to consider moving into an enemy province (not attack move)
-	PLAN_ATTACK_MIN_ORG_FACTOR_LOW = 0.85,		-- Minimum org % for a unit to actively attack an enemy unit when executing a plan
-	PLAN_ATTACK_MIN_STRENGTH_FACTOR_LOW = 0.4,	-- Minimum strength for a unit to actively attack an enemy unit when executing a plan
-	PLAN_ATTACK_MIN_ORG_FACTOR_MED = 0.75,		-- (LOW,MED,HIGH) corresponds to the plan execution agressiveness level.
-	PLAN_ATTACK_MIN_STRENGTH_FACTOR_MED = 0.3,	
+	PLAN_ATTACK_MIN_ORG_FACTOR_LOW = 0.55,		-- Minimum org % for a unit to actively attack an enemy unit when executing a plan
+	PLAN_ATTACK_MIN_STRENGTH_FACTOR_LOW = 0.78,	-- Minimum strength for a unit to actively attack an enemy unit when executing a plan
+	PLAN_ATTACK_MIN_ORG_FACTOR_MED = 0.4,		-- (LOW,MED,HIGH) corresponds to the plan execution agressiveness level.
+	PLAN_ATTACK_MIN_STRENGTH_FACTOR_MED = 0.6,	
 	PLAN_ATTACK_MIN_ORG_FACTOR_HIGH = 0.2,		
-	PLAN_ATTACK_MIN_STRENGTH_FACTOR_HIGH = 0.15,	
+	PLAN_ATTACK_MIN_STRENGTH_FACTOR_HIGH = 0.45,	
 	PLAN_FRONTUNIT_DISTANCE_FACTOR = 10.0,		-- Factor for candidate units distance to front positions.
 	PLAN_ATTACK_DEPTH_FACTOR = 0.5,				-- Factor applied to size or enemy being attacked.
 	PLAN_STEP_COST_LIMIT = 11,					-- When stepping to draw a plan this cost makes it break if it hits hard terrain (multiplied by number of desired steps)
@@ -1111,11 +1111,11 @@ NAI = {
 	PLAN_FRONT_SECTION_MIN_LENGTH = 10,			-- When two front sections together are this short they will be merged for the AI
 	PLAN_MIN_SIZE_FOR_FALLBACK = 5000,			-- A country with less provinces than this will not draw fallback plans, but rather station their troops along the front
 	SEND_VOLUNTEER_EVAL_BASE_DISTANCE = 105.0,  -- How far away it will evaluate sending volunteers if not a major power
-	SEND_VOLUNTEER_EVAL_MAJOER_POWER = 1.1, 	-- How willing major powers are to send volunteers.
+	SEND_VOLUNTEER_EVAL_MAJOER_POWER = 1.05, 	-- How willing major powers are to send volunteers.
 	SEND_VOLUNTEER_EVAL_CONTAINMENT_FACTOR = 0.35, -- How much AI containment factors into its evaluation of sending volunteers.
 	GIVE_STATE_CONTROL_MIN_CONTROLLED = 1,		-- AI needs to control more than this number of states before considering giving any away
 	GIVE_STATE_CONTROL_MIN_CONTROL_DIFF = 2,	-- The difference in number of controlled states compared to war participation needs to be bigger than this for the AI to consider giving a state to a country
-	RELATIVE_STRENGTH_TO_INVADE = 0.25,			-- Compares the estimated strength of the country/faction compared to it's enemies to see if it should invade or stay at home to defend.
+	RELATIVE_STRENGTH_TO_INVADE = 0.9,			-- Compares the estimated strength of the country/faction compared to it's enemies to see if it should invade or stay at home to defend.
 	RELATIVE_STRENGTH_TO_INVADE_DEFENSIVE = 0.4,-- Compares the estimated strength of the country/faction compared to it's enemies to see if it should invade or stay at home to defend, but while being a defensive country.
 	GIVE_STATE_CONTROL_BASE_SCORE = 50,			-- Base diplo score for giving away control of states
 	GIVE_STATE_CONTROL_DIFF_FACTOR = 2.0,		-- Diplo score multiplier for state control compared to war participation difference
@@ -1149,7 +1149,7 @@ NAI = {
 	MIN_FORCE_RATIO_TO_PROTECT = 0.5,			-- Tiny countries should not feel protective or really large ones
 	
 	ORG_UNIT_STRONG = 0.75,						-- Organization % for unit to be considered strong
-	STR_UNIT_STRONG = 0.75,						-- Strength (equipment) % for unit to be considered strong
+	STR_UNIT_STRONG = 0.85,						-- Strength (equipment) % for unit to be considered strong
 	
 	ORG_UNIT_WEAK = 0.3,						-- Organization % for unit to be considered weak
 	STR_UNIT_WEAK = 0.5,						-- Strength (equipment) % for unit to be considered weak
@@ -1354,7 +1354,7 @@ NAI = {
 	NAVAL_MISSION_ESCORT_NEAR_CONTROLLED = 5500,		-- Extra escort mission score near controlled provinces
 	NEW_LEADER_EXTRA_PP_FACTOR = 7.0,					-- Country must have at least this many times extra PP to get new admirals or army leaders
 	SCARY_LEVEL_AVERAGE_DEFENSE = -0.7,                 -- average front defense modifier to make it consider it as a PITA to go for
-	ATTACK_HEAVILY_DEFENDED_LIMIT = 0.6,				-- AI will not launch attacks against heavily defended fronts unless they consider to have this level of advantage (1.0 = 100%)
+	ATTACK_HEAVILY_DEFENDED_LIMIT = 0.75,				-- AI will not launch attacks against heavily defended fronts unless they consider to have this level of advantage (1.0 = 100%)
 	HOUR_BAD_COMBAT_REEVALUATE = 24,                   -- if we are in combat for this amount and it goes shitty then try skipping it 
 	MIN_PLAN_VALUE_TO_MICRO_INACTIVE = 0.2,				-- The AI will not consider members of groups which plan is not activated AND evaluates lower than this.
 	
@@ -1373,7 +1373,7 @@ NAI = {
 	FRONT_UNITS_CAP_FACTOR = 15.0,						-- A factor applied to total front size and supply use. Primarily effects small fronts
 	MAX_DIST_PORT_RUSH = 20.0,							-- If a unit is in enemy territory with no supply it will consider nearby ports within this distance.
 	
-	MIN_FIELD_STRENGTH_TO_BUILD_UNITS = 0.7,			-- Cancel unit production if below this to get resources out to units in the field
+	MIN_FIELD_STRENGTH_TO_BUILD_UNITS = 0.9,			-- Cancel unit production if below this to get resources out to units in the field
 	MIN_MANPOWER_TO_BUILD_UNITS = 0.7,					-- Cancel unit production if below this to get resources out to units in the field
 	
 	AVERAGE_SUPPLY_USE_PESSIMISM = 1.5,					-- Multiplier for when AI calculates average supply use of entire army.
