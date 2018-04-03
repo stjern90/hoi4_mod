@@ -976,7 +976,7 @@ NNavy = {
 },
 
 NTrade = {
-	DISTANCE_TRADE_FACTOR = -0.001,			-- Trade factor is modified by distance times this
+	DISTANCE_TRADE_FACTOR = -0.0005,			-- Trade factor is modified by distance times this
 	RELATION_TRADE_FACTOR = 1,				-- Trade factor is modified by Opinion value times this
 	FEAR_TRADE_FACTOR = 1,
 	ALLOW_TRADE_CUT_OFF = 20,				-- If trade factor is less than this, no trade will be allowed
