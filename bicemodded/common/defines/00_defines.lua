@@ -411,7 +411,9 @@ NMilitary = {
 	COMBAT_MINIMUM_TIME = 8,			-- Shortest time possible for a combat in hours
 	SPOTTING_QUALITY_DROP_HOURS = 4, 	-- Each X hours the intel quality drops after unit was spotted.
 	LEADER_GROUP_MAX_SIZE = 1000, 		-- 5 Max slots for leader groups.
-
+	
+	MIN_SUPPLY_CONSUMPTION = 0.05,					-- minimum value of supply consumption that a unit can get
+	
 	LAND_COMBAT_ORG_DICE_SIZE = 4,                 -- nr of damage dice
 	LAND_COMBAT_STR_DICE_SIZE = 2,                 -- nr of damage dice
 	LAND_COMBAT_STR_DAMAGE_MODIFIER = 0.07,        -- global damage modifier... but some equipment is returned at end of battles see : EQUIPMENT_COMBAT_LOSS_FACTOR
@@ -452,7 +454,7 @@ NMilitary = {
 	LEADER_SKILL_FACTOR = 0.05,                    -- bonus per skill level of leader
 	ARMY_LEADER_XP_GAIN_PER_UNIT_IN_COMBAT = 0.06, -- XP gain per unit in combat
 	CONSTANT_XP_RATIO_FOR_MULTIPLE_LEADERS_IN_SAME_COMBAT = 0.5, -- if there are multiple leaders in same combat, each one gets thisratio + 1-thisratio/num leaders. amount of xp each general gets scales 1 0.75 0.66 etc for 1 2 3 generals
-	BASE_LEADER_TRAIT_GAIN_XP = 1,				   -- Base xp gain for traits per hour.
+	BASE_LEADER_TRAIT_GAIN_XP = 1,				   -- Base xp gain for traits per hour for armies.
 	MAX_NUM_TRAITS = -1,					-- cant have more
 	ENEMY_AIR_SUPERIORITY_IMPACT = -0.33,           -- effect on defense due to enemy air superiorty
 	ENEMY_AIR_SUPERIORITY_DEFENSE = 0.75,	       -- more AA attack will approach this amount of help (diminishing returns)
@@ -705,7 +707,7 @@ NMilitary = {
 	MIN_XP_RATE_TO_DECAY = 0.1,								-- minimum XP factor for dragged combats
 	
 	XP_GAIN_PER_OVERRUN_UNIT = 30.0,						-- fixed XP gain per overrun unit
-	XP_GAIN_FOR_SHATTERING = 10.0,                          -- extra multiplier on XP gain on shattering an encircled enemy
+	XP_GAIN_FOR_SHATTERING = 16.0,                          -- fixed XP gain per shattered unit
 },
 
 
@@ -973,6 +975,8 @@ NNavy = {
 	ENEMY_AIR_SUPERIORITY_IMPACT = -0.4,           					-- effect on ship efficiency due to enemy air superiorty
 	DECRYPTION_SPOTTING_BONUS = 0.2,
 	DISBAND_MANPOWER_LOSS = 0.5,
+		
+	XP_GAIN_FACTOR = 1.0,	   			   							-- xp gain factor for navy
 },
 
 NTrade = {
