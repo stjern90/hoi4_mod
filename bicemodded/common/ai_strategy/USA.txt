@@ -236,3 +236,57 @@ USA_stop_soviet_from_falling = {
 		value = 200
 	}
 }
+
+# This will prompt USA to try and support countries who are fighting against extremist elements.
+# Should improve alt-history situations like democratic Germany fighting the USSR etc.
+USA_protect_against_extremism = { # Reverse strategy
+	reversed = yes
+
+	enable = {
+		NOT = { tag = USA }
+		USA = {
+			has_government = democratic
+		}
+		NOT = { has_government = communism }
+		NOT = { has_government = fascism }
+		OR = {
+			capital_scope = {
+				is_on_continent = europe # lets avoid smaller conflicts elsewhere
+			}
+			AND = {
+				num_of_civilian_factories > 10
+				is_subject = no
+			}
+		}
+		any_country = {
+			NOT = { tag = USA }
+			has_war_with = ROOT
+			OR = {
+				has_government = communism
+				has_government = fascism
+			}
+		}
+	}
+
+	abort = {
+		OR = {
+			has_war = no
+			OR = {
+				has_government = communism
+				has_government = fascism
+			}
+			USA = {
+				OR = {
+					NOT = {	has_government = democratic }
+					has_war_with = ROOT
+				}
+			}
+		}
+	}
+
+	ai_strategy = {
+		type = support
+		id = "USA"
+		value = 70
+	}
+}
