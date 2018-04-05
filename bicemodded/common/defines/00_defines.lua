@@ -372,7 +372,7 @@ NMilitary = {
 	COMBAT_VALUE_STR_IMPORTANCE = 1,		-- Multiplier on TotalStrength when determining the combat value of a division
 	
 	HOURLY_ORG_MOVEMENT_IMPACT = -0.06,		-- how much org is lost every hour while moving an army.
-	ZERO_ORG_MOVEMENT_MODIFIER = -0.55,		-- speed impact at 0 org.
+	ZERO_ORG_MOVEMENT_MODIFIER = -0.5,		-- speed impact at 0 org.
 	INFRA_ORG_IMPACT = 0.5,				-- scale factor of infra on org regain.
 	
 	UNIT_DAMAGE_TO_WAR_SUPPORT_REDUCTION_MULT = 0.4, -- if a unit reduces war support when it is damaged, this base multiplier is multiplied by the total damage they suffered to convert it war support damage
@@ -604,8 +604,8 @@ NMilitary = {
 	COMBAT_STACKING_PENALTY = -0.025,                -- how much stackign penalty per division
 	COMBAT_OVER_WIDTH_PENALTY = -1,					-- over combat width penalty per %.
 	COMBAT_OVER_WIDTH_PENALTY_MAX = -0.33,			-- over combat width max (when you cant join no more).
-	RETREAT_SPEED_FACTOR = 0.25,                    -- speed bonus when retreating
-	WITHDRAWING_SPEED_FACTOR = 0.15,				-- speed bonus when withdrawing
+	RETREAT_SPEED_FACTOR = 0.32,                    -- speed bonus when retreating
+	WITHDRAWING_SPEED_FACTOR = 0.21,				-- speed bonus when withdrawing
 	STRATEGIC_SPEED_BASE = 5,                 	-- Speed of strategic redeployment
 	STRATEGIC_INFRA_SPEED = 14.0,                   -- Max of additional speed gained trouh=gh level for strategic redeployment per infra
 	STRATEGIC_REDEPLOY_ORG_RATIO = 0.25,				-- Ratio of max org while strategic redeployment
