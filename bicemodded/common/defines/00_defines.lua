@@ -1315,8 +1315,8 @@ NAI = {
 	BUILD_ARMOR_STRENGTH_MULTIPLIER_WEIGHT = 0.0,
 	BUILD_ARMOR_ORGANIZATION_MULTIPLIER_WEIGHT = 0.0,
 
-	UPGRADE_DIVISION_RELUCTANCE = 2.5,					-- How often to consider upgrading to new templates for units in the field
-	UPGRADE_PERCENTAGE_OF_FORCES = 0.07,					-- How big part of the army that should be considered for upgrading
+	UPGRADE_DIVISION_RELUCTANCE = 2,					-- How often to consider upgrading to new templates for units in the field
+	UPGRADE_PERCENTAGE_OF_FORCES = 0.04,					-- How big part of the army that should be considered for upgrading
 
 	STRATEGIC_BOMBING_DEFENCE_IMPORTANCE = 500.0,
 	
