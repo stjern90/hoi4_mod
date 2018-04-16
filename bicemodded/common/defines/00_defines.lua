@@ -4,7 +4,7 @@ NGame = {
 	START_DATE = "1936.1.1.12",
 	END_DATE = "1949.1.1.1",
 	MAP_SCALE_PIXEL_TO_KM = 7.114,					-- Yes, we did the math
-	SAVE_VERSION = 4,
+	SAVE_VERSION = 5,
 	LAG_DAYS_FOR_LOWER_SPEED = 10,					-- Days of client lag for decrease of gamespeed
 	LAG_DAYS_FOR_PAUSE = 25,						-- Days of client lag for pause of gamespeed.
 	MAJOR_PARTICIPANTS_FOR_MAJOR_WAR = 3,			-- Minimum number of major countries involved in a war to consider it major enough to not end the game even though the enddate has been reached.
@@ -980,7 +980,7 @@ NNavy = {
 },
 
 NTrade = {
-	DISTANCE_TRADE_FACTOR = -0.0005,			-- Trade factor is modified by distance times this
+	DISTANCE_TRADE_FACTOR = 0,			-- Trade factor is modified by distance times this
 	RELATION_TRADE_FACTOR = 1,				-- Trade factor is modified by Opinion value times this
 	FEAR_TRADE_FACTOR = 1,
 	ALLOW_TRADE_CUT_OFF = 20,				-- If trade factor is less than this, no trade will be allowed
@@ -990,10 +990,10 @@ NTrade = {
 	PUPPET_MASTER_TRADE_FACTOR = 500,		-- This is priority for puppet master
 	PUPPET_TRADE_FACTOR = 0,				-- This is unpriority for puppets
 	LACK_OF_CONVOYS_TRADE_FACTOR = -0.1,	-- Every hour without convoys will lower trade factor this much (regain is the same)
-	BASE_LAND_TRADE_RANGE = 180,
+	BASE_LAND_TRADE_RANGE = 250,
 	PARTY_SUPPORT_TRADE_FACTOR = 50,		-- Trade factor bonus at the other side having 100 % party popularity for my party
-	ANTI_MONOPOLY_TRADE_FACTOR_THRESHOLD = 0.5,		-- What percentage of resources has to be sold to the buyer for the anti-monopoly factor to take effect
-	ANTI_MONOPOLY_TRADE_FACTOR = -70,		-- This is added to the factor value when anti-monopoly threshold is exceeded
+	ANTI_MONOPOLY_TRADE_FACTOR_THRESHOLD = 0.7,		-- What percentage of resources has to be sold to the buyer for the anti-monopoly factor to take effect
+	ANTI_MONOPOLY_TRADE_FACTOR = -50,		-- This is added to the factor value when anti-monopoly threshold is exceeded
 },
 
 NAI = {
