@@ -880,10 +880,10 @@ NNavy = {
 	COMBAT_TORPEDO_CRITICAL_DAMAGE_MULT = 2.0,						-- multiplier to damage when got critical hit from torpedo. (Critical hits are devastating as usualy torpedo_attack are pretty high base values).
 	COMBAT_DAMAGE_TO_STR_FACTOR = 1.6,								-- casting damage value to ship strength multiplier. Use it to balance the game difficulty.
 	COMBAT_DAMAGE_TO_ORG_FACTOR = 1.9,							-- casting damage value to ship organisation multiplier. Use it to balance the game difficulty.
-	COMBAT_DAMAGE_REDUCTION_ON_RETREAT = 0.7,						-- Retreating ships are using their rear cannons, so the damage should be reduced.
+	COMBAT_DAMAGE_REDUCTION_ON_RETREAT = 0.75,						-- Retreating ships are using their rear cannons, so the damage should be reduced.
 	NAVY_MAX_XP = 160,
 	
-	COMBAT_ESCAPING_SPEED_BALANCE = 0.6,							-- DNM, original 0.8, should make it a little easier for disengaging ships to escape -- Same as above, but used to balance when escaping.
+	COMBAT_ESCAPING_SPEED_BALANCE = 0.65,							-- DNM, original 0.8, should make it a little easier for disengaging ships to escape -- Same as above, but used to balance when escaping.
 	COMBAT_ON_THE_WAY_INIT_DISTANCE_BALANCE = 0.5, 					-- Value to balance initial distance to arrive for ships that are "on the way"	
 	COMBAT_CHASE_RUNNERS_SPEED_COMPARE_BALANCE = 0.6,				-- When we chanse runners and they are faster then us, then we resign. But if we are faster then them by a very small speed difference, the chase may takes weeks. So this tweak value allows to resign chasing if speed difference is not so big.
 	COMABT_CHASE_RUNNERS_TIMEOUT_HOURS = 10,						-- Stop chasing after timeout
