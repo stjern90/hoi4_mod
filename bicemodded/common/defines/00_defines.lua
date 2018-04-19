@@ -343,7 +343,7 @@ NBuildings = {
 	MAX_BUILDING_LEVELS = 15,			-- Max levels a building can have.
 	AIRBASE_CAPACITY_MULT = 200,		-- Each level of airbase building multiplied by this, gives capacity (max operational value). Value is int. 1 for each airplane.
 	ROCKETSITE_CAPACITY_MULT = 100,		-- Each level of rocketsite building multiplied by this, gives capacity (max operational value). Value is int. 1 for each rocket.
-	NAVALBASE_CAPACITY_MULT = 14.0,		-- Each level of navalbase building multiplied by this, gives max capacity. Value is float. Each ship takes port_capacity_usage space.
+	NAVALBASE_CAPACITY_MULT = 15.0,		-- Each level of navalbase building multiplied by this, gives max capacity. Value is float. Each ship takes port_capacity_usage space.
 	NAVALBASE_REPAIR_MULT = 0.15,		-- Each level of navalbase building repairs X strength. The value is spread on all ships needed reparation. Fe Navalbase lvl 5 x 0.5 str repair = 2.5 str repaired over 10 ships, so each ship repair hourly 0.25 str.
 	RADAR_RANGE_BASE = 10,				-- Radar range base, first level radar will be this + min, best radar will be this + max
 	RADAR_RANGE_MIN = 10,				-- Radar range (from state center to province center) in measure of map pixels. Exluding techs.
@@ -372,7 +372,7 @@ NMilitary = {
 	COMBAT_VALUE_STR_IMPORTANCE = 1,		-- Multiplier on TotalStrength when determining the combat value of a division
 	
 	HOURLY_ORG_MOVEMENT_IMPACT = -0.06,		-- how much org is lost every hour while moving an army.
-	ZERO_ORG_MOVEMENT_MODIFIER = -0.5,		-- speed impact at 0 org.
+	ZERO_ORG_MOVEMENT_MODIFIER = -0.45,		-- speed impact at 0 org.
 	INFRA_ORG_IMPACT = 0.5,				-- scale factor of infra on org regain.
 	
 	UNIT_DAMAGE_TO_WAR_SUPPORT_REDUCTION_MULT = 0.4, -- if a unit reduces war support when it is damaged, this base multiplier is multiplied by the total damage they suffered to convert it war support damage
