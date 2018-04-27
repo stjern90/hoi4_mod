@@ -1843,3 +1843,81 @@ country_event = { #USA
 
 	option = {}
 }
+
+
+
+
+# Navy staged incident
+country_event = {
+	id = usa.64
+	title = usa.64.t
+	desc = usa.64.d
+	picture = GFX_report_event_british_armour_crew
+	
+	
+	fire_only_once = yes
+	
+	trigger = {
+		tag = USA
+		has_country_flag = impossible
+		NOT = { has_war_with = JAP }	
+		CHI = { OR = { has_capitulated = yes exists = no is_puppet = yes } }
+		date > 1942.6.1
+		OR = { 
+		      date > 1942.12.1
+		AND = { 602 = { is_controlled_by = JAP } 755 = { is_controlled_by = JAP } 608 = { is_controlled_by = JAP } } # some states
+		AND = { 605 = { is_controlled_by = JAP } 755 = { is_controlled_by = JAP } 608 = { is_controlled_by = JAP } } # some states
+		AND = { 605 = { is_controlled_by = JAP } 597 = { is_controlled_by = JAP } 600 = { is_controlled_by = JAP } } # some states
+		AND = { 605 = { is_controlled_by = JAP } 613 = { is_controlled_by = JAP } 592 = { is_controlled_by = JAP } } # some states
+		}
+	}
+	
+	mean_time_to_happen = {
+		days = 10
+	}
+	
+	immediate = {
+	    hidden_effect = {
+			news_event = { id = news.337 }
+	    }
+	}
+	
+	option = {
+		name = usa.64.a
+		# blaim japan, gain wargoal. Gain disstrust between navy high command
+		# slight war support increase
+		ai_chance = {
+			factor = 90
+		}
+		if = {
+		limit = { 592 = { is_controlled_by = JAP } }
+		
+		create_wargoal = {
+					type = take_state_focus
+					target = JAP
+					generator = { 592 }
+				}
+		     else = {
+			 if = {
+		limit = { 282 = { is_controlled_by = JAP } }
+		create_wargoal = {
+					type = take_state_focus
+					target = JAP
+					generator = { 282 }
+				}
+
+		}
+			 }
+		}
+		hidden_effect = {
+			news_event = { id = news.338 hours = 12 }
+		}
+	}
+	option = {
+		name = usa.64.b
+		# purge navy admirals lose war support and stability
+		ai_chance = {
+			factor = 0
+		}
+	}
+}
