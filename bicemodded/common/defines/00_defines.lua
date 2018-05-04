@@ -1239,7 +1239,7 @@ NAI = {
 
 	MANPOWER_FREE_USAGE_THRESHOLD = 90000,				-- If AI has this much manpower he doesn't care about the percentage
 	MANPOWER_RESERVED_THRESHOLD = 0.7,					-- The AI will not deploy more units if he goes below this percentage
-	START_TRAINING_EQUIPMENT_LEVEL = 0.95,               -- ai will not start to train if equipment drops below this level
+	START_TRAINING_EQUIPMENT_LEVEL = 0.93,               -- ai will not start to train if equipment drops below this level
 	STOP_TRAINING_EQUIPMENT_LEVEL = 0.90,                -- ai will not train if equipment drops below this level
 	BUILD_REFINERY_LACK_OF_RESOURCE_MODIFIER = 0.007,	-- How much lack of resources are worth when evaluating what to build.
 	DIVISION_DESIGN_WEIGHTS = {							-- Base values used by AI to evaluate value of a stat
@@ -1512,7 +1512,7 @@ NAI = {
 	MAX_AVAILABLE_MANPOWER_RATIO_TO_BUFFER_PEACETIME = 0.2,		-- deployment will try to buffer a ratio of manpower (for reinforcements) during peace time
 	
 	MANPOWER_RATIO_REQUIRED_TO_PRIO_MOBILIZATION_LAW = 0.4,		-- percentage of manpower in field is desired to be buffered for AI when it has upcoming wars or already at war. if it has less manpower, it will prio manpower laws
-	UPGRADES_DEFICIT_LIMIT_DAYS = 80,                           -- Ai will avoid upgrading units in the field to new templates if it takes longer than this to fullfill their equipment need
+	UPGRADES_DEFICIT_LIMIT_DAYS = 150,                           -- Ai will avoid upgrading units in the field to new templates if it takes longer than this to fullfill their equipment need
 
 },
 
