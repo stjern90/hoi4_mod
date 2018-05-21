@@ -172,7 +172,8 @@ leader_traits = {
 		#}
 		
 		trait_xp_factor = {
-			artillery_leader = 1     #+100%
+			artillery_leader = 2     #+200%
+			fortress_buster = 0.5    #+50%
 		}
 		
 		attack_skill_factor = 1
@@ -201,7 +202,7 @@ leader_traits = {
 		trait_type = personality_trait
 		
 		trait_xp_factor = {
-			cavalry_leader = 1     #+100%
+			cavalry_leader = 3     #+300%
 		}
 		
 		attack_skill_factor = 1
@@ -490,9 +491,9 @@ leader_traits = {
 		}
 		custom_gain_xp_trigger_tooltip = cavalary_ratio_over_40
 		
-		cost = 1000
+		cost = 1400
 		modifier = {
-			cavalry_attack_factor = 0.1
+			army_artillery_attack_factor = 0.1
 		}
 		
 		ai_will_do = {
@@ -534,23 +535,32 @@ leader_traits = {
 	#}
 	# test if multiple checks can be done in same context
 	# test this by using a template with anti tank and medium artillery
-	#combined_arms_leader = { 
-	#	type = corps_commander
-	#	gain_xp = {
-	#		set_temp_variable = { temp = num_units }
-	#		multiply_temp_variable = { temp = 0.2 }
-	#		check_variable = { num_mechanized > temp }
-	#       set_temp_variable = { temp2 = num_units }
-	#		multiply_temp_variable = { temp2 = 0.2 }
-	#		check_variable = { num_rocket > temp2 }
-	#	}
-	#	#custom_gain_xp_trigger_tooltip = infantry_ratio_over_80
-	#	cost = 10
-	#	modifier = {
-	#		army_infantry_defence_factor = 0.02
-	#	}		
-	#	gui_row = 21
-	#}
+	combined_arms_leader = { 
+		type = corps_commander
+		gain_xp = {
+		        set_temp_variable = { temp1 = num_units }  # best we can do for now
+		        multiply_temp_variable = { temp1 = 0.25 }
+		        check_variable = { num_cavalry > temp1 }
+		       
+		        set_temp_variable = { temp2 = num_units }
+			multiply_temp_variable = { temp2 = 0.2 }
+			check_variable = { num_motorized > temp2 }
+			
+			set_temp_variable = { temp3 = num_units }
+			multiply_temp_variable = { temp3 = 0.2 }
+			check_variable = { num_mechanized > temp3 }
+			
+			set_temp_variable = { temp4 = num_units }
+			multiply_temp_variable = { temp4 = 0.5 }
+			check_variable = { num_armored > temp4 }
+		}
+		#custom_gain_xp_trigger_tooltip = infantry_ratio_over_80
+		cost = 10
+		modifier = {
+			army_infantry_defence_factor = 0.02
+		}		
+		gui_row = 21
+	}
 	infantry_leader = { 
 		type = corps_commander
 		gain_xp = {
@@ -757,15 +767,18 @@ leader_traits = {
 	artillery_leader = {
  	        type = corps_commander
 		gain_xp = {
+			#set_temp_variable = { temp = num_units }   # Pardox fucked up and doesnt support all types :(
+			#multiply_temp_variable = { temp = 0.27 }
+			#set_temp_variable = { cmm = num_artillery }
+			#check_variable = { cmm > temp }
 			set_temp_variable = { temp = num_units }
 			multiply_temp_variable = { temp = 0.27 }
-			set_temp_variable = { cmm = num_artillery }
-			check_variable = { cmm > temp }
+			check_variable = { num_cavalry > temp }
 		}
 		custom_gain_xp_trigger_tooltip = artillery_ratio_over_27
-		cost = 800
+		cost = 1000
 		modifier = {
-			army_artillery_attack_factor = 0.1
+			cavalry_attack_factor = 0.1
 		}
 		
 		ai_will_do = {
@@ -1041,8 +1054,8 @@ leader_traits = {
 		}
 		cost = 500
 		modifier = {
-			cavalry_attack_factor = 0.10
-			cavalry_defence_factor = 0.15
+			army_artillery_attack_factor = 0.05
+			army_artillery_defence_factor = 0.1
 		}
 		
 		ai_will_do = {
@@ -1061,8 +1074,9 @@ leader_traits = {
 		}
 		cost = 500
 		modifier = {
-			army_artillery_attack_factor = 0.05
-			army_artillery_defence_factor = 0.1
+			
+			cavalry_attack_factor = 0.05
+			cavalry_defence_factor = 0.1
 		}
 		
 		ai_will_do = {
@@ -1083,7 +1097,7 @@ leader_traits = {
 		}
 		cost = 700
 		modifier = {
-		        army_artillery_attack_factor = 0.05
+		        cavalry_attack_factor = 0.05
 			fort = {
 				attack = 0.15
 			}
@@ -1165,28 +1179,6 @@ leader_traits = {
 		
 		gui_row = 8
 	}
-	
-	#artillerist = { 
-	#	type = corps_commander
-	#	gain_xp = {
-	#		always = no # not gainable
-	#	}
-	#	cost = 500
-	#	modifier = {
-	#		artillery_attack_factor = 0.1
-	#	}
-	#	
-	#	ai_will_do = {
-	#		factor = 1
-	#	}
-	#	
-	#	mutually_exclusive = infantry_expert
-    #
-	#	trait_type = assignable_trait
-	#	parent = infantry_leader
-	#	
-	#	gui_row = 9
-	#}
 	invader_ii = { 
 		type = corps_commander
 		gain_xp = {
