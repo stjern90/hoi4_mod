@@ -785,7 +785,7 @@ NAir = {
 	SUPPLY_NEED_FACTOR = 0.5, 							-- multiplies supply usage
 	SUPPLY_PRIO_FACTOR = 100.0,							-- Effect of supply need per unit for target province picking for air supply
 	CAPACITY_PENALTY = 0.7,								-- scales penalty of having overcrowded bases.
-	AIR_COMBAT_FINAL_DAMAGE_SCALE = 0.025,               -- % how many max disrupted only planes are alloed to die in a single combat
+	AIR_COMBAT_FINAL_DAMAGE_SCALE = 0.1,               -- % how many max disrupted only planes are alloed to die in a single combat
 	AIR_COMBAT_FINAL_DAMAGE_PLANES = 50,                -- scaling/control for when only very few planes exist to stop roundoff issues
 	AIR_COMBAT_FINAL_DAMAGE_PLANES_FACTOR = 0.1,
 	AA_INDUSTRY_AIR_DAMAGE_FACTOR = -0.12,				-- 5x levels = 60% defense from bombing
