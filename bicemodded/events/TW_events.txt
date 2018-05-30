@@ -128,73 +128,6 @@ country_event = {   # to make sure norway don't go all commie on me
     	name = twevents.5.b
     }
 }
-country_event = { 
-	id = twevents.6
-	title = twevents.6.t
-	desc = twevents.6.d
-	picture = GFX_report_event_japanese_soldiers_02
-	
-	trigger = { 
-		tag = JAP
-		is_ai = yes
-		FRA = {is_ai = yes}
-		NOT = { has_global_flag = jap_got_indo_china }
-		OR = { 
-			has_war_with = ENG
-			has_war_with = FRA
-		}
-	}
-	
-	fire_only_once = yes
-	
-	option = {
-		name = twevents.6.a
-		ai_chance = { factor = 1 } 
-		set_global_flag = jap_got_indo_china
-		JAP = {
-				transfer_state = 286
-				transfer_state = 670
-				transfer_state = 671
-				transfer_state = 741
-			}
-			add_named_threat = { threat = 1 name = france.1.t }
-	}
-}
-
-
-country_event = {
-	id = twevents.9
-	title = twevents.9.t
-	desc = twevents.9.d
-	picture = GFX_report_event_tripartite_pact
-	
-	fire_only_once = yes
-	
-	trigger = {
-		tag = JAP
-		has_country_flag = impossible
-		is_puppet = no
-		NOT = { has_war_with = JAP }
-		JAP = { NOT = { is_in_faction = yes } }
-		has_completed_focus = JAP_Southern
-		ENG = { has_war_with = GER }
-		date > 1940.9.1
-	}
-
-	option = {
-		name = twevents.9.a
-		ai_chance = {
-		    factor = 10
-		}
-		GER = { add_to_faction = JAP }
-	}
-	option = {
-    	name = twevents.9.b
-    }
-}
-
-
-
 
 country_event = {
 	id = twevents.25
@@ -207,13 +140,19 @@ country_event = {
 	trigger = {
 		tag = JAP
 		is_ai = yes
-		GER = { is_ai = yes }
 		GER = { has_war_with = SOV }
-		SOV = {is_ai = no}
+		NOT = { JAP = { has_war_with = SOV } }
+		has_government = fascism
+		surrender_progress < 0.05
 		OR = {
-		    SOV = { surrender_progress > 0.5 }
-		    date > 1945.12.1
-		
+		    AND = {
+		    SOV = { surrender_progress > 0.6 }
+		    date > 1942.6.1
+		    }
+		    AND = {
+		    SOV = { surrender_progress > 0.4 }
+		    date > 1944.2.1
+		    }
 		}
 	}
 
@@ -222,7 +161,6 @@ country_event = {
 		effect_tooltip = {
 			JAP = { declare_war_on = { target = SOV type = annex_everything } }
 		}
-		set_country_flag = jap_at_the_soviets
 	}
 }
 country_event = {	# Soviets says yes   historical mod
@@ -249,16 +187,14 @@ country_event = { # historical mod - Finland join GER during GER vs SOV
 	    tag = GER
 		is_puppet = no
 		NOT = { has_war_with = FIN }
-		FIN = { NOT = { is_in_faction = yes } }
-	    FIN = {
-		    AND = {
-		    	GER = { has_war_with = SOV }
+		FIN = { NOT = { is_in_faction = yes } NOT = { has_government = communism }}
+		has_war_with = SOV
 		    	OR = {
 		    		208 = { is_controlled_by = GER }
 		    		209 = { is_controlled_by = GER }
 		    	}
-		    }
-		}
+		    
+		
 	}
 	
 	fire_only_once = yes
@@ -268,44 +204,11 @@ country_event = { # historical mod - Finland join GER during GER vs SOV
 		ai_chance = { factor = 100 }
 		GER = { add_to_faction = FIN }
 		hidden_effect = { FIN = { remove_ideas = neutrality_idea } }
-		set_global_flag = now_finland_now
 	}
 	option = {
     	name = twevents.27.b
     }
 }
-
-country_event = {
-	id = twevents.28
-	title = twevents.28.t
-	desc = twevents.28.d
-	picture = GFX_report_event_tojo_flag
-
-	fire_only_once = yes
-
-	trigger = {
-	    tag = JAP
-	    NOT = { is_in_faction_with = USA }
-	    is_ai = yes
-		date > 1941.11.15                            # make sure that they join
-	}
-	
-	mean_time_to_happen = {
-		days = 26
-	}
-
-    immediate = {
-        hidden_effect = {
-            	JAP = { declare_war_on = { target = USA type = annex_everything } }
-            	set_country_flag = jap_at_the_usa
-        }
-    }
-
-	option = {
-		name = twevents.28.a
-	}
-}
-
 
 country_event = {
 	id = twevents.35
@@ -317,22 +220,16 @@ country_event = {
 	trigger = {
 		tag = USA
 		is_ai = yes
+		country_exists = ENG
+		ENG = { has_war_with = GER }
 		  NOT = { is_in_faction_with = GER }
 		    NOT = { is_in_faction_with = JAP }
-		date > 1941.12.10
+		date > 1941.12.20
+		
 	}
 
 	fire_only_once = yes
-    immediate = {
-        hidden_effect = {
-            if = {
-                limit = {
-                    is_ai = yes
-                }
-                ENG = { add_to_faction = USA }
-            }
-        }
-    }
+    
 	option = {
 		name = twevents.35.a
 		ai_chance = { factor = 100 }
