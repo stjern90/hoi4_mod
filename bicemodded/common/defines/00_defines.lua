@@ -728,13 +728,13 @@ NAir = {
 	COMBAT_DAMAGE_STATS_MULTILIER = 0.3,
 	COMBAT_BETTER_AGILITY_DAMAGE_REDUCTION = 0.45, 		-- How much the better agility (then opponent's) can reduce their damage to us.
 	COMBAT_AMOUNT_DIFF_AFFECT_GANG_CHANCE = 0.5, 		-- More aircrafts increases chance of situation 2vs1. ( Naval air combat only )
-	COMBAT_ONE_ON_ONE_CHANCE = 0.6, 					-- Base chance for 1vs1 situation. ( Naval air combat only )
+	COMBAT_ONE_ON_ONE_CHANCE = 0.7, 					-- Base chance for 1vs1 situation. ( Naval air combat only )
 	COMBAT_SITUATION_WIN_CHANCE_FROM_STATS = 0.3, 		-- How much good stats difference (speed+agility) affects the winning chance (situation win = give a hit, not necessary kill).( Naval air combat only )
 	COMBAT_SITUATION_WIN_CHANCE_FROM_GANG = 0.3, 		-- How much bonus gives the airplanes amount advantage (2vs1), to winning the situation.( Naval air combat only )
 	COMBAT_MAX_WINGS_AT_ONCE = 10000, 						-- Max amount of air wings in one combat simulation. The higher value, the quicker countries may loose their wings. It's a gameplay balance value.
 	COMBAT_MAX_WINGS_AT_GROUND_ATTACK = 10000,	        	-- we can really pounce a land strike and escalate
 	COMBAT_MAX_WINGS_AT_ONCE_PORT_STRIKE = 10000,        -- we can really pounce a naval strike and escalate
-	COMBAT_ATTACK_PASSES_AT_ONCE = 0.1,					-- Wing attack stat determines of many re-approaches in single combat they do. This is a scale of this amount to balance the gameplay. Less retries = less bloody combats, and less calculations for the CPU. ( Naval air combat only )
+	COMBAT_ATTACK_PASSES_AT_ONCE = 0.9,					-- Wing attack stat determines of many re-approaches in single combat they do. This is a scale of this amount to balance the gameplay. Less retries = less bloody combats, and less calculations for the CPU. ( Naval air combat only )
 	AIR_REGION_SUPERIORITY_PIXEL_SCALE = 0.04,           -- air superiority scale = superiority/(pixels*this)
 	COMBAT_SUP_VS_SUP_ATTACK_CHANCE_SPEED_DIFF = 0.25, 	-- How much diff in speed between aircrafts affects the chance of who attacks first in superiority vs superiority.( Naval air combat only )
 	COMBAT_MULTIPLANE_CAP = 3.0,						-- How many planes can shoot at each plane on other side ( if there are 100 planes we are atttacking COMBAT_MULTIPLANE_CAP * 100 of our planes can shoot )
@@ -753,7 +753,7 @@ NAir = {
 	NAVAL_STRIKE_TARGETTING_TO_AMOUNT = 0.32,			-- Balancing value to convert the naval_strike_targetting equipment stats to chances of how many airplanes managed to do successfull strike.
 	NAVAL_STRIKE_DAMAGE_TO_STR = 2.0,					-- Balancing value to convert damage ( naval_strike_attack * hits ) to Strength reduction.
 	NAVAL_STRIKE_DAMAGE_TO_ORG = 2.0,					-- Balancing value to convert damage ( naval_strike_attack * hits ) to Organisation reduction.
-	NAVAL_STRIKE_AIR_VS_AIR_PASS_CHANCE = 0.46,			-- Balancing value to control
+	NAVAL_STRIKE_AIR_VS_AIR_PASS_CHANCE = 0.9,			-- Balancing value to control
 	FIELD_EXPERIENCE_SCALE = 0.002,
 	FIELD_EXPERIENCE_MAX_PER_DAY = 1,					-- Most xp you can gain per day
 	CLOSE_AIR_SUPPORT_EXPERIENCE_SCALE = 0.00017,			-- How much the experinence gained by CAS is scaled
@@ -798,9 +798,9 @@ NAir = {
 	AIR_DEPLOYMENT_DAYS = 2,							-- Days to deploy one air wing
 	PORT_STRIKE_ENEMY_SUPERIORITY_LIMIT = 0.3,			-- Min air superiority for performing of naval strike
 	NAVAL_STRIKE_BASE_STR_TO_PLANES_RATIO = 0.1,		-- Max airbombers to do port strike comparing to strength
-	NAVAL_COMBAT_EXTERNAL_PLANES_JOIN_RATIO = 0.05,		-- Max planes that can join a combat comparing to the total strength of the ships
-	NAVAL_COMBAT_EXTERNAL_PLANES_JOIN_RATIO_PER_DAY = 0.2, -- max extra plane % that can join every day
-	NAVAL_COMBAT_EXTERNAL_PLANES_MIN_CAP = 20,			-- Min cap for planes that can join naval combat
+	NAVAL_COMBAT_EXTERNAL_PLANES_JOIN_RATIO = 0.03,		-- Max planes that can join a combat comparing to the total strength of the ships
+	NAVAL_COMBAT_EXTERNAL_PLANES_JOIN_RATIO_PER_DAY = 0.15, -- max extra plane % that can join every day
+	NAVAL_COMBAT_EXTERNAL_PLANES_MIN_CAP = 35,			-- Min cap for planes that can join naval combat
 	
 	AIR_MORE_GROUND_CREWS_COST = 20.0,					-- CP cost to maintain more ground crews
 	AIR_MORE_GROUND_CREWS_BOOST = 0.1,					-- Efficienct boost for more ground crews
