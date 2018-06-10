@@ -413,7 +413,7 @@ NMilitary = {
 	SPOTTING_QUALITY_DROP_HOURS = 4, 	-- Each X hours the intel quality drops after unit was spotted.
 	LEADER_GROUP_MAX_SIZE = 1000, 		-- 5 Max slots for leader groups.
 	
-	MIN_SUPPLY_CONSUMPTION = 0.1,					-- minimum value of supply consumption that a unit can get
+	MIN_SUPPLY_CONSUMPTION = 0.2,					-- minimum value of supply consumption that a unit can get
 	
 	LAND_COMBAT_ORG_DICE_SIZE = 4,                 -- nr of damage dice
 	LAND_COMBAT_STR_DICE_SIZE = 2,                 -- nr of damage dice
@@ -602,9 +602,9 @@ NMilitary = {
 	COMBAT_SUPPLY_LACK_IMPACT = -0.35,				-- combat penalty if out of supply
 	COMBAT_STACKING_START = 9,						-- at what nr of divisions stacking penalty starts
 	COMBAT_STACKING_EXTRA = 4,                      -- extra stacking from directions
-	COMBAT_STACKING_PENALTY = -0.025,                -- how much stackign penalty per division
+	COMBAT_STACKING_PENALTY = -0.03,                -- how much stackign penalty per division
 	COMBAT_OVER_WIDTH_PENALTY = -2,					-- over combat width penalty per %.
-	COMBAT_OVER_WIDTH_PENALTY_MAX = -0.33,			-- over combat width max (when you cant join no more).
+	COMBAT_OVER_WIDTH_PENALTY_MAX = -0.4,			-- over combat width max (when you cant join no more).
 	RETREAT_SPEED_FACTOR = 0.32,                    -- speed bonus when retreating
 	WITHDRAWING_SPEED_FACTOR = 0.22,				-- speed bonus when withdrawing
 	STRATEGIC_SPEED_BASE = 5,                 	-- Speed of strategic redeployment
@@ -646,7 +646,7 @@ NMilitary = {
 
 	PROMOTE_LEADER_CP_COST = 30.0,					-- cost of promoting a leader
 	
-	CORPS_COMMANDER_ASSIGNABLE_TRAIT_NUM = 2,		-- maximum number of traits that can be assigned to corps commanders
+	CORPS_COMMANDER_ASSIGNABLE_TRAIT_NUM = 3,		-- maximum number of traits that can be assigned to corps commanders
 	FIELD_MARSHAL_ASSIGNABLE_TRAIT_NUM = 3,         -- maximum number of traits that can be assigned to field marshalls
 	NAVY_LEADER_ASSIGNABLE_TRAIT_NUM = 0,         	-- maximum number of traits that can be assigned to navy leaders
 	
@@ -1031,8 +1031,8 @@ NAI = {
 	DIPLOMACY_FACTION_SURRENDER_LEVEL = 20, 	-- How much the recipient nation losing matters for joining a faction
 	DIPLO_PREFER_OTHER_FACTION = -200,			-- The country has yet to ask some other faction it would prefer to be a part of.
 	MIN_ANTAGONIZE_FOR_WARGOAL_JUSTIFICATION = -100,	-- AI countries will not fabricate claims against countries with an antagonization value lower than this.
-	RESEARCH_DAYS_BETWEEN_WEIGHT_UPDATE = 14, 	-- Refreshes need scores based on country situation.
-	RESEARCH_LAND_DOCTRINE_NEED_GAIN_FACTOR = 0.09, -- Multiplies value based on relative military industry size / country size.
+	RESEARCH_DAYS_BETWEEN_WEIGHT_UPDATE = 20, 	-- Refreshes need scores based on country situation.
+	RESEARCH_LAND_DOCTRINE_NEED_GAIN_FACTOR = 0.10, -- Multiplies value based on relative military industry size / country size.
 	RESEARCH_NAVAL_DOCTRINE_NEED_GAIN_FACTOR = 0.08, -- Multiplies value based on relative naval industry size / country size.
 	RESEARCH_AIR_DOCTRINE_NEED_GAIN_FACTOR = 0.07, -- Multiplies value based on relative number of air base / country size.
 	RESEARCH_NEW_WEIGHT_FACTOR = 0.3, 			-- Impact of previously unexplored tech weights. Higher means more random exploration.
@@ -1154,13 +1154,13 @@ NAI = {
 	MIN_FORCE_RATIO_TO_PROTECT = 0.5,			-- Tiny countries should not feel protective or really large ones
 	
 	ORG_UNIT_STRONG = 0.75,						-- Organization % for unit to be considered strong
-	STR_UNIT_STRONG = 0.85,						-- Strength (equipment) % for unit to be considered strong
+	STR_UNIT_STRONG = 0.86,						-- Strength (equipment) % for unit to be considered strong
 	
 	ORG_UNIT_WEAK = 0.3,						-- Organization % for unit to be considered weak
-	STR_UNIT_WEAK = 0.5,						-- Strength (equipment) % for unit to be considered weak
+	STR_UNIT_WEAK = 0.56,						-- Strength (equipment) % for unit to be considered weak
 	
 	ORG_UNIT_NORMAL = 0.6,						-- Organization % for unit to be considered normal
-	STR_UNIT_NORMAL = 0.7,						-- Strength (equipment) % for unit to be considered normal
+	STR_UNIT_NORMAL = 0.72,						-- Strength (equipment) % for unit to be considered normal
 	
 	PLAN_FACTION_STRONG_TO_EXECUTE = 0.60,		-- % or more of units in an order to consider executing the plan
 	PLAN_FACTION_NORMAL_TO_EXECUTE = 0.65,		-- % or more of units in an order to consider executing the plan
@@ -1505,10 +1505,10 @@ NAI = {
 	LOW_PRIO_TEMPLATE_BONUS_FOR_GARRISONS = 10000,		-- bonus to make ai more likely to assign low prio units to garrisons
 	LOW_PRIO_TEMPLATE_PENALTY_FOR_FRONTS = 10000,		-- penalty to make ai less likely to assign low prio units to fronts
 	
-	DEPLOYED_UNIT_MANPOWER_RATIO_TO_BUFFER_WARTIME = 0.3, 				-- deployment will try to buffer a ratio of deployed manpower (for reinforcements) during war time
+	DEPLOYED_UNIT_MANPOWER_RATIO_TO_BUFFER_WARTIME = 0.25, 				-- deployment will try to buffer a ratio of deployed manpower (for reinforcements) during war time
 	DEPLOYED_UNIT_MANPOWER_RATIO_TO_BUFFER_PEACETIME = 0.1,     		-- deployment will try to buffer a ratio of deployed manpower (for reinforcements) during peace time
 	
-	MAX_AVAILABLE_MANPOWER_RATIO_TO_BUFFER_WARTIME = 0.4,			-- deployment will try to buffer a ratio of manpower (for reinforcements) during war time
+	MAX_AVAILABLE_MANPOWER_RATIO_TO_BUFFER_WARTIME = 0.35,			-- deployment will try to buffer a ratio of manpower (for reinforcements) during war time
 	MAX_AVAILABLE_MANPOWER_RATIO_TO_BUFFER_PEACETIME = 0.2,		-- deployment will try to buffer a ratio of manpower (for reinforcements) during peace time
 	
 	MANPOWER_RATIO_REQUIRED_TO_PRIO_MOBILIZATION_LAW = 0.4,		-- percentage of manpower in field is desired to be buffered for AI when it has upcoming wars or already at war. if it has less manpower, it will prio manpower laws
