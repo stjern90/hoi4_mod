@@ -1,9 +1,3 @@
-### #  # ###  #  #  ### ### ###  #   #    ###  #### #     ##   ##   ##  ### ###  ##  #  #
- #  ## # #  # #  # #     #  #  #  # #     #  # #    #    #  # #  # #  #  #   #  #  # ## #
- #  # ## #  # #  #   #   #  ###    #      ###  ##   #    #  # #    ####  #   #  #  # # ##
- #  #  # #  # #  #    #  #  #  #   #      #  # #    #    #  # #  # #  #  #   #  #  # #  #
-### #  # ###   ##  ###   #  #  #   #      #  # #### ####  ##   ##  #  #  #  ###  ##  #  #
-
 #Category only allowed for SOV
 SOV_industry_relocation = {
 
@@ -1140,18 +1134,22 @@ operations = {
 		visible = {
 			SOV = { has_war_with = GER }
 			tag = SOV
+			has_government = communism
 		}
 		allowed = {
-			tag = SOV
+			original_tag = SOV
+			has_war_support > 0.75
+			communism > 0.85
 		}
 
-		icon = generic_political_actions
+		icon = decision_generic_SOV
 
-		cost = 0
-		ai_will_do = {
-			factor = 1
+		cost = 50
+		ai_will_do = {   # AI disabled for now. Cant have the ai 'chace' and save pp for a decision it cant take 
+		                 # (due to always spending army exp before reaching 100)
+			factor = 0
 			modifier = {
-				factor = 1000
+				factor = 0
 				has_war = yes
 			}
 		}	
@@ -1179,7 +1177,7 @@ operations = {
 			has_idea = Disorganized_Red_Army_1
 		}
 
-		icon = generic_political_actions
+		icon = decision_generic_SOV
 
 		cost = 0
 		ai_will_do = {
@@ -1214,7 +1212,7 @@ operations = {
 			has_idea = Disorganized_Red_Army_2
 		}
 
-		icon = generic_political_actions
+		icon = decision_generic_SOV
 
 		cost = 0
 		ai_will_do = {
@@ -1250,7 +1248,7 @@ operations = {
 		}
 
 
-		icon = generic_political_actions
+		icon = decision_generic_SOV
 
 		cost = 0
 		ai_will_do = {
@@ -1286,7 +1284,7 @@ operations = {
 		}
 
 
-		icon = generic_political_actions
+		icon = decision_generic_SOV
 
 		cost = 0
 		ai_will_do = {
@@ -1321,7 +1319,7 @@ operations = {
 		}
 
 
-		icon = generic_political_actions
+		icon = decision_generic_SOV
 
 		cost = 0
 		ai_will_do = {
@@ -1344,7 +1342,7 @@ operations = {
 		}
 	}
 
-	winter_offensive_decision = { 
+winter_offensive_decision = { 
 	
 	available = {
 		tag = SOV
@@ -1359,13 +1357,19 @@ operations = {
 		NOT = { SOV = { has_full_control_of_state = 206 }}
 		NOT = { SOV = { has_full_control_of_state = 208 }}
 		}
+		
+		check_variable = {
+						var = ostfront_year
+						value = 1
+						compare = equal
+					}
 	}
 
 	visible = {
 	        has_war_with = GER
 		or = { AND = { date > 1940.9.29 date < 1941.01.20 } AND = { date > 1941.9.29 date < 1942.01.20} AND = { date > 1942.9.29 date < 1943.01.20} AND = { date > 1943.9.29 date < 1944.01.20 } AND = { date > 1944.9.29 date < 1945.01.20} }
 	}
-	icon = generic_scorched_earth
+	icon = decision_generic_SOV
 
 		cost = 0
 		ai_will_do = {
@@ -1384,10 +1388,9 @@ operations = {
 		set_country_flag = SOVwintercounteroffense
 		news_event = { hours = 20 id = news.3136 }
     }
-    }
+}
 	
-	
-	winter_offensive_decision_2 = { 
+winter_offensive_decision_2 = { 
 	
 	available = {
 		tag = SOV
@@ -1401,6 +1404,13 @@ operations = {
 		SOV = { controls_state = 219 } # controls moscow 
 		NOT = { SOV = { has_full_control_of_state = 202 }}
 		NOT = { SOV = { has_full_control_of_state = 206 }}
+		
+
+					#check_variable = {
+					#	var = ostfront_year
+					#	value = 2
+					#	compare = equal
+					#}
 	}
 
 	visible = {
@@ -1411,9 +1421,9 @@ operations = {
 	}
 	
 	
-	icon = generic_scorched_earth
+	icon = decision_generic_SOV
 
-		cost = 0
+	cost = 0
 		ai_will_do = {
 			factor = 100
 		}	
@@ -1427,15 +1437,22 @@ operations = {
 		set_country_flag = SOVwintercounteroffense
 		news_event = { hours = 20 id = news.3136 }
 	}
-  	}
+}
 
-	army_recovery 
+	army_recovery = {
 
 	available = {
+		tag = SOV
+		has_war_with = GER
 		date > 1942.05.31
 	}
 
-	icon = generic_scorched_earth
+	visible = {
+		has_war_with = GER
+		date >1942.05.31
+	}
+
+	icon = decision_generic_SOV
 
 	cost = 0
 		ai_will_do = {
@@ -1463,11 +1480,12 @@ operations = {
 		if = {
 			limit = { has_idea = Disorganized_Red_Army_1 }
 			remove_ideas = Disorganized_Red_Army_1
-		}
+  		}
+    }
 	}
 }
 
-political_actions = {
+	political_actions = {
 
 	demand_tribute_from_new_communist_china = {
 
@@ -1962,9 +1980,7 @@ SOV_global_revolution = {
 	}
 }
 
-
 SOV_tanks_corps = { 
-
 	SOV_Tank_Corps_focus = {
 		available = {
 			date > 1942.3.01
