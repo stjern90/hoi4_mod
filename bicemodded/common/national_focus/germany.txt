@@ -2421,6 +2421,7 @@ focus_tree = {
 		icon = GFX_goal_molotov_ribbentrop_pact
 		prerequisite = { focus = GER_end_of_czechoslovakia}
 		mutually_exclusive = { focus = GER_poland_friend }
+		
 		available =
 		{
 			NOT = { is_in_faction_with = POL }
@@ -3166,11 +3167,67 @@ focus_tree = {
 		y = 8
 		cost = 4
 		historical_ai = {
-			#NOT = {
-			#	any_neighbor_country = {
-			#		has_war_with = ROOT
-			#	}		
-			#}
+			date > 1941.4.1
+			has_army_manpower = { size > 2000000 } # tweak this 
+			OR = {
+				has_army_size = { type = armor size > 10 }
+				date > 1941.8.1
+			}
+			NOT = { 
+				GER = { has_capitulated = yes }
+				GER = { is_subject = yes }
+			}
+			OR = { #borders sov
+				any_neighbor_country = { tag = SOV }
+				any_allied_country = { is_neighbor_of = ROOT any_neighbor_country = { tag = SOV } }
+			}
+			
+			#sov threat
+			NOT = { 
+				SOV = { has_capitulated = yes }
+				SOV = { exists = no }
+				SOV = { is_subject = yes }
+				SOV = { has_government = fascism }
+				has_war_with = SOV
+				is_in_faction_with = SOV
+			}	
+			NOT = { any_home_area_neighbor_country = { has_war_with = ROOT } }
+			OR = { #poland done
+				POL = { has_capitulated = yes }
+				POL = { exists = no }
+				POL = { is_subject = yes }
+				POL = { has_government = fascism }
+				is_in_faction_with = POL
+				
+				NOT = { any_home_area_neighbor_country = { has_war_with = ROOT } }
+			}				
+			OR = { #denmark
+				DEN = { has_capitulated = yes }
+				DEN = { exists = no }
+				DEN = { is_subject = yes }
+				DEN = { has_government = fascism }
+				is_in_faction_with = DEN
+				
+				NOT = { any_home_area_neighbor_country = { has_war_with = ROOT } }
+			}
+			OR = { #yugo
+				YUG = { has_capitulated = yes }
+				YUG = { exists = no }
+				YUG = { is_subject = yes }
+				YUG = { has_government = fascism }
+				is_in_faction_with = YUG
+				
+				NOT = { any_home_area_neighbor_country = { has_war_with = ROOT } }
+			}
+			OR = { #france taken out
+				FRA = { has_capitulated = yes }
+				FRA = { exists = no }
+				FRA = { is_subject = yes }
+				FRA = { has_government = fascism }
+				is_in_faction_with = FRA
+				
+				NOT = { any_home_area_neighbor_country = { has_war_with = ROOT } }
+			}
 		}
 		bypass = {
 			has_war_with = SOV
@@ -3257,6 +3314,15 @@ focus_tree = {
 		x = 8
 		y = 9
 		cost = 13
+		historical_ai = {
+			OR = {
+				SOV = { has_capitulated = yes }
+				SOV = { exists = no }
+				SOV = { is_subject = yes }
+				SOV = { has_government = fascism }
+				is_in_faction_with = SOV
+			}
+		}
 		ai_will_do = {
 			factor = 1
 		}	
