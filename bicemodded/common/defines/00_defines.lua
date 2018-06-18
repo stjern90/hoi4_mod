@@ -695,7 +695,7 @@ NMilitary = {
 	NEW_COMMANDER_RANDOM_SKILL_CHANCES = {  -- chances to give a random stat skill for new generals
 	},
 	
-	UNIT_LEADER_MODIFIER_COOLDOWN_ON_GROUP_CHANGE = 15,		-- time in days for a unit leader to regain its modifiers
+	UNIT_LEADER_MODIFIER_COOLDOWN_ON_GROUP_CHANGE = 10,		-- time in days for a unit leader to regain its modifiers
 	UNIT_LEADER_ASSIGN_TRAIT_COST = 15.0,					-- cost to assign a new trait to a unit leader
 	ATTACHED_WINGS_ORDER_UPDATE_DAYS = 5,					-- Days untill the attached wing will update the order
 	
@@ -1153,18 +1153,18 @@ NAI = {
 	BASE_DISTANCE_TO_CARE = 1300.0,				-- Countries that are too far away are less interesting in diplomacy
 	MIN_FORCE_RATIO_TO_PROTECT = 0.5,			-- Tiny countries should not feel protective or really large ones
 	
-	ORG_UNIT_STRONG = 0.75,						-- Organization % for unit to be considered strong
+	ORG_UNIT_STRONG = 0.85,						-- Organization % for unit to be considered strong
 	STR_UNIT_STRONG = 0.86,						-- Strength (equipment) % for unit to be considered strong
 	
-	ORG_UNIT_WEAK = 0.3,						-- Organization % for unit to be considered weak
+	ORG_UNIT_WEAK = 0.35,						-- Organization % for unit to be considered weak
 	STR_UNIT_WEAK = 0.56,						-- Strength (equipment) % for unit to be considered weak
 	
-	ORG_UNIT_NORMAL = 0.6,						-- Organization % for unit to be considered normal
+	ORG_UNIT_NORMAL = 0.65,						-- Organization % for unit to be considered normal
 	STR_UNIT_NORMAL = 0.72,						-- Strength (equipment) % for unit to be considered normal
 	
 	PLAN_FACTION_STRONG_TO_EXECUTE = 0.60,		-- % or more of units in an order to consider executing the plan
 	PLAN_FACTION_NORMAL_TO_EXECUTE = 0.65,		-- % or more of units in an order to consider executing the plan
-	PLAN_FACTION_WEAK_TO_ABORT = 0.65,			-- % or more of units in an order to consider executing the plan
+	PLAN_FACTION_WEAK_TO_ABORT = 0.4,			-- % or more of units in an order to consider executing the plan
 	PLAN_AVG_PREPARATION_TO_EXECUTE = 0.6,		-- % or more average plan preparation before executing
 	STATE_GARRISON_MAX_UNITS = 4,				-- Max units to guard a garrison under normal circumstances (isolated core areas like England has is excempt)
 	
