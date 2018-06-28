@@ -697,13 +697,64 @@ country_event = {
 	is_triggered_only = yes
 	
 	option = {
+	    ai_chance = {
+			base = 2
+		}
 		name = germany.16.a
 	}
 	option = {
 		name = germany.16.b
 		ai_chance = {
 			base = 2
+			modifier = {
+			      factor = 0
+			      94 = {
+
+					is_controlled_by = SOV
+					}
+			}
 		}
+		
+		add_war_support = 0.1
+		SOV = {
+			declare_war_on = {
+				target = GER
+				type = take_state_focus
+				generator = { 64 5 } 
+			}
+		}
+	}
+}
+
+# Germany betrays MR Pact over Moldova (Soviets) 
+country_event = {
+	id = germany.17
+	title = germany.17.t
+	desc = germany.17.d
+	picture = GFX_report_event_ger_breaks_pact
+
+	is_triggered_only = yes
+	
+	option = {
+	    ai_chance = {
+			base = 2
+		}
+		add_opinion_modifier = { target = GER modifier = embargo }
+		name = germany.17.a
+	}
+	option = {
+		name = germany.17.b
+		ai_chance = {
+			base = 2
+			modifier = {
+			      factor = 0
+			      94 = {
+
+					is_controlled_by = SOV
+					}
+			}
+		}
+		
 		add_war_support = 0.1
 		SOV = {
 			declare_war_on = {
@@ -3741,6 +3792,23 @@ country_event = {
 			modifier = {
 				NOT = { BUL = { is_in_faction_with = GER } }
 				factor = 0.5
+			}
+			modifier = {
+			        NOT = { FRA = { has_government = fascism } }
+				NOT = { FRA = { has_capitulated = yes } }
+				factor = 0.4
+			}
+			modifier = {
+				USA = { has_war_with = GER }
+				factor = 0.25
+			}
+			modifier = {
+				SOV = { has_war_with = GER surrender_progress < 0.3 }
+				factor = 0.3
+			}
+			modifier = {
+				# xxx {  CONTROLLER = {  }  } cairo taken by axis
+				factor = 2
 			}
 		}
 		GER = { puppet = TUR }
@@ -7109,7 +7177,7 @@ country_event = {
 	option = {
 		name = germany.248.a
 		ai_chance = {
-			base = 50
+			factor = 50
 		}
 		diplomatic_relation = {
 			country = GER
@@ -7138,7 +7206,7 @@ country_event = {
 		    add_opinion_modifier = { target = SOV modifier = medium_increase }
 		}
 		ai_chance = {
-			base = 0
+			factor = 0
 		}
 	}
 }
@@ -7174,15 +7242,20 @@ country_event = {
 	
 	option = {
 		name = germany.257.a	
-		USA = {
+		if = { limit = { country_exists = USA } 
+		    USA = {
 		    add_opinion_modifier = { target = GER modifier = large_decrease }
+	    	}
 		}
-		SOV = {
-		    add_opinion_modifier = { target = GER modifier = large_decrease }
+		if = { limit = { country_exists = SOV } 
+    		SOV = {
+	    	    add_opinion_modifier = { target = GER modifier = large_decrease }
+	    	}
+	    	SOV = {
+	    	    add_opinion_modifier = { target = GER modifier = sanctions }
+    		}
 		}
-		SOV = {
-		    add_opinion_modifier = { target = GER modifier = sanctions }
-		}
+	
 		hidden_effect = {
 		    news_event = { hours = 6 id = news.332 }
 		}   
@@ -7200,6 +7273,7 @@ country_event = {
 	trigger = {
 		tag = GER
 		is_justifying_wargoal_against = SPR
+		country_exists = SOV
 		NOT = { has_war_with = SOV }
 	}
 	
@@ -7295,88 +7369,6 @@ country_event = {
 }
 
 
-#Direct annexation hotfix so that YUG is annexed properly - Fate of Yugoslavia
-country_event = {
-	id = -
-	title = germany.255.t
-	desc = germany.255.d
-	fire_only_once = yes
-	picture = GFX_report_event_soldiers_marching
-	trigger = {
-		tag = GER
-		is_ai = yes
-		GER = { is_ai = yes }
-		date > 1941.4.1
-		NOT = { has_war_with = YUG }
-		NOT = { is_in_faction_with = YUG }
-		NOT = { has_completed_focus = GER_fate_of_yugoslavia }
-	}
-	mean_time_to_happen = {
-		days = 5
-	}
-	option = {
-		name = germany.255.a
-		ai_chance = { factor = 100 }
-		add_political_power = -25
-			add_named_threat = { threat = 5 name = GER_fate_of_yugoslavia }
-CRO = {
-					if = {
-						limit = { YUG = { owns_state = 103 } }
-						transfer_state = 103
-					}
-					if = {
-						limit = { YUG = { owns_state = 104 } }
-						transfer_state = 104
-					}
-if = {
-						limit = { YUG = { owns_state = 109 } }
-						transfer_state = 109
-					}	
-}
-
-				SER = {
-					if = {
-						limit = { YUG = { owns_state = 107 } }
-						transfer_state = 107
-					}
-					if = {
-						limit = { YUG = { owns_state = 108 } }
-						transfer_state = 108
-					}						
-				}
-				HUN = {
-					if = {
-						limit = { YUG = { owns_state = 45 } }
-						transfer_state = 45
-					}
-					}
-				BUL = {
-				if = {
-						limit = { YUG = { owns_state = 106 } }
-						transfer_state = 106
-					}
-					}
-				ITA = {
-					if = {
-						limit = { YUG = { owns_state = 105 } }
-						transfer_state = 105
-					}
-					}
-			puppet = SER
-			puppet = CRO
-			annex_country = { target = YUG transfer_troops = no }
-
-			hidden_effect = {
-				set_global_flag = GER_fate_of_yugoslavia_puppet_CRO_annex_YUG
-				news_event = { hours = 6 id = news.169 }
-			}   
-	}
-	
-    option = {
-		name = germany.255.b
-		ai_chance = { factor = 0 }
-    }
-}
 #vichy
 country_event = {
 	id = germany.256

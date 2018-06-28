@@ -689,7 +689,7 @@ focus_tree = {
 		prerequisite = { focus = GER_autarchy }
 		x = -7
 		y = 2 
-		cost = 8
+		cost = 7.5
 		available = {
 			
 		}
@@ -918,7 +918,7 @@ focus_tree = {
 		icon = GFX_goal_august_programme
 		x = -3 
 		y = 1 
-		cost = 6 
+		cost = 5.5
 		
 		ai_will_do = { 
 			factor = 5 
@@ -1049,7 +1049,7 @@ focus_tree = {
 		icon = GFX_goal_strengthen_tankforce
 		x = -2 
 		y = 2 
-		cost = 5 
+		cost = 5.5 
 		available = {
 			has_completed_focus = GER_achtung_panzer 
 		}
@@ -1216,7 +1216,7 @@ focus_tree = {
 		icon = GFX_goal_luftwaffe
 		x = -20
 		y = 0
-		cost = 6
+		cost = 5.5
 		ai_will_do = {
 			factor = 5
 		}
@@ -2043,16 +2043,12 @@ focus_tree = {
 		}
 		available_if_capitulated = yes
 		completion_reward = {
-			#custom_effect_tooltip = GER_LtPz_focus_tooltip
-			if = {
-				limit = {
-					is_ai = no
-				}
+			custom_effect_tooltip = UNLOCK_DIVISION_TEMPLATE
 		
 			hidden_effect = {
 				load_oob = "GER_leichte_division"		# template
 			}
-			}
+			
 			# Balance research bonus to 2 techs in armor, also in event
 			
 			add_tech_bonus = {
@@ -2170,7 +2166,7 @@ focus_tree = {
 		}	
 		available_if_capitulated = yes
 		completion_reward = {
-			#custom_effect_tooltip = GER_Pz_focus_tooltip
+			custom_effect_tooltip = UNLOCK_DIVISION_TEMPLATE
 
 			hidden_effect = {
 				load_oob = "GER_Panzer_Division_1937"		# template
@@ -2421,6 +2417,7 @@ focus_tree = {
 		icon = GFX_goal_molotov_ribbentrop_pact
 		prerequisite = { focus = GER_end_of_czechoslovakia}
 		mutually_exclusive = { focus = GER_poland_friend }
+		
 		available =
 		{
 			NOT = { is_in_faction_with = POL }
@@ -2593,7 +2590,6 @@ focus_tree = {
 					}
 				}
 			}
-			NOT = { has_war_with = SOV }
 			country_exists = TUR
 		}
 		x = 6
@@ -3167,11 +3163,67 @@ focus_tree = {
 		y = 8
 		cost = 4
 		historical_ai = {
-			#NOT = {
-			#	any_neighbor_country = {
-			#		has_war_with = ROOT
-			#	}		
-			#}
+			date > 1941.4.1
+			has_army_manpower = { size > 2000000 } # tweak this 
+			OR = {
+				has_army_size = { type = armor size > 10 }
+				date > 1941.8.1
+			}
+			NOT = { 
+				GER = { has_capitulated = yes }
+				GER = { is_subject = yes }
+			}
+			OR = { #borders sov
+				any_neighbor_country = { tag = SOV }
+				any_allied_country = { is_neighbor_of = ROOT any_neighbor_country = { tag = SOV } }
+			}
+			
+			#sov threat
+			NOT = { 
+				SOV = { has_capitulated = yes }
+				SOV = { exists = no }
+				SOV = { is_subject = yes }
+				SOV = { has_government = fascism }
+				has_war_with = SOV
+				is_in_faction_with = SOV
+			}	
+			NOT = { any_home_area_neighbor_country = { has_war_with = ROOT } }
+			OR = { #poland done
+				POL = { has_capitulated = yes }
+				POL = { exists = no }
+				POL = { is_subject = yes }
+				POL = { has_government = fascism }
+				is_in_faction_with = POL
+				
+				NOT = { any_home_area_neighbor_country = { has_war_with = ROOT } }
+			}				
+			OR = { #denmark
+				DEN = { has_capitulated = yes }
+				DEN = { exists = no }
+				DEN = { is_subject = yes }
+				DEN = { has_government = fascism }
+				is_in_faction_with = DEN
+				
+				NOT = { any_home_area_neighbor_country = { has_war_with = ROOT } }
+			}
+			OR = { #yugo
+				YUG = { has_capitulated = yes }
+				YUG = { exists = no }
+				YUG = { is_subject = yes }
+				YUG = { has_government = fascism }
+				is_in_faction_with = YUG
+				
+				NOT = { any_home_area_neighbor_country = { has_war_with = ROOT } }
+			}
+			OR = { #france taken out
+				FRA = { has_capitulated = yes }
+				FRA = { exists = no }
+				FRA = { is_subject = yes }
+				FRA = { has_government = fascism }
+				is_in_faction_with = FRA
+				
+				NOT = { any_home_area_neighbor_country = { has_war_with = ROOT } }
+			}
 		}
 		bypass = {
 			has_war_with = SOV
@@ -3258,6 +3310,15 @@ focus_tree = {
 		x = 8
 		y = 9
 		cost = 13
+		historical_ai = {
+			OR = {
+				SOV = { has_capitulated = yes }
+				SOV = { exists = no }
+				SOV = { is_subject = yes }
+				SOV = { has_government = fascism }
+				is_in_faction_with = SOV
+			}
+		}
 		ai_will_do = {
 			factor = 1
 		}	
@@ -3268,7 +3329,6 @@ focus_tree = {
 				if = {
 					limit = {
 						TUR = {
-							is_ai = yes
 							NOT = {
 								is_in_faction = yes
 							}
@@ -3278,9 +3338,14 @@ focus_tree = {
 						}
 						GER = { is_faction_leader = yes }
 					}
-					GER = { add_to_faction = TUR } # REVISIT Might be a better way to handle this
+					#GER = { add_to_faction = TUR } # REVISIT Might be a better way to handle this
 					add_ai_strategy = {
 						type = alliance
+						id = "GER"
+						value = 200
+					}
+					add_ai_strategy = {
+						type = befriend
 						id = "GER"
 						value = 200
 					}
@@ -3309,7 +3374,7 @@ focus_tree = {
 					}
 					add_ideas = democratic_influence
 				}
-				country_event = { id = generic.1 }
+				#country_event = { id = generic.1 } uhm.. why
 			}
 		}
 	}
