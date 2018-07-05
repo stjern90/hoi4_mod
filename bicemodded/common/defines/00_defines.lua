@@ -441,8 +441,8 @@ NMilitary = {
 	ADDITIONAL_COMBAT_WIDTH = 60,                  -- DNM, original 40 -- more opened up by support attack
 	AMPHIBIOUS_INVADE_MOVEMENT_COST = 24.0,        -- total progress cost of movement while amphibious invading
 	LAND_SPEED_MODIFIER = 0.03,                    -- basic speed control
-	RIVER_CROSSING_PENALTY = -0.4,                 -- small river crossing
-	RIVER_CROSSING_PENALTY_LARGE = -0.6,           -- large river crossing
+	RIVER_CROSSING_PENALTY = -0.45,                 -- small river crossing
+	RIVER_CROSSING_PENALTY_LARGE = -0.55,           -- large river crossing
 	RIVER_CROSSING_SPEED_PENALTY = -0.4,          -- small river crossing
 	RIVER_CROSSING_SPEED_PENALTY_LARGE = -0.6,     -- large river crossing
 	RIVER_SMALL_START_INDEX = 0,                   -- color indices for rivers
@@ -612,7 +612,7 @@ NMilitary = {
 	STRATEGIC_REDEPLOY_ORG_RATIO = 0.25,				-- Ratio of max org while strategic redeployment
 	BATALION_NOT_CHANGED_EXPERIENCE_DROP = 0.0,		-- Division experience drop if unit has same batalion
 	BATALION_CHANGED_EXPERIENCE_DROP = 0.5,			-- Division experience drop if unit has different batalion
-	ARMOR_VS_AVERAGE = 0.56,			                -- how to weight in highest armor & pen vs the division average
+	ARMOR_VS_AVERAGE = 0.60,			                -- how to weight in highest armor & pen vs the division average
 	PEN_VS_AVERAGE = 0.50,
 
 	DECRYPTION_ADVANTAGE_BONUS = 0.04,				-- How much unit base damage and base defense is increased per decryption level compared to enemies average encryption level (ex: dec. level is 5 and enemy average enc. level is 3 then 5-3 = 2 which gives 10 % increase)
