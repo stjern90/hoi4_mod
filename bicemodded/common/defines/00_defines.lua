@@ -991,10 +991,10 @@ NTrade = {
 	PUPPET_MASTER_TRADE_FACTOR = 500,		-- This is priority for puppet master
 	PUPPET_TRADE_FACTOR = 0,				-- This is unpriority for puppets
 	LACK_OF_CONVOYS_TRADE_FACTOR = -0.1,	-- Every hour without convoys will lower trade factor this much (regain is the same)
-	BASE_LAND_TRADE_RANGE = 250,
+	BASE_LAND_TRADE_RANGE = 200,
 	PARTY_SUPPORT_TRADE_FACTOR = 50,		-- Trade factor bonus at the other side having 100 % party popularity for my party
 	ANTI_MONOPOLY_TRADE_FACTOR_THRESHOLD = 0.7,		-- What percentage of resources has to be sold to the buyer for the anti-monopoly factor to take effect
-	ANTI_MONOPOLY_TRADE_FACTOR = -50,		-- This is added to the factor value when anti-monopoly threshold is exceeded
+	ANTI_MONOPOLY_TRADE_FACTOR = 0,		-- This is added to the factor value when anti-monopoly threshold is exceeded
 },
 
 NAI = {
@@ -1322,7 +1322,7 @@ NAI = {
 	STRATEGIC_BOMBING_DEFENCE_IMPORTANCE = 500.0,
 	
 	NAVAL_MISSION_MIN_FLEET_SIZE = 5,					-- AI will not send too small fleets on missions. Ignored if total number of ships country has is below	this.
-	NAVY_PREFERED_MAX_SIZE = 80,						-- AI will generally attempt to merge fleets into this size, but as a soft limit.
+	NAVY_PREFERED_MAX_SIZE = 55,						-- AI will generally attempt to merge fleets into this size, but as a soft limit.
 	INVASION_COASTAL_PROVS_PER_ORDER = 12,				-- AI will consider one extra invasion per number of provinces stated here (num orders = total coast / this)
 
 	CONVOY_NEED_SAFETY_BUFFER = 1.90,					-- AI will try and keep 15% more convoys than what it needs.
