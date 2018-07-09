@@ -210,6 +210,13 @@ country_event = {
 			FROM = { set_country_flag = alliance_applicant@ROOT }
 			news_event = { id = news.289 hours = 12 }
 		}
+		FROM = {
+			add_ai_strategy = {
+				type = alliance
+				id = ROOT
+				value = 100
+			}
+		}
 	}
 	
 	option = { #Reject
@@ -444,6 +451,7 @@ country_event = {
 	option = { #Agree / Both Democratic
 		name = generic.5.a
 		trigger = {
+			is_in_faction = no
 			AND = {
 				FROM = {
 					has_government = democratic
@@ -458,15 +466,32 @@ country_event = {
 			add_to_faction = ROOT
 			country_event = { id = generic.6 hours = 6 } 
 		}
+		add_ai_strategy = {
+			type = alliance
+			id = FROM
+			value = 100
+		}
 		hidden_effect = {
 			set_country_flag = alliance_applicant@ROOT
 			FROM = { set_country_flag = alliance_inviter@ROOT }
 			news_event = { id = news.289 hours = 12 }
+			#if = {   Add for fascist germany instead?
+				#limit = {
+				#	FROM = {
+				#		original_tag = GER
+				#		has_government = democratic
+				#		has_completed_focus = GER_pool_technical_know_how
+				#	}
+				#	NOT = { has_idea = GER_pool_technical_know_how }
+				#}
+				#add_ideas = GER_pool_technical_know_how
+			#}
 		}
 	}
 	option = { #Agree / Both Fascist
 		name = generic.5.b
 		trigger = {
+			is_in_faction = no
 			AND = {
 				FROM = {
 					has_government = fascism
@@ -481,6 +506,11 @@ country_event = {
 			add_to_faction = ROOT
 			country_event = { id = generic.6 hours = 6 } 
 		}
+		add_ai_strategy = {
+			type = alliance
+			id = FROM
+			value = 100
+		}
 		hidden_effect = {
 			set_country_flag = alliance_applicant@ROOT
 			FROM = { set_country_flag = alliance_inviter@ROOT }
@@ -490,6 +520,7 @@ country_event = {
 	option = { #Agree / Both Communist
 		name = generic.5.c
 		trigger = {
+			is_in_faction = no
 			AND = {
 				FROM = {
 					has_government = communism
@@ -504,6 +535,11 @@ country_event = {
 			add_to_faction = ROOT
 			country_event = { id = generic.6 hours = 6 }
 		}
+		add_ai_strategy = {
+			type = alliance
+			id = FROM
+			value = 100
+		}
 		hidden_effect = {
 			set_country_flag = alliance_applicant@ROOT
 			FROM = { set_country_flag = alliance_inviter@ROOT }
@@ -513,6 +549,7 @@ country_event = {
 	option = { #Agree / Both different
 		name = generic.5.e
 		trigger = {
+			is_in_faction = no
 			NOT = {
 				AND = {
 					FROM = {
@@ -545,12 +582,36 @@ country_event = {
 			set_country_flag = alliance_applicant@ROOT
 			FROM = { set_country_flag = alliance_inviter@ROOT }
 			news_event = { id = news.289 hours = 12 }
+			#if = {    TODO
+			#	limit = {
+			#		FROM = {
+			#			original_tag = GER
+				#		has_government = democratic
+				#		has_completed_focus = GER_pool_technical_know_how
+				#	}
+				#	NOT = { has_idea = GER_pool_technical_know_how }
+				#}
+			#	add_ideas = GER_pool_technical_know_how
+			#}
 		}
 	}
 	
 	option = { #Reject
 		name = generic.2.f
+		trigger = {
+			is_in_faction = no
+		}
 		ai_chance = { factor = 0 }
+		FROM = { 
+			country_event = { id = generic.7 hours = 6 }
+		}
+	}
+
+	option = { #Reject if in faction
+		name = generic.2.g
+		trigger = {
+			is_in_faction = yes
+		}
 		FROM = { 
 			country_event = { id = generic.7 hours = 6 }
 		}
@@ -697,7 +758,9 @@ country_event = {
 			}
 		}
 	}
+
 }
+
 # Race for the Bomb success event
 country_event = {
 	id = generic.8
@@ -1222,6 +1285,5 @@ country_event = {
 				}
 			}
 		}
-	}
-	
-}	
+	}	
+}
