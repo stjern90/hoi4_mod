@@ -416,8 +416,8 @@ NMilitary = {
 	MIN_SUPPLY_CONSUMPTION = 0.2,					-- minimum value of supply consumption that a unit can get
 	
 	LAND_COMBAT_ORG_DICE_SIZE = 4,                 -- nr of damage dice
-	LAND_COMBAT_STR_DICE_SIZE = 2,                 -- nr of damage dice
-	LAND_COMBAT_STR_DAMAGE_MODIFIER = 0.07,        -- global damage modifier... but some equipment is returned at end of battles see : EQUIPMENT_COMBAT_LOSS_FACTOR
+	LAND_COMBAT_STR_DICE_SIZE = 4,                 -- nr of damage dice
+	LAND_COMBAT_STR_DAMAGE_MODIFIER = 0.035,        -- global damage modifier... but some equipment is returned at end of battles see : EQUIPMENT_COMBAT_LOSS_FACTOR
 	LAND_COMBAT_ORG_DAMAGE_MODIFIER = 0.06,        -- global damage modifier
 	LAND_AIR_COMBAT_STR_DAMAGE_MODIFIER = 0.03,    -- air global damage modifier
 	LAND_AIR_COMBAT_ORG_DAMAGE_MODIFIER = 0.03,    -- global damage modifier
@@ -478,7 +478,7 @@ NMilitary = {
 	ARMY_EXP_BASE_LEVEL = 2,
 	UNIT_EXP_LEVELS = { 0.1, 0.2, 0.3, 0.4, 0.55, 0.7, 0.9 },		-- Experience needed to progress to the next level Changed vets to 0.55 instead 0.7 ***
 	FIELD_EXPERIENCE_SCALE = 0.002,
-	FIELD_EXPERIENCE_MAX_PER_DAY = 2.4,				-- Most xp you can gain per day
+	FIELD_EXPERIENCE_MAX_PER_DAY = 3,				-- Most xp you can gain per day
 	EXPEDITIONARY_FIELD_EXPERIENCE_SCALE = 0.5,		-- reduction factor in Xp from expeditionary forces
 	LEND_LEASE_FIELD_EXPERIENCE_SCALE = 0.005,		-- Experience scale for lend leased equipment used in combat.
 	LEADER_EXPERIENCE_SCALE = 1.0,
@@ -571,7 +571,7 @@ NMilitary = {
 	-- These need to result in province value > 1.0 for it to matter.
 	PLAN_AREA_DEFENSE_ENEMY_CONTROLLER_SCORE = 15.0,-- Score applied to provinces in the defense area order controlled by enemies
 	PLAN_AREA_DEFENSE_ENEMY_UNIT_FACTOR = -2.0,		-- Factor applied to province score in area defense order per enemy unit in that province
-	PLAN_AREA_DEFENSE_FORT_IMPORTANCE = 0.3,		-- Used when calculating the calue of defense area provinces for the battle plan system, works as multipliers on the rest
+	PLAN_AREA_DEFENSE_FORT_IMPORTANCE = 0.5,		-- Used when calculating the calue of defense area provinces for the battle plan system, works as multipliers on the rest
 	PLAN_AREA_DEFENSE_COASTAL_FORT_IMPORTANCE = 3.0,-- Used when calculating the calue of defense area provinces for the battle plan system
 	PLAN_AREA_DEFENSE_COAST_NO_FORT_IMPORTANCE = 1.1,-- Used when calculating the calue of defense area provinces for the battle plan system
 	
@@ -791,7 +791,7 @@ NAir = {
 	AA_INDUSTRY_AIR_DAMAGE_FACTOR = -0.12,				-- 5x levels = 60% defense from bombing
 	NAVAL_STRIKE_DETECTION_BALANCE_FACTOR = 0.7,		-- Value used to scale the surface_visibility stats to balance the gameplay, so 100% detection chance still won't spam the strikes.
 	LEND_LEASED_EQUIPMENT_EXPERIENCE_GAIN = 0.5,		-- Value used for equipment
-	ANTI_AIR_PLANE_DAMAGE_FACTOR = 0.25,					-- Anti Air Gun Damage factor
+	ANTI_AIR_PLANE_DAMAGE_FACTOR = 0.23,					-- Anti Air Gun Damage factor
 	ANTI_AIR_PLANE_DAMAGE_CHANCE = 0.15,					-- Anti Air Gun hit chance
 	ANTI_AIR_ATTACK_TO_DAMAGE_REDUCTION_FACTOR = 1.0,	-- Balancing value to convert equipment stat anti_air_attack to the damage reduction modifier apply to incoming air attacks against units with AA.
 	ANTI_AIR_MAXIMUM_DAMAGE_REDUCTION_FACTOR = 0.75,	-- Maximum damage reduction factor applied to incoming air attacks against units with AA.
@@ -1076,7 +1076,7 @@ NAI = {
 	LOCATION_BALANCE_TO_ADVANCE = 0.0,			-- Limit on location strength balance between country and enemy for unit to dare to move forward.
 	DIVISION_UPGRADE_MIN_XP = 1000,				-- Minimum XP before attempting to upgrade a division template.
 	DIVISION_CREATE_MIN_XP = 1000,				-- Minimum XP before attempting to create a fresh new division template.
-	VARIANT_UPGRADE_MIN_XP = 81,				-- Minimum XP before attempting to create a new variant.
+	VARIANT_UPGRADE_MIN_XP = 100,				-- Minimum XP before attempting to create a new variant.
 	UPGRADE_XP_RUSH_UPDATE = 150,				-- If XP is above this on the daily tick the AI will attempt to spend it
 	FOCUS_TREE_CONTINUE_FACTOR = 1.5,			-- Factor for score of how likely the AI is to keep going down a focus tree rather than starting a new path.
 	VP_GARRISON_VALUE_FACTOR = 0.75,				-- Extent to which VP garrisons are prioritized, based on VP value and compared to other priority values.
@@ -1101,13 +1101,13 @@ NAI = {
 	POTENTIAL_FUTURE_ENEMY_FACTOR = 100, 		-- How much increase in threat does AI feel against neighbours who at war with our allies
 	NEUTRAL_THREAT_PARANOIA = 10,				-- How scared neutrals are of everyone
 	DIFFERENT_FACTION_THREAT = 30,				-- Threat caused by not being in the same faction
-	PLAN_MOVE_MIN_ORG_TO_ENEMY_PROVINCE = 20.0,	-- Minimum organization a unit must have to consider moving into an enemy province (not attack move)
+	PLAN_MOVE_MIN_ORG_TO_ENEMY_PROVINCE = 27.0,	-- Minimum organization a unit must have to consider moving into an enemy province (not attack move)
 	PLAN_ATTACK_MIN_ORG_FACTOR_LOW = 0.55,		-- Minimum org % for a unit to actively attack an enemy unit when executing a plan
-	PLAN_ATTACK_MIN_STRENGTH_FACTOR_LOW = 0.78,	-- Minimum strength for a unit to actively attack an enemy unit when executing a plan
+	PLAN_ATTACK_MIN_STRENGTH_FACTOR_LOW = 0.8,	-- Minimum strength for a unit to actively attack an enemy unit when executing a plan
 	PLAN_ATTACK_MIN_ORG_FACTOR_MED = 0.4,		-- (LOW,MED,HIGH) corresponds to the plan execution agressiveness level.
-	PLAN_ATTACK_MIN_STRENGTH_FACTOR_MED = 0.6,	
+	PLAN_ATTACK_MIN_STRENGTH_FACTOR_MED = 0.72,	
 	PLAN_ATTACK_MIN_ORG_FACTOR_HIGH = 0.2,		
-	PLAN_ATTACK_MIN_STRENGTH_FACTOR_HIGH = 0.45,	
+	PLAN_ATTACK_MIN_STRENGTH_FACTOR_HIGH = 0.64,	
 	PLAN_FRONTUNIT_DISTANCE_FACTOR = 10.0,		-- Factor for candidate units distance to front positions.
 	PLAN_ATTACK_DEPTH_FACTOR = 0.5,				-- Factor applied to size or enemy being attacked.
 	PLAN_STEP_COST_LIMIT = 11,					-- When stepping to draw a plan this cost makes it break if it hits hard terrain (multiplied by number of desired steps)
@@ -1137,7 +1137,7 @@ NAI = {
 	DIPLOMACY_COMMUNIST_NOT_NEIGHBOUR = -10,	-- Communists want to stay consolidated with their influence
 	MAIN_ENEMY_FRONT_IMPORTANCE = 4.0,			-- How much extra focus the AI should put on who it considers to be its current main enemy.
 	EASY_TARGET_FRONT_IMPORTANCE = 7.5,			-- How much extra focus the AI should put on who it considers to be the easiest target.
-	AI_FRONT_MOVEMENT_FACTOR_FOR_READY = 0.25,	-- If less than this fraction of units on a front is moving, AI sees it as ready for action	
+	AI_FRONT_MOVEMENT_FACTOR_FOR_READY = 0.2,	-- If less than this fraction of units on a front is moving, AI sees it as ready for action	
 	MICRO_POCKET_SIZE = 4,						-- Pockets with a size equal to or lower than this will be mocroed by the AI, for efficiency.
 	POCKET_DISTANCE_MAX = 40000,				-- shortest square distance we bother about chasing pockets
 	VP_LEVEL_IMPORTANCE_HIGH = 100,				-- Victory points with values higher than or equal to this are considered to be of high importance.
@@ -1154,17 +1154,17 @@ NAI = {
 	MIN_FORCE_RATIO_TO_PROTECT = 0.5,			-- Tiny countries should not feel protective or really large ones
 	
 	ORG_UNIT_STRONG = 0.85,						-- Organization % for unit to be considered strong
-	STR_UNIT_STRONG = 0.86,						-- Strength (equipment) % for unit to be considered strong
+	STR_UNIT_STRONG = 0.8,						-- Strength (equipment) % for unit to be considered strong
 	
-	ORG_UNIT_WEAK = 0.35,						-- Organization % for unit to be considered weak
-	STR_UNIT_WEAK = 0.65,						-- Strength (equipment) % for unit to be considered weak
+	ORG_UNIT_WEAK = 0.2,						-- Organization % for unit to be considered weak
+	STR_UNIT_WEAK = 0.68,						-- Strength (equipment) % for unit to be considered weak
 	
 	ORG_UNIT_NORMAL = 0.65,						-- Organization % for unit to be considered normal
-	STR_UNIT_NORMAL = 0.72,						-- Strength (equipment) % for unit to be considered normal
+	STR_UNIT_NORMAL = 0.7,						-- Strength (equipment) % for unit to be considered normal
 	
-	PLAN_FACTION_STRONG_TO_EXECUTE = 0.60,		-- % or more of units in an order to consider executing the plan
-	PLAN_FACTION_NORMAL_TO_EXECUTE = 0.65,		-- % or more of units in an order to consider executing the plan
-	PLAN_FACTION_WEAK_TO_ABORT = 0.5,			-- % or more of units in an order to consider executing the plan
+	PLAN_FACTION_STRONG_TO_EXECUTE = 0.80,		-- % or more of units in an order to consider executing the plan
+	PLAN_FACTION_NORMAL_TO_EXECUTE = 0.90,		-- % or more of units in an order to consider executing the plan
+	PLAN_FACTION_WEAK_TO_ABORT = 0.15,			-- % or more of units in an order to consider executing the plan
 	PLAN_AVG_PREPARATION_TO_EXECUTE = 0.6,		-- % or more average plan preparation before executing
 	STATE_GARRISON_MAX_UNITS = 4,				-- Max units to guard a garrison under normal circumstances (isolated core areas like England has is excempt)
 	
@@ -1239,8 +1239,8 @@ NAI = {
 
 	MANPOWER_FREE_USAGE_THRESHOLD = 90000,				-- If AI has this much manpower he doesn't care about the percentage
 	MANPOWER_RESERVED_THRESHOLD = 0.7,					-- The AI will not deploy more units if he goes below this percentage
-	START_TRAINING_EQUIPMENT_LEVEL = 0.93,               -- ai will not start to train if equipment drops below this level
-	STOP_TRAINING_EQUIPMENT_LEVEL = 0.90,                -- ai will not train if equipment drops below this level
+	START_TRAINING_EQUIPMENT_LEVEL = 0.94,               -- ai will not start to train if equipment drops below this level
+	STOP_TRAINING_EQUIPMENT_LEVEL = 0.91,                -- ai will not train if equipment drops below this level
 	BUILD_REFINERY_LACK_OF_RESOURCE_MODIFIER = 0.007,	-- How much lack of resources are worth when evaluating what to build.
 	DIVISION_DESIGN_WEIGHTS = {							-- Base values used by AI to evaluate value of a stat
 		-- Army Values
@@ -1337,13 +1337,13 @@ NAI = {
 	AREA_DEFENSE_CIVIL_WAR_IMPORTANCE = 10000,			-- Area defense order importance value when a country is in a civil war as target or revolter.
 
 	COMBINED_ARMS_LEVEL = 1,							-- 0 = Never, 1 = Infantry/Artillery, 2 = Go wild
-	MAX_DISTANCE_NALAV_INVASION = 180.0,				-- AI is extremely unwilling to plan naval invasions above this naval distance limit.
+	MAX_DISTANCE_NALAV_INVASION = 200.0,				-- AI is extremely unwilling to plan naval invasions above this naval distance limit.
 	ENEMY_NAVY_STRENGTH_DONT_BOTHER = 1.9,				-- If the enemy has a navy at least these many times stronger that the own, don't bother invading
 	MIN_SUPPLY_USE_SANITY_CAP = 100,					-- Ignore supply cap if below this value when deciding on how many divisions to produce.
 	MAX_SUPPLY_DIVISOR = 1.5,							-- To make sure the AI does not overdeploy divisions. Higher number means more supply per unit.
 	MISSING_CONVOYS_BOOST_FACTOR = 18.0,					-- The more convoys a country is missing, the more resources it diverts to cover this.
 	TRANSPORTS_PER_PARATROOPER = 20,					-- Air transports only duty is to drop paratroopers.
-	MAX_MICRO_ATTACKS_PER_ORDER = 3,					-- AI goes through its orders and checks if there are situations to take advantage of
+	MAX_MICRO_ATTACKS_PER_ORDER = 4,					-- AI goes through its orders and checks if there are situations to take advantage of
 	FALLBACK_LOSING_FACTOR = 1.0,						-- The lower this number, the longer the AI will hold the line before sending them to the fallback line
 	PRODUCTION_MAX_PROGRESS_TTO_SWITCH_NAVAL = 0.3,		-- AI will not replace ships being built by newer types if progress is above this
 	STATE_CONTROL_FOR_AREA_DEFENSE = 0.4,				-- To avoid AI sending area defense to area with very little foothold
@@ -1363,9 +1363,9 @@ NAI = {
 	HOUR_BAD_COMBAT_REEVALUATE = 24,                   -- if we are in combat for this amount and it goes shitty then try skipping it 
 	MIN_PLAN_VALUE_TO_MICRO_INACTIVE = 0.2,				-- The AI will not consider members of groups which plan is not activated AND evaluates lower than this.
 	
-	MAX_UNITS_FACTOR_AREA_ORDER = 1.0,					-- Factor for max number of units to assign to area defense orders
-	DESIRED_UNITS_FACTOR_AREA_ORDER = 0.8,				-- Factor for desired number of units to assign to area defense orders
-	MIN_UNITS_FACTOR_AREA_ORDER = 0.6,					-- Factor for min number of units to assign to area defense orders
+	MAX_UNITS_FACTOR_AREA_ORDER = 1.1,					-- Factor for max number of units to assign to area defense orders
+	DESIRED_UNITS_FACTOR_AREA_ORDER = 0.9,				-- Factor for desired number of units to assign to area defense orders
+	MIN_UNITS_FACTOR_AREA_ORDER = 0.7,					-- Factor for min number of units to assign to area defense orders
 
 	MAX_UNITS_FACTOR_FRONT_ORDER = 1.8,					-- Factor for max number of units to assign to area front orders
 	DESIRED_UNITS_FACTOR_FRONT_ORDER = 1.6,				-- Factor for desired number of units to assign to area front orders
@@ -1479,7 +1479,7 @@ NAI = {
 	STR_BOMB_MIN_EXCORT_WINGS = 0,						-- Min amount of airwings requested to excort operations
 	
 	ORDER_ASSIGNMENT_DISTANCE_FACTOR = 5.0,				-- When the AI assigns units to orders, it attempts to calculate the distance.
-	RELUCTANCE_TO_CHANGE_FRONT_FACTOR = 0.5,			-- Factor for how reluctant the AI is to change a units order group.
+	RELUCTANCE_TO_CHANGE_FRONT_FACTOR = 0.6,			-- Factor for how reluctant the AI is to change a units order group.
 	REVISITED_PROV_PENALTY_FACTOR = 1.5,				-- When the AI picks units for a front, it tries to spread out a bit which units it grabs.
 	
 	PLAN_ACTIVATION_SUPERIORITY_AGGRO = 1.0,			-- How aggressive a country is in activating a plan based on how superiour their force is.
@@ -1512,7 +1512,7 @@ NAI = {
 	MAX_AVAILABLE_MANPOWER_RATIO_TO_BUFFER_PEACETIME = 0.2,		-- deployment will try to buffer a ratio of manpower (for reinforcements) during peace time
 	
 	MANPOWER_RATIO_REQUIRED_TO_PRIO_MOBILIZATION_LAW = 0.4,		-- percentage of manpower in field is desired to be buffered for AI when it has upcoming wars or already at war. if it has less manpower, it will prio manpower laws
-	UPGRADES_DEFICIT_LIMIT_DAYS = 240,                           -- Ai will avoid upgrading units in the field to new templates if it takes longer than this to fullfill their equipment need
+	UPGRADES_DEFICIT_LIMIT_DAYS = 200,                           -- Ai will avoid upgrading units in the field to new templates if it takes longer than this to fullfill their equipment need
 
 },
 
