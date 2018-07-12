@@ -1063,7 +1063,7 @@ NAI = {
 	AIR_MIN_ASSIGN_SCORE = 10,					-- Minimum total score for region to be considered for air missions
 	AIR_MIN_REASSIGN_SCORE = 25,				-- Minimum total score for region to be considered for reassigning air missions
 	AIR_WING_SIZE_FACTOR = 1.0,					-- Impact on air score of assigning wings to mission
-	AIR_MISSION_MIN_COVEREAGE = 0.3,			-- Between 0 and 1, limit for % coverage for air mission to be considered
+	AIR_MISSION_MIN_COVEREAGE = 0.2,			-- Between 0 and 1, limit for % coverage for air mission to be considered
 	AIR_BASE_PRIORITY_DISTANCE_FACTOR = 25.0,	-- Weight of distance between region and airbase for airbase priority score
 	MAX_VOLUNTEER_ARMY_FRACTION = 0.08,			-- Countries will not send more than their forces time this number to aid another country
 	WANTED_UNITS_INDUSTRY_FACTORY = 0.0, 		-- How many units a country wants is partially based on how much military industry that is available
@@ -1224,7 +1224,7 @@ NAI = {
 	SHIPS_PRODUCTION_BASE_COST = 10000,					-- Used by the AI to normalize IC values when picking what ship to build.
 	NEEDED_NAVAL_FACTORIES_EXPENSIVE_SHIP_BONUS = 16,   -- Amount of naval yards you need to get a bonus to building really expensive ships
 
-	AIR_WING_REINFORCEMENT_LIMIT = 200,
+	AIR_WING_REINFORCEMENT_LIMIT = 400,
 	AIR_BASE_DANGER_ZONE_WEIGHT = 100,					-- Score used per province taken by enemy in a state to determine how dangerous it is to use an air base
 	
 	FORTIFIED_RATIO_TO_CONSIDER_A_FRONT_FORTIFIED = 0.5, -- ai will consider a front fortified if this ratio of provinces has fort
@@ -1419,11 +1419,11 @@ NAI = {
 	NAVAL_COMBAT_TRANSFER_AIR_IMPORTANCE = 50.0,		-- Naval combat involving enemy land units
 	NAVAL_IMPORTANCE_SCALE = 1.0,						-- Naval total importance scale (every naval score get's multiplied by it)
 	
-	NAVAL_FIGHTERS_PER_PLANE = 1.1,						-- Amounts of air superiority planes requested per enemy plane
-	NAVAL_STRIKE_PLANES_PER_ARMY = 15,					-- Amount of planes requested per enemy army
-	NAVAL_STRIKE_PLANES_PER_SHIP = 5,					-- Amount of bombers requested per enemy ship
+	NAVAL_FIGHTERS_PER_PLANE = 0.1,						-- Amounts of air superiority planes requested per enemy plane
+	NAVAL_STRIKE_PLANES_PER_ARMY = 0,					-- Amount of planes requested per enemy army
+	NAVAL_STRIKE_PLANES_PER_SHIP = 20,					-- Amount of bombers requested per enemy ship
 	PORT_STRIKE_PLANES_PER_SHIP = 10,					-- Amount of bombers request per enemy ship in the port
-	NAVAL_MIN_EXCORT_WINGS = 0,							-- Min amount of airwings requested to excort operations
+	NAVAL_MIN_EXCORT_WINGS = 1,							-- Min amount of airwings requested to excort operations
 	DEMOCRATIC_AI_FACTION_KICKING_PLAYER_THREAT_DIFFERENCE = 6.0, -- World threat generation difference needed to kick a player from a democratic faction
 	BEFRIEND_FACTOR_FOR_KICKING_COUNTRIES = 7.5,		-- World threat difference addition per 100 befriend against a country, democratic leaders will forgive allies if they are befriending them
 	
@@ -1439,29 +1439,29 @@ NAI = {
 	
 	LAND_DEFENSE_MIN_FACTORIES_FOR_AIR_IMPORTANCE = 6,	-- If amount of factories is less importance of factories won't apply
 	
-	LAND_DEFENSE_FIGHERS_PER_PLANE = 1.1,				-- Amount of air superiority planes requested per enemy plane
-	LAND_DEFENSE_INTERSEPTORS_PER_BOMBERS = 0.2,		-- Amount of air interceptor planes requested per enemy plane
-	LAND_DEFENSE_INTERSEPTORS_PER_PLANE = 1.0,				-- Amount of air interceptor planes requested per enemy plane (non bomber)
+	LAND_DEFENSE_FIGHERS_PER_PLANE = 0.1,				-- Amount of air superiority planes requested per enemy plane
+	LAND_DEFENSE_INTERSEPTORS_PER_BOMBERS = 0.0,		-- Amount of air interceptor planes requested per enemy plane
+	LAND_DEFENSE_INTERSEPTORS_PER_PLANE = 0.0,				-- Amount of air interceptor planes requested per enemy plane (non bomber)
 	
-	LAND_COMBAT_AIR_SUPERIORITY_IMPORTANCE = 0.20,		-- Strategic importance of air superiority ( amount of enemy planes in area )
-	LAND_COMBAT_OUR_ARMIES_AIR_IMPORTANCE = 12,			-- Strategic importance of our armies
-	LAND_COMBAT_OUR_COMBATS_AIR_IMPORTANCE = 55,		-- Strategic importance of our armies in the combats
+	LAND_COMBAT_AIR_SUPERIORITY_IMPORTANCE = 1.0,		-- Strategic importance of air superiority ( amount of enemy planes in area )
+	LAND_COMBAT_OUR_ARMIES_AIR_IMPORTANCE = 100,			-- Strategic importance of our armies
+	LAND_COMBAT_OUR_COMBATS_AIR_IMPORTANCE = 100,		-- Strategic importance of our armies in the combats
 	LAND_COMBAT_FRIEND_ARMIES_AIR_IMPORTANCE = 12,		-- Strategic importance of friendly armies
 	LAND_COMBAT_FRIEND_COMBATS_AIR_IMPORTANCE = 6,		-- Strategic importance of friendly armies in the combat
 	LAND_COMBAT_ENEMY_ARMIES_AIR_IMPORTANCE = 8,		-- Strategic importance of our armies
 	LAND_COMBAT_ENEMY_LAND_FORTS_AIR_IMPORTANCE = 5,	-- Strategic importance of enemy land forts in the region
 	LAND_COMBAT_ENEMY_COASTAL_FORTS_AIR_IMPORTANCE = 3,	-- Strategic importance of enemy coastal fronts in the region
-	LAND_COMBAT_IMPORTANCE_SCALE = 1.8,					-- Lend combat total importance scale (every land combat score get's multiplied by it)
+	LAND_COMBAT_IMPORTANCE_SCALE = 2,					-- Lend combat total importance scale (every land combat score get's multiplied by it)
 	
-	LAND_COMBAT_FIGHTERS_PER_PLANE = 1.7,				-- Amount of air superiority planes requested per enemy plane
+	LAND_COMBAT_FIGHTERS_PER_PLANE = 2,				-- Amount of air superiority planes requested per enemy plane
 	LAND_COMBAT_CAS_WINGS_PER_ENEMY_ARMY_LIMIT = 4,		-- Limit of CAS wings requested by enemy armies
 	LAND_COMBAT_CAS_PER_ENEMY_ARMY = 20,				-- Amount of CAS planes requested per enemy army
-	LAND_COMBAT_CAS_PER_COMBAT = 200,					-- Amount of CAS requested per combat	
+	LAND_COMBAT_CAS_PER_COMBAT = 150,					-- Amount of CAS requested per combat	
 	LAND_COMBAT_BOMBERS_PER_LAND_FORT_LEVEL = 15,		-- Amount of bomber planes requested per enemy land fort level
 	LAND_COMBAT_BOMBERS_PER_COASTAL_FORT_LEVEL = 10,	-- Amount of bomber planes requested per enemy coastal fort level
-	LAND_COMBAT_MIN_EXCORT_WINGS = 3,					-- Min amount of airwings requested to excort operations
+	LAND_COMBAT_MIN_EXCORT_WINGS = 2,					-- Min amount of airwings requested to excort operations
 	
-	LAND_COMBAT_INTERCEPT_PER_PLANE = 0.4,				-- Amount of interception planes requested per enemy plane
+	LAND_COMBAT_INTERCEPT_PER_PLANE = 0,				-- Amount of interception planes requested per enemy plane
 	
 	STR_BOMB_AIR_SUPERIORITY_IMPORTANCE = 0.10,			-- Strategic importance of air superiority ( amount of enemy planes in area )
 	STR_BOMB_CIVIL_FACTORY_IMPORTANCE = 50,				-- Strategic importance of enemy civil factories
@@ -1471,12 +1471,12 @@ NAI = {
 	STR_BOMB_INFRA_IMPORTANCE_FACTOR = 0.25,			-- Factor of infrastructure influence on strategic importance ( 0.0 - 1.0 )
 	STR_BOMB_IMPORTANCE_SCALE = 1.0,					-- str bombing total importance scale (every str bombing score get's multiplied by it)
 	
-	STR_BOMB_MIN_ENEMY_FIGHTERS_IN_AREA = 500,			-- If amount of enemy fighters is higher than this mission won't perform
-	STR_BOMB_FIGHTERS_PER_PLANE = 0.6,					-- Amount of air superiority planes requested per enemy plane
+	STR_BOMB_MIN_ENEMY_FIGHTERS_IN_AREA = 1000,			-- If amount of enemy fighters is higher than this mission won't perform
+	STR_BOMB_FIGHTERS_PER_PLANE = 1.1,					-- Amount of air superiority planes requested per enemy plane
 	STR_BOMB_PLANES_PER_CIV_FACTORY = 20,				-- Amount of planes requested per enemy civ factory
 	STR_BOMB_PLANES_PER_MIL_FACTORY = 25,				-- Amount of planes requested per enemy military factory
 	STR_BOMB_PLANES_PER_NAV_FACTORY = 15,				-- Amount of planes requested per enemy naval factory
-	STR_BOMB_MIN_EXCORT_WINGS = 0,						-- Min amount of airwings requested to excort operations
+	STR_BOMB_MIN_EXCORT_WINGS = 2,						-- Min amount of airwings requested to excort operations
 	
 	ORDER_ASSIGNMENT_DISTANCE_FACTOR = 5.0,				-- When the AI assigns units to orders, it attempts to calculate the distance.
 	RELUCTANCE_TO_CHANGE_FRONT_FACTOR = 0.5,			-- Factor for how reluctant the AI is to change a units order group.
