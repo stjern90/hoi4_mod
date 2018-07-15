@@ -1502,8 +1502,8 @@ NAI = {
 	MAX_PP_TO_SPEND_ON_LOWER_PRIO_TASKS = 25,			-- max pp cost for ai to allow spend pp on lower prio things while a higher prio things are available
 	MIN_SCORE_FOR_LOWER_PRIO_TASKS = 100,				-- this is a threshold for low prio tasks that will be considered critical
 	
-	LOW_PRIO_TEMPLATE_BONUS_FOR_GARRISONS = 10000,		--TEST THIS bonus to make ai more likely to assign low prio units to garrison
-	LOW_PRIO_TEMPLATE_PENALTY_FOR_FRONTS = 10000,		-- penalty to make ai less likely to assign low prio units to fronts
+	LOW_PRIO_TEMPLATE_BONUS_FOR_GARRISONS = 3000,		--TEST THIS bonus to make ai more likely to assign low prio units to garrison
+	LOW_PRIO_TEMPLATE_PENALTY_FOR_FRONTS = 3000,		-- penalty to make ai less likely to assign low prio units to fronts
 	
 	DEPLOYED_UNIT_MANPOWER_RATIO_TO_BUFFER_WARTIME = 0.25, 				-- deployment will try to buffer a ratio of deployed manpower (for reinforcements) during war time
 	DEPLOYED_UNIT_MANPOWER_RATIO_TO_BUFFER_PEACETIME = 0.1,     		-- deployment will try to buffer a ratio of deployed manpower (for reinforcements) during peace time
