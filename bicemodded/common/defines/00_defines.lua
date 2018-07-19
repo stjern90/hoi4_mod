@@ -981,7 +981,7 @@ NNavy = {
 },
 
 NTrade = {
-	DISTANCE_TRADE_FACTOR = 0,			-- Trade factor is modified by distance times this
+	DISTANCE_TRADE_FACTOR =  -0.015,			-- Trade factor is modified by distance times this
 	RELATION_TRADE_FACTOR = 1,				-- Trade factor is modified by Opinion value times this
 	FEAR_TRADE_FACTOR = 1,
 	ALLOW_TRADE_CUT_OFF = 20,				-- If trade factor is less than this, no trade will be allowed
@@ -1316,8 +1316,8 @@ NAI = {
 	BUILD_ARMOR_STRENGTH_MULTIPLIER_WEIGHT = 0.0,
 	BUILD_ARMOR_ORGANIZATION_MULTIPLIER_WEIGHT = 0.0,
 
-	UPGRADE_DIVISION_RELUCTANCE = 3.5,					-- How often to consider upgrading to new templates for units in the field
-	UPGRADE_PERCENTAGE_OF_FORCES = 0.04,					-- How big part of the army that should be considered for upgrading
+	UPGRADE_DIVISION_RELUCTANCE = 3,					-- How often to consider upgrading to new templates for units in the field
+	UPGRADE_PERCENTAGE_OF_FORCES = 0.1,					-- How big part of the army that should be considered for upgrading
 
 	STRATEGIC_BOMBING_DEFENCE_IMPORTANCE = 500.0,
 	
