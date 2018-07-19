@@ -904,21 +904,12 @@ NNavy = {
 	REPAIR_AND_RETURN_PRIO_LOW = 0.8,								-- DNM, original 0.2 --  % of total Strength. When below, navy will go to home base to repair.
 	REPAIR_AND_RETURN_PRIO_MEDIUM = 0.85,							-- DNM, original 0.5 -- % of total Strength. When below, navy will go to home base to repair.
 	REPAIR_AND_RETURN_PRIO_HIGH = 0.9,								-- % of total Strength. When below, navy will go to home base to repair.
-<<<<<<< HEAD
-	REPAIR_AND_RETURN_PRIO_LOW_COMBAT = 0.4,						-- DNM, original 0.1, BICE had 0.25 -- % of total Strength. When below, navy will go to home base to repair (in combat).
-	REPAIR_AND_RETURN_PRIO_MEDIUM_COMBAT = 0.55,						-- DNM, original 0.5 -- % of total Strength. When below, navy will go to home base to repair (in combat).
-	REPAIR_AND_RETURN_PRIO_HIGH_COMBAT = 0.7,						-- DNM, original 0.6 -- % of total Strength. When below, navy will go to home base to repair (in combat).
-	REPAIR_AND_RETURN_AMOUNT_SHIPS_LOW = 0.05,						-- % of total damaged ships, that will be sent for repair-and-return in one call.
-	REPAIR_AND_RETURN_AMOUNT_SHIPS_MEDIUM = 0.05,					-- % of total damaged ships, that will be sent for repair-and-return in one call.
-	REPAIR_AND_RETURN_AMOUNT_SHIPS_HIGH = 0.05,						-- % of total damaged ships, that will be sent for repair-and-return in one call.
-=======
 	REPAIR_AND_RETURN_PRIO_LOW_COMBAT = 0.7,						-- DNM, original 0.1, BICE had 0.25 -- % of total Strength. When below, navy will go to home base to repair (in combat).
 	REPAIR_AND_RETURN_PRIO_MEDIUM_COMBAT = 0.75,						-- DNM, original 0.5 -- % of total Strength. When below, navy will go to home base to repair (in combat).
 	REPAIR_AND_RETURN_PRIO_HIGH_COMBAT = 0.8,						-- DNM, original 0.6 -- % of total Strength. When below, navy will go to home base to repair (in combat).
 	REPAIR_AND_RETURN_AMOUNT_SHIPS_LOW = 0.7,						-- % of total damaged ships, that will be sent for repair-and-return in one call.
 	REPAIR_AND_RETURN_AMOUNT_SHIPS_MEDIUM = 0.8,					-- % of total damaged ships, that will be sent for repair-and-return in one call.
 	REPAIR_AND_RETURN_AMOUNT_SHIPS_HIGH = 0.9,						-- % of total damaged ships, that will be sent for repair-and-return in one call.
->>>>>>> 0ec218ed7804a3446bd1091a3509984b137fa1cf
 	REPAIR_AND_RETURN_MAX_STR_DAMAGE = 0.9,							-- Ships that STR is below this value will be sent for repair and return.
 	REPAIR_AND_RETURN_UNIT_DYING_STR = 0.5,							-- Str below this point is considering a single ship "dying", and a high priority to send to repair.
 	EXPERIENCE_LOSS_FACTOR = 1.00,                 					-- percentage of experienced solders who die when manpower is removed
