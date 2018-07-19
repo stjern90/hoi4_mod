@@ -901,8 +901,8 @@ NNavy = {
 	COMBAT_CRITICAL_DAMAGE_MULT = 3.0,								-- Multiplier for the critical damage. Scaled down with the ship reliability.
 	COMBAT_ARMOR_PIERCING_CRITICAL_BONUS = 1.5,						-- Bonus to critical chance when shooter armor piercing is higher then target armor.
 	COMBAT_ARMOR_PIERCING_DAMAGE_REDUCTION = -0.75,					-- DNM, to be consistent with changes to vanilla, makes armour more important, as it shold be -- All damage reduction % when target armor is >= then shooter armor piercing.
-	REPAIR_AND_RETURN_PRIO_LOW = 0.4,								-- DNM, original 0.2 --  % of total Strength. When below, navy will go to home base to repair.
-	REPAIR_AND_RETURN_PRIO_MEDIUM = 0.6,							-- DNM, original 0.5 -- % of total Strength. When below, navy will go to home base to repair.
+	REPAIR_AND_RETURN_PRIO_LOW = 0.8,								-- DNM, original 0.2 --  % of total Strength. When below, navy will go to home base to repair.
+	REPAIR_AND_RETURN_PRIO_MEDIUM = 0.85,							-- DNM, original 0.5 -- % of total Strength. When below, navy will go to home base to repair.
 	REPAIR_AND_RETURN_PRIO_HIGH = 0.9,								-- % of total Strength. When below, navy will go to home base to repair.
 	REPAIR_AND_RETURN_PRIO_LOW_COMBAT = 0.7,						-- DNM, original 0.1, BICE had 0.25 -- % of total Strength. When below, navy will go to home base to repair (in combat).
 	REPAIR_AND_RETURN_PRIO_MEDIUM_COMBAT = 0.75,						-- DNM, original 0.5 -- % of total Strength. When below, navy will go to home base to repair (in combat).
@@ -998,7 +998,7 @@ NTrade = {
 },
 
 NAI = {
-	GARRISON_FRACTION = 0.2, 					-- How large part of a front should always be holding the line rather than advancing at the enemy
+	GARRISON_FRACTION = 0.25, 					-- How large part of a front should always be holding the line rather than advancing at the enemy
 	
 	DIPLOMATIC_ACTION_GOOD_BAD_RATIO_THRESHOLD = 1,
 	BASE_RELUCTANCE = 30, 						-- Base reluctance applied to all diplomatic offers
@@ -1017,8 +1017,8 @@ NAI = {
 	DIPLOMACY_FACTION_PLAYER_JOIN = 25,			-- Bonus for human players asking to join a faction.
 	DIPLOMACY_BOOST_PARTY_COST_FACTOR = 100.0,	-- Desire to boost party popularity subtracts the daily cost multiplied by this
 	DIPLOMACY_STAGE_COUP_COST_FACTOR = 100.0,	-- Desire to stage a coup subtracts the cost multiplied by this
-	DIPLOMACY_IMPROVE_RELATION_COST_FACTOR = 5.0,-- Desire to boost relations subtracts the cost multiplied by this
-	DIPLOMACY_IMPROVE_RELATION_PP_FACTOR = 0.1,	-- Desire to boost relations adds total PP multiplied by this
+	DIPLOMACY_IMPROVE_RELATION_COST_FACTOR = 1000.0,-- Desire to boost relations subtracts the cost multiplied by this
+	DIPLOMACY_IMPROVE_RELATION_PP_FACTOR = 0.0,	-- Desire to boost relations adds total PP multiplied by this
 	DIPLOMACY_SEND_ATTACHE_COST_FACTOR = 5.0,	-- Desire to send attache substracts the cost multiplied by this
 	DIPLOMACY_SEND_ATTACHE_PP_FACTOR = 0.1,	-- Desire to send attache adds total PP multiplied by this
 	DIPLOMACY_REJECTED_WAIT_MONTHS_BASE = 4,	-- AI will not repeat offers until at least this time has passed, and at most the double
@@ -1169,7 +1169,7 @@ NAI = {
 	STATE_GARRISON_MAX_UNITS = 4,				-- Max units to guard a garrison under normal circumstances (isolated core areas like England has is excempt)
 	
 	REDEPLOY_DISTANCE_VS_ORDER_SIZE = 1.0,		-- Factor applied to the path length of a unit compared to length of an order to determine if it should use strategic redeployment
-	UNIT_ASSIGNMENT_TERRAIN_IMPORTANCE = 5.0,	-- Terrain score for units are multiplied by this when the AI is deciding which front they should be assigned to
+	UNIT_ASSIGNMENT_TERRAIN_IMPORTANCE = 0.2,	-- Terrain score for units are multiplied by this when the AI is deciding which front they should be assigned to
 	
 	MIN_STATE_VALUE_TO_PROTECT = 7.5,			-- When AI is considering which states to protect it looks at state values to consider if it is worth it.
 	
@@ -1378,7 +1378,7 @@ NAI = {
 	FRONT_UNITS_CAP_FACTOR = 15.0,						-- A factor applied to total front size and supply use. Primarily effects small fronts
 	MAX_DIST_PORT_RUSH = 20.0,							-- If a unit is in enemy territory with no supply it will consider nearby ports within this distance.
 	
-	MIN_FIELD_STRENGTH_TO_BUILD_UNITS = 0.9,			-- Cancel unit production if below this to get resources out to units in the field
+	MIN_FIELD_STRENGTH_TO_BUILD_UNITS = 0.92,			-- Cancel unit production if below this to get resources out to units in the field
 	MIN_MANPOWER_TO_BUILD_UNITS = 0.7,					-- Cancel unit production if below this to get resources out to units in the field
 	
 	AVERAGE_SUPPLY_USE_PESSIMISM = 1.5,					-- Multiplier for when AI calculates average supply use of entire army.
@@ -1478,7 +1478,7 @@ NAI = {
 	STR_BOMB_PLANES_PER_NAV_FACTORY = 15,				-- Amount of planes requested per enemy naval factory
 	STR_BOMB_MIN_EXCORT_WINGS = 2,						-- Min amount of airwings requested to excort operations
 	
-	ORDER_ASSIGNMENT_DISTANCE_FACTOR = 5.0,				-- When the AI assigns units to orders, it attempts to calculate the distance.
+	ORDER_ASSIGNMENT_DISTANCE_FACTOR = 2.5,				-- When the AI assigns units to orders, it attempts to calculate the distance.
 	RELUCTANCE_TO_CHANGE_FRONT_FACTOR = 0.5,			-- Factor for how reluctant the AI is to change a units order group.
 	REVISITED_PROV_PENALTY_FACTOR = 1.5,				-- When the AI picks units for a front, it tries to spread out a bit which units it grabs.
 	
@@ -1502,8 +1502,8 @@ NAI = {
 	MAX_PP_TO_SPEND_ON_LOWER_PRIO_TASKS = 25,			-- max pp cost for ai to allow spend pp on lower prio things while a higher prio things are available
 	MIN_SCORE_FOR_LOWER_PRIO_TASKS = 100,				-- this is a threshold for low prio tasks that will be considered critical
 	
-	LOW_PRIO_TEMPLATE_BONUS_FOR_GARRISONS = 10000,		--TEST THIS bonus to make ai more likely to assign low prio units to garrison
-	LOW_PRIO_TEMPLATE_PENALTY_FOR_FRONTS = 10000,		-- penalty to make ai less likely to assign low prio units to fronts
+	LOW_PRIO_TEMPLATE_BONUS_FOR_GARRISONS = 3000,		--TEST THIS bonus to make ai more likely to assign low prio units to garrison
+	LOW_PRIO_TEMPLATE_PENALTY_FOR_FRONTS = 3000,		-- penalty to make ai less likely to assign low prio units to fronts
 	
 	DEPLOYED_UNIT_MANPOWER_RATIO_TO_BUFFER_WARTIME = 0.25, 				-- deployment will try to buffer a ratio of deployed manpower (for reinforcements) during war time
 	DEPLOYED_UNIT_MANPOWER_RATIO_TO_BUFFER_PEACETIME = 0.1,     		-- deployment will try to buffer a ratio of deployed manpower (for reinforcements) during peace time
