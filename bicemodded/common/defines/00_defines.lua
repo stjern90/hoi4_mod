@@ -455,7 +455,7 @@ NMilitary = {
 	LEADER_SKILL_FACTOR = 0.05,                    -- bonus per skill level of leader
 	ARMY_LEADER_XP_GAIN_PER_UNIT_IN_COMBAT = 0.06, -- XP gain per unit in combat
 	CONSTANT_XP_RATIO_FOR_MULTIPLE_LEADERS_IN_SAME_COMBAT = 0.5, -- if there are multiple leaders in same combat, each one gets thisratio + 1-thisratio/num leaders. amount of xp each general gets scales 1 0.75 0.66 etc for 1 2 3 generals
-	BASE_LEADER_TRAIT_GAIN_XP = 1.08,				   -- Base xp gain for traits per hour for armies.
+	BASE_LEADER_TRAIT_GAIN_XP = 1.2,				   -- Base xp gain for traits per hour for armies.
 	MAX_NUM_TRAITS = -1,					-- cant have more
 	ENEMY_AIR_SUPERIORITY_IMPACT = -0.33,           -- effect on defense due to enemy air superiorty
 	ENEMY_AIR_SUPERIORITY_DEFENSE = 0.75,	       -- more AA attack will approach this amount of help (diminishing returns)
@@ -478,7 +478,7 @@ NMilitary = {
 	ARMY_EXP_BASE_LEVEL = 2,
 	UNIT_EXP_LEVELS = { 0.1, 0.2, 0.3, 0.4, 0.55, 0.7, 0.9 },		-- Experience needed to progress to the next level Changed vets to 0.55 instead 0.7 ***
 	FIELD_EXPERIENCE_SCALE = 0.002,
-	FIELD_EXPERIENCE_MAX_PER_DAY = 3,				-- Most xp you can gain per day
+	FIELD_EXPERIENCE_MAX_PER_DAY = 4,				-- Most xp you can gain per day
 	EXPEDITIONARY_FIELD_EXPERIENCE_SCALE = 0.5,		-- reduction factor in Xp from expeditionary forces
 	LEND_LEASE_FIELD_EXPERIENCE_SCALE = 0.005,		-- Experience scale for lend leased equipment used in combat.
 	LEADER_EXPERIENCE_SCALE = 1.0,
@@ -611,7 +611,7 @@ NMilitary = {
 	STRATEGIC_INFRA_SPEED = 14.0,                   -- Max of additional speed gained trouh=gh level for strategic redeployment per infra
 	STRATEGIC_REDEPLOY_ORG_RATIO = 0.25,				-- Ratio of max org while strategic redeployment
 	BATALION_NOT_CHANGED_EXPERIENCE_DROP = 0.0,		-- Division experience drop if unit has same batalion
-	BATALION_CHANGED_EXPERIENCE_DROP = 0.5,			-- Division experience drop if unit has different batalion
+	BATALION_CHANGED_EXPERIENCE_DROP = 0.4,			-- Division experience drop if unit has different batalion
 	ARMOR_VS_AVERAGE = 0.60,			                -- how to weight in highest armor & pen vs the division average
 	PEN_VS_AVERAGE = 0.50,
 
@@ -755,7 +755,7 @@ NAir = {
 	NAVAL_STRIKE_DAMAGE_TO_ORG = 2.0,					-- Balancing value to convert damage ( naval_strike_attack * hits ) to Organisation reduction.
 	NAVAL_STRIKE_AIR_VS_AIR_PASS_CHANCE = 0.9,			-- Balancing value to control
 	FIELD_EXPERIENCE_SCALE = 0.002,
-	FIELD_EXPERIENCE_MAX_PER_DAY = 1,					-- Most xp you can gain per day
+	FIELD_EXPERIENCE_MAX_PER_DAY = 1.5,					-- Most xp you can gain per day
 	CLOSE_AIR_SUPPORT_EXPERIENCE_SCALE = 0.00017,			-- How much the experinence gained by CAS is scaled
 	PARADROP_EXPERIENCE_SCALE = 0.02,					-- How much the experinence gained by paradropping is scaled
 	BOMBING_DAMAGE_EXPERIENCE_SCALE = 0.00017,           -- How much the experinence gained by bombing is scaled
@@ -854,9 +854,9 @@ NNavy = {
 	DETECTION_CHANCE_MULT_FORMATION_SPREAD_PATROL = 1.0, 			-- formation spread (max recommended value 1.0). The higher value the higher detection chance, but less ships will be on the place when combat starts.
 	DETECTION_CHANCE_MULT_FORMATION_SPREAD_SEARCH_AND_DESTROY = 0.5, -- same as for patrol but for search and destroy missions, should be less then patrol
 	DETECTION_CHANCE_MULT_FORMATION_SPREAD_CONVOY_RAIDING = 2,		-- DNM, original 1.2
-	DETECTION_CHANCE_MULT_FORMATION_SPREAD_CONVOY_ESCORT = 0.9,
+	DETECTION_CHANCE_MULT_FORMATION_SPREAD_CONVOY_ESCORT = 0.6,
 	DETECTION_CHANCE_MULT_RADAR_BONUS = 0.03,						-- detection chance bonus from radars. 
-	DETECTION_CHANCE_MULT_AIR_SUPERIORITY_BONUS = 0.25,			-- bonus from air superiority.
+	DETECTION_CHANCE_MULT_AIR_SUPERIORITY_BONUS = 0.2,			-- bonus from air superiority.
 
 	DETECTION_CHANCE_BALANCE = 2.7,								-- Value to balance gameplay. The higher value = smaller detection chance. Notice: it doesn't affect the displayed detection chance numbers, as well balanced numbers could be a very small fractions like 0.012
 	DETECTION_SUBS_CHANCE_BALANCE = 50.0,						-- Same as above, but for sub detection. It should be very hard to detect just the subs.
@@ -868,15 +868,15 @@ NNavy = {
 	COMBAT_BASE_HIT_CHANCE = 0.1,									-- base chance for hit
 	COMBAT_MIN_HIT_CHANCE = 0.01,									-- never less hit chance then 1%?
 	COMBAT_TORPEDO_ATTACK_MAX_RANGE = 4.0,							-- DNM, consistent with vanilla changes, better for naval combat -- max range for torpedo attack
-	COMBAT_TORPEDO_ATTACK_USE_CHANCE = 0.25,						-- DNM, 0.5 is too high, vessels make more torpedo attacks than they would have been able too historically -- chance of using torpedo attack (to avoid torpedo spam when at close distance)
+	COMBAT_TORPEDO_ATTACK_USE_CHANCE = 0.15,						-- DNM, 0.5 is too high, vessels make more torpedo attacks than they would have been able too historically -- chance of using torpedo attack (to avoid torpedo spam when at close distance)
 	COMBAT_CLOSE_DISTANCE_MAX_HIT_CHANCE_BONUS = 0.1,				-- DNM, original 0.1.  Being closer is generally a very good thin in naval combat.  May increase again later -- max bonus to hit chance when target is near. So if base is 0.5, dist.bonus is 0.1, and we are facing enemy at distance 0, the total hit chance is 0.6 (60%). When enemy is barely at our max shooting range, the bonus is 0.
-	COMBAT_EVASION_TO_HIT_CHANCE = 0.02,							-- we take ship evasion stats, and mult by this value, so it gives hit chance reduction. So if reduction is 0.025 and ship evasion = 10, then there will be 0.25 (25%) lower hit chance. (Fe. 50% base -25% from evasion +10% bcoz it's very close).
+	COMBAT_EVASION_TO_HIT_CHANCE = 0.03,							-- we take ship evasion stats, and mult by this value, so it gives hit chance reduction. So if reduction is 0.025 and ship evasion = 10, then there will be 0.25 (25%) lower hit chance. (Fe. 50% base -25% from evasion +10% bcoz it's very close).
 	COMBAT_EVASION_TO_HIT_CHANCE_TORPEDO_MULT = 40.0,				-- the above evasion hit chance is multiplied by 150% if shooting with torpedos. Torpedoes are slow, so evasion matters more.
 	MAX_EVASION_BONUS = 0.1,										-- largest evasion penalty to hitting
 	TARGETING_STACKING_HIT_CHANCE_PENALTY = 0.1,                    -- penalty to hit chance for each ship targeting same target
 	COMBAT_LOW_ORG_HIT_CHANCE_PENALTY = -0.45,						-- % of penalty applied to hit chance when ORG is very low.
 	COMBAT_DAMAGE_RANDOMNESS = 0.3,								-- DNM, original 0.3, BICE had 0.4 -- random factor in damage. So if max damage is fe. 10, and randomness is 30%, then damage will be between 7-10.
-	COMBAT_TORPEDO_CRITICAL_CHANCE = 0.3,							-- chance for critical hit from torpedo.
+	COMBAT_TORPEDO_CRITICAL_CHANCE = 0.2,							-- chance for critical hit from torpedo.
 	COMBAT_TORPEDO_CRITICAL_DAMAGE_MULT = 3.0,						-- multiplier to damage when got critical hit from torpedo. (Critical hits are devastating as usualy torpedo_attack are pretty high base values).
 	COMBAT_DAMAGE_TO_STR_FACTOR = 1.6,								-- casting damage value to ship strength multiplier. Use it to balance the game difficulty.
 	COMBAT_DAMAGE_TO_ORG_FACTOR = 1.9,							-- casting damage value to ship organisation multiplier. Use it to balance the game difficulty.
@@ -886,7 +886,7 @@ NNavy = {
 	COMBAT_ESCAPING_SPEED_BALANCE = 0.8,							-- DNM, original 0.8, should make it a little easier for disengaging ships to escape -- Same as above, but used to balance when escaping.
 	COMBAT_ON_THE_WAY_INIT_DISTANCE_BALANCE = 0.5, 					-- Value to balance initial distance to arrive for ships that are "on the way"	
 	COMBAT_CHASE_RUNNERS_SPEED_COMPARE_BALANCE = 0.6,				-- When we chanse runners and they are faster then us, then we resign. But if we are faster then them by a very small speed difference, the chase may takes weeks. So this tweak value allows to resign chasing if speed difference is not so big.
-	COMABT_CHASE_RUNNERS_TIMEOUT_HOURS = 10,						-- Stop chasing after timeout
+	COMABT_CHASE_RUNNERS_TIMEOUT_HOURS = 10,						-- Stop chasing after timeout #Error ? COMABT instead of COMBAT ?
 	COMBAT_CHASE_RESIGNATION_HOURS = 8,								-- Before we resign chasing enemy, give them some minimum time so the combat doesn't end instantly.
 	COMBAT_SHIP_SPEED_TO_FIELD_FACTOR = 0.05,						-- Modifier to the ships speed in the combat. For better balance, make it lower to slow down the speed of approaching.
 	COMBAT_MAX_DISTANCE_TO_CENTER_LINE = 50,						-- Max distance to center line. Use fire_range in subunits or equipment to compare how big is the battlefield.
@@ -1069,8 +1069,8 @@ NAI = {
 	WANTED_UNITS_INDUSTRY_FACTORY = 0.0, 		-- How many units a country wants is partially based on how much military industry that is available
 	DEPLOY_MIN_TRAINING_PEACE_FACTOR = 0.95,		-- Required percentage of training (1.0 = 100%) for AI to deploy unit in peacetime
 	DEPLOY_MIN_TRAINING_WAR_FACTOR = 0.25,		-- Required percentage of training (1.0 = 100%) for AI to deploy unit in wartime
-	DEPLOY_MIN_EQUIPMENT_PEACE_FACTOR = 0.9,	-- Required percentage of equipment (1.0 = 100%) for AI to deploy unit in peacetime
-	DEPLOY_MIN_EQUIPMENT_WAR_FACTOR = 0.85,		-- Required percentage of equipment (1.0 = 100%) for AI to deploy unit in wartime
+	DEPLOY_MIN_EQUIPMENT_PEACE_FACTOR = 0.92,	-- Required percentage of equipment (1.0 = 100%) for AI to deploy unit in peacetime
+	DEPLOY_MIN_EQUIPMENT_WAR_FACTOR = 0.88,		-- Required percentage of equipment (1.0 = 100%) for AI to deploy unit in wartime
 	DYNAMIC_STRATEGIES_THREAT_FACTOR = 4.0,		-- How much threat generated by other countries effects generated strategies
 	WARGOAL_GENERATION_STRENGTH_FACTOR = 1.75,	-- Desire to generate wargoal effected negatevely if actor strength is less than this factor of target strength
 	LOCATION_BALANCE_TO_ADVANCE = 0.0,			-- Limit on location strength balance between country and enemy for unit to dare to move forward.
