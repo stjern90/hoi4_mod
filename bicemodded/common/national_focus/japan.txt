@@ -33,6 +33,356 @@ focus_tree = {
 			}
 		}
 	}
+	
+	focus = {
+		id = JAP_build_up_the_manchurian_army
+		icon = GFX_goal_generic_army_doctrines
+		prerequisite = { focus = test_the_ussr_focus }
+		x = 17
+		y = 1
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			MAN = {
+				OR = {
+					is_in_faction_with = ROOT
+					is_subject_of = ROOT
+				}
+			}
+			has_equipment = { infantry_equipment > 1999 }
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		complete_tooltip = {
+
+		}
+
+		completion_reward = {
+			send_equipment = {
+				target = MAN
+				equipment = infantry_equipment
+				amount = 2000
+				old_prioritised = yes
+			}
+			if = {
+				limit = { has_equipment = { support_equipment > 500 } }
+				send_equipment = {
+					target = MAN
+					equipment = support_equipment
+					amount = 500
+					old_prioritised = yes
+				}
+			}
+			if = {
+				limit = { has_equipment = { mountain_artillery_equipment > 250 } }
+				send_equipment = {
+					target = MAN
+					equipment = mountain_artillery_equipment
+					amount = 250
+					old_prioritised = yes
+				}
+			}
+			MAN = {
+				add_tech_bonus = {
+					name = JAP_build_up_the_manchurian_army
+					bonus = 0.4
+					uses = 2
+					category = land_doctrine	
+				}
+				add_tech_bonus = {
+					name = JAP_build_up_the_manchurian_army
+					bonus = 0.4
+					uses = 2
+					category = infantry_weapons	
+				}
+				add_autonomy_ratio = {
+					value = -0.08333
+					localization = JAP_build_up_the_manchurian_army
+				}
+			}
+			MAN = {
+				country_event = wtt_japan.41
+			}
+		}
+	}
+	
+	focus = {
+		id = JAP_create_a_manchurian_imperial_air_force
+		icon = GFX_goal_generic_air_doctrine
+		prerequisite = { focus = JAP_build_up_the_manchurian_army }
+		x = 17
+		y = 2
+
+		cost = 8
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			MAN = {
+				OR = {
+					is_in_faction_with = ROOT
+					is_subject_of = ROOT
+				}
+			}
+		}
+
+		bypass = {
+			MAN = {
+				exists = no
+			}
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		complete_tooltip = {
+
+		}		
+
+		completion_reward = {
+			air_experience = 25
+			MAN = {
+				add_tech_bonus = {
+					name = JAP_create_a_manchurian_imperial_air_force
+					bonus = 0.5
+					uses = 1
+					category = tactical_bomber
+					category = cat_strategic_bomber
+					category = naval_bomber
+					category = cas_bomber
+				}
+				add_tech_bonus = {
+					name = JAP_create_a_manchurian_imperial_air_force
+					bonus = 0.5
+					uses = 1
+					category = light_fighter
+					category = cat_heavy_fighter
+				}
+				every_owned_state = {
+					limit = {
+						is_fully_controlled_by = MAN
+						is_owned_by = MAN
+						MAN = { is_puppet_of = JAP }
+					}
+					add_building_construction = {
+						type = air_base
+						level = 2
+						instant_build = yes
+					}
+				}
+				add_autonomy_ratio = {
+					value = -0.08333
+					localization = JAP_build_up_the_manchurian_army
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = JAP_technological_exchange
+		icon = GFX_goal_tfv_generic_tech_sharing
+
+		prerequisite = { focus = JAP_create_a_manchurian_imperial_air_force }
+		x = 17
+		y = 3
+
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+			has_war_with = GER
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		complete_tooltip = {
+
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					has_country_leader = { id = 700 } #Hirohito
+				}
+				remove_country_leader_trait = warrior_code
+			}
+			random_country = {
+				limit = {
+					original_tag = GER
+					has_government = fascism
+					is_faction_leader = yes
+				}
+				country_event = generic.2
+				if = {
+					limit = {
+						OR = {
+							has_dlc = "Together for Victory"
+							has_dlc = "Death or Dishonor"
+							has_dlc = "Waking the Tiger"
+						}
+					}
+					add_to_tech_sharing_group = JAP_technological_exchange
+					ROOT = { add_to_tech_sharing_group = JAP_technological_exchange }
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = JAP_preemptive_war
+		icon = GFX_goal_generic_war_with_comintern
+		prerequisite = { focus = JAP_technological_exchange }
+		x = 17
+		y = 4
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 0
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+			OR = {				
+				has_war_with = SOV
+				has_wargoal_against = SOV
+			}
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		complete_tooltip = {
+
+		}
+
+		completion_reward = {
+			create_wargoal = {
+				target = SOV
+				type = annex_everything
+			}
+			unlock_decision_tooltip = JAP_war_with_soviet_union
+			if = {
+				limit = {
+					has_country_leader = { id = 700 ruling_only = yes }
+				}
+				remove_country_leader_trait = imperial_sanction
+			}
+		}
+	}
+	
+	focus = {
+		id = JAP_establish_the_northern_resource_area
+		icon = GFX_goal_generic_construction2
+		prerequisite = { focus = JAP_preemptive_war }
+		x = 17
+		y = 5
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		available = {
+			has_tech = excavation1
+			has_full_control_of_state = 564
+			OR = {
+				has_full_control_of_state = 657
+				has_full_control_of_state = 408
+				has_full_control_of_state = 560
+			}
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		complete_tooltip = {
+
+		}
+
+		completion_reward = {
+			657 = {
+				if = {
+					limit = { is_fully_controlled_by = ROOT }
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			408 = {
+				if = {
+					limit = { is_fully_controlled_by = ROOT }
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			560 = {
+				if = {
+					limit = { is_fully_controlled_by = ROOT }
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			564 = {
+				add_resource = {
+					type = aluminium
+					amount = 8
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			if = {
+				limit = { has_dlc = "Waking the Tiger" }
+				unlock_decision_category_tooltip = prospect_for_resources
+			}
+		}
+	}
 
 	focus = {
 		id = JAP_prepare_border
@@ -252,8 +602,8 @@ focus_tree = {
 		id = JAP_develop_chinese_resources
 		icon = GFX_goal_generic_construct_civilian
 		prerequisite = { focus = JAP_secure_china }
-		x = 17
-		y = 4
+		x = 16
+		y = 6
 
 		cost = 10
 
@@ -448,6 +798,430 @@ focus_tree = {
 			}
 			hidden_effect = {
 				news_event = { hours = 6 id = news.209 }
+			}
+		}
+	}
+	
+	focus = {
+		id = JAP_the_manchurian_project
+		icon = GFX_focus_jap_manchurian_project
+		prerequisite = { focus = JAP_Northern }
+		x = -4
+		y = 0
+		relative_position_id = JAP_Northern
+
+		cost = 8
+
+		ai_will_do = {
+			factor = 2
+		}
+
+		available = {
+			MAN = { is_subject_of = ROOT }
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		complete_tooltip = {
+
+		}
+
+		completion_reward = {
+			MAN = {				
+				add_stability = 0.05
+				add_war_support = 0.05
+				add_political_power = 150
+			}
+		}
+	}
+
+	focus = {
+		id = JAP_expand_the_showa_steel_works
+		icon = GFX_goal_generic_construct_civilian
+		prerequisite = { focus = JAP_expand_manchurian_railways }
+		x = -3
+		y = 2
+		relative_position_id = JAP_the_manchurian_project
+
+		cost = 7
+
+		ai_will_do = {
+			factor = 2
+		}
+
+		available = {
+			716 = { is_fully_controlled_by = MAN }
+			MAN = { is_subject_of = ROOT }
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		complete_tooltip = {
+
+		}
+
+		completion_reward = {
+			716 = {
+					add_resource = {
+						type = steel
+						amount = 16
+					}				
+				
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = JAP_develop_aluminum_sources
+		icon = GFX_goal_generic_construction
+		prerequisite = { focus = JAP_expand_manchurian_railways }
+		x = 2
+		y = 0
+		relative_position_id = JAP_expand_the_showa_steel_works
+
+		cost = 8
+
+		ai_will_do = {
+			factor = 2
+		}
+
+		available = {
+			328 = { is_fully_controlled_by = MAN }
+			MAN = { is_subject_of = ROOT }
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		complete_tooltip = {
+
+		}
+
+		completion_reward = {
+			328 = {
+				if = {
+					limit = {
+						MAN = { has_focus_tree = generic_focus }
+					}
+					add_resource = {
+						type = aluminium
+						amount = 12
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = JAP_expand_manchurian_railways
+		icon = GFX_goal_generic_construct_infrastructure
+		prerequisite = { focus = JAP_the_manchurian_project }
+		x = -2
+		y = 1
+		relative_position_id = JAP_the_manchurian_project
+
+		cost = 7
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			MAN = { is_subject_of = ROOT }
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		complete_tooltip = {
+			MAN = {			
+				random_state = {
+					limit = {
+						has_state_flag = JAP_expand_manchurian_railways_Inf1
+					}
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+				}
+				random_state = {
+					limit = {
+						has_state_flag = JAP_expand_manchurian_railways_Inf2
+					}
+					add_building_construction = {
+						type = infrastructure
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+		}
+
+		completion_reward = {
+			MAN = {
+				random_owned_controlled_state = {
+					limit = {
+						is_fully_controlled_by = PREV						
+						free_building_slots = {
+							building = infrastructure
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+					set_state_flag = JAP_expand_manchurian_railways_Inf1
+				}
+				random_owned_controlled_state = {
+					limit = {
+						is_fully_controlled_by = PREV						
+						free_building_slots = {
+							building = infrastructure
+							size > 1
+							include_locked = yes
+						}
+					}
+					add_building_construction = {
+						type = infrastructure
+						level = 2
+						instant_build = yes
+					}
+					set_state_flag = JAP_expand_manchurian_railways_Inf2
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = JAP_light_industry_development
+		icon = GFX_goal_generic_construct_mil_factory
+		prerequisite = { focus = JAP_expand_the_showa_steel_works focus = JAP_develop_aluminum_sources }
+		x = -3
+		y = 3
+		relative_position_id = JAP_the_manchurian_project
+
+		cost = 7
+
+		ai_will_do = {
+			factor = 2
+		}
+
+		available = {
+			MAN = {
+				is_subject_of = ROOT
+				has_full_control_of_state = 715
+			}
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		complete_tooltip = {
+
+		}
+
+		completion_reward = {
+			715 = {
+				add_extra_state_shared_building_slots = 3
+				add_building_construction = {
+					type = industrial_complex
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = JAP_heavy_industry_development
+		icon = GFX_goal_generic_build_tank
+		prerequisite = { focus = JAP_expand_the_showa_steel_works focus = JAP_develop_aluminum_sources }
+		x = -1
+		y = 3
+		relative_position_id = JAP_the_manchurian_project
+
+		cost = 7
+
+		ai_will_do = {
+			factor = 2
+		}
+
+		available = {
+			MAN = {
+				is_subject_of = ROOT
+				has_full_control_of_state = 716				
+			}
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		complete_tooltip = {
+
+		}
+
+		completion_reward = {
+			716 = {
+				add_extra_state_shared_building_slots = 3
+				add_building_construction = {
+					type = arms_factory
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = JAP_japanese_settlement
+		icon = GFX_goal_generic_construct_civ_factory
+		prerequisite = { focus = JAP_heavy_industry_development }
+		prerequisite = { focus = JAP_light_industry_development }
+		x = -2
+		y = 4
+		relative_position_id = JAP_the_manchurian_project
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			MAN = {
+				is_subject_of = ROOT
+				has_full_control_of_state = 715
+				has_full_control_of_state = 610
+				has_full_control_of_state = 328
+			}
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		complete_tooltip = {
+
+		}
+
+		completion_reward = {
+			715 = { add_extra_state_shared_building_slots = 1 }
+			610 = { add_extra_state_shared_building_slots = 1 }
+			328 = { add_extra_state_shared_building_slots = 1 }
+			
+			MAN = {				
+				add_stability = 0.1
+				add_war_support = 0.1
+				add_political_power = 150
+			}
+		}
+	}
+
+	focus = {
+		id = JAP_fortify_the_border
+		icon = GFX_goal_generic_construct_military
+		prerequisite = { focus = JAP_the_manchurian_project }
+		x = 0
+		y = 1
+		relative_position_id = JAP_the_manchurian_project 
+
+		cost = 9
+
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 10
+				has_completed_focus = JAP_technological_exchange
+			}
+		}
+
+		available = {
+			MAN = { is_subject_of = ROOT }
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		complete_tooltip = {
+
+		}
+
+		completion_reward = {
+			MAN = {
+				every_owned_state = {
+					limit = {
+						is_fully_controlled_by = PREV
+						any_neighbor_state = {
+							is_controlled_by = SOV
+						}
+					}
+					set_building_level = {
+						type = bunker
+						level = 2
+						province = {
+							all_provinces = yes
+							limit_to_border = yes
+							level < 2
+						}
+					}
+				}				
 			}
 		}
 	}
@@ -1206,6 +1980,34 @@ focus_tree = {
 	}
 	
 	focus = {
+		id = JAP_support_tanks
+		icon = GFX_goal_TD_2
+		prerequisite = { focus = armor_innovations_focus }
+		
+		x = 6
+		y = 8
+		cost = 7
+		ai_will_do = {
+			factor = 2
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			add_tech_bonus = {
+			name = armor_bonus
+			bonus = 0.25 
+			uses = 2
+			category = cat_med_art
+			}
+			add_tech_bonus = {
+			name = armor_bonus
+			bonus = 0.25 
+			uses = 2
+			category = cat_med_td
+			}
+		}
+	}
+	
+	focus = {
 		id = naval_innovations_focus
 		icon = GFX_goal_generic_large_fleet
 		prerequisite = { focus = JAP_Navy_Doctrine }
@@ -1262,7 +2064,7 @@ focus_tree = {
 	
 	focus = {
 		id = naval_air_innovations_focus_2
-		icon = GFX_goal_generic_air_fighter2
+		icon = GFX_focus_jap_zero
 		prerequisite = { focus = naval_air_innovations_focus }
 		x = 13
 		y = 6
@@ -1340,8 +2142,8 @@ focus_tree = {
 		icon = GFX_focus_research
 		prerequisite = { focus = JAP_Mitsui }
 		prerequisite = { focus = JAP_Mitsubishi }
-		x = 20
-		y = 4
+		x = 21
+		y = 3
 		cost = 10
 		ai_will_do = {
 			factor = 4
@@ -1362,7 +2164,7 @@ focus_tree = {
 		id = JAP_Slot_1
 		icon = GFX_goal_generic_scientific_exchange
 		prerequisite = { focus = JAP_Research }
-		x = 20
+		x = 21
 		y = 5
 		cost = 10
 		ai_will_do = {
@@ -1372,360 +2174,7 @@ focus_tree = {
 			add_research_slot = 1
 		}
 	}
-	
-	focus = {
-		id = JAP_build_up_the_manchurian_army
-		icon = GFX_goal_generic_army_doctrines
-		#prerequisite = { focus = JAP_Slot_1 }
-		x = 20
-		y = 6
-		#relative_position_id = JAP_prepare_for_war_with_the_soviet_union
 
-		cost = 10
-
-		ai_will_do = {
-			factor = 1
-		}
-
-		available = {
-			MAN = {
-				OR = {
-					is_in_faction_with = ROOT
-					is_subject_of = ROOT
-				}
-			}
-			has_equipment = { infantry_equipment > 1999 }
-		}
-
-		bypass = {
-
-		}
-
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-
-		complete_tooltip = {
-
-		}
-
-		completion_reward = {
-			send_equipment = {
-				target = MAN
-				equipment = infantry_equipment
-				amount = 2000
-				old_prioritised = yes
-			}
-			if = {
-				limit = { has_equipment = { support_equipment > 500 } }
-				send_equipment = {
-					target = MAN
-					equipment = support_equipment
-					amount = 500
-					old_prioritised = yes
-				}
-			}
-			if = {
-				limit = { has_equipment = { mountain_artillery_equipment > 250 } }
-				send_equipment = {
-					target = MAN
-					equipment = mountain_artillery_equipment
-					amount = 250
-					old_prioritised = yes
-				}
-			}
-			MAN = {
-				add_tech_bonus = {
-					name = JAP_build_up_the_manchurian_army
-					bonus = 0.4
-					uses = 2
-					category = land_doctrine	
-				}
-				add_tech_bonus = {
-					name = JAP_build_up_the_manchurian_army
-					bonus = 0.4
-					uses = 2
-					category = infantry_weapons	
-				}
-				add_autonomy_ratio = {
-					value = -0.08333
-					localization = JAP_build_up_the_manchurian_army
-				}
-			}
-			MAN = {
-				country_event = wtt_japan.41
-			}
-		}
-	}
-	
-	focus = {
-		id = JAP_create_a_manchurian_imperial_air_force
-		icon = GFX_goal_generic_air_doctrine
-		prerequisite = { focus = JAP_build_up_the_manchurian_army }
-		x = 0
-		y = 1
-		relative_position_id = JAP_build_up_the_manchurian_army
-
-		cost = 8
-
-		ai_will_do = {
-			factor = 1
-		}
-
-		available = {
-			MAN = {
-				OR = {
-					is_in_faction_with = ROOT
-					is_subject_of = ROOT
-				}
-			}
-		}
-
-		bypass = {
-			MAN = {
-				exists = no
-			}
-		}
-
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-
-		complete_tooltip = {
-
-		}		
-
-		completion_reward = {
-			air_experience = 25
-			MAN = {
-				add_tech_bonus = {
-					name = JAP_create_a_manchurian_imperial_air_force
-					bonus = 0.5
-					uses = 1
-					category = tactical_bomber
-					category = cat_strategic_bomber
-					category = naval_bomber
-					category = cas_bomber
-				}
-				add_tech_bonus = {
-					name = JAP_create_a_manchurian_imperial_air_force
-					bonus = 0.5
-					uses = 1
-					category = light_fighter
-					category = cat_heavy_fighter
-				}
-				every_owned_state = {
-					limit = {
-						is_fully_controlled_by = MAN
-						is_owned_by = MAN
-						MAN = { is_puppet_of = JAP }
-					}
-					add_building_construction = {
-						type = air_base
-						level = 2
-						instant_build = yes
-					}
-				}
-				add_autonomy_ratio = {
-					value = -0.08333
-					localization = JAP_build_up_the_manchurian_army
-				}
-			}
-		}
-	}
-	
-	focus = {
-		id = JAP_technological_exchange
-		icon = GFX_goal_tfv_generic_tech_sharing
-
-		prerequisite = { focus = JAP_create_a_manchurian_imperial_air_force }
-		x = 20
-		y = 8
-
-
-		cost = 10
-
-		ai_will_do = {
-			factor = 1
-		}
-
-		available = {
-
-		}
-
-		bypass = {
-			has_war_with = GER
-		}
-
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-
-		complete_tooltip = {
-
-		}
-
-		completion_reward = {
-			if = {
-				limit = {
-					has_country_leader = { id = 700 } #Hirohito
-				}
-				remove_country_leader_trait = warrior_code
-			}
-			random_country = {
-				limit = {
-					original_tag = GER
-					has_government = fascism
-					is_faction_leader = yes
-				}
-				country_event = generic.2
-				if = {
-					limit = {
-						OR = {
-							has_dlc = "Together for Victory"
-							has_dlc = "Death or Dishonor"
-							has_dlc = "Waking the Tiger"
-						}
-					}
-					add_to_tech_sharing_group = JAP_technological_exchange
-					ROOT = { add_to_tech_sharing_group = JAP_technological_exchange }
-				}
-			}
-		}
-	}
-
-	focus = {
-		id = JAP_preemptive_war
-		icon = GFX_goal_generic_war_with_comintern
-		prerequisite = { focus = JAP_technological_exchange }
-		x = 0
-		y = 1
-		relative_position_id = JAP_technological_exchange
-
-		cost = 10
-
-		ai_will_do = {
-			factor = 0
-		}
-
-		available = {
-
-		}
-
-		bypass = {
-			OR = {				
-				has_war_with = SOV
-				has_wargoal_against = SOV
-			}
-		}
-
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-
-		complete_tooltip = {
-
-		}
-
-		completion_reward = {
-			create_wargoal = {
-				target = SOV
-				type = annex_everything
-			}
-			unlock_decision_tooltip = JAP_war_with_soviet_union
-			if = {
-				limit = {
-					has_country_leader = { id = 700 ruling_only = yes }
-				}
-				remove_country_leader_trait = imperial_sanction
-			}
-		}
-	}
-	
-	focus = {
-		id = JAP_establish_the_northern_resource_area
-		icon = GFX_goal_generic_construction2
-		prerequisite = { focus = JAP_preemptive_war }
-		x = -2
-		y = 1
-		relative_position_id = JAP_preemptive_war
-
-		cost = 10
-
-		ai_will_do = {
-			factor = 3
-		}
-
-		available = {
-			has_tech = excavation1
-			has_full_control_of_state = 564
-			OR = {
-				has_full_control_of_state = 657
-				has_full_control_of_state = 408
-				has_full_control_of_state = 560
-			}
-		}
-
-		bypass = {
-
-		}
-
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-
-		complete_tooltip = {
-
-		}
-
-		completion_reward = {
-			657 = {
-				if = {
-					limit = { is_fully_controlled_by = ROOT }
-					add_building_construction = {
-						type = infrastructure
-						level = 1
-						instant_build = yes
-					}
-				}
-			}
-			408 = {
-				if = {
-					limit = { is_fully_controlled_by = ROOT }
-					add_building_construction = {
-						type = infrastructure
-						level = 1
-						instant_build = yes
-					}
-				}
-			}
-			560 = {
-				if = {
-					limit = { is_fully_controlled_by = ROOT }
-					add_building_construction = {
-						type = infrastructure
-						level = 1
-						instant_build = yes
-					}
-				}
-			}
-			564 = {
-				add_resource = {
-					type = aluminium
-					amount = 8
-				}
-				add_building_construction = {
-					type = infrastructure
-					level = 1
-					instant_build = yes
-				}
-			}
-			if = {
-				limit = { has_dlc = "Waking the Tiger" }
-				unlock_decision_category_tooltip = prospect_for_resources
-			}
-		}
-	}
 	
 	focus = {
 		id = naval_base_focus
@@ -2340,7 +2789,7 @@ focus_tree = {
 		prerequisite = { focus = JAP_Mitsui }
 		prerequisite = { focus = JAP_intervene_in_china }
 		icon = GFX_goal_generic_army_artillery
-		x = 17
+		x = 19
 		y = 3
 		cost = 7
 		ai_will_do = {
@@ -2360,7 +2809,7 @@ focus_tree = {
 		id = JAP_Tanks
 		prerequisite = { focus = JAP_Arty }
 		icon = GFX_goal_generic_army_tanks
-		x = 17
+		x = 19
 		y = 4
 		cost = 6
 		ai_will_do = {
@@ -2383,7 +2832,7 @@ focus_tree = {
 		id = JAP_Air
 		prerequisite = { focus = JAP_Tanks }
 		icon = GFX_goal_generic_build_airforce
-		x = 17
+		x = 19
 		y = 5
 		cost = 6
 		ai_will_do = {
