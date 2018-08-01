@@ -356,7 +356,7 @@ NBuildings = {
 	BASE_FACTORY_REPAIR = 0.25,			-- Default repair rate before factories are taken into account
 	BASE_FACTORY_REPAIR_FACTOR = 3.0,	-- Factory speed modifier when repairing.
 	SUPPLY_PORT_LEVEL_THROUGHPUT = 6,   -- supply throughput per level of naval base
-	INFRA_TO_SUPPLY = 2.2,              -- to mitigate lowered supply by the new modifiers
+	INFRA_TO_SUPPLY = 2.3,              -- to mitigate lowered supply by the new modifiers
  	INFRA_TO_SUPPLY_COEFF = 1,
 	MAX_SHARED_SLOTS = 36,				-- Max slots shared by factories
 	OWNER_CHANGE_EXTRA_SHARED_SLOTS_FACTOR = 0.5, --Scale factor of extra shared slots when state owner change.
@@ -399,7 +399,7 @@ NMilitary = {
 	MAX_DIVISION_BRIGADE_WIDTH = 5,			-- Max width of regiments in division designer.
 	MAX_DIVISION_BRIGADE_HEIGHT = 4,		-- Max height of regiments in division designer.
 	MAX_DIVISION_SUPPORT_WIDTH = 2,			-- Max width of support in division designer.
-	MAX_DIVISION_SUPPORT_HEIGHT = 4,		-- Max height of support in division designer.
+	MAX_DIVISION_SUPPORT_HEIGHT = 5,		-- Max height of support in division designer.
 	
 	BASE_DIVISION_BRIGADE_GROUP_COST = 8, 	--Base cost to unlock a regiment slot,
 	BASE_DIVISION_BRIGADE_CHANGE_COST = 4,	--Base cost to change a regiment column.
