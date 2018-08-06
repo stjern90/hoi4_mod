@@ -814,7 +814,7 @@ NAir = {
 	EFFICIENCY_REGION_CHANGE_DAILY_GAIN_FIGHTER = 0.888,			-- How much efficiency to regain per day. Gain applied hourly.
 	EFFICIENCY_REGION_CHANGE_DAILY_GAIN_STRATEGIC_BOMBER = 0.072,	-- How much efficiency to regain per day. Gain applied hourly.
 
-	DISRUPTION_FACTOR = 4.0,							-- multiplier on disruption damage to scale its effects on planes
+	DISRUPTION_FACTOR = 3.5,							-- multiplier on disruption damage to scale its effects on planes
 	DISRUPTION_SPEED_FACTOR = 1.0,
 	DISRUPTION_AGILITY_FACTOR = 1.0,
 	DISRUPTION_ATTACK_FACTOR = 1.0,
