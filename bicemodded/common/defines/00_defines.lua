@@ -356,7 +356,7 @@ NBuildings = {
 	BASE_FACTORY_REPAIR = 0.25,			-- Default repair rate before factories are taken into account
 	BASE_FACTORY_REPAIR_FACTOR = 3.0,	-- Factory speed modifier when repairing.
 	SUPPLY_PORT_LEVEL_THROUGHPUT = 6,   -- supply throughput per level of naval base
-	INFRA_TO_SUPPLY = 2.3,              -- to mitigate lowered supply by the new modifiers
+	INFRA_TO_SUPPLY = 2.1,              -- to mitigate lowered supply by the new modifiers
  	INFRA_TO_SUPPLY_COEFF = 1,
 	MAX_SHARED_SLOTS = 36,				-- Max slots shared by factories
 	OWNER_CHANGE_EXTRA_SHARED_SLOTS_FACTOR = 0.5, --Scale factor of extra shared slots when state owner change.
@@ -372,7 +372,7 @@ NMilitary = {
 	COMBAT_VALUE_ORG_IMPORTANCE = 1,		-- Multiplier on TotalOrganisation when determining the combat value of a division
 	COMBAT_VALUE_STR_IMPORTANCE = 1,		-- Multiplier on TotalStrength when determining the combat value of a division
 	
-	HOURLY_ORG_MOVEMENT_IMPACT = -0.06,		-- how much org is lost every hour while moving an army.
+	HOURLY_ORG_MOVEMENT_IMPACT = -0.08,		-- how much org is lost every hour while moving an army.
 	ZERO_ORG_MOVEMENT_MODIFIER = -0.35,		-- speed impact at 0 org.
 	INFRA_ORG_IMPACT = 0.5,				-- scale factor of infra on org regain.
 	
