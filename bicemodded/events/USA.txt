@@ -1712,19 +1712,34 @@ country_event = {
 		tag = USA
 		has_country_flag = impossible
 		NOT = { has_war_with = JAP }	
+		NOT = { has_war_with = GER }	
+		USA = { has_government = democratic }
+		NOT = { JAP = { has_government = democratic } }
 		CHI = { OR = { has_capitulated = yes exists = no is_puppet = yes } }
-		date > 1942.6.1
+		
+		OR = {
+		# case 1: all or most of chi direct occupied by japan
+		AND = { 602 = { is_controlled_by = JAP } 755 = { is_controlled_by = JAP } 608 = { is_controlled_by = JAP } 600 = { is_controlled_by = JAP } 592 = { is_controlled_by = JAP } 613 = { is_controlled_by = JAP } date > 1940.6.1 }
+		# case 2 partial occupation by japan
+		AND = {
+		date > 1942.5.1
 		OR = { 
-		      date > 1942.12.1
 		AND = { 602 = { is_controlled_by = JAP } 755 = { is_controlled_by = JAP } 608 = { is_controlled_by = JAP } } # some states
 		AND = { 605 = { is_controlled_by = JAP } 755 = { is_controlled_by = JAP } 608 = { is_controlled_by = JAP } } # some states
 		AND = { 605 = { is_controlled_by = JAP } 597 = { is_controlled_by = JAP } 600 = { is_controlled_by = JAP } } # some states
 		AND = { 605 = { is_controlled_by = JAP } 613 = { is_controlled_by = JAP } 592 = { is_controlled_by = JAP } } # some states
 		}
+		}
+		# case 3 lets join the party anyway
+		date > 1942.11.1
+		}
+		
+		
+		
 	}
 	
 	mean_time_to_happen = {
-		days = 10
+		days = 100
 	}
 	
 	immediate = {
@@ -1737,6 +1752,7 @@ country_event = {
 		name = usa.64.a
 		# blaim japan, gain wargoal. Gain disstrust between navy high command
 		# slight war support increase
+		set_rule = { can_join_factions = yes }
 		ai_chance = {
 			factor = 90
 		}
