@@ -654,7 +654,7 @@ NMilitary = {
 	
 	FIELD_MARSHAL_XP_RATIO = 0.25,					-- xp gain ratio for army group leaders
 	
-	GARRISON_ORDER_ARMY_CAP_FACTOR = 3.0,			-- armies gets increased cap when they are garrisoned
+	GARRISON_ORDER_ARMY_CAP_FACTOR = 2.5,			-- armies gets increased cap when they are garrisoned
 	
 	COMMANDER_LEVEL_UP_STAT_COUNT = 3, 				-- num stats gained on level up
 	COMMANDER_LEVEL_UP_STAT_WEIGHTS = {5, 5, 5, 5}, -- level up stat random base weights attack, defense, planning, logistics
@@ -695,7 +695,7 @@ NMilitary = {
 	NEW_COMMANDER_RANDOM_SKILL_CHANCES = {  -- chances to give a random stat skill for new generals
 	},
 	
-	UNIT_LEADER_MODIFIER_COOLDOWN_ON_GROUP_CHANGE = 10,		-- time in days for a unit leader to regain its modifiers
+	UNIT_LEADER_MODIFIER_COOLDOWN_ON_GROUP_CHANGE = 6,		-- time in days for a unit leader to regain its modifiers
 	UNIT_LEADER_ASSIGN_TRAIT_COST = 15.0,					-- cost to assign a new trait to a unit leader
 	ATTACHED_WINGS_ORDER_UPDATE_DAYS = 5,					-- Days untill the attached wing will update the order
 	
@@ -705,10 +705,10 @@ NMilitary = {
 	XP_GAIN_FACTOR_FOR_MAX_RELATIVE_COMBAT_DAMAGE = 4.0,	-- XP factor scaling for max relative combat damage
 	
 	XP_DECAY_RATE_PER_HOUR_IN_COMBAT = 0.03,				-- you get reduced XP as combat drags
-	MIN_XP_RATE_TO_DECAY = 0.1,								-- minimum XP factor for dragged combats
+	MIN_XP_RATE_TO_DECAY = 0.02,								-- minimum XP factor for dragged combats
 	
-	XP_GAIN_PER_OVERRUN_UNIT = 30.0,						-- fixed XP gain per overrun unit
-	XP_GAIN_FOR_SHATTERING = 16.0,                          -- fixed XP gain per shattered unit
+	XP_GAIN_PER_OVERRUN_UNIT = 40.0,						-- fixed XP gain per overrun unit
+	XP_GAIN_FOR_SHATTERING = 20.0,                          -- fixed XP gain per shattered unit
 },
 
 
