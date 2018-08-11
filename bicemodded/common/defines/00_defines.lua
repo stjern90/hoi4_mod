@@ -998,7 +998,7 @@ NTrade = {
 },
 
 NAI = {
-	GARRISON_FRACTION = 0.25, 					-- How large part of a front should always be holding the line rather than advancing at the enemy
+	GARRISON_FRACTION = 0.28, 					-- How large part of a front should always be holding the line rather than advancing at the enemy
 	
 	DIPLOMATIC_ACTION_GOOD_BAD_RATIO_THRESHOLD = 1,
 	BASE_RELUCTANCE = 30, 						-- Base reluctance applied to all diplomatic offers
@@ -1102,12 +1102,12 @@ NAI = {
 	NEUTRAL_THREAT_PARANOIA = 10,				-- How scared neutrals are of everyone
 	DIFFERENT_FACTION_THREAT = 30,				-- Threat caused by not being in the same faction
 	PLAN_MOVE_MIN_ORG_TO_ENEMY_PROVINCE = 24.0,	-- Minimum organization a unit must have to consider moving into an enemy province (not attack move)
-	PLAN_ATTACK_MIN_ORG_FACTOR_LOW = 0.6,		-- Minimum org % for a unit to actively attack an enemy unit when executing a plan
-	PLAN_ATTACK_MIN_STRENGTH_FACTOR_LOW = 0.79,	-- Minimum strength for a unit to actively attack an enemy unit when executing a plan
-	PLAN_ATTACK_MIN_ORG_FACTOR_MED = 0.45,		-- (LOW,MED,HIGH) corresponds to the plan execution agressiveness level.
-	PLAN_ATTACK_MIN_STRENGTH_FACTOR_MED = 0.68,	
-	PLAN_ATTACK_MIN_ORG_FACTOR_HIGH = 0.28,		
-	PLAN_ATTACK_MIN_STRENGTH_FACTOR_HIGH = 0.58,	
+	PLAN_ATTACK_MIN_ORG_FACTOR_LOW = 0.9,		-- Minimum org % for a unit to actively attack an enemy unit when executing a plan
+	PLAN_ATTACK_MIN_STRENGTH_FACTOR_LOW = 0.9,	-- Minimum strength for a unit to actively attack an enemy unit when executing a plan
+	PLAN_ATTACK_MIN_ORG_FACTOR_MED = 0.5,		-- (LOW,MED,HIGH) corresponds to the plan execution agressiveness level.
+	PLAN_ATTACK_MIN_STRENGTH_FACTOR_MED = 0.8,	
+	PLAN_ATTACK_MIN_ORG_FACTOR_HIGH = 0.3,		
+	PLAN_ATTACK_MIN_STRENGTH_FACTOR_HIGH = 0.7,	
 	PLAN_FRONTUNIT_DISTANCE_FACTOR = 10.0,		-- Factor for candidate units distance to front positions.
 	PLAN_ATTACK_DEPTH_FACTOR = 0.5,				-- Factor applied to size or enemy being attacked.
 	PLAN_STEP_COST_LIMIT = 11,					-- When stepping to draw a plan this cost makes it break if it hits hard terrain (multiplied by number of desired steps)
@@ -1138,11 +1138,11 @@ NAI = {
 	MAIN_ENEMY_FRONT_IMPORTANCE = 4.0,			-- How much extra focus the AI should put on who it considers to be its current main enemy.
 	EASY_TARGET_FRONT_IMPORTANCE = 7.5,			-- How much extra focus the AI should put on who it considers to be the easiest target.
 	AI_FRONT_MOVEMENT_FACTOR_FOR_READY = 0.25,	-- If less than this fraction of units on a front is moving, AI sees it as ready for action	
-	MICRO_POCKET_SIZE = 0,						-- Pockets with a size equal to or lower than this will be mocroed by the AI, for efficiency.
+	MICRO_POCKET_SIZE = 4,						-- Pockets with a size equal to or lower than this will be mocroed by the AI, for efficiency.
 	POCKET_DISTANCE_MAX = 40000,				-- shortest square distance we bother about chasing pockets
-	VP_LEVEL_IMPORTANCE_HIGH = 100,				-- Victory points with values higher than or equal to this are considered to be of high importance.
-	VP_LEVEL_IMPORTANCE_MEDIUM = 10,			-- Victory points with values higher than or equal to this are considered to be of medium importance.
-	VP_LEVEL_IMPORTANCE_LOW = 5,				-- Victory points with values higher than or equal to this are considered to be of low importance.
+	VP_LEVEL_IMPORTANCE_HIGH = 40,				-- Victory points with values higher than or equal to this are considered to be of high importance.
+	VP_LEVEL_IMPORTANCE_MEDIUM = 5,			-- Victory points with values higher than or equal to this are considered to be of medium importance.
+	VP_LEVEL_IMPORTANCE_LOW = 1,				-- Victory points with values higher than or equal to this are considered to be of low importance.
 	ESTIMATED_CONVOYS_PER_DIVISION = 6,			-- Not always correct, but mainly used to make sure AI does not go crazy
 	FRONT_REASSIGN_DISTANCE = 120.0,			-- If a unit is this far away from a front it is not considered to be assigned to it unless the new front is much more important
 	OLD_FRONT_IMPORTANCE_FACTOR = 1.50,			-- If a unit is considered for reassignment, the importance of both new and old front is considered with a weight applied to the old ones score
@@ -1333,7 +1333,7 @@ NAI = {
 	PRODUCTION_LINE_SWITCH_SURPLUS_NEEDED_MODIFIER = 0.1,	-- Is modified by efficency modifiers.
 	PLAN_ACTIVATION_MAJOR_WEIGHT_FACTOR = 1,			-- AI countries will hold on activating plans if stronger countries have plans in the same location. Majors count extra (value of 1 will negate this)
 	PLAN_ACTIVATION_PLAYER_WEIGHT_FACTOR = 1,		-- AI countries will hold on activating plans if player controlled countries have plans in the same location. Majors count extra (value of 1 will negate this)
-	AREA_DEFENSE_BASE_IMPORTANCE = 3,					-- Area defense order base importance value (used for determining order of troop selections)
+	AREA_DEFENSE_BASE_IMPORTANCE = 5,					-- Area defense order base importance value (used for determining order of troop selections)
 	AREA_DEFENSE_CIVIL_WAR_IMPORTANCE = 10000,			-- Area defense order importance value when a country is in a civil war as target or revolter.
 
 	COMBINED_ARMS_LEVEL = 1,							-- 0 = Never, 1 = Infantry/Artillery, 2 = Go wild
@@ -1363,9 +1363,9 @@ NAI = {
 	HOUR_BAD_COMBAT_REEVALUATE = 24,                   -- if we are in combat for this amount and it goes shitty then try skipping it 
 	MIN_PLAN_VALUE_TO_MICRO_INACTIVE = 0.2,				-- The AI will not consider members of groups which plan is not activated AND evaluates lower than this.
 	
-	MAX_UNITS_FACTOR_AREA_ORDER = 1.2,					-- Factor for max number of units to assign to area defense orders
-	DESIRED_UNITS_FACTOR_AREA_ORDER = 1.0,				-- Factor for desired number of units to assign to area defense orders
-	MIN_UNITS_FACTOR_AREA_ORDER = 0.75,					-- Factor for min number of units to assign to area defense orders
+	MAX_UNITS_FACTOR_AREA_ORDER = 1.35,					-- Factor for max number of units to assign to area defense orders
+	DESIRED_UNITS_FACTOR_AREA_ORDER = 1.1,				-- Factor for desired number of units to assign to area defense orders
+	MIN_UNITS_FACTOR_AREA_ORDER = 0.9,					-- Factor for min number of units to assign to area defense orders
 
 	MAX_UNITS_FACTOR_FRONT_ORDER = 1.8,					-- Factor for max number of units to assign to area front orders
 	DESIRED_UNITS_FACTOR_FRONT_ORDER = 1.6,				-- Factor for desired number of units to assign to area front orders
