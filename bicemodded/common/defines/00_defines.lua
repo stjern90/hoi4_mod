@@ -981,7 +981,7 @@ NNavy = {
 },
 
 NTrade = {
-	DISTANCE_TRADE_FACTOR =  -0.015,			-- Trade factor is modified by distance times this
+	DISTANCE_TRADE_FACTOR =  0,			-- Trade factor is modified by distance times this
 	RELATION_TRADE_FACTOR = 1,				-- Trade factor is modified by Opinion value times this
 	FEAR_TRADE_FACTOR = 1,
 	ALLOW_TRADE_CUT_OFF = 20,				-- If trade factor is less than this, no trade will be allowed
@@ -1101,7 +1101,7 @@ NAI = {
 	POTENTIAL_FUTURE_ENEMY_FACTOR = 100, 		-- How much increase in threat does AI feel against neighbours who at war with our allies
 	NEUTRAL_THREAT_PARANOIA = 10,				-- How scared neutrals are of everyone
 	DIFFERENT_FACTION_THREAT = 30,				-- Threat caused by not being in the same faction
-	PLAN_MOVE_MIN_ORG_TO_ENEMY_PROVINCE = 24.0,	-- Minimum organization a unit must have to consider moving into an enemy province (not attack move)
+	PLAN_MOVE_MIN_ORG_TO_ENEMY_PROVINCE = 60.0,	-- Minimum organization a unit must have to consider moving into an enemy province (not attack move)
 	PLAN_ATTACK_MIN_ORG_FACTOR_LOW = 0.9,		-- Minimum org % for a unit to actively attack an enemy unit when executing a plan
 	PLAN_ATTACK_MIN_STRENGTH_FACTOR_LOW = 0.9,	-- Minimum strength for a unit to actively attack an enemy unit when executing a plan
 	PLAN_ATTACK_MIN_ORG_FACTOR_MED = 0.5,		-- (LOW,MED,HIGH) corresponds to the plan execution agressiveness level.
@@ -1139,7 +1139,7 @@ NAI = {
 	EASY_TARGET_FRONT_IMPORTANCE = 7.5,			-- How much extra focus the AI should put on who it considers to be the easiest target.
 	AI_FRONT_MOVEMENT_FACTOR_FOR_READY = 0.25,	-- If less than this fraction of units on a front is moving, AI sees it as ready for action	
 	MICRO_POCKET_SIZE = 4,						-- Pockets with a size equal to or lower than this will be mocroed by the AI, for efficiency.
-	POCKET_DISTANCE_MAX = 40000,				-- shortest square distance we bother about chasing pockets
+	POCKET_DISTANCE_MAX = 990000,				-- shortest square distance we bother about chasing pockets
 	VP_LEVEL_IMPORTANCE_HIGH = 40,				-- Victory points with values higher than or equal to this are considered to be of high importance.
 	VP_LEVEL_IMPORTANCE_MEDIUM = 5,			-- Victory points with values higher than or equal to this are considered to be of medium importance.
 	VP_LEVEL_IMPORTANCE_LOW = 1,				-- Victory points with values higher than or equal to this are considered to be of low importance.
@@ -1333,7 +1333,7 @@ NAI = {
 	PRODUCTION_LINE_SWITCH_SURPLUS_NEEDED_MODIFIER = 0.1,	-- Is modified by efficency modifiers.
 	PLAN_ACTIVATION_MAJOR_WEIGHT_FACTOR = 1,			-- AI countries will hold on activating plans if stronger countries have plans in the same location. Majors count extra (value of 1 will negate this)
 	PLAN_ACTIVATION_PLAYER_WEIGHT_FACTOR = 1,		-- AI countries will hold on activating plans if player controlled countries have plans in the same location. Majors count extra (value of 1 will negate this)
-	AREA_DEFENSE_BASE_IMPORTANCE = 5,					-- Area defense order base importance value (used for determining order of troop selections)
+	AREA_DEFENSE_BASE_IMPORTANCE = 3,					-- Area defense order base importance value (used for determining order of troop selections)
 	AREA_DEFENSE_CIVIL_WAR_IMPORTANCE = 10000,			-- Area defense order importance value when a country is in a civil war as target or revolter.
 
 	COMBINED_ARMS_LEVEL = 1,							-- 0 = Never, 1 = Infantry/Artillery, 2 = Go wild
