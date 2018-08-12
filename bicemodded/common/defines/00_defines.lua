@@ -816,7 +816,7 @@ NAir = {
 
 	DISRUPTION_FACTOR = 3.5,							-- multiplier on disruption damage to scale its effects on planes
 	DISRUPTION_SPEED_FACTOR = 1.0,
-	DISRUPTION_AGILITY_FACTOR = 1.0,
+	DISRUPTION_AGILITY_FACTOR = 0.75,
 	DISRUPTION_ATTACK_FACTOR = 1.0,
 	DISRUPTION_DETECTION_FACTOR = 1.0,
 	ESCORT_FACTOR = 2.0,
@@ -941,7 +941,7 @@ NNavy = {
 	AMPHIBIOUS_INVADE_DEFEND_LOW = 1.5, 							-- low and high cap of defend modifier scale. Scale interpolated by invasion progress.
 	AMPHIBIOUS_INVADE_DEFEND_HIGH = 1.0,
 	AMPHIBIOUS_INVADE_LANDING_PENALTY_DECREASE = 3.5, 				-- scale of bonus that decreases "amphibious penalty" during combat, relative to invading transporter tech.
-	BASE_CARRIER_SORTIE_EFFICIENCY = 0.50,							-- factor of planes that can sortie by default from a carrier
+	BASE_CARRIER_SORTIE_EFFICIENCY = 0.60,							-- factor of planes that can sortie by default from a carrier
 	SPREAD_BASE_SPEED = 0.04,										-- base speed when spreading/shrinkign a fleet
 	SPREAD_BASE_SPEED_FACTOR = 0.3,								-- base factor between regular speed and spread speed
 	SPREAD_MAX_PROVINCES = 30,									-- When regions exceeds this amount of provs, we get full penalty
