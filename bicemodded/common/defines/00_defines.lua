@@ -973,7 +973,7 @@ NNavy = {
 	MIN_TRACTED_ASSIST_DAMAGE_RATIO = 0.05,							-- How much damage counts as assist damage
 	SUPPLY_NEED_FACTOR = 3,										    -- multiplies supply usage
 	SEA_AIR_COMBAT_MAX_WINGS_ON_STACK =  200,                       -- DNM original 200 -- how many attacker planes can enter naval comabt per wave
-	ENEMY_AIR_SUPERIORITY_IMPACT = -0.2,           					-- effect on ship efficiency due to enemy air superiorty
+	ENEMY_AIR_SUPERIORITY_IMPACT = -0.3,           					-- effect on ship efficiency due to enemy air superiorty
 	DECRYPTION_SPOTTING_BONUS = 0.22,
 	DISBAND_MANPOWER_LOSS = 0.15,
 		
