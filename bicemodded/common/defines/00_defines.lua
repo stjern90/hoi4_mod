@@ -1400,7 +1400,7 @@ NAI = {
 	AIR_SUPERIORITY_MISSION_FACTOR = 1.0,				-- AI air superiority mission factor
 	CAS_MISSION_FACTOR = 1.4,							-- AI cas mission factor
 	INTERCEPTION_MISSION_FACTOR = 0.5,					-- AI interception mission factor
-	STREATEGIC_BOMBER_MISSION_FACTOR = 1.2,				-- AI strategic bombing mission factor
+	STREATEGIC_BOMBER_MISSION_FACTOR = 1.3,				-- AI strategic bombing mission factor
 	NAVAL_BOMBER_MISSION_FACTOR = 0.5,					-- AI naval bombing mission factor
 	NUKE_MISSION_FACTOR = 1.0,							-- AI nuke mission factor
 	PARADROP_MISSION_FACTOR = 1.0,						-- AI paradrop mission factor
@@ -1408,7 +1408,7 @@ NAI = {
 	PORT_STRIKE_MISSION_FACTOR = 1.0,					-- AI port strike mission factor
 	INDUSTRY_IC_AIR_IMPORTANCE_FACTOR = 0.02,			-- AI very specific IC cost factor for air missions
 	
-	AIR_SCORE_DISTANCE_IMPACT = 0.3,					-- Effect of distance applied to the score calculations
+	AIR_SCORE_DISTANCE_IMPACT = 0.2,					-- Effect of distance applied to the score calculations
 	DAYS_BETWEEN_AIR_PRIORITIES_UPDATE = 4,				-- Amount of days between air ai updates priorities for air wings ( from 1 to N )
 	
 	NAVAL_AIR_SUPERIORITY_IMPORTANCE = 0.10,			-- Strategic importance of air superiority ( amount of enemy planes in area )
