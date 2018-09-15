@@ -1,5 +1,5 @@
-name="Total War Mod"
-path="mod/TW/hoi4_mod/bicemodded"
+name="Total War Mod Local"
+path="mod/hoi4_mod/bicemodded"
 tags={
 	"Historical"
 	"Gameplay"

@@ -731,9 +731,9 @@ NAir = {
 	COMBAT_ONE_ON_ONE_CHANCE = 0.7, 					-- Base chance for 1vs1 situation. ( Naval air combat only )
 	COMBAT_SITUATION_WIN_CHANCE_FROM_STATS = 0.3, 		-- How much good stats difference (speed+agility) affects the winning chance (situation win = give a hit, not necessary kill).( Naval air combat only )
 	COMBAT_SITUATION_WIN_CHANCE_FROM_GANG = 0.3, 		-- How much bonus gives the airplanes amount advantage (2vs1), to winning the situation.( Naval air combat only )
-	COMBAT_MAX_WINGS_AT_ONCE = 10000, 						-- Max amount of air wings in one combat simulation. The higher value, the quicker countries may loose their wings. It's a gameplay balance value.
-	COMBAT_MAX_WINGS_AT_GROUND_ATTACK = 10000,	        	-- we can really pounce a land strike and escalate
-	COMBAT_MAX_WINGS_AT_ONCE_PORT_STRIKE = 10000,        -- we can really pounce a naval strike and escalate
+	COMBAT_MAX_WINGS_AT_ONCE = 5000, 						-- Max amount of air wings in one combat simulation. The higher value, the quicker countries may loose their wings. It's a gameplay balance value.
+	COMBAT_MAX_WINGS_AT_GROUND_ATTACK = 5000,	        	-- we can really pounce a land strike and escalate
+	COMBAT_MAX_WINGS_AT_ONCE_PORT_STRIKE = 2000,        -- we can really pounce a naval strike and escalate
 	COMBAT_ATTACK_PASSES_AT_ONCE = 0.9,					-- Wing attack stat determines of many re-approaches in single combat they do. This is a scale of this amount to balance the gameplay. Less retries = less bloody combats, and less calculations for the CPU. ( Naval air combat only )
 	AIR_REGION_SUPERIORITY_PIXEL_SCALE = 0.04,           -- air superiority scale = superiority/(pixels*this)
 	COMBAT_SUP_VS_SUP_ATTACK_CHANCE_SPEED_DIFF = 0.25, 	-- How much diff in speed between aircrafts affects the chance of who attacks first in superiority vs superiority.( Naval air combat only )
@@ -812,7 +812,7 @@ NAir = {
 	EFFICIENCY_REGION_CHANGE_DAILY_GAIN_NAVAL_BOMBER = 0.192,		-- How much efficiency to regain per day. Gain applied hourly.
 	EFFICIENCY_REGION_CHANGE_DAILY_GAIN_TACTICAL_BOMBER = 0.192,	-- How much efficiency to regain per day. Gain applied hourly.
 	EFFICIENCY_REGION_CHANGE_DAILY_GAIN_FIGHTER = 0.888,			-- How much efficiency to regain per day. Gain applied hourly.
-	EFFICIENCY_REGION_CHANGE_DAILY_GAIN_STRATEGIC_BOMBER = 0.072,	-- How much efficiency to regain per day. Gain applied hourly.
+	EFFICIENCY_REGION_CHANGE_DAILY_GAIN_STRATEGIC_BOMBER = 0.144,	-- How much efficiency to regain per day. Gain applied hourly.
 
 	DISRUPTION_FACTOR = 3.5,							-- multiplier on disruption damage to scale its effects on planes
 	DISRUPTION_SPEED_FACTOR = 1.0,
@@ -1163,7 +1163,7 @@ NAI = {
 	STR_UNIT_NORMAL = 0.73,						-- Strength (equipment) % for unit to be considered normal
 	
 	PLAN_FACTION_STRONG_TO_EXECUTE = 0.60,		-- % or more of units in an order to consider executing the plan
-	PLAN_FACTION_NORMAL_TO_EXECUTE = 0.65,		-- % or more of units in an order to consider executing the plan
+	PLAN_FACTION_NORMAL_TO_EXECUTE = 0.68,		-- % or more of units in an order to consider executing the plan
 	PLAN_FACTION_WEAK_TO_ABORT = 0.4,			-- % or more of units in an order to consider executing the plan
 	PLAN_AVG_PREPARATION_TO_EXECUTE = 0.75,		-- % or more average plan preparation before executing
 	STATE_GARRISON_MAX_UNITS = 4,				-- Max units to guard a garrison under normal circumstances (isolated core areas like England has is excempt)
@@ -1200,8 +1200,8 @@ NAI = {
 	COMMUNISTS_BEFRIEND_FASCISTS = -25,
 	COMMUNISTS_BEFRIEND_DEMOCRACIES = -25,
 	COMMUNISTS_BEFRIEND_COMMUNISTS = 25,
-	COMMUNISTS_ALLY_FASCISTS = -60,
-	COMMUNISTS_ALLY_DEMOCRACIES = -50,
+	COMMUNISTS_ALLY_FASCISTS = -80,
+	COMMUNISTS_ALLY_DEMOCRACIES = -65,
 	COMMUNISTS_ALLY_COMMUNISTS = 0,
 	COMMUNISTS_ANTAGONIZE_FASCISTS = 70,
 	COMMUNISTS_ANTAGONIZE_DEMOCRACIES = 10,
@@ -1224,7 +1224,7 @@ NAI = {
 	SHIPS_PRODUCTION_BASE_COST = 10000,					-- Used by the AI to normalize IC values when picking what ship to build.
 	NEEDED_NAVAL_FACTORIES_EXPENSIVE_SHIP_BONUS = 16,   -- Amount of naval yards you need to get a bonus to building really expensive ships
 
-	AIR_WING_REINFORCEMENT_LIMIT = 400,
+	AIR_WING_REINFORCEMENT_LIMIT = 200,
 	AIR_BASE_DANGER_ZONE_WEIGHT = 100,					-- Score used per province taken by enemy in a state to determine how dangerous it is to use an air base
 	
 	FORTIFIED_RATIO_TO_CONSIDER_A_FRONT_FORTIFIED = 0.5, -- ai will consider a front fortified if this ratio of provinces has fort
@@ -1323,7 +1323,7 @@ NAI = {
 	
 	NAVAL_MISSION_MIN_FLEET_SIZE = 5,					-- AI will not send too small fleets on missions. Ignored if total number of ships country has is below	this.
 	NAVY_PREFERED_MAX_SIZE = 55,						-- AI will generally attempt to merge fleets into this size, but as a soft limit.
-	INVASION_COASTAL_PROVS_PER_ORDER = 50,				-- AI will consider one extra invasion per number of provinces stated here (num orders = total coast / this)
+	INVASION_COASTAL_PROVS_PER_ORDER = 25,				-- AI will consider one extra invasion per number of provinces stated here (num orders = total coast / this)
 
 	CONVOY_NEED_SAFETY_BUFFER = 1.90,					-- AI will try and keep 15% more convoys than what it needs.
 	REGION_THREAT_PER_SUNK_CONVOY = 50,					-- Threat value per convoy sunk in a region. Decays over time.
@@ -1337,7 +1337,7 @@ NAI = {
 	AREA_DEFENSE_CIVIL_WAR_IMPORTANCE = 10000,			-- Area defense order importance value when a country is in a civil war as target or revolter.
 
 	COMBINED_ARMS_LEVEL = 1,							-- 0 = Never, 1 = Infantry/Artillery, 2 = Go wild
-	MAX_DISTANCE_NALAV_INVASION = 200.0,				-- AI is extremely unwilling to plan naval invasions above this naval distance limit.
+	MAX_DISTANCE_NALAV_INVASION = 350.0,				-- AI is extremely unwilling to plan naval invasions above this naval distance limit.
 	ENEMY_NAVY_STRENGTH_DONT_BOTHER = 1.9,				-- If the enemy has a navy at least these many times stronger that the own, don't bother invading
 	MIN_SUPPLY_USE_SANITY_CAP = 100,					-- Ignore supply cap if below this value when deciding on how many divisions to produce.
 	MAX_SUPPLY_DIVISOR = 1.5,							-- To make sure the AI does not overdeploy divisions. Higher number means more supply per unit.
@@ -1400,7 +1400,7 @@ NAI = {
 	AIR_SUPERIORITY_MISSION_FACTOR = 1.0,				-- AI air superiority mission factor
 	CAS_MISSION_FACTOR = 1.4,							-- AI cas mission factor
 	INTERCEPTION_MISSION_FACTOR = 0.5,					-- AI interception mission factor
-	STREATEGIC_BOMBER_MISSION_FACTOR = 1.3,				-- AI strategic bombing mission factor
+	STREATEGIC_BOMBER_MISSION_FACTOR = 1.35,				-- AI strategic bombing mission factor
 	NAVAL_BOMBER_MISSION_FACTOR = 0.5,					-- AI naval bombing mission factor
 	NUKE_MISSION_FACTOR = 1.0,							-- AI nuke mission factor
 	PARADROP_MISSION_FACTOR = 1.0,						-- AI paradrop mission factor
@@ -1463,20 +1463,20 @@ NAI = {
 	
 	LAND_COMBAT_INTERCEPT_PER_PLANE = 0,				-- Amount of interception planes requested per enemy plane
 	
-	STR_BOMB_AIR_SUPERIORITY_IMPORTANCE = 0.10,			-- Strategic importance of air superiority ( amount of enemy planes in area )
+	STR_BOMB_AIR_SUPERIORITY_IMPORTANCE = 0.05,			-- Strategic importance of air superiority ( amount of enemy planes in area )
 	STR_BOMB_CIVIL_FACTORY_IMPORTANCE = 50,				-- Strategic importance of enemy civil factories
 	STR_BOMB_MILITARY_FACTORY_IMPORTANCE = 70,			-- Strategic importance of enemy military factories
 	STR_BOMB_NAVAL_FACTORY_IMPORTANCE = 30,				-- Strategic importance of enemy naval factories
 	STR_BOMB_AA_IMPORTANCE_FACTOR = 0.5,				-- Factor of AA influence on strategic importance ( 0.0 - 1.0 )
 	STR_BOMB_INFRA_IMPORTANCE_FACTOR = 0.25,			-- Factor of infrastructure influence on strategic importance ( 0.0 - 1.0 )
-	STR_BOMB_IMPORTANCE_SCALE = 1.0,					-- str bombing total importance scale (every str bombing score get's multiplied by it)
+	STR_BOMB_IMPORTANCE_SCALE = 1.2,					-- str bombing total importance scale (every str bombing score get's multiplied by it)
 	
 	STR_BOMB_MIN_ENEMY_FIGHTERS_IN_AREA = 1000,			-- If amount of enemy fighters is higher than this mission won't perform
-	STR_BOMB_FIGHTERS_PER_PLANE = 1.1,					-- Amount of air superiority planes requested per enemy plane
+	STR_BOMB_FIGHTERS_PER_PLANE = 0.5,					-- Amount of air superiority planes requested per enemy plane
 	STR_BOMB_PLANES_PER_CIV_FACTORY = 20,				-- Amount of planes requested per enemy civ factory
 	STR_BOMB_PLANES_PER_MIL_FACTORY = 25,				-- Amount of planes requested per enemy military factory
 	STR_BOMB_PLANES_PER_NAV_FACTORY = 15,				-- Amount of planes requested per enemy naval factory
-	STR_BOMB_MIN_EXCORT_WINGS = 2,						-- Min amount of airwings requested to excort operations
+	STR_BOMB_MIN_EXCORT_WINGS = 1,						-- Min amount of airwings requested to excort operations
 	
 	ORDER_ASSIGNMENT_DISTANCE_FACTOR = 2,				-- When the AI assigns units to orders, it attempts to calculate the distance.
 	RELUCTANCE_TO_CHANGE_FRONT_FACTOR = 0.5,			-- Factor for how reluctant the AI is to change a units order group.
