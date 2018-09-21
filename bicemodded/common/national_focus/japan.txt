@@ -1548,8 +1548,12 @@ focus_tree = {
 			}
 		}	
 		completion_reward = {
-				army_experience = 50
-				
+				army_experience = 50			
+			create_wargoal = {
+				type = take_state_focus
+				target = USA
+				generator = { 629 } 
+			}
 		}
 	}
 	
@@ -1581,6 +1585,11 @@ focus_tree = {
 		}
 		completion_reward = {
 				navy_experience = 50
+				create_wargoal = {
+				type = take_state_focus
+				target = SOV
+				generator = { 408 } 
+			}
 		}
 	}
 	
@@ -1741,6 +1750,22 @@ focus_tree = {
 
 		}
 
+	}
+	focus = {
+		id = advanced_torpedoes_focus
+		icon = GFX_goal_generic_occupy_start_war
+		prerequisite = { focus = JAP_Ports }		
+		prerequisite = { focus = naval_base_focus }	
+		x = 0
+		y = 7
+		cost = 9
+		ai_will_do = {
+			factor = 1
+		}	
+		completion_reward = {
+			navy_experience = 25
+			add_ideas = the_long_lance
+		}
 	}
 	focus = {
 		id = JAP_Rikusentai
@@ -3713,7 +3738,95 @@ focus_tree = {
 			
 		}
 	}
-
+	
+	focus = {
+		id = JAP_strike_ussr_while_they_are_weak
+		prerequisite = { focus = war_in_asia_focus focus = force_to_join_focus}
+		x = 20
+		y = 10
+		cost = 10
+		icon =  GFX_goal_generic_war_with_comintern
+		will_lead_to_war_with = SOV
+		ai_will_do = {
+			factor = 10
+		}	
+		available = { 
+			date > 1942.3.1
+			has_army_manpower = { size > 1200000 }
+			has_tech = tech_japanese_medium_tank_d
+			OR = {
+			   JAP = { is_in_faction_with = GER }
+			   AND = {
+			   OR = {
+					GER = { controls_state = 229 }
+					any_other_country = {
+						is_in_faction_with = GER
+						controls_state = 229
+					}
+				}
+				OR = {
+					GER = { controls_state = 217 }
+					any_other_country = {
+						is_in_faction_with = GER
+						controls_state = 217
+					}
+				}
+				OR = {
+					GER = { controls_state = 246 }
+					any_other_country = {
+						is_in_faction_with = GER
+						controls_state = 246
+					}
+				}
+				OR = {
+					GER = { controls_state = 195 }
+					any_other_country = {
+						is_in_faction_with = GER
+						controls_state = 195
+					}
+				}
+				OR = {
+					GER = { controls_state = 213 }
+					any_other_country = {
+						is_in_faction_with = GER
+						controls_state = 213
+					}
+				}				
+			}	
+		}
+		}
+		completion_reward = {
+		add_timed_idea = { idea = for_the_emperor_idea_sov days = 90 }
+			create_wargoal = {
+				target = SOV
+				type = annex_everything
+			}	
+		}
+	}
+	focus = {
+		id = axis_leanings_focus
+		prerequisite = { focus = war_in_asia_focus focus = force_to_join_focus }
+		available = {
+			country_exists = GER
+			NOT = { has_war_with = GER }
+		}
+		x = 18
+		y = 10
+		cost = 2
+		icon = GFX_goal_molotov_ribbentrop_pact
+		ai_will_do = {
+			factor = 10
+		}	
+		completion_reward = {
+			add_opinion_modifier = { target = GER modifier = axis_leanings_focus }
+			GER = {
+				add_opinion_modifier = { target = JAP modifier = axis_leanings_focus }
+			}
+			hidden_effect = {
+				news_event = { hours = 6 id = news.212 }
+			}
+		}
+	}
 	
 	
 }
