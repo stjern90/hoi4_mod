@@ -252,9 +252,9 @@ NCountry = {
 	BASE_SURRENDER_LIMIT = 0.75,						-- Base level of occupation required for country surrender
 	MIN_SURRENDER_LIMIT = 0.1,						-- Minimum non-forced surrender limit. valid 0-1 
 	BASE_MOBILIZATION_SPEED = 0.01,				-- Base speed of manpower mobilization  #in 1/1000 of 1 %
-	BOMBING_WAR_SUPPORT_SCALE = -0.00003, 			-- Scaling of health damaged by bombers to war support impact
-	MAX_BOMBING_WAR_SUPPORT_IMPACT = 0.3,			-- Max impact of bombing on the war support
-	INTERCEPTION_WAR_SUPPORT_SCALE = 0.00002,		-- Scaling of interceptions to war support impact
+	BOMBING_WAR_SUPPORT_SCALE = -0.00005, 			-- Scaling of health damaged by bombers to war support impact
+	MAX_BOMBING_WAR_SUPPORT_IMPACT = 0.4,			-- Max impact of bombing on the war support
+	INTERCEPTION_WAR_SUPPORT_SCALE = 0.00003,		-- Scaling of interceptions to war support impact
 	HEROES_BEING_KILLED_WAR_SUPPORT_IMPACT = 0.3,	-- Max impact of war heroes being killed
 	HEROES_BEING_KILLED_WAR_SUPPORT_SCALE = 0.008,	-- Scaling of war heroes total damage to war support
 	INTERCEPTION_BOMBING_WAR_SUPPORT_IMPACT = 0.3,	-- Max impact of interceptions on the war support
@@ -575,7 +575,7 @@ NMilitary = {
 	PLAN_AREA_DEFENSE_COASTAL_FORT_IMPORTANCE = 3.0,-- Used when calculating the calue of defense area provinces for the battle plan system
 	PLAN_AREA_DEFENSE_COAST_NO_FORT_IMPORTANCE = 1.1,-- Used when calculating the calue of defense area provinces for the battle plan system
 	
-	PLAN_STICKINESS_FACTOR = 150.0,					-- Factor used in unitcontroller when prioritizing units for locations
+	PLAN_STICKINESS_FACTOR = 100.0,					-- Factor used in unitcontroller when prioritizing units for locations
 	
 	PLAN_PROVINCE_PRIO_DISTRIBUTION_MIN = 0.8,		-- Lowest fraction of divisions that will be distributed based on province priority
 	PLAN_PROVINCE_PRIO_DISTRIBUTION_MAX = 1.0,		-- Highest fraction of divisions that will be distributed based on province priority
@@ -998,7 +998,7 @@ NTrade = {
 },
 
 NAI = {
-	GARRISON_FRACTION = 0.28, 					-- How large part of a front should always be holding the line rather than advancing at the enemy
+	GARRISON_FRACTION = 0.26, 					-- How large part of a front should always be holding the line rather than advancing at the enemy
 	
 	DIPLOMATIC_ACTION_GOOD_BAD_RATIO_THRESHOLD = 1,
 	BASE_RELUCTANCE = 30, 						-- Base reluctance applied to all diplomatic offers
@@ -1147,8 +1147,8 @@ NAI = {
 	FRONT_REASSIGN_DISTANCE = 120.0,			-- If a unit is this far away from a front it is not considered to be assigned to it unless the new front is much more important
 	OLD_FRONT_IMPORTANCE_FACTOR = 1.50,			-- If a unit is considered for reassignment, the importance of both new and old front is considered with a weight applied to the old ones score
 	ENTRENCHMENT_WEIGHT = 2.0,					-- AI should favour units with less entrenchment when assigning units around.
-	FRONT_TERRAIN_DEFENSE_FACTOR = 5.0,			-- Multiplier applied to unit defense modifier for terrain on front province multiplied by terrain importance
-	FRONT_TERRAIN_ATTACK_FACTOR = 5.0,			-- Multiplier applied to unit attack modifier for terrain on enemy front province multiplied by terrain importance
+	FRONT_TERRAIN_DEFENSE_FACTOR = 1.0,			-- Multiplier applied to unit defense modifier for terrain on front province multiplied by terrain importance
+	FRONT_TERRAIN_ATTACK_FACTOR = 2.0,			-- Multiplier applied to unit attack modifier for terrain on enemy front province multiplied by terrain importance
 	
 	BASE_DISTANCE_TO_CARE = 1300.0,				-- Countries that are too far away are less interesting in diplomacy
 	MIN_FORCE_RATIO_TO_PROTECT = 0.5,			-- Tiny countries should not feel protective or really large ones
