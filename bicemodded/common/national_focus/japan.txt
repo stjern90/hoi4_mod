@@ -316,6 +316,7 @@ focus_tree = {
 		}
 		
 		completion_reward = {
+			add_manpower = 87649
 			add_ideas = JAP_tenno_heika_idea
 			add_tech_bonus = {
 				name = jap_construction_bonus
@@ -959,7 +960,37 @@ focus_tree = {
 				}					
 		}
 	}
-	
+	focus = {
+		id = JAP_kokura
+		x = 15
+		y = 2
+		prerequisite = { focus = JAP_war_minister }
+		prerequisite = { focus =  JAP_prepare_for_expansion }
+		cost = 10
+		icon = GFX_goal_generic_construct_mil_factory
+		ai_will_do = {
+			factor = 5
+		}
+		
+		completion_reward = {
+			529 = {
+					add_extra_state_shared_building_slots = 3
+					add_building_construction = {
+						type = arms_factory
+						level = 3
+						instant_build = yes
+					}
+				}
+			528 = {		
+					add_extra_state_shared_building_slots = 4
+					add_building_construction = {
+						type = arms_factory
+						level = 4
+						instant_build = yes
+					}
+				}
+		}		
+	}
 	focus = {
 		id = JAP_prepare_for_expansion
 		icon = GFX_focus_jap_prepare_for_expansion
@@ -970,6 +1001,13 @@ focus_tree = {
 		ai_will_do = {
 			factor = 1
 		}	
+		available = {
+			has_political_power > 100
+		}
+
+		cancel = {
+			has_political_power < 100
+		}
 		completion_reward = {
 			army_experience = 20
 			add_ideas = JAP_militarism
@@ -1434,6 +1472,7 @@ focus_tree = {
 	focus = {
 		id = JAP_five_ministers_focus
 		prerequisite = { focus = warrior_traditions_focus }
+		prerequisite = { focus = JAP_kokura }
 		prerequisite = { focus = JAP_intervene_in_china }		
 		x = 15
 		y = 3
@@ -1943,9 +1982,10 @@ focus_tree = {
 	focus = {
 		id = siamese_puppet_focus
 		mutually_exclusive = { focus = befriend_siam_focus }
-		available = { 
-			is_puppet = no 
+		available = { 			
 			country_exists = SIA	
+			NOT = { is_in_faction_with = SIA }
+			NOT = { has_war_with = SIA }
 			date > 1939.9.1
 		}
 		x = 9
@@ -1966,6 +2006,8 @@ focus_tree = {
 		mutually_exclusive = { focus = siamese_puppet_focus }
 		available = { 
 			country_exists = SIA
+			NOT = { is_in_faction_with = SIA }
+			NOT = { has_war_with = SIA }
 			date > 1939.9.1	
 		}
 		x = 11
@@ -2641,10 +2683,13 @@ focus_tree = {
 		ai_will_do = {
 			factor = 2
 		}
-		available = {
-				country_exists = USA
+		available = {				
+				has_war_with = USA
 		}		
 		completion_reward = {
+		 JAP = {
+        add_equipment_to_stockpile = { type = convoy amount = 400 producer = JAP }          
+          		}
 			add_tech_bonus = {
 				name = JAP_east_Bonus
 				bonus = 0.35
@@ -2699,7 +2744,18 @@ focus_tree = {
 		available = {
 			country_exists = USA
 			NOT = { is_in_faction_with = USA }
+			NOT = { has_war_with = USA }
 			date > 1941.1.1
+			ships_in_area = {
+				type = carrier
+				area  = 105
+				size > 5
+			}
+			ships_in_area = {
+				type = battleship
+				area  = 105
+				size > 1
+			}
 		}
 		will_lead_to_war_with = USA
 		x = 10
@@ -2708,8 +2764,16 @@ focus_tree = {
 
 		historical_ai = {
 			date > 1941.10.1
+		}	
+
+		bypass = {
+			has_war_with = USA
 		}
-	
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
 		completion_reward = {
 			create_wargoal = {
 				type = take_state_focus
@@ -2862,6 +2926,7 @@ focus_tree = {
 		}
 
 		completion_reward = {
+			add_manpower = 26314
 			MAN = {				
 				add_stability = 0.05
 				add_war_support = 0.05
@@ -3658,7 +3723,7 @@ focus_tree = {
 		id = army_air_innovations_focus
 		icon = GFX_goal_generic_air_fighter
 		prerequisite = { focus = JAP_North_Tech }
-		x = 24
+		x = 25
 		y = 7
 		cost = 9
 		ai_will_do = {
@@ -3687,7 +3752,7 @@ focus_tree = {
 		id = JAP_Army_Air_Strat
 		icon = GFX_goal_generic_air_bomber
 		prerequisite = { focus = army_air_innovations_focus }
-		x = 24
+		x = 26
 		y = 8
 		cost = 10
 		ai_will_do = {
@@ -3874,10 +3939,12 @@ focus_tree = {
 		available = {
 			AND = {	
 			NOT = { is_in_faction_with = SIK }
+			NOT = { has_war_with = SIK }
 			country_exists = SIK
 			}
 			AND = {	
 			NOT = { is_in_faction_with = TIB }
+			NOT = { has_war_with = TIB }
 			country_exists = TIB
 			}
 			OR = {
@@ -3960,11 +4027,13 @@ focus_tree = {
 		}
 		available = {
 			AND = {	
-			NOT = { is_in_faction_with = SIK }
-			country_exists = SIK
+			NOT = { is_in_faction_with = SIK }					
+			NOT = { has_war_with = SIK }
+			country_exists = SIK	
 			}
 			AND = {	
 			NOT = { is_in_faction_with = TIB }
+			NOT = { has_war_with = TIB }
 			country_exists = TIB
 			}
 			OR = {
@@ -4013,6 +4082,9 @@ focus_tree = {
 		}	
 		available = { 
 			date > 1942.3.1
+			NOT = { is_in_faction_with = SOV }
+			NOT = { has_war_with = SOV }
+			country_exists = SOV
 			has_army_manpower = { size > 1200000 }
 			has_tech = tech_japanese_medium_tank_d
 			OR = {
@@ -4173,20 +4245,23 @@ focus_tree = {
 	focus = {
 		id = JAP_dive_bomb
 		icon = GFX_goal_generic_CAS
-		prerequisite = { focus = JAP_Army_Air_Strat }
 		prerequisite = { focus = axis_leanings_focus }
-		x = 24
+		prerequisite = { focus = army_air_innovations_focus }		
+		x = 25
 		y = 11
 		cost = 5
 		ai_will_do = {
 			factor = 2
 		}
+		available = {
+				is_in_faction_with = GER
+		}		
 		completion_reward = {
 				add_tech_bonus = {
 				name = cas_bonus
 				bonus = 0.25
 				uses = 1
-				category = cas_bomber
+				category = jet_technology
 				
 			}
 		}
@@ -4202,6 +4277,9 @@ focus_tree = {
 		ai_will_do = {
 			factor = 4
 		}	
+		available = {
+				is_in_faction_with = GER
+		}		
 		completion_reward = {
 			add_tech_bonus = {
 				name = land_doc_bonus
@@ -4296,7 +4374,99 @@ focus_tree = {
 			custom_effect_tooltip = kamikaze_focus_tooltip
 		}
 	}
+	focus = {
+		id = JAP_studying_the_atom
+		icon = GFX_focus_research			
+		x = 30
+		y = 6
+		cost = 10
+		ai_will_do = {
+			factor = 2
+		}
+		available = {
+				has_idea = yoshio_nishina
+				has_idea = PM_hideki_tojo				
+		}	
+		completion_reward = {					
+			add_tech_bonus = {
+				name = JAP_nuclear_bonus
+				bonus = 0.2
+				uses = 1
+			    category = nuclear
+			}
+		}
+	}
 
+	focus = {
+		id = JAP_nuclear_winter
+		icon = GFX_goal_generic_secret_weapon			
+		prerequisite = { focus = JAP_studying_the_atom }	
+		x = 30
+		y = 7
+		cost = 10
+		ai_will_do = {
+			factor = 2
+		}
+		available = {
+				has_idea = yoshio_nishina
+				has_idea = PM_hideki_tojo				
+		}			
+		completion_reward = {
+					
+			add_tech_bonus = {
+				name = JAP_nuclear_bonus_2
+				bonus = 0.25
+				uses = 1
+			    category = nuclear
+			}
+		}
+	}
+	focus = {
+		id = JAP_f_go
+		icon = GFX_goal_support_fascism			
+		prerequisite = { focus = JAP_nuclear_winter }	
+		x = 30
+		y = 8
+		cost = 10
+		ai_will_do = {
+			factor = 2
+		}
+		available = {
+				date > 1943.1.1		
+		}	
+		
+		completion_reward = {
+					
+			add_tech_bonus = {
+				name = JAP_nuclear_bonus_2
+				bonus = 0.3
+				uses = 1
+			    category = nuclear
+			}
+		}
+	}
+	focus = {
+		id = JAP_bomber
+		icon = GFX_goal_generic_build_airforce
+		prerequisite = { focus = JAP_Army_Air_Strat }
+		prerequisite = { focus = JAP_f_go }
+		x = 27
+		y = 9
+		cost = 10
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			air_experience = 25
+			add_tech_bonus = {
+				name = bomber_bonus
+				bonus = 0.25
+				uses = 1			
+				technology = strategic_bomber3
+				technology = strategic_bomber4				
+			}
+		}
+	}
 	
 	
 }
