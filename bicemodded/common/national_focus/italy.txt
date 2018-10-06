@@ -17,139 +17,38 @@ focus_tree = {
 		icon = GFX_goal_generic_build_navy
 		x = 1
 		y = 0
-		cost = 10
+		cost = 8
 		ai_will_do = {
 			factor = 5
 		}	
+		available = {
 
+			ITA = {
+				
+				controls_state = 115		
+				
+			}
+
+		}	
 		available_if_capitulated = yes
 		completion_reward = {
 			navy_experience = 50
 
+			115 = {				
 
-			random_owned_controlled_state = {
-
-				limit = {
-
-					dockyard > 0
-
-					free_building_slots = {
-
-						building = dockyard
-
-						size > 1
-
-						include_locked = yes
-
-					}
-
-				}
-
-				add_extra_state_shared_building_slots = 2
-
-				add_building_construction = {
-
-					type = dockyard
-
-					level = 2
-
-					instant_build = yes
-
-				}
-
-			}
-
-
-
-			if = {
-
-				limit = {
-
-					NOT = {
-
-						any_owned_state = {
-
-							dockyard > 0
-
-							free_building_slots = {
-
-								building = dockyard
-
-								size > 0
-
-								include_locked = yes
-
-							}
-
-						}
-
-					}
-
-				}
-
-				random_owned_controlled_state = {
-
-					limit = {
-
-						free_building_slots = {
-
-							building = dockyard
-
-							size > 1
-
-							include_locked = yes
-
-						}
-
-					}
-
-					add_extra_state_shared_building_slots = 2
+					add_extra_state_shared_building_slots = 3
 
 					add_building_construction = {
 
 						type = dockyard
 
-						level = 2
+						level = 3
 
 						instant_build = yes
 
 					}
 
-				}
-
-				random_owned_controlled_state = {
-
-					limit = {
-
-						free_building_slots = {
-
-							building = dockyard
-
-							size > 1
-
-							include_locked = yes
-
-						}
-
-					}
-
-					add_extra_state_shared_building_slots = 1
-
-					add_building_construction = {
-
-						type = dockyard
-
-						level = 1
-
-						instant_build = yes
-
-					}
-
-				}				
-
-			}
-
-
+			}	
 
 			add_tech_bonus = {
 
@@ -181,16 +80,37 @@ focus_tree = {
 			factor = 4
 
 		}	
+		available = {
 
+			ITA = {
+				
+				controls_state = 156	
+				
+			}
+
+		}
 		available_if_capitulated = yes
 
 		completion_reward = {
+			156 = {				
+
+					add_extra_state_shared_building_slots = 1
+
+					add_building_construction = {
+
+						type = dockyard
+
+						level = 1
+
+						instant_build = yes
+
+					}
+
+			}
 
 		navy_experience = 25
 
-			add_tech_bonus = {
-
-				
+			add_tech_bonus = {				
 
 				name = bb_bonus
 
@@ -240,10 +160,33 @@ focus_tree = {
 
 			factor = 4
 		}
+		available = {
 
+			ITA = {
+				
+				controls_state = 162	
+				
+			}
+
+		}
 		available_if_capitulated = yes
 
 		completion_reward = {
+			162 = {				
+
+					add_extra_state_shared_building_slots = 1
+
+					add_building_construction = {
+
+						type = dockyard
+
+						level = 1
+
+						instant_build = yes
+
+					}
+
+			}
 
 			add_tech_bonus = {
 
@@ -1196,7 +1139,10 @@ focus_tree = {
 
 				uses = 3
 
-			    category = naval_air
+			    category = light_air
+				category = cas_bomber
+				category = naval_bomber
+				
 
 			}
 
@@ -1371,7 +1317,15 @@ focus_tree = {
 		ai_will_do = {
 			factor = 9
 		}
+		available = {
 
+			ITA = {
+				
+				controls_state = 159	
+				
+			}
+
+		}
 		bypass = {
 			159 = { NOT = { is_owned_and_controlled_by = ITA } }					
 		}
@@ -2488,13 +2442,54 @@ focus_tree = {
             logistics_company = { x = 1 y = 2 }
 
 					}
-
 				}
-
 			}
-
 		}
+	}
+	
+	focus = {
+		id = ITA_reform_old_guard # root out the nobilitys hold on the military
+		icon = GFX_focus_rom_handle_king
+		prerequisite = { focus = ITA_Learn_from_the_Wehrmacht  }		
+		prerequisite = { focus = ITA_Italian_tank_divisions  }		
+		x = 21
+		y = 7
 
+		cost = 10
+
+		ai_will_do = {
+			factor = 7
+		}
+		available_if_capitulated = yes
+
+		completion_reward = {
+		     # todo, retire nobility connected commanders
+		     add_stability = -0.15
+		}
+	}
+	
+	focus = {
+		id = ITA_reformed_military # root out the nobilitys hold on the military
+		icon = GFX_goal_generic_build_tank
+		prerequisite = { focus = ITA_reform_old_guard  }		
+		prerequisite = { focus = ITA_6_Million_Bayonets  }		
+		x = 21
+		y = 9
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 7
+		}
+		available_if_capitulated = yes
+
+		completion_reward = {
+		     
+		     swap_ideas = { 
+				remove_idea = italian_leadership_proud
+				add_idea = italian_leadership_improved
+			}
+		}
 	}
 
 	focus = {
@@ -2609,23 +2604,18 @@ focus_tree = {
 		cost = 1
 
 		ai_will_do = {
-
 			factor = 20
-
 		}	
 
 		completion_reward = {
 
 			if = { limit = { OR = { is_ai = no has_global_flag = ai_speeches } } 
-
 				hidden_effect = {
 
 					sound_effect = sp_ita_ethiopia
 
 				}
-
 			}
-
 			add_popularity = { ideology = fascism popularity = 0.05 }
 			add_stability = 0.05
 			add_political_power = 120
@@ -2638,7 +2628,72 @@ focus_tree = {
 			}
 		}		
 	}
-
+    focus = {
+		id = ITA_coast_defense
+		icon = GFX_goal_generic_fortify_city
+		prerequisite = { focus = ITA_victoryinETH }
+		available = {
+				ITA = {
+				controls_state = 115
+				controls_state = 156
+				controls_state = 117
+				}
+		}
+		x = 25
+		y = 1
+		cost = 12
+		
+		completion_reward = {
+			115= {
+				add_building_construction = {
+					type = coastal_bunker
+					level = 2
+					province = 10074
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					level = 3
+					province = 4159
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 4159
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					level = 1
+					province = 4014
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					level = 1
+					province = 7059
+					instant_build = yes
+				}			
+			}			
+			156= {
+				add_building_construction = {
+					type = coastal_bunker
+					level = 2
+					province = 11837
+					instant_build = yes
+				}
+			}
+			117= {
+				add_building_construction = {
+					type = coastal_bunker
+					level = 3
+					province = 819
+					instant_build = yes
+				}
+			}
+		}
+	}
 	focus = {
 		id = ITA_asse_roma_berlino
 		prerequisite = { focus = ITA_victoryinETH }
@@ -3273,73 +3328,6 @@ focus_tree = {
 				country_event = { id = generic.1 }
 			}
 		}		
-	}
-  
-	focus = {
-		id = ITA_coast_defense
-		icon = GFX_goal_generic_fortify_city
-		prerequisite = { focus = ITA_greece_war_goal focus = ITA_kalimera}
-		available = {
-				ITA = {
-				controls_state = 115
-				controls_state = 156
-				controls_state = 117
-				}
-		}
-		x = 22
-		y = 7
-		cost = 12
-		
-		completion_reward = {
-			115= {
-				add_building_construction = {
-					type = coastal_bunker
-					level = 2
-					province = 10074
-					instant_build = yes
-				}
-				add_building_construction = {
-					type = coastal_bunker
-					level = 3
-					province = 4159
-					instant_build = yes
-				}
-				add_building_construction = {
-					type = bunker
-					level = 2
-					province = 4159
-					instant_build = yes
-				}
-				add_building_construction = {
-					type = coastal_bunker
-					level = 1
-					province = 4014
-					instant_build = yes
-				}
-				add_building_construction = {
-					type = coastal_bunker
-					level = 1
-					province = 7059
-					instant_build = yes
-				}			
-			}			
-			156= {
-				add_building_construction = {
-					type = coastal_bunker
-					level = 2
-					province = 11837
-					instant_build = yes
-				}
-			}
-			117= {
-				add_building_construction = {
-					type = coastal_bunker
-					level = 3
-					province = 819
-					instant_build = yes
-				}
-			}
-		}
 	}
 	focus = {
 		id = ITA_Autarchia
@@ -4558,8 +4546,8 @@ focus_tree = {
 			ITA = {
 				
 				has_idea = giuseppe_sirianni 
-				has_tech = port_infra2
-
+				has_tech = port_infra2			
+				controls_state = 157					
 				}		
 
 		}
@@ -6608,9 +6596,11 @@ focus_tree = {
 
 
 		completion_reward = {
+		    add_stability = 0.04
+			add_war_support = 0.08
 			swap_ideas = { 
 				remove_idea = italian_leadership
-				add_idea = italian_leadership_improved
+				add_idea = italian_leadership_proud
 			}
 		}
 	}
