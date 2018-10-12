@@ -773,9 +773,9 @@ NAir = {
 	AIR_NAVAL_KAMIKAZE_LOSSES_MULT = 4.0,          			-- Balancing value to increase usual losses if Kamikaze participating in the battle
 	BASE_KAMIKAZE_DAMAGE = 2.0,                    				-- Base Kamikaze death rate
 	BASE_KAMIKAZE_TARGETING = 2.0,			        		-- Kamikaze can't be a bad target
-	BASE_STRATEGIC_BOMBING_HIT_SHIP_CHANCE = 0.01,		-- Chance to hit a ship in port when it is bombed.
+	BASE_STRATEGIC_BOMBING_HIT_SHIP_CHANCE = 0.4,		-- Chance to hit a ship in port when it is bombed.
 	BASE_STRATEGIC_BOMBING_HIT_SHIP_DAMAGE_FACTOR = 50,
-	BASE_STRATEGIC_BOMBING_HIT_PLANE_CHANCE = 0.5,		-- Chance to hit a plane in airbase when it is bombed.
+	BASE_STRATEGIC_BOMBING_HIT_PLANE_CHANCE = 0.7,		-- Chance to hit a plane in airbase when it is bombed.
 	BASE_STRATEGIC_BOMBING_HIT_PLANE_DAMAGE_FACTOR = 0.2,
 	STRATEGIC_BOMBER_NUKE_AIR_SUPERIORITY = 0.75,		-- How much air superiority is needed for a tactical bomber to be able to nuke a province
 	AGGRESSION_THRESHOLD = { 0.0, 0.25, 0.5 },			-- Threshold levels for mission aggressivity for air
@@ -785,21 +785,21 @@ NAir = {
 	SUPPLY_NEED_FACTOR = 0.5, 							-- multiplies supply usage
 	SUPPLY_PRIO_FACTOR = 100.0,							-- Effect of supply need per unit for target province picking for air supply
 	CAPACITY_PENALTY = 0.7,								-- scales penalty of having overcrowded bases.
-	AIR_COMBAT_FINAL_DAMAGE_SCALE = 0.1,               -- % how many max disrupted only planes are alloed to die in a single combat
+	AIR_COMBAT_FINAL_DAMAGE_SCALE = 0.3,               -- % how many max disrupted only planes are alloed to die in a single combat
 	AIR_COMBAT_FINAL_DAMAGE_PLANES = 50,                -- scaling/control for when only very few planes exist to stop roundoff issues
 	AIR_COMBAT_FINAL_DAMAGE_PLANES_FACTOR = 0.1,
 	AA_INDUSTRY_AIR_DAMAGE_FACTOR = -0.12,				-- 5x levels = 60% defense from bombing
 	NAVAL_STRIKE_DETECTION_BALANCE_FACTOR = 0.5,		-- Value used to scale the surface_visibility stats to balance the gameplay, so 100% detection chance still won't spam the strikes.
 	LEND_LEASED_EQUIPMENT_EXPERIENCE_GAIN = 0.5,		-- Value used for equipment
-	ANTI_AIR_PLANE_DAMAGE_FACTOR = 0.23,					-- Anti Air Gun Damage factor
+	ANTI_AIR_PLANE_DAMAGE_FACTOR = 0.21,					-- Anti Air Gun Damage factor
 	ANTI_AIR_PLANE_DAMAGE_CHANCE = 0.15,					-- Anti Air Gun hit chance
 	ANTI_AIR_ATTACK_TO_DAMAGE_REDUCTION_FACTOR = 1.0,	-- Balancing value to convert equipment stat anti_air_attack to the damage reduction modifier apply to incoming air attacks against units with AA.
 	ANTI_AIR_MAXIMUM_DAMAGE_REDUCTION_FACTOR = 0.75,	-- Maximum damage reduction factor applied to incoming air attacks against units with AA.
 	AIR_DEPLOYMENT_DAYS = 2,							-- Days to deploy one air wing
-	PORT_STRIKE_ENEMY_SUPERIORITY_LIMIT = 0.3,			-- Min air superiority for performing of naval strike
-	NAVAL_STRIKE_BASE_STR_TO_PLANES_RATIO = 0.1,		-- Max airbombers to do port strike comparing to strength
-	NAVAL_COMBAT_EXTERNAL_PLANES_JOIN_RATIO = 0.04,		-- Max planes that can join a combat comparing to the total strength of the ships
-	NAVAL_COMBAT_EXTERNAL_PLANES_JOIN_RATIO_PER_DAY = 0.1, -- max extra plane % that can join every day
+	PORT_STRIKE_ENEMY_SUPERIORITY_LIMIT = 0.55,			-- Min air superiority for performing of naval strike
+	NAVAL_STRIKE_BASE_STR_TO_PLANES_RATIO = 0.25,		-- Max airbombers to do port strike comparing to strength
+	NAVAL_COMBAT_EXTERNAL_PLANES_JOIN_RATIO = 0.06,		-- Max planes that can join a combat comparing to the total strength of the ships
+	NAVAL_COMBAT_EXTERNAL_PLANES_JOIN_RATIO_PER_DAY = 0.55, -- max extra plane % that can join every day
 	NAVAL_COMBAT_EXTERNAL_PLANES_MIN_CAP = 25,			-- Min cap for planes that can join naval combat
 	
 	AIR_MORE_GROUND_CREWS_COST = 20.0,					-- CP cost to maintain more ground crews
@@ -855,7 +855,7 @@ NNavy = {
 	DETECTION_CHANCE_MULT_FORMATION_SPREAD_SEARCH_AND_DESTROY = 0.5, -- same as for patrol but for search and destroy missions, should be less then patrol
 	DETECTION_CHANCE_MULT_FORMATION_SPREAD_CONVOY_RAIDING = 2,		-- DNM, original 1.2
 	DETECTION_CHANCE_MULT_FORMATION_SPREAD_CONVOY_ESCORT = 0.5,
-	DETECTION_CHANCE_MULT_RADAR_BONUS = 0.02,						-- detection chance bonus from radars. 
+	DETECTION_CHANCE_MULT_RADAR_BONUS = 0.1,						-- detection chance bonus from radars. 
 	DETECTION_CHANCE_MULT_AIR_SUPERIORITY_BONUS = 0.2,			-- bonus from air superiority.
 
 	DETECTION_CHANCE_BALANCE = 4,								-- Value to balance gameplay. The higher value = smaller detection chance. Notice: it doesn't affect the displayed detection chance numbers, as well balanced numbers could be a very small fractions like 0.012
@@ -914,7 +914,7 @@ NNavy = {
 	REPAIR_AND_RETURN_UNIT_DYING_STR = 0.5,							-- Str below this point is considering a single ship "dying", and a high priority to send to repair.
 	EXPERIENCE_LOSS_FACTOR = 1.00,                 					-- percentage of experienced solders who die when manpower is removed
 	NAVY_EXPENSIVE_IC = 5500,										-- How much IC is considering the fleet to be expensive. Those expensive will triger the alert, when are on low STR.
-	MISSION_MAX_REGIONS = 4,										-- Limit of the regions that can be assigned to naval mission. Set to 0 for unlimited.
+	MISSION_MAX_REGIONS = 0,										-- Limit of the regions that can be assigned to naval mission. Set to 0 for unlimited.
 	CONVOY_EFFICIENCY_LOSS_MODIFIER = 1,							-- How much efficiency drops when losing convoys. If modifier is 0.5, then losing 100% of convoys in short period, the efficiency will drop by 50%.
 	CONVOY_EFFICIENCY_REGAIN_AFTER_DAYS = 10,						-- Convoy starts regaining it's efficiency after X days without any convoys being sink.
 	CONVOY_EFFICIENCY_REGAIN_BASE_SPEED = 0.05,						-- How much efficiency regains every day.
@@ -1048,9 +1048,9 @@ NAI = {
 	NAVAL_DOCKYARDS_SHIP_FACTOR = 2,			-- The extent to which number of dockyards play into amount of sips a nation wants
 	NAVAL_BASES_SHIP_FACTOR = 1,				-- The extent to which number of naval bases play into amount of sips a nation wants
 	NAVAL_STATES_SHIP_FACTOR = 0.75,			-- The extent to which number of states play into amount of sips a nation wants
-	NAVAL_MAX_PRIO_THEATRES = 5,				-- A nation may have a large number of theatres, but all of them having stationed/assigned navy is redundant
+	NAVAL_MAX_PRIO_THEATRES = 10,				-- A nation may have a large number of theatres, but all of them having stationed/assigned navy is redundant
 	NAVAL_THEATRE_PRIO_CAPITAL_SCORE = 100,		-- Weight of capital when calculating naval theatre assignment
-	NAVAL_THEATRE_PRIO_NAVAL_BASE_SCORE = 1,	-- Weight of naval bases when calculating naval theatre assignment
+	NAVAL_THEATRE_PRIO_NAVAL_BASE_SCORE = 10,	-- Weight of naval bases when calculating naval theatre assignment
 	NAVAL_THEATRE_PRIO_MIN_DISTANCE = 2000,		-- Minimum distance (in km) between priority theatres for naval assignment, to spread navy out
 	PRODUCTION_UNAVAILABLE_RESORCE_FACTORY_FACTOR = 1.0, -- Assign/queue this proportion of desired factories when resources are short 
 	PRODUCTION_EQUIPMENT_SURPLUS_FACTOR = 0.15,	-- Base value for how much of currently used equipment the AI will at least strive to have in stock
@@ -1060,8 +1060,8 @@ NAI = {
 	AIR_CAS_SCORE_FACTOR = 25.0,				-- Factor applied to (friendly units) x (enemy units)) to get CAS score for region
 	AIR_ENEMY_SUPERIORITY_FACTOR = 5.0,			-- How much enemy air superiority counts relative to own
 	AIR_SUPERIORITY_FACTOR = 2.5,				-- Factor for air superiority score
-	AIR_MIN_ASSIGN_SCORE = 10,					-- Minimum total score for region to be considered for air missions
-	AIR_MIN_REASSIGN_SCORE = 25,				-- Minimum total score for region to be considered for reassigning air missions
+	AIR_MIN_ASSIGN_SCORE = 5,					-- Minimum total score for region to be considered for air missions
+	AIR_MIN_REASSIGN_SCORE = 20,				-- Minimum total score for region to be considered for reassigning air missions
 	AIR_WING_SIZE_FACTOR = 1.0,					-- Impact on air score of assigning wings to mission
 	AIR_MISSION_MIN_COVEREAGE = 0.25,			-- Between 0 and 1, limit for % coverage for air mission to be considered
 	AIR_BASE_PRIORITY_DISTANCE_FACTOR = 25.0,	-- Weight of distance between region and airbase for airbase priority score
@@ -1319,14 +1319,14 @@ NAI = {
 	UPGRADE_DIVISION_RELUCTANCE = 1.0,					-- How often to consider upgrading to new templates for units in the field
 	UPGRADE_PERCENTAGE_OF_FORCES = 0.005,					-- How big part of the army that should be considered for upgrading
 
-	STRATEGIC_BOMBING_DEFENCE_IMPORTANCE = 500.0,
+	STRATEGIC_BOMBING_DEFENCE_IMPORTANCE = 400.0,
 	
-	NAVAL_MISSION_MIN_FLEET_SIZE = 5,					-- AI will not send too small fleets on missions. Ignored if total number of ships country has is below	this.
+	NAVAL_MISSION_MIN_FLEET_SIZE = 10,					-- AI will not send too small fleets on missions. Ignored if total number of ships country has is below	this.
 	NAVY_PREFERED_MAX_SIZE = 55,						-- AI will generally attempt to merge fleets into this size, but as a soft limit.
 	INVASION_COASTAL_PROVS_PER_ORDER = 25,				-- AI will consider one extra invasion per number of provinces stated here (num orders = total coast / this)
 
 	CONVOY_NEED_SAFETY_BUFFER = 1.90,					-- AI will try and keep 15% more convoys than what it needs.
-	REGION_THREAT_PER_SUNK_CONVOY = 50,					-- Threat value per convoy sunk in a region. Decays over time.
+	REGION_THREAT_PER_SUNK_CONVOY = 70,					-- Threat value per convoy sunk in a region. Decays over time.
 	REGION_CONVOY_DANGER_DAILY_DECAY = 1,				-- When convoys are sunk it generates threat in the region which the AI uses to prio nalval missions
 
 	ESCORT_BOMBERS_IMPORTANCE_MODIFIER = 3.0,
@@ -1349,7 +1349,7 @@ NAI = {
 	STATE_CONTROL_FOR_AREA_DEFENSE = 0.4,				-- To avoid AI sending area defense to area with very little foothold
 	FORCE_FACTOR_AGAINST_EXTRA_MINOR = 0.15,			-- AI considers generating wargoals against minors below this % of force compared to themselves to get at a bigger enemy.
 	MAX_EXTRA_WARGOAL_GENERATION = 2,					-- AI may want to generate wargoals against weak minors to get at larger enemy, but never more that this at any given time.
-	NAVAL_MISSION_DISTANCE_BASE = 2500,					-- Base value when AI is evaluating distance score to places
+	NAVAL_MISSION_DISTANCE_BASE = 3500,					-- Base value when AI is evaluating distance score to places
 	NAVAL_MISSION_INVASION_BASE = 1200,					-- Base score for region with naval invasion (modified dynamically by prioritizing orders)
 	NAVAL_MISSION_AGGRESSIVE_PATROL_DIVISOR = 1,		-- Divides patrol score when not defending
 	NAVAL_MISSION_AGGRESSIVE_ESCORT_DIVISOR = 2,		-- Divides escort score when not defending
@@ -1395,7 +1395,7 @@ NAI = {
 	FRONT_BULGE_RATIO_UPPER_CUTOFF = 1.5,				-- If total bulginess is lower than this, the front is ignored.
 	FRONT_BULGE_RATIO_LOWER_CUTOFF = 0.95,				-- If local bulginess drops below this, a point of interest is found
 	FRONT_CUTOFF_MIN_EDGE_PROXIMITY = 2,				-- Minimum number of provinces to the front edge to determine for cutoff oportunity.
-	INVASION_DISTANCE_RANDOMNESS = 30,					-- This higher the value, the more unpredictable the invasions. Compares to actual map distance in pixels.
+	INVASION_DISTANCE_RANDOMNESS = 20,					-- This higher the value, the more unpredictable the invasions. Compares to actual map distance in pixels.
 	
 	AIR_SUPERIORITY_MISSION_FACTOR = 1.0,				-- AI air superiority mission factor
 	CAS_MISSION_FACTOR = 1.4,							-- AI cas mission factor
@@ -1439,9 +1439,9 @@ NAI = {
 	
 	LAND_DEFENSE_MIN_FACTORIES_FOR_AIR_IMPORTANCE = 6,	-- If amount of factories is less importance of factories won't apply
 	
-	LAND_DEFENSE_FIGHERS_PER_PLANE = 0.1,				-- Amount of air superiority planes requested per enemy plane
-	LAND_DEFENSE_INTERSEPTORS_PER_BOMBERS = 0.0,		-- Amount of air interceptor planes requested per enemy plane
-	LAND_DEFENSE_INTERSEPTORS_PER_PLANE = 0.0,				-- Amount of air interceptor planes requested per enemy plane (non bomber)
+	LAND_DEFENSE_FIGHERS_PER_PLANE = 0.5,				-- Amount of air superiority planes requested per enemy plane
+	LAND_DEFENSE_INTERSEPTORS_PER_BOMBERS = 1.0,		-- Amount of air interceptor planes requested per enemy plane
+	LAND_DEFENSE_INTERSEPTORS_PER_PLANE = 0.2,				-- Amount of air interceptor planes requested per enemy plane (non bomber)
 	
 	LAND_COMBAT_AIR_SUPERIORITY_IMPORTANCE = 1.0,		-- Strategic importance of air superiority ( amount of enemy planes in area )
 	LAND_COMBAT_OUR_ARMIES_AIR_IMPORTANCE = 100,			-- Strategic importance of our armies
@@ -1461,7 +1461,7 @@ NAI = {
 	LAND_COMBAT_BOMBERS_PER_COASTAL_FORT_LEVEL = 10,	-- Amount of bomber planes requested per enemy coastal fort level
 	LAND_COMBAT_MIN_EXCORT_WINGS = 2,					-- Min amount of airwings requested to excort operations
 	
-	LAND_COMBAT_INTERCEPT_PER_PLANE = 0,				-- Amount of interception planes requested per enemy plane
+	LAND_COMBAT_INTERCEPT_PER_PLANE = 0.5,			-- Amount of interception planes requested per enemy plane
 	
 	STR_BOMB_AIR_SUPERIORITY_IMPORTANCE = 0.05,			-- Strategic importance of air superiority ( amount of enemy planes in area )
 	STR_BOMB_CIVIL_FACTORY_IMPORTANCE = 50,				-- Strategic importance of enemy civil factories
