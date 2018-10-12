@@ -2,7 +2,7 @@ NDefines = {
 
 NGame = {
 	START_DATE = "1936.1.1.12",
-	END_DATE = "1949.1.1.1",
+	END_DATE = "1965.1.1.1",
 	MAP_SCALE_PIXEL_TO_KM = 7.114,					-- Yes, we did the math
 	SAVE_VERSION = 8,
 	LAG_DAYS_FOR_LOWER_SPEED = 16,					-- Days of client lag for decrease of gamespeed
@@ -14,7 +14,7 @@ NGame = {
 	EVENT_TIMEOUT_DEFAULT = 13,						-- Default days before an event times out if not scripted
 	MISSION_REMOVE_FROM_INTERFACE_DEFAULT = 13,		-- Default days before a mission is removed from the interface after having failed or completed
 	DECISION_ALERT_TIMEOUT_DAYS = 30,				-- Days left when player will be alerted about timing out events or decisions
-	NAVAL_COMBAT_CONVOY_SIZE = 0.16,				-- Size of a convoy in a naval battle. Used to determine the size of the fleet when intercepting convoy.
+	NAVAL_COMBAT_CONVOY_SIZE = 0.2,				-- Size of a convoy in a naval battle. Used to determine the size of the fleet when intercepting convoy.
 },
 
 NDiplomacy = {
@@ -346,8 +346,8 @@ NBuildings = {
 	ROCKETSITE_CAPACITY_MULT = 100,		-- Each level of rocketsite building multiplied by this, gives capacity (max operational value). Value is int. 1 for each rocket.
 	NAVALBASE_CAPACITY_MULT = 15.0,		-- Each level of navalbase building multiplied by this, gives max capacity. Value is float. Each ship takes port_capacity_usage space.
 	NAVALBASE_REPAIR_MULT = 0.15,		-- Each level of navalbase building repairs X strength. The value is spread on all ships needed reparation. Fe Navalbase lvl 5 x 0.5 str repair = 2.5 str repaired over 10 ships, so each ship repair hourly 0.25 str.
-	RADAR_RANGE_BASE = 15,				-- Radar range base, first level radar will be this + min, best radar will be this + max
-	RADAR_RANGE_MIN = 15,				-- Radar range (from state center to province center) in measure of map pixels. Exluding techs.
+	RADAR_RANGE_BASE = 25,				-- Radar range base, first level radar will be this + min, best radar will be this + max
+	RADAR_RANGE_MIN = 25,				-- Radar range (from state center to province center) in measure of map pixels. Exluding techs.
 	RADAR_RANGE_MAX = 150,				-- Range is interpolated between building levels 1-15.
 	RADAR_INTEL_EFFECT = 40,			-- Province covered by radar increases intel by 10 (where 255 is max). Province may be covered by multiple radars, then the value sums up.
 	ENCRYPTION_INTEL_EFFECT = 50,		-- Intel level effect by encryption (reduces intel gained from country with encryption higher than other countries decryption)
@@ -741,14 +741,14 @@ NAir = {
 	COMBAT_DAMAGE_SCALE = 0.12,							-- Higher value = more shot down planes
 	DETECT_CHANCE_FROM_OCCUPATION = 0.15, 				-- How much the controlled provinces in area affects the air detection base value.
 	DETECT_CHANCE_FROM_RADARS = 0.5, 					-- How much the radars in area affects detection chance.
-	DETECT_CHANCE_FROM_AIRCRAFTS_EFFECTIVE_COUNT = 3000, -- Max amount of aircrafts in region to give full detection bonus.
+	DETECT_CHANCE_FROM_AIRCRAFTS_EFFECTIVE_COUNT = 2000, -- Max amount of aircrafts in region to give full detection bonus.
 	DETECT_CHANCE_FROM_AIRCRAFTS = 1.2,					-- How much aircrafts in region improves air detection (up to effective count).
 	DETECT_CHANCE_FROM_NIGHT = -0.2,					-- How much the night can reduce the air detection. (see static modifiers to check how weather affects it too.)
 	DETECT_EFFICIENCY_BASE = 0.15,						-- Base value for detection efficiency (once something detected, efficiency says how many airplanes was detected).
 	DETECT_EFFICIENCY_FROM_RADAR = 0.6,					-- How much radars affect the efficiency.
 	DETECT_EFFICIENCY_RANDOM_FACTOR = 0.1,				-- How much randomness is in amount of detected aircrafts.
 	DAY_NIGHT_COVERAGE_FACTOR = 0.5,					-- How much of the land in the region must be covered by night to consider doing night missions. The same with the day.
-	HOURS_DELAY_AFTER_EACH_COMBAT = 4,					-- How many hours needs the wing to be ready for the next combat. Use for tweaking if combats happens too often. (generally used as double because of roundtrip)
+	HOURS_DELAY_AFTER_EACH_COMBAT = 8,					-- How many hours needs the wing to be ready for the next combat. Use for tweaking if combats happens too often. (generally used as double because of roundtrip)
 	CARRIER_HOURS_DELAY_AFTER_EACH_COMBAT = 5,          -- how often carrier planes do battle inside naval combat
 	NAVAL_STRIKE_TARGETTING_TO_AMOUNT = 0.32,			-- Balancing value to convert the naval_strike_targetting equipment stats to chances of how many airplanes managed to do successfull strike.
 	NAVAL_STRIKE_DAMAGE_TO_STR = 2.0,					-- Balancing value to convert damage ( naval_strike_attack * hits ) to Strength reduction.
@@ -951,7 +951,7 @@ NNavy = {
 	NAVAL_RANGE_TO_INGAME_DISTANCE = 0.20,							-- #was 0.12 - Scale the ship stats "naval_range" to the ingame distance
 	NAVAL_MISSION_COVERAGE_DEFAULT_PROVINCES = 13.0,				-- Amount of provinces for spotting efficiency for naval missions (Ex. If a ship has a 1.3 spotting efficiency then there is a 100 % effective spotting efficiency in a region with 13 provinces ( 10 * 1.3) )
 	NAVAL_INVASION_PREPARE_HOURS = 168,								-- base hours needed to prepare an invasion
-	NAVAL_COMBAT_RESULT_TIMEOUT_YEARS = 3,							-- after that many years, we clear the naval combat results, so they don't get stuck forever in the memory.
+	NAVAL_COMBAT_RESULT_TIMEOUT_YEARS = 2,							-- after that many years, we clear the naval combat results, so they don't get stuck forever in the memory.
 	CONVOY_LOSS_HISTORY_TIMEOUT_MONTHS = 12,						-- after this many months remove the history of lost convoys to not bloat savegames and memory since there is no way to see them anyway
 	NAVAL_TRANSFER_BASE_SPEED = 9,                                  -- base speed of units on water being transported
 	NAVAL_TRANSFER_BASE_NAVAL_DIST_ADD = 100,						-- Extra cost for naval movement ( compared to land movement ) when deciding what ports to use for a naval transfer
@@ -965,7 +965,7 @@ NNavy = {
 	SUBMARINE_HIDE_TIMEOUT = 5,	-- Amount of in-game-hours that takes the submarine (with position unrevealed), to hide.
 	SUBMARINE_REVEALED_TIMEOUT = 5, -- Amount of in-game-hours that makes the submarine visible if it is on the defender side.
 	SUBMARINE_REVEAL_BASE_CHANCE = 0.03,							-- Base chance for submarine detection. It's modified by the difference of a spootter's submarines detection vs submarine visibility. Use this variable for game balancing.
-	SHORE_BOMBARDMENT_CAP = 0.35,
+	SHORE_BOMBARDMENT_CAP = 0.45,
 	ANTI_AIR_TARGETING = 0.9,                                       -- how good ships are at hitting aircraft
 	MISSION_CONVOY_RAIDING_SPREAD_BASE = 0.32,
 	MISSION_CONVOY_ESCORT_SPREAD_BASE = 0.1,
@@ -990,7 +990,7 @@ NTrade = {
 	BASE_TRADE_FACTOR = 80,				-- This is the base trade factor
 	PUPPET_MASTER_TRADE_FACTOR = 500,		-- This is priority for puppet master
 	PUPPET_TRADE_FACTOR = 0,				-- This is unpriority for puppets
-	LACK_OF_CONVOYS_TRADE_FACTOR = -0.1,	-- Every hour without convoys will lower trade factor this much (regain is the same)
+	LACK_OF_CONVOYS_TRADE_FACTOR = -0.2,	-- Every hour without convoys will lower trade factor this much (regain is the same)
 	BASE_LAND_TRADE_RANGE = 230,
 	PARTY_SUPPORT_TRADE_FACTOR = 50,		-- Trade factor bonus at the other side having 100 % party popularity for my party
 	ANTI_MONOPOLY_TRADE_FACTOR_THRESHOLD = 0.7,		-- What percentage of resources has to be sold to the buyer for the anti-monopoly factor to take effect
@@ -998,7 +998,7 @@ NTrade = {
 },
 
 NAI = {
-	GARRISON_FRACTION = 0.26, 					-- How large part of a front should always be holding the line rather than advancing at the enemy
+	GARRISON_FRACTION = 0.9, 					-- up to 10 was0.26How large part of a front should always be holding the line rather than advancing at the enemy
 	
 	DIPLOMATIC_ACTION_GOOD_BAD_RATIO_THRESHOLD = 1,
 	BASE_RELUCTANCE = 30, 						-- Base reluctance applied to all diplomatic offers
@@ -1230,12 +1230,12 @@ NAI = {
 	FORTIFIED_RATIO_TO_CONSIDER_A_FRONT_FORTIFIED = 0.5, -- ai will consider a front fortified if this ratio of provinces has fort
 	HEAVILY_FORTIFIED_RATIO_TO_CONSIDER_A_FRONT_FORTIFIED = 0.5, -- ai will consider a front super fortified if this ratio of provinces has lots of forts
 	
-	DESPERATE_AI_MIN_UNIT_ASSIGN_TO_ESCAPE = 8,			-- AI will assign at least this amount of units to break from desperate situations
+	DESPERATE_AI_MIN_UNIT_ASSIGN_TO_ESCAPE = 1,			-- AI will assign at least this amount of units to break from desperate situations
 	
 	DESPERATE_AI_WEAK_UNIT_STR_LIMIT = 0.35,					-- ai will increase number of units assigned to break from desperate situations when units are start falling lower than this str limit
 	DESPERATE_AI_MIN_ORG_BEFORE_ATTACK = 0.4,					-- ai will wait for this much org to attack an enemy prov in desperate situations
 	DESPERATE_AI_MIN_ORG_BEFORE_MOVE = 0.15,					-- ai will wait for this much org to move in desperate situations
-	DESPERATE_ATTACK_WITHOUT_ORG_WHEN_NO_ORG_GAIN = 990,		-- if ai can't regain enough org to attack in this many hours, it will go truly desperate and attack anyway (still has to wait for move org)
+	DESPERATE_ATTACK_WITHOUT_ORG_WHEN_NO_ORG_GAIN = 240,		-- if ai can't regain enough org to attack in this many hours, it will go truly desperate and attack anyway (still has to wait for move org)
 
 	MANPOWER_FREE_USAGE_THRESHOLD = 90000,				-- If AI has this much manpower he doesn't care about the percentage
 	MANPOWER_RESERVED_THRESHOLD = 0.7,					-- The AI will not deploy more units if he goes below this percentage
