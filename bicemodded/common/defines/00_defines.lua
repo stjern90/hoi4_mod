@@ -586,7 +586,7 @@ NMilitary = {
 	PLAN_EXECUTE_CAREFUL_LIMIT = 25,				-- When looking for an attach target, this score limit is required in the battle plan to consider province for attack
 	PLAN_EXECUTE_BALANCED_LIMIT = 0,				-- When looking for an attach target, this score limit is required in the battle plan to consider province for attack
 	PLAN_EXECUTE_RUSH = -200,						-- When looking for an attach target, this score limit is required in the battle plan to consider province for attack
-	PLAN_EXECUTE_CAREFUL_MAX_FORT = 5,				-- If execution mode is set to careful, units will not attack provinces with fort levels greater than or equal to this
+	PLAN_EXECUTE_CAREFUL_MAX_FORT = 2,				-- If execution mode is set to careful, units will not attack provinces with fort levels greater than or equal to this
 	
 	PLAN_MAX_PROGRESS_TO_JOIN = 0.50,				-- If Lower progress than this, probably needs support
 	
@@ -799,7 +799,7 @@ NAir = {
 	PORT_STRIKE_ENEMY_SUPERIORITY_LIMIT = 0.55,			-- Min air superiority for performing of naval strike
 	NAVAL_STRIKE_BASE_STR_TO_PLANES_RATIO = 0.25,		-- Max airbombers to do port strike comparing to strength
 	NAVAL_COMBAT_EXTERNAL_PLANES_JOIN_RATIO = 0.06,		-- Max planes that can join a combat comparing to the total strength of the ships
-	NAVAL_COMBAT_EXTERNAL_PLANES_JOIN_RATIO_PER_DAY = 0.55, -- max extra plane % that can join every day
+	NAVAL_COMBAT_EXTERNAL_PLANES_JOIN_RATIO_PER_DAY = 0.45, -- max extra plane % that can join every day
 	NAVAL_COMBAT_EXTERNAL_PLANES_MIN_CAP = 25,			-- Min cap for planes that can join naval combat
 	
 	AIR_MORE_GROUND_CREWS_COST = 20.0,					-- CP cost to maintain more ground crews
@@ -960,7 +960,7 @@ NNavy = {
 	NAVAL_SUPREMACY_INTEL_LOW = 0.3,								-- we need more intel than this to get any supremacy
 	NAVAL_SUPREMACY_CAN_INVADE = 0.7,								-- required naval supremacy to perform invasions on an area
 	BATTLE_ARRIVAL_SPEED_BONUS_ON_ENEMY_WITH_NO_MISSION = 2.0,		-- Idle fleet with no pending mission has a bit of advantage over spreaded ones. To balance it, increase the speed for ships that are on it's way to arrive on the battle. Value is a speed MULTIPLIER.
-	CARRIER_STACK_PENALTY = 4,										-- The most efficient is 4 carriers in combat. 5+ brings the penalty to the amount of wings in battle.
+	CARRIER_STACK_PENALTY = 8,										-- The most efficient is 4 carriers in combat. 5+ brings the penalty to the amount of wings in battle.
 	CARRIER_STACK_PENALTY_EFFECT = 0.15,								-- DNM (and vanilla) - if this is too high the AI can't cope -- Each carrier above the optimal amount decreases the amount of airplanes being able to takeoff by such %.
 	SUBMARINE_HIDE_TIMEOUT = 5,	-- Amount of in-game-hours that takes the submarine (with position unrevealed), to hide.
 	SUBMARINE_REVEALED_TIMEOUT = 5, -- Amount of in-game-hours that makes the submarine visible if it is on the defender side.
@@ -1050,7 +1050,7 @@ NAI = {
 	NAVAL_STATES_SHIP_FACTOR = 0.75,			-- The extent to which number of states play into amount of sips a nation wants
 	NAVAL_MAX_PRIO_THEATRES = 10,				-- A nation may have a large number of theatres, but all of them having stationed/assigned navy is redundant
 	NAVAL_THEATRE_PRIO_CAPITAL_SCORE = 100,		-- Weight of capital when calculating naval theatre assignment
-	NAVAL_THEATRE_PRIO_NAVAL_BASE_SCORE = 10,	-- Weight of naval bases when calculating naval theatre assignment
+	NAVAL_THEATRE_PRIO_NAVAL_BASE_SCORE = 20,	-- Weight of naval bases when calculating naval theatre assignment
 	NAVAL_THEATRE_PRIO_MIN_DISTANCE = 2000,		-- Minimum distance (in km) between priority theatres for naval assignment, to spread navy out
 	PRODUCTION_UNAVAILABLE_RESORCE_FACTORY_FACTOR = 1.0, -- Assign/queue this proportion of desired factories when resources are short 
 	PRODUCTION_EQUIPMENT_SURPLUS_FACTOR = 0.15,	-- Base value for how much of currently used equipment the AI will at least strive to have in stock
@@ -1359,8 +1359,8 @@ NAI = {
 	NAVAL_MISSION_ESCORT_NEAR_CONTROLLED = 5500,		-- Extra escort mission score near controlled provinces
 	NEW_LEADER_EXTRA_PP_FACTOR = 7.0,					-- Country must have at least this many times extra PP to get new admirals or army leaders
 	SCARY_LEVEL_AVERAGE_DEFENSE = -0.7,                 -- average front defense modifier to make it consider it as a PITA to go for
-	ATTACK_HEAVILY_DEFENDED_LIMIT = 0.75,				-- AI will not launch attacks against heavily defended fronts unless they consider to have this level of advantage (1.0 = 100%)
-	HOUR_BAD_COMBAT_REEVALUATE = 24,                   -- if we are in combat for this amount and it goes shitty then try skipping it 
+	ATTACK_HEAVILY_DEFENDED_LIMIT = 1.4,				-- AI will not launch attacks against heavily defended fronts unless they consider to have this level of advantage (1.0 = 100%)
+	HOUR_BAD_COMBAT_REEVALUATE = 48,                   -- if we are in combat for this amount and it goes shitty then try skipping it 
 	MIN_PLAN_VALUE_TO_MICRO_INACTIVE = 0.2,				-- The AI will not consider members of groups which plan is not activated AND evaluates lower than this.
 	
 	MAX_UNITS_FACTOR_AREA_ORDER = 1.3,					-- Factor for max number of units to assign to area defense orders
