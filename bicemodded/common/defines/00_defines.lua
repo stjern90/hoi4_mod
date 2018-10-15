@@ -1150,7 +1150,7 @@ NAI = {
 	FRONT_TERRAIN_DEFENSE_FACTOR = 1.0,			-- Multiplier applied to unit defense modifier for terrain on front province multiplied by terrain importance
 	FRONT_TERRAIN_ATTACK_FACTOR = 2.0,			-- Multiplier applied to unit attack modifier for terrain on enemy front province multiplied by terrain importance
 	
-	BASE_DISTANCE_TO_CARE = 1300.0,				-- Countries that are too far away are less interesting in diplomacy
+	BASE_DISTANCE_TO_CARE = 10000.0,				-- Countries that are too far away are less interesting in diplomacy
 	MIN_FORCE_RATIO_TO_PROTECT = 0.5,			-- Tiny countries should not feel protective or really large ones
 	
 	ORG_UNIT_STRONG = 0.85,						-- Organization % for unit to be considered strong
