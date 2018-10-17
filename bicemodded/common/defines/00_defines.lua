@@ -68,8 +68,8 @@ NDiplomacy = {
 	TRADE_NEUTRAL_OPINION_FACTOR = 0.75,			-- If Both fear and trust are 0, this is the neutral factor for trade
 	TRADE_OPINION_FACTOR_FACTOR = 1.0,				-- How much the factor should effect the possible trade amount. Setting TRADE_NEUTRAL_OPINION_FACTOR to 1.0 and TRADE_OPINION_FACTOR_FACTOR to 0 means opinion does nothing in regards to trade.
 	DIPLOMACY_HOURS_BETWEEN_REQUESTS = 24,			-- How long a country must wait before sending a new diplomatic request.
-	TROOP_FEAR = 1, 								-- Impact on troops on borders when deciding how willing a nation is to trade
-	FLEET_FEAR = 1,									-- Impact on troops on borders when deciding how willing a nation is to trade
+	TROOP_FEAR = 0, 								-- Impact on troops on borders when deciding how willing a nation is to trade
+	FLEET_FEAR = 0,									-- Impact on troops on borders when deciding how willing a nation is to trade
 	IC_TO_EQUIPMENT_COUP_RATIO = 0.1,				-- Ratio for calculating cost of staging coup
 	VOLUNTEERS_PER_TARGET_PROVINCE = 0.03,			-- Each province owned by the target country contributes this amount of volunteers to the limit.
 	VOLUNTEERS_PER_COUNTRY_ARMY = 0.03,				-- Each army unit owned by the source country contributes this amount of volunteers to the limit.
@@ -981,16 +981,16 @@ NNavy = {
 },
 
 NTrade = {
-	DISTANCE_TRADE_FACTOR =  0,			-- Trade factor is modified by distance times this
+	DISTANCE_TRADE_FACTOR =  -0.025,			-- Trade factor is modified by distance times this
 	RELATION_TRADE_FACTOR = 1,				-- Trade factor is modified by Opinion value times this
-	FEAR_TRADE_FACTOR = 1,
+	FEAR_TRADE_FACTOR = 0,
 	ALLOW_TRADE_CUT_OFF = 20,				-- If trade factor is less than this, no trade will be allowed
 	MONTH_TRADE_FACTOR = 2,					-- Each month a trade gets this much boost to it's trade factor
 	MAX_MONTH_TRADE_FACTOR = 50,			-- This is the maximum bonus that can be gained from time
 	BASE_TRADE_FACTOR = 80,				-- This is the base trade factor
 	PUPPET_MASTER_TRADE_FACTOR = 500,		-- This is priority for puppet master
 	PUPPET_TRADE_FACTOR = 0,				-- This is unpriority for puppets
-	LACK_OF_CONVOYS_TRADE_FACTOR = -0.2,	-- Every hour without convoys will lower trade factor this much (regain is the same)
+	LACK_OF_CONVOYS_TRADE_FACTOR = -10,	-- Every hour without convoys will lower trade factor this much (regain is the same)
 	BASE_LAND_TRADE_RANGE = 230,
 	PARTY_SUPPORT_TRADE_FACTOR = 50,		-- Trade factor bonus at the other side having 100 % party popularity for my party
 	ANTI_MONOPOLY_TRADE_FACTOR_THRESHOLD = 0.7,		-- What percentage of resources has to be sold to the buyer for the anti-monopoly factor to take effect
@@ -1043,7 +1043,7 @@ NAI = {
 	RESEARCH_BASE_DAYS = 85,					-- AI adds a base number of days when weighting completion time for techs to ensure it doesn't only research quick techs
 	DECLARE_WAR_RELATIVE_FORCE_FACTOR = 0.5,	-- Weight of relative force between nations that consider going to war
 	TRADEABLE_FACTORIES_FRACTION = 1,			-- Will at most trade away this fraction of factories.
-	MIN_DELIVERED_TRADE_FRACTION = 0.6,			-- AI will cancel trade deals that are not able to deliver more than this fraction of the agreed amount
+	MIN_DELIVERED_TRADE_FRACTION = 0.8,			-- AI will cancel trade deals that are not able to deliver more than this fraction of the agreed amount
 	NAVAL_TRANSPORTS_FACTOR = 2,				-- Factor applied to the relative size of army compared to naval capacity.
 	NAVAL_DOCKYARDS_SHIP_FACTOR = 2,			-- The extent to which number of dockyards play into amount of sips a nation wants
 	NAVAL_BASES_SHIP_FACTOR = 1,				-- The extent to which number of naval bases play into amount of sips a nation wants
@@ -1325,8 +1325,8 @@ NAI = {
 	NAVY_PREFERED_MAX_SIZE = 55,						-- AI will generally attempt to merge fleets into this size, but as a soft limit.
 	INVASION_COASTAL_PROVS_PER_ORDER = 20,				-- AI will consider one extra invasion per number of provinces stated here (num orders = total coast / this)
 
-	CONVOY_NEED_SAFETY_BUFFER = 1.90,					-- AI will try and keep 15% more convoys than what it needs.
-	REGION_THREAT_PER_SUNK_CONVOY = 70,					-- Threat value per convoy sunk in a region. Decays over time.
+	CONVOY_NEED_SAFETY_BUFFER = 3,					-- AI will try and keep 15% more convoys than what it needs.
+	REGION_THREAT_PER_SUNK_CONVOY = 1000,					-- Threat value per convoy sunk in a region. Decays over time.
 	REGION_CONVOY_DANGER_DAILY_DECAY = 1,				-- When convoys are sunk it generates threat in the region which the AI uses to prio nalval missions
 
 	ESCORT_BOMBERS_IMPORTANCE_MODIFIER = 3.0,
