@@ -168,8 +168,7 @@ jap_after_pearl_h = {
 		has_war_with = ENG
 	}
 	abort = {
-		MAL = { has_capitulated = yes }
-		INS = { has_capitulated = yes }
+		always = no
 	}
 	ai_strategy = { type = invade id = "INS" value = 6000 }
 	ai_strategy = { type = invade id = "MAL" value = 6000 }
@@ -179,10 +178,11 @@ jap_after_pearl_h = {
 jap_get_filipin = {
 	enable = {
 		tag = JAP
-		has_war_with = USA        
+		has_war_with = USA
+        or = { MAL = { has_capitulated = yes } INS = { has_capitulated = yes } }
 	}
 	abort = {
-		PHL = { has_capitulated = yes }
+		always = no
 	}
 	
 	ai_strategy = { type = invade id = "PHL" value = 6000 }
@@ -197,9 +197,7 @@ jap_get_aussie = {
 		PHL = { has_capitulated = yes } 
 	}
 	abort = {
-		AST = { has_capitulated = yes }
-		NZL = { has_capitulated = yes }
-		RAJ = { has_capitulated = yes }
+		always = no
 	}
 	
 	ai_strategy = { type = invade id = "NZL" value = 6000 }
@@ -219,9 +217,9 @@ jap_get_aussie2 = {
 		RAJ = { has_capitulated = yes } 
 	}
 	abort = {
-		EGY = { has_capitulated = yes }
-		YEM = { has_capitulated = yes }
-	}	
+		always = no
+	}
+	
 	ai_strategy = { type = invade id = "EGY" value = 4000 }
 	ai_strategy = { type = invade id = "YEM" value = 4000 }
 }
@@ -230,37 +228,63 @@ jap_get_aussie3 = {
 	enable = {
 		tag = JAP
 		has_war_with = ENG
-		has_war_with = FRA
         MAL = { has_capitulated = yes } 
 		INS = { has_capitulated = yes } 
 		PHL = { has_capitulated = yes } 
 	    AST = { has_capitulated = yes } 
 		NZL = { has_capitulated = yes } 
-		RAJ = { has_capitulated = yes } 				
+		date > 1945.1.1
+		JAP = {
+			naval_strength_ratio = {
+				tag = ENG
+				ratio > 1
+			}
+		}
 	}
 	abort = {
-		always = no
+		NOT = {
+		JAP = {
+			naval_strength_ratio = {
+				tag = ENG
+				ratio > 1
+			}
+		}
+		}
 	}
-	ai_strategy = { type = invade id = "FRA" value = 6000 }
-	ai_strategy = { type = invade id = "ENG" value = 6000 }
+	
+	ai_strategy = { type = invade id = "ENG" value = 4000 }
 }
 
 jap_get_usa = {
 	enable = {
 		tag = JAP
-		has_war_with = USA		
+		has_war_with = USA
+		date > 1943.1.1
 		MAL = { has_capitulated = yes } 
 		INS = { has_capitulated = yes } 
 		PHL = { has_capitulated = yes } 
 	    AST = { has_capitulated = yes } 
 		NZL = { has_capitulated = yes } 
-		RAJ = { has_capitulated = yes } 		
+		RAJ = { has_capitulated = yes } 
+		JAP = {
+			naval_strength_ratio = {
+				tag = USA
+				ratio > 1
+			}
+		}
 	}
 	abort = {
-		always = no
+		NOT = { 
+		JAP = {
+			naval_strength_ratio = {
+				tag = USA
+				ratio > 1
+			}
+		}		
+		}
 	}
 	
-	ai_strategy = { type = invade id = "USA" value = 8000 }
+	ai_strategy = { type = invade id = "USA" value = 6000 }
 }
 
 strike_usa = {
@@ -270,7 +294,9 @@ strike_usa = {
 		country_exists = USA
 	}
 	abort = {
-		USA = { has_capitulated = yes } 
+		NOT = {
+			country_exists = USA
+		}
 	}
 	
 	ai_strategy = {
@@ -290,16 +316,20 @@ strike_usa = {
 	}	
 }
 
+
+
+
+
 jap_head_for_netherlands_not_raj = {
 	enable = { 
 		tag = JAP
 		has_war_with = ENG
 		country_exists = RAJ 
-		has_war_with = RAJ
+		date > 1940.1.1
 	}
 	
 	abort = {
-		RAJ = { has_capitulated = yes } 
+		NOT = { country_exists = RAJ }
 	}
 	
 	ai_strategy = {

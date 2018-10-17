@@ -984,7 +984,7 @@ NTrade = {
 	DISTANCE_TRADE_FACTOR =  -0.025,			-- Trade factor is modified by distance times this
 	RELATION_TRADE_FACTOR = 1,				-- Trade factor is modified by Opinion value times this
 	FEAR_TRADE_FACTOR = 0,
-	ALLOW_TRADE_CUT_OFF = 20,				-- If trade factor is less than this, no trade will be allowed
+	ALLOW_TRADE_CUT_OFF = 30,				-- If trade factor is less than this, no trade will be allowed
 	MONTH_TRADE_FACTOR = 2,					-- Each month a trade gets this much boost to it's trade factor
 	MAX_MONTH_TRADE_FACTOR = 50,			-- This is the maximum bonus that can be gained from time
 	BASE_TRADE_FACTOR = 80,				-- This is the base trade factor
@@ -1272,7 +1272,7 @@ NAI = {
 		1.0,   -- sub_attack
 		1.0,   -- attack
 		0.0,   -- port_capacity_usage
-		1.0,   -- anti_air_attack
+		1.5,   -- anti_air_attack
 		0.0,   -- amphibious_defense
 		1.0,   -- naval_speed
 		1.0,   -- naval_range
@@ -1286,8 +1286,8 @@ NAI = {
 		1.0,   -- air_agility
 		3.0,   -- air_bombing
 		1.0,   -- air_superiority
-		1.0,   -- naval_strike_attack
-		1.0,   -- naval_strike_targetting
+		0.8,   -- naval_strike_attack
+		0.8,   -- naval_strike_targetting
 		3.0,   -- air_ground_attack
 		0.0,   -- air_visibility_factor
 		-- Common Values
@@ -1371,8 +1371,8 @@ NAI = {
 	DESIRED_UNITS_FACTOR_FRONT_ORDER = 1.6,				-- Factor for desired number of units to assign to area front orders
 	MIN_UNITS_FACTOR_FRONT_ORDER = 1.1,					-- Factor for min number of units to assign to area front orders
 
-	MAX_UNITS_FACTOR_INVASION_ORDER = 1.0,				-- Factor for max number of units to assign to naval invasion orders
-	DESIRED_UNITS_FACTOR_INVASION_ORDER = 0.7,			-- Factor for desired number of units to assign to naval invasion orders
+	MAX_UNITS_FACTOR_INVASION_ORDER = 8.0,				-- Factor for max number of units to assign to naval invasion orders
+	DESIRED_UNITS_FACTOR_INVASION_ORDER = 3,			-- Factor for desired number of units to assign to naval invasion orders
 	MIN_UNITS_FACTOR_INVASION_ORDER = 0.7,				-- Factor for min number of units to assign to naval invasion orders
 	
 	FRONT_UNITS_CAP_FACTOR = 15.0,						-- A factor applied to total front size and supply use. Primarily effects small fronts
