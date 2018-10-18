@@ -333,7 +333,7 @@ focus_tree = {
 		prerequisite = { focus = JAP_tenno_heika }
 		prerequisite = { focus = JAP_yagi_antenna }
 		x = 2
-		y = 4
+		y = 6
 		cost = 10
 		icon = GFX_focus_generic_coastal_fort
 		ai_will_do = {
@@ -614,7 +614,7 @@ focus_tree = {
 		icon = GFX_goal_generic_scientific_exchange
 		prerequisite = { focus = JAP_Research }
 		prerequisite = { focus = trying_to_synth_rubber }
-		x = 4
+		x = 5
 		y = 5
 		cost = 10
 		ai_will_do = {
@@ -808,7 +808,7 @@ focus_tree = {
 		icon = GFX_goal_continuous_research
 		prerequisite = { focus = trying_to_synth_rubber }
 		x = 6
-		y = 5
+		y = 6
 		cost = 16
 		ai_will_do = {
 			factor = 1
@@ -826,7 +826,7 @@ focus_tree = {
 		icon = GFX_focus_generic_military_mission
 		x = 8
 		y = 0
-		cost = 2
+		cost = 1.5
 		ai_will_do = {
 			factor = 10
 		}	
@@ -1153,7 +1153,11 @@ focus_tree = {
 		cost = 2
 		icon = GFX_focus_smiling_buddha
 		ai_will_do = {
-			factor = 15
+			factor = 10
+			modifier = {
+				factor = 0
+				NOT = { has_war_with = ENG }
+			}
 		}	
 		completion_reward = {
 			set_rule = { can_create_factions = yes }
@@ -1457,15 +1461,14 @@ focus_tree = {
 
 		available = {
 			has_war_with = USA
+			has_war_with = CHI
 			CHI = {
 				surrender_progress > 0.3			
 			}
 		}
 
-		bypass = {
-			OR = {
-				CHI = { has_capitulated = yes }
-			}
+		bypass = {			
+				CHI = { has_capitulated = yes }			
 		}
 
 		cancel_if_invalid = yes
@@ -1803,6 +1806,28 @@ focus_tree = {
 			}
 		}
 	}
+	focus = {
+		id = JAP_air_warfare
+		x = 15
+		y = 9
+		icon = GFX_goal_generic_air_doctrine
+		ai_will_do = {
+			factor = 4
+		}
+		cost = 9
+		prerequisite = { focus = JAP_sea_warfare }
+		prerequisite = { focus = JAP_land_warfare }
+		
+		completion_reward = {
+		air_experience = 30		
+			add_tech_bonus = {
+				name = JAP_air_Doc_Bonus
+				uses = 2
+				bonus = 0.25
+				category = air_doctrine
+			}
+		}
+	}
 	
 	focus = {
 		id = JAP_Arty
@@ -2034,7 +2059,7 @@ focus_tree = {
 				name = cv_bonus
 				bonus = 0.250
 				uses = 2
-				category = cvl_tech
+				category = cve_tech
 			}
 		}
 	}
@@ -2078,9 +2103,9 @@ focus_tree = {
 			date > 1939.9.1
 		}
 		x = 9
-		y = 10
+		y = 9
 		cost = 5
-		icon = GFX_goal_tripartite_pact
+		icon = GFX_Gunpoint_Diplomacy
 		prerequisite = { focus = JAP_waves }
 		ai_will_do = {
 			factor = 10
@@ -2100,9 +2125,9 @@ focus_tree = {
 			date > 1939.9.1	
 		}
 		x = 11
-		y = 10
+		y = 9
 		cost = 5
-		icon = GFX_goal_generic_improve_relations
+		icon = GFX_Black_Skull
 		prerequisite = { focus = JAP_waves }
 		ai_will_do = {
 			factor = 2.5
@@ -2276,7 +2301,7 @@ focus_tree = {
 		id = hachimaki
 		icon = GFX_goal_generic_battleship
 		prerequisite = { focus = divine_wind_focus }
-		prerequisite = { focus = JAP_carrier_planes }
+		prerequisite = { focus = JAP_carrier_planes_manu }
 		x = 1
 		y = 12
 		cost = 7
@@ -2327,30 +2352,19 @@ focus_tree = {
 		}
 	}
 	focus = {
-		id = JAP_carrier_planes
-		icon = GFX_goal_generic_air_naval_bomber
+		id = JAP_carrier_planes_manu
+		icon = GFX_goal_generic_navy_cruiser
 		prerequisite = { focus = carrier_focus focus = light_carrier_focus }				
 		x = 2
 		y = 11
 		cost = 6
 		ai_will_do = {
 			factor = 8
-		}	
-		available = {
-			has_tech = tech_nakajima_b5n_equipment_1
-		}
+		}			
 		completion_reward = {
-			air_experience = 35
+			navy_experience = 55
 			custom_effect_tooltip = naval_manufacturer
-			show_ideas_tooltip = yokosuka_naval_arsenal
-			add_tech_bonus = {				
-				name = bomber_bonus_2
-				bonus = 0.25
-				ahead_reduction = 0.3
-				uses = 1
-				technology = tech_nakajima_b6n_equipment_1			
-				
-			}
+			show_ideas_tooltip = yokosuka_naval_arsenal		
 		}
 	}
 	
@@ -2472,7 +2486,7 @@ focus_tree = {
 		prerequisite = { focus = battleship_focus }
 		prerequisite = { focus = JAP_anti_air_focus }
 		cost = 10
-		icon = GFX_goal_generic_construct_naval_dockyard
+		icon = GFX_Japanese_Fleet
 		ai_will_do = {
 			factor = 5
 		}
@@ -2512,11 +2526,34 @@ focus_tree = {
 			add_ideas = JAP_juggernaut_idea		
 		}
 	}
+	focus = {
+		id = JAP_cv_planes_add
+		icon = GFX_goal_continuous_air_production
+		prerequisite = { focus = siamese_puppet_focus focus = befriend_siam_focus }
+		x = 10
+		y = 10
+		cost = 4
+		ai_will_do = {
+			factor = 15
+		}
+		available = {
+					has_tech = tech_nakajima_b5n_equipment_1
+					has_tech = tech_mitsubishi_a6m_equipment_1
+					has_tech = tech_aichi_d3a_equipment_1	
+		}
+		completion_reward = {
+			JAP = {
+				add_equipment_to_stockpile = { type = mitsubishi_a6m_equipment_1  amount = 48 producer = JAP }
+				add_equipment_to_stockpile = { type = nakajima_b5n_equipment_1  amount = 24 producer = JAP }
+				add_equipment_to_stockpile = { type = aichi_d3a_equipment_1  amount = 36 producer = JAP }
+			}
+		}
+	}
 	
 	focus = {
 		id = JAP_strike_on_the_southern_resource_area
 		icon = GFX_focus_jap_strike_south
-		prerequisite = { focus = siamese_puppet_focus focus = befriend_siam_focus }
+		prerequisite = { focus = JAP_cv_planes_add }
 		x = 10
 		y = 11
 
@@ -2536,7 +2573,12 @@ focus_tree = {
 		}
 
 		available = {
-             
+		OR = {
+				CHI = { has_capitulated = yes }
+				CHI = {
+				surrender_progress > 0.5			
+				}
+            }
 		}
 
 		bypass = {
@@ -2873,14 +2915,15 @@ focus_tree = {
 										type = capital_ship
 										area  = 105
 										size > 1
-										}
+										}			
+									
 				}
 			}
 		}
 		will_lead_to_war_with = USA
-		x = 10
+		x = 9
 		y = 12
-		cost = 1
+		cost = 0.8
 
 		historical_ai = {
 			date > 1941.10.1
@@ -3006,7 +3049,7 @@ focus_tree = {
 		id = jap_improved_sprit_focus
 		prerequisite = { focus = strike_usa_focus }
 		available = { has_war = yes }
-		x =10
+		x = 9
 		y = 13
 		cost = 8
 		icon = GFX_focus_jap_pacific_guardian
@@ -3963,7 +4006,7 @@ focus_tree = {
 
 	focus = {
 		id = JAP_Army_Air_Strat
-		icon = GFX_goal_generic_air_bomber
+		icon = GFX_Aerial_Offensive
 		prerequisite = { focus = army_air_innovations_focus }
 		x = 26
 		y = 9
@@ -4357,7 +4400,7 @@ focus_tree = {
 		prerequisite = { focus = war_in_asia_focus focus = force_to_join_focus}
 		x = 20
 		y = 12
-		cost = 1
+		cost = 1.5
 		icon =  GFX_goal_generic_war_with_comintern
 		will_lead_to_war_with = SOV
 		ai_will_do = {
@@ -4369,7 +4412,7 @@ focus_tree = {
 			NOT = { has_war_with = SOV }
 			country_exists = SOV
 			has_army_manpower = { size > 1200000 }
-			has_tech = improved_medium_tank
+			has_tech = tech_japanese_medium_tank_d
 			OR = {
 			   JAP = { is_in_faction_with = GER }
 			   AND = {
@@ -4582,7 +4625,7 @@ focus_tree = {
 		id = JAP_Air
 		prerequisite = { focus = naval_air_innovations_focus }		
 		icon = GFX_red_dragon
-		x = 25
+		x = 26
 		y = 4
 		cost = 6
 		ai_will_do = {
@@ -4606,6 +4649,22 @@ focus_tree = {
 				uses = 1
 				category = tactical_bomber
 			}
+		}
+	}
+	focus = {
+		id = JAP_range
+		prerequisite = { focus = JAP_carrier_planes }
+		prerequisite = { focus = JAP_Air }		
+		icon = GFX_goal_generic_flag
+		x = 25
+		y = 5
+		cost = 12
+		ai_will_do = {
+			factor = 2
+		}
+		
+		completion_reward = {			
+			air_experience = 120			
 		}
 	}
 	
@@ -4667,6 +4726,9 @@ focus_tree = {
 		available = {
 			date > 1939.1.1
 		}
+		bypass = {
+				has_tech = tech_mitsubishi_a6m_equipment_1
+		}
 		completion_reward = {	
 			set_technology = { 
 				tech_mitsubishi_a6m_equipment_1 = 1
@@ -4674,8 +4736,28 @@ focus_tree = {
 		}
 	}
 	focus = {
+		id = JAP_a6m5
+		icon = GFX_Japanese_Airforce
+		prerequisite = { focus = naval_air_innovations_focus_2 }		
+		x = 23
+		y = 5
+		cost = 6
+		ai_will_do = {
+			factor = 20
+		}				
+		completion_reward = {	
+			add_tech_bonus = {
+				name = a6m5_bonus
+				bonus = 0.25
+				ahead_reduction = 0.3
+				uses = 1
+				technology = tech_mitsubishi_a6m5c_equipment_1
+			}
+		}
+	}
+	focus = {
 		id = naval_air_innovations_focus
-		icon = GFX_goal_generic_air_naval_bomber
+		icon = GFX_Aerial_Fleet
 		prerequisite = { focus = JAP_pilot_academy }				
 		x = 25
 		y = 3
@@ -4700,6 +4782,31 @@ focus_tree = {
 			}
 		}
 	}	
+	focus = {
+		id = JAP_carrier_planes
+		icon = GFX_goal_generic_air_naval_bomber
+		prerequisite = { focus = naval_air_innovations_focus_2 }
+		prerequisite = { focus = naval_air_innovations_focus }	
+		x = 24
+		y = 4
+		cost = 5
+		ai_will_do = {
+			factor = 8
+		}	
+		available = {
+			has_tech = tech_nakajima_b5n_equipment_1
+		}
+		completion_reward = {			
+			add_tech_bonus = {				
+				name = bomber_bonus_2
+				bonus = 0.25
+				ahead_reduction = 0.3
+				uses = 1
+				technology = tech_nakajima_b6n_equipment_1		
+				
+			}
+		}
+	}
 	focus = {
 		id = JAP_studying_the_atom
 		icon = GFX_focus_research			
@@ -4773,12 +4880,12 @@ focus_tree = {
 	}
 	focus = {
 		id = JAP_bomber
-		icon = GFX_goal_generic_build_airforce
+		icon = GFX_Bombs_Away
 		prerequisite = { focus = JAP_Army_Air_Strat }
 		prerequisite = { focus = JAP_f_go }
 		x = 27
 		y = 10
-		cost = 10
+		cost = 8
 		ai_will_do = {
 			factor = 2
 		}
@@ -4786,13 +4893,13 @@ focus_tree = {
 			air_experience = 25
 			add_tech_bonus = {
 				name = bomber_bonus
-				bonus = 0.25
+				bonus = 0.4
 				uses = 1			
 				technology = strategic_bomber3
 				technology = strategic_bomber4				
 			}
 		}
 	}
-	
+
 	
 }
