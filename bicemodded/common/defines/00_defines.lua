@@ -190,8 +190,8 @@ NCountry = {
 	RESOURCE_ORIGIN_PRIORITY = 1,					-- Default convoy priority for resources shipped internally
 	RESOURCE_EXPORT_PRIORITY = 0.8,					-- Default convoy priority for export trade
 	RESOURCE_LENDLEASE_PRIORITY = 0.6,				-- Default convoy priority for export lend lease
-	SUPPLY_CONVOY_FACTOR = 0.15,					-- How many convoys each supply needs
-	CONVOY_RANGE_FACTOR = 0.8,                        -- how much range affects convoy need
+	SUPPLY_CONVOY_FACTOR = 0.1,					-- How many convoys each supply needs
+	CONVOY_RANGE_FACTOR = 0.6,                        -- how much range affects convoy need
 	LOCAL_MANPOWER_ACCESSIBLE_FACTOR = 0.38,         -- was 0.45 accessible recruitable factor base
 	LOCAL_MANPOWER_ACCESSIBLE_NON_CORE_FACTOR = 0.08,  -- accessible recruitable factor base
 	STATE_CONTROLLER_VP_RATIO_FLIP = 0.5,			-- If current state controller has less share than this of state total and no armies in it the state changes controller
@@ -296,7 +296,7 @@ NProduction = {
 	EQUIPMENT_LEND_LEASE_WEIGHT_FACTOR = 0.01, -- Base equipment lend lease factor
 	ANNEX_STOCKPILES_RATIO = 0.7,		-- How much stockpiled equipment will be transferred on annexation
 	ANNEX_FIELD_EQUIPMENT_RATIO = 0.25,	-- How much equipment from deployed divisions will be transferred on annexation
-	ANNEX_CONVOYS_RATIO = 0.2,			-- How many convoys will be transferred on annexation
+	ANNEX_CONVOYS_RATIO = 0.25,			-- How many convoys will be transferred on annexation
 	MIN_POSSIBLE_TRAINING_MANPOWER = 100000,	-- How many deployment lines minimum can be training
 	MIN_FIELD_TO_TRAINING_MANPOWER_RATIO = 0.65,	-- Ratio which % of army in field can be trained
 	CAPITULATE_STOCKPILES_RATIO = 0.35, -- How much equipment from deployed divisions will be transferred on capitulation
@@ -791,8 +791,8 @@ NAir = {
 	AA_INDUSTRY_AIR_DAMAGE_FACTOR = -0.12,				-- 5x levels = 60% defense from bombing
 	NAVAL_STRIKE_DETECTION_BALANCE_FACTOR = 0.5,		-- Value used to scale the surface_visibility stats to balance the gameplay, so 100% detection chance still won't spam the strikes.
 	LEND_LEASED_EQUIPMENT_EXPERIENCE_GAIN = 0.5,		-- Value used for equipment
-	ANTI_AIR_PLANE_DAMAGE_FACTOR = 0.21,					-- Anti Air Gun Damage factor
-	ANTI_AIR_PLANE_DAMAGE_CHANCE = 0.15,					-- Anti Air Gun hit chance
+	ANTI_AIR_PLANE_DAMAGE_FACTOR = 0.28,					-- Anti Air Gun Damage factor
+	ANTI_AIR_PLANE_DAMAGE_CHANCE = 0.22,					-- Anti Air Gun hit chance
 	ANTI_AIR_ATTACK_TO_DAMAGE_REDUCTION_FACTOR = 1.0,	-- Balancing value to convert equipment stat anti_air_attack to the damage reduction modifier apply to incoming air attacks against units with AA.
 	ANTI_AIR_MAXIMUM_DAMAGE_REDUCTION_FACTOR = 0.75,	-- Maximum damage reduction factor applied to incoming air attacks against units with AA.
 	AIR_DEPLOYMENT_DAYS = 3,							-- Days to deploy one air wing
@@ -860,7 +860,7 @@ NNavy = {
 
 	DETECTION_CHANCE_BALANCE = 10,								-- Value to balance gameplay. The higher value = smaller detection chance. Notice: it doesn't affect the displayed detection chance numbers, as well balanced numbers could be a very small fractions like 0.012
 	DETECTION_SUBS_CHANCE_BALANCE = 1500.0,						-- Same as above, but for sub detection. It should be very hard to detect just the subs.
-	INTERCEPT_CONVOYS_BALANCE = 3.0,							-- Balance number to distinguish the chance of intercepting convoys in comparison to the interception of naval transfers. (Intercepting convoys happens 2x less often than naval transfers and invasions)
+	INTERCEPT_CONVOYS_BALANCE = 2.0,							-- Balance number to distinguish the chance of intercepting convoys in comparison to the interception of naval transfers. (Intercepting convoys happens 2x less often than naval transfers and invasions)
 	BEST_CAPITALS_TO_SCREENS_RATIO = 0.25, 							-- capitals / screens ratio used for creating FEX groups in naval combat
 	COMBAT_MIN_WIN_CHANCE_TO_ADVANCE_WITHOUT_WAIT = 1.2, 			-- compare our forces with enemy forces. 1.0 is equal win chances. Less then 1.0 is we have low chances. If we have at least X chances, then ships will attept to attack without waiting for the other ships that are on the way.
 	COMBAT_MIN_WIN_CHANCE_TO_KEEP_FIGHTING = 0.9,		 			-- DNM - original 0.2 - being at 60 per cent of the enemy's strength would usually lead to one side disengaging, and seems to work reasonably in tests -- compare our forces with enemy forces. 1.0 is equal win chances. Less then 1.0 is we have low chances. If we have at least X chances, then ships will attept to attack without waiting for the other ships that are on the way.
@@ -894,7 +894,7 @@ NNavy = {
 	COMBAT_MAX_GROUPS = 3,										-- Max amount of "Fire Exchange" groups (FEX).
 	COMBAT_MIN_DURATION = 8,										-- Min combat duration before we can retreat. It's a balancing variable so it's not possible to always run with our weak ships agains big flotillas.
 	COMBAT_RETREAT_DECISION_CHANCE = 0.3, 							-- There is also random factor in deciding if we should retreat or not. That causes a delay in taking decision, that sooner or later will be picked. It's needed so damaged fast ships won't troll the combat.
-	COMBAT_DETECTED_CONVOYS_FROM_SURFACE_DETECTION_STAT = 0.3,		-- Each 1.0 of surface_detection that ship has (equipment stat), gives x% of convoys discovered from total travelling along the route.
+	COMBAT_DETECTED_CONVOYS_FROM_SURFACE_DETECTION_STAT = 0.1,		-- Each 1.0 of surface_detection that ship has (equipment stat), gives x% of convoys discovered from total travelling along the route.
 	COMBAT_LEAD_TOO_MANY_SHIPS_PENALTY_SPEED = 0.3,					-- Speed penalty in % for ships coming into the battle (Those in the "incoming" field). Fe. 0.1 makes the ordinary speed drop down to 10% of the original speed when penalty is at max. Value should be between 0.0 and 1.0
 	COMBAT_LEAD_TOO_MANY_SHIPS_PENALTY_CHAOS_CHANCE = 0.64,			-- Chaos penalty - chance % of not taking a shot at the target.
 	COMBAT_BASE_CRITICAL_CHANCE = 0.05,								-- Base chance for receiving a critical chance. It get's scaled down with ship reliability.
@@ -919,8 +919,8 @@ NNavy = {
 	CONVOY_EFFICIENCY_REGAIN_AFTER_DAYS = 10,						-- Convoy starts regaining it's efficiency after X days without any convoys being sink.
 	CONVOY_EFFICIENCY_REGAIN_BASE_SPEED = 0.05,						-- How much efficiency regains every day.
 	CONVOY_EFFICIENCY_MIN_VALUE = 0.05,								-- To avoid complete 0% efficiency, set the lower limit.
-	ANTI_AIR_TARGETTING_TO_CHANCE = 0.08,							-- Balancing value to convert averaged equipment stats (anti_air_targetting and naval_strike_agility) to probability chances of airplane being hit by navies AA.
-	ANTI_AIR_ATTACK_TO_AMOUNT = 0.02,								-- Balancing value to convert equipment stat anti_air_attack to the random % value of airplanes being hit.
+	ANTI_AIR_TARGETTING_TO_CHANCE = 0.25,							-- Balancing value to convert averaged equipment stats (anti_air_targetting and naval_strike_agility) to probability chances of airplane being hit by navies AA.
+	ANTI_AIR_ATTACK_TO_AMOUNT = 0.1,								-- Balancing value to convert equipment stat anti_air_attack to the random % value of airplanes being hit.
 	NO_LEADER_MAX_SHIPS = 30,										-- Max amount of ships that can be used in the unit
 
 	UNIT_EXPERIENCE_PER_COMBAT_HOUR = 10,
@@ -946,7 +946,7 @@ NNavy = {
 	SPREAD_BASE_SPEED_FACTOR = 0.3,								-- base factor between regular speed and spread speed
 	SPREAD_MAX_PROVINCES = 30,									-- When regions exceeds this amount of provs, we get full penalty
 	SPREAD_BIG_REGION_PENALTY = 0.9,
-	CONVOY_ATTACK_BASE_FACTOR = 0.12,                               -- base % of convoys that get intercepted
+	CONVOY_ATTACK_BASE_FACTOR = 0.09,                               -- base % of convoys that get intercepted
 	NAVAL_SPEED_MODIFIER = 0.08,	                    				-- basic speed control
 	NAVAL_RANGE_TO_INGAME_DISTANCE = 0.20,							-- #was 0.12 - Scale the ship stats "naval_range" to the ingame distance
 	NAVAL_MISSION_COVERAGE_DEFAULT_PROVINCES = 13.0,				-- Amount of provinces for spotting efficiency for naval missions (Ex. If a ship has a 1.3 spotting efficiency then there is a 100 % effective spotting efficiency in a region with 13 provinces ( 10 * 1.3) )
@@ -966,7 +966,7 @@ NNavy = {
 	SUBMARINE_REVEALED_TIMEOUT = 5, -- Amount of in-game-hours that makes the submarine visible if it is on the defender side.
 	SUBMARINE_REVEAL_BASE_CHANCE = 0.03,							-- Base chance for submarine detection. It's modified by the difference of a spootter's submarines detection vs submarine visibility. Use this variable for game balancing.
 	SHORE_BOMBARDMENT_CAP = 0.45,
-	ANTI_AIR_TARGETING = 1.2,                                       -- how good ships are at hitting aircraft
+	ANTI_AIR_TARGETING = 3.5,                                       -- how good ships are at hitting aircraft
 	MISSION_CONVOY_RAIDING_SPREAD_BASE = 0.32,
 	MISSION_CONVOY_ESCORT_SPREAD_BASE = 0.1,
 	MISSION_DEFAULT_SPREAD_BASE = 0.8,
@@ -983,8 +983,8 @@ NNavy = {
 NTrade = {
 	DISTANCE_TRADE_FACTOR =  -0.025,			-- Trade factor is modified by distance times this
 	RELATION_TRADE_FACTOR = 1,				-- Trade factor is modified by Opinion value times this
-	FEAR_TRADE_FACTOR = 0,
-	ALLOW_TRADE_CUT_OFF = 30,				-- If trade factor is less than this, no trade will be allowed
+	FEAR_TRADE_FACTOR = -100,
+	ALLOW_TRADE_CUT_OFF = 40,				-- If trade factor is less than this, no trade will be allowed
 	MONTH_TRADE_FACTOR = 2,					-- Each month a trade gets this much boost to it's trade factor
 	MAX_MONTH_TRADE_FACTOR = 50,			-- This is the maximum bonus that can be gained from time
 	BASE_TRADE_FACTOR = 80,				-- This is the base trade factor
@@ -993,8 +993,8 @@ NTrade = {
 	LACK_OF_CONVOYS_TRADE_FACTOR = -30,	-- Every hour without convoys will lower trade factor this much (regain is the same)
 	BASE_LAND_TRADE_RANGE = 230,
 	PARTY_SUPPORT_TRADE_FACTOR = 50,		-- Trade factor bonus at the other side having 100 % party popularity for my party
-	ANTI_MONOPOLY_TRADE_FACTOR_THRESHOLD = 0.6,		-- What percentage of resources has to be sold to the buyer for the anti-monopoly factor to take effect
-	ANTI_MONOPOLY_TRADE_FACTOR = 0,		-- This is added to the factor value when anti-monopoly threshold is exceeded
+	ANTI_MONOPOLY_TRADE_FACTOR_THRESHOLD = 0.25,		-- What percentage of resources has to be sold to the buyer for the anti-monopoly factor to take effect
+	ANTI_MONOPOLY_TRADE_FACTOR = -100,		-- This is added to the factor value when anti-monopoly threshold is exceeded
 },
 
 NAI = {
@@ -1143,7 +1143,7 @@ NAI = {
 	VP_LEVEL_IMPORTANCE_HIGH = 30,				-- Victory points with values higher than or equal to this are considered to be of high importance.
 	VP_LEVEL_IMPORTANCE_MEDIUM = 5,			-- Victory points with values higher than or equal to this are considered to be of medium importance.
 	VP_LEVEL_IMPORTANCE_LOW = 1,				-- Victory points with values higher than or equal to this are considered to be of low importance.
-	ESTIMATED_CONVOYS_PER_DIVISION = 6,			-- Not always correct, but mainly used to make sure AI does not go crazy
+	ESTIMATED_CONVOYS_PER_DIVISION = 4,			-- Not always correct, but mainly used to make sure AI does not go crazy
 	FRONT_REASSIGN_DISTANCE = 120.0,			-- If a unit is this far away from a front it is not considered to be assigned to it unless the new front is much more important
 	OLD_FRONT_IMPORTANCE_FACTOR = 1.50,			-- If a unit is considered for reassignment, the importance of both new and old front is considered with a weight applied to the old ones score
 	ENTRENCHMENT_WEIGHT = 2.0,					-- AI should favour units with less entrenchment when assigning units around.
@@ -1272,7 +1272,7 @@ NAI = {
 		1.5,   -- sub_attack
 		1.0,   -- attack
 		0.0,   -- port_capacity_usage
-		1.5,   -- anti_air_attack
+		3.5,   -- anti_air_attack
 		0.0,   -- amphibious_defense
 		1.0,   -- naval_speed
 		1.0,   -- naval_range
@@ -1286,8 +1286,8 @@ NAI = {
 		1.0,   -- air_agility
 		3.0,   -- air_bombing
 		1.0,   -- air_superiority
-		0.7,   -- naval_strike_attack
-		0.7,   -- naval_strike_targetting
+		0.6,   -- naval_strike_attack
+		0.6,   -- naval_strike_targetting
 		3.0,   -- air_ground_attack
 		0.0,   -- air_visibility_factor
 		-- Common Values
