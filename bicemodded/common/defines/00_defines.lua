@@ -1272,7 +1272,7 @@ NAI = {
 		1.5,   -- sub_attack
 		1.0,   -- attack
 		0.0,   -- port_capacity_usage
-		3.5,   -- anti_air_attack
+		2.5,   -- anti_air_attack
 		0.0,   -- amphibious_defense
 		1.0,   -- naval_speed
 		1.0,   -- naval_range
@@ -1280,11 +1280,11 @@ NAI = {
 		0.0,   -- patrol_coordination
 		0.0,   -- search_and_destroy_coordination
 		-- Air Values
-		3.0,   -- air_range
-		3.0,   -- air_defence
-		3.0,   -- air_attack
+		3.5,   -- air_range
+		2.7,   -- air_defence
+		3.3,   -- air_attack
 		1.0,   -- air_agility
-		3.0,   -- air_bombing
+		3.5,   -- air_bombing
 		1.0,   -- air_superiority
 		0.6,   -- naval_strike_attack
 		0.6,   -- naval_strike_targetting
@@ -1371,9 +1371,9 @@ NAI = {
 	DESIRED_UNITS_FACTOR_FRONT_ORDER = 1.6,				-- Factor for desired number of units to assign to area front orders
 	MIN_UNITS_FACTOR_FRONT_ORDER = 1.1,					-- Factor for min number of units to assign to area front orders
 
-	MAX_UNITS_FACTOR_INVASION_ORDER = 8.0,				-- Factor for max number of units to assign to naval invasion orders
-	DESIRED_UNITS_FACTOR_INVASION_ORDER = 3,			-- Factor for desired number of units to assign to naval invasion orders
-	MIN_UNITS_FACTOR_INVASION_ORDER = 0.7,				-- Factor for min number of units to assign to naval invasion orders
+	MAX_UNITS_FACTOR_INVASION_ORDER = 12.0,				-- Factor for max number of units to assign to naval invasion orders
+	DESIRED_UNITS_FACTOR_INVASION_ORDER = 5.0,			-- Factor for desired number of units to assign to naval invasion orders
+	MIN_UNITS_FACTOR_INVASION_ORDER = 3,				-- Factor for min number of units to assign to naval invasion orders
 	
 	FRONT_UNITS_CAP_FACTOR = 15.0,						-- A factor applied to total front size and supply use. Primarily effects small fronts
 	MAX_DIST_PORT_RUSH = 20.0,							-- If a unit is in enemy territory with no supply it will consider nearby ports within this distance.
