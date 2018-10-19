@@ -14,7 +14,7 @@ NGame = {
 	EVENT_TIMEOUT_DEFAULT = 13,						-- Default days before an event times out if not scripted
 	MISSION_REMOVE_FROM_INTERFACE_DEFAULT = 13,		-- Default days before a mission is removed from the interface after having failed or completed
 	DECISION_ALERT_TIMEOUT_DAYS = 30,				-- Days left when player will be alerted about timing out events or decisions
-	NAVAL_COMBAT_CONVOY_SIZE = 0.2,				-- Size of a convoy in a naval battle. Used to determine the size of the fleet when intercepting convoy.
+	NAVAL_COMBAT_CONVOY_SIZE = 0.16,				-- Size of a convoy in a naval battle. Used to determine the size of the fleet when intercepting convoy.
 },
 
 NDiplomacy = {
@@ -421,7 +421,7 @@ NMilitary = {
 	LAND_COMBAT_ORG_DAMAGE_MODIFIER = 0.062,        -- global damage modifier
 	LAND_AIR_COMBAT_STR_DAMAGE_MODIFIER = 0.03,    -- air global damage modifier
 	LAND_AIR_COMBAT_ORG_DAMAGE_MODIFIER = 0.03,    -- global damage modifier
-	LAND_AIR_COMBAT_MAX_PLANES_PER_ENEMY_WIDTH = 3, -- how many CAS/TAC can enter a combat depending on enemy width there
+	LAND_AIR_COMBAT_MAX_PLANES_PER_ENEMY_WIDTH = 4, -- how many CAS/TAC can enter a combat depending on enemy width there
 	LAND_COMBAT_STR_ARMOR_ON_SOFT_DICE_SIZE = 4,   -- extra damage dice if our armor outclasses enemy
 	LAND_COMBAT_ORG_ARMOR_ON_SOFT_DICE_SIZE = 5,   -- extra damage dice if our armor outclasses enemy
 	LAND_COMBAT_STR_ARMOR_DEFLECTION_FACTOR = 0.5, -- damage reduction if armor outclassing enemy
@@ -593,7 +593,7 @@ NMilitary = {
 	PLAN_BLITZ_OPTIMISM = 0.2,						-- Additional combat balance value in favor of blitzing side when considering targets (not a combat bonus, just offsets planning)
 	
 	FLANKED_PROVINCES_COUNT = 3,					-- Attacker has to attack from that many provinces for the attack to be considered as flanking
-	NUKE_MIN_DAMAGE_PERCENT = 0.1,					-- Minimum damage from nukes as a percentage of current strength/organisation
+	NUKE_MIN_DAMAGE_PERCENT = 0.4,					-- Minimum damage from nukes as a percentage of current strength/organisation
 	NUKE_MAX_DAMAGE_PERCENT = 0.9,					-- Minimum damage from nukes as a percentage of current strength/organisation
 	EQUIPMENT_REPLACEMENT_RATIO = 0.05,				-- Equipment min ratio after blocking the equipment type
 	NUKE_DELAY_HOURS = 12,							-- How many hours does it take for the nuclear drop to happen
@@ -748,7 +748,7 @@ NAir = {
 	DETECT_EFFICIENCY_FROM_RADAR = 0.6,					-- How much radars affect the efficiency.
 	DETECT_EFFICIENCY_RANDOM_FACTOR = 0.1,				-- How much randomness is in amount of detected aircrafts.
 	DAY_NIGHT_COVERAGE_FACTOR = 0.5,					-- How much of the land in the region must be covered by night to consider doing night missions. The same with the day.
-	HOURS_DELAY_AFTER_EACH_COMBAT = 8,					-- How many hours needs the wing to be ready for the next combat. Use for tweaking if combats happens too often. (generally used as double because of roundtrip)
+	HOURS_DELAY_AFTER_EACH_COMBAT = 6,					-- How many hours needs the wing to be ready for the next combat. Use for tweaking if combats happens too often. (generally used as double because of roundtrip)
 	CARRIER_HOURS_DELAY_AFTER_EACH_COMBAT = 5,          -- how often carrier planes do battle inside naval combat
 	NAVAL_STRIKE_TARGETTING_TO_AMOUNT = 0.47,			-- Balancing value to convert the naval_strike_targetting equipment stats to chances of how many airplanes managed to do successfull strike.
 	NAVAL_STRIKE_DAMAGE_TO_STR = 8.0,					-- Balancing value to convert damage ( naval_strike_attack * hits ) to Strength reduction.
@@ -791,8 +791,8 @@ NAir = {
 	AA_INDUSTRY_AIR_DAMAGE_FACTOR = -0.12,				-- 5x levels = 60% defense from bombing
 	NAVAL_STRIKE_DETECTION_BALANCE_FACTOR = 0.5,		-- Value used to scale the surface_visibility stats to balance the gameplay, so 100% detection chance still won't spam the strikes.
 	LEND_LEASED_EQUIPMENT_EXPERIENCE_GAIN = 0.5,		-- Value used for equipment
-	ANTI_AIR_PLANE_DAMAGE_FACTOR = 0.28,					-- Anti Air Gun Damage factor
-	ANTI_AIR_PLANE_DAMAGE_CHANCE = 0.22,					-- Anti Air Gun hit chance
+	ANTI_AIR_PLANE_DAMAGE_FACTOR = 0.24,					-- Anti Air Gun Damage factor
+	ANTI_AIR_PLANE_DAMAGE_CHANCE = 0.18,					-- Anti Air Gun hit chance
 	ANTI_AIR_ATTACK_TO_DAMAGE_REDUCTION_FACTOR = 1.0,	-- Balancing value to convert equipment stat anti_air_attack to the damage reduction modifier apply to incoming air attacks against units with AA.
 	ANTI_AIR_MAXIMUM_DAMAGE_REDUCTION_FACTOR = 0.75,	-- Maximum damage reduction factor applied to incoming air attacks against units with AA.
 	AIR_DEPLOYMENT_DAYS = 3,							-- Days to deploy one air wing
@@ -1268,11 +1268,11 @@ NAI = {
 		1.0,   -- shore_bombardment
 		1.0,   -- fire_range
 		1.0,   -- evasion
-		1.5,   -- torpedo_attack
-		1.5,   -- sub_attack
+		1.0,   -- torpedo_attack
+		1.0,   -- sub_attack
 		1.0,   -- attack
 		0.0,   -- port_capacity_usage
-		1.8,   -- anti_air_attack
+		1.0,   -- anti_air_attack
 		0.0,   -- amphibious_defense
 		1.0,   -- naval_speed
 		1.0,   -- naval_range
@@ -1281,14 +1281,14 @@ NAI = {
 		0.0,   -- search_and_destroy_coordination
 		-- Air Values
 		3.5,   -- air_range
-		2.7,   -- air_defence
-		3.3,   -- air_attack
+		2.6,   -- air_defence
+		3.4,   -- air_attack
 		1.0,   -- air_agility
 		3.5,   -- air_bombing
 		1.0,   -- air_superiority
 		0.6,   -- naval_strike_attack
 		0.6,   -- naval_strike_targetting
-		3.0,   -- air_ground_attack
+		3.6,   -- air_ground_attack
 		0.0,   -- air_visibility_factor
 		-- Common Values
 		0.0,   -- max_organisation
@@ -1349,7 +1349,7 @@ NAI = {
 	STATE_CONTROL_FOR_AREA_DEFENSE = 0.4,				-- To avoid AI sending area defense to area with very little foothold
 	FORCE_FACTOR_AGAINST_EXTRA_MINOR = 0.15,			-- AI considers generating wargoals against minors below this % of force compared to themselves to get at a bigger enemy.
 	MAX_EXTRA_WARGOAL_GENERATION = 2,					-- AI may want to generate wargoals against weak minors to get at larger enemy, but never more that this at any given time.
-	NAVAL_MISSION_DISTANCE_BASE = 3500,					-- Base value when AI is evaluating distance score to places
+	NAVAL_MISSION_DISTANCE_BASE = 2500,					-- Base value when AI is evaluating distance score to places
 	NAVAL_MISSION_INVASION_BASE = 1200,					-- Base score for region with naval invasion (modified dynamically by prioritizing orders)
 	NAVAL_MISSION_AGGRESSIVE_PATROL_DIVISOR = 1,		-- Divides patrol score when not defending
 	NAVAL_MISSION_AGGRESSIVE_ESCORT_DIVISOR = 2,		-- Divides escort score when not defending
@@ -1359,7 +1359,7 @@ NAI = {
 	NAVAL_MISSION_ESCORT_NEAR_CONTROLLED = 5500,		-- Extra escort mission score near controlled provinces
 	NEW_LEADER_EXTRA_PP_FACTOR = 7.0,					-- Country must have at least this many times extra PP to get new admirals or army leaders
 	SCARY_LEVEL_AVERAGE_DEFENSE = -0.7,                 -- average front defense modifier to make it consider it as a PITA to go for
-	ATTACK_HEAVILY_DEFENDED_LIMIT = 1.1,				-- AI will not launch attacks against heavily defended fronts unless they consider to have this level of advantage (1.0 = 100%)
+	ATTACK_HEAVILY_DEFENDED_LIMIT = 0.8,				-- AI will not launch attacks against heavily defended fronts unless they consider to have this level of advantage (1.0 = 100%)
 	HOUR_BAD_COMBAT_REEVALUATE = 48,                   -- if we are in combat for this amount and it goes shitty then try skipping it 
 	MIN_PLAN_VALUE_TO_MICRO_INACTIVE = 0.2,				-- The AI will not consider members of groups which plan is not activated AND evaluates lower than this.
 	
