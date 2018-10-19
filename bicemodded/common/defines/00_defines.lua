@@ -919,8 +919,8 @@ NNavy = {
 	CONVOY_EFFICIENCY_REGAIN_AFTER_DAYS = 10,						-- Convoy starts regaining it's efficiency after X days without any convoys being sink.
 	CONVOY_EFFICIENCY_REGAIN_BASE_SPEED = 0.05,						-- How much efficiency regains every day.
 	CONVOY_EFFICIENCY_MIN_VALUE = 0.05,								-- To avoid complete 0% efficiency, set the lower limit.
-	ANTI_AIR_TARGETTING_TO_CHANCE = 0.25,							-- Balancing value to convert averaged equipment stats (anti_air_targetting and naval_strike_agility) to probability chances of airplane being hit by navies AA.
-	ANTI_AIR_ATTACK_TO_AMOUNT = 0.1,								-- Balancing value to convert equipment stat anti_air_attack to the random % value of airplanes being hit.
+	ANTI_AIR_TARGETTING_TO_CHANCE = 0.2,							-- Balancing value to convert averaged equipment stats (anti_air_targetting and naval_strike_agility) to probability chances of airplane being hit by navies AA.
+	ANTI_AIR_ATTACK_TO_AMOUNT = 0.08,								-- Balancing value to convert equipment stat anti_air_attack to the random % value of airplanes being hit.
 	NO_LEADER_MAX_SHIPS = 30,										-- Max amount of ships that can be used in the unit
 
 	UNIT_EXPERIENCE_PER_COMBAT_HOUR = 10,
@@ -966,7 +966,7 @@ NNavy = {
 	SUBMARINE_REVEALED_TIMEOUT = 5, -- Amount of in-game-hours that makes the submarine visible if it is on the defender side.
 	SUBMARINE_REVEAL_BASE_CHANCE = 0.03,							-- Base chance for submarine detection. It's modified by the difference of a spootter's submarines detection vs submarine visibility. Use this variable for game balancing.
 	SHORE_BOMBARDMENT_CAP = 0.45,
-	ANTI_AIR_TARGETING = 3.5,                                       -- how good ships are at hitting aircraft
+	ANTI_AIR_TARGETING = 2.5,                                       -- how good ships are at hitting aircraft
 	MISSION_CONVOY_RAIDING_SPREAD_BASE = 0.32,
 	MISSION_CONVOY_ESCORT_SPREAD_BASE = 0.1,
 	MISSION_DEFAULT_SPREAD_BASE = 0.8,
@@ -998,7 +998,7 @@ NTrade = {
 },
 
 NAI = {
-	GARRISON_FRACTION = 1, 					-- up to 10 was0.26How large part of a front should always be holding the line rather than advancing at the enemy
+	GARRISON_FRACTION = 0.26, 					-- up to 10 was0.26How large part of a front should always be holding the line rather than advancing at the enemy
 	
 	DIPLOMATIC_ACTION_GOOD_BAD_RATIO_THRESHOLD = 1,
 	BASE_RELUCTANCE = 30, 						-- Base reluctance applied to all diplomatic offers
@@ -1043,7 +1043,7 @@ NAI = {
 	RESEARCH_BASE_DAYS = 85,					-- AI adds a base number of days when weighting completion time for techs to ensure it doesn't only research quick techs
 	DECLARE_WAR_RELATIVE_FORCE_FACTOR = 0.5,	-- Weight of relative force between nations that consider going to war
 	TRADEABLE_FACTORIES_FRACTION = 0.8,			-- Will at most trade away this fraction of factories.
-	MIN_DELIVERED_TRADE_FRACTION = 0.8,			-- AI will cancel trade deals that are not able to deliver more than this fraction of the agreed amount
+	MIN_DELIVERED_TRADE_FRACTION = 0.6,			-- AI will cancel trade deals that are not able to deliver more than this fraction of the agreed amount
 	NAVAL_TRANSPORTS_FACTOR = 2,				-- Factor applied to the relative size of army compared to naval capacity.
 	NAVAL_DOCKYARDS_SHIP_FACTOR = 2,			-- The extent to which number of dockyards play into amount of sips a nation wants
 	NAVAL_BASES_SHIP_FACTOR = 1,				-- The extent to which number of naval bases play into amount of sips a nation wants
@@ -1110,7 +1110,7 @@ NAI = {
 	PLAN_ATTACK_MIN_STRENGTH_FACTOR_HIGH = 0.7,	
 	PLAN_FRONTUNIT_DISTANCE_FACTOR = 10.0,		-- Factor for candidate units distance to front positions.
 	PLAN_ATTACK_DEPTH_FACTOR = 0.5,				-- Factor applied to size or enemy being attacked.
-	PLAN_STEP_COST_LIMIT = 11,					-- When stepping to draw a plan this cost makes it break if it hits hard terrain (multiplied by number of desired steps)
+	PLAN_STEP_COST_LIMIT = 1,					-- When stepping to draw a plan this cost makes it break if it hits hard terrain (multiplied by number of desired steps)
 	PLAN_STEP_COST_LIMIT_REDUCTION = 3,			-- Cost limit is reduced per iteration, making hard terrain less likely to be crossed the further into enemy territory it is
 	PLAN_FRONT_SECTION_MAX_LENGTH = 18,			-- When a front is longer than this it will be split in two sections for the AI
 	PLAN_FRONT_SECTION_MIN_LENGTH = 10,			-- When two front sections together are this short they will be merged for the AI
