@@ -354,7 +354,8 @@ dont_join_war_yet = {
 		
 		NOT = { has_completed_focus = GER_italy_ally }
 		
-		OR = { date < 1940.5.25
+		OR = { 
+		date < 1940.5.25
 		    NOT = { FRA = {		
 			    surrender_progress > 0.3
 		    } }
@@ -384,39 +385,28 @@ dont_join_war_yet = {
 	}
 }
 
-dont_invite_war_yet = {
+make_sure_we_blitz_into_soft_targets_without_italy_help = {
 	enable = {
-		tag = GER
-		country_exists = ITA
-		#ENG = { has_war_with = GER }
-		OR = { date < 1940.5.10
-		    NOT = { FRA = {		
-			    surrender_progress > 0.5
-		    } }
+		tag = ITA
+		GER = { has_war_with = FRA }
+		POL = { has_capitulated = yes }
+		date > 1939.12.1
+		date < 1940.5.22
+	}
+	abort = {
+		OR = {
+			BEL = { has_capitulated = yes }
+			18 = { 
+				is_controlled_by = GER
+			}
+			date > 1940.5.22
 		}
 	}
-	
-	abort = {
-        OR = { date > 1940.5.15 FRA = { surrender_progress > 0.5 } }
-		
-	}
-	
+
 	ai_strategy = {
-		type = befriend
-		id = "ITA"
-		value = -150 
-	}
-	
-	ai_strategy = { 
-		type = ignore
-		id = "ITA" 
-		value = 250 
-	}
-	
-	ai_strategy = { 
-		type = alliance
-		id = "ITA" 
-		value = -150 
+		type = declare_war
+		id = "FRA"			
+		value = -1000
 	}
 }
 
@@ -493,30 +483,7 @@ aggro_fra = {
 	}
 }
 
-def_against_ita = {
-	enable = {
-		tag = FRA
-		country_exists = GER
-		country_exists = ITA
-		has_war_with = GER
-		NOT = { has_war_with = ITA }
-	}
-	abort = {
-		or = { NOT = { country_exists = ITA }
-		has_war_with = ITA }
-	}
-	
-	ai_strategy = {
-		type = antagonize
-		id = "ITA"
-		value = 40
-	}
-	ai_strategy = {
-		type = ignore
-		id = "FRA"
-		value = -50
-	}
-}
+
 
 dont_like_ita_syr = {
     enable = {
@@ -567,6 +534,7 @@ ita_invasions_0 = {
 	ai_strategy = { type = invade id = "ENG" value = 2000 }
 	ai_strategy = { type = invade id = "GRE" value = 2000 }	
 }
+
 italy_avoid = {
 	enable = {
 		tag = ITA		
@@ -581,5 +549,18 @@ italy_avoid = {
 		type = naval_avoid_region
 		id = 173
 		value = 100000
+	}
+}
+save_troops = {
+	enable = {		
+		country_exists = EGY		
+	}
+	abort = {
+			NOT = { country_exists = EGY }
+	}	
+	ai_strategy = {
+		type = contain
+		id = "EGY"
+		value = 1000
 	}
 }
