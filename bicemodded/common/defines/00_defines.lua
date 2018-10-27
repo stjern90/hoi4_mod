@@ -534,8 +534,8 @@ NMilitary = {
 
 	PLANNING_DECAY = 0.01,
 	PLAYER_ORDER_PLANNING_DECAY = 0.04,				-- Amount of planning lost due to player manual order
-	PLANNING_GAIN = 0.03,
-	PLANNING_MAX = 0.3,                           	-- can get more from techs
+	PLANNING_GAIN = 0.02,
+	PLANNING_MAX = 0.25,                           	-- can get more from techs
 	CIVILWAR_ORGANIZATION_FACTOR = 0.3,			  	-- Multiplier of org for both sides when civilwar.
 	LAND_COMBAT_ATTACKER_WINNING = 0.65,		  	-- Above this means attacker is winning
 	LAND_COMBAT_DEFENDER_WINNING = 0.35,		  	-- Below this means defender is winning
@@ -773,7 +773,7 @@ NAir = {
 	AIR_NAVAL_KAMIKAZE_LOSSES_MULT = 4.0,          			-- Balancing value to increase usual losses if Kamikaze participating in the battle
 	BASE_KAMIKAZE_DAMAGE = 2.0,                    				-- Base Kamikaze death rate
 	BASE_KAMIKAZE_TARGETING = 2.0,			        		-- Kamikaze can't be a bad target
-	BASE_STRATEGIC_BOMBING_HIT_SHIP_CHANCE = 0.4,		-- Chance to hit a ship in port when it is bombed.
+	BASE_STRATEGIC_BOMBING_HIT_SHIP_CHANCE = 0.2,		-- Chance to hit a ship in port when it is bombed.
 	BASE_STRATEGIC_BOMBING_HIT_SHIP_DAMAGE_FACTOR = 50,
 	BASE_STRATEGIC_BOMBING_HIT_PLANE_CHANCE = 0.7,		-- Chance to hit a plane in airbase when it is bombed.
 	BASE_STRATEGIC_BOMBING_HIT_PLANE_DAMAGE_FACTOR = 0.2,
@@ -855,7 +855,7 @@ NNavy = {
 	DETECTION_CHANCE_MULT_FORMATION_SPREAD_SEARCH_AND_DESTROY = 0.5, -- same as for patrol but for search and destroy missions, should be less then patrol
 	DETECTION_CHANCE_MULT_FORMATION_SPREAD_CONVOY_RAIDING = 2,		-- DNM, original 1.2
 	DETECTION_CHANCE_MULT_FORMATION_SPREAD_CONVOY_ESCORT = 0.5,
-	DETECTION_CHANCE_MULT_RADAR_BONUS = 0.1,						-- detection chance bonus from radars. 
+	DETECTION_CHANCE_MULT_RADAR_BONUS = 0.05,						-- detection chance bonus from radars. 
 	DETECTION_CHANCE_MULT_AIR_SUPERIORITY_BONUS = 0.2,			-- bonus from air superiority.
 
 	DETECTION_CHANCE_BALANCE = 4,								-- Value to balance gameplay. The higher value = smaller detection chance. Notice: it doesn't affect the displayed detection chance numbers, as well balanced numbers could be a very small fractions like 0.012
