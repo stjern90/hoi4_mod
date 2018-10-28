@@ -531,6 +531,60 @@ on_actions = {
 				        country_event = { id = pride.3 days = 365 }
 				 }
 			}
+			#set flag
+			if = {
+				limit = {
+					NOT = {
+						has_global_flag = west_expedition_started
+					}
+					FROM = { tag = XSM }
+					ROOT = {
+						tag = CCP
+						has_completed_focus = CCP_west_expedition
+					}
+				}
+				set_global_flag = west_expedition_started
+				set_country_flag = CCP_failed_exp_timer
+			}
+			#strike ccp when west-expedition-ing
+			if = {
+				limit = {
+					FROM = { tag = CCP }
+					tag = CHI
+					CCP = {
+						is_in_faction = no
+						has_war_with = XSM
+					}
+					has_global_flag = west_expedition_started
+				}
+				CCP = {
+					country_event = { id = CCP.53 }
+				}
+			}
+			#get revanchism when war with jap
+			if = {
+				limit = {
+					has_idea = CCP_anti_jap_sentiment
+					NOT = {
+						has_idea = CCP_revanchism
+					}
+					FROM = { tag = JAP }
+				}
+				country_event = { id = CCP.107 }
+			}
+			#pop tips for central government
+			## You cannot trigger this when join others' war against the central government, since it would not be legitimate
+			if = {
+				limit = {
+					OR = {
+						has_country_flag = KMT_central_government_flag
+						FROM = {
+							has_country_flag = KMT_central_government_flag
+						}
+					}
+				}
+				country_event = { id = CCP.107 }
+			}
 		}
 	}
 	
