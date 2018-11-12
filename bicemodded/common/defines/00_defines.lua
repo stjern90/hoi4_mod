@@ -1230,11 +1230,11 @@ NAI = {
 	FORTIFIED_RATIO_TO_CONSIDER_A_FRONT_FORTIFIED = 0.5, -- ai will consider a front fortified if this ratio of provinces has fort
 	HEAVILY_FORTIFIED_RATIO_TO_CONSIDER_A_FRONT_FORTIFIED = 0.5, -- ai will consider a front super fortified if this ratio of provinces has lots of forts
 	
-	DESPERATE_AI_MIN_UNIT_ASSIGN_TO_ESCAPE = 8,			-- AI will assign at least this amount of units to break from desperate situations
+	DESPERATE_AI_MIN_UNIT_ASSIGN_TO_ESCAPE = 0,			-- AI will assign at least this amount of units to break from desperate situations
 	
-	DESPERATE_AI_WEAK_UNIT_STR_LIMIT = 0.35,					-- ai will increase number of units assigned to break from desperate situations when units are start falling lower than this str limit
-	DESPERATE_AI_MIN_ORG_BEFORE_ATTACK = 0.4,					-- ai will wait for this much org to attack an enemy prov in desperate situations
-	DESPERATE_AI_MIN_ORG_BEFORE_MOVE = 0.15,					-- ai will wait for this much org to move in desperate situations
+	DESPERATE_AI_WEAK_UNIT_STR_LIMIT = 0.1,					-- ai will increase number of units assigned to break from desperate situations when units are start falling lower than this str limit
+	DESPERATE_AI_MIN_ORG_BEFORE_ATTACK = 0.9,					-- ai will wait for this much org to attack an enemy prov in desperate situations
+	DESPERATE_AI_MIN_ORG_BEFORE_MOVE = 0.25,					-- ai will wait for this much org to move in desperate situations
 	DESPERATE_ATTACK_WITHOUT_ORG_WHEN_NO_ORG_GAIN = 990,		-- if ai can't regain enough org to attack in this many hours, it will go truly desperate and attack anyway (still has to wait for move org)
 
 	MANPOWER_FREE_USAGE_THRESHOLD = 90000,				-- If AI has this much manpower he doesn't care about the percentage
