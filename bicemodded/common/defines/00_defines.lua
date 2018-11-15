@@ -850,7 +850,7 @@ NAir = {
 },
 
 NNavy = {
-	DETECTION_CHANCE_MULT_BASE = 0.02,								-- base multiplier value for detection chance. Later the chance is an average between our detection and enemy visibility, mult by surface/sub detection chance in the following defines.
+	DETECTION_CHANCE_MULT_BASE = 0.03,								-- base multiplier value for detection chance. Later the chance is an average between our detection and enemy visibility, mult by surface/sub detection chance in the following defines.
 	DETECTION_CHANCE_MULT_FORMATION_SPREAD_PATROL = 1.0, 			-- formation spread (max recommended value 1.0). The higher value the higher detection chance, but less ships will be on the place when combat starts.
 	DETECTION_CHANCE_MULT_FORMATION_SPREAD_SEARCH_AND_DESTROY = 0.5, -- same as for patrol but for search and destroy missions, should be less then patrol
 	DETECTION_CHANCE_MULT_FORMATION_SPREAD_CONVOY_RAIDING = 2,		-- DNM, original 1.2
@@ -991,7 +991,7 @@ NTrade = {
 	PUPPET_MASTER_TRADE_FACTOR = 500,		-- This is priority for puppet master
 	PUPPET_TRADE_FACTOR = 0,				-- This is unpriority for puppets
 	LACK_OF_CONVOYS_TRADE_FACTOR = -0.1,	-- Every hour without convoys will lower trade factor this much (regain is the same)
-	BASE_LAND_TRADE_RANGE = 230,
+	BASE_LAND_TRADE_RANGE = 700,
 	PARTY_SUPPORT_TRADE_FACTOR = 50,		-- Trade factor bonus at the other side having 100 % party popularity for my party
 	ANTI_MONOPOLY_TRADE_FACTOR_THRESHOLD = 0.7,		-- What percentage of resources has to be sold to the buyer for the anti-monopoly factor to take effect
 	ANTI_MONOPOLY_TRADE_FACTOR = 0,		-- This is added to the factor value when anti-monopoly threshold is exceeded
