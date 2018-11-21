@@ -715,7 +715,7 @@ country_event = {
 	id = japan.21
 	title = japan.21.t
 	desc = japan.21.d
-	picture = GFX_report_event_asian_politicians
+	picture = GFX_report_event_japan_five
 	
 	fire_only_once = yes
 	is_triggered_only = yes	
@@ -883,8 +883,7 @@ country_event = {
 	id = japan.26
 	title = japan.26.t
 	desc = japan.26.d
-	#picture = GFX_report_event_japan_go_ichi_hachi_incident
-	picture = GFX_report_event_asian_politicians
+	picture = GFX_report_event_japan_go_ichi_hachi_incident
 	
 	fire_only_once = yes
 	
@@ -898,8 +897,72 @@ country_event = {
 		add_stability = -0.03
 	}
 }
-
-
+#decision to secretly leave the London Naval treaty
+country_event = {
+	id = japan.27
+	title = japan.27.t
+	desc = japan.27.d
+	picture = GFX_report_event_japan_ships
+	
+	fire_only_once = yes
+	
+	trigger = {
+		tag = JAP
+		has_idea = london_naval_treaty
+		date > 1936.5.18
+	}
+	
+	option = { 
+		name = japan.27.a
+		add_stability = -0.03
+		remove_ideas = london_naval_treaty
+		set_country_flag = broke_london_flag
+		ai_chance = { 
+			factor = 8
+		}
+		add_tech_bonus = {
+				name = bb_bonus_a
+				bonus = 0.35
+				uses = 1
+				ahead_reduction = 0.5				
+				technology = heavy_battleship	
+				
+			}
+			effect_tooltip = {
+			FRA = { add_opinion_modifier = { target = ROOT modifier = JAP_broke_the_london_naval_treaty } }
+			USA = { add_opinion_modifier = { target = ROOT modifier = JAP_broke_the_london_naval_treaty } }
+			ENG = { add_opinion_modifier = { target = ROOT modifier = JAP_broke_the_london_naval_treaty } }
+			}			
+			save_global_event_target_as = broke_london_treaty
+		news_event = { id = japan.37 days = 270 }
+	}
+	option = { 
+		name = japan.27.b
+		ai_chance = { 
+			factor = 0
+		}
+	}
+}
+#Japan walks out of the UN
+country_event = {
+	id = japan.28
+	title = japan.28.t
+	desc = japan.28.d
+	#picture = GFX_report_event_japan_go_ichi_hachi_incident
+	picture = GFX_report_event_asian_politicians
+	
+	fire_only_once = yes
+	
+	trigger = {
+		tag = JAP
+		date > 1996.5.18
+	}
+	
+	option = { 
+		name = japan.28.a
+		add_stability = -0.05
+	}
+}
 
 country_event = {
 	id =  japan.29
@@ -1005,7 +1068,7 @@ country_event = {
 		
 		}
 		
-		add_named_threat = { threat = 8 name = japan.31.t }
+		add_named_threat = { threat = 4 name = japan.31.t }
 		hidden_effect = {
 			ENG = {
 				country_event = { days = 1 id = britain.43 }
@@ -1033,7 +1096,7 @@ country_event = {
 			}
 		}
 		effect_tooltip = {
-    		add_named_threat = { threat = -4 name = japan.31.t }
+    		add_named_threat = { threat = -3 name = japan.31.t }
 		}
 		FRA = {
 			country_event = { days = 1 id = britain.45 }
@@ -1242,5 +1305,287 @@ country_event = {
 	option = { 
 		name = japan.35.a		
 		add_war_support = 0.1
+	}
+}
+
+#some country has broken the treaty in secret! other coutries find out
+news_event = {
+	id = japan.37
+	title = japan.37.t
+	desc = japan.37.d
+	picture = GFX_report_event_japan_navy
+	
+	is_triggered_only = yes
+	major = yes
+	trigger = {  NOT = { has_global_flag = london_treaty_broken_final } }
+
+	option = { 
+	   #Oh noes!
+		name = japan.37.a	
+        trigger = {
+		has_country_flag = broke_london_flag
+		}		
+		ai_chance = { factor = 10 }
+		add_named_threat = { threat = 1 name = broke_london }
+		FRA = { add_opinion_modifier = { target = event_target:broke_london_treaty modifier = JAP_broke_the_london_naval_treaty } }
+			USA = { add_opinion_modifier = { target = event_target:broke_london_treaty modifier = JAP_broke_the_london_naval_treaty } }
+			ENG = { add_opinion_modifier = { target = event_target:broke_london_treaty modifier = JAP_broke_the_london_naval_treaty } }
+	}
+	option = { 
+		name = japan.37.b	
+		trigger = {
+		NOT = { has_country_flag = broke_london_flag }
+		NOT = { has_idea = london_naval_treaty }
+		}
+		ai_chance = { factor = 10 }
+		effect_tooltip = {
+		event_target:broke_london_treaty = {
+		FRA = { add_opinion_modifier = { target = event_target:broke_london_treaty modifier = JAP_broke_the_london_naval_treaty } }
+			USA = { add_opinion_modifier = { target = event_target:broke_london_treaty modifier = JAP_broke_the_london_naval_treaty } }
+			ENG = { add_opinion_modifier = { target = event_target:broke_london_treaty modifier = JAP_broke_the_london_naval_treaty } }
+		}
+		}
+	}
+	option = { 
+		name = japan.37.c	
+		trigger = {
+		NOT = { has_country_flag = broke_london_flag }
+		has_idea = london_naval_treaty
+		}
+		ai_chance = { factor = 10 }
+		remove_ideas = london_naval_treaty
+		add_stability = -0.02
+		effect_tooltip = {
+		remove_ideas = london_naval_treaty
+		event_target:broke_london_treaty = {
+		FRA = { add_opinion_modifier = { target = event_target:broke_london_treaty modifier = JAP_broke_the_london_naval_treaty } }
+			USA = { add_opinion_modifier = { target = event_target:broke_london_treaty modifier = JAP_broke_the_london_naval_treaty } }
+			ENG = { add_opinion_modifier = { target = event_target:broke_london_treaty modifier = JAP_broke_the_london_naval_treaty } }
+		}
+		}
+	}
+	option = { 
+		name = japan.37.e	
+		trigger = {
+		NOT = { has_country_flag = broke_london_flag }
+		has_idea = london_naval_treaty
+		}
+		ai_chance = { factor = 0 }
+		add_war_support = -0.02
+		effect_tooltip = {
+		event_target:broke_london_treaty = {
+		FRA = { add_opinion_modifier = { target = event_target:broke_london_treaty modifier = JAP_broke_the_london_naval_treaty } }
+			USA = { add_opinion_modifier = { target = event_target:broke_london_treaty modifier = JAP_broke_the_london_naval_treaty } }
+			ENG = { add_opinion_modifier = { target = event_target:broke_london_treaty modifier = JAP_broke_the_london_naval_treaty } }
+		}
+		}
+	}
+}
+#treaty is void allies used escalator clause
+news_event = {
+	id = japan.38
+	title = japan.38.t
+	desc = japan.38.d
+	picture = GFX_report_event_japan_navy
+	
+	is_triggered_only = yes
+	major = yes
+	
+	immediate = {
+	set_global_flag = london_treaty_broken_final
+	}
+
+	option = { 
+	   #Oh noes!
+		name = japan.38.a
+		if = { limit { has_idea = london_naval_treaty }
+		remove_ideas = london_naval_treaty
+		}
+	}
+}
+
+#treaty is void, ww2 started o
+country_event = {
+	id = japan.388
+	title = japan.388.t
+	desc = japan.388.d
+	picture = GFX_report_event_japan_navy
+	
+	is_triggered_only = yes
+	
+	immediate = {
+	set_global_flag = london_treaty_broken_final
+	}
+
+	option = { 
+	   #Oh noes!
+		name = japan.388.a
+		remove_ideas = london_naval_treaty
+	}
+}
+
+#TIB offer
+country_event = {
+	id = japan.39 
+	title = japan.39.t 
+	desc = japan.39.d
+	picture = GFX_report_event_generic_sign_treaty1
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = { 
+			factor = 20 
+			modifier = {
+				JAP = {
+					strength_ratio = {
+						tag = TIB
+						ratio > 0.5
+					}
+				}
+				add = 60
+			}
+			modifier = {
+				JAP = {
+					has_war = yes
+					surrender_progress > 0.1 
+				}
+				factor = 0
+			}
+		}
+		name = japan.39.a
+		JAP = { annex_country = { target = TIB transfer_troops = no } }
+		JAP = { country_event = { id = japan.40 }}
+	}
+	
+	option = {
+		ai_chance = { factor = 80 }
+		name = japan.39.b
+		effect_tooltip = {
+			JAP = {
+				create_wargoal = {
+					type = annex_everything
+					target = TIB
+				}
+			}
+		}
+		JAP = { country_event = { id = japan.41 days = 1 } }
+	}
+}
+
+#TIB compromise
+country_event = {
+	id = japan.40 
+	title = japan.40.t
+	desc = japan40.d
+	picture = GFX_report_event_generic_sign_treaty1
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = japan.40.a
+	}
+}
+
+#TIB refused
+country_event = {
+	id = japan.41
+	title = japan.41.t
+	desc = japan.41.d
+	picture = GFX_report_event_generic_sign_treaty1
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = japan.41.a
+		JAP = {
+			create_wargoal = {
+				type = annex_everything
+				target = TIB
+			}
+		}
+	}
+}
+
+#SIK offer
+country_event = {
+	id = japan.42 
+	title = japan.42.t 
+	desc = japan.42.d
+	picture = GFX_report_event_generic_sign_treaty1
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = { 
+			factor = 20 
+			modifier = {
+				JAP = {
+					strength_ratio = {
+						tag = SIK
+						ratio > 0.5
+					}
+				}
+				add = 60
+			}
+			modifier = {
+				JAP = {
+					has_war = yes
+					surrender_progress > 0.1 
+				}
+				factor = 0
+			}
+		}
+		name = japan.42.a
+		JAP = { annex_country = { target = SIK transfer_troops = no } }
+		JAP = { country_event = { id = japan.43 }}
+	}
+	
+	option = {
+		ai_chance = { factor = 80 }
+		name = japan.42.b
+		effect_tooltip = {
+			JAP = {
+				create_wargoal = {
+					type = annex_everything
+					target = SIK
+				}
+			}
+		}
+		JAP = { country_event = { id = japan.44 days = 1 } }
+	}
+}
+
+#SIK compromise
+country_event = {
+	id = japan.43 
+	title = japan.43.t
+	desc = japan43.d
+	picture = GFX_report_event_generic_sign_treaty1
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = japan.43.a
+	}
+}
+
+#SIK refused
+country_event = {
+	id = japan.44
+	title = japan.44.t
+	desc = japan.44.d
+	picture = GFX_report_event_generic_sign_treaty1
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = japan.44.a
+		JAP = {
+			create_wargoal = {
+				type = annex_everything
+				target = SIK
+			}
+		}
 	}
 }

@@ -366,6 +366,12 @@ focus_tree = {
 				uses = 1
 				category = motorized_equipment
 			}
+			add_tech_bonus = {
+				name = construction_tech_bonus
+				bonus = 0.25
+				uses = 1
+				category = construction_tech
+			}
 		}
 	}
 	
@@ -1284,8 +1290,9 @@ focus_tree = {
 			}
 			add_tech_bonus = {
 				name = undergroud_factories_tech_bonus
-				bonus = 0.2
+				bonus = 0.25
 				uses = 1
+				technology = dispersed_industry4
 				technology = dispersed_industry5
 				
 			}
@@ -1582,7 +1589,7 @@ focus_tree = {
 	
 		x = -18
 		y = 3
-		cost = 9
+		cost = 5
 		ai_will_do = {
 			factor = 0.1
 		}	
@@ -1592,7 +1599,7 @@ focus_tree = {
 		
 			add_tech_bonus = {
 				name = bomber_bonus
-				bonus = 0.2
+				bonus = 0.25
 				uses = 2
 				category = tactical_bomber
 			}
@@ -1848,7 +1855,7 @@ focus_tree = {
 			
 			add_tech_bonus = {
 				name = bomber_bonus
-				bonus = 0.2
+				bonus = 0.25
 				uses = 1
 				category = heavy_air	
 			}
@@ -2247,7 +2254,7 @@ focus_tree = {
 		
 			add_tech_bonus = {
 			name = armor_bonus
-			
+			ahead_reduction = 0.5
 			bonus = 0.3
 			uses = 2
 			category = cat_light_armor
@@ -2316,7 +2323,22 @@ focus_tree = {
 				country_event = { id = germany.75 days = 1 }
 				custom_effect_tooltip = needs_approval
 			}
-			# Actual reward effects added in event if Soviets approve
+			effect_tooltip = {
+			add_tech_bonus = {
+			name = GER_soviet_treaty
+			ahead_reduction = 0.5
+			bonus = 0.25
+			uses = 1
+			category = cat_medium_armor
+		}
+		add_tech_bonus = {
+		    name = GER_soviet_treaty
+		        ahead_reduction = 0.5
+			bonus = 0.25
+			uses = 1
+			category = cat_heavy_armor
+		}
+			}
 			
 			}
 		}
@@ -2425,7 +2447,33 @@ focus_tree = {
 				
 			}
 		}
-	
+		
+	focus = {
+		id = GER_wunderwaffe_panzer
+		icon = GFX_goal_schwere_panzer
+		prerequisite = { focus = GER_Heavy_panzer }
+		
+		x = 7
+		y = 6
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+		available = {
+		has_tech = tech_panzer_vi_equipment_1
+		}
+		available_if_capitulated = yes	
+		completion_reward = {
+			
+				add_tech_bonus = {
+					name = heavy_armor_bonus
+					ahead_reduction = 0.5
+					uses = 3
+					category = cat_heavy_armor
+				}
+				
+			}
+		}
 	
 	focus = {
 		id = GER_infanterie_tactics			# infantry tactics
@@ -3193,10 +3241,7 @@ focus_tree = {
 		prerequisite = { focus = GER_anschluss }
 		mutually_exclusive = { focus = GER_italy_ally }
 		available = {
-			NOT = { 
-				is_in_faction_with = ITA
-				owns_state = 39 #South Tyrol
-				} 
+			NOT = { owns_state = 39  }  #South Tyrol
 			is_puppet = no
 			OR = {
 				has_army_manpower = { size > 999999 }
@@ -3216,6 +3261,7 @@ focus_tree = {
 				owns_state = 39 #South Tyrol
 			}
 		}
+		available_if_capitulated = no
 		cancel_if_invalid = no
 		x = 12
 		y = 2
@@ -3224,42 +3270,8 @@ focus_tree = {
 			factor = 1
 		}	
 		completion_reward = {
-			if = {
-				limit = {
-					ITA = { 
-						NOT = {
-							has_government = fascism
-							has_government = communism
-						}
-					}
-					ENG = {
-						has_government = democratic
-					}
-					FRA = {
-						has_government = democratic
-					}
-				}
-				## some opinion modifier?
-			}
-		
-			if = {
-				limit = {
-					ITA = { 
-						has_government = democratic
-					}
-					ENG = {
-						has_government = democratic
-					}
-					FRA = {
-						has_government = democratic
-					}
-				}
-				## some opinion modifier?
-			}
-			
-
 			add_state_claim = 39 #South Tyrol  
-			add_named_threat = { threat = 4 name = GER_south_tyrol_threat }
+			add_named_threat = { threat = 3 name = GER_south_tyrol_threat }
 			GER = { country_event = germany.308 }   
 		}
 	}
@@ -3483,10 +3495,6 @@ focus_tree = {
 			POL = { has_capitulated = yes }
 			POL = { is_in_faction_with = GER }
             POL = { is_in_faction_with = SOV }
-			}
-			OR = {
-			FRA = { has_capitulated = yes }
-			FRA = { is_in_faction_with = GER }
 			}
 		}
 		x = 12
@@ -3975,7 +3983,7 @@ focus_tree = {
 			}
 		}	
 		completion_reward = {
-			add_named_threat = { threat = 10 name = GER_danzig_or_war }
+			add_named_threat = { threat = 12 name = GER_danzig_or_war }
 			if = {
 				limit = {
 					85 = {
@@ -5307,15 +5315,41 @@ focus_tree = {
 	}
 	
 	focus = {
-		id = GER_prepare_the_navy_to_be_at_war_with_uk
+		id = GER_naval_secret
 		icon = GFX_goal_generic_navy_battleship
 		prerequisite = { focus = GER_naval_rearmament }
+		x = 22
+		y = 1
+		cost = 2.5
+		ai_will_do = {
+			factor = 8
+		}
+		bypass = {
+		NOT = { has_idea = london_naval_treaty }
+		}
+		completion_reward = {
+		remove_ideas = london_naval_treaty
+		set_country_flag = broke_london_flag
+		effect_tooltip = {
+			FRA = { add_opinion_modifier = { target = ROOT modifier = JAP_broke_the_london_naval_treaty } }
+			USA = { add_opinion_modifier = { target = ROOT modifier = JAP_broke_the_london_naval_treaty } }
+			ENG = { add_opinion_modifier = { target = ROOT modifier = JAP_broke_the_london_naval_treaty } }
+			}			
+			save_global_event_target_as = broke_london_treaty
+		    news_event = { id = japan.37 days = 180 }
+		}
+	}
+	
+	focus = {
+		id = GER_prepare_the_navy_to_be_at_war_with_uk
+		icon = GFX_goal_generic_navy_battleship
+		prerequisite = { focus = GER_naval_secret }
 		x = 22
 		y = 3
 		cost = 2
 		available = {
 			OR = {
-			date > 1939.1.1 
+			date > 1938.6.1 
 			has_completed_focus = GER_demand_sudetenland
 			}
 		}
@@ -6072,8 +6106,10 @@ focus_tree = {
 			factor = 10
 		}	
 		completion_reward = {
-			remove_ideas = sour_loser
-			add_ideas = triumphant_will
+			swap_ideas = {
+				remove_idea =  sour_loser
+				add_idea = triumphant_will
+			}
 		}
 	}
 
