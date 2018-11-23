@@ -909,7 +909,7 @@ country_event = {
 	trigger = {
 		tag = JAP
 		has_idea = london_naval_treaty
-		date > 1936.1.18
+		date > 1936.5.18
 	}
 	
 	option = { 
@@ -934,7 +934,7 @@ country_event = {
 			ENG = { add_opinion_modifier = { target = ROOT modifier = JAP_broke_the_london_naval_treaty } }
 			}			
 			save_global_event_target_as = broke_london_treaty
-		news_event = { id = japan.37 days = 50 }
+		news_event = { id = japan.37 days = 260 }
 	}
 	option = { 
 		name = japan.27.b
@@ -1320,6 +1320,12 @@ news_event = {
 	is_triggered_only = yes
 	major = yes
 	trigger = {  NOT = { has_global_flag = london_treaty_broken_final } }
+	
+	immediate = {
+	hidden_effect = {
+		ENG = { country_event = { id = japan.377 } } 
+    }		
+	}
 
 	option = { 
 	   #Oh noes!
@@ -1329,9 +1335,14 @@ news_event = {
 		}		
 		ai_chance = { factor = 10 }
 		add_named_threat = { threat = 1 name = broke_london }
-		FRA = { add_opinion_modifier = { target = ROOT modifier = JAP_broke_the_london_naval_treaty } }
-			USA = { add_opinion_modifier = { target = ROOT modifier = JAP_broke_the_london_naval_treaty } }
-			ENG = { add_opinion_modifier = { target = ROOT modifier = JAP_broke_the_london_naval_treaty } }
+		if = { limit = { tag = event_target:broke_london_treaty }
+		FRA = { add_opinion_modifier = { target = event_target:broke_london_treaty modifier = JAP_broke_the_london_naval_treaty } }
+		USA = { add_opinion_modifier = { target = event_target:broke_london_treaty modifier = JAP_broke_the_london_naval_treaty } }
+		ENG = { add_opinion_modifier = { target = event_target:broke_london_treaty modifier = JAP_broke_the_london_naval_treaty } }
+		else = {
+		country_event = { id = japan.3777 days = 2 }
+		}
+		}
 	}
 	option = { 
 		name = japan.37.b	
@@ -1358,12 +1369,15 @@ news_event = {
 		remove_ideas = london_naval_treaty
 		add_stability = -0.03
 		effect_tooltip = {
-		remove_ideas = london_naval_treaty
 		event_target:broke_london_treaty = {
 		FRA = { add_opinion_modifier = { target = event_target:broke_london_treaty modifier = JAP_broke_the_london_naval_treaty } }
 			USA = { add_opinion_modifier = { target = event_target:broke_london_treaty modifier = JAP_broke_the_london_naval_treaty } }
 			ENG = { add_opinion_modifier = { target = event_target:broke_london_treaty modifier = JAP_broke_the_london_naval_treaty } }
 		}
+		}
+		
+		if = { limit = { NOT = { has_government = democratic } }
+		country_event = { id = japan.3777 days = 2 }
 		}
 	}
 	option = { 
@@ -1382,7 +1396,48 @@ news_event = {
 		}
 		}
 	}
+	
+	
 }
+
+#
+country_event = {
+	id = japan.377
+	title = japan.377.t
+	desc = japan.377.d
+	picture = GFX_report_event_japan_navy
+	
+	is_triggered_only = yes
+	immediate = {
+		set_global_flag = london_treaty_broken_final
+	}
+	hidden = yes
+	option = { 
+		name = japan.37.e
+	}
+}
+
+country_event = {
+	id = japan.3777
+	title = japan.3777.t
+	desc = japan.3777.d
+	picture = GFX_report_event_japan_navy
+	
+	is_triggered_only = yes
+	immediate = {
+		set_global_flag = london_treaty_broken_final
+		if = { limit = { NOT = { has_government = democratic } }
+	        FRA = { add_opinion_modifier = { target = ROOT modifier = JAP_broke_the_london_naval_treaty } }
+			USA = { add_opinion_modifier = { target = ROOT modifier = JAP_broke_the_london_naval_treaty } }
+			ENG = { add_opinion_modifier = { target = ROOT modifier = JAP_broke_the_london_naval_treaty } }
+	}
+	}
+	hidden = yes
+	option = { 
+		name = japan.3777.e
+	}
+}
+
 #treaty is void allies used escalator clause
 news_event = {
 	id = japan.38
@@ -1394,6 +1449,7 @@ news_event = {
 	major = yes
 	
 	immediate = {
+	
 	set_global_flag = london_treaty_broken_final
 	}
 
