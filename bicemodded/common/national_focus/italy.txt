@@ -429,38 +429,91 @@ focus_tree = {
 			}
 		}
 	}
+	
+	focus = {
+		id = ITA_battleship_focus
+		icon = GFX_focus_generic_navy_battleship2
+		mutually_exclusive = { focus = ITA_portaerei }
+
+		prerequisite = {  focus = ITA_Escape_the_cage }
+		x = 4
+		y = 5
+		cost = 6.5
+		ai_will_do = {
+			factor = 1
+		}	
+		completion_reward = {
+			add_tech_bonus = {
+				name = bb_bonus
+				bonus = 0.35
+				uses = 1
+				category = bb_tech
+			}
+			add_tech_bonus = {
+				name = bb_bonus
+				bonus = 0.35
+				uses = 1
+				category = bc_tech
+			}
+		}
+	}
+	
+	focus = {
+		id = ITA_cruiser_effort
+		icon = GFX_goal_generic_cruiser2
+		prerequisite = { focus = ITA_battleship_focus focus = ITA_portaerei  }
+
+		x = 5
+		y = 6
+		cost = 5
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			navy_experience = 40
+			add_tech_bonus = {
+				name = ships_bonus
+				bonus = 0.3
+				uses = 2
+				category = cl_tech
+				category = ca_tech
+			}
+		}
+	}
 
 	focus = {
 		id = ITA_portaerei
 		icon = GFX_goal_generic_navy_carrier
-		prerequisite = { focus = ITA_Mare_Nostrum }
+		prerequisite = { focus = ITA_Escape_the_cage }
 		prerequisite = { focus = ITA_Navy_Airforce_Coordination }
-		x = 4
-		y = 4
+		x = 6
+		y = 5
 
 		cost = 8
 
 		ai_will_do = {
-
 			factor = 7
-
 		}
 
 		available_if_capitulated = yes
 
 
-
 		completion_reward = {
-
 			add_tech_bonus = {
-
 				name = carriers_bonus
-
 				bonus = 0.3
-
 				uses = 1
-
 				category = cv_tech
+			}
+			add_tech_bonus = {
+				name = carriers_bonus
+				bonus = 0.3
+				uses = 1
+				category = cvl_tech
 			}
 		}
 	}
@@ -1031,8 +1084,8 @@ focus_tree = {
 		icon = GFX_goal_generic_air_naval_bomber
 		prerequisite = { focus = ITA_portaerei }
 		prerequisite = { focus = ITA_maiali }
-		x = 4
-		y = 5
+		x = 7
+		y = 6
 
 		cost = 6
 
@@ -1064,13 +1117,13 @@ focus_tree = {
 		}
 
 	}
-
+	
 	focus = {
 		id = ITA_heavy_fighters
 		icon = GFX_goal_generic_air_fighter
 		prerequisite = { focus = ITA_Mare_Nostrum }
 		prerequisite = { focus = ITA_Navy_Airforce_Coordination }
-		x = 6
+		x = 7
 		y = 4
 
 		cost = 8
@@ -1107,7 +1160,7 @@ focus_tree = {
 		icon = GFX_Bombs_Away
 		prerequisite = { focus = ITA_Mare_Nostrum }
 		prerequisite = { focus = ITA_Navy_Airforce_Coordination }
-		x = 8
+		x = 9
 		y = 4
 
 		cost = 7
@@ -3232,7 +3285,7 @@ focus_tree = {
 	}
 	focus = {
 		id = ITA_bonifica
-		icon = GFX_focus_generic_the_giant_wakes
+		icon = GFX_goal_stampoutcorruption
 		x = 41
 		y = 0
 		cost = 13
@@ -5953,6 +6006,7 @@ focus_tree = {
 			NOT = { country_exists = YUG }
 			102 = {  is_controlled_by_ROOT_or_ally = yes }
 			is_in_faction_with = YUG
+			has_war_with = YUG
 			}
 		}
 
@@ -6062,10 +6116,44 @@ focus_tree = {
 	}	
 
 	focus = {
-		id = ITA_go_after_france
+		id = ITA_demand_savoy
 		icon = GFX_attack_FRA
 		prerequisite = { focus = ITA_romania_friend }
 		prerequisite = { focus = ITA_faccetta_nera }
+		available = {
+			country_exists = FRA
+			FRA = {
+					owns_state = 735
+				}
+			
+		}
+		bypass = {
+                        OR = {
+			NOT = { country_exists = FRA }
+                        735 = {  is_controlled_by_ROOT_or_ally = yes }
+			has_war_with = FRA
+			is_in_faction_with = FRA
+			}
+		
+
+		}
+		will_lead_to_war_with = FRA
+		x = 28
+		y = 7
+		cost = 4
+		ai_will_do = {
+			factor = 10
+		}			
+		completion_reward = {
+		    735 = { add_claim_by = ITA }
+			FRA = { country_event = italy.18 }
+		}
+	}
+	
+	focus = {
+		id = ITA_go_after_france
+		icon = GFX_attack_FRA
+		prerequisite = { focus = ITA_demand_savoy }
 		available = {
 			country_exists = FRA
 			FRA = {
@@ -6079,35 +6167,22 @@ focus_tree = {
 		bypass = {
                         OR = {
 			NOT = { country_exists = FRA }
-                        735 = {  is_controlled_by_ROOT_or_ally = yes }
 			has_war_with = FRA
+			is_in_faction_with = FRA
 			}
 		
 
 		}
 		will_lead_to_war_with = FRA
 		x = 28
-		y = 7
+		y = 8
 		cost = 4
 		ai_will_do = {
 			factor = 10
-
-			modifier = {
-				factor = 1.5
-				ai_irrationality > 25
-			}
-
-			modifier = {
-				factor = 1.5
-				ai_irrationality > 30
-			}
-
-			modifier = {
-				factor = 2
-				ai_irrationality > 35
-			}
 		}			
 		completion_reward = {
+		    1 = { add_claim_by = ITA }
+			458 = { add_claim_by = ITA }
 			create_wargoal = {
 				target = FRA
 				type = take_state_focus
@@ -6148,7 +6223,7 @@ focus_tree = {
 
 		will_lead_to_war_with = USA
 		x = 28
-		y = 8
+		y = 9
 
 		cost = 3
 

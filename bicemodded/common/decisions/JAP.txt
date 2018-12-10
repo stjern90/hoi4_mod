@@ -228,12 +228,12 @@ JAP_intervene_in_china = {
 		cost = 25
 
 		complete_effect = {
-			add_named_threat = { threat = 0.5 name = JAP_china_step_up_war_effort }
+			add_named_threat = { threat = 0.75 name = JAP_china_step_up_war_effort }
 			USA = { add_war_support = 0.025 }
-			if = { limit = { has_idea = JAP_intervene_in_china_4 NOT = { has_idea = london_naval_treaty } NOT = { has_country_flag = walkout } threat < 0.75 }
+			if = { limit = { has_idea = JAP_intervene_in_china_4 NOT = { has_idea = london_naval_treaty } NOT = { has_country_flag = walkout } }
 			    news_event = { id = japan.28 days = 5 }
 				
-			else {  if = { limit = { NOT = { has_country_flag = walkout }  has_idea = JAP_intervene_in_chins_3  threat < 0.75 } 
+			else {  if = { limit = { NOT = { has_country_flag = walkout }  has_idea = JAP_intervene_in_china_3 } 
 			    custom_effect_tooltip = JAP_walkout_tooltip
 			    news_event = { id = japan.28 days = 5 }
 				}
@@ -1328,6 +1328,7 @@ JAP_southern_expansion = {
 
 		available = {
 			16 = { NOT = { is_controlled_by = FRA } }
+			594 = {  is_controlled_by_ROOT_or_ally = yes }
 			custom_trigger_tooltip = {
 				tooltip = demand_indochina_focus_tt
 				NOT = { has_war_with = FRA }
@@ -1353,14 +1354,9 @@ JAP_southern_expansion = {
 		cost = 50
 
 		ai_will_do = {
-			factor = 5
-			modifier = {
-				factor = 0
-				FRA = { has_war = no }
-			}			
+			factor = 5		
 			modifier = {
 				factor = 300
-				FRA = { has_war = yes } 
 				OR = {
 					16 = { NOT = { is_controlled_by = FRA } } #Paris
 					strength_ratio = {
@@ -1997,6 +1993,521 @@ operations = {
 				finalize_border_war = {
 					attacker = 527
 					defender = 408
+					defender_win = yes
+				}
+			}
+		}
+	}
+	
+	JAP_border_conflict_SHX_start = {
+		icon = border_war
+		allowed = {
+			original_tag = JAP
+		}
+
+		available = {
+			has_completed_focus = JAP_build_up_the_manchurian_army
+
+			NOT = {
+				has_war_with = SHX
+				is_in_faction_with = SHX
+			}
+			611 = {
+				any_neighbor_state = {
+					is_controlled_by = SHX
+				}
+				is_controlled_by_ROOT_or_ally = yes
+			}
+		}
+
+		visible = {
+			NOT = {
+				has_full_control_of_state = 621
+			}
+			NOT = {
+				has_war_with = SHX
+				is_in_faction_with = SHX
+			}
+			621 = {
+				is_controlled_by = SHX
+			}
+		}
+
+		highlight_states = {
+			state = 621
+		}
+		
+		fire_only_once = yes
+		
+		ai_will_do = {
+			factor = 1
+			
+		}
+		
+		cost = 50
+		days_remove = 30
+		war_with_on_remove = SHX
+		
+		complete_effect = {
+			611 = {
+				save_event_target_as = JAP_SHX_attacker_state
+				set_state_flag = border_incident_active
+			}
+			621 = {
+				save_event_target_as = JAP_SHX_defender_state
+				set_state_flag = border_incident_active
+			}
+			SHX = {
+				country_event = { id = japan_border_conflict.1 days = 1 }
+				activate_targeted_decision = { target = JAP decision = JAP_border_conflict_warning_SHX }
+			}
+		}
+		
+		remove_effect = {
+			activate_targeted_decision = { target = SHX decision = JAP_border_incident_forgotten_SHX }
+			activate_targeted_decision = { target = SHX decision = JAP_escalate_incident_to_border_conflict_SHX }
+		}
+	}
+
+	#Mission for defender warning that a conflict with FROM is coming
+	JAP_border_conflict_warning_SHX = {
+
+		icon = border_war
+
+		allowed = { always = no } #Activated from effect
+
+		available = {
+			hidden_trigger = { always = no }
+		}
+
+		war_with_target_on_timeout = yes
+		ai_will_do = {
+			base = 0
+			modifier = {
+				
+			}
+		}
+
+		days_mission_timeout = 30
+
+		fire_only_once = yes
+
+		is_good = no
+		
+		timeout_effect = {
+			custom_effect_tooltip = escalation_possible_tooltip_for_defender
+			custom_effect_tooltip = effects_if_border_conflict_is_lost
+			effect_tooltip = {
+				JAP = {
+					army_experience = 10
+		add_tech_bonus = {
+			name = japan.45.t #test_the_ussr_focus
+			bonus = 0.3
+			uses = 1
+			category = infantry_tech
+		}
+					
+				}
+			}
+			hidden_effect = {
+				remove_targeted_decision = { target = JAP decision = JAP_border_conflict_warning_SHX }
+				activate_targeted_decision = { target = JAP decision = JAP_border_conflict_escalation_warning_SHX }
+			}
+		}
+	}
+
+	#Mission for defender warning FROM can escalate to war at any point is coming
+	JAP_border_conflict_escalation_warning_SHX = {
+
+		icon = border_war
+
+		allowed = { always = no } #Activated from effect
+
+		available = {
+			#var:ROOT.defender_state_vs_@FROM = {
+			#	has_ROOT_at_least_1_div_in_current_state_scope = yes
+			#}
+			hidden_trigger = { always = no }
+		}
+
+		highlight_states = {
+		}
+
+		war_with_target_on_timeout = yes
+		ai_will_do = {
+			base = 0
+			modifier = {
+				
+			}
+		}
+
+		days_mission_timeout = 30
+
+		fire_only_once = yes
+
+		is_good = no
+
+		timeout_effect = {
+			custom_effect_tooltip = from_cannot_escalate
+			custom_effect_tooltip = effects_if_border_conflict_is_lost
+		}		
+	}
+	#Mission for attacker to escalate or incident is forgotten
+	JAP_border_incident_forgotten_SHX = {
+
+		icon = border_war
+
+		allowed = { always = no } #Activated from effect
+
+		available = {
+			#var:ROOT.defender_state_vs_@FROM = {
+			#	has_ROOT_at_least_1_div_in_current_state_scope = yes
+			#}
+			hidden_trigger = { always = no }
+		}
+
+		highlight_states = {
+			OR = {
+				state = 611
+				state = 621
+			}
+		}
+
+		ai_will_do = {
+			base = 0
+			modifier = {
+				
+			}
+		}
+
+		days_mission_timeout = 30
+
+		fire_only_once = yes
+
+		is_good = no
+		
+		timeout_effect = {
+			remove_targeted_decision = { target = SHX decision = JAP_escalate_incident_to_border_conflict_SHX }
+			add_political_power = -75
+			add_war_support = -0.05
+			hidden_effect = {
+				SHX = { remove_targeted_decision = { target = JAP decision = JAP_border_conflict_escalation_warning_SHX } }
+				SHX = {
+					611 = {
+						clr_state_flag = border_incident_active
+					}
+					621 = {
+						clr_state_flag = border_incident_active
+					}
+				}
+			}
+		}
+	}
+
+	#Decision to escalate incident on border with SHX to border conflict
+	JAP_escalate_incident_to_border_conflict_SHX = {
+
+		icon = border_war
+
+		allowed = { always = no } #Activated from effect
+
+		available = {
+			611 = {
+				OR = {
+					is_fully_controlled_by = ROOT
+					CONTROLLER = {
+						is_subject_of = ROOT
+					}
+					CONTROLLER = {
+						is_in_faction_with = ROOT
+					}
+				}
+			}
+			divisions_in_border_state = {
+				state = 611
+				border_state = 621
+				size > 0
+			}
+		}
+
+		highlight_states = {
+			OR = {
+				state = 611
+				state = 621			
+			}
+		}
+
+		ai_will_do = {
+			base = 10
+			modifier = { 
+				has_war = no
+				factor = 10
+			}
+		}
+
+		fire_only_once = yes #Reactivation handled in effect
+
+		complete_effect = {
+			remove_targeted_decision = { target = SHX decision = JAP_border_incident_forgotten_SHX }
+			start_border_war = {
+				change_state_after_war = no
+				attacker = {
+					state = 611
+					num_provinces = 4
+					on_win = japan_border_conflict.7
+					on_lose = japan_border_conflict.6
+					on_cancel = japan_border_conflict.6
+				}
+				
+				defender = {
+					state = 621
+					num_provinces = 4
+					on_win = japan_border_conflict.6
+					on_lose = japan_border_conflict.7
+					on_cancel = japan_border_conflict.6
+				}
+			}
+			SHX = {
+				activate_targeted_decision = { target = JAP decision = JAP_border_conflict_escalate_conflict_SHX }
+				activate_targeted_decision = { target = JAP decision = JAP_border_conflict_time_until_cancelled_SHX }
+			}
+			activate_targeted_decision = { target = SHX decision = JAP_border_conflict_escalate_conflict_SHX }
+			activate_targeted_decision = { target = SHX decision = JAP_border_conflict_time_until_cancelled_SHX }
+		}
+	}
+	
+	#Mission for attacker to win border war against FROM in X days
+	JAP_border_conflict_time_until_cancelled_SHX = {
+
+		icon = border_war
+
+		allowed = { always = no } #Activated from effect
+
+		available = {
+			611 = { has_border_war = no }
+			621 = { has_border_war = no }
+		}
+		
+		highlight_states = {
+			OR = {
+				state = 611
+				state = 621
+			}
+		}
+
+		ai_will_do = {
+			base = 0
+			modifier = {
+				
+			}
+		}
+
+		days_mission_timeout = 90
+		is_good = no
+
+		fire_only_once = yes #Reactivation handled in effect
+
+		complete_effect = {
+			
+		}
+
+		timeout_effect = {
+			cancel_border_war = {
+				defender = 611
+				attacker = 621
+			}
+			hidden_effect = {
+				remove_targeted_decision = { target = SHX decision = JAP_border_conflict_escalate_conflict_SHX }
+				remove_targeted_decision = { target = JAP decision = JAP_border_conflict_escalate_conflict_SHX }
+			}
+		}
+	}
+
+	#Decision to escalate conflict further
+	JAP_border_conflict_escalate_conflict_SHX = {
+
+		icon = decision_generic_ignite_civil_war
+
+		allowed = { always = no } #Activated from effect
+
+		visible = {
+			has_border_war_with = FROM
+		}
+
+		highlight_states = {
+			OR = {
+				state = 611
+				state = 621
+			}
+		}
+
+		cost = 200
+
+		ai_will_do = {
+			base = 0
+			modifier = {
+				
+			}
+		}
+
+		fire_only_once = yes #Reactivation handled in effect
+
+		complete_effect = {
+			if = {
+				limit = { is_border_conflict_defender_vs_FROM = yes }
+				set_border_war_data = {
+					attacker = 611
+					defender = 621
+					defender_modifier = 0.15
+					combat_width = 100
+				}
+			}
+			else = {
+				set_border_war_data = {
+					attacker = 611
+					defender = 621
+					attacker_modifier = 0.15
+					combat_width = 100
+				}
+			}
+			SHX = {
+				set_country_flag = {
+					flag = WTT_border_conflict_escalate_to_war_cooldown_@ROOT
+					days = 60
+					value = 1
+				}
+				remove_targeted_decision = { target = JAP decision = JAP_border_conflict_escalate_conflict_SHX }
+			}
+			set_country_flag = {
+				flag = WTT_border_conflict_escalate_to_war_cooldown_@SHX
+				days = 60
+				value = 1
+			}
+			custom_effect_tooltip = in_60_days
+			activate_targeted_decision = { target = SHX decision = JAP_border_conflict_escalate_to_war_SHX }
+		}
+	}
+
+	#Decision to escalate conflict further
+	JAP_border_conflict_escalate_to_war_SHX = {
+
+		icon = decision_generic_ignite_civil_war
+
+		allowed = { always = no } #Activated from effect
+
+		visible = {
+			NOT = { has_country_flag = WTT_border_conflict_escalate_to_war_cooldown_@FROM }
+			has_border_war_with = FROM
+		}
+
+		highlight_states = {
+			OR = {
+				state = 611
+				state = 621
+			}
+		}
+
+		cost = 150
+
+		ai_will_do = {
+			base = 0
+			modifier = {
+				
+			}
+		}
+
+		days_remove = 15
+
+		fire_only_once = yes #Reactivation handled in effect
+
+		war_with_target_on_remove = yes
+
+		complete_effect = {
+			if = {
+				limit = { is_border_conflict_defender_vs_FROM = yes }
+				611 = { save_event_target_as = their_state }
+				621 = { save_event_target_as = our_state }
+			}
+			else = {
+				611 = { save_event_target_as = our_state }
+				621 = { save_event_target_as = their_state }
+			}
+			SHX = {
+				country_event = { id = japan_border_conflict.5 }
+				hidden_effect = {
+					remove_targeted_decision = { target = JAP decision = JAP_border_conflict_escalate_to_war_SHX }
+				}
+		 	}
+		}
+
+		remove_effect = {
+			cancel_border_war = {
+				dont_fire_events = yes
+				defender = 621
+				attacker = 611
+			}
+			declare_war_on = { target = FROM type = annex_everything }
+			if = {
+				limit = { is_border_conflict_defender_vs_FROM = yes }
+				611 = {
+					clr_state_flag = border_incident_active
+				}
+				621 = {
+					clr_state_flag = border_incident_active
+				}
+				
+			}
+			else = {
+				FROM = {
+					611 = {
+						clr_state_flag = border_incident_active
+					}
+					621 = {
+						clr_state_flag = border_incident_active
+					}
+				}
+			}
+		}
+	}
+
+	#Decision to back down from conflict
+	JAP_border_conflict_back_out_of_conflict_SHX = {
+
+		allowed = { always = no } #Activated from effect
+
+		visible = {
+			has_border_war_with = FROM
+		}
+
+		highlight_states = {
+			OR = {
+				state = 611
+				state = 621
+			}
+		}
+
+		ai_will_do = {
+			base = 0
+			modifier = {
+				
+			}
+		}
+
+		fire_only_once = yes #Reactivation handled in effect
+
+		complete_effect = {
+			if = {
+				limit = { is_border_conflict_defender_vs_FROM = yes }
+				finalize_border_war = {
+					attacker_win = yes
+					attacker = 611
+					defender = 621
+				}
+			}
+			else = {
+				finalize_border_war = {
+					attacker = 611
+					defender = 621
 					defender_win = yes
 				}
 			}
