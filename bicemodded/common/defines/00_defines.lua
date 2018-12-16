@@ -318,7 +318,7 @@ NTechnology = {
 	MAX_SUBTECHS = 3,					    -- Max number of sub technologies a technology can have.
 	BASE_RESEARCH_POINTS_SAVED = 50.0,		-- Base amount of research points a country can save per slot.
 	BASE_YEAR_AHEAD_PENALTY_FACTOR = 2.5,		-- 3 Base year ahead penalty
-	BASE_TECH_COST = 100,					-- base cost for a tech. multiplied with tech cost and ahead of time penalties
+	BASE_TECH_COST = 98,					-- base cost for a tech. multiplied with tech cost and ahead of time penalties
 	MAX_TECH_SHARING_BONUS = 0.5, 			-- Max technology sharing bonus that can be applied instantly
 	LICENSE_PRODUCTION_TECH_BONUS = 0.2,	-- License production tech bonus
 },
@@ -1039,7 +1039,7 @@ NAI = {
 	RESEARCH_AHEAD_BONUS_FACTOR = 2.0,          -- To which extent AI should care about ahead of time bonuses to research
 	RESEARCH_BONUS_FACTOR = 2.0, 				-- To which extent AI should care about bonuses to research
 	MAX_AHEAD_RESEARCH_PENALTY = 2,
-	RESEARCH_AHEAD_OF_TIME_FACTOR = 3.5, 		-- To which extent AI should care about ahead of time penalties to research
+	RESEARCH_AHEAD_OF_TIME_FACTOR = 4, 		-- To which extent AI should care about ahead of time penalties to research
 	RESEARCH_BASE_DAYS = 85,					-- AI adds a base number of days when weighting completion time for techs to ensure it doesn't only research quick techs
 	DECLARE_WAR_RELATIVE_FORCE_FACTOR = 0.5,	-- Weight of relative force between nations that consider going to war
 	TRADEABLE_FACTORIES_FRACTION = 1,			-- Will at most trade away this fraction of factories.
