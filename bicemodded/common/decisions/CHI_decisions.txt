@@ -6,7 +6,265 @@
 
 #Category allowed for all potential nationalist china
 #Category visible when CHI_army_reform focus is completed
+CHI_army_reform = {
 
+	CHI_army_reform = {
+
+		icon = generic_prepare_civil_war
+
+		available = {
+			has_army_experience > 99
+			has_completed_focus = CHI_army_reform
+		}
+
+		cost = 0
+		ai_will_do = {
+			factor = 500
+		}
+		days_remove = 90
+
+		visible = {
+			OR = {
+				has_idea = CHI_army_corruption_1
+				has_idea = CHI_army_corruption_2
+				has_idea = CHI_army_corruption_3
+			}
+		}
+		remove_effect = {
+			if = {
+				limit = { has_idea = CHI_army_corruption_1 }
+				swap_ideas = {
+					remove_idea = CHI_army_corruption_1
+					add_idea = CHI_army_corruption_2
+				}
+			}
+			else_if = {
+				limit = { has_idea = CHI_army_corruption_2 }
+				swap_ideas = {
+					remove_idea = CHI_army_corruption_2
+					add_idea = CHI_army_corruption_3
+				}
+			}
+			else_if = {
+				limit = { has_idea = CHI_army_corruption_3 }
+				remove_ideas = CHI_army_corruption_3
+			}
+		}
+		complete_effect = {
+			army_experience = -100
+			custom_effect_tooltip = 90_days_tt
+						
+		}		
+	}
+
+	CHI_lessons_of_war = {
+		icon = generic_army_support
+		available = {
+			has_army_experience > 199
+			has_idea = CHI_incompetent_officers
+			if = {
+				limit = { has_idea = CHI_army_corruption_1 }
+				NOT = { has_idea = CHI_army_corruption_1 }
+			}
+
+			if = {
+				limit = { has_idea = CHI_army_corruption_2 }
+				NOT = { has_idea = CHI_army_corruption_2 }
+			}
+
+			if = {
+				limit = { has_idea = CHI_army_corruption_3 }
+				NOT = { has_idea = CHI_army_corruption_3 }
+			}
+
+			if = {
+				limit = {
+					NOT = { has_idea = CHI_army_corruption_1 }
+					NOT = { has_idea = CHI_army_corruption_2 }
+					NOT = { has_idea = CHI_army_corruption_3 }
+				}
+				NOT = { has_idea = CHI_army_corruption_3 }
+			}
+		}
+
+		cost = 0
+		ai_will_do = {
+			factor = 10
+		}
+		fire_only_once = yes
+
+		visible = {
+			has_idea = CHI_incompetent_officers
+			has_completed_focus = CHI_army_reform
+		}
+
+		complete_effect = {
+			army_experience = -200
+			remove_ideas = CHI_incompetent_officers
+			set_country_flag = CHI_lessons_of_war_completed
+		}		
+	}
+
+	#Activates when the player picks CHI_60_divisions_plan decision
+	CHI_bolster_our_ranks = {
+
+		icon = generic_prepare_civil_war
+
+		available = {
+			num_divisions > 60
+			has_army_manpower = { size > 549999 }
+		}
+
+		fire_only_once = yes
+		
+		days_mission_timeout = 180
+
+		is_good = no
+
+		activation = {
+			always = no #Triggered from effect in CHI_60_divisions_plan
+		}
+
+		complete_effect = {
+			add_war_support = 0.1
+		}
+
+		timeout_effect = {
+
+		}
+	}
+
+	CHI_60_divisions_plan = {
+
+		icon = generic_operation
+
+		available = {
+			
+		}
+
+		cost = 90
+		ai_will_do = {
+			factor = 1
+		}
+		fire_only_once = yes
+
+		visible = {
+			has_completed_focus = CHI_60_divisions_plan
+		}
+
+		days_remove = 180
+
+		modifier = {
+			training_time_army_factor = -0.25
+		}
+
+		complete_effect = {
+			activate_mission = CHI_bolster_our_ranks
+		}		
+	}
+
+}
+
+
+economy_decisions = {
+	CHI_forced_loans = {
+
+		icon = ger_mefo_bills
+
+		available = {
+			has_hyper_inflation = yes
+		}
+
+		cost = 100
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				OR = {
+					has_idea = CHI_hyper_inflation_none
+					has_idea = CHI_hyper_inflation_1
+				}
+				factor = 0
+			}
+			modifier = {
+				has_idea = CHI_hyper_inflation_3
+				factor = 2
+			}
+			modifier = {
+				has_idea = CHI_hyper_inflation_4
+				factor = 5
+			}
+			modifier = {
+				has_idea = CHI_hyper_inflation_5
+				factor = 10
+			}
+		}
+
+		visible = {
+			has_completed_focus = CHI_forced_loans
+		}
+
+		days_re_enable = 90
+
+		complete_effect = {
+			CHI_hyper_inflation_level_down = yes
+			add_stability = -0.03
+			add_war_support = -0.03
+		}		
+	}
+}
+
+war_measures = {
+
+	CHI_scorched_earth_tactics = {
+		icon = generic_scorched_earth
+		available = {
+			any_owned_state = {
+				is_controlled_by = ROOT
+				infrastructure > 0
+				any_neighbor_state = {
+					NOT = { is_fully_controlled_by = ROOT }
+					controller = { has_war_with = CHI }
+				}
+			}
+		}
+
+		cost = 25
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		visible = {			
+			has_completed_focus = CHI_scorched_earth_tactics
+		}
+
+		days_re_enable = 30
+
+		complete_effect = {
+			every_owned_state = {
+				limit = {
+					is_controlled_by = ROOT
+					infrastructure > 0
+					any_neighbor_state = {
+						NOT = { is_fully_controlled_by = ROOT }
+						controller = { has_war_with = CHI }
+					}
+				}
+				damage_building = {
+					type = infrastructure
+					damage = 3
+				}
+			}
+			random_country = {
+				limit = {
+					PRC_has_low_popular_support = yes
+				}
+
+				PRC_low_popular_support_level_down = yes
+			}			
+		}
+	}
+}
 
 
 ### #  # ###  #  #  ### ### ###  #   #    #### #   #  ##   ##  #  #  ##  ### ###  ##  #  #
