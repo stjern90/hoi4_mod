@@ -417,7 +417,7 @@ NMilitary = {
 	
 	LAND_COMBAT_ORG_DICE_SIZE = 4,                 -- nr of damage dice
 	LAND_COMBAT_STR_DICE_SIZE = 4,                 -- nr of damage dice
-	LAND_COMBAT_STR_DAMAGE_MODIFIER = 0.031,        -- global damage modifier... but some equipment is returned at end of battles see : EQUIPMENT_COMBAT_LOSS_FACTOR
+	LAND_COMBAT_STR_DAMAGE_MODIFIER = 0.033,        -- global damage modifier... but some equipment is returned at end of battles see : EQUIPMENT_COMBAT_LOSS_FACTOR
 	LAND_COMBAT_ORG_DAMAGE_MODIFIER = 0.062,        -- global damage modifier
 	LAND_AIR_COMBAT_STR_DAMAGE_MODIFIER = 0.03,    -- air global damage modifier
 	LAND_AIR_COMBAT_ORG_DAMAGE_MODIFIER = 0.03,    -- global damage modifier
@@ -506,8 +506,8 @@ NMilitary = {
 	IS_AMPHIBIOUS_LIMNIT = 0.15,					   -- If the amphibious movement is _above_ this limit it is considered amphibious
 	EXILE_EQUIPMENT = 1.0,						   -- Amount of equipment to keep
 	EXILE_ORG = 0.2,							   -- Amount of org to keep
-	EXPERIENCE_LOSS_FACTOR = 0.9,                 -- percentage of experienced solders who die when manpower is removed	Was 1.0 *** 
-	EQUIPMENT_COMBAT_LOSS_FACTOR = 0.38,	 	       -- was 0.6--% of equipment lost to strength ratio in combat, so some % is returned if below 1
+	EXPERIENCE_LOSS_FACTOR = 0.91,                 -- percentage of experienced solders who die when manpower is removed	Was 1.0 *** 
+	EQUIPMENT_COMBAT_LOSS_FACTOR = 0.36,	 	       -- was 0.6--% of equipment lost to strength ratio in combat, so some % is returned if below 1
 	SUPPLY_USE_FACTOR_MOVING = 1.6,                -- supply use when moving/fighting vs inactive
 	SUPPLY_USE_FACTOR_INACTIVE = 0.9,
 	SUPPLY_GRACE = 80,		-- troops always carry 3 days of food and supply
@@ -1080,7 +1080,7 @@ NAI = {
 	UPGRADE_XP_RUSH_UPDATE = 200,				-- If XP is above this on the daily tick the AI will attempt to spend it
 	FOCUS_TREE_CONTINUE_FACTOR = 1.5,			-- Factor for score of how likely the AI is to keep going down a focus tree rather than starting a new path.
 	VP_GARRISON_VALUE_FACTOR = 0.75,				-- Extent to which VP garrisons are prioritized, based on VP value and compared to other priority values.
-	PLAN_VALUE_TO_EXECUTE = 0.07,				-- AI will typically avoid carrying out a plan it below this value (0.0 is considered balanced).
+	PLAN_VALUE_TO_EXECUTE = 0.1,				-- AI will typically avoid carrying out a plan it below this value (0.0 is considered balanced).
 	DECLARE_WAR_NOT_NEIGHBOR_FACTOR = 0.25,		-- Multiplier applied before force factor if country is not neighbor with the one it is considering going to war
 	CALL_ALLY_BASE_DESIRE = 20,					-- exactly what it says
 	CALL_ALLY_DEMOCRATIC_DESIRE = 50,			-- Desire to call ally added for democratic AI
@@ -1228,7 +1228,7 @@ NAI = {
 	AIR_BASE_DANGER_ZONE_WEIGHT = 100,					-- Score used per province taken by enemy in a state to determine how dangerous it is to use an air base
 	
 	FORTIFIED_RATIO_TO_CONSIDER_A_FRONT_FORTIFIED = 0.5, -- ai will consider a front fortified if this ratio of provinces has fort
-	HEAVILY_FORTIFIED_RATIO_TO_CONSIDER_A_FRONT_FORTIFIED = 0.5, -- ai will consider a front super fortified if this ratio of provinces has lots of forts
+	HEAVILY_FORTIFIED_RATIO_TO_CONSIDER_A_FRONT_FORTIFIED = 0.7, -- ai will consider a front super fortified if this ratio of provinces has lots of forts
 	
 	DESPERATE_AI_MIN_UNIT_ASSIGN_TO_ESCAPE = 0,			-- AI will assign at least this amount of units to break from desperate situations
 	
@@ -1435,7 +1435,7 @@ NAI = {
 	LAND_DEFENSE_INFRA_IMPORTANCE_FACTOR = 0.5,			-- Factor of infrastructure influence on strategic importance ( 0.0 - 1.0 )
 	LAND_DEFENSE_IMPORTANCE_SCALE = 1.5,				-- Lend defence total importance scale (every land defence score get's multiplied by it)
 	
-	NUM_HOURS_SINCE_LAST_COMBAT_TO_SUPPORT_UNITS_VIA_AIR = 72,			-- units will be considered in combat if they are just out of their last combat for air supporting
+	NUM_HOURS_SINCE_LAST_COMBAT_TO_SUPPORT_UNITS_VIA_AIR = 96,			-- units will be considered in combat if they are just out of their last combat for air supporting
 	
 	LAND_DEFENSE_MIN_FACTORIES_FOR_AIR_IMPORTANCE = 6,	-- If amount of factories is less importance of factories won't apply
 	
