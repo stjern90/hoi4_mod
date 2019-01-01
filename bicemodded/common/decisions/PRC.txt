@@ -1,0 +1,378 @@
+PRC_border_clashes = {
+#first border incident
+	CCP_test_the_CHI = {
+		icon = border_war
+		allowed = {
+			original_tag = CCP
+		}
+
+		available = {
+			#OR = {   # add these focuses?	
+			#	has_completed_focus = CCP_purge_the_kodoha_faction
+			#	has_completed_focus = CCP_support_the_kodoha_faction
+			#}
+			NOT = {
+				has_war_with = CHI
+				is_in_faction_with = CHI
+			}
+			601 = {
+				any_neighbor_state = {
+					is_controlled_by = CHI
+				}
+			}
+		}
+
+		visible = {
+			NOT = {
+				has_global_flag = CCP_kalkin_gol
+			}
+		}
+
+		highlight_states = {
+			OR = {
+				state = 604
+				state = 601
+			}
+		}
+		fire_only_once = yes
+		ai_will_do = {
+			factor = 0
+		}
+		cost = 50
+		days_remove = 30
+		war_with_on_remove = CHI
+		complete_effect = {
+			604 = {
+				save_event_target_as = CCP_CHI_attacker_state
+				set_state_flag = border_incident_active
+			}
+			601 = {
+				save_event_target_as = CCP_CHI_defender_state
+				set_state_flag = border_incident_active
+			}
+			CHI = {
+				country_event = { id = japan_border_conflict.1 days = 1 }
+				activate_targeted_decision = { target = CCP decision = CCP_border_conflict_warning_CHI }
+			}
+		}
+		remove_effect = {
+			activate_targeted_decision = { target = CHI decision = CCP_border_incident_forgotten }
+			activate_targeted_decision = { target = CHI decision = CCP_escalate_incident_to_border_conflict_CHI }
+		}
+	}
+
+	#Mission for defender warning that a conflict with FROM is coming
+	CCP_border_conflict_warning_CHI = {
+
+		icon = border_war
+
+		allowed = { always = no } #Activated from effect
+
+		available = {
+			hidden_trigger = { always = no }
+		}
+
+		war_with_target_on_timeout = yes
+		ai_will_do = {
+			base = 0
+			modifier = {
+				
+			}
+		}
+
+		days_mission_timeout = 30
+
+		fire_only_once = yes
+
+		is_good = no
+		
+		timeout_effect = {
+			custom_effect_tooltip = escalation_possible_tooltip_for_defender
+			custom_effect_tooltip = effects_if_border_conflict_is_lost
+			effect_tooltip = {
+				CCP = {
+					# effect
+				}
+			}
+			hidden_effect = {
+				remove_targeted_decision = { target = CCP decision = CCP_border_conflict_warning_CHI }
+				activate_targeted_decision = { target = CCP decision = CCP_border_conflict_escalation_warning_CHI }
+			}
+		}
+	}
+
+	#Mission for defender warning FROM can escalate to war at any point is coming
+	CCP_border_conflict_escalation_warning_CHI = {
+
+		icon = border_war
+
+		allowed = { always = no } #Activated from effect
+
+		available = {
+			#var:ROOT.defender_state_vs_@FROM = {
+			#	has_ROOT_at_least_1_div_in_current_state_scope = yes
+			#}
+			hidden_trigger = { always = no }
+		}
+
+		highlight_states = {
+		}
+
+		war_with_target_on_timeout = yes
+		ai_will_do = {
+			base = 0
+			modifier = {
+				
+			}
+		}
+
+		days_mission_timeout = 30
+
+		fire_only_once = yes
+
+		is_good = no
+
+		timeout_effect = {
+			custom_effect_tooltip = from_cannot_escalate
+			custom_effect_tooltip = effects_if_border_conflict_is_lost
+			effect_tooltip = {
+				CCP = {
+					# effect
+				}
+			}
+		}		
+	}
+	#Mission for attacker to escalate or incident is forgotten
+	CCP_border_incident_forgotten = {
+
+		icon = border_war
+
+		allowed = { always = no } #Activated from effect
+
+		available = {
+			#var:ROOT.defender_state_vs_@FROM = {
+			#	has_ROOT_at_least_1_div_in_current_state_scope = yes
+			#}
+			hidden_trigger = { always = no }
+		}
+
+		highlight_states = {
+			OR = {
+				state = 601
+				state = 604
+			}
+		}
+
+		ai_will_do = {
+			base = 0
+			modifier = {
+				
+			}
+		}
+
+		days_mission_timeout = 30
+
+		fire_only_once = yes
+
+		is_good = no
+		
+		timeout_effect = {
+			remove_targeted_decision = { target = CHI decision = CCP_escalate_incident_to_border_conflict_CHI }
+			add_political_power = -100
+			add_war_support = -0.1 #Shameful Display
+			hidden_effect = {
+				CHI = { remove_targeted_decision = { target = CCP decision = CCP_border_conflict_escalation_warning_CHI } }
+				CHI = {
+					601 = {
+						clr_state_flag = border_incident_active
+					}
+					604 = {
+						clr_state_flag = border_incident_active
+					}
+				}
+			}
+		}
+	}
+
+	#Decision to escalate incident on border with CHI to border conflict
+	CCP_escalate_incident_to_border_conflict_CHI = {
+
+		icon = border_war
+
+		allowed = { always = no } #Activated from effect
+
+		available = {
+			604 = {
+				OR = {
+					is_fully_controlled_by = ROOT
+					CONTROLLER = {
+						is_subject_of = ROOT
+					}
+					CONTROLLER = {
+						is_in_faction_with = ROOT
+					}
+				}
+			}
+			divisions_in_border_state = {
+				state = 604
+				border_state = 601
+				size > 0
+			}
+		}
+
+		highlight_states = {
+			OR = {
+				state = 601
+				state = 604			
+			}
+		}
+
+		ai_will_do = {
+			base = 10
+			modifier = { 
+				has_war = no
+				factor = 10
+			}
+		}
+
+		fire_only_once = yes #Reactivation handled in effect
+
+		complete_effect = {
+			remove_targeted_decision = { target = CHI decision = CCP_border_incident_forgotten }
+			start_border_war = {
+				change_state_after_war = yes
+				attacker = {
+					state = 604
+					num_provinces = 2
+					on_win = japan_border_conflict.2
+					on_lose = japan_border_conflict.3
+					on_cancel = japan_border_conflict.4
+				}
+				
+				defender = {
+					state = 601
+					num_provinces = 2
+					on_win = japan_border_conflict.3
+					on_lose = japan_border_conflict.2
+					on_cancel = japan_border_conflict.4
+				}
+			}
+			CHI = {
+				activate_targeted_decision = { target = CCP decision = CCP_border_conflict_escalate_conflict }
+				activate_targeted_decision = { target = CCP decision = CCP_border_conflict_time_until_cancelled }
+			}
+			activate_targeted_decision = { target = CHI decision = CCP_border_conflict_escalate_conflict }
+			activate_targeted_decision = { target = CHI decision = CCP_border_conflict_time_until_cancelled }
+		}
+	}
+	#Mission for attacker to win border war against FROM in X days
+	CCP_border_conflict_time_until_cancelled = {
+
+		icon = border_war
+
+		allowed = { always = no } #Activated from effect
+
+		available = {
+			601 = { has_border_war = no }
+			604 = { has_border_war = no }
+		}
+		
+		highlight_states = {
+			OR = {
+				state = 604
+				state = 601
+			}
+		}
+
+		ai_will_do = {
+			base = 0
+			modifier = {
+				
+			}
+		}
+
+		days_mission_timeout = 90
+		is_good = no
+
+		fire_only_once = yes #Reactivation handled in effect
+
+		complete_effect = {
+
+		}
+
+		timeout_effect = {
+			cancel_border_war = {
+				defender = 604
+				attacker = 601
+			}
+			hidden_effect = {
+				remove_targeted_decision = { target = CHI decision = CCP_border_conflict_escalate_conflict }
+				remove_targeted_decision = { target = CCP decision = CCP_border_conflict_escalate_conflict }
+			}
+		}
+	}
+
+	#Decision to escalate conflict further
+	CCP_border_conflict_escalate_conflict = {
+
+		icon = decision_generic_ignite_civil_war
+
+		allowed = { always = no } #Activated from effect
+
+		visible = {
+			has_border_war_with = FROM
+		}
+
+		highlight_states = {
+			OR = {
+				state = 601
+				state = 604
+			}
+		}
+
+		cost = 200
+
+		ai_will_do = {
+			base = 0
+			modifier = {
+				
+			}
+		}
+
+		fire_only_once = yes #Reactivation handled in effect
+
+		complete_effect = {
+			if = {
+				limit = { is_border_conflict_defender_vs_FROM = yes }
+				set_border_war_data = {
+					attacker = 604
+					defender = 601
+					defender_modifier = 0.15
+					combat_width = 100
+				}
+			}
+			else = {
+				set_border_war_data = {
+					attacker = 604
+					defender = 601
+					attacker_modifier = 0.15
+					combat_width = 100
+				}
+			}
+			CHI = {
+				set_country_flag = {
+					flag = WTT_border_conflict_escalate_to_war_cooldown_@ROOT
+					days = 60
+					value = 1
+				}
+				remove_targeted_decision = { target = CCP decision = CCP_border_conflict_escalate_conflict }
+			}
+			set_country_flag = {
+				flag = WTT_border_conflict_escalate_to_war_cooldown_@CHI
+				days = 60
+				value = 1
+			}
+			custom_effect_tooltip = in_60_days
+		}
+	}
+}
