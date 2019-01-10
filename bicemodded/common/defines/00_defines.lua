@@ -1401,11 +1401,11 @@ NAI = {
 	CAS_MISSION_FACTOR = 1.4,							-- AI cas mission factor
 	INTERCEPTION_MISSION_FACTOR = 0.5,					-- AI interception mission factor
 	STREATEGIC_BOMBER_MISSION_FACTOR = 1.35,				-- AI strategic bombing mission factor
-	NAVAL_BOMBER_MISSION_FACTOR = 0.5,					-- AI naval bombing mission factor
+	NAVAL_BOMBER_MISSION_FACTOR = 0.45,					-- AI naval bombing mission factor
 	NUKE_MISSION_FACTOR = 1.0,							-- AI nuke mission factor
 	PARADROP_MISSION_FACTOR = 1.0,						-- AI paradrop mission factor
 	KAMIKAZE_MISSION_FACTOR = 1.0,						-- AI naval kamikaze mission factor
-	PORT_STRIKE_MISSION_FACTOR = 1.0,					-- AI port strike mission factor
+	PORT_STRIKE_MISSION_FACTOR = 0.8,					-- AI port strike mission factor
 	INDUSTRY_IC_AIR_IMPORTANCE_FACTOR = 0.02,			-- AI very specific IC cost factor for air missions
 	
 	AIR_SCORE_DISTANCE_IMPACT = 0.2,					-- Effect of distance applied to the score calculations
@@ -1417,7 +1417,7 @@ NAI = {
 	NAVAL_COMBAT_AIR_IMPORTANCE = 12.0,					-- Naval combat air importance
 	NAVAL_TRANSFER_AIR_IMPORTANCE = 25.0,				-- Naval transfer air importance
 	NAVAL_COMBAT_TRANSFER_AIR_IMPORTANCE = 50.0,		-- Naval combat involving enemy land units
-	NAVAL_IMPORTANCE_SCALE = 1.0,						-- Naval total importance scale (every naval score get's multiplied by it)
+	NAVAL_IMPORTANCE_SCALE = 0.9,					-- Naval total importance scale (every naval score get's multiplied by it)
 	
 	NAVAL_FIGHTERS_PER_PLANE = 0.1,						-- Amounts of air superiority planes requested per enemy plane
 	NAVAL_STRIKE_PLANES_PER_ARMY = 0,					-- Amount of planes requested per enemy army
