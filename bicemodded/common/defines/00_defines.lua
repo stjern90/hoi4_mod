@@ -998,7 +998,7 @@ NTrade = {
 },
 
 NAI = {
-	GARRISON_FRACTION = 0.28, 					-- How large part of a front should always be holding the line rather than advancing at the enemy
+	GARRISON_FRACTION = 0.29, 					-- How large part of a front should always be holding the line rather than advancing at the enemy
 	
 	DIPLOMATIC_ACTION_GOOD_BAD_RATIO_THRESHOLD = 1,
 	BASE_RELUCTANCE = 30, 						-- Base reluctance applied to all diplomatic offers
