@@ -862,8 +862,9 @@ focus_tree = {
 	focus = {
 		id = CHI_foreign_threats
 		icon = GFX_goal_generic_territory_or_war
-		prerequisite = { focus = CHI_united_front }
-		x = -1
+		prerequisite = { focus = CHI_united_front focus = CHI_execute_the_encirclement_campaign }
+		mutually_exclusive = { focus = CHI_prioritize_the_interior }
+		x = 1
 		y = 1
 		relative_position_id = CHI_united_front
 
@@ -939,7 +940,7 @@ focus_tree = {
 		id = CHI_prioritize_the_interior
 		icon = GFX_goal_generic_position_armies
 		prerequisite = { focus = CHI_execute_the_encirclement_campaign }
-		mutually_exclusive = { focus = CHI_national_defense_propaganda }
+		mutually_exclusive = { focus = CHI_foreign_threats }
 		x = 1
 		y = 1
 		relative_position_id = CHI_execute_the_encirclement_campaign
@@ -1263,7 +1264,7 @@ focus_tree = {
 	focus = {
 		id = CHI_expand_the_navy 
 		icon = GFX_goal_generic_battleship
-		prerequisite = { focus = CHI_united_and_ready }
+		prerequisite = { focus = CHI_united_and_ready focus = CHI_revive_hanyang_armory }
 		prerequisite = { focus = CHI_revive_jiangnan_shipyard }
 		x = 4
 		y = 1
@@ -1461,11 +1462,10 @@ focus_tree = {
 	focus = {
 		id = CHI_national_defense_propaganda
 		icon = GFX_goal_chi_unify2
-		prerequisite = { focus = CHI_united_front focus = CHI_execute_the_encirclement_campaign }
-		mutually_exclusive = { focus = CHI_prioritize_the_interior }
-		x = 1
+		prerequisite = { focus = CHI_foreign_threats }
+		x = -2
 		y = 1
-		relative_position_id = CHI_united_front
+		relative_position_id = CHI_foreign_threats
 		
 		cost = 5 
 		
@@ -1490,6 +1490,27 @@ focus_tree = {
 	
 		
 		completion_reward = {
+			hidden_effect = {
+				if = {
+					limit = {
+						is_in_faction = no
+					}
+					set_rule = { can_create_factions = yes }
+					create_faction = chinese_united_front
+				}
+			}
+			every_country = {
+				limit = {
+					is_literally_china = yes
+					is_in_faction = no
+					NOT = {
+						tag = ROOT
+						tag = CCP
+						tag = SIK
+					}
+				}
+				country_event = wtt_prc.10
+			}
 			if = {
 				limit = {
 					NOT = {
@@ -1502,7 +1523,7 @@ focus_tree = {
 						}
 					}
 				}
-				add_ideas = KMT_propaganda
+				add_ideas = CHI_national_defense_propaganda
 			}
 			add_political_power = 100
 		}
@@ -1511,10 +1532,10 @@ focus_tree = {
 	focus = { 
 		id = CHI_united_and_ready
 		icon = GFX_goal_chi_unify
-		prerequisite = { focus = CHI_national_defense_propaganda focus = CHI_subjugate_the_warlords }
-		x = 1 
-		y = 2
-		relative_position_id = CHI_national_defense_propaganda 
+		prerequisite = { focus = CHI_subjugate_the_warlords }
+		x = 0
+		y = 1
+		relative_position_id = CHI_subjugate_the_warlords 
 		
 		cost = 10 
 		
@@ -1523,15 +1544,28 @@ focus_tree = {
 		}
 		
 		available = { 
-			has_hyper_inflation = yes
+			594 = { is_controlled_by_ROOT_or_ally = yes }
+			325 = { is_controlled_by_ROOT_or_ally = yes }
+			615 = { is_controlled_by_ROOT_or_ally = yes }
+			604 = { is_controlled_by_ROOT_or_ally = yes }
 		}
 		
 		bypass = { 
 		}
 		
 		completion_reward = { 
-			add_political_power = 100 
+			if = {
+				limit = { 
+					has_hyper_inflation = yes 
+				}
 			CHI_hyper_inflation_level_down = yes
+			}
+			if = {
+				limit = {
+					has_hyper_inflation = no 
+				}
+			add_political_power = 100 
+			}
 		}
 	}
 	
@@ -1599,6 +1633,40 @@ focus_tree = {
 			set_variable = { var = CHI_industrial_evacuations_amount_factor value = 0.75 } #Ratio for how many building are moved. Change CHI_industrial_evacuations_add_AF and CHI_industrial_evacuations_add_IC if you change the value
 		}
 	}
+	
+	focus = {
+		id = CHI_the_big_rear_concept
+		icon = GFX_human_tsunami
+		prerequisite = { focus = CHI_industrial_evacuations }
+		x = 0
+		y = 1
+		relative_position_id = CHI_industrial_evacuations
+		
+		cost = 1
+		
+		ai_will_do = {
+			factor = 10
+		}
+		
+		available = {
+			has_war_with = JAP
+		}
+		
+		bypass = {
+		}
+		
+		cancel = {
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		completion_reward = {
+			army_experience = 25
+			add_ideas = CHI_big_rear_plan
+		}
+	}
 
 	focus = {
 		id = CHI_war_of_national_liberation
@@ -1648,10 +1716,10 @@ focus_tree = {
 	focus = {
 		id = CHI_scorched_earth_tactics
 		icon = GFX_focus_generic_strike_at_democracy1
-		prerequisite = { focus = CHI_war_of_resistance }
+		prerequisite = { focus = CHI_lure_them_in_strategy }
 		x = 0
 		y = 1
-		relative_position_id = CHI_war_of_resistance
+		relative_position_id = CHI_lure_them_in_strategy
 
 		cost = 5
 
@@ -1714,10 +1782,10 @@ focus_tree = {
 	focus = {
 		id = CHI_forced_conscription
 		icon = GFX_focus_generic_support_the_left_right
-		prerequisite = { focus = CHI_scorched_earth_tactics }
+		prerequisite = { focus = CHI_war_of_resistance focus = CHI_national_defense_propaganda }
 		x = 0
-		y = 1
-		relative_position_id = CHI_scorched_earth_tactics
+		y = 5
+		relative_position_id = CHI_national_defense_propaganda
 
 		cost = 10
 
@@ -1745,13 +1813,62 @@ focus_tree = {
 			add_ideas = CHI_forced_conscription
 		}
 	}
+	
+	focus = {
+		id = CHI_lure_them_in_strategy
+		icon = GFX_goal_chi_army
+		prerequisite = { focus = CHI_war_of_resistance }
+		x = 0
+		y = 1
+		relative_position_id = CHI_war_of_resistance
+		
+		cost = 5
+		
+		ai_will_do = {
+			factor = 10
+		}
+		
+		available = {
+			has_war = yes
+			OR = {
+				surrender_progress > 0.25
+				AND = {
+					613 = {
+						controller = {
+							has_war_with = ROOT
+						}
+					}
+					608 = {
+						controller = {
+							has_war_with = ROOT
+						}
+					}
+				}
+				is_ai = yes
+			}
+		}
+		
+		bypass = {
+		}
+		
+		cancel = {
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = yes
+		available_if_capitulated = no
+		
+		completion_reward = {
+			add_ideas = CHI_lure_them_in
+		}
+	}
 
 	focus = {
 		id = CHI_dare_to_die_corps
-		icon = GFX_goal_generic_special_forces
-		prerequisite = { focus = CHI_forced_conscription }
+		icon = GFX_goal_chi_daretodie
+		prerequisite = { focus = CHI_scorched_earth_tactics }
 		x = 0
-		y = 2
+		y = 1
 		relative_position_id = CHI_scorched_earth_tactics
 
 		cost = 10
@@ -1781,8 +1898,7 @@ focus_tree = {
 		id = CHI_fortify_shanghai
 		icon = GFX_goal_generic_fortify_city
 		prerequisite = { focus = CHI_foreign_threats }
-		prerequisite = { focus = CHI_national_defense_propaganda }
-		x = 1
+		x = 0
 		y = 1
 		relative_position_id = CHI_foreign_threats
 
@@ -2504,7 +2620,7 @@ focus_tree = {
 		icon = GFX_goal_generic_occupy_states_coastal
 		prerequisite = { focus = CHI_develop_the_hanyan_arsenal }
 		x = 0
-		y = 1
+		y = 4
 		relative_position_id = CHI_develop_the_hanyan_arsenal
 		
 		cost = 5 
