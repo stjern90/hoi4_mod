@@ -154,7 +154,7 @@ NCountry = {
 	EVENT_PROCESS_OFFSET = 9,						-- Events are checked every X day per character or province (1 is ideal, but CPU heavy)
 	BASE_RESEARCH_SLOTS = 3,						-- Base number of research slots per country.
 	VP_TO_SUPPLY_BASE = 4,							-- Bonus to supply from a VP, no matter the level
-	VP_TO_SUPPLY_BONUS_CONVERSION = 1.5,			-- Bonus to supply local supplies from Victory Points, multiplied by this aspect and rounded to closest integer
+	VP_TO_SUPPLY_BONUS_CONVERSION = 1.2,			-- Bonus to supply local supplies from Victory Points, multiplied by this aspect and rounded to closest integer
 	SUPPLY_FROM_DAMAGED_INFRA = 0.5,                -- damaged infrastructure counts as this in supply calcs
 	SUPPLY_BASE_MULT = 1,							-- multiplier on supply base values
 	SUPPLY_BONUS_FROM_INPUT = 0.25,					-- % of supply bonus from input area.
@@ -277,8 +277,8 @@ NProduction = {
 	MAX_CIV_FACTORIES_PER_LINE = 16,	-- Max number of factories that can be assigned a single production line.
 	MAX_NAV_FACTORIES_PER_LINE = 5,
 	MAX_MIL_FACTORIES_PER_LINE = 150,
-	EFFICIENCY_LOSS_PER_UNUSED_DAY = 1,		-- Daily loss of efficiency for unused factory slots ( efficiency is tracked per factory slot in the production line )
-	MAX_LINE_RESOURCE_PENALTY = 60,		-- Max penalty factor for production lines lacking strategic resources in %.
+	EFFICIENCY_LOSS_PER_UNUSED_DAY = 0.4,		-- Daily loss of efficiency for unused factory slots ( efficiency is tracked per factory slot in the production line )
+	MAX_LINE_RESOURCE_PENALTY = 55,		-- Max penalty factor for production lines lacking strategic resources in %.
 	RESOURCE_PENALTY_WARNING_CRITICAL_RATIO = 0.75, -- Switch to red progress bar if penalty is over threshold 
 	BASE_FACTORY_SPEED = 2.9, 				-- Base factory speed multiplier (how much hoi3 style IC each factory gives).
 	BASE_FACTORY_SPEED_MIL = 3.8, 				-- Base factory speed multiplier (how much hoi3 style IC each factory gives).
@@ -301,7 +301,7 @@ NProduction = {
 	MIN_FIELD_TO_TRAINING_MANPOWER_RATIO = 0.65,	-- Ratio which % of army in field can be trained
 	CAPITULATE_STOCKPILES_RATIO = 0.35, -- How much equipment from deployed divisions will be transferred on capitulation
 	INFRA_MAX_CONSTRUCTION_COST_EFFECT = 0.3, 		-- Building in a state with higher infrastructure will reduce the cost of shared buildings.
-	PRODUCTION_RESOURCE_LACK_PENALTY = -0.05,			-- Penalty decrease while lack of resource per factory
+	PRODUCTION_RESOURCE_LACK_PENALTY = -0.04,			-- Penalty decrease while lack of resource per factory
 	MIN_LICENSE_ACTIVE_DAYS = 30,						-- Min days for license to be active
 	BASE_LICENSE_IC_COST = 1,							-- Base IC cost for lended license
 	LICENSE_IC_COST_YEAR_INCREASE = 1,					-- IC cost equipment for every year of equipment after 1936
@@ -417,7 +417,7 @@ NMilitary = {
 	
 	LAND_COMBAT_ORG_DICE_SIZE = 4,                 -- nr of damage dice
 	LAND_COMBAT_STR_DICE_SIZE = 4,                 -- nr of damage dice
-	LAND_COMBAT_STR_DAMAGE_MODIFIER = 0.031,        -- global damage modifier... but some equipment is returned at end of battles see : EQUIPMENT_COMBAT_LOSS_FACTOR
+	LAND_COMBAT_STR_DAMAGE_MODIFIER = 0.033,        -- global damage modifier... but some equipment is returned at end of battles see : EQUIPMENT_COMBAT_LOSS_FACTOR
 	LAND_COMBAT_ORG_DAMAGE_MODIFIER = 0.062,        -- global damage modifier
 	LAND_AIR_COMBAT_STR_DAMAGE_MODIFIER = 0.03,    -- air global damage modifier
 	LAND_AIR_COMBAT_ORG_DAMAGE_MODIFIER = 0.03,    -- global damage modifier
@@ -506,8 +506,8 @@ NMilitary = {
 	IS_AMPHIBIOUS_LIMNIT = 0.15,					   -- If the amphibious movement is _above_ this limit it is considered amphibious
 	EXILE_EQUIPMENT = 1.0,						   -- Amount of equipment to keep
 	EXILE_ORG = 0.2,							   -- Amount of org to keep
-	EXPERIENCE_LOSS_FACTOR = 0.9,                 -- percentage of experienced solders who die when manpower is removed	Was 1.0 *** 
-	EQUIPMENT_COMBAT_LOSS_FACTOR = 0.38,	 	       -- was 0.6--% of equipment lost to strength ratio in combat, so some % is returned if below 1
+	EXPERIENCE_LOSS_FACTOR = 0.91,                 -- percentage of experienced solders who die when manpower is removed	Was 1.0 *** 
+	EQUIPMENT_COMBAT_LOSS_FACTOR = 0.36,	 	       -- was 0.6--% of equipment lost to strength ratio in combat, so some % is returned if below 1
 	SUPPLY_USE_FACTOR_MOVING = 1.6,                -- supply use when moving/fighting vs inactive
 	SUPPLY_USE_FACTOR_INACTIVE = 0.9,
 	SUPPLY_GRACE = 80,		-- troops always carry 3 days of food and supply
@@ -542,7 +542,7 @@ NMilitary = {
 	PLAN_CONSIDERED_GOOD = 0.5,					-- Plan evaluations above this value are considered more or less safe
 	PLAN_CONSIDERED_BAD = 0.05,					-- Plan evaluations below this value are considered unsafe
 	PLAN_MIN_AUTOMATED_EMPTY_POCKET_SIZE = 2,		-- The battle plan system will only automatically attack provinces in pockets that has no resistance and are no bigger than these many provinces
-	PLAN_SPREAD_ATTACK_WEIGHT = 13.0,				-- The higher the value, the less it should crowd provinces with multiple attacks.
+	PLAN_SPREAD_ATTACK_WEIGHT = 5.0,				-- The higher the value, the less it should crowd provinces with multiple attacks.
 	PLAN_SUPPLY_FACTOR = 0.2,						-- Factor applied to available supply on a front location when determining priority
 	PLAN_NEIGHBORING_ENEMY_PROVINCE_FACTOR = 0.7,	-- When calculating the importance of provinces, it takes number of enemy provinces into account, factored by this
 	PLAN_PROVINCE_BASE_IMPORTANCE = 2.0,			-- Used when calculating the calue of front and defense area provinces for the battle plan system
@@ -560,16 +560,16 @@ NMilitary = {
 	
 	PLAN_PORVINCE_PORT_BASE_IMPORTANCE = 12.0,		-- Added importance for area defense province with a port
 	PLAN_PORVINCE_PORT_LEVEL_FACTOR = 1.5,			-- Bonus factor for port level
-	PLAN_PORVINCE_AIRFIELD_BASE_IMPORTANCE = 3.0,	-- Added importance for area defense province with air field
-	PLAN_PORVINCE_AIRFIELD_POPULATED_FACTOR = 1.5,	-- Bonus factor when an airfield has planes on it
-	PLAN_PORVINCE_AIRFIELD_LEVEL_FACTOR = 0.25,		-- Bonus factor for airfield level
+	PLAN_PORVINCE_AIRFIELD_BASE_IMPORTANCE = 2.0,	-- Added importance for area defense province with air field
+	PLAN_PORVINCE_AIRFIELD_POPULATED_FACTOR = 1,	-- Bonus factor when an airfield has planes on it
+	PLAN_PORVINCE_AIRFIELD_LEVEL_FACTOR = 0.2,		-- Bonus factor for airfield level
 	PLAN_PORVINCE_RESISTANCE_BASE_IMPORTANCE = 10.0, -- Used when calculating the calue of defense area provinces for the battle plan system (factored by resistance level)
 
 	PLAN_TAKE_UNIT_PAIN_DISTANCE_SAME_CONTROLLER_AREA = 24.0, -- Used to lower how painful it is to take a unit for defense order within same controller area
 	PLAN_TAKE_UNIT_PAIN_DISTANCE_OTHER_CONTROLLER_AREA = 12.0, -- Used to lower how painful it is to take a unit for defense order from different controller area
 	
 	-- These need to result in province value > 1.0 for it to matter.
-	PLAN_AREA_DEFENSE_ENEMY_CONTROLLER_SCORE = 15.0,-- Score applied to provinces in the defense area order controlled by enemies
+	PLAN_AREA_DEFENSE_ENEMY_CONTROLLER_SCORE = 1.0,-- Score applied to provinces in the defense area order controlled by enemies
 	PLAN_AREA_DEFENSE_ENEMY_UNIT_FACTOR = -2.0,		-- Factor applied to province score in area defense order per enemy unit in that province
 	PLAN_AREA_DEFENSE_FORT_IMPORTANCE = 0.35,		-- Used when calculating the calue of defense area provinces for the battle plan system, works as multipliers on the rest
 	PLAN_AREA_DEFENSE_COASTAL_FORT_IMPORTANCE = 3.0,-- Used when calculating the calue of defense area provinces for the battle plan system
@@ -604,7 +604,7 @@ NMilitary = {
 	COMBAT_STACKING_EXTRA = 4,                      -- extra stacking from directions
 	COMBAT_STACKING_PENALTY = -0.03,                -- how much stackign penalty per division
 	COMBAT_OVER_WIDTH_PENALTY = -2,					-- over combat width penalty per %.
-	COMBAT_OVER_WIDTH_PENALTY_MAX = -0.4,			-- over combat width max (when you cant join no more).
+	COMBAT_OVER_WIDTH_PENALTY_MAX = -0.33,			-- over combat width max (when you cant join no more).
 	RETREAT_SPEED_FACTOR = 0.32,                    -- speed bonus when retreating
 	WITHDRAWING_SPEED_FACTOR = 0.22,				-- speed bonus when withdrawing
 	STRATEGIC_SPEED_BASE = 5,                 	-- Speed of strategic redeployment
@@ -991,14 +991,14 @@ NTrade = {
 	PUPPET_MASTER_TRADE_FACTOR = 500,		-- This is priority for puppet master
 	PUPPET_TRADE_FACTOR = 0,				-- This is unpriority for puppets
 	LACK_OF_CONVOYS_TRADE_FACTOR = -0.1,	-- Every hour without convoys will lower trade factor this much (regain is the same)
-	BASE_LAND_TRADE_RANGE = 700,
+	BASE_LAND_TRADE_RANGE = 340,
 	PARTY_SUPPORT_TRADE_FACTOR = 50,		-- Trade factor bonus at the other side having 100 % party popularity for my party
 	ANTI_MONOPOLY_TRADE_FACTOR_THRESHOLD = 0.7,		-- What percentage of resources has to be sold to the buyer for the anti-monopoly factor to take effect
 	ANTI_MONOPOLY_TRADE_FACTOR = 0,		-- This is added to the factor value when anti-monopoly threshold is exceeded
 },
 
 NAI = {
-	GARRISON_FRACTION = 0.26, 					-- How large part of a front should always be holding the line rather than advancing at the enemy
+	GARRISON_FRACTION = 0.29, 					-- How large part of a front should always be holding the line rather than advancing at the enemy
 	
 	DIPLOMATIC_ACTION_GOOD_BAD_RATIO_THRESHOLD = 1,
 	BASE_RELUCTANCE = 30, 						-- Base reluctance applied to all diplomatic offers
@@ -1080,7 +1080,7 @@ NAI = {
 	UPGRADE_XP_RUSH_UPDATE = 200,				-- If XP is above this on the daily tick the AI will attempt to spend it
 	FOCUS_TREE_CONTINUE_FACTOR = 1.5,			-- Factor for score of how likely the AI is to keep going down a focus tree rather than starting a new path.
 	VP_GARRISON_VALUE_FACTOR = 0.75,				-- Extent to which VP garrisons are prioritized, based on VP value and compared to other priority values.
-	PLAN_VALUE_TO_EXECUTE = 0.07,				-- AI will typically avoid carrying out a plan it below this value (0.0 is considered balanced).
+	PLAN_VALUE_TO_EXECUTE = 0.1,				-- AI will typically avoid carrying out a plan it below this value (0.0 is considered balanced).
 	DECLARE_WAR_NOT_NEIGHBOR_FACTOR = 0.25,		-- Multiplier applied before force factor if country is not neighbor with the one it is considering going to war
 	CALL_ALLY_BASE_DESIRE = 20,					-- exactly what it says
 	CALL_ALLY_DEMOCRATIC_DESIRE = 50,			-- Desire to call ally added for democratic AI
@@ -1228,7 +1228,7 @@ NAI = {
 	AIR_BASE_DANGER_ZONE_WEIGHT = 100,					-- Score used per province taken by enemy in a state to determine how dangerous it is to use an air base
 	
 	FORTIFIED_RATIO_TO_CONSIDER_A_FRONT_FORTIFIED = 0.5, -- ai will consider a front fortified if this ratio of provinces has fort
-	HEAVILY_FORTIFIED_RATIO_TO_CONSIDER_A_FRONT_FORTIFIED = 0.5, -- ai will consider a front super fortified if this ratio of provinces has lots of forts
+	HEAVILY_FORTIFIED_RATIO_TO_CONSIDER_A_FRONT_FORTIFIED = 0.7, -- ai will consider a front super fortified if this ratio of provinces has lots of forts
 	
 	DESPERATE_AI_MIN_UNIT_ASSIGN_TO_ESCAPE = 0,			-- AI will assign at least this amount of units to break from desperate situations
 	
@@ -1401,11 +1401,11 @@ NAI = {
 	CAS_MISSION_FACTOR = 1.4,							-- AI cas mission factor
 	INTERCEPTION_MISSION_FACTOR = 0.5,					-- AI interception mission factor
 	STREATEGIC_BOMBER_MISSION_FACTOR = 1.35,				-- AI strategic bombing mission factor
-	NAVAL_BOMBER_MISSION_FACTOR = 0.5,					-- AI naval bombing mission factor
+	NAVAL_BOMBER_MISSION_FACTOR = 0.45,					-- AI naval bombing mission factor
 	NUKE_MISSION_FACTOR = 1.0,							-- AI nuke mission factor
 	PARADROP_MISSION_FACTOR = 1.0,						-- AI paradrop mission factor
 	KAMIKAZE_MISSION_FACTOR = 1.0,						-- AI naval kamikaze mission factor
-	PORT_STRIKE_MISSION_FACTOR = 1.0,					-- AI port strike mission factor
+	PORT_STRIKE_MISSION_FACTOR = 0.8,					-- AI port strike mission factor
 	INDUSTRY_IC_AIR_IMPORTANCE_FACTOR = 0.02,			-- AI very specific IC cost factor for air missions
 	
 	AIR_SCORE_DISTANCE_IMPACT = 0.2,					-- Effect of distance applied to the score calculations
@@ -1417,7 +1417,7 @@ NAI = {
 	NAVAL_COMBAT_AIR_IMPORTANCE = 12.0,					-- Naval combat air importance
 	NAVAL_TRANSFER_AIR_IMPORTANCE = 25.0,				-- Naval transfer air importance
 	NAVAL_COMBAT_TRANSFER_AIR_IMPORTANCE = 50.0,		-- Naval combat involving enemy land units
-	NAVAL_IMPORTANCE_SCALE = 1.0,						-- Naval total importance scale (every naval score get's multiplied by it)
+	NAVAL_IMPORTANCE_SCALE = 0.9,					-- Naval total importance scale (every naval score get's multiplied by it)
 	
 	NAVAL_FIGHTERS_PER_PLANE = 0.1,						-- Amounts of air superiority planes requested per enemy plane
 	NAVAL_STRIKE_PLANES_PER_ARMY = 0,					-- Amount of planes requested per enemy army
@@ -1435,7 +1435,7 @@ NAI = {
 	LAND_DEFENSE_INFRA_IMPORTANCE_FACTOR = 0.5,			-- Factor of infrastructure influence on strategic importance ( 0.0 - 1.0 )
 	LAND_DEFENSE_IMPORTANCE_SCALE = 1.5,				-- Lend defence total importance scale (every land defence score get's multiplied by it)
 	
-	NUM_HOURS_SINCE_LAST_COMBAT_TO_SUPPORT_UNITS_VIA_AIR = 72,			-- units will be considered in combat if they are just out of their last combat for air supporting
+	NUM_HOURS_SINCE_LAST_COMBAT_TO_SUPPORT_UNITS_VIA_AIR = 96,			-- units will be considered in combat if they are just out of their last combat for air supporting
 	
 	LAND_DEFENSE_MIN_FACTORIES_FOR_AIR_IMPORTANCE = 6,	-- If amount of factories is less importance of factories won't apply
 	

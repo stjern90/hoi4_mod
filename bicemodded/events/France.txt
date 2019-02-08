@@ -33,7 +33,7 @@ country_event = {
 			expire = "1965.1.1"
 			ideology = socialism
 			traits = {
-		        stout_defender
+		        coalition_builder stout_defender
         	}
 		}
 		set_country_flag = legislative_election
@@ -232,7 +232,7 @@ country_event = {
 			name = "Camille Chautemps"
 			desc = "POLITICS_CAMILLE_CHAUTEMPS_DESC"
 			picture = "Portrait_France_Camille_Chautemps.dds"
-			expire = "1936.1.24"
+			expire = "1956.1.24"
 			ideology = conservatism
 			traits = {
 		        stout_defender
@@ -349,6 +349,7 @@ country_event = {
 			expire = "1965.1.1"
 			ideology = fascism_ideology
 			traits = {
+			    war_hero
 			}
 		}		
 		add_timed_idea = { idea = reign_of_terror days = 730 }
@@ -370,14 +371,17 @@ country_event = {
 			}
 		}
 		set_party_name = { ideology = fascism long_name = FRA_fascism_party3_long name = FRA_fascism_party3 }
-		retire_country_leader = yes
-		create_country_leader = {
+		if = { limit = { NOT = { has_country_leader = { ruling_only = yes name = "Camille Chautemps" } } }
+	             retire_country_leader = yes
+	             create_country_leader = {
 			name = "Louis Franchet d'Espèrey"
 			desc = "POLITICS_FRANCHET_ESPEREY_DESC"
 			picture = "Portrait_France_Louis_Franchet_Esperey.tga"
 			expire = "1965.1.1"
 			ideology = fascism_ideology
-		}		
+		    }
+		}
+				
 		add_timed_idea = { idea = reign_of_terror days = 730 }
 		add_popularity = {
 			ideology = fascism
@@ -587,7 +591,7 @@ country_event = {
 			expire = "1965.1.1"
 			ideology = conservatism
 			traits = {
-		        stout_defender
+		        war_hero stout_defender
 	        }  
 		}
 		set_country_flag = petain_lead
@@ -1176,10 +1180,12 @@ country_event = {
 	trigger = {
 		tag = FRA
 		has_war_with = GER
+		OR = {
+		surrender_progress > 0.4
 		16 = { is_controlled_by = GER }
+		}
 		is_in_faction_with = ENG
 		ENG = { has_war_with = GER }
-		surrender_progress > 0.6
 		GER = {
 			OR = {
 				is_faction_leader = yes
@@ -1205,10 +1211,6 @@ country_event = {
 				}
 			}
 		}		
-	}
-	
-	mean_time_to_happen = {
-		days = 2
 	}
 
 	immediate = {
@@ -1605,6 +1607,30 @@ country_event = {
 						}
 						set_state_controller = 31
 					}
+					if = {
+						limit = {
+							272 = {
+								owner = { original_tag = FRA }
+							}
+						}
+						set_state_controller = 272
+					}
+					if = {
+						limit = {
+							539 = {
+								owner = { original_tag = FRA }
+							}
+						}
+						set_state_controller = 539
+					}
+					if = {
+						limit = {
+							543 = {
+								owner = { original_tag = FRA }
+							}
+						}
+						set_state_controller = 543
+					}
 			}
 			start_civil_war = {
 				ideology = fascism
@@ -1641,6 +1667,18 @@ country_event = {
 		random_other_country = {
 			limit = { original_tag = FRA has_government = fascism }
 			ROOT = { puppet = PREV }
+			set_cosmetic_tag = FRA_GER_fascism
+	    	retire_country_leader = yes
+		create_country_leader = {
+			name = "Philippe Pétain"
+			desc = "POLITICS_PHILIPPE_PÉTAIN_DESC"
+			picture = "Portrait_France_Philippe_Petain.dds"
+			expire = "1965.1.1"
+			ideology = fascism_ideology
+			traits = {
+			    war_hero
+			}
+		}
 			set_capital = 26
 			set_politics = {
 				ruling_party = fascism
@@ -1651,14 +1689,19 @@ country_event = {
 					}
 
 					fascism = {
-						popularity = 76
+						popularity = 66
 					}
 					
 					communism = {
-						popularity = 2
+						popularity = 6
+					}
+					neutrality = {
+						popularity = 6
 					}
 				}
 			}
+			set_stability = 0.3
+			set_war_support = 0
 			# FRA Player Switches to Vichy
 			if = {
 				limit = { FRA = { has_country_flag = become_vichy } }
@@ -1668,7 +1711,7 @@ country_event = {
 		}
 		country_event = { hours = 6 id = news.34 }
 		hidden_effect =  {
-			FRA = { news_event = { id = france.20 days = 1 } }
+			FRA = { country_event = { id = france.20 days = 1 } }
 		}
 	}
 
@@ -1962,7 +2005,7 @@ country_event = {
 		}
 		country_event = { hours = 6 id = news.34 }
 		hidden_effect =  {
-			FRA = { news_event = { id = france.20 days = 1 } }
+			FRA = { country_event = { id = france.20 days = 1 } }
 		}
 	}
 
@@ -2097,6 +2140,16 @@ country_event = {
 		set_country_flag = france_de_gaulle
 		hidden_effect =  {
 			retire_country_leader = yes
+			create_country_leader = {
+            	name = "Charles de Gaulle"
+             	desc = "POLITICS_CHARLES_DE_GAULLE_DESC"
+            	picture = "Portrait_France_Charles_De_Gaulle.dds"
+            	expire = "1965.1.1"
+            	ideology = conservatism
+            	traits = {	
+             	}
+            }
+			
 		}
 		name = france.20.a
 	}

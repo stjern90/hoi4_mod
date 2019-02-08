@@ -580,5 +580,530 @@ ITA_historical_politics = {
 				country_event = italy.206
 		}
 	}
+	
+	
+	ITA_border_conflict_SOM_start = {
+		icon = border_war
+		allowed = {
+			original_tag = ITA
+		}
+
+		available = {
+			has_completed_focus = ITA_colonial_border_war
+
+			NOT = {
+				has_war_with = FRA
+				is_in_faction_with = FRA
+			}
+			550 = {
+				any_neighbor_state = {
+					is_controlled_by = FRA
+				}
+				is_controlled_by_ROOT_or_ally = yes
+			}
+		}
+
+		visible = {
+			NOT = {
+				has_full_control_of_state = 268
+			}
+			NOT = {
+				has_war_with = FRA
+				is_in_faction_with = FRA
+			}
+			268 = {
+				is_controlled_by = FRA
+			}
+		}
+
+		highlight_states = {
+			state = 268
+		}
+		
+		fire_only_once = yes
+		
+		ai_will_do = {
+			factor = 1
+			
+		}
+		
+		cost = 50
+		days_remove = 30
+		war_with_on_remove = FRA
+		
+		complete_effect = {
+			550 = {
+				save_event_target_as = ITA_FRA_attacker_state
+				set_state_flag = border_incident_active
+			}
+			268 = {
+				save_event_target_as = ITA_FRA_defender_state
+				set_state_flag = border_incident_active
+			}
+			FRA = {
+				country_event = { id = wtt_border_incident_defender_warning.1 days = 1 }
+				activate_targeted_decision = { target = ITA decision = ITA_border_conflict_warning_FRA }
+			}
+		}
+		
+		remove_effect = {
+			activate_targeted_decision = { target = FRA decision = ITA_border_incident_forgotten_FRA }
+			activate_targeted_decision = { target = FRA decision = ITA_escalate_incident_to_border_conflict_FRA }
+		}
+	}
+
+	#Mission for defender warning that a conflict with FROM is coming
+	ITA_border_conflict_warning_FRA = {
+
+		icon = border_war
+
+		allowed = { always = no } #Activated from effect
+
+		available = {
+			hidden_trigger = { always = no }
+		}
+
+		war_with_target_on_timeout = yes
+		ai_will_do = {
+			base = 0
+			modifier = {
+				
+			}
+		}
+
+		days_mission_timeout = 30
+
+		fire_only_once = yes
+
+		is_good = no
+		
+		timeout_effect = {
+			custom_effect_tooltip = escalation_possible_tooltip_for_defender
+			custom_effect_tooltip = effects_if_border_conflict_is_lost
+			effect_tooltip = {
+				ITA = {
+					army_experience = 10
+		add_tech_bonus = {
+			name = japan.45.t #test_the_ussr_focus
+			bonus = 0.3
+			uses = 1
+			category = infantry_tech
+		}
+		}
+		ETH = {
+					army_experience = 10
+		add_tech_bonus = {
+			name = japan.45.t #test_the_ussr_focus
+			bonus = 0.3
+			uses = 1
+			category = infantry_tech
+		}
+					
+				}
+			}
+			hidden_effect = {
+				remove_targeted_decision = { target = ITA decision = ITA_border_conflict_warning_FRA }
+				activate_targeted_decision = { target = ITA decision = ITA_border_conflict_escalation_warning_FRA }
+			}
+		}
+	}
+
+	#Mission for defender warning FROM can escalate to war at any point is coming
+	ITA_border_conflict_escalation_warning_FRA = {
+
+		icon = border_war
+
+		allowed = { always = no } #Activated from effect
+
+		available = {
+			#var:ROOT.defender_state_vs_@FROM = {
+			#	has_ROOT_at_least_1_div_in_current_state_scope = yes
+			#}
+			hidden_trigger = { always = no }
+		}
+
+		highlight_states = {
+		}
+
+		war_with_target_on_timeout = yes
+		ai_will_do = {
+			base = 0
+			modifier = {
+				
+			}
+		}
+
+		days_mission_timeout = 30
+
+		fire_only_once = yes
+
+		is_good = no
+
+		timeout_effect = {
+			custom_effect_tooltip = from_cannot_escalate
+			custom_effect_tooltip = effects_if_border_conflict_is_lost
+		}		
+	}
+	#Mission for attacker to escalate or incident is forgotten
+	ITA_border_incident_forgotten_FRA = {
+
+		icon = border_war
+
+		allowed = { always = no } #Activated from effect
+
+		available = {
+			#var:ROOT.defender_state_vs_@FROM = {
+			#	has_ROOT_at_least_1_div_in_current_state_scope = yes
+			#}
+			hidden_trigger = { always = no }
+		}
+
+		highlight_states = {
+			OR = {
+				state = 550
+				state = 268
+			}
+		}
+
+		ai_will_do = {
+			base = 0
+			modifier = {
+				
+			}
+		}
+
+		days_mission_timeout = 30
+
+		fire_only_once = yes
+
+		is_good = no
+		
+		timeout_effect = {
+			remove_targeted_decision = { target = FRA decision = ITA_escalate_incident_to_border_conflict_FRA }
+			add_political_power = -75
+			add_war_support = -0.05
+			hidden_effect = {
+				FRA = { remove_targeted_decision = { target = ITA decision = ITA_border_conflict_escalation_warning_FRA } }
+				FRA = {
+					550 = {
+						clr_state_flag = border_incident_active
+					}
+					268 = {
+						clr_state_flag = border_incident_active
+					}
+				}
+			}
+		}
+	}
+
+	#Decision to escalate incident on border with FRA to border conflict
+	ITA_escalate_incident_to_border_conflict_FRA = {
+
+		icon = border_war
+
+		allowed = { always = no } #Activated from effect
+
+		available = {
+			550 = {
+				OR = {
+					is_fully_controlled_by = ROOT
+					CONTROLLER = {
+						is_subject_of = ROOT
+					}
+					CONTROLLER = {
+						is_in_faction_with = ROOT
+					}
+				}
+			}
+			divisions_in_border_state = {
+				state = 550
+				border_state = 268
+				size > 0
+			}
+		}
+
+		highlight_states = {
+			OR = {
+				state = 550
+				state = 268			
+			}
+		}
+
+		ai_will_do = {
+			base = 10
+			modifier = { 
+				has_war = no
+				factor = 10
+			}
+		}
+
+		fire_only_once = yes #Reactivation handled in effect
+
+		complete_effect = {
+			remove_targeted_decision = { target = FRA decision = ITA_border_incident_forgotten_FRA }
+			start_border_war = {
+				change_state_after_war = no
+				attacker = {
+					state = 550
+					num_provinces = 1
+					on_win = wtt_border_conflict_won_attacker.1
+					on_lose = wtt_border_conflict_lost_attacker.1
+					on_cancel = wtt_border_conflict_canceled_attacker.1
+				}
+				
+				defender = {
+					state = 268
+					num_provinces = 1
+					on_win = wtt_border_conflict_won_defender.1
+					on_lose = wtt_border_conflict_lost_defender.1
+					on_cancel = wtt_border_conflict_canceled_defender.1
+				}
+			}
+			FRA = {
+				activate_targeted_decision = { target = ITA decision = ITA_border_conflict_escalate_conflict_FRA }
+				activate_targeted_decision = { target = ITA decision = ITA_border_conflict_time_until_cancelled_FRA }
+			}
+			activate_targeted_decision = { target = FRA decision = ITA_border_conflict_escalate_conflict_FRA }
+			activate_targeted_decision = { target = FRA decision = ITA_border_conflict_time_until_cancelled_FRA }
+		}	
+	}
+	
+	#Mission for attacker to win border war against FROM in X days
+	ITA_border_conflict_time_until_cancelled_FRA = {
+
+		icon = border_war
+
+		allowed = { always = no } #Activated from effect
+
+		available = {
+			550 = { has_border_war = no }
+			268 = { has_border_war = no }
+		}
+		
+		highlight_states = {
+			OR = {
+				state = 550
+				state = 268
+			}
+		}
+
+		ai_will_do = {
+			base = 0
+			modifier = {
+				
+			}
+		}
+
+		days_mission_timeout = 90
+		is_good = no
+
+		fire_only_once = yes #Reactivation handled in effect
+
+		complete_effect = {
+			
+		}
+
+		timeout_effect = {
+			cancel_border_war = {
+				defender = 550
+				attacker = 268
+			}
+			hidden_effect = {
+				remove_targeted_decision = { target = FRA decision = ITA_border_conflict_escalate_conflict_FRA }
+				remove_targeted_decision = { target = ITA decision = ITA_border_conflict_escalate_conflict_FRA }
+			}
+		}
+	}
+
+	#Decision to escalate conflict further
+	ITA_border_conflict_escalate_conflict_FRA = {
+
+		icon = decision_generic_ignite_civil_war
+
+		allowed = { always = no } #Activated from effect
+
+		visible = {
+			has_border_war_with = FROM
+		}
+
+		highlight_states = {
+			OR = {
+				state = 550
+				state = 268
+			}
+		}
+
+		cost = 200
+
+		ai_will_do = {
+			base = 0
+			modifier = {
+				
+			}
+		}
+
+		fire_only_once = yes #Reactivation handled in effect
+
+		complete_effect = {
+			if = {
+				limit = { is_border_conflict_defender_vs_FROM = yes }
+				set_border_war_data = {
+					attacker = 550
+					defender = 268
+					defender_modifier = 0.15
+					combat_width = 100
+				}
+			}
+			else = {
+				set_border_war_data = {
+					attacker = 550
+					defender = 268
+					attacker_modifier = 0.15
+					combat_width = 100
+				}
+			}
+			FRA = {
+				set_country_flag = {
+					flag = WTT_border_conflict_escalate_to_war_cooldown_@ROOT
+					days = 60
+					value = 1
+				}
+				remove_targeted_decision = { target = ITA decision = ITA_border_conflict_escalate_conflict_FRA }
+			}
+			set_country_flag = {
+				flag = WTT_border_conflict_escalate_to_war_cooldown_@FRA
+				days = 60
+				value = 1
+			}
+			custom_effect_tooltip = in_60_days
+			activate_targeted_decision = { target = FRA decision = ITA_border_conflict_escalate_to_war_FRA }
+		}
+	}
+
+	#Decision to escalate conflict further
+	ITA_border_conflict_escalate_to_war_FRA = {
+
+		icon = decision_generic_ignite_civil_war
+
+		allowed = { always = no } #Activated from effect
+
+		visible = {
+			NOT = { has_country_flag = WTT_border_conflict_escalate_to_war_cooldown_@FROM }
+			has_border_war_with = FROM
+		}
+
+		highlight_states = {
+			OR = {
+				state = 550
+				state = 268
+			}
+		}
+
+		cost = 150
+
+		ai_will_do = {
+			base = 0
+			modifier = {
+				
+			}
+		}
+
+		days_remove = 15
+
+		fire_only_once = yes #Reactivation handled in effect
+
+		war_with_target_on_remove = yes
+
+		complete_effect = {
+			if = {
+				limit = { is_border_conflict_defender_vs_FROM = yes }
+				550 = { save_event_target_as = their_state }
+				268 = { save_event_target_as = our_state }
+			}
+			else = {
+				550 = { save_event_target_as = our_state }
+				268 = { save_event_target_as = their_state }
+			}
+			FRA = {
+				country_event = { id = japan_border_conflict.8 }
+				hidden_effect = {
+					remove_targeted_decision = { target = ITA decision = ITA_border_conflict_escalate_to_war_FRA }
+				}
+		 	}
+		}
+
+		remove_effect = {
+			cancel_border_war = {
+				dont_fire_events = yes
+				defender = 268
+				attacker = 550
+			}
+			declare_war_on = { target = FROM type = annex_everything }
+			if = {
+				limit = { is_border_conflict_defender_vs_FROM = yes }
+				550 = {
+					clr_state_flag = border_incident_active
+				}
+				268 = {
+					clr_state_flag = border_incident_active
+				}
+				
+			}
+			else = {
+				FROM = {
+					550 = {
+						clr_state_flag = border_incident_active
+					}
+					268 = {
+						clr_state_flag = border_incident_active
+					}
+				}
+			}
+		}
+	}
+
+	#Decision to back down from conflict
+	ITA_border_conflict_back_out_of_conflict_FRA = {
+
+		allowed = { always = no } #Activated from effect
+
+		visible = {
+			has_border_war_with = FROM
+		}
+
+		highlight_states = {
+			OR = {
+				state = 550
+				state = 268
+			}
+		}
+
+		ai_will_do = {
+			base = 0
+			modifier = {
+				
+			}
+		}
+
+		fire_only_once = yes #Reactivation handled in effect
+
+		complete_effect = {
+			if = {
+				limit = { is_border_conflict_defender_vs_FROM = yes }
+				finalize_border_war = {
+					attacker_win = yes
+					attacker = 550
+					defender = 268
+				}
+			}
+			else = {
+				finalize_border_war = {
+					attacker = 550
+					defender = 268
+					defender_win = yes
+				}
+			}
+		}
+	}
 
 }
