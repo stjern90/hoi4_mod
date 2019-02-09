@@ -1280,80 +1280,34 @@ focus_tree = {
 			add_ideas = PRC_focus_on_china
 		}
 	}
-
-	focus = {
-		id = PRC_exploit_the_weak_neighbours
-		icon = GFX_goal_generic_territory_or_war
-		prerequisite = { focus = PRC_focus_on_china }
-		x = 1
-		y = 1
-		relative_position_id = PRC_focus_on_china
-
-		cost = 10
-
-		ai_will_do = {
-			factor = 1
-		}
-
-		available = {
-			OR = {
-				SHX = { can_ROOT_get_wargoal_on_THIS = yes }
-				XSM = { can_ROOT_get_wargoal_on_THIS = yes }
-			}
-		}
-
-		bypass = {
-			has_war_with = SHX
-			has_war_with = XSM
-		}
-
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-
-		complete_tooltip = {
-
-		}
-
-		completion_reward = {
-			if = {
-				limit = {
-					SHX = { can_ROOT_get_wargoal_on_THIS = yes }
-				}
-				create_wargoal = {
-					type = annex_everything
-					target = SHX
-				}
-			}
-			if = {
-				limit = {
-					XSM = { can_ROOT_get_wargoal_on_THIS = yes }
-				}
-				create_wargoal = {
-					type = annex_everything
-					target = XSM
-				}
-			}
-		}
-	}
 	
 	focus = { 
 		id = PRC_west_expedition
 		icon = GFX_goal_generic_allies_build_infantry
-		prerequisite = { focus = PRC_anti_japanese_aim focus = PRC_urge_zhang }
+		prerequisite = { focus = PRC_focus_on_china focus = PRC_prepare_for_war_with_japan }
+		
+		relative_position_id = PRC_focus_on_china
+		x = 1
+		y = 1
 		available = {
 			country_exists = XSM
 		}
 		bypass = {
 			NOT = {
+			    OR = {
 				country_exists = XSM
+				has_war_with = XSM
+				}
 			}
 		}
-		x = 3
-		y = 4
+		available = {
+				XSM = { can_ROOT_get_wargoal_on_THIS = yes }
+		}
+        cancel_if_invalid = yes
+		continue_if_invalid = no
 		cost = 10
 		completion_reward = {
-			custom_effect_tooltip = prc_west_expedition_tt
+			custom_effect_tooltip = PRC_west_expedition_tt
 			create_wargoal = {
 				target = XSM
 				type = annex_everything
@@ -1377,18 +1331,27 @@ focus_tree = {
 			
 			create_unit = { 
 				division = "name = \"West expedition volunteers\" division_template = \"Volunteer militia\" start_experience_factor = 0.3" 
-				owner = PRC
+				owner = CCP
 				}
-
+		}
+		
+		if { limit = { is_ai = yes } 
+		random_owned_controlled_state = {
+			
+			create_unit = { 
+				division = "name = \"West expedition volunteers\" division_template = \"Volunteer militia\" start_experience_factor = 0.5" 
+				owner = CCP
+				}
+		}
 		}
 			}
 		}
 	}
+		
 	
 	focus = {
 		id = PRC_approach_the_front
 		icon = GFX_goal_generic_territory_or_war
-		prerequisite = { focus = PRC_anti_japanese_aim }
 		ai_will_do = {
 			factor = 10
 			modifier = {
@@ -1399,37 +1362,30 @@ focus_tree = {
 				}
 			}			
 		}	
-		available = { 
-			OR = {
-				is_ai = no
-				AND = {
-					is_ai = yes
-					is_historical_focus_on = no
-				}
-			}
-			country_exists = SHX
-			NOT = {
-				OR = {
-					has_war_with = JAP
-					has_war_with = CHI
-				}
-			}
+		available = {
+				SHX = { can_ROOT_get_wargoal_on_THIS = yes }
 		}
 		bypass = {
 			OR = {
 				SHX = {
 					is_puppet = yes
 				}
+				has_war_with = SHX
 				NOT = {
 					country_exists = SHX
 				}
 			}
 		}
-		x = 1
-		y = 2
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		prerequisite = { focus = PRC_focus_on_china focus = PRC_prepare_for_war_with_japan }
+		
+		relative_position_id = PRC_focus_on_china
+		x = 3
+		y = 1
 		cost = 10
 		completion_reward = {
-			custom_effect_tooltip = prc_east_expedition_tt
+			custom_effect_tooltip = PRC_east_expedition_tt
 			create_wargoal = {
 				target = SHX
 				type = annex_everything
@@ -1453,10 +1409,66 @@ focus_tree = {
 			
 			create_unit = { 
 				division = "name = \"East expedition volunteers\" division_template = \"Volunteer militia\" start_experience_factor = 0.3" 
-				owner = PRC
+				owner = CCP
+				}
+		}
+		if { limit = { is_ai = yes } 
+		random_owned_controlled_state = {
+			
+			create_unit = { 
+				division = "name = \"West expedition volunteers\" division_template = \"Volunteer militia\" start_experience_factor = 0.5" 
+				owner = CCP
 				}
 
 		}
+		}
+			}
+		}
+	}
+	
+	focus = {
+		id = PRC_recover_from_the_long_march
+		icon = GFX_goal_generic_build_tank
+		prerequisite = { focus = PRC_approach_the_front focus = PRC_west_expedition }
+		available = {
+			has_war = no
+			OR = {
+			has_full_control_of_state = 615
+			has_full_control_of_state = 283
+			}
+		}
+		ai_will_do = {
+			factor = 100
+		}
+		bypass = {
+			NOT = { has_idea = PRC_devastating_long_march }
+		}
+		relative_position_id = PRC_focus_on_china
+		x = 2
+		y = 2
+		cost = 10
+		completion_reward = {
+			custom_effect_tooltip = PRC_long_march_tt
+			army_experience = 15
+			622 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			hidden_effect = {
+				remove_ideas = PRC_devastating_long_march
+				add_timed_idea = {
+					days = 105
+					idea = PRC_devastating_long_march_1
+				}
+			}
+			effect_tooltip = {
+				swap_ideas = {
+					remove_idea = PRC_devastating_long_march
+					add_idea = PRC_devastating_long_march_1
+				}
 			}
 		}
 	}
