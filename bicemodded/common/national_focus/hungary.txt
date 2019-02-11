@@ -245,7 +245,7 @@ focus_tree = {
 
 		available = {
 			strength_ratio = { tag = AUS ratio > 2 }
-			has_army_manpower = { size > 250000 }
+			has_army_manpower = { size > 225000 }
 			NOT = { has_war_with = AUS }
 			is_subject = no
 			AUS = {
@@ -295,7 +295,7 @@ focus_tree = {
 		}
 
 		available = {
-			strength_ratio = { tag = AUS ratio > 2 }
+			strength_ratio = { tag = AUS ratio > 1.5 }
 			NOT = { has_war_with = AUS }
 			NOT = { has_war_with = GER }
 			is_subject = no
@@ -323,24 +323,10 @@ focus_tree = {
 		add_stability = -0.07
 		add_popularity = { ideology = fascism popularity = 0.15 }
 		annex_country = { target = AUS transfer_troops = yes }
-		set_cosmetic_tag = HUN_EMPIRE
-			hidden_effect = { AUS = { set_cosmetic_tag = AUS_NOT_WHITE } }
-			152 = { add_core_of = ROOT }
-			153 = { add_core_of = ROOT }
-			4 = { add_core_of = ROOT }
-			69 = { add_core_of = ROOT }
-			9 = { add_core_of = ROOT }
-			75 = { add_core_of = ROOT }
-			74 = { add_core_of = ROOT }
-			72 = { add_core_of = ROOT }
-			70 = { add_core_of = ROOT }
-			664 = { add_core_of = ROOT }
-			71 = { add_core_of = ROOT }
-			73 = { add_core_of = ROOT }
 			GER = { add_to_faction = HUN }
 		}
 		completion_reward = {
-		        # become Austrian Empire
+		        # ask to become Austrian Empire
 			GER = { country_event = { id = DOD_hungary.201 } }
 		}
 	}
@@ -367,7 +353,7 @@ focus_tree = {
 
 		available = {
 			strength_ratio = { tag = AUS ratio > 2 }
-			has_army_manpower = { size > 250000 }
+			has_army_manpower = { size > 240000 }
 			4 = {
 				is_controlled_by = OWNER
 			}
@@ -409,7 +395,6 @@ focus_tree = {
 		id = HUN_proclaim_the_restoration_of_austria_hungary
 		icon = GFX_focus_proclaim_the_restauration_of_Austria_Hungary
 		prerequisite = { focus = HUN_demand_a_referendum focus = HUN_take_austria_by_force }
-		mutually_exclusive = { focus = HUN_anchluss }
 		x = -1
 		y = 2
 		relative_position_id = HUN_invite_the_habsburg_prince
@@ -1660,16 +1645,71 @@ focus_tree = {
 		cancel_if_invalid = yes
 		continue_if_invalid = no
 		available_if_capitulated = no
-
 		complete_tooltip = {
-
 		}
 
 		completion_reward = {
-			#This modifies the AI change in germany.4 Aschluss event
 			give_guarantee = AUS
 		}
 	}
+	
+	focus = {
+		id = HUN_pact_of_steel
+		icon = GFX_goal_tripartite_pact
+		prerequisite = { focus = HUN_joint_aluminum_mining_company focus = HUN_proclaim_the_restoration_of_austria_hungary }
+
+		available = {
+			date > 1940.1.1
+			OR = { has_government = fascism has_government = neutrality }
+			NOT = { has_war_with = GER }
+			ITA =  {
+			    NOT = { has_war_with = HUN }
+			    has_completed_focus = ITA_pact_of_steel
+			}
+		}
+
+		x = 2
+		y = 4
+		relative_position_id = HUN_renounce_the_treaty_of_trianon
+		cost = 3
+
+		ai_will_do = {
+			factor = 50
+		}	
+		
+
+		completion_reward = {	
+			diplomatic_relation = { country = GER
+									relation = non_aggression_pact}
+			GER = {
+				add_opinion_modifier = { target = HUN modifier = ger_ita_alliance_focus }			
+			}	
+			ITA = {
+				add_opinion_modifier = { target = HUN modifier = ger_ita_alliance_focus }			
+			}		
+			HUN = {
+				add_opinion_modifier = { target = GER modifier = ger_ita_alliance_focus }			
+			}				
+			HUN = {
+				add_opinion_modifier = { target = ITA modifier = ger_ita_alliance_focus }			
+			}
+
+
+			hidden_effect = {
+				#news_event = { hours = 6 id = news.184 } todo: make new
+			}
+
+				random_owned_controlled_state = {
+					add_extra_state_shared_building_slots = 1
+						add_building_construction = {
+							type = industrial_complex
+							level = 1
+							instant_build = yes
+						}
+			}
+		}
+	}
+
 
 	focus = {
 		id = HUN_alliance_with_italy
@@ -1682,7 +1722,7 @@ focus_tree = {
 		cost = 5
 
 		ai_will_do = {
-			factor = 60
+			factor = 10
 		}
 
 		available = {
@@ -1917,7 +1957,7 @@ focus_tree = {
 		id = HUN_Learn_from_the_Wehrmacht
 		icon = GFX_goal_generic_scientific_exchange
 		prerequisite = { focus = HUN_join_axis }
-		x = 0
+		x = 1
 		y = 5
 		relative_position_id = HUN_renounce_the_treaty_of_trianon
 		cost = 7
