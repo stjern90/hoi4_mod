@@ -897,7 +897,7 @@ focus_tree = {
 		icon = GFX_goal_generic_position_armies
 		prerequisite = { focus = PRC_revolutionary_military_commission }
 		mutually_exclusive = { focus = PRC_start_to_reform_the_army }
-		x = 2 
+		x = 3 
 		y = 1 
 		relative_position_id = PRC_revolutionary_military_commission 
 		
@@ -918,11 +918,35 @@ focus_tree = {
 	}
 	
 	focus = {
+		id = PRC_devious_tactics
+		icon = GFX_goal_generic_position_armies
+		prerequisite = { focus = PRC_improve_the_guerilla_tactics }
+		x = 0 
+		y = 1 
+		relative_position_id = PRC_improve_the_guerilla_tactics 
+		
+		cost = 4 
+		
+		ai_will_do = { 
+			factor = 4 
+		}
+		
+		available = {
+		}
+		
+		bypass = {
+		}
+		
+		completion_reward = {
+		}
+	}
+	
+	focus = {
 		id = PRC_start_to_reform_the_army
 		icon = GFX_goal_generic_position_armies
 		prerequisite = { focus = PRC_revolutionary_military_commission }
 		mutually_exclusive = { focus = PRC_improve_the_guerilla_tactics }
-		x = 4 
+		x = 5
 		y = 1 
 		relative_position_id = PRC_revolutionary_military_commission 
 		
@@ -939,6 +963,28 @@ focus_tree = {
 		}
 		
 		completion_reward = {
+		}
+	}
+	
+	focus = {
+		id = PRC_field_army
+		icon = GFX_goal_generic_position_armies
+		prerequisite = { focus = PRC_start_to_reform_the_army }
+		x = 0 
+		y = 1 
+		relative_position_id = PRC_start_to_reform_the_army 
+		
+		cost = 11 
+		
+		ai_will_do = {
+			}
+		available = {
+		}
+		
+		bypass = {
+		}
+		
+		completion_reward ={
 		}
 	}
 
@@ -1284,10 +1330,11 @@ focus_tree = {
 	focus = { 
 		id = PRC_west_expedition
 		icon = GFX_goal_generic_allies_build_infantry
-		prerequisite = { focus = PRC_focus_on_china focus = PRC_prepare_for_war_with_japan }
+		prerequisite = { focus = PRC_focus_on_china }
+		prerequisite = { focus = PRC_devious_tactics }
 		
 		relative_position_id = PRC_focus_on_china
-		x = 1
+		x = 2
 		y = 1
 		available = {
 			country_exists = XSM
@@ -1313,14 +1360,14 @@ focus_tree = {
 				division_template = {
 			name = "Volunteer militia"
 
-		regiments = {
-		militia = { x = 0 y = 0 }
-		militia = { x = 0 y = 1 }
-		militia = { x = 0 y = 2 }
+			regiments = {
+				militia = { x = 0 y = 0 }
+				militia = { x = 0 y = 1 }
+				militia = { x = 0 y = 2 }
 
-        militia = { x = 1 y = 0 }
-		militia = { x = 1 y = 1 }
-		militia = { x = 1 y = 2 }
+				militia = { x = 1 y = 0 }
+				militia = { x = 1 y = 1 }
+				militia = { x = 1 y = 2 }
 			}
 		}
 
@@ -1378,7 +1425,7 @@ focus_tree = {
 		prerequisite = { focus = PRC_focus_on_china focus = PRC_prepare_for_war_with_japan }
 		
 		relative_position_id = PRC_focus_on_china
-		x = 3
+		x = 0
 		y = 1
 		cost = 4
 		completion_reward = {
@@ -1421,14 +1468,74 @@ focus_tree = {
 	}
 	
 	focus = {
+		id = PRC_exploit_the_weak_neighbours
+		icon = GFX_goal_generic_territory_or_war
+		prerequisite = { focus = PRC_focus_on_china }
+		prerequisite = { focus = PRC_field_army }
+		x = 0
+		y = 2
+		relative_position_id = PRC_field_army
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			OR = {
+				SHX = { can_ROOT_get_wargoal_on_THIS = yes }
+				XSM = { can_ROOT_get_wargoal_on_THIS = yes }
+			}
+		}
+
+		bypass = {
+			has_war_with = SHX
+			has_war_with = XSM
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		complete_tooltip = {
+
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					SHX = { can_ROOT_get_wargoal_on_THIS = yes }
+				}
+				create_wargoal = {
+					type = annex_everything
+					target = SHX
+				}
+			}
+			if = {
+				limit = {
+					XSM = { can_ROOT_get_wargoal_on_THIS = yes }
+				}
+				create_wargoal = {
+					type = annex_everything
+					target = XSM
+				}
+			}
+		}
+	}
+	
+	focus = {
 		id = PRC_recover_from_the_long_march
 		icon = GFX_goal_generic_build_tank
-		prerequisite = { focus = PRC_approach_the_front focus = PRC_west_expedition }
+		prerequisite = { focus = PRC_focus_on_china }
+		prerequisite = { focus = PRC_devious_tactics focus = PRC_field_army }
 		available = {
 			has_war = no
 			OR = {
 			has_full_control_of_state = 615
 			has_full_control_of_state = 283
+			is_in_faction_with = CHI
+			has_war_with = JAP
 			}
 			has_army_manpower = { size > 175000 }
 		}
@@ -1439,8 +1546,8 @@ focus_tree = {
 			NOT = { has_idea = PRC_devastating_long_march }
 		}
 		relative_position_id = PRC_focus_on_china
-		x = 2
-		y = 2
+		x = 3
+		y = 3
 		cost = 10
 		completion_reward = {
 			custom_effect_tooltip = PRC_long_march_tt
@@ -1472,7 +1579,8 @@ focus_tree = {
 		id = PRC_infiltration
 		icon = GFX_focus_prc_infiltration
 		prerequisite = { focus = PRC_focus_on_china }
-		x = 0
+		prerequisite = { focus = PRC_devious_tactics }
+		x = 1
 		y = 2
 		relative_position_id = PRC_focus_on_china
 
