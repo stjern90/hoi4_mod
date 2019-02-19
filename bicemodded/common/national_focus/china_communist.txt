@@ -68,19 +68,16 @@ focus_tree = {
 		}
 
 		bypass = {
-			NOT = { has_idea = PRC_devastating_long_march }
+			NOT = { has_idea = PRC_fragemented_nation }
 		}
 
 		
 		completion_reward = {
-			add_political_power = 120
+			add_political_power = 50
 			army_experience = 15
-			622 = {
-				add_building_construction = {
-					type = infrastructure
-					level = 1
-					instant_build = yes
-				}
+			swap_ideas = {
+				remove_idea = PRC_fragemented_nation
+				add_idea = PRC_fragemented_nation_1
 			}
 		}
 	}
@@ -107,7 +104,10 @@ focus_tree = {
 		}
 		
 		completion_reward = {
-			}
+			add_equipment_to_stockpile = { type = infantry_equipment_0  amount = 500 producer = CCP }
+			add_equipment_to_stockpile = { type = infantry_uniforms  amount = 500 producer = CCP }
+			add_equipment_to_stockpile = { type = support_equipment  amount = 150 producer = CCP }
+		}
 	}
 	
 	focus = {
@@ -219,6 +219,7 @@ focus_tree = {
 
 		completion_reward = {
 			add_stability = 0.1
+			add_war_support = 0.05
 		}
 	}
 	
@@ -226,7 +227,6 @@ focus_tree = {
 		id = PRC_anti_japanese_university
 		icon = GFX_focus_generic_anti_fascist_diplomacy
 		prerequisite = { focus = PRC_anti_japanese_aim }
-		prerequisite = { focus = PRC_the_yanan_base_area }
 		x = 1
 		y = 2
 		relative_position_id = PRC_anti_japanese_aim 
@@ -284,7 +284,7 @@ focus_tree = {
 		id = PRC_agrarian_socialism
 		icon = GFX_focus_prc_agrarian_socialism
 		prerequisite = { focus = PRC_strengthen_the_central_secretariat }
-		x = 14
+		x = 18
 		y = 1
 		relative_position_id = PRC_strengthen_the_central_secretariat
 
@@ -349,10 +349,11 @@ focus_tree = {
 	focus = {
 		id = PRC_socialism_with_chinese_characteristics
 		icon = GFX_goal_generic_war_with_comintern
-		prerequisite = { focus = PRC_maoism }
-		x = 0
-		y = 3
-		relative_position_id = PRC_strengthen_the_central_secretariat
+		prerequisite = { focus = PRC_war_of_liberation }
+		prerequisite = { focus = PRC_recover_from_the_long_march }
+		x = 3
+		y = 1
+		relative_position_id = PRC_war_of_liberation
 
 		cost = 10
 
@@ -393,8 +394,8 @@ focus_tree = {
 		icon = GFX_focus_prc_proclaim_the_peoples_republic 
 		prerequisite = { focus = PRC_socialism_with_chinese_characteristics }
 		x = 0
-		y = 4
-		relative_position_id = PRC_strengthen_the_central_secretariat
+		y = 1
+		relative_position_id = PRC_socialism_with_chinese_characteristics
 
 		cost = 10
 
@@ -435,9 +436,10 @@ focus_tree = {
 		id = PRC_socialist_market_economy
 		icon = GFX_goal_generic_consumer_goods
 		prerequisite = { focus = PRC_proclaim_the_peoples_republic }
-		x = 0
-		y = 5
-		relative_position_id = PRC_strengthen_the_central_secretariat
+		prerequisite = { focus = PRC_centralized_economic_planning }
+		x = 1
+		y = 1
+		relative_position_id = PRC_proclaim_the_peoples_republic
 
 		cost = 10
 
@@ -478,9 +480,352 @@ focus_tree = {
 		}
 	}
 
+	focus = {
+		id = PRC_five_year_plan_of_china
+		icon = GFX_goal_generic_soviet_construction
+		prerequisite = { focus = PRC_socialist_market_economy }
+		x = 0
+		y = 1
+		relative_position_id = PRC_socialist_market_economy
+		
+		cost = 5 
+		
+		available = {
+		}
+		bypass = {
+			custom_trigger_tooltip = {
+				tooltip = production_effort_tt
+				all_owned_state = {
+					free_building_slots = {
+						building = arms_factory
+						size < 1
+						include_locked = yes
+					}
+				}
+			}
+		}
+		
+		completion_reward = {
+			add_timed_idea = {
+				idea = PRC_five_year_plans_of_China
+				days = 1825
+			}
+			add_tech_bonus = {
+				name = construction_tech
+				bonus = 0.5
+				uses = 1
+				category = construction_tech
+			}
+			add_tech_bonus = {
+				name = industry_tech
+				bonus = 0.5
+				uses = 2
+				category = industry
+			}
+		}
+	}
+	
+	focus = {
+		id = PRC_nationalise_companies
+		icon = GFX_goal_generic_demand_territory
+		prerequisite = { focus = PRC_five_year_plan_of_china }
+		x = -1 
+		y = 1 
+		relative_position_id = PRC_five_year_plan_of_china
+		
+		cost = 10
+		
+		ai_will_do = {
+		}
+		
+		available = {
+			has_war = no
+			num_of_factories > 150
+		}
+		
+		bypass = {
+		}
+		
+		completion_reward = {
+			custom_effect_tooltip = available_industrial_concern
+			show_ideas_tooltip = 
+			613 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+				type = industrial_complex
+				level = 2
+				instant_build = yes
+				}	
+			}
+		}
+	}
+	
+	focus = {
+		id = PRC_new_industrial_center
+		icon = GFX_goal_generic_consumer_goods
+		prerequisite = { focus = PRC_nationalise_companies }
+		x = 0 
+		y = 1  
+		relative_position_id = PRC_nationalise_companies  
+		
+		cost = 12 
+		
+		ai_will_do = {
+		}
+		
+		available = {
+		}
+		
+		bypass = {
+		}
+		
+		completion_reward = {
+			random_owned_controlled_state = {
+				prioritize = { 608 }
+					limit = {
+					}
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = industrial_complex
+						level = 2
+						instant_build = yes
+					}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 744 }
+					limit = {
+					}
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = industrial_complex
+						level = 2
+						instant_build = yes
+					}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 605 }
+					limit = {
+					}
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = industrial_complex
+						level = 2
+						instant_build = yes
+					}
+			}
+		}
+	}
+	
+	
+	focus = {
+		id = PRC_support_the_heavy_industry
+		icon = GFX_goal_economic_control
+		prerequisite = { focus = PRC_mining_commission }
+		prerequisite = { focus = PRC_new_industrial_center }
+		x = 1 
+		y = 1
+		relative_position_id = PRC_new_industrial_center
+		
+		cost = 12 
+		
+		ai_will_do = {
+			factor = 10 
+		}
+		
+		available = {
+			has_war = no
+			num_of_factories > 150
+		}
+		
+		bypass = {
+		}
+		
+		completion_reward = {
+			remove_ideas = PRC_incompetent_heavy_industry
+		}
+	}
+	
+	focus = {
+		id = PRC_reorganise_arms_production
+		icon = GFX_goal_generic_construct_mil_factory
+		prerequisite = { focus = PRC_support_the_heavy_industry }
+		x = -2
+		y = 1
+		relative_position_id = PRC_support_the_heavy_industry
+		
+		cost = 8 
+		
+		ai_will_do = { 
+			factor = 0 
+		}
+		
+		available = {
+		}
+		
+		bypass = {
+		}
+		
+		completion_reward = {
+			custom_effect_tooltip = available_designer
+			show_ideas_tooltip = 
+			custom_effect_tooltip = available_tank_designer
+			show_ideas_tooltip = 
+			random_owned_controlled_state = {
+				prioritize = { 605 }
+					limit = {
+					}
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = arms_factory
+						level = 2
+						instant_build = yes
+					}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 608 }
+					limit = {
+					}
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = arms_factory
+						level = 2
+						instant_build = yes
+					}
+			}
+		}
+	}
 
+	focus = {
+		id = PRC_hire_soviet_designer
+		icon = GFX_t_34_prototype
+		prerequisite = { focus = PRC_reorganise_arms_production }
+		prerequisite = { focus = PRC_invite_soviet_military_advisors }
+		x = -1
+		y = 1
+		relative_position_id = PRC_reorganise_arms_production
 
+		cost = 10
 
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			OR = { 
+				NOT	= {	country_exists = CHI }
+				NOT = {
+				CHI = { has_non_aggression_pact_with = SOV }
+				}
+			}
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		complete_tooltip = {
+
+		}
+
+		completion_reward = {
+			add_tech_bonus = {
+				name = CHI_hire_soviet_designer
+				bonus = 0.5
+				uses = 1
+				category = armor
+			}
+			custom_effect_tooltip = available_designer
+			show_ideas_tooltip = PRC_soviet_tank_experts
+		}
+	}
+	
+	focus = {
+		id = PRC_specialist_training_program
+		icon = GFX_focus_generic_socialist_science
+		prerequisite = { focus = PRC_literacy_programs }
+		prerequisite = { focus = PRC_five_year_plan_of_china }
+		x = 1 
+		y = 1 
+		relative_position_id = PRC_five_year_plan_of_china
+
+		cost = 5 
+		
+		available = {
+			}
+			
+		bypass = {
+		}
+		
+		completion_reward = {
+			unlock_decision_tooltip = PRC_specialized_training_decision
+		}
+	}
+	
+	focus = {
+		id = PRC_mining_commission
+		icon = GFX_goal_generic_construction2
+		prerequisite = { focus = PRC_specialist_training_program }
+		x = 0
+		y = 1
+		relative_position_id = PRC_specialist_training_program
+		cost = 10
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		available = {
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			custom_effect_tooltip = available_industrial_concern
+			show_ideas_tooltip = PRC_mining_commission			
+		}
+	}
+	
+	focus = {
+		id = PRC_chemical_research_institute
+		icon = GFX_focus_research
+		prerequisite = { focus = PRC_specialist_training_program }
+		prerequisite = { focus = PRC_tsinghua_university }
+		x = 1 
+		y = 2
+		relative_position_id = PRC_specialist_training_program
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			num_of_factories > 74
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {			
+			add_research_slot = 1
+		}
+	}
 
 	focus = {
 		id = PRC_strengthen_the_left_wing_of_the_kmt
@@ -554,15 +899,195 @@ focus_tree = {
 			PRC_low_popular_support_level_down = yes
 		}
 	}
+	
+	focus = {
+		id = PRC_support_the_peasants
+		icon = GFX_focus_generic_self_management
+		prerequisite = { focus = PRC_land_redistribution }
+		prerequisite = { focus = PRC_the_yanan_base_area }
+		x = -2 
+		y = 1 
+		relative_position_id = PRC_land_redistribution
+		
+		cost = 7 
+		
+		ai_will_do = {
+			factor = 5 
+		}
+		
+		available = {
+		}
+		
+		bypass = {
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		complete_tooltip = {
+
+		}
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				prioritize = { 622 }
+					limit = {
+					}
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = industrial_complex
+						level = 2
+						instant_build = yes
+					}
+			}
+		}
+	}
+	
+	focus = {
+		id = PRC_local_arms_production 
+		icon = GFX_goal_generic_construct_mil_factory
+		prerequisite = { focus = PRC_provisional_science_department }
+		x = 1 
+		y = 2 
+		relative_position_id = PRC_the_yanan_base_area
+		
+		cost = 5 
+		
+		ai_will_do = {
+			factor = 5 
+		}
+		
+		available = {
+			622 = { is_fully_controlled_by = ROOT }
+		}
+		
+		bypass = {
+		}
+		
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		completion_reward = {
+			random_owned_controlled_state = {
+				prioritize = { 622 }
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = PRC_local_industry
+		icon = GFX_goal_generic_consumer_goods
+		prerequisite = { focus = PRC_support_the_peasants }
+		prerequisite = { focus = PRC_recover_from_the_long_march }
+		x = 2 
+		y = 1 
+		relative_position_id = PRC_recover_from_the_long_march 
+		
+		cost = 5 
+		
+		ai_will_do = {
+			factor = 5 
+		}
+		
+		available = {
+			}
+			
+		bypass = {
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		completion_reward = {
+			random_owned_controlled_state = {
+				prioritize = { 622 }
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = PRC_centralized_economic_planning
+		icon = GFX_goal_generic_intelligence_exchange
+		prerequisite = { focus = PRC_local_industry }
+		prerequisite = { focus = PRC_socialism_with_chinese_characteristics }
+		x = -1
+		y = 2 
+		relative_position_id = PRC_local_industry 
+		
+		cost = 10 
+		
+		ai_will_do = {
+			}
+			
+		available = {
+		}
+		
+		bypass = {
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		completion_reward = {
+			remove_ideas = PRC_ineffective_bureaucracy
+			random_owned_controlled_state = {
+				prioritize = { 622 }
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
 
 	focus = {
 		id = PRC_the_yanan_base_area
 		icon = GFX_goal_generic_construct_infrastructure
 		prerequisite = { focus = PRC_maoism }
-		prerequisite = { focus = PRC_revolutionary_military_commission }
-		x = 0
+		prerequisite = { focus = PRC_agrarian_socialism }
+		x = -4
 		y = 1
-		relative_position_id = PRC_revolutionary_military_commission
+		relative_position_id = PRC_agrarian_socialism
 
 		cost = 6
 
@@ -604,14 +1129,43 @@ focus_tree = {
 			}
 		}
 	}
+	
+	focus = {
+		id = PRC_provisional_science_department
+		icon = GFX_goal_generic_scientific_exchange
+		prerequisite = { focus = PRC_the_yanan_base_area }
+		x = 0
+		y = 1
+		relative_position_id = PRC_the_yanan_base_area
+		
+		cost = 5
+		
+		ai_will_do = {
+			factor = 5 
+		}
+		
+		available = {
+			}
+			
+		bypass = {
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		completion_reward = {
+			PRC_personnel_shortage_down = yes
+		}
+	}
 
 	focus = {
 		id = PRC_prepare_for_war_with_japan
 		icon = GFX_goal_generic_major_war
-		prerequisite = { focus = PRC_the_yanan_base_area }
+		prerequisite = { focus = PRC_revolutionary_military_commission }
 		x = -1
-		y = 1
-		relative_position_id = PRC_the_yanan_base_area
+		y = 2
+		relative_position_id = PRC_revolutionary_military_commission
 
 		cost = 10
 
@@ -1043,6 +1597,46 @@ focus_tree = {
 			unlock_decision_tooltip = { decision = PRC_provoke_japan show_effect_tooltip = yes }
 		}
 	}
+	
+	focus = {
+		id = PRC_request_northeast_china
+		icon = GFX_focus_jap_cast_the_die
+		prerequisite = { focus = PRC_provoke_japan }
+		x = 3
+		y = 1
+		relative_position_id = PRC_provoke_japan
+		
+		cost = 7 
+		
+		ai_will_do = {
+			factor = 100
+		}
+		
+		available = {
+
+			NOT = {
+				any_state = {
+					NOT = {
+						controller = {
+							OR = {
+								tag = SOV
+								is_in_faction_with = SOV
+							}
+							has_war_with = JAP
+						}
+					}
+				}
+			}
+		}
+		
+		completion_reward = {
+			SOV = {
+				country_event = {
+					id = prc.9
+				}
+			}
+		}
+	}
 
 	focus = {
 		id = PRC_protracted_warfare
@@ -1185,10 +1779,11 @@ focus_tree = {
 	focus = {
 		id = PRC_central_military_commission
 		icon = GFX_goal_generic_defence
-		prerequisite = { focus = PRC_focus_on_china focus = PRC_prepare_for_war_with_japan }
+		prerequisite = { focus = PRC_war_of_liberation }
+		prerequisite = { focus = PRC_socialism_with_chinese_characteristics }
 		x = 1
-		y = 3
-		relative_position_id = PRC_prepare_for_war_with_japan
+		y = 2
+		relative_position_id = PRC_war_of_liberation
 
 		cost = 10
 
@@ -1254,12 +1849,222 @@ focus_tree = {
 			remove_ideas = PRC_red_army_weakened
 		}
 	}
+	
+	focus = {
+		id = PRC_establish_the_peoples_liberation_army_air_force
+		icon = GFX_goal_generic_build_airforce
+		prerequisite = { focus = PRC_peoples_liberation_army }
+		x = -5
+		y = 1
+		relative_position_id = PRC_peoples_liberation_army
+		
+		cost = 10
+		
+		ai_will_do = {
+			factor = 10 
+		}
+		
+		available = {
+		}
+		
+		bypass = {
+		}
+		
+		completion_reward = {
+			air_experience = 15
+			add_tech_bonus = {
+				bonus = 0.25
+				uses = 3
+				category = air_doctrine
+			}
+			random_owned_controlled_state = {
+				prioritize = { 608 }
+					limit = {
+					air_base > 0
+					air_base < 9
+					}
+					add_building_construction = {
+							type = air_base
+							level = 2
+							instant_build = yes
+						}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 622 }
+					limit = {
+					air_base > 0
+					air_base < 9
+					}
+					add_building_construction = {
+							type = air_base
+							level = 2
+							instant_build = yes
+						}
+			}	
+			random_owned_controlled_state = {
+				prioritize = { 613 }
+					limit = {
+					air_base > 0
+					air_base < 9
+					}
+					add_building_construction = {
+							type = air_base
+							level = 2
+							instant_build = yes
+						}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 605 }
+					limit = {
+					air_base > 0
+					air_base < 9
+					}
+					add_building_construction = {
+							type = air_base
+							level = 2
+							instant_build = yes
+						}
+			}
+		}
+	}
+	
+	focus = {
+		id = PRC_establish_the_peoples_liberation_army_navy
+		icon = GFX_goal_generic_navy_battleship
+		prerequisite = { focus = PRC_peoples_liberation_army }
+		x = -1
+		y = 1
+		relative_position_id = PRC_peoples_liberation_army
+		
+		cost = 10
+		
+		available = {
+			any_state = {
+				is_coastal = yes
+				is_controlled_by = ROOT
+			}
+		}
+		
+		bypass = {
+			}
+		
+		completion_reward = {
+			navy_experience = 10
+			add_tech_bonus = {
+				bonus = 0.25
+				uses = 3
+				category = naval_doctrine
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = dockyard
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = dockyard
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+			}
+			create_navy_leader = {
+					name = "Zhang Aiping"
+					picture = "Portrait_PRC_chen_yi.tga"
+					traits = { }
+					skill = 3
+			}
+		}
+	}
+	
+	focus = {
+		id = PRC_assistance_in_building_up_a_naval_industry
+		icon = GFX_goal_generic_construct_naval_dockyard
+		prerequisite = { focus = PRC_establish_the_peoples_liberation_army_navy }
+		x = 0
+		y = 1
+		relative_position_id = PRC_establish_the_peoples_liberation_army_navy
+		
+		cost = 5
+		
+		available = {
+		}
+		
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = dockyard
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+			}
+			
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = dockyard
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = PRC_invite_soviet_military_advisors
+		icon = GFX_focus_generic_join_comintern
+		prerequisite = { focus = PRC_peoples_liberation_army }
+		x = 0
+		y = 4
+		relative_position_id = PRC_peoples_liberation_army
+		
+		cost = 10
+		
+		available = {
+		}
 
+		completion_reward = {
+			add_ideas = PRC_soviet_advisor
+		}
+	}
+	
 	focus = {
 		id = PRC_peoples_volunteer_army
 		icon = GFX_goal_generic_special_forces
 		prerequisite = { focus = PRC_central_military_commission }
-		x = 2
+		x = -2
 		y = 1
 		relative_position_id = PRC_central_military_commission
 
@@ -1293,10 +2098,10 @@ focus_tree = {
 	focus = {
 		id = PRC_focus_on_china
 		icon = GFX_goal_generic_major_war
-		prerequisite = { focus = PRC_the_yanan_base_area }
+		prerequisite = { focus = PRC_revolutionary_military_commission }
 		x = 1
-		y = 1
-		relative_position_id = PRC_the_yanan_base_area
+		y = 2
+		relative_position_id = PRC_revolutionary_military_commission
 
 		cost = 10
 
@@ -1332,10 +2137,12 @@ focus_tree = {
 		icon = GFX_goal_generic_allies_build_infantry
 		prerequisite = { focus = PRC_focus_on_china }
 		prerequisite = { focus = PRC_devious_tactics }
-		
-		relative_position_id = PRC_focus_on_china
-		x = 2
+		x = 3
 		y = 1
+		relative_position_id = PRC_focus_on_china
+		
+		cost = 4 
+		
 		available = {
 			country_exists = XSM
 		}
@@ -1350,9 +2157,10 @@ focus_tree = {
 		available = {
 				XSM = { can_ROOT_get_wargoal_on_THIS = yes }
 		}
+		
         cancel_if_invalid = yes
 		continue_if_invalid = no
-		cost = 4
+		
 		completion_reward = {
 			custom_effect_tooltip = PRC_west_expedition_tt
 			unlock_decision_tooltip = PRC_west_expedition
@@ -1396,6 +2204,13 @@ focus_tree = {
 	focus = {
 		id = PRC_approach_the_front
 		icon = GFX_goal_generic_territory_or_war
+		prerequisite = { focus = PRC_focus_on_china }
+		x = 1 
+		y = 1 
+		relative_position_id = PRC_focus_on_china
+		
+		cost = 5 
+			
 		ai_will_do = {
 			factor = 10
 			modifier = {
@@ -1422,12 +2237,9 @@ focus_tree = {
 		}
 		cancel_if_invalid = yes
 		continue_if_invalid = no
-		prerequisite = { focus = PRC_focus_on_china focus = PRC_prepare_for_war_with_japan }
 		
-		relative_position_id = PRC_focus_on_china
-		x = 0
-		y = 1
-		cost = 4
+
+	
 		completion_reward = {
 			custom_effect_tooltip = PRC_east_expedition_tt
 			unlock_decision_tooltip = PRC_approach_the_front
@@ -1527,8 +2339,18 @@ focus_tree = {
 	focus = {
 		id = PRC_recover_from_the_long_march
 		icon = GFX_goal_generic_build_tank
-		prerequisite = { focus = PRC_focus_on_china }
-		prerequisite = { focus = PRC_devious_tactics focus = PRC_field_army }
+		prerequisite = { focus = PRC_china_medical_university }
+		prerequisite = { focus = PRC_local_arms_production }
+		x = 1
+		y = 1
+		relative_position_id = PRC_china_medical_university
+		
+		cost = 10
+		
+		ai_will_do = {
+			factor = 100
+		}
+		
 		available = {
 			has_war = no
 			OR = {
@@ -1539,39 +2361,15 @@ focus_tree = {
 			}
 			has_army_manpower = { size > 175000 }
 		}
-		ai_will_do = {
-			factor = 100
-		}
+
 		bypass = {
-			NOT = { has_idea = PRC_devastating_long_march }
+			NOT = { has_idea = PRC_fragemented_nation_1 }
 		}
-		relative_position_id = PRC_focus_on_china
-		x = 3
-		y = 3
-		cost = 10
+
 		completion_reward = {
-			custom_effect_tooltip = PRC_long_march_tt
 			army_experience = 15
-			622 = {
-				add_building_construction = {
-					type = infrastructure
-					level = 1
-					instant_build = yes
-				}
-			}
-			hidden_effect = {
-				remove_ideas = PRC_devastating_long_march
-				add_timed_idea = {
-					days = 105
-					idea = PRC_devastating_long_march_1
-				}
-			}
-			effect_tooltip = {
-				swap_ideas = {
-					remove_idea = PRC_devastating_long_march
-					add_idea = PRC_devastating_long_march_1
-				}
-			}
+			add_political_power = 50 
+			remove_ideas = PRC_fragemented_nation_1
 		}
 	}
 
@@ -1580,7 +2378,7 @@ focus_tree = {
 		icon = GFX_focus_prc_infiltration
 		prerequisite = { focus = PRC_focus_on_china }
 		prerequisite = { focus = PRC_devious_tactics }
-		x = 1
+		x = 0
 		y = 2
 		relative_position_id = PRC_focus_on_china
 
@@ -1617,6 +2415,84 @@ focus_tree = {
 				value = 1
 			}
 		}
+	}
+	
+	focus = {
+		id = PRC_war_of_liberation
+		icon = GFX_goal_support_communism
+		prerequisite = { focus = PRC_infiltration focus = PRC_exploit_the_weak_neighbours }
+		x = 2
+		y = 1
+		relative_position_id = PRC_infiltration
+		
+		cost = 10 
+		
+		
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			if = {
+				limit = {
+					country_exists = CHI
+					NOT = {
+						has_war_with = CHI
+						CHI = {
+							has_government = communism
+						}
+					}
+				}
+				country_event = {
+					days = 5
+					id = rcmchina.351
+				}
+			}
+			every_other_country = {
+				limit = {
+					OR = {
+						is_legit_china = yes
+						is_warlord = yes
+					}
+					NOT = {
+						has_government = communism
+					}
+				}
+				PREV = {
+					add_timed_idea = {
+						idea = communist_influence
+						days = 180
+					}
+				}
+				create_wargoal = {
+					type = annex_everything
+					target = PREV
+				}
+			}
+			add_timed_idea = {
+				idea = PRC_War_of_Liberation
+				days = 120
+			}
+		}
+		available = {
+			OR = {
+				num_of_controlled_states > 5
+				num_of_factories > 15
+			}			
+			NOT = {
+				has_war_with = JAP
+			}
+			NOT = {
+				any_other_country = {
+					is_legit_china = yes
+					has_war_with = JAP
+				}
+			}
+		}
+		bypass = {
+
+		}
+
 	}
 
 	focus = {
@@ -1833,10 +2709,11 @@ focus_tree = {
 	focus = {
 		id = PRC_china_medical_university
 		icon = GFX_focus_research
-		prerequisite = { focus = PRC_literacy_programs }
-		x = 0
-		y = 1
-		relative_position_id = PRC_literacy_programs
+		prerequisite = { focus = PRC_provisional_science_department }
+		prerequisite = { focus = PRC_devious_tactics focus = PRC_field_army }
+		x = -1
+		y = 2
+		relative_position_id = PRC_the_yanan_base_area
 
 		cost = 10
 
@@ -1869,7 +2746,7 @@ focus_tree = {
 	focus = {
 		id = PRC_form_the_academy_of_sciences
 		icon = GFX_goal_generic_scientific_exchange
-		prerequisite = { focus = PRC_china_medical_university }
+		prerequisite = { focus = PRC_literacy_programs }
 		x = 0
 		y = 2
 		relative_position_id = PRC_literacy_programs
@@ -1899,6 +2776,28 @@ focus_tree = {
 
 		completion_reward = {
 			add_research_slot = 1
+
+		}
+	}
+	
+	focus = {
+		id = PRC_tsinghua_university
+		icon = GFX_goal_shx_taiyuanyinhang
+		prerequisite = { focus = PRC_form_the_academy_of_sciences }
+		x = 0
+		y = 4
+		relative_position_id = PRC_form_the_academy_of_sciences
+		
+		cost = 10 
+		
+		ai_will_do = {
+			factor = 10 
+		}
+		
+		available = {
+		}
+		
+		completion_reward = {
 
 		}
 	}
