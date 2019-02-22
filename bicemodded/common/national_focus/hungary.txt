@@ -175,7 +175,7 @@ focus_tree = {
 		prerequisite = { focus = HUN_elect_a_king }
 		mutually_exclusive = { focus =  HUN_elect_a_democratic_king }
 		mutually_exclusive = { focus =  HUN_elect_a_fascist_king }
-		x = -3
+		x = 0
 		y = 1
 		relative_position_id = HUN_elect_a_king
 
@@ -230,7 +230,7 @@ focus_tree = {
 
 	focus = {
 		id = HUN_demand_a_referendum
-		icon = GFX_goal_generic_forceful_treaty
+		icon = GFX_goal_anchluss_edit
 		prerequisite = { focus = HUN_invite_the_habsburg_prince }
 		mutually_exclusive = { focus = HUN_take_austria_by_force }
 		x = -1
@@ -245,7 +245,7 @@ focus_tree = {
 
 		available = {
 			strength_ratio = { tag = AUS ratio > 2 }
-			has_army_manpower = { size > 250000 }
+			has_army_manpower = { size > 225000 }
 			NOT = { has_war_with = AUS }
 			is_subject = no
 			AUS = {
@@ -271,7 +271,63 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			AUS = { country_event = { id = DOD_hungary.1 } }
+		        if = { limit = { country_exists = GER }
+			     GER = { country_event = { id = DOD_hungary.8 } }
+			     else = { AUS = { country_event = { id = DOD_hungary.1 } }
+				 }
+			}
+		}
+	}
+	
+	focus = {
+		id = HUN_anchluss
+		icon = GFX_goal_generic_forceful_treaty
+		prerequisite = { focus = HUN_demand_a_referendum }
+		mutually_exclusive = { focus = HUN_proclaim_the_restoration_of_austria_hungary }
+		x = 1
+		y = 2
+		relative_position_id = HUN_invite_the_habsburg_prince
+
+		cost = 6
+
+		ai_will_do = {
+			factor = 70
+		}
+
+		available = {
+			strength_ratio = { tag = AUS ratio > 1.5 }
+			NOT = { has_war_with = AUS }
+			NOT = { has_war_with = GER }
+			is_subject = no
+			AUS = {
+				OR = {
+					exists = yes
+					is_subject = no
+				}
+			}
+		}
+
+		bypass = {
+			owns_state = 4
+			owns_state = 153
+			owns_state = 152
+		}
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		complete_tooltip = {
+            if = { limit = { is_in_faction = yes }
+	    	dismantle_faction = yes
+		}
+		add_stability = -0.07
+		add_popularity = { ideology = fascism popularity = 0.15 }
+		annex_country = { target = AUS transfer_troops = yes }
+			GER = { add_to_faction = HUN }
+		}
+		completion_reward = {
+		        # ask to become Austrian Empire
+			GER = { country_event = { id = DOD_hungary.201 } }
 		}
 	}
 
@@ -297,7 +353,7 @@ focus_tree = {
 
 		available = {
 			strength_ratio = { tag = AUS ratio > 2 }
-			has_army_manpower = { size > 250000 }
+			has_army_manpower = { size > 240000 }
 			4 = {
 				is_controlled_by = OWNER
 			}
@@ -305,7 +361,9 @@ focus_tree = {
 		}
 
 		bypass = {
-
+			owns_state = 4
+			owns_state = 153
+			owns_state = 152
 		}
 
 		cancel_if_invalid = yes
@@ -339,7 +397,7 @@ focus_tree = {
 		id = HUN_proclaim_the_restoration_of_austria_hungary
 		icon = GFX_focus_proclaim_the_restauration_of_Austria_Hungary
 		prerequisite = { focus = HUN_demand_a_referendum focus = HUN_take_austria_by_force }
-		x = 0
+		x = -1
 		y = 2
 		relative_position_id = HUN_invite_the_habsburg_prince
 
@@ -393,9 +451,9 @@ focus_tree = {
 	focus = {
 		id = HUN_protect_czechoslovakia
 		icon = GFX_goal_generic_defence
-		prerequisite = { focus = HUN_proclaim_the_restoration_of_austria_hungary }
+		prerequisite = { focus = HUN_proclaim_the_restoration_of_austria_hungary focus = HUN_anchluss }
 		x = 0
-		y = 3
+		y = 4
 		relative_position_id = HUN_invite_the_habsburg_prince
 
 		cost = 10
@@ -438,7 +496,7 @@ focus_tree = {
 		icon = GFX_focus_generic_strike_at_democracy2
 		prerequisite = { focus = HUN_protect_czechoslovakia }
 		x = -1
-		y = 4
+		y = 5
 		relative_position_id = HUN_invite_the_habsburg_prince
 
 		cost = 10
@@ -448,7 +506,7 @@ focus_tree = {
 		}
 
 		available = {
-			has_army_manpower = { size > 250000 }
+			has_army_manpower = { size > 320000 }
 			is_subject = no
 		}
 
@@ -496,8 +554,8 @@ focus_tree = {
 		id = HUN_march_to_the_shore
 		icon = GFX_focus_generic_strike_at_democracy3
 		prerequisite = { focus = HUN_claim_transylvania }
-		x = -1
-		y = 5
+		x = -2
+		y = 6
 		relative_position_id = HUN_invite_the_habsburg_prince
 
 		cost = 10
@@ -507,7 +565,7 @@ focus_tree = {
 		}
 
 		available = {
-			has_army_manpower = { size > 250000 }
+			has_army_manpower = { size > 370000 }
 			is_subject = no
 		}
 
@@ -537,13 +595,49 @@ focus_tree = {
 			add_state_claim = 163
 		}
 	}
-
+        focus = {
+		id = HUN_south_tyrol
+		icon = GFX_goal_tyrol
+		prerequisite = { focus = HUN_march_to_the_shore }
+		#mutually_exclusive = { focus = HUN_italy_ally }
+		
+		relative_position_id = HUN_invite_the_habsburg_prince
+		x = 0
+		y = 7
+		cost = 8
+		available = {
+			NOT = { owns_state = 39  }  #South Tyrol
+			is_puppet = no
+			has_army_manpower = { size > 420000 }
+		}
+		cancel = {
+				is_puppet = yes
+		}
+		bypass = {
+			OR = {
+				ITA = {	NOT = { exists = yes } }
+				ITA = { NOT = { owns_state = 39 } } #South Tyrol
+			}
+		}
+		available_if_capitulated = no
+		cancel_if_invalid = no
+		
+		ai_will_do = {
+			factor = 1
+		}	
+		completion_reward = {
+			add_state_claim = 39 #South Tyrol  
+			add_named_threat = { threat = 3 name = GER_south_tyrol_threat }
+			HUN = { country_event = germany.308 }   
+		}
+	}
+	
 	focus = {
 		id = HUN_reclaim_venetia
 		icon = GFX_goal_generic_occupy_states_coastal
 		prerequisite = { focus = HUN_march_to_the_shore }
-		x = -1
-		y = 6
+		x = -2
+		y = 7
 		relative_position_id = HUN_invite_the_habsburg_prince
 
 		cost = 10
@@ -553,7 +647,7 @@ focus_tree = {
 		}
 
 		available = {
-			has_army_manpower = { size > 450000 }
+			has_army_manpower = { size > 500000 }
 		}
 
 		bypass = {
@@ -582,9 +676,9 @@ focus_tree = {
 	focus = {
 		id = HUN_claim_galicia
 		icon = GFX_focus_generic_strike_at_democracy1
-		prerequisite = { focus = HUN_protect_czechoslovakia }
-		x = 1
-		y = 5
+		prerequisite = { focus = HUN_protect_czechoslovakia focus = HUN_proclaim_greater_hungary }
+		x = 0
+		y = 6
 		relative_position_id = HUN_invite_the_habsburg_prince
 
 		cost = 10
@@ -594,7 +688,7 @@ focus_tree = {
 		}
 
 		available = {
-			has_army_manpower = { size > 300000 }
+			has_army_manpower = { size > 370000 }
 			is_subject = no
 		}
 
@@ -618,13 +712,88 @@ focus_tree = {
 			add_state_claim = 91
 		}
 	}
+	
+	focus = {
+		id = HUN_fortify_empire
+		icon = GFX_goal_generic_fortify_city
+		prerequisite = { focus = HUN_protect_czechoslovakia focus = HUN_proclaim_greater_hungary }
+		x = 2
+		y = 6
+		relative_position_id = HUN_invite_the_habsburg_prince
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 60
+		}
+
+		available = {
+			HUN = { controls_state = 9 }
+			HUN = { controls_state = 70 }
+			HUN = { controls_state = 75 }
+			HUN = { controls_state = 664 }
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		complete_tooltip = {
+
+		}
+
+		completion_reward = {
+			73 = {
+			    if = { limit = { is_controlled_by = ROOT }
+				add_building_construction = { type = bunker province = 9563 level = 2 instant_build = yes }
+				add_building_construction = { type = bunker province = 11536 level = 1 instant_build = yes }
+				add_building_construction = { type = bunker province = 6571 level = 1 instant_build = yes }
+				}
+			}
+			644 = {
+			    if = { limit = { is_controlled_by = ROOT }
+				set_building_level = {
+						type = bunker
+						level = 1
+						province = {
+							all_provinces = yes
+							limit_to_border = yes
+							level < 2
+						}
+					}
+				}
+			}
+			76 = {
+			    if = { limit = { is_controlled_by = ROOT }
+				add_building_construction = { type = bunker province = 746 level = 2 instant_build = yes }
+				}
+			}
+			45 = {
+			    if = { limit = { is_controlled_by = ROOT }
+				add_building_construction = { type = bunker province = 614 level = 1 instant_build = yes }
+				add_building_construction = { type = bunker province = 11580 level = 1 instant_build = yes }
+				add_building_construction = { type = bunker province = 9608 level = 1 instant_build = yes }
+				}
+			}
+			4 = {
+			    if = { limit = { is_controlled_by = ROOT }
+				add_building_construction = { type = bunker province = 9646 level = 1 instant_build = yes }
+				add_building_construction = { type = bunker province = 11630 level = 1 instant_build = yes }
+				}
+			}
+		}
+	}
 
 	focus = {
 		id = HUN_claim_the_bucovina
 		icon = GFX_focus_generic_strike_at_democracy2
 		prerequisite = { focus = HUN_claim_galicia }
-		x = 1
-		y = 6
+		x = 3
+		y = 7
 		relative_position_id = HUN_invite_the_habsburg_prince
 
 		cost = 10
@@ -659,7 +828,7 @@ focus_tree = {
 		prerequisite = { focus = HUN_reclaim_venetia }
 		prerequisite = { focus = HUN_claim_the_bucovina }
 		x = 0
-		y = 7
+		y = 8
 		relative_position_id = HUN_invite_the_habsburg_prince
 
 		cost = 10
@@ -716,7 +885,7 @@ focus_tree = {
 		prerequisite = { focus = HUN_elect_a_king }
 		mutually_exclusive = { focus =  HUN_elect_a_fascist_king }
 		mutually_exclusive = { focus =  HUN_invite_the_habsburg_prince }
-		x = 0
+		x = -3
 		y = 1
 		relative_position_id = HUN_elect_a_king
 
@@ -1219,6 +1388,31 @@ focus_tree = {
 			}
 		}
 	}
+	
+	focus = {
+		id = HUN_break_unions
+		icon = GFX_shadow_government
+		prerequisite = { focus = HUN_strengthen_fascists }
+		x = 1
+		y = 2
+		relative_position_id = HUN_strengthen_fascists
+
+		cost = 4
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		available = {
+			is_subject = no
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+		add_popularity = { ideology = fascism popularity = 0.08 }
+		}
+	}
 
 	focus = {
 		id = HUN_renounce_the_treaty_of_trianon
@@ -1449,16 +1643,71 @@ focus_tree = {
 		cancel_if_invalid = yes
 		continue_if_invalid = no
 		available_if_capitulated = no
-
 		complete_tooltip = {
-
 		}
 
 		completion_reward = {
-			#This modifies the AI change in germany.4 Aschluss event
 			give_guarantee = AUS
 		}
 	}
+	
+	focus = {
+		id = HUN_pact_of_steel
+		icon = GFX_goal_tripartite_pact
+		prerequisite = { focus = HUN_joint_aluminum_mining_company focus = HUN_proclaim_the_restoration_of_austria_hungary }
+
+		available = {
+			date > 1940.1.1
+			OR = { has_government = fascism has_government = neutrality }
+			NOT = { has_war_with = GER }
+			ITA =  {
+			    NOT = { has_war_with = HUN }
+			    has_completed_focus = ITA_pact_of_steel
+			}
+		}
+
+		x = 2
+		y = 4
+		relative_position_id = HUN_renounce_the_treaty_of_trianon
+		cost = 3
+
+		ai_will_do = {
+			factor = 50
+		}	
+		
+
+		completion_reward = {	
+			diplomatic_relation = { country = GER
+									relation = non_aggression_pact}
+			GER = {
+				add_opinion_modifier = { target = HUN modifier = ger_ita_alliance_focus }			
+			}	
+			ITA = {
+				add_opinion_modifier = { target = HUN modifier = ger_ita_alliance_focus }			
+			}		
+			HUN = {
+				add_opinion_modifier = { target = GER modifier = ger_ita_alliance_focus }			
+			}				
+			HUN = {
+				add_opinion_modifier = { target = ITA modifier = ger_ita_alliance_focus }			
+			}
+
+
+			hidden_effect = {
+				#news_event = { hours = 6 id = news.184 } todo: make new
+			}
+
+				random_owned_controlled_state = {
+					add_extra_state_shared_building_slots = 1
+						add_building_construction = {
+							type = industrial_complex
+							level = 1
+							instant_build = yes
+						}
+			}
+		}
+	}
+
 
 	focus = {
 		id = HUN_alliance_with_italy
@@ -1471,7 +1720,7 @@ focus_tree = {
 		cost = 5
 
 		ai_will_do = {
-			factor = 60
+			factor = 10
 		}
 
 		available = {
@@ -1595,7 +1844,7 @@ focus_tree = {
 		icon = GFX_goal_generic_construction2
 		prerequisite = { focus = HUN_trade_deal_with_germany }
 		x = 0
-		y = 2
+		y = 3
 		relative_position_id = HUN_renounce_the_treaty_of_trianon
 
 		cost = 3
@@ -1635,13 +1884,13 @@ focus_tree = {
 		icon = GFX_goal_anschluss
 		prerequisite = { focus = HUN_joint_aluminum_mining_company }
 		x = 0
-		y = 3
+		y = 4
 		relative_position_id = HUN_renounce_the_treaty_of_trianon
 
 		cost = 2
 		
 		historical_ai = { 
-			date > 1940.10.1
+			date > 1940.2.1
 			NOT = { GER = { surrender_progress > 0.25 } }
 			NOT = { GER = { has_capitulated = yes } }
 			
@@ -1651,7 +1900,6 @@ focus_tree = {
 				FRA = { is_puppet = yes }
 				FRA = { has_government = fascism }
 				FRA = { is_in_faction_with = GER }
-				FRA = { surrender_progress > 0.5 }
 			}
 		}
 
@@ -1702,13 +1950,57 @@ focus_tree = {
 			}
 		}
 	}
+	
+	focus = {
+		id = HUN_Learn_from_the_Wehrmacht
+		icon = GFX_goal_generic_scientific_exchange
+		prerequisite = { focus = HUN_join_axis }
+		x = 1
+		y = 5
+		relative_position_id = HUN_renounce_the_treaty_of_trianon
+		cost = 7
+		ai_will_do = {
+
+			factor = 10
+
+		}
+
+		available_if_capitulated = yes
+
+		available = {
+			is_in_faction_with = GER
+		}
+
+		completion_reward = {
+			GER = {
+				country_event = { id = italy.5 days = 1 }
+				custom_effect_tooltip = needs_approval
+			}		
+
+			effect_tooltip = {
+				add_tech_bonus = {
+				name = SAF_sa_engineer_corps
+				bonus = 0.15
+				uses = 3
+				category = support_tech
+				}			
+
+				add_tech_bonus = {
+					name = ITA_armor_bonus_3
+					bonus = 0.25
+					uses = 2
+					category = armor
+				}
+			}
+		}
+	}
 
 	focus = {
 		id = HUN_reaffirm_territorial_claims
 		icon = GFX_goal_generic_forceful_treaty
 		prerequisite = { focus = HUN_renounce_the_treaty_of_trianon }
 		x = -2
-		y = 3
+		y = 1
 		relative_position_id = HUN_renounce_the_treaty_of_trianon
 
 		cost = 10
@@ -1960,7 +2252,7 @@ focus_tree = {
 
 		available = {
 			strength_ratio = { tag = YUG ratio > 0.55 }
-			has_army_manpower = { size > 125000 }
+			has_army_manpower = { size > 260000 }
 		}
 
 		bypass = {
@@ -2035,8 +2327,8 @@ focus_tree = {
 		id = HUN_claim_overlordship_over_slovakia
 		icon = GFX_goal_generic_position_armies
 		prerequisite = { focus = HUN_demand_southern_slovakia }
-		x = 2
-		y = 2
+		x = 1
+		y = 4
 		relative_position_id = HUN_reaffirm_territorial_claims
 		will_lead_to_war_with = SLO
 		cost = 10
@@ -2066,7 +2358,7 @@ focus_tree = {
 				strength_ratio = { tag = SLO ratio > 0.55 }
 				NOT = { has_war_with = SLO }
 			}
-			has_army_manpower = { size > 180000 }
+			has_army_manpower = { size > 320000 }
 		}
 
 		bypass = {
@@ -3105,6 +3397,157 @@ focus_tree = {
 			}
 		}
 	}
+	
+	focus = {
+		id = HUN_integrate_economies
+		icon = GFX_goal_generic_construct_civilian
+		x = 21
+		y = 8
+
+		cost = 6.5
+
+		ai_will_do = {
+			factor = 70
+		}
+
+		available = {
+		    4 = { is_controlled_by = HUN }
+			152 = { is_controlled_by = HUN }
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			4 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			152 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			155 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = HUN_remilitarize_austria
+		prerequisite = { focus = HUN_integrate_economies }
+		icon = GFX_goal_austrian_gov
+		x = 21
+		y = 9
+
+		cost = 11
+
+		ai_will_do = {
+			factor = 70
+		}
+
+		available = {
+		    4 = { is_controlled_by = HUN }
+			152 = { is_controlled_by = HUN }
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		complete_tooltip = {
+		        if = { limit = { has_idea = AUS_treaty_of_saint_germain }
+		                remove_ideas = AUS_treaty_of_saint_germain
+		  	}
+			if = { limit = { has_idea = AUS_treaty_of_saint_germain_2 }
+		                remove_ideas = AUS_treaty_of_saint_germain_2
+		  	}
+			random_state = {
+				limit = {
+					has_state_flag = HUN_domestic_arms_industry_AF5
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_state = {
+				limit = {
+					has_state_flag = HUN_domestic_arms_industry_AF6
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		completion_reward = {
+		        if = { limit = { has_idea = AUS_treaty_of_saint_germain }
+		                remove_ideas = AUS_treaty_of_saint_germain
+		  	}
+			if = { limit = { has_idea = AUS_treaty_of_saint_germain_2 }
+		                remove_ideas = AUS_treaty_of_saint_germain_2
+		  	}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 1
+						include_locked = yes
+					}
+					is_core_of = AUS
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+				set_state_flag = HUN_domestic_arms_industry_AF5
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+					is_core_of = AUS
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+				set_state_flag = HUN_domestic_arms_industry_AF6
+			}
+		}
+	}
 
 	focus = {
 		id = HUN_expand_the_aluminum_industry
@@ -3153,6 +3596,42 @@ focus_tree = {
 		prerequisite = { focus = HUN_expand_the_aluminum_industry }
 		x = -2
 		y = 3
+		relative_position_id = HUN_civilian_industry
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 100
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		complete_tooltip = {
+
+		}
+
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+	
+	focus = {
+		id = HUN_university_of_vienna
+		icon = GFX_goal_austrian_gov
+		prerequisite = { focus = HUN_expand_the_technical_university_of_budapest }
+		prerequisite = { focus = HUN_remilitarize_austria }
+		x = -1
+		y = 5
 		relative_position_id = HUN_civilian_industry
 
 		cost = 10
@@ -3508,13 +3987,32 @@ focus_tree = {
 		cancel_if_invalid = yes
 		continue_if_invalid = no
 		available_if_capitulated = no
-
+		
 		complete_tooltip = {
-
+		    add_ideas = HUN_secret_rearmament
+			random_state = {
+				limit = {
+					has_state_flag = HUN_support_domestic_industry_IC3
+				}
+				remove_building = {
+				type = industrial_complex
+				level = 1
+		    	}
+			}
 		}
 
 		completion_reward = {
-			add_ideas = HUN_secret_rearmament
+		    add_ideas = HUN_secret_rearmament
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = HUN
+				}
+				remove_building = {
+				type = industrial_complex
+				level = 1
+		    	}	
+				set_state_flag = HUN_support_domestic_industry_IC3
+			}
 		}
 	}
 
@@ -3550,6 +4048,41 @@ focus_tree = {
 
 		completion_reward = {
 			army_experience = 25
+		}
+	}
+	
+	focus = {
+		id = HUN_hussars
+		icon = GFX_goal_generic_cavalry
+		prerequisite = { focus = HUN_war_games }
+		x = -2
+		y = 2
+		relative_position_id = HUN_secret_rearmament
+
+		cost = 8
+		ai_will_do = {
+			factor = 3
+		}
+		available = {
+
+		}
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		complete_tooltip = {
+
+		}
+
+		completion_reward = {
+		    custom_effect_tooltip = HUN_hussar_units_tt
+			hidden_effect = {
+			load_oob = "HUN_cavalry"
+			}
 		}
 	}
 
@@ -3644,7 +4177,7 @@ focus_tree = {
 		}
 
 		completion_reward = {
-		add_war_support = 0.2
+		add_war_support = 0.15
 			if = {
 				limit = {
 					FRA = { has_completed_focus = FRA_little_entente }
@@ -3871,7 +4404,7 @@ focus_tree = {
 			add_tech_bonus = {
 				name = HUN_cas_focus
 				bonus = 0.3
-				ahead_reduction = 1
+				ahead_reduction = 0.6
 				uses = 1
 				technology = CAS0
 				technology = CAS1

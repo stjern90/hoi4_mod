@@ -134,6 +134,21 @@ country_event = {
 
 	option = {
 		name = DOD_hungary.4.a
+		if = { limit = { AUS = { has_idea = AUS_treaty_of_saint_germain } }
+		HUN = { 
+		add_ideas = AUS_treaty_of_saint_germain
+		}
+		}
+		if = { limit = { AUS = { has_idea = AUS_treaty_of_saint_germain_2 } }
+		HUN = { 
+		add_ideas = AUS_treaty_of_saint_germain_2
+		}
+		}
+		AUS = {
+			every_unit_leader = {
+				set_nationality = HUN
+			}
+		}
 		HUN = { annex_country = { target = AUS transfer_troops = yes } }
 		news_event = { id = news.291 days = 1 }
 	}
@@ -157,6 +172,7 @@ country_event = {
 				factor = 2
 			}
 		}
+		add_political_power = -100
 		create_wargoal = {
 					type = annex_everything
 					target = AUS
@@ -250,6 +266,163 @@ country_event = {
 		news_event = { id = news.292 days = 1 }
 	}
 
+}
+#Germany decides to allow or block Referendum
+country_event = {
+	id = DOD_hungary.8
+	title = DOD_hungary.8.t
+	desc = DOD_hungary.8.desc
+	picture = GFX_report_event_vote
+	
+	is_triggered_only = yes
+
+	option = { #say no
+		name = DOD_hungary.8.a
+		ai_chance = {
+			factor = 80
+		}
+		AUS = { country_event = { id = DOD_hungary.9 } }
+	}
+	option = { #say yes
+		name = DOD_hungary.8.b
+		ai_chance = {
+			factor = 20 #brilliant plan
+		}
+		AUS = { country_event = { id = DOD_hungary.1 } }
+	}
+}
+
+#Germany decides to block the refferendum
+country_event = {
+	id = DOD_hungary.9
+	title = DOD_hungary.9.t
+	desc = DOD_hungary.9.desc
+	picture = GFX_report_event_vote
+	
+	is_triggered_only = yes
+
+	option = { #say no
+		name = DOD_hungary.9.a
+		add_stability = -0.04
+	}
+}
+
+#Germany decides on austro-german-hungarian alliance
+country_event = {
+	id = DOD_hungary.201
+	title = DOD_hungary.201.t
+	desc = DOD_hungary.201.desc
+	picture = GFX_report_event_vote
+	
+	is_triggered_only = yes
+
+	option = { #say no
+		name = DOD_hungary.201.a
+		HUN = { country_event = { id = DOD_hungary.9 } }
+	}
+	
+	option = { #say no
+		name = DOD_hungary.201.b
+		# todo: involve austria
+		HUN = { country_event = { id = DOD_hungary.202 } }
+	}
+}
+
+#Germany decides to accept the alliance
+country_event = {
+	id = DOD_hungary.202
+	title = DOD_hungary.202.t
+	desc = DOD_hungary.202.desc
+	picture = GFX_report_event_vote
+	
+	is_triggered_only = yes
+
+	option = { 
+		name = DOD_hungary.202.a
+		if = { limit = { is_in_faction = yes }
+	    	dismantle_faction = yes
+		}
+		add_stability = -0.07
+		add_popularity = { ideology = fascism popularity = 0.15 }
+		if = { limit = { AUS = { has_idea = AUS_treaty_of_saint_germain } }
+		add_ideas = AUS_treaty_of_saint_germain		
+		}
+		if = { limit = { AUS = { has_idea = AUS_treaty_of_saint_germain_2 } }
+		add_ideas = AUS_treaty_of_saint_germain_2	
+		}
+		AUS = {
+			every_unit_leader = {
+				set_nationality = HUN
+			}
+		}
+		annex_country = { target = AUS transfer_troops = yes }
+			GER = { add_to_faction = HUN }
+	}
+}
+
+
+#Germany decides to accept the alliance
+country_event = {
+	id = DOD_hungary.203
+	title = DOD_hungary.203.t
+	desc = DOD_hungary.203.desc
+	picture = GFX_report_event_vote
+	
+	is_triggered_only = yes
+
+	option = { 
+		name = DOD_hungary.203.a
+		if = { limit = { is_in_faction = yes }
+	    	dismantle_faction = yes
+		}
+		add_stability = -0.07
+		add_popularity = { ideology = fascism popularity = 0.15 }
+		set_cosmetic_tag = HUN_EMPIRE
+			hidden_effect = { AUS = { set_cosmetic_tag = AUS_NOT_WHITE } }
+			152 = { add_core_of = ROOT }
+			153 = { add_core_of = ROOT }
+			4 = { add_core_of = ROOT }
+			69 = { add_core_of = ROOT }
+			9 = { add_core_of = ROOT }
+			75 = { add_core_of = ROOT }
+			74 = { add_core_of = ROOT }
+			72 = { add_core_of = ROOT }
+			70 = { add_core_of = ROOT }
+			664 = { add_core_of = ROOT }
+			71 = { add_core_of = ROOT }
+			73 = { add_core_of = ROOT }
+			if = {
+				limit = {
+					FROM = {
+						controls_state = 4
+					}
+				}
+				transfer_state = 4
+			}
+
+			if = {
+				limit = {
+					FROM = {
+						controls_state = 152
+					}
+				}
+				transfer_state = 152
+			}
+
+			if = {
+				limit = {
+					FROM = {
+						controls_state = 153
+					}
+				}
+				transfer_state = 153
+			}
+			hidden_effect = {
+				news_event = { id = news.295 }
+			}
+			set_global_flag = form_austria_hungary_flag
+			GER = { add_to_faction = HUN }
+	}
 }
 
 #protect Czechoslovakia
@@ -3990,7 +4163,7 @@ country_event = {
 			SLO = { is_subject = yes }
 		}
 	}
-	picture = GFX_report_event_horthy2
+	picture = GFX_report_event_lithuania_army
 	
 	is_triggered_only = yes
 
@@ -4015,7 +4188,12 @@ country_event = {
 				factor = 5
 			}
 		}
-		HUN = { country_event = DOD_hungary.109 }
+		if = { limit = { tag = SLO }
+	     	HUN = { country_event = DOD_hungary.109 }
+		    else = {
+			     HUN = { country_event = DOD_hungary.209 }
+			}
+		}
 		
 	}	
 }
@@ -4031,6 +4209,14 @@ country_event = {
 
 	option = {# good
 		name = DOD_hungary.108.a
+		if = { limit = { SLO = { is_subject = yes } }
+		GER = {	
+		        end_puppet = SLO
+	    	}
+		}
+		every_country = { limit = { has_war_with = SLO }
+		white_peace = SLO
+		}
 		puppet = SLO
 	}
 
@@ -4042,7 +4228,7 @@ country_event = {
 	id = DOD_hungary.109
 	title = DOD_hungary.109.t
 	desc = DOD_hungary.109.desc 
-	picture = GFX_report_event_planning
+	picture = GFX_report_event_military_planning
 	
 	is_triggered_only = yes
 
@@ -4051,13 +4237,28 @@ country_event = {
 		create_wargoal = {
 				type = puppet_wargoal_focus
 				target = SLO
-			}
+		}
 		hidden_effect = {
 			news_event = { id = news.311 days = 1 }
 		}
 	}
+}
 
+#Demand Overlordship over Slovakia - Germany refuses to hand over puppet slovakia
+country_event = {
+	id = DOD_hungary.209
+	title = DOD_hungary.209.t
+	desc = DOD_hungary.209.desc 
+	picture = GFX_report_event_military_planning
 	
+	is_triggered_only = yes
+
+	option = {# war!
+		name = DOD_hungary.209.a
+		hidden_effect = {
+			news_event = { id = news.311 days = 1 }
+		}
+	}
 }
 
 #Pressure Romania - Event for SOV to agree to hungarian Scheme

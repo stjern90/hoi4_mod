@@ -72,6 +72,11 @@ NAP_sov_ger_war = {
 		id = "GER"			
 		value = 700
 	}	
+	ai_strategy = {
+		type = conquer
+		id = "GER"			
+		value = 200
+	}	
 }
 
 NAP_sov_ger = {
@@ -401,15 +406,47 @@ germany_enemy = {
 	}	
 }
 
+germany_enemy = {
+	enable = {
+		tag = SOV
+		has_war_with = GER 
+		OR = {
+		surrender_progress < 0.1
+		has_idea = winter_offensive
+		}
+	}
+	abort = {
+		OR = {
+		NOT = { has_war_with = GER }
+		AND = {
+		surrender_progress > 0.1
+		NOT = { has_idea = winter_offensive }
+		}
+		}
+	}
+	
+	ai_strategy = {
+		type = consider_weak
+		id = "GER"			
+		value = 300
+	}	
+	ai_strategy = {
+		type = consider_weak
+		id = "ROM"			
+		value = 300
+	}
+}
+
 ignore_finland = {
 	enable = {
 		tag = SOV
 		owns_state = 146
-		country_exists = FIN
+		NOT = { is_in_faction_with = FIN }
+		NOT = { has_war_with = FIN }
+		date < 1941.7.1
 	}
 	abort = {
 		OR = {
-			NOT = { country_exists = FIN }
 			is_in_faction_with = FIN
 			has_war_with = FIN
 			date > 1941.7.1

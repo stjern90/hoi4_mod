@@ -80,7 +80,7 @@ focus_tree = {
 	}
 	focus = {	
 		id = USA_finish_hoover_dam
-		icon = GFX_finish_the_hoover_damn
+		icon = GFX_hoover_dam
 		x = 0 
 		y = 0 
 		cost = 8 
@@ -1780,7 +1780,7 @@ focus_tree = {
 	}
 	focus = {
 		id = USA_embargo_germany
-		icon = GFX_goal_generic_trade
+		icon = GFX_goal_ger_sign
 		prerequisite = { focus = USA_quarantine_speech }
 		available = {
 			
@@ -1915,8 +1915,8 @@ focus_tree = {
 		y = 2 
 		cost = 10 
 		prerequisite = { focus = USA_neutrality_act }
+		mutually_exclusive = { focus =  USA_support_roosevelt }
 		available = { 
-			NOT = { has_completed_focus = USA_support_roosevelt }
 			has_war = no 
 		}
 		ai_will_do = {
@@ -2007,7 +2007,9 @@ focus_tree = {
 		cost = 5
 		prerequisite = { focus = USA_rainbow_planes }
 		prerequisite = { focus = USA_support_roosevelt }
-		available = {}
+		available = {
+		      threat > 0.6
+		}
 		ai_will_do = {
 			factor = 5 
 		}
@@ -2061,8 +2063,9 @@ focus_tree = {
 		y = 2 
 		cost = 8
 		prerequisite = { focus = USA_quarantine_speech }
+		mutually_exclusive = { focus = USA_support_the_america_first_committee }
 		available = { 
-			NOT = { has_completed_focus = USA_support_the_america_first_committee }
+			
 		}
 		ai_will_do = {
 			factor = 5 
@@ -2123,10 +2126,9 @@ focus_tree = {
 			country_exists = GER
 			is_puppet = no
 			ENG = {
-				NOT = { is_in_faction_with = GER }
+				has_war_with = GER
 			}
 			has_government = democratic
-			GER = { has_government = fascism }
 			OR = {
 			AND = {
 			has_equipment = { motorized_equipment > 2999 }
@@ -2160,20 +2162,19 @@ focus_tree = {
 		icon = GFX_goal_generic_navy_cruiser
 		prerequisite = { focus = USA_cash_and_carry }
 		available = {
-			country_exists = GER
 			is_puppet = no
 			ENG = {
-				NOT = { is_in_faction_with = GER }
+				has_war_with = GER
 			}
 			has_government = democratic
 		}
 		bypass = {
-			NOT = { 696 = { is_controlled_by = ENG } }
-			NOT = { 331 = { is_controlled_by = ENG } }
-			NOT = { 308 = { is_controlled_by = ENG } } 
-			NOT = { 693 = { is_controlled_by = ENG } } 
-			NOT = { 689 = { is_controlled_by = ENG } } 
-			NOT = { 691 = { is_controlled_by = ENG } } 
+			NOT = { 696 = { OR = { is_controlled_by = ENG is_controlled_by = BOI } } }
+			NOT = { 331 = { OR = { is_controlled_by = ENG is_controlled_by = BOI } } }
+			NOT = { 308 = { OR = { is_controlled_by = ENG is_controlled_by = BOI } } } 
+			NOT = { 693 = { OR = { is_controlled_by = ENG is_controlled_by = BOI } } } 
+			NOT = { 689 = { OR = { is_controlled_by = ENG is_controlled_by = BOI } } } 
+			NOT = { 691 = { OR = { is_controlled_by = ENG is_controlled_by = BOI } } } 
 		}
 		
 		x = 11
@@ -2494,7 +2495,7 @@ focus_tree = {
 		threat > 0.95
 		OR = {
 		    AND = {
-			CHI = { has_capitulated = yes }
+			CHI = { OR = { has_capitulated = yes is_in_faction_with = JAP } }
 			GER = { has_war_with = SOV }
 			date > 1941.11.1
 			}
@@ -2792,7 +2793,7 @@ focus_tree = {
 	}
     focus = {	
 		id = USA_marine_corps
-		icon = GFX_focus_USMC_1
+		icon = GFX_USMC_1
 		
 		prerequisite = { focus = USA_defense_department }
 		x = 28 
@@ -2800,8 +2801,10 @@ focus_tree = {
 		cost = 3
 		available_if_capitulated = no
 		completion_reward = {
-		    custom_effect_tooltip = USMC_1
+		    custom_effect_tooltip = USA_MC_1_tt
+			hidden_effect = {
 			load_oob = USA_MC
+			}
 			add_tech_bonus = {
 				bonus = 0.3
 				uses = 1
@@ -2812,7 +2815,7 @@ focus_tree = {
 	}
 	focus = {	
 		id = USA_marine_corps_expansion
-		icon = GFX_goal_generic_amphibious_assault
+		icon = GFX_USMC_1
 		prerequisite = { focus = USA_marine_corps }
 		x = 29 
 		y = 3 
@@ -2820,6 +2823,7 @@ focus_tree = {
 		available_if_capitulated = no
 		completion_reward = {
 			army_experience = 10
+			unlock_decision_category_tooltip = USA_marine_expansion
 		}
 	}
 	focus = {
@@ -3122,7 +3126,7 @@ focus_tree = {
 		
 		x = 26
 		y = 5
-		cost = 7
+		cost = 6
 		ai_will_do = {
 			factor = 2
 		}
@@ -3132,13 +3136,89 @@ focus_tree = {
 			name = armor_bonus
 			bonus = 0.25 
 			uses = 2
-			category = cat_med_art
+			category = cat_med_aa
 			}
 			add_tech_bonus = {
 			name = armor_bonus
 			bonus = 0.25 
 			uses = 2
-			category = cat_med_td
+			category = cat_med_art
+			}
+		}
+	}
+	
+	focus = {
+		id = USA_tanks 
+		icon = GFX_armor_usa_focus
+		prerequisite = { focus = USA_support_tanks }
+		prerequisite = { focus = USA_war_production_board }
+		mutually_exclusive = { focus = USA_mechanization }
+		x = 23
+		y = 9
+		cost = 8
+		ai_will_do = {
+			factor = 2
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			add_tech_bonus = {
+			name = armor_bonus
+			bonus = 0.4 
+			uses = 1
+			category = cat_light_armor
+			}
+			add_tech_bonus = {
+			name = armor_bonus
+			bonus = 0.4 
+			uses = 1
+			category = cat_medium_armor
+			}
+			add_tech_bonus = {
+			name = armor_bonus
+			bonus = 0.4 
+			uses = 1
+			category = cat_heavy_armor
+			}
+		}
+	}
+	focus = {
+		id = USA_mechanization
+		icon = GFX_goal_usa_the_halftracks
+		prerequisite = { focus = USA_support_tanks }
+		prerequisite = { focus = USA_war_production_board }
+		x = 25
+		y = 9
+		cost = 6
+		ai_will_do = {
+			factor = 0
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			add_tech_bonus = {
+				name = FRA_mechanized_focus
+				bonus = 0.35
+				uses = 2
+				category = cat_mechanized_equipment
+			}
+		}
+	}
+	focus = {
+		id = USA_hellcats
+		icon = GFX_goal_black_power
+		prerequisite = { focus = USA_tanks focus = USA_mechanization }
+		x = 24
+		y = 10
+		cost = 6
+		ai_will_do = {
+			factor = 3
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			add_tech_bonus = {
+			name = armor_bonus
+			bonus = 0.4
+			uses = 2
+			category = cat_light_td
 			}
 		}
 	}
@@ -3249,7 +3329,7 @@ focus_tree = {
 	}
 	focus = {
 		id = USA_convoy_tactics
-		icon = GFX_goal_generic_navy_cruiser
+		icon = GFX_convoy_focus
 		prerequisite = { focus = USA_escort_effort }
 		x = 32
 		y = 6

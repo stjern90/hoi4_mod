@@ -33,7 +33,7 @@ country_event = {
 			expire = "1965.1.1"
 			ideology = socialism
 			traits = {
-		        stout_defender
+		        coalition_builder stout_defender
         	}
 		}
 		set_country_flag = legislative_election
@@ -232,7 +232,7 @@ country_event = {
 			name = "Camille Chautemps"
 			desc = "POLITICS_CAMILLE_CHAUTEMPS_DESC"
 			picture = "Portrait_France_Camille_Chautemps.dds"
-			expire = "1936.1.24"
+			expire = "1956.1.24"
 			ideology = conservatism
 			traits = {
 		        stout_defender
@@ -349,6 +349,7 @@ country_event = {
 			expire = "1965.1.1"
 			ideology = fascism_ideology
 			traits = {
+			    war_hero
 			}
 		}		
 		add_timed_idea = { idea = reign_of_terror days = 730 }
@@ -370,14 +371,17 @@ country_event = {
 			}
 		}
 		set_party_name = { ideology = fascism long_name = FRA_fascism_party3_long name = FRA_fascism_party3 }
-		retire_country_leader = yes
-		create_country_leader = {
+		if = { limit = { NOT = { has_country_leader = { ruling_only = yes name = "Camille Chautemps" } } }
+	             retire_country_leader = yes
+	             create_country_leader = {
 			name = "Louis Franchet d'Espèrey"
 			desc = "POLITICS_FRANCHET_ESPEREY_DESC"
 			picture = "Portrait_France_Louis_Franchet_Esperey.tga"
 			expire = "1965.1.1"
 			ideology = fascism_ideology
-		}		
+		    }
+		}
+				
 		add_timed_idea = { idea = reign_of_terror days = 730 }
 		add_popularity = {
 			ideology = fascism
@@ -587,7 +591,7 @@ country_event = {
 			expire = "1965.1.1"
 			ideology = conservatism
 			traits = {
-		        stout_defender
+		        war_hero stout_defender
 	        }  
 		}
 		set_country_flag = petain_lead
@@ -1663,6 +1667,18 @@ country_event = {
 		random_other_country = {
 			limit = { original_tag = FRA has_government = fascism }
 			ROOT = { puppet = PREV }
+			set_cosmetic_tag = FRA_GER_fascism
+	    	retire_country_leader = yes
+		create_country_leader = {
+			name = "Philippe Pétain"
+			desc = "POLITICS_PHILIPPE_PÉTAIN_DESC"
+			picture = "Portrait_France_Philippe_Petain.dds"
+			expire = "1965.1.1"
+			ideology = fascism_ideology
+			traits = {
+			    war_hero
+			}
+		}
 			set_capital = 26
 			set_politics = {
 				ruling_party = fascism
@@ -1695,7 +1711,7 @@ country_event = {
 		}
 		country_event = { hours = 6 id = news.34 }
 		hidden_effect =  {
-			FRA = { news_event = { id = france.20 days = 1 } }
+			FRA = { country_event = { id = france.20 days = 1 } }
 		}
 	}
 
@@ -1989,7 +2005,7 @@ country_event = {
 		}
 		country_event = { hours = 6 id = news.34 }
 		hidden_effect =  {
-			FRA = { news_event = { id = france.20 days = 1 } }
+			FRA = { country_event = { id = france.20 days = 1 } }
 		}
 	}
 
@@ -2124,6 +2140,16 @@ country_event = {
 		set_country_flag = france_de_gaulle
 		hidden_effect =  {
 			retire_country_leader = yes
+			create_country_leader = {
+            	name = "Charles de Gaulle"
+             	desc = "POLITICS_CHARLES_DE_GAULLE_DESC"
+            	picture = "Portrait_France_Charles_De_Gaulle.dds"
+            	expire = "1965.1.1"
+            	ideology = conservatism
+            	traits = {	
+             	}
+            }
+			
 		}
 		name = france.20.a
 	}
@@ -2946,5 +2972,222 @@ news_event = {
 				}
 			}
 		}
+	}
+}
+
+# Turkey Claims Hatay (France)
+country_event = {
+	id = france.70
+	title = france.70.t
+	desc = france.70.d
+	picture = GFX_report_event_generic_read_write
+	
+	is_triggered_only = yes
+	
+	option = { # Accept demands
+		name = france.70.a
+		ai_chance = { 
+			factor = 99
+			modifier = {
+				factor = 99
+				NOT = {
+					OR = {
+						is_puppet_of = TUR
+						is_in_faction_with = TUR
+					}
+				}
+				TUR = {
+					surrender_progress > 0.09
+				}
+			}
+			modifier = {
+				factor = 0
+				any_other_country = {
+					has_war_with = TUR
+				}
+			}
+			modifier = {
+				factor = 0
+				any_other_country = {
+					NOT = {
+						tag = TUR
+					}
+					FRA = {
+						is_puppet_of = PREV
+					}
+					NOT = {
+						is_in_faction_with = TUR
+					}
+				}
+			}
+		}
+		TUR = {
+			country_event = { id = turkey.12 }
+		}
+	}
+	option = { # Refuse
+		name = france.70.b		
+		ai_chance = { 
+			factor = 1
+			modifier = {
+				factor = 1
+				is_historical_focus_on = yes
+				NOT = {
+					TUR = {
+						surrender_progress > 0.09
+					}
+				}
+				NOT = {
+					any_other_country = {
+						has_war_with = TUR
+					}
+				}
+				NOT = {
+					any_other_country = {
+						NOT = {
+							tag = TUR
+						}
+						FRA = {
+							is_puppet_of = PREV
+						}
+						NOT = {
+							is_in_faction_with = TUR
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					is_in_faction_with = TUR
+					FRA = {
+						is_puppet_of = TUR
+					}
+				}
+			}
+		}
+		effect_tooltip = {
+			TUR = {
+				create_wargoal = {
+				type = take_state_focus
+				target = FRA
+				generator = { 764 }
+				}
+			}
+		}
+		hidden_effect = {
+			TUR = {
+				country_event = { id = turkey.13 }
+			}
+		}		
+	}
+}
+
+# Aleppo Demands
+
+country_event = {
+	id = france.71
+	title = france.71.t
+	desc = france.71.d
+	picture = GFX_report_event_haleptalep
+
+	is_triggered_only = yes
+	
+	option = { # Accept demands
+		name = france.71.a
+		ai_chance = { 
+			factor = 11
+			modifier = {
+				factor = 11
+				NOT = {
+					OR = {
+						is_puppet_of = TUR
+						is_in_faction_with = TUR
+					}
+				}
+				TUR = {
+					surrender_progress > 0.09
+				}
+			}
+			modifier = {
+				factor = 0
+				any_other_country = {
+					has_war_with = TUR
+				}
+			}
+			modifier = {
+				factor = 0
+				any_other_country = {
+					NOT = {
+						tag = TUR
+					}
+					FRA = {
+						is_puppet_of = PREV
+					}
+					NOT = {
+						is_in_faction_with = TUR
+					}
+				}
+			}
+		}
+		TUR = {
+			country_event = { days = 2 id = turkey.25 }
+		}
+	}
+	option = { # Refuse
+		name = france.71.b		
+		ai_chance = { 
+			factor = 89
+			modifier = {
+				factor = 89
+				is_historical_focus_on = no
+				NOT = {
+					TUR = {
+						surrender_progress > 0.09
+					}
+				}
+				NOT = {
+					any_other_country = {
+						has_war_with = TUR
+					}
+				}
+				NOT = {
+					any_other_country = {
+						NOT = {
+							tag = TUR
+						}
+						FRA = {
+							is_puppet_of = PREV
+						}
+						NOT = {
+							is_in_faction_with = TUR
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					is_in_faction_with = TUR
+					FRA = {
+						is_puppet_of = TUR
+					}
+				}
+			}
+		}
+		effect_tooltip = {
+			TUR = {
+				create_wargoal = {
+				type = take_state_focus
+				target = FRA
+				generator = { 677 }
+				}
+			}
+		}
+		hidden_effect = {
+			TUR = {
+				country_event = { days = 2 id = turkey.26 }
+			}
+		}		
 	}
 }
