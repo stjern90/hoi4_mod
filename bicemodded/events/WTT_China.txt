@@ -734,7 +734,7 @@ country_event = {
 		ai_chance = {
 			base = 30
 			modifier = {
-				is_historical_focus_on = yes
+				CHI_is_on_historical_plan_trigger = yes
 				factor = 0
 			}
 		}
@@ -814,11 +814,17 @@ country_event = {
 				has_war_with = JAP
 			}
 			modifier = {
-				is_historical_focus_on = yes
+				PRC = {
+					has_completed_focus = PRC_social_democracy
+				}
+				factor = 2 #Commies being nice to us
+			}
+			modifier = {
+				CHI_is_on_historical_plan_trigger = yes
 				factor = 0
 			}
 		}
-		CCP = { country_event = wtt_xian_incident.5 }
+		PRC = { country_event = wtt_xian_incident.5 }
 	}
 
 	option = {
@@ -826,7 +832,7 @@ country_event = {
 		ai_chance = {
 			base = 75
 			modifier = {
-				CCP = {
+				PRC = {
 					has_completed_focus = PRC_focus_on_china #commies being mean to us!
 				}
 				factor = 2
@@ -876,8 +882,8 @@ country_event = {
 			limit = {
 				CHI = { is_faction_leader = yes }
 			}
-			CHI = { add_to_faction = CCP }
-			CCP = { 
+			CHI = { add_to_faction = PRC }
+			PRC = { 
 				add_ai_strategy = {
 					type = alliance
 					id = "CHI"
@@ -932,7 +938,7 @@ country_event = {
 		ai_chance = {
 			base = 30
 			modifier = {
-				is_historical_focus_on = yes
+				CHI_is_on_historical_plan_trigger = yes
 				factor = 0
 			}
 		}
@@ -974,7 +980,7 @@ country_event = {
 		ai_chance = {
 			base = 30
 			modifier = {
-				is_historical_focus_on = yes
+				CHI_is_on_historical_plan_trigger = yes
 				factor = 0
 			}
 		}
@@ -1047,7 +1053,7 @@ country_event = {
 				factor = 1.5
 			}
 			modifier = {
-				is_historical_focus_on = yes
+				CHI_is_on_historical_plan_trigger = yes
 				factor = 0
 			}
 		}
@@ -1063,7 +1069,7 @@ country_event = {
 		ai_chance = {
 			base = 70
 		}
-		CCP = { country_event = wtt_xian_incident.7 }
+		PRC = { country_event = wtt_xian_incident.7 }
 	}
 }
 
@@ -1080,7 +1086,7 @@ country_event = {
 		ai_chance = {
 			base = 50
 			modifier = {
-				is_historical_focus_on = yes
+				CHI_is_on_historical_plan_trigger = yes
 				factor = 0
 			}
 		}
@@ -1105,7 +1111,7 @@ country_event = {
 				}
 			}
 			create_wargoal = {
-				target = CCP
+				target = PRC
 				type = annex_everything
 			}
 		}
@@ -1163,8 +1169,8 @@ country_event = {
 			limit = {
 				CHI = { is_faction_leader = yes }
 			}
-			CHI = { add_to_faction = CCP }
-			CCP = { 
+			CHI = { add_to_faction = PRC }
+			PRC = { 
 				add_ai_strategy = {
 					type = alliance
 					id = "CHI"
@@ -1186,504 +1192,7 @@ country_event = {
 		ai_chance = {
 			base = 10
 			modifier = {
-				is_historical_focus_on = yes
-				factor = 0
-			}
-		}
-		reverse_add_opinion_modifier = { target = FROM modifier = CHI_xian_refused }
-		hidden_effect = {
-			news_event = { id = wtt_news.32 days = 1 }
-		}
-		event_target:CHI_xian_instigator = { clr_country_flag = CHI_xian_instigator_flag }
-	}
-}
-
-#Xian incident - should Chiang go?
-country_event = {
-	id = wtt_xian_incident.11
-	title = wtt_xian_incident.11.t
-	desc = wtt_xian_incident.11.desc
-	picture = GFX_report_event_china_politicians_captured
-
-	is_triggered_only = yes #triggered by warlord decision
-
-	immediate = {
-		hidden_effect = {
-			random_other_country = {
-				limit = {
-					has_country_flag = CHI_xian_instigator_flag
-				}
-				save_event_target_as = CHI_xian_instigator
-			}
-		}
-	}
-	
-	option = {
-		name = wtt_xian_incident.11.a #agree to go
-		ai_chance = {
-			base = 70
-		}
-		event_target:CHI_xian_instigator = { country_event = wtt_xian_incident.12 }
-	}
-	option = {
-		name = wtt_xian_incident.11.b #refuse to go
-		custom_effect_tooltip = CHI_xian_warlords_upset
-		ai_chance = {
-			base = 30
-			modifier = {
-				is_historical_focus_on = yes
-				factor = 0
-			}
-		}
-		event_target:CHI_xian_instigator = { country_event = wtt_xian_incident.13 }
-	}
-
-}
-
-#Xian incident - Chiang agrees
-country_event = {
-	id = wtt_xian_incident.12
-	title = wtt_xian_incident.12.t
-	desc = wtt_xian_incident.12.desc
-	picture = GFX_report_event_chinese_japanese_handshake
-
-	is_triggered_only = yes
-	
-	option = {
-		name = wtt_xian_incident.12.a #ask him to ally with the communists
-		CHI = { country_event = wtt_xian_incident.14 }
-	}
-
-}
-
-#Xian incident - Chiang refuses
-country_event = {
-	id = wtt_xian_incident.13
-	title = wtt_xian_incident.13.t
-	desc = wtt_xian_incident.13.desc
-	picture = GFX_report_event_china_chiang_kai_shek
-
-	is_triggered_only = yes
-	
-	option = {
-		name = wtt_xian_incident.13.a
-		set_global_flag = CHI_xian_refused
-		if = {
-			limit = {
-				is_in_faction_with = FROM
-			}
-			FROM = { remove_from_faction = event_target:CHI_xian_instigator }
-		}
-		if = {
-			limit = {
-				is_subject_of = FROM
-			}
-			OVERLORD = { 
-				set_autonomy = { 
-					target = event_target:CHI_xian_instigator
-					autonomy_state = autonomy_free 
-				}
-				create_wargoal = {
-					type = puppet_wargoal_focus
-					target = event_target:CHI_xian_instigator
-				}
-			}
-		}
-		clr_country_flag = CHI_xian_instigator_flag
-	}
-}
-
-#Xian incident - Chiang asked to ally with commies
-country_event = {
-	id = wtt_xian_incident.14
-	title = wtt_xian_incident.14.t
-	desc = wtt_xian_incident.14.desc
-	picture = GFX_report_event_china_politicians_captured
-
-	is_triggered_only = yes
-	
-	option = {
-		name = wtt_xian_incident.14.a #agree
-		ai_chance = {
-			base = 25
-			modifier = {
-				factor = 4
-				has_war_with = JAP
-			}
-			modifier = {
-				is_historical_focus_on = yes
-				factor = 0
-			}
-		}
-		CCP = { country_event = wtt_xian_incident.15 }
-	}
-
-	option = {
-		name = wtt_xian_incident.14.b #disgree
-		ai_chance = {
-			base = 75
-			modifier = {
-				CCP = {
-					has_completed_focus = PRC_focus_on_china #commies being mean to us!
-				}
-				factor = 2
-			}
-			modifier = {
-				JAP = {
-					NOT = {
-						has_government = fascism #Japan doesn't seem interested in China
-					}
-				}
-				factor = 2
-			}
-		}
-		event_target:CHI_xian_instigator = { country_event = wtt_xian_incident.16 }
-	}
-
-}
-
-#Xian incident - Chiang agrees to ally with commies, event for PRC
-country_event = {
-	id = wtt_xian_incident.15
-	title = wtt_xian_incident.15.t
-	desc = wtt_xian_incident.15.desc
-	picture = GFX_report_event_generic_read_write
-
-	is_triggered_only = yes
-	
-	option = {
-		name = wtt_xian_incident.15.a #accept the proposal
-		ai_chance = {
-			base = 80
-		}
-		hidden_effect = {
-			news_event = { id = news.288 days = 1 }
-		}
-		if = {
-			limit = {
-				NOT = { is_in_faction_with = CHI }
-				CHI = { is_in_faction = no }
-			}
-			CHI = {
-				set_rule = { can_create_factions = yes }
-				create_faction = chinese_united_front
-			}
-		}
-		if = {
-			limit = {
-				CHI = { is_faction_leader = yes }
-			}
-			CHI = { add_to_faction = CCP }
-			CCP = { 
-				add_ai_strategy = {
-					type = alliance
-					id = "CHI"
-					value = 200
-				}
-			}
-			every_country = {
-				limit = {
-					is_subject_of = CHI
-				}
-				CHI = { add_to_faction = PREV }
-			}
-		}
-		event_target:CHI_xian_instigator = { clr_country_flag = CHI_xian_instigator_flag }
-	}
-
-	option = {
-		name = wtt_xian_incident.15.b #no deal
-		ai_chance = {
-			base = 20
-			modifier = {
-				has_country_flag = SOV_xian_refuse
-				factor = 0
-			}
-		}
-		hidden_effect = {
-			news_event = { id = wtt_news.33 days = 1 }
-		}
-	}
-
-}
-
-#Xian incident - Chiang refuses to ally with commies
-country_event = {
-	id = wtt_xian_incident.16
-	title = wtt_xian_incident.16.t
-	desc = wtt_xian_incident.16.desc
-	picture = GFX_report_event_china_chiang_kai_shek
-
-	is_triggered_only = yes
-	
-	option = {
-		name = wtt_xian_incident.16.a #arrest him
-		ai_chance = {
-			base = 70
-		}		
-		CHI = { country_event = wtt_xian_incident.18 }
-	}
-
-	option = {
-		name = wtt_xian_incident.16.b #nothing to be done
-		ai_chance = {
-			base = 30
-			modifier = {
-				is_historical_focus_on = yes
-				factor = 0
-			}
-		}
-		event_target:CHI_xian_instigator = { clr_country_flag = CHI_xian_instigator_flag }
-		#TODO_WTT_CD: News event: Chiang refuses proposal to ally with commies
-	}
-
-}
-
-#Xian incident - Chiang arrested, execute?
-country_event = {
-	id = wtt_xian_incident.17
-	title = wtt_xian_incident.17.t
-	desc = { text = wtt_xian_incident.17.desc_a trigger = { NOT = { has_country_flag = SOV_xian_refuse } } }
-	desc = { text = wtt_xian_incident.17.desc_b trigger = { has_country_flag = SOV_xian_refuse } }
-	picture = GFX_report_event_china_politicians_captured
-
-	is_triggered_only = yes
-	
-	option = {
-		trigger = {
-			NOT = {
-				has_war_with = SOV
-			}
-			NOT = {
-				has_country_flag = SOV_xian_refuse
-			}
-		}
-		name = wtt_xian_incident.17.a #ask Soviets
-		ai_chance = {
-			base = 70
-		}
-
-		SOV = { country_event = { id = wtt_xian_incident.19 } }
-	}
-
-	option = {
-		name = wtt_xian_incident.17.b #just do it
-		ai_chance = {
-			base = 30
-			modifier = {
-				is_historical_focus_on = yes
-				factor = 0
-			}
-		}
-		CHI = {
-			kill_country_leader = yes
-			if = {
-				limit = {
-					NOT = {
-						has_global_flag = CHI_wang_defects
-					}
-				}
-				create_country_leader = {
-					name = "Wang Jingwei"
-					desc = "POLITICS_WANG_JINGWEI_DESC"
-					picture = "GFX_portrait_chi_wang_jingwei"
-					expire = "1965.1.1"
-					ideology = despotism
-					traits = {
-						#
-					}
-				}
-			}
-			create_wargoal = {
-				target = PREV
-				type = annex_everything
-			}
-		}
-		hidden_effect = {
-			news_event = { id = wtt_news.30 days = 1 }
-		}
-		event_target:CHI_xian_instigator = { clr_country_flag = CHI_xian_instigator_flag }
-	}
-	option = {
-		name = wtt_xian_incident.17.c #don't do it, offer to ally instead
-		ai_chance = {
-			base = 30
-		}
-		CHI = {
-			country_event = wtt_xian_incident.20
-		}
-		
-	}
-	option = {
-		name = wtt_xian_incident.17.d #no deals with anyone
-		ai_chance = {
-			base = 0
-		}
-		hidden_effect = {
-			news_event = { id = wtt_news.33 days = 1 random = 36 }
-		}
-		
-	}
-
-}
-#Xian incident - Chiang arrested, intervene?
-country_event = {
-	id = wtt_xian_incident.18
-	title = wtt_xian_incident.18.t
-	desc = wtt_xian_incident.18.desc
-	picture = GFX_report_event_chinese_officers
-
-	is_triggered_only = yes
-	
-	option = {
-		name = wtt_xian_incident.18.a #military option
-		ai_chance = {
-			base = 30
-			modifier = {
-				has_war = no
-				factor = 1.5
-			}
-			modifier = {
-				is_historical_focus_on = yes
-				factor = 0
-			}
-		}
-		declare_war_on = { 
-			type = annex_everything
-			target = event_target:CHI_xian_instigator
-		}
-		event_target:CHI_xian_instigator = { clr_country_flag = CHI_xian_instigator_flag }
-	}
-
-	option = {
-		name = wtt_xian_incident.18.b #don't do anything
-		ai_chance = {
-			base = 70
-		}
-		CCP = { country_event = wtt_xian_incident.17 }
-	}
-}
-
-#Xian incident - Chiang arrested, commies want to execute, allow? (SOV)
-country_event = {
-	id = wtt_xian_incident.19
-	title = wtt_xian_incident.19.t
-	desc = wtt_xian_incident.19.desc
-	picture = GFX_report_event_stalin_meeting
-
-	is_triggered_only = yes
-	
-	option = {
-		name = wtt_xian_incident.19.a #approve
-		ai_chance = {
-			base = 50
-			modifier = {
-				is_historical_focus_on = yes
-				factor = 0
-			}
-		}
-		CHI = {
-			kill_country_leader = yes
-			if = {
-				limit = {
-					NOT = {
-						has_global_flag = CHI_wang_defects
-					}
-				}
-				create_country_leader = {
-					name = "Wang Jingwei"
-					desc = "POLITICS_WANG_JINGWEI_DESC"
-					picture = "GFX_portrait_chi_wang_jingwei"
-					expire = "1965.1.1"
-					ideology = despotism
-					traits = {
-						#
-					}
-				}
-			}
-			create_wargoal = {
-				target = CCP
-				type = annex_everything
-			}
-		}
-		event_target:CHI_xian_instigator = { clr_country_flag = CHI_xian_instigator_flag }
-		hidden_effect = {
-			news_event = { id = wtt_news.31 days = 1 }
-		}
-	}
-
-	option = {
-		name = wtt_xian_incident.19.b #disapprove
-		ai_chance = {
-			base = 50
-			modifier = {
-				has_war_with = JAP
-				factor = 3
-			}
-		}
-		FROM = {
-			set_country_flag = SOV_xian_refuse
-			country_event = wtt_xian_incident.17
-		}
-	}
-}
-
-#Xian incident - PRC opts for the United Front, event for CHI
-country_event = {
-	id = wtt_xian_incident.20
-	title = wtt_xian_incident.20.t
-	desc = wtt_xian_incident.20.desc
-	picture = GFX_report_event_china_chiang_mao
-
-	is_triggered_only = yes
-	
-	option = {
-		
-		name = wtt_xian_incident.20.a #approve
-		ai_chance = {
-			base = 50
-		}
-		hidden_effect = {
-			news_event = { id = news.288 days = 1 } # United Front forms
-		}
-		if = {
-			limit = {
-				NOT = { is_in_faction_with = CHI }
-				CHI = { is_in_faction = no }
-			}
-			CHI = {
-				set_rule = { can_create_factions = yes }
-				create_faction = chinese_united_front
-			}
-		}
-		if = {
-			limit = {
-				CHI = { is_faction_leader = yes }
-			}
-			CHI = { add_to_faction = CCP }
-			CCP = { 
-				add_ai_strategy = {
-					type = alliance
-					id = "CHI"
-					value = 200
-				}
-			}
-			every_country = {
-				limit = {
-					is_subject_of = CHI
-				}
-				CHI = { add_to_faction = PREV }
-			}
-		}
-		event_target:CHI_xian_instigator = { clr_country_flag = CHI_xian_instigator_flag }
-	}
-
-	option = {
-		name = wtt_xian_incident.20.b #disapprove
-		ai_chance = {
-			base = 10
-			modifier = {
-				is_historical_focus_on = yes
+				CHI_is_on_historical_plan_trigger = yes
 				factor = 0
 			}
 		}
@@ -1821,7 +1330,7 @@ country_event = {
 		hidden_effect = {
 			news_event = { id = wtt_news.34 days = 1 }
 		}
-		unlock_decision_tooltip = USA_flying_tigers
+		unlock_decision_tooltip = CHI_flying_tigers
 	}
 
 	option = { #refuse
@@ -1872,7 +1381,7 @@ country_event = {
 		ai_chance = {
 			base = 30
 			modifier = {
-				is_historical_focus_on = yes
+				SOV_is_on_historical_plan_trigger = yes
 				factor = 0
 			}
 		}
@@ -1913,7 +1422,7 @@ country_event = {
 		ai_chance = {
 			base = 30
 			modifier = {
-				is_historical_focus_on = yes
+				USA_is_on_historical_plan_trigger = yes
 				factor = 0
 			}
 		}
@@ -1933,7 +1442,7 @@ country_event = {
 		ai_chance = {
 			base = 30
 			modifier = {
-				is_historical_focus_on = yes
+				USA_is_on_historical_plan_trigger = yes
 				factor = 0
 			}
 		}
@@ -1953,7 +1462,7 @@ country_event = {
 		ai_chance = {
 			base = 10
 			modifier = {
-				is_historical_focus_on = yes
+				USA_is_on_historical_plan_trigger = yes
 				factor = 0
 			}
 		}

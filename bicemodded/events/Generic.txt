@@ -29,11 +29,35 @@ country_event = {
 		trigger = {
 			has_government = FROM
 		}
+		if = {
+			limit = {
+				FROM = {
+					tag = ENG
+					has_completed_focus = uk_china_focus
+				}
+				tag = event_target:WTT_current_china_leader
+			}
+			effect_tooltip = {
+				add_offsite_building = { type = arms_factory level = 2 }
+			}
+		}
 	}
 	option = {
 		name = generic.1.b
 		trigger = {
 			NOT = { has_government = FROM }
+		}
+		if = {
+			limit = {
+				FROM = {
+					tag = ENG
+					has_completed_focus = uk_china_focus
+				}
+				tag = event_target:WTT_current_china_leader
+			}
+			effect_tooltip = {
+				add_offsite_building = { type = arms_factory level = 2 }
+			}
 		}
 	}
 }
@@ -202,6 +226,28 @@ country_event = {
 		}
 		ai_chance = {
 			base = 100
+			
+			modifier = {
+				factor = 0.5
+				has_war = no
+				FROM = {
+					has_war = yes
+				}
+			}
+			
+			modifier = {
+				factor = 0.5
+				NOT = {
+					has_government = neutrality
+				}
+			}
+			
+			modifier = {
+				factor = 0.75
+				FROM = {
+					is_major = no
+				}
+			}
 		}
 		add_to_faction = FROM
 		FROM = { country_event = { id = generic.3 hours = 6 } }
@@ -214,14 +260,71 @@ country_event = {
 			add_ai_strategy = {
 				type = alliance
 				id = ROOT
-				value = 100
+				value = 200
 			}
 		}
 	}
 	
 	option = { #Reject
 		name = generic.2.f
-		ai_chance = { factor = 0 }
+		ai_chance = {
+			factor = 50
+			
+			modifier = {
+				factor = 0.5
+				has_opinion = {
+					target = FROM
+					value > 65
+				}
+			}
+			
+			modifier = {
+				factor = 0.5
+				has_opinion = {
+					target = FROM
+					value > 35
+				}
+			}
+			
+			modifier = {
+				factor = 0.5
+				has_opinion = {
+					target = FROM
+					value > 5
+				}
+			}
+			
+			modifier = {
+				factor = 2.0
+				has_opinion = {
+					target = FROM
+					value < 35
+				}
+			}
+			
+			modifier = {
+				factor = 2.0
+				has_opinion = {
+					target = FROM
+					value < 65
+				}
+			}
+			
+			modifier = {
+				factor = 0.1
+				has_war = yes
+				FROM = {
+					has_war = no
+				}
+			}
+			
+			modifier = {
+				factor = 0.1
+				FROM = {
+					is_major = yes
+				}
+			}
+		}
 		FROM = { 
 			country_event = { id = generic.4 hours = 6 }
 		}
@@ -469,23 +572,23 @@ country_event = {
 		add_ai_strategy = {
 			type = alliance
 			id = FROM
-			value = 100
+			value = 200
 		}
 		hidden_effect = {
 			set_country_flag = alliance_applicant@ROOT
 			FROM = { set_country_flag = alliance_inviter@ROOT }
 			news_event = { id = news.289 hours = 12 }
-			#if = {   Add for fascist germany instead?
-				#limit = {
-				#	FROM = {
-				#		original_tag = GER
-				#		has_government = democratic
-				#		has_completed_focus = GER_pool_technical_know_how
-				#	}
-				#	NOT = { has_idea = GER_pool_technical_know_how }
-				#}
-				#add_ideas = GER_pool_technical_know_how
-			#}
+			if = {
+				limit = {
+					FROM = {
+						original_tag = GER
+						has_government = democratic
+						has_completed_focus = GER_pool_technical_know_how
+					}
+					NOT = { has_idea = GER_pool_technical_know_how }
+				}
+				add_ideas = GER_pool_technical_know_how
+			}
 		}
 	}
 	option = { #Agree / Both Fascist
@@ -509,7 +612,7 @@ country_event = {
 		add_ai_strategy = {
 			type = alliance
 			id = FROM
-			value = 100
+			value = 200
 		}
 		hidden_effect = {
 			set_country_flag = alliance_applicant@ROOT
@@ -538,7 +641,7 @@ country_event = {
 		add_ai_strategy = {
 			type = alliance
 			id = FROM
-			value = 100
+			value = 200
 		}
 		hidden_effect = {
 			set_country_flag = alliance_applicant@ROOT
@@ -573,26 +676,60 @@ country_event = {
 		}
 		ai_chance = {
 			base = 100
+			
+			modifier = {
+				factor = 0.5
+				has_war = no
+				FROM = {
+					has_war = yes
+				}
+			}
+			
+			modifier = {
+				factor = 0.5
+				NOT = {
+					has_government = neutrality
+				}
+			}
+			
+			modifier = {
+				factor = 0.75
+				FROM = {
+					is_major = no
+				}
+			}
 		}
 		FROM = { 
 			add_to_faction = ROOT
 			country_event = { id = generic.6 hours = 6 }
 		}
+		if = {
+			limit = {
+				is_literally_china = yes
+				has_DLC = "Waking the Tiger"
+			}
+			CHI_set_ally_strat_on_current_leader = yes #sets ally strategy to current Chinese leader
+		}
+		add_ai_strategy = {
+			type = alliance
+			id = FROM
+			value = 200
+		}
 		hidden_effect = {
 			set_country_flag = alliance_applicant@ROOT
 			FROM = { set_country_flag = alliance_inviter@ROOT }
 			news_event = { id = news.289 hours = 12 }
-			#if = {    TODO
-			#	limit = {
-			#		FROM = {
-			#			original_tag = GER
-				#		has_government = democratic
-				#		has_completed_focus = GER_pool_technical_know_how
-				#	}
-				#	NOT = { has_idea = GER_pool_technical_know_how }
-				#}
-			#	add_ideas = GER_pool_technical_know_how
-			#}
+			if = {
+				limit = {
+					FROM = {
+						original_tag = GER
+						has_government = democratic
+						has_completed_focus = GER_pool_technical_know_how
+					}
+					NOT = { has_idea = GER_pool_technical_know_how }
+				}
+				add_ideas = GER_pool_technical_know_how
+			}
 		}
 	}
 	
@@ -601,7 +738,64 @@ country_event = {
 		trigger = {
 			is_in_faction = no
 		}
-		ai_chance = { factor = 0 }
+		ai_chance = {
+			factor = 50
+			
+			modifier = {
+				factor = 0.5
+				has_opinion = {
+					target = FROM
+					value > 65
+				}
+			}
+			
+			modifier = {
+				factor = 0.5
+				has_opinion = {
+					target = FROM
+					value > 35
+				}
+			}
+			
+			modifier = {
+				factor = 0.5
+				has_opinion = {
+					target = FROM
+					value > 5
+				}
+			}
+			
+			modifier = {
+				factor = 2.0
+				has_opinion = {
+					target = FROM
+					value < 35
+				}
+			}
+			
+			modifier = {
+				factor = 2.0
+				has_opinion = {
+					target = FROM
+					value < 65
+				}
+			}
+			
+			modifier = {
+				factor = 0.1
+				has_war = yes
+				FROM = {
+					has_war = no
+				}
+			}
+			
+			modifier = {
+				factor = 0.1
+				FROM = {
+					is_major = yes
+				}
+			}
+		}
 		FROM = { 
 			country_event = { id = generic.7 hours = 6 }
 		}
@@ -1284,6 +1478,24 @@ country_event = {
 					days = 90
 				}
 			}
+		}
+	}	
+}
+
+# Notification event that FROM has sent industrial support
+country_event = {
+	id = generic.19
+	title = generic.19.t
+	desc = generic.19.d
+	
+	picture = GFX_report_event_generic_factory
+
+	is_triggered_only = yes
+
+	option = {
+		name = excellent
+		effect_tooltip = {
+			add_offsite_building = { type = arms_factory level = 2 }
 		}
 	}	
 }

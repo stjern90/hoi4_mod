@@ -1,50 +1,49 @@
 ﻿capital = 303
 
 oob = "PRU_1936"
+if = {
+	limit = { has_dlc = "Man the Guns" }
+		set_naval_oob = "PRU_1936_naval_mtg"
+	else = {
+		set_naval_oob = "PRU_1936_naval_legacy"
+	}
+}
 
 # Starting tech
 set_technology = {
-	################# infantry ###############
-	infantry_uniforms = 1
 	infantry_weapons = 1
-	tech_Garrison = 1
-	tech_Headquarters = 1
-	################## support ##################
-	tech_recon = 1
-	subtech_recon_cav_1 = 1
-	################## artillery ###############
 	gw_artillery = 1
-	#interwar_artillery = 1
-	jungle_equipment = 1
-	tech_support = 1
-	################## armor ##############
-	generic_armor = 1
-	tech_Gun_Carriers = 1
-	################## aircraft ##############
+	interwar_antiair = 1
 	early_fighter = 1
 	cv_early_fighter = 1
 	early_bomber = 1
-	CAS0 = 1
-	generic_fighter = 1
-	generic_bomber = 1
-	#generic_strategic_bomber = 1
-	################# ships ################
-	ww1_submarine = 1
-	early_submarine = 1
-	generic_naval = 1
-	torpedo_boat_destroyer = 1
-	early_ww1_destroyer = 1
-	late_ww1_destroyer = 1
-	protected_cruiser = 1
-	scout_cruiser = 1
-	ww1_light_cruiser = 1
-	armoured_cruiser = 1
-	############### economy ############
-	
+	CAS1 = 1
 }
+if = {
+	limit = { not = { has_dlc = "Man the Guns" } }
+	set_technology = {
+		early_submarine = 1
+		early_destroyer = 1
+		early_light_cruiser = 1
+	}
+}
+if = {
+	limit = { has_dlc = "Man the Guns" }
+	set_technology = {
+		basic_naval_mines = 1
+		early_ship_hull_light = 1
+		early_ship_hull_submarine = 1
+		early_ship_hull_cruiser = 1
+		basic_battery = 1
+		basic_torpedo = 1
+		basic_depth_charges = 1
+		coastal_defense_ships = 1
+	}
+}
+
 set_country_flag = monroe_doctrine
 
-set_convoys = 16
+set_convoys = 5
 
 1939.1.1 = {
 
@@ -62,12 +61,20 @@ set_convoys = 16
 	complete_national_focus = production_effort
 	
 	oob = "PRU_1939"
+	if = {
+		limit = { has_dlc = "Man the Guns" }
+			set_naval_oob = "PRU_1939_naval_mtg"
+		else = {
+			set_naval_oob = "PRU_1939_naval_legacy"
+		}
+	}
+
 	set_technology = {
 		tactical_bomber1 = 1
-		#interwar_artillery = 1
+		interwar_artillery = 1
 		infantry_weapons1 = 1
 		infantry_weapons2 = 1
-		hmg = 1
+		support_weapons = 1
 
 		#doctrines
 		air_superiority = 1
@@ -78,7 +85,7 @@ set_convoys = 16
 
 		#electronics
 		electronic_mechanical_engineering = 1
-		HQ_communications = 1
+		radio = 1
 		radio_detection = 1
 		mechanical_computing = 1
 
@@ -87,7 +94,8 @@ set_convoys = 16
 		improved_machine_tools = 1
 		advanced_machine_tools = 1
 		synth_oil_experiments = 1
-		oil_plant = 1
+		fuel_silos = 1
+		oil_processing = 1
 		construction1 = 1
 		construction2 = 1
 		dispersed_industry = 1
@@ -121,7 +129,7 @@ set_politics = {
 create_country_leader = {
 	name = "Óscar Benavides"
 	desc = "POLITICS_OSCAR_BENAVIDES_DESC"
-	picture = "gfx/leaders/PRU/Oscar_Benavides.tga"
+	picture = "GFX_Portrait_peru_oscar_benavides"
 	expire = "1965.1.1"
 	ideology = fascism_ideology
 	traits = {
@@ -161,6 +169,64 @@ create_country_leader = {
 		ideology = fascism_ideology
 		traits = {
 			#
+		}
+	}
+}
+
+
+### VARIANTS ###
+# 1936 Start #
+if = {
+	limit = { not = { has_dlc = "Man the Guns" } }
+	### Ship Variants ###
+}
+if = {
+	limit = { has_dlc = "Man the Guns" }
+	# Submarines #
+	create_equipment_variant = {
+		name = "R1 Class"				
+		type = ship_hull_submarine_1
+		parent_version = 0
+		modules = {
+			fixed_ship_torpedo_slot = ship_torpedo_sub_1
+			fixed_ship_engine_slot = sub_ship_engine_1
+			rear_1_custom_slot = empty
+		}
+	}
+	# Destroyers #
+	create_equipment_variant = {
+		name = "Almirante Villar Class"				
+		type = ship_hull_light_1
+		name_group = PRU_DD_HISTORICAL
+		parent_version = 0
+		modules = {
+			fixed_ship_battery_slot = ship_light_battery_1
+			fixed_ship_anti_air_slot = empty
+			fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+			fixed_ship_radar_slot = empty
+			fixed_ship_engine_slot = light_ship_engine_1
+			fixed_ship_torpedo_slot = ship_torpedo_1
+			mid_1_custom_slot = ship_mine_layer_1
+			rear_1_custom_slot = ship_torpedo_1
+		}
+	}
+	# Heavy Cruisers #
+	create_equipment_variant = {
+		name = "Almirante Grau Class"				
+		type = ship_hull_cruiser_coastal_defense_ship
+		name_group = PRU_CA_HISTORICAL
+		parent_version = 0
+		modules = {
+			fixed_ship_battery_slot = ship_light_medium_battery_1
+			fixed_ship_anti_air_slot = ship_anti_air_1
+			fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+			fixed_ship_radar_slot = empty
+			fixed_ship_engine_slot = cruiser_ship_engine_1
+			fixed_ship_armor_slot = empty
+			fixed_ship_secondaries_slot = empty
+			mid_1_custom_slot = empty
+			mid_2_custom_slot = empty
+			rear_1_custom_slot = empty
 		}
 	}
 }

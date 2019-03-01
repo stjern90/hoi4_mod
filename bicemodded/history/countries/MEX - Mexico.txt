@@ -1,70 +1,85 @@
 ﻿capital = 277
 
 oob = "MEX_1936"
-
-set_research_slots = 3
+if = {
+	limit = { has_dlc = "Man the Guns" }
+		set_naval_oob = "MEX_1936_naval_mtg"
+	else = {
+		set_naval_oob = "MEX_1936_naval_legacy"
+	}
+}
 
 # Starting tech
 set_technology = {
-################# infantry ###############
-	infantry_uniforms = 1
 	infantry_weapons = 1
-	tech_Garrison = 1
-	tech_Headquarters = 1
-	################## support ##################
-	tech_recon = 1
-	subtech_recon_cav_1 = 1
-	desert_equipment = 1
-	tech_support = 1
-	################## artillery ###############
 	gw_artillery = 1
-	#interwar_artillery = 1
-	################## armor ##############
-	generic_armor = 1
-	tech_Gun_Carriers = 1
-	################## aircraft ##############
+	interwar_antiair = 1
+	gwtank = 1
 	early_fighter = 1
 	early_bomber = 1
-	CAS0 = 1
-	generic_fighter = 1
-	generic_bomber = 1
-	#generic_strategic_bomber = 1
-	################# ships ################
-	ww1_submarine = 1
-	generic_naval = 1
-	############## WW1Naval############
-	torpedo_boat_destroyer = 1
-	early_ww1_destroyer = 1
-	late_ww1_destroyer = 1
-	protected_cruiser = 1
-	############### economy ############
-	construction0 = 1
-	infra_works0 = 1
-	basic_industry = 1
+	CAS1 = 1
+	fuel_silos = 1
+	fuel_refining = 1
 }
+if = {
+	limit = { not = { has_dlc = "Man the Guns" } }
+	set_technology = {
+		early_submarine = 1
+		early_destroyer = 1
+		early_light_cruiser = 1
+		early_heavy_cruiser = 1
+	}
+}
+if = {
+	limit = { has_dlc = "Man the Guns" }
+	set_technology = {
+		basic_naval_mines = 1
+		early_ship_hull_light = 1
+		early_ship_hull_submarine = 1
+		basic_battery = 1
+		basic_secondary_battery = 1
+		coastal_defense_ships = 1
+	}
+}
+
 set_country_flag = monroe_doctrine
 
-1939.1.1 = {
+set_convoys = 45
+set_stability = 0.2
+set_war_support = 0.1
 
+if = {
+	limit = {
+		has_dlc = "Man the Guns"
+	}
+	add_ideas = {
+		MEX_callistas
+		MEX_church_power_2
+		MEX_oil_concessions
+		MEX_politicised_army
+		MEX_cedillo_tension_2
+	}
+}
+
+1939.1.1 = {
 	add_political_power = 1198
-	
-	#generic focuses
-	complete_national_focus = army_effort
-	complete_national_focus = equipment_effort
-	complete_national_focus = motorization_effort
-	complete_national_focus = aviation_effort
-	complete_national_focus = naval_effort
-	complete_national_focus = large_navy
-	complete_national_focus = industrial_effort
-	complete_national_focus = construction_effort
-	complete_national_focus = production_effort
+
+	set_global_flag = flag_mexico_cedillo_has_revolted
 	
 	oob = "MEX_1939"
+	if = {
+		limit = { has_dlc = "Man the Guns" }
+			set_naval_oob = "MEX_1939_naval_mtg"
+		else = {
+			set_naval_oob = "MEX_1939_naval_legacy"
+		}
+	}
+	
 	set_technology = {
-		#interwar_artillery = 1
+		interwar_artillery = 1
 		infantry_weapons1 = 1
 		infantry_weapons2 = 1
-		hmg = 1
+		support_weapons = 1
 
 		#doctrines
 		air_superiority = 1
@@ -75,7 +90,7 @@ set_country_flag = monroe_doctrine
 
 		#electronics
 		electronic_mechanical_engineering = 1
-		HQ_communications = 1
+		radio = 1
 		radio_detection = 1
 		mechanical_computing = 1
 		computing_machine = 1
@@ -84,9 +99,7 @@ set_country_flag = monroe_doctrine
 		basic_machine_tools = 1
 		improved_machine_tools = 1
 		advanced_machine_tools = 1
-		synth_oil_experiments = 1
-		oil_plant = 1
-		improved_oil_plant = 1
+		fuel_refining2 = 1
 		construction1 = 1
 		construction2 = 1
 		construction3 = 1
@@ -94,32 +107,101 @@ set_country_flag = monroe_doctrine
 		dispersed_industry2 = 1
 		dispersed_industry3 = 1
 	}
-}
 
-add_ideas = {
-	
-	incompetent_industry_fake_navy
-}
+	if = {
+		limit = {
+			has_dlc = "Man the Guns"
+		}
 
-set_convoys = 35
+		remove_ideas = {
+			MEX_cedillo_tension_2 # Already rebelled by this point
+		}
+		
+		complete_national_focus = MEX_focus_plan_of_agua_prieta
+		# 70
+		complete_national_focus = MEX_focus_exile_calles # Increase Church Power (3)
+		# 140
+		complete_national_focus = MEX_focus_control_the_army
+		# 210
+		complete_national_focus = MEX_focus_repeal_the_calles_law # Increase Church Power (4)
+		# 280
+		complete_national_focus = MEX_focus_peripheral_infrastructure
+		# 350
+		complete_national_focus = MEX_focus_rural_schools # 3rd research slot, decrease Church Power (3)
+		# 420
+		complete_national_focus = MEX_focus_national_bank
+		# 490
+		complete_national_focus = MEX_focus_agricultural_credit_bank
+		# 560
+		complete_national_focus = MEX_focus_rent_freeze
+		# 630
+		complete_national_focus = MEX_focus_confederation_of_mexican_workers # Decrease Church Power (2)
+		# 700
+		complete_national_focus = MEX_focus_ejido_worker_militias # Communist drift
+		# 770
+		complete_national_focus = MEX_focus_oil_field_expansion
+		# 840
+		complete_national_focus = MEX_focus_rural_infrastructure
+		# 910
+		unlock_national_focus = MEX_focus_nationalize_the_oil_fields
+		# 980
+		remove_ideas = {
+			MEX_oil_concessions
+		}
+		
+		ENG = {
+			add_opinion_modifier = {
+				target = MEX
+				modifier = embargo
+			}
+		}
+		USA = {
+			add_opinion_modifier = {
+				target = MEX
+				modifier = embargo
+			}
+		}
+		add_opinion_modifier = {
+			target = ENG
+			modifier = embargo
+		}
+		add_opinion_modifier = {
+			target = USA
+			modifier = embargo
+		}
+		
+		else = {
+			#generic focuses
+			complete_national_focus = army_effort
+			complete_national_focus = equipment_effort
+			complete_national_focus = motorization_effort
+			complete_national_focus = aviation_effort
+			complete_national_focus = naval_effort
+			complete_national_focus = large_navy
+			complete_national_focus = industrial_effort
+			complete_national_focus = construction_effort
+			complete_national_focus = production_effort
+		}
+	}
+}
 
 set_politics = {
 
 	parties = {
 		democratic = { 
-			popularity = 5
+			popularity = 18
 		}
 
 		fascism = {
-			popularity = 0
+			popularity = 20
 		}
 		
 		communism = {
-			popularity = 1
+			popularity = 9
 		}
 		
 		neutrality = { 
-			popularity = 94
+			popularity = 53
 		}
 	}
 	
@@ -129,14 +211,12 @@ set_politics = {
 	elections_allowed = yes
 }
 
-set_stability = 0.8
-
 create_country_leader = {
 	name = "Lázaro Cárdenas"
 	desc = "POLITICS_LAZARO_CARDENAS_DESC"
 	picture = "Portrait_Mexico_Lazaro_Cardenas.dds"
 	expire = "1965.1.1"
-	ideology = despotism
+	ideology = moderatism
 	traits = {
 		#
 	}
@@ -145,18 +225,18 @@ create_country_leader = {
 create_country_leader = {
 	name = "Salvador Abascal"
 	desc = "POLITICS_SALVADOR_ABASCAL_DESC"
-	picture = "gfx/leaders/MEX/Portrait_Mexico_Salvador_Abascal.dds"
+	picture = "GFX_Portrait_MEX_Salvador_Abascal"
 	expire = "1965.1.1"
 	ideology = falangism
 	traits = {
-		#
+		fascist_militia_leader
 	}
 }
 
-create_country_leader = {
-	name = "Manuel Gómez Morín"
-	desc = "POLITICS_MANUEL_GOMEZ_MORIN_DESC"
-	picture = "gfx/leaders/MEX_Portrait_Mexico_Manuel_Gomez_Morin.dds"
+create_country_leader = { # Exiled until 1935 following a rebellion attempt, allowed back in by Cardenas and joined the cabinet of Avila
+	name = "Adolfo de la Huerta"
+	desc = "POLITICS_ADOLFO_DE_LA_HUERTA_DESC"
+	picture = "GFX_Portrait_MEX_Adolfo_de_la_Huerta"
 	expire = "1965.1.1"
 	ideology = conservatism
 	traits = {
@@ -164,60 +244,57 @@ create_country_leader = {
 	}
 }
 
-create_country_leader = {
+create_country_leader = { # Stalinist, took over after assassination of Trotsky. 1940-1959
 	name = "Dionisio Encina"
 	desc = "POLITICS_DIONISIO_ENCINA_DESC"
-	picture = "gfx/leaders/South America/Portrait_South_America_Generic_1.dds"
+	picture = "GFX_Portrait_MEX_Dionisio_Encina"
 	expire = "1965.1.1"
-	ideology = marxism
+	ideology = stalinism
 	traits = {
-		#
+		staunch_stalinist
 	}
 }
 
-1939.1.1 = {
-	set_politics = {
-
-		parties = {
-		democratic = { 
-			popularity = 1
-		}
-
-		fascism = {
-			popularity = 0
-		}
-		
-		communism = {
-			popularity = 1
-		}
-		
-		neutrality = { 
-			popularity = 98
-		}
+create_country_leader = { # Trotskyist, led the PCM 1929-1940
+	name = "Hernán Laborde"
+	desc = "POLITICS_HERNAN_LABORDE_DESC"
+	picture = "GFX_Portrait_MEX_Hernan_Laborde"
+	expire = "1965.1.1"
+	ideology = leninism
+	traits = {
+		devoted_trotskyist
 	}
-	
-	ruling_party = neutrality
-		last_election = "1934.7.1"
-		election_frequency = 72
-		elections_allowed = yes
-	}
+}
 
-	create_country_leader = { #from 1940, but he's prettier so he gets to win early
-		name = "Manuel Avila Camacho"
-		desc = "POLITICS_LAZARO_CARDENAS_DESC"
-		picture = "gfx/leaders/South America/Portrait_South_America_Generic_3.dds"
-		expire = "1965.1.1"
-		ideology = despotism
-		traits = {
-			#
-		}
-	}
+create_field_marshal = {
+	name = "Lázaro Cárdenas"
+	id = 712
+	picture = "Portrait_Mexico_Lazaro_Cardenas.dds"
+	traits = { politically_connected }
+	skill = 3
+	attack_skill = 3
+	defense_skill = 3
+	planning_skill = 3
+	logistics_skill = 3
+}
+
+create_corps_commander = {
+	name = "Heliodoro Charis"
+	id = 700
+	gfx = "GFX_portrait_mex_heliodoro_charis"
+	traits = { infantry_officer } # Veteran of many assaults
+	skill = 3
+    attack_skill = 4
+    defense_skill = 2
+    planning_skill = 2
+    logistics_skill = 2
 }
 
 create_corps_commander = {
 	name = "Luis Farell"
-	portrait_path = "gfx/leaders/South America/Portrait_South_America_Generic_land_2.dds"
-	traits = { }
+	id = 701
+	gfx = "GFX_portrait_mex_luis_farell"
+	traits = { war_hero } # Personally piloted missions against rebels etc
 	skill = 3
     attack_skill = 4
     defense_skill = 1
@@ -227,8 +304,45 @@ create_corps_commander = {
 
 create_corps_commander = {
 	name = "Gildardo Magaña"
-	portrait_path = "gfx/leaders/South America/Portrait_South_America_Generic_land_4.dds"
-	traits = { desert_fox }
+	id = 702
+	gfx = "GFX_portrait_mex_gildardo_magana"
+	traits = { media_personality } # Headed some political organisations like trade unions
+	skill = 3
+    attack_skill = 2
+    defense_skill = 2
+    planning_skill = 3
+    logistics_skill = 3
+}
+
+create_corps_commander = {
+	name = "Manuel Pérez Treviño"
+	id = 703
+	gfx = "GFX_portrait_mex_manuel_perez_trevino"
+	traits = { career_officer } # Pre-Revolutionary officer training
+	skill = 3
+    attack_skill = 2
+    defense_skill = 3
+    planning_skill = 2
+    logistics_skill = 3
+}
+
+create_corps_commander = {
+	name = "Abelardo L. Rodríguez"
+	id = 704
+	gfx = "GFX_portrait_mex_abelardo_rodriguez"
+	traits = { politically_connected } # President prior to Cardenas
+	skill = 3
+    attack_skill = 3
+    defense_skill = 2
+    planning_skill = 3
+    logistics_skill = 2
+}
+
+create_corps_commander = {
+	name = "Manuel Ávila Camacho"
+	id = 705
+	gfx = "GFX_portrait_mex_avila_military"
+	traits = { politically_connected } # Future president
 	skill = 3
     attack_skill = 2
     defense_skill = 2
@@ -237,8 +351,104 @@ create_corps_commander = {
 }
 
 create_navy_leader = {
-	name = "Paul Suarez"
-	portrait_path = "gfx/leaders/South America/Portrait_South_America_Generic_navy_2.dds"
-	traits = { superior_tactician }
-	skill = 3
+	name = "Othón P. Blanco Núñez de Cáceres"
+	id = 706
+	gfx = "GFX_portrait_mex_othon_blanco"
+	traits = { old_guard_navy }
+	skill = 2
+	attack_skill = 1
+	defense_skill = 1
+	maneuvering_skill = 2
+	coordination_skill = 3
+}
+
+create_navy_leader = {
+	name = "Heriberto Jara Corona"
+	id = 707
+	gfx = "GFX_portrait_mex_heriberto_corona"
+	traits = { navy_media_personality }
+	skill = 1
+	attack_skill = 1
+	defense_skill = 1
+	maneuvering_skill = 1
+	coordination_skill = 1
+}
+
+
+### VARIANTS ###
+# 1936 Start #
+if = {
+	limit = { not = { has_dlc = "Man the Guns" } }
+	create_equipment_variant = {
+		name = "Durango Class"
+		type = destroyer_1
+		upgrades = {
+			ship_anti_air_upgrade = 1
+		}
+		obsolete = yes
+	}
+	create_equipment_variant = {
+		name = "Nicolás Bravo Class"
+		type = destroyer_1
+		upgrades = {
+			ship_torpedo_upgrade = 1
+			destroyer_engine_upgrade = 1
+			ship_ASW_upgrade = 1
+			ship_anti_air_upgrade = 2
+		}
+	}
+}
+if = {
+	limit = { has_dlc = "Man the Guns" }
+	# Destroyers #
+	create_equipment_variant = {
+		name = "Nicolás Bravo Class"			
+		type = ship_hull_light_1
+		name_group = MEX_DD_HISTORICAL
+		parent_version = 0
+		modules = {
+			fixed_ship_battery_slot = ship_light_battery_1
+			fixed_ship_anti_air_slot = empty
+			fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+			fixed_ship_radar_slot = empty
+			fixed_ship_engine_slot = light_ship_engine_1
+			fixed_ship_torpedo_slot = empty
+			mid_1_custom_slot = empty
+			rear_1_custom_slot = empty
+		}
+		obsolete = yes
+	}
+	create_equipment_variant = {
+		name = "Durango Class"			# represents both Guanajuato and Durango classes (gunboats)
+		type = ship_hull_light_1
+		name_group = MEX_DD_HISTORICAL
+		parent_version = 0
+		modules = {
+			fixed_ship_battery_slot = ship_light_battery_1
+			fixed_ship_anti_air_slot = ship_anti_air_1
+			fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+			fixed_ship_radar_slot = empty
+			fixed_ship_engine_slot = light_ship_engine_1
+			fixed_ship_torpedo_slot = empty
+			mid_1_custom_slot = empty
+			rear_1_custom_slot = empty
+		}
+	}
+	create_equipment_variant = {
+		name = "Anahuac Class"			
+		type = ship_hull_cruiser_coastal_defense_ship
+		name_group = MEX_BB_HISTORICAL
+		parent_version = 0
+		modules = {
+			fixed_ship_battery_slot = ship_medium_battery_1
+			fixed_ship_anti_air_slot = empty
+			fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+			fixed_ship_radar_slot = empty
+			fixed_ship_engine_slot = cruiser_ship_engine_1
+			fixed_ship_secondaries_slot = ship_secondaries_1
+			fixed_ship_armor_slot = ship_armor_cruiser_1
+			mid_1_custom_slot = empty
+			rear_1_custom_slot = empty
+		}
+	}
 }

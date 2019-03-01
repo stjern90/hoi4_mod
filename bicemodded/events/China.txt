@@ -15,34 +15,41 @@ country_event = {
 	
 	option = { # Breaking point!
 		name = china.1.a
-		ai_chance = { factor = 100 }
+		ai_chance = { factor = 90 }
 		effect_tooltip = {
 			JAP = {
 				add_war_support = 0.05
 				country_event = { id = japan.1 }
-				if { 
-				limit = { CHI = { exists = yes } }
-  				create_wargoal = {
+				create_wargoal = {
   					type = annex_everything
   					target = CHI
   				}
-				}
-				if { 
-				limit = { SHX = { exists = yes } }
   				create_wargoal = {
   					type = annex_everything
   					target = SHX
   				}
-				}
 			}
 		}
 		hidden_effect = {
 			JAP = { country_event = { id = japan.1 } }
 		}
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 0.5
+				has_war = yes
+			}
+			modifier = {
+				factor = 0.5
+				any_enemy_country = {
+					is_major = yes
+				}
+			}
+		}
 	}
 	option = { # Make more concessions
 		name = china.1.b
-		ai_chance = { factor = 0 }
+		ai_chance = { factor = 10 }
 		JAP = {
 			set_truce = { target = ROOT days = 180 }
 			effect_tooltip = {
@@ -53,6 +60,40 @@ country_event = {
 			}
 			country_event = { id = japan.2 }
 		}
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 0
+				OR = {
+					is_historical_focus_on = yes
+					has_country_flag = CHI_AI_RANDOM_HISTORICAL
+					has_game_rule = {
+						rule = CHI_ai_behavior
+						option = HISTORICAL
+					}
+				}
+				NOT = {
+					has_game_rule = { #used here instead of checking for default because people might not have WTT
+						rule = CHI_ai_behavior
+						option = ALTERNATE
+					}
+				}
+			}
+			modifier = {
+				factor = 0.5
+				JAP = {
+					has_war = yes
+				}
+			}
+			modifier = {
+				factor = 0.25
+				JAP = {
+					any_enemy_country = {
+						is_major = yes
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -61,7 +102,7 @@ country_event = {
 	id = china.2
 	title = china.2.t
 	desc = china.2.d
-	picture = GFX_report_event_falkenhausen
+	picture = GFX_report_event_chinese_army_training
 	
 	is_triggered_only = yes
 	
@@ -76,7 +117,7 @@ country_event = {
 	id = china.3
 	title = china.3.t
 	desc = china.3.d
-	picture = GFX_report_event_falkenhausen
+	picture = GFX_report_event_chinese_soldiers
 	
 	is_triggered_only = yes
 	
@@ -84,12 +125,13 @@ country_event = {
 		name = china.3.a
 	}
 }
+
 # China is at war with Germany, Advisors Detained
 country_event = {
 	id = china.4
 	title = china.4.t
 	desc = china.4.d
-	picture = GFX_report_event_falkenhausen
+	picture = GFX_report_event_german_detained_china
 	
 	is_triggered_only = yes
 	
@@ -97,6 +139,7 @@ country_event = {
 		name = china.4.a
 	}
 }
+
 # Mao is gaining ground, loses his Cornered Fox trait
 country_event = {
 	id = china.5
@@ -111,8 +154,9 @@ country_event = {
 	}
 
 	trigger = {
-		tag = CCP
+		tag = PRC
 		num_of_controlled_states > 3
+		has_country_leader = { ruling_only = yes name = "Mao Zedong" }
 	}
 	
 	option = {
@@ -120,6 +164,7 @@ country_event = {
 		remove_country_leader_trait = cornered_fox
 	}
 }
+
 # Kuomintang Offensive
 country_event = {
 	id = china.6
@@ -135,9 +180,12 @@ country_event = {
 
 	trigger = {
 		tag = CHI
-		NOT = { has_war_with = CCP }
+		NOT = { has_war_with = PRC }
+		NOT = {
+			has_dlc = "Waking the Tiger"
+		}
 		any_neighbor_country = {
-			tag = CCP
+			tag = PRC
 			has_opinion_modifier = hostile_status
 		}
 	}
@@ -165,7 +213,7 @@ country_event = {
 			add_political_power = 100
 		}
 		hidden_effect = {
-			CCP = {
+			PRC = {
 				set_country_flag = CCW_major_attack
 				country_event = { id = china.7 days = 1 }
 			}
@@ -193,7 +241,7 @@ country_event = {
 			add_political_power = 50
 		}
 		hidden_effect = {
-			CCP = {
+			PRC = {
 				set_country_flag = CCW_medium_attack
 				country_event = { id = china.7 days = 1 }
 			}
@@ -221,13 +269,14 @@ country_event = {
 			add_political_power = 25
 		}
 		hidden_effect = {
-			CCP = {
+			PRC = {
 				set_country_flag = CCW_minor_attack
 				country_event = { id = china.7 days = 1 }
 			}
 		}
 	}
 }
+
 country_event = {
 	id = china.7
 	title = china.7.t
@@ -303,6 +352,7 @@ country_event = {
 		add_political_power = -50
 	}
 }
+
 country_event = {
 	id = china.8
 	title = china.8.t
@@ -314,24 +364,25 @@ country_event = {
 	option = {
 		name = china.8.a
 		if = {
-			limit = { CCP = { has_country_flag = CCW_major_attack } }
+			limit = { PRC = { has_country_flag = CCW_major_attack } }
 			add_political_power = 100
 		}
 		if = {
-			limit = { CCP = { has_country_flag = CCW_medium_attack } }
+			limit = { PRC = { has_country_flag = CCW_medium_attack } }
 			add_political_power = 50
 		}
 		if = {
-			limit = { CCP = { has_country_flag = CCW_minor_attack } }
+			limit = { PRC = { has_country_flag = CCW_minor_attack } }
 			add_political_power = 25
 		}
-		CCP = {
+		PRC = {
 			clr_country_flag = CCW_major_attack
 			clr_country_flag = CCW_medium_attack
 			clr_country_flag = CCW_minor_attack
 		}
 	}
 }
+
 country_event = {
 	id = china.9
 	title = china.9.t
@@ -343,21 +394,21 @@ country_event = {
 	option = {
 		name = china.9.a
 		if = {
-			limit = { CCP = { has_country_flag = CCW_major_attack } }
+			limit = { PRC = { has_country_flag = CCW_major_attack } }
 			add_political_power = 200
 			add_manpower = -10000
 		}
 		if = {
-			limit = { CCP = { has_country_flag = CCW_medium_attack } }
+			limit = { PRC = { has_country_flag = CCW_medium_attack } }
 			add_political_power = 100
 			add_manpower = -1000
 		}
 		if = {
-			limit = { CCP = { has_country_flag = CCW_minor_attack } }
+			limit = { PRC = { has_country_flag = CCW_minor_attack } }
 			add_political_power = 50
 			add_manpower = -100
 		}
-		CCP = {
+		PRC = {
 			country_event = { id = china.11 }
 			clr_country_flag = CCW_major_attack
 			clr_country_flag = CCW_medium_attack
@@ -365,6 +416,7 @@ country_event = {
 		}
 	}
 }
+
 country_event = {
 	id = china.10
 	title = china.10.t
@@ -376,21 +428,21 @@ country_event = {
 	option = {
 		name = china.10.a
 		if = {
-			limit = { CCP = { has_country_flag = CCW_major_attack } }
+			limit = { PRC = { has_country_flag = CCW_major_attack } }
 			add_political_power = -100
 			add_manpower = -50000
 		}
 		if = {
-			limit = { CCP = { has_country_flag = CCW_medium_attack } }
+			limit = { PRC = { has_country_flag = CCW_medium_attack } }
 			add_political_power = -50
 			add_manpower = -5000
 		}
 		if = {
-			limit = { CCP = { has_country_flag = CCW_minor_attack } }
+			limit = { PRC = { has_country_flag = CCW_minor_attack } }
 			add_political_power = -25
 			add_manpower = -500
 		}
-		CCP = {
+		PRC = {
 			country_event = { id = china.12 }
 			clr_country_flag = CCW_major_attack
 			clr_country_flag = CCW_medium_attack
@@ -398,6 +450,7 @@ country_event = {
 		}
 	}
 }
+
 country_event = {
 	id = china.11
 	title = china.11.t
@@ -412,6 +465,7 @@ country_event = {
 		add_manpower = -5000
 	}
 }
+
 country_event = {
 	id = china.12
 	title = china.12.t
@@ -426,6 +480,7 @@ country_event = {
 		add_manpower = -1000
 	}
 }
+
 # Border War
 country_event = {
 	id = china.13
@@ -437,14 +492,11 @@ country_event = {
 
 	trigger = {
 		has_country_flag = CCW_offensive_executed
+		NOT = { has_dlc = "Waking the Tiger" }
 		has_opinion_modifier = hostile_status
 		OR = {
 			divisions_in_state = {
-				state = 605
-				size > 0
-			}
-			divisions_in_state = {
-				state = 620
+				state = 744
 				size > 0
 			}
 			divisions_in_state = {
@@ -452,9 +504,9 @@ country_event = {
 				size > 0
 			}
 		}
-		CCP = {
+		PRC = {
 			divisions_in_state = {	
-				state = 802	
+				state = 622	
 				size > 0	
 			}	
 		}	
@@ -466,40 +518,33 @@ country_event = {
 
 	immediate = {
 		hidden_effect = {
-			CCP = { country_event = { id = china.18 } }
+			PRC = { country_event = { id = china.18 } }
 		}
 	}
 	
 	option = {
 		name = china.13.a
-		if = {
-			limit = {
-				divisions_in_state = {
-					state = 605
-					size > 0
+		CHI = {
+			if = {
+				limit = {
+					divisions_in_state = {
+						state = 744
+						size > 0
+					}
 				}
+				744 = { set_border_war = yes }
 			}
-			605 = { set_border_war = yes }
-		}
-		if = {
-			limit = {
-				divisions_in_state = {
-					state = 620
-					size > 0
+			if = {
+				limit = {
+					divisions_in_state = {
+						state = 607
+						size > 0
+					}
 				}
+				607 = { set_border_war = yes }
 			}
-			620 = { set_border_war = yes }
 		}
-		if = {
-			limit = {
-				divisions_in_state = {
-					state = 607
-					size > 0
-				}
-			}
-			607 = { set_border_war = yes }
-		}
-		802 = { set_border_war = yes }
+		622 = { set_border_war = yes }
 	}
 	option = {
 		name = china.13.b
@@ -513,7 +558,7 @@ country_event = {
 	id = china.14
 	title = china.14.t
 	desc = china.14.d
-	picture = GFX_report_event_japanese_chinese_surrender
+	picture = GFX_report_event_chinese_soldiers_fighting
 	
 	is_triggered_only = yes
 
@@ -541,7 +586,7 @@ country_event = {
 					set_border_war = no
 				}
 			}
-			802 = {
+			622 = {
 				if = {
 					limit = { is_border_conflict = yes }
 					set_border_war = no
@@ -554,16 +599,16 @@ country_event = {
 		name = china.14.a
 		add_political_power = -100
 		add_stability = -0.05
-		CCP = { country_event = { id = china.15 } }
+		PRC = { country_event = { id = china.15 } }
 	}
 }
 
-# CCP wins Border War
+# PRC wins Border War
 country_event = {
 	id = china.15
 	title = china.15.t
 	desc = china.15.d
-	picture = GFX_report_event_japanese_chinese_surrender
+	picture = GFX_report_event_chinese_soldiers_fighting
 	
 	is_triggered_only = yes
 
@@ -571,20 +616,21 @@ country_event = {
 		name = china.15.a
 		add_political_power = 100
 		add_stability = 0.05
+		add_war_support = 0.1
 	}
 }
 
-# CCP loses Border War
+# PRC loses Border War
 country_event = {
 	id = china.16
 	title = china.16.t
 	desc = china.16.d
-	picture = GFX_report_event_japanese_chinese_surrender
+	picture = GFX_report_event_chinese_soldiers_fighting
 	
 	is_triggered_only = yes
 
 	trigger = {
-		tag = CCP
+		tag = PRC
 	}
 
 	immediate = {
@@ -607,7 +653,7 @@ country_event = {
 					set_border_war = no
 				}
 			}
-			802 = {
+			622 = {
 				if = {
 					limit = { is_border_conflict = yes }
 					set_border_war = no
@@ -629,7 +675,7 @@ country_event = {
 	id = china.17
 	title = china.17.t
 	desc = china.17.d
-	picture = GFX_report_event_japanese_chinese_surrender
+	picture = GFX_report_event_chinese_soldiers_fighting
 	
 	is_triggered_only = yes
 
@@ -637,10 +683,11 @@ country_event = {
 		name = china.17.a
 		add_political_power = 100
 		add_stability = 0.05
+		add_war_support = 0.1
 	}
 }
 
-# Border War Starts (CCP)
+# Border War Starts (PRC)
 country_event = {
 	id = china.18
 	title = china.18.t
@@ -652,25 +699,16 @@ country_event = {
 	option = {
 		name = china.18.a
 		effect_tooltip = {
-			802 = { set_border_war = yes }
+			622 = { set_border_war = yes }
 			CHI = {
 				if = {
 					limit = {
 						divisions_in_state = {
-							state = 605
+							state = 744
 							size > 0
 						}
 					}
-					605 = { set_border_war = yes }
-				}
-				if = {
-					limit = {
-						divisions_in_state = {
-							state = 620
-							size > 0
-						}
-					}
-					620 = { set_border_war = yes }
+					744 = { set_border_war = yes }
 				}
 				if = {
 					limit = {
@@ -686,148 +724,24 @@ country_event = {
 	}
 }
 
-
-#############NEW EVENTS############
-
-#Ask Germany to continue/start trade treaty
-country_event = {
-	id = china.19
-	title = china.19.t 
-	desc = china.19.d 
-	picture = GFX_report_event_falkenhausen
-	
-	fire_only_once = yes
-	is_triggered_only = yes
-	
-	option = { #yes
-		name = china.19.a 
-		ai_chance = { factor = 100 }
-		748 = {
-			add_extra_state_shared_building_slots = 2
-			add_building_construction = {
-				type = industrial_complex
-				level = 2
-				instant_build = yes
-			}	
-		}
-		
-		add_opinion_modifier = {
-			target = CHI
-			modifier = pact_of_steel_opinion
-			modifier = ger_chi_diplomacy_focus
-		}
-
-		GER = {	
-			diplomatic_relation = {
-				country = CHI
-				relation = non_aggression_pact
-				active = yes
-			}
-			
-		}
-		
-		add_ideas = german_chinese_trade_agreement_ger
-	
-		CHI = {
-		country_event = { id = china.20 }
-		}
-	}
-	option = { #no
-		name = china.19.b 
-		ai_chance = { factor = 0 }
-		add_political_power = -100
-		add_stability = -0.05
-		CHI = { 
-		country_event = { id = china.21 days = 1 }
-		}
-	
-	}	
-}
-
-country_event = {
-	id = china.20
-	title = china.20.t 
-	desc = china.20.d 
-	picture = GFX_report_event_reichstag_hitler_speech
-	
-	
-	fire_only_once = yes
-	is_triggered_only = yes
-	
-	option = {
-		name = china.20.a 
-		ai_chance = { factor = 100 }
-		
-		add_opinion_modifier = {
-			target = GER
-			modifier = pact_of_steel_opinion
-			modifier = ger_chi_diplomacy_focus
-		}
-		
-		add_ideas = german_chinese_trade_agreement_chi
-		
-		effect_tooltip = {
-			748 = {
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-					type = industrial_complex
-					level = 2
-					instant_build = yes
-				}	
-			}
-			
-			add_opinion_modifier = {
-				target = CHI
-				modifier = pact_of_steel_opinion
-				modifier = ger_chi_diplomacy_focus
-			}
-		
-			diplomatic_relation = {
-				country = GER
-				relation = non_aggression_pact
-				active = yes
-			}
-			
-			GER = { add_ideas = german_chinese_trade_agreement_ger }
-		}
-	}
-}
-
-country_event = {
-	id = china.21
-	title = china.21.t 
-	desc = china.21.d 
-	picture = GFX_report_event_reichstag_hitler_speech
-	
-	
-	fire_only_once = yes
-	is_triggered_only = yes
-	
-	option = {
-		name = china.20.a 
-		ai_chance = { factor = 100 }
-		
-		add_opinion_modifier = {
-			target = GER
-			modifier = pact_against_us
-		}
-	}
-}
-
 # Japan attacks - Chinese Popular Front forms
 country_event = {
 	id = china.100
 	title = china.100.t
 	desc = china.100.d
-	picture = GFX_report_event_marco_polo_bridge
+	picture = GFX_report_event_chinese_officers
 
 	fire_only_once = yes
 
 	trigger = {
+		NOT = {
+			has_dlc = "Waking the Tiger"
+		}
 		tag = CHI
 		has_war_with = JAP
 		JAP = { has_offensive_war = yes }
 		has_defensive_war = yes
+		NOT = { owns_state = 622 }		
 		NOT = { has_global_flag = CHI_unite }
 		NOT = { has_global_flag = CHI_no_national_front_flag }
 	}
@@ -840,10 +754,9 @@ country_event = {
 		ai_chance = { factor = 100 }
 		name = china.100.a
 		create_faction = chinese_united_front
-		add_ideas = KMT_united_front
 		#load_oob = "CHI_united_front"
 		set_global_flag = CHI_unite
-		set_global_flag = CHI_unite_CCP
+
 	}
 	#option = {
 	#	name = china.100.b
@@ -856,27 +769,18 @@ country_event = {
 	id = china.101
 	title = china.101.t
 	desc = china.101.d
-	picture = GFX_report_event_marco_polo_bridge
+	picture = GFX_report_event_chinese_officers
 
 	trigger = {
+		NOT = {
+			has_dlc = "Waking the Tiger"
+		}
 		NOT = { has_country_flag = china.101_fired }
 		has_global_flag = CHI_unite
-		AND = {
-			CHI = {
-				NOT = { has_country_flag = CHI_hostile_against_warlords }
-			}
-			OR = {
-				tag = GXC
-				tag = YUN
-				tag = XSM
-				AND = {
-					OR = {
-						has_global_flag = CCP_no_join
-						CCP = { exists = no }
-					}
-					tag = SHX
-				}
-			}
+		OR = {
+			tag = GXC
+			tag = YUN
+			tag = XSM
 		}
 		CHI = {
 			has_war_with = JAP 
@@ -884,16 +788,11 @@ country_event = {
 		}
 		JAP = { has_offensive_war = yes }
 
-		NOT = {
-			is_puppet_of = CCP
-		}
 		is_puppet = no
 		NOT = { has_war_with = CHI }
-		NOT = {
-			AND = {
-				has_war = yes
-				is_in_faction = yes
-			}
+		AND = {
+			has_war = no
+			is_in_faction = no
 		}
 	}
 
@@ -902,7 +801,7 @@ country_event = {
 	}
 
 	mean_time_to_happen = {
-		days = 5
+		days = 14
 	}
 	
 	option = {
@@ -916,93 +815,8 @@ country_event = {
 		custom_effect_tooltip = GAME_OVER_TT
 		hidden_effect = {
 			CHI = { country_event = china.103 }
-			if = {
-				limit = {
-					ROOT = {
-						tag = GXC
-					}
-				}
-			hidden_effect = {
-				CHI = {
-					set_country_flag = gxc_sumitted
-					create_field_marshal = {
-						id = 1005
-						name = "Li Zongren"
-						portrait_path = "gfx/leaders/CHI/lizongren.dds"
-						traits = {  defensive_doctrine  }
-							skill = 3
-							attack_skill = 3
-							defense_skill = 4
-							planning_skill = 2
-							logistics_skill = 4
-					}
-				}
-			}
-			}
-			if = {
-				limit = {
-					ROOT = {
-						tag = YUN
-					}
-				}
-				CHI = {
-					create_corps_commander = {
-						name = "Long Yun"
-						portrait_path = "gfx/leaders/Asia/Portrait_Asia_Generic_warlord1.dds"
-						traits = {  infantry_officer }
-						skill = 3
-							attack_skill = 2
-							defense_skill = 3
-							planning_skill = 1
-							logistics_skill = 4
-					}
-					set_country_flag = yun_sumitted
-				}
-			}
-			if = {
-				limit = {
-					ROOT = {
-						tag = SHX
-					}
-				}
-				CHI = {
-					create_corps_commander = {
-						name = "Yan Xishan"
-						portrait_path = "gfx/leaders/Asia/Portrait_Asia_Generic_warlord2.dds"
-						traits = { infantry_officer }
-						skill = 2
-							attack_skill = 1
-							defense_skill = 2
-							planning_skill = 2
-							logistics_skill = 5
-					}
-					set_country_flag = shx_sumitted
-				}
-			}
-			if = {
-				limit = {
-					ROOT = {
-						tag = XSM
-					}
-				}
-				CHI = {
-					create_corps_commander = {
-						id = 1006
-						name = "Ma Bufang"
-						portrait_path = "gfx/leaders/kmt_mod/Ma_Bufang.dds"
-						traits = {  trickster }
-						skill = 2
-						attack_skill = 2
-						defense_skill = 3
-						planning_skill = 2
-						logistics_skill = 4
-					}
-					set_country_flag = xsm_sumitted
-				}
-			}
 		}
 	}
-	
 	option = {
 		ai_chance = { factor = 0 }
 		name = china.101.b
@@ -1010,11 +824,11 @@ country_event = {
 			add_to_faction = ROOT 
 			country_event = china.106
 		}
-		add_to_war = {
-			targeted_alliance = CHI
-			enemy = JAP
+		add_ai_strategy = {
+			type = alliance
+			id = "CHI"
+			value = 200
 		}
-		add_ideas = KMT_united_front
 		#Nothing
 	}
 }
@@ -1024,11 +838,14 @@ country_event = {
 	id = china.102
 	title = china.102.t
 	desc = china.102.d
-	picture = GFX_report_event_chinese_soldiers
+	picture = GFX_report_event_chinese_officers
 
 	fire_only_once = yes
 
 	trigger = {
+		NOT = {
+			has_dlc = "Waking the Tiger"
+		}
 		has_global_flag = CHI_unite
 		tag = SIK
 		GER = { has_war_with = SOV }
@@ -1040,11 +857,9 @@ country_event = {
 		JAP = { has_offensive_war = yes }
 		
 		is_puppet = no
-		NOT = {
-			AND = {
-				has_war = yes
-				is_in_faction = yes
-			}
+		AND = {
+			has_war = no
+			is_in_faction = no
 		}
 	}
 
@@ -1092,11 +907,11 @@ country_event = {
 			}
 		}
 		CHI = { add_to_faction = ROOT }
-		add_to_war = {
-			targeted_alliance = CHI
-			enemy = JAP
+		add_ai_strategy = {
+			type = alliance
+			id = "CHI"
+			value = 200
 		}
-		add_ideas = KMT_united_front
 	}
 	option = {
 		ai_chance = { 
@@ -1118,34 +933,26 @@ country_event = {
 	
 	option = {
 		name = china.103.a
-		set_global_flag = CHI_unite_CCP
+		set_global_flag = CHI_unite_PRC
 		annex_country = { target = FROM transfer_troops = yes }
 	}
 }
 
-# CCP option to join China faction
+# PRC option to join China faction
 country_event = {
 	id = china.104
 	title = china.104.t
 	desc = china.104.d
-	picture = GFX_report_event_chinese_soldiers
+	picture = GFX_report_event_chinese_army_training
 
 	fire_only_once = yes
 
 	trigger = {
-		OR = {
-			AND = {
-				CCP = {
-					exists = yes
-				}
-				CHI = { has_country_flag = CHI_hostile_against_warlords }
-				NOT = {
-					has_global_flag = CHI_no_national_front_flag
-				}
-			}
-			has_global_flag = CHI_unite_CCP
+		NOT = {
+			has_dlc = "Waking the Tiger"
 		}
-		tag = CCP
+		has_global_flag = CHI_unite_PRC
+		tag = PRC
 		CHI = {
 			has_war_with = JAP 
 			has_defensive_war = yes
@@ -1172,74 +979,69 @@ country_event = {
 	option = {
 		ai_chance = { factor = 100 }
 		name = china.104.a
-		set_country_flag = CCP_joined_CHI_against_JAP
+		set_country_flag = PRC_joined_CHI_against_JAP
 		CHI = {
 			country_event = china.106
 			add_to_faction = ROOT
+			PRC = { add_opinion_modifier = { target = CHI modifier = unstable_alliance } }
+			CHI = { add_opinion_modifier = { target = PRC modifier = unstable_alliance } }			
 		}
-		if = {
-			limit = {
-				CHI = {
-					NOT = {
-							has_country_flag = mao_is_greatest
-					}
-				}
-			}
-			CCP = { add_opinion_modifier = { target = CHI modifier = unstable_alliance } }
-			CHI = { add_opinion_modifier = { target = CCP modifier = unstable_alliance } }			
+		add_ai_strategy = {
+			type = alliance
+			id = "CHI"
+			value = 200
 		}
 		add_to_war = {
 			targeted_alliance = CHI
 			enemy = JAP
+			hostility_reason = asked_to_join
 		}
-		SHX = { country_event = china.105 }
+		if = {
+			limit = { 
+				NOT = { 
+					OR = {
+						SHX = { is_puppet_of = JAP } 
+						SHX = { is_in_faction_with = JAP}
+					}
+				} 
+			}
+			SHX = { country_event = china.105 }
+		}
 		if = {
 			limit = { NOT = { has_war_with = SOV } }
-			custom_effect_tooltip = china.104_CCP_SOV_reinforcements
+			custom_effect_tooltip = china.104_PRC_SOV_reinforcements
 		}
 		hidden_effect = {
-		    news_event = { id = news.288 hours = 6 }
+			news_event = { id = news.288 hours = 6 }
 			if = {
-				limit = {
-					NOT = {
-						has_completed_focus = CCP_found_our_nation
+				limit = { 
+					NOT = { has_war_with = SOV }
+					any_country = {
+						OR = {
+							tag = ROOT
+							is_in_faction_with = ROOT
+						}
+						has_full_control_of_state = 621
 					}
 				}
-				drop_cosmetic_tag = yes
-				set_cosmetic_tag = GCDsgn
+				load_oob = "PRC_SOV_reinforcements"
 			}
 		}
-		add_ideas = KMT_united_front
 	}
 
 	#Nothing
 	option = {
-		ai_chance = { 
-			factor = 0
-			modifier = {
-				OR = {
-					has_global_flag = CCP_defy_sov_order
-					has_global_flag = CCP_sov_approve
-				}
-				factor = 100
-			}
-		}
-		trigger = {
-			NOT = {
-				has_completed_focus = CCP_unite_against_the_jap
-			}
-		}
+		ai_chance = { factor = 0 }
 		name = china.104.b
-		set_global_flag = CCP_no_join
 	}
 }
 
-# CCP annexs SHX (puppet option for player)
+# PRC annexs SHX (puppet option for player)
 country_event = {
 	id = china.105
 	title = china.105.t
 	desc = china.105.d
-	picture = GFX_report_event_generic_read_write
+	picture = GFX_report_event_generic_sign_treaty2
 
 	is_triggered_only = yes
 
@@ -1247,34 +1049,6 @@ country_event = {
 		ai_chance = { factor = 100 }
 		name = china.105.a
 		FROM = { annex_country = { target = ROOT transfer_troops = yes } }
-		hidden_effect = {
-			if = {
-				limit = {
-					CCP = {
-						NOT = { has_war_with = SOV } 
-					}
-					any_country = {
-						OR = {
-							tag = CCP
-							is_in_faction_with = CCP
-						}
-						controls_state = 621
-					}
-				}
-				CCP = {
-					load_oob = "CCP_SOV_reinforcements"
-				}
-			}
-			CHI = {
-				create_corps_commander = {
-					name = "Yan Xishan"
-					portrait_path = "gfx/leaders/Asia/Portrait_Asia_Generic_warlord2.dds"
-					traits = {  desert_fox trait_mountaineer }
-					skill = 2
-				}
-				set_country_flag = shx_sumitted
-			}
-		}
 		custom_effect_tooltip = GAME_OVER_TT
 	}
 
@@ -1283,30 +1057,6 @@ country_event = {
 		ai_chance = { factor = 0 }
 		FROM = { puppet = ROOT }
 		name = china.105.b
-		hidden_effect = {
-			if = {
-				limit = {
-					CCP = {
-						NOT = { has_war_with = SOV } 
-					}
-					any_country = {
-						OR = {
-							tag = CCP
-							is_in_faction_with = CCP
-						}
-						controls_state = 621
-					}
-				}
-				CCP = {
-					load_oob = "CCP_SOV_reinforcements"
-				}
-			}
-		}
-		add_to_war = {
-			targeted_alliance = CCP
-			enemy = JAP
-		}
-		add_ideas = KMT_united_front
 	}
 }
 
@@ -1315,7 +1065,7 @@ country_event = {
 	id = china.106
 	title = china.106.t
 	desc = china.106.d
-	picture = GFX_report_event_chinese_soldiers
+	picture = GFX_report_event_chinese_army_training
 
 	is_triggered_only = yes
 
@@ -1330,18 +1080,18 @@ country_event = {
 	id = china.107
 	title = china.107.t
 	desc = {
-		text = china.107.d_CCP_joined
+		text = china.107.d_PRC_joined
 		trigger = { 
-			CCP = { 
-				has_country_flag = CCP_joined_CHI_against_JAP 
+			PRC = { 
+				has_country_flag = PRC_joined_CHI_against_JAP 
 			} 
 		} 
 	}
 	desc = {
-		text = china.107.d_CCP_refused
+		text = china.107.d_PRC_refused
 		trigger = { 
-			CCP = { 
-				NOT = { has_country_flag = CCP_joined_CHI_against_JAP } 
+			PRC = { 
+				NOT = { has_country_flag = PRC_joined_CHI_against_JAP } 
 			} 
 		}
 	}
@@ -1351,204 +1101,71 @@ country_event = {
 	fire_only_once = yes
 
 	trigger = {
-		country_exists = CCP
+		is_subject = no
+		PRC = { is_subject = no }
 		tag = CHI
 		has_global_flag = CHI_unite
-		NOT = { has_war_with = JAP }
-		is_faction_leader = yes
-		NOT = {
-			has_country_flag = mao_is_greatest
-		}
+		NOT = { has_war_with = JAP }		
 	}
 
 	mean_time_to_happen = {
-		days = 30
+		days = 60
 	}
 
 	option = {
 		name = china.107.a
 		if = {
-			limit = { NOT = { CCP = { has_country_flag = CCP_joined_CHI_against_JAP } } }
+			limit = { NOT = { PRC = { has_country_flag = PRC_joined_CHI_against_JAP } } }
 			dismantle_faction = yes
-			CCP = { remove_opinion_modifier = { target = CHI modifier = unstable_alliance } }
-			CHI = { remove_opinion_modifier = { target = CCP modifier = unstable_alliance } }			
+			PRC = { remove_opinion_modifier = { target = CHI modifier = unstable_alliance } }
+			CHI = { remove_opinion_modifier = { target = PRC modifier = unstable_alliance } }			
 		}
 
 		if = {
 			limit = {
-				CCP = { has_country_flag = CCP_joined_CHI_against_JAP }
+				PRC = { has_country_flag = PRC_joined_CHI_against_JAP }
 			}
-			if = {
-				limit = {
-					NOT = { has_global_flag = jap_civil_war_sf }
-				}
-				custom_effect_tooltip = china.107_tt
-			}
-			hidden_effect = {
-				CCP = { country_event = { id = china.111 } }
-			}
+			custom_effect_tooltip = china.107_tt
 			effect_tooltip = {
 				dismantle_faction = yes
-				CCP = { remove_opinion_modifier = { target = CHI modifier = unstable_alliance } }
-				CHI = { remove_opinion_modifier = { target = CCP modifier = unstable_alliance } }				
+				PRC = { remove_opinion_modifier = { target = CHI modifier = unstable_alliance } }
+				CHI = { remove_opinion_modifier = { target = PRC modifier = unstable_alliance } }				
 			}
 		}
 		hidden_effect = {
-			CCP = { country_event = { id = china.108 days = 90 } }
-			set_global_flag = CCP_restart_CHI_war_pre
+			PRC = { country_event = { id = china.111 } }
+			PRC = { country_event = { id = china.108 days = 90 } }
 		}
 	}
 }
 
-# Restart Chinese civil war - Communist supporters reinforces the CCP army
+# Restart Chinese civil war - Communist supporters reinforces the PRC army
 country_event = {
 	id = china.108
 	title = china.108.t
 	desc = china.108.d
-	picture = GFX_report_event_chinese_soldiers_fighting
-	
-	trigger = {
-		tag = CCP
-		OR = {
-			AND = {
-				has_global_flag = CHI_no_national_front_flag
-				OR = {
-					AND = {
-						has_global_flag = CHI_warred_with_JAP
-						CHI = {
-							exists = yes
-							NOT = {
-								has_war_with = JAP
-							}
-						}
-					}
-					CHI = {
-						OR = {
-							is_puppet_of = JAP
-							is_in_faction_with = JAP
-						}
-					}
-				}
-				CHI = {
-					exists = yes
-				}
-			}
-			has_global_flag = CCP_restart_CHI_war_pre
-		}
-		has_government = communism
-	}
-	
-	fire_only_once = yes
-	
-	mean_time_to_happen = { days = 10 }
+	picture = GFX_report_event_chinese_army_training
+
+	is_triggered_only = yes
 
 	option = {
 		name = china.108.a
-		custom_effect_tooltip = china.108_CCP_SOV_reinforcements_2
+		custom_effect_tooltip = china.108_PRC_SOV_reinforcements_2
 		hidden_effect = {
 			if = {
-				limit = {
-					MEN = {
-						has_tech = infantry_weapons
-						NOT = {
-							has_tech = infantry_weapons1
+				limit = { 
+					NOT = { has_war_with = SOV }
+					any_country = {
+						OR = {
+							tag = ROOT
+							is_in_faction_with = ROOT
 						}
+						has_full_control_of_state = 621
 					}
 				}
-				add_equipment_to_stockpile = { type = infantry_equipment_0 amount = 300 producer = MEN }
+				load_oob = "PRC_SOV_reinforcements_2"
 			}
-			add_equipment_to_stockpile = { type = infantry_equipment_0 amount = 400 producer = MAN }
-			if = {
-				limit = {
-					JAP = {
-						has_tech = infantry_weapons
-						NOT = {
-							has_tech = infantry_weapons1
-						}
-					}
-				}
-				add_equipment_to_stockpile = { type = infantry_equipment_0 amount = 1500 producer = JAP }
-			}
-			if = {
-				limit = {
-					MEN = {
-						has_tech = infantry_weapons1
-						NOT = {
-							has_tech = improved_infantry_weapons
-						}
-					}
-				}
-				add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 300 producer = MEN }
-			}
-
-			if = {
-				limit = {
-					JAP = {
-						has_tech = infantry_weapons1
-						NOT = {
-							has_tech = improved_infantry_weapons
-						}
-					}
-				}
-				add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 1500 producer = JAP }
-			}
-			if = {
-				limit = {
-					MEN = {
-						has_tech = improved_infantry_weapons
-						NOT = {
-							has_tech = advanced_infantry_weapons
-						}
-					}
-				}
-				add_equipment_to_stockpile = { type = infantry_equipment_2 amount = 300 producer = MEN }
-			}
-			if = {
-				limit = {
-					JAP = {
-						has_tech = improved_infantry_weapons
-						NOT = {
-							has_tech = advanced_infantry_weapons
-						}
-					}
-				}
-				add_equipment_to_stockpile = { type = infantry_equipment_2 amount = 1500 producer = JAP }
-			}
-			if = {
-				limit = {
-					MEN = {
-						has_tech = advanced_infantry_weapons
-					}
-				}
-				add_equipment_to_stockpile = { type = infantry_equipment_3 amount = 300 producer = MEN }
-			}
-			if = {
-				limit = {
-					JAP = {
-						has_tech = advanced_infantry_weapons
-					}
-				}
-				add_equipment_to_stockpile = { type = infantry_equipment_3 amount = 1500 producer = JAP }
-			}
-			if = {
-				limit = {
-					MEN = {
-						has_tech = tech_support
-					}
-				}
-				add_equipment_to_stockpile = { type = support_equipment_1 amount = 200 producer = MEN }
-			}
-		    add_equipment_to_stockpile = { type = support_equipment_1 amount = 200 producer = MAN }
-			if = {
-				limit = {
-					JAP = {
-						has_tech = tech_support
-					}
-				}
-				add_equipment_to_stockpile = { type = support_equipment_1 amount = 750 producer = JAP }
-			}
-			load_oob = "CCP_SOV_reinforcements_2"
-			set_global_flag = CCP_restart_CHI_war
+			set_global_flag = PRC_restart_CHI_war
 		}
 	}
 }
@@ -1558,39 +1175,21 @@ country_event = {
 	id = china.109
 	title = china.109.t
 	desc = china.109.d
-	picture = GFX_report_event_chinese_soldiers_fighting
+	picture = GFX_report_event_chinese_soldiers
 
 	fire_only_once = yes
 
 	trigger = {
-		tag = CCP
-		has_global_flag = CCP_restart_CHI_war
-		NOT = {
-			has_completed_focus = CCP_restart_the_civil_war
-		}
-		CHI = {
-			exists = yes
-			NOT = {
-				has_country_flag = mao_is_greatest
-			}
-		}
-		has_government = communism
+		tag = PRC
+		has_global_flag = PRC_restart_CHI_war
+		NOT = { has_war_together_with = CHI }
+		is_subject = no
+		CHI = { is_subject = no }
 	}
 
 	mean_time_to_happen = { days = 360 }
 
 	option = {
-		hidden_effect = {
-			if = {
-				limit = {
-					NOT = {
-						has_completed_focus = CCP_found_our_nation
-					}
-				}
-				drop_cosmetic_tag = yes
-				set_cosmetic_tag = GCDcivilwar
-			}
-		}
 		name = china.109.a
 		custom_effect_tooltip = china.109_tt		
 		CHI = { country_event = { id = china.110 } }
@@ -1599,6 +1198,7 @@ country_event = {
 		}
 	}
 }
+
 country_event = {
 	id = china.110
 	title = china.110.t
@@ -1609,15 +1209,13 @@ country_event = {
 	
 	immediate = {
 		hidden_effect = {
-			CCP = { 
-				declare_war_on = { target = CHI type = annex_everything } 
-			}
+			PRC = { declare_war_on = { target = CHI type = annex_everything } }
 		}
-		set_global_flag = CCP_civil_war_started
 	}
 
 	option = {
 		name = china.110.a
+		add_timed_idea = { idea = CHI_civil_war_deserters days = 180 }
 	}
 
 }
@@ -1636,47 +1234,30 @@ country_event = {
 		CHI = { 
 			dismantle_faction = yes
 			hidden_effect = {
-				remove_opinion_modifier = { target = CCP modifier = unstable_alliance }
+				remove_opinion_modifier = { target = PRC modifier = unstable_alliance }
 			}
 		}
 		hidden_effect = {
-			CCP = { remove_opinion_modifier = { target = CHI modifier = unstable_alliance } }
+			PRC = { remove_opinion_modifier = { target = CHI modifier = unstable_alliance } }
 		}
-		if = {
-			limit = {
-				NOT = { has_global_flag = jap_civil_war_sf }
-			}
-			custom_effect_tooltip = china.107_tt
-			hidden_effect = {
-				every_state = {
-					limit = {
-						NOT = { is_owned_by = JAP }
-						OR = {
-							owner = {
-								is_puppet = no
-							}
-							owner = {
-								is_puppet_of = CHI
-							}
-						}
-						is_core_of = CCP
-						OR = {
-							region = 143
-							region = 155
-						}
-						NOT = { state = 525 }
-						NOT = { state = 527 }	
-						NOT = { state = 614 }	
-						NOT = { state = 597 }		
-						NOT = { state = 608 }				
+		custom_effect_tooltip = china.107_tt
+		hidden_effect = {
+			every_state = {
+				limit = {
+					controller = {
+						original_tag = CHI
+						is_puppet_of = CHI
 					}
-					ROOT = { transfer_state = PREV }
-				}			
-			}
-		}
-		add_ideas = kmt_planning_the_civil_war
-		CHI = {
-			add_ideas = KMT_chinese_matter
+					is_core_of = PRC
+					OR = {
+						region = 143
+						region = 155
+					}
+					NOT = { state = 525 }
+					NOT = { state = 527 }				
+				}
+				ROOT = { transfer_state = PREV }
+			}			
 		}
 	}
 }
@@ -1693,12 +1274,16 @@ country_event = {
 	}
 
 	trigger = {
-		#disabled
-		always = no
-
 		original_tag = CHI
 		has_government = communism
-		CCP = {
+		Not = {
+			has_dlc = "Waking the Tiger"
+		}
+		OR = {
+			is_subject_of = PRC
+			is_subject = no
+		}
+		PRC = {
 			exists = yes
 			has_government = communism
 		}
@@ -1706,9 +1291,9 @@ country_event = {
 
 	option = {
 		name = china.200.a
-		hidden_effect = { CCP = { country_event = { id = china.201 } } }
+		hidden_effect = { PRC = { country_event = { id = china.201 } } }
 		effect_tooltip = {
-			CCP = {
+			PRC = {
 				annex_country = { target = ROOT transfer_troops = yes }
 			}
 		}
@@ -1716,7 +1301,7 @@ country_event = {
 	}
 }
 
-# CCP annexes communist revolters from China
+# PRC annexes communist revolters from China
 country_event = {
 	id = china.201
 	title = china.201.t
@@ -1733,7 +1318,7 @@ country_event = {
 					has_civil_war = yes
 				}
 			}
-			random_country = {
+			random_other_country = {
 				limit = {
 					original_tag = CHI
 					has_war_with = FROM
@@ -1741,30 +1326,26 @@ country_event = {
 				declare_war_on = { target = ROOT type = annex_everything }
 			}
 		}
-		CCP = {
+		PRC = {
 			annex_country = { target = FROM transfer_troops = yes }
 		}
 	}
 }
 
-#CHI event - CCP takes control of a CHI state - Communist uprising
+#CHI event - PRC takes control of a CHI state - Communist uprising
 country_event = {
 	id = china.202
 	title = china.202.t
 	desc = china.202.d
-	picture = GFX_report_event_chinese_soldiers_fighting
+	picture = GFX_report_event_chinese_soldiers
 
 	trigger = {
-		NOT = {
-			OR = {
-				has_country_flag = mao_is_greatest
-				has_country_flag = kmt_ptp_flag
-				has_country_flag = kmt_land_problem_xed
-			}
-		}
 		original_tag = CHI
 		has_government = neutrality
-		CCP = {
+		NOT = {
+			has_dlc = "Waking the Tiger"
+		}
+		PRC = {
 			exists = yes
 			has_government = communism
 		}
@@ -1777,10 +1358,6 @@ country_event = {
 			factor = 0.5
 			communism > 0.5
 		}
-		modifier = {
-			factor = 2
-			has_country_flag = kmt_into_mao_flag
-		}
 	}
 
 	immediate = {
@@ -1788,7 +1365,7 @@ country_event = {
 			random_owned_controlled_state = {
 				limit = {
 					any_neighbor_state = {
-						owner = { tag = CCP }
+						owner = { tag = PRC }
 					}
 				}
 				save_event_target_as = CHI_communist_state
@@ -1798,7 +1375,7 @@ country_event = {
 
 	option = {
 		name = china.202.a
-		CCP = {
+		PRC = {
 			transfer_state = event_target:CHI_communist_state
 			country_event = { id = china.203 days = 1 }
 		}
@@ -1809,12 +1386,12 @@ country_event = {
 	}
 }
 
-#CCP event - takes control of a CHI state - Communist uprising
+#PRC event - takes control of a CHI state - Communist uprising
 country_event = {
 	id = china.203
 	title = china.203.t
 	desc = china.203.d
-	picture = GFX_report_event_chinese_soldiers_fighting
+	picture = GFX_report_event_chinese_soldiers
 
 	is_triggered_only = yes
 
@@ -1831,7 +1408,7 @@ country_event = {
 	}
 }
 
-#Move capital if CCP controls beijing or nanjing
+#Move capital if PRC wins civil war
 country_event = {
 	id = china.204
 	title = china.204.t
@@ -1841,47 +1418,16 @@ country_event = {
 	fire_only_once = yes
 
 	trigger = {
-		tag = CCP
-		OR = {
-			AND = {
-				OR = {
-					has_global_flag = CCP_restart_CHI_war
-					CHI = {
-						OR = {
-							is_puppet_of = JAP
-							is_in_faction_with = JAP
-						}
-					}
-				}
-				CHI = {
-					exists = yes
-				}
-			}
-			CHI = {
-				exists = no
-			}
+		tag = PRC
+		NOT = {
+			has_dlc = "Waking the Tiger"
+		}
+		NOT = {
+			country_exists = CHI
 		}
 		OR = {
-			608 = {
-				owner = {
-					OR = {
-						has_war_with = ROOT
-						tag = ROOT
-					}
-				}
-			}
-			613 = {
-				owner = {
-					OR = {
-						has_war_with = ROOT
-						tag = ROOT
-					}
-				}
-			}
-		}
-		OR = {
-			controls_state = 608 #Beijing
-			controls_state = 613 #Nanjing
+			owns_state = 608 #Beijing
+			owns_state = 613 #Nanjing
 		}
 	}
 
@@ -1896,19 +1442,13 @@ country_event = {
 			base = 90
 			modifier = {
 				factor = 0
-				NOT = { 608 = { is_controlled_by = CCP } }
+				NOT = { 608 = { is_controlled_by = PRC } }
 			}
 		}
 		trigger = {
-			controls_state = 608
+			owns_state = 608
 		}
-		transfer_state = 608
 		set_capital = 608
-		set_country_flag = CCP_capital_decided
-		set_rule = {
-			can_send_volunteers = yes
-			can_puppet = yes
-		}
 	}
 
 	#Move to Nanjing
@@ -1918,18 +1458,15 @@ country_event = {
 			base = 10
 			modifier = {
 				factor = 0
-				NOT = { 613 = { is_controlled_by = CCP } }
+				NOT = { 613 = { is_controlled_by = PRC } }
 			}
 		}
 		trigger = {
-			controls_state = 613
+			owns_state = 613
 		}
-		transfer_state = 613
-		set_capital = 613
-		set_country_flag = CCP_capital_decided
-		set_rule = {
-			can_send_volunteers = yes
-			can_puppet = yes
+		custom_effect_tooltip = CHI_nanjing_tt
+		hidden_effect = {
+			set_capital = 613
 		}
 	}
 
@@ -1940,21 +1477,9 @@ country_event = {
 			base = 0
 			modifier = {
 				add = 1
-				NOT = { 608 = { is_controlled_by = CCP } }
-				NOT = { 613 = { is_controlled_by = CCP } }
+				NOT = { 608 = { is_controlled_by = PRC } }
+				NOT = { 613 = { is_controlled_by = PRC } }
 			}			
-		}
-		trigger = {
-			controls_state = 802
-		}
-		set_country_flag = CCP_capital_decided
-		set_rule = {
-			can_send_volunteers = yes
-			can_puppet = yes
 		}
 	}
 }
-
-
-#
-
