@@ -23,12 +23,12 @@ country_event = {
 		add_tech_bonus = {
 			name = tizard_mission_focus
 			uses = 1
-			bonus = 1.0
+			bonus = 0.25
 			category = light_fighter
 		}
 		add_tech_bonus = {
 			name = tizard_mission_focus
-			bonus = 1.0
+			bonus = 0.25
 			uses = 2
 			category = radar_tech
 		}
@@ -58,7 +58,6 @@ country_event = {
 		add_to_tech_sharing_group = tizard_mission
 	}
 }
-
 # USA helps
 country_event = {
 	id = britain.2
@@ -72,12 +71,12 @@ country_event = {
 		name = britain.2.a
 		add_tech_bonus = {
 			name = tizard_mission_focus
-			bonus = 1.0
+			bonus = 0.25
 			category = light_fighter
 		}
 		add_tech_bonus = {
 			name = tizard_mission_focus
-			bonus = 1.0
+			bonus = 0.25
 			uses = 2
 			category = radar_tech
 		}
@@ -86,7 +85,6 @@ country_event = {
 		}
 	}
 }
-
 # USA says no
 country_event = {
 	id = britain.3
@@ -101,7 +99,6 @@ country_event = {
 		add_opinion_modifier = { target = USA modifier = tizard_refused }
 	}
 }
-
 # Burma road china
 country_event = {
 	id = britain.4
@@ -129,7 +126,6 @@ country_event = {
 		name = britain.4.a
 	}
 }
-
 #Time for India to be free
 country_event = {
 	id = britain.6
@@ -155,12 +151,10 @@ country_event = {
 	option = {
 		name = britain.6.b
 		RAJ = {
-			add_stability = -0.3
-			add_war_support = -0.2
+			add_stability = -0.30
 		}
 	}
 }
-
 #End trade with Germany event for SWE/NOR
 country_event = {
 	id = britain.7
@@ -170,13 +164,12 @@ country_event = {
 
 	is_triggered_only = yes
 
-	
 	option = {
 		name = britain.7.a
 		ai_chance = { factor = 60 }
 		GER = {
-				add_opinion_modifier = { target = ROOT modifier = embargo } 
-			}
+			add_opinion_modifier = { target = ROOT modifier = embargo } 
+		}
 	}
 	option = {
 		name = britain.7.b
@@ -186,7 +179,6 @@ country_event = {
 		}
 	}
 }
-
 country_event = {
 	id = britain.8
 	title = britain.8.t
@@ -221,7 +213,6 @@ country_event = {
 		ai_chance = { factor = 30 }
 	}
 }
-
 # Chamberlain Resigns
 country_event = {
 	id = britain.9
@@ -235,48 +226,37 @@ country_event = {
 		tag = ENG
 		has_war = yes
 		has_government = democratic
+		NOT = { is_in_faction_with = GER }
 		NOT = {
-			has_completed_focus = uk_scandinavian_focus
+			has_completed_focus = ENG_containment
 		}
 		OR = {
 			has_global_flag = fall_of_france
-			surrender_progress > 0.5
+			FRA = { surrender_progress > 0.7 }
+			FRA = { has_capitulated = yes }
 			AND = {
 				110 = { is_controlled_by = GER }
 				NOT = { is_in_faction_with = GER }
 			}
 		}
 		NOT = { has_country_flag = chamberlain_died }
-		has_country_leader = {
-			name = "Neville Chamberlain"
-			ruling_only = yes
-		}
 	}
 
 	mean_time_to_happen = {
-		days = 40
+		days = 30
 	}
 
-	immediate = { set_country_flag = chamberlain_resigned }
 	
 	option = {
 		name = britain.9.a
-		create_country_leader = {
-			name = "Winston Churchill"
-			desc = "POLITICS_WINSTON_CHURCHILL_DESC"
-			picture = "Portrait_Britain_Winston_Churchill.dds"
-			expire = "1965.1.1"
-			ideology = conservatism
-			traits = {
-				british_bulldog
+		retire_country_leader = yes
+		if={limit={is_ai=no}hidden_effect = {
+				sound_effect = sp_eng_yebemenofvalour
 			}
 		}
-		add_stability = 0.1
-		add_war_support = 0.1
+		set_country_flag = chamberlain_resigned
 	}
 }
-
-
 # Chamberlain Passes Away
 country_event = {
 	id = britain.10
@@ -291,11 +271,8 @@ country_event = {
 		has_government = democratic
 		date > 1940.9.11
 		NOT = { has_country_flag = chamberlain_resigned }
-		has_country_leader = {
-			name = "Neville Chamberlain"
-			ruling_only = yes
-		}
-	}	
+		has_country_leader = { name = "Neville Chamberlain" }
+	}
 
 	mean_time_to_happen = {
 		days = 30
@@ -306,16 +283,6 @@ country_event = {
 	option = {
 		name = britain.10.a
 		kill_country_leader = yes
-		create_country_leader = {
-			name = "Winston Churchill"
-			desc = "POLITICS_WINSTON_CHURCHILL_DESC"
-			picture = "Portrait_Britain_Winston_Churchill.dds"
-			expire = "1965.1.1"
-			ideology = conservatism
-			traits = {
-				british_bulldog
-			}
-		}
 	}
 	option = {
 		name = britain.10.b
@@ -332,7 +299,6 @@ country_event = {
 		}
 	}
 }
-
 # React to Rise of the CommieNazis 
 country_event = {
 	id = britain.11
@@ -341,31 +307,31 @@ country_event = {
 	picture = GFX_report_event_molotov_ribentrop_handshake
 
 	is_triggered_only = yes
+	
 	trigger = {
 		is_faction_leader = yes
 	}
 	
 	option = {
 		name = britain.11.a
-		add_war_support = 0.1
 		every_other_country = {
-				limit = {
-					NOT = { has_war_with = ENG }
-					is_in_faction = no
-					has_government = democratic
-					is_puppet = no
-					OR = {
-						capital_scope = {
-								is_on_continent = europe
-						}
-						capital_scope = {
-								is_on_continent = asia
-						}
-						num_of_factories > 30
+			limit = {
+				NOT = { has_war_with = ENG }
+				is_in_faction = no
+				has_government = democratic
+				is_puppet = no
+				OR = {
+					capital_scope = {
+						is_on_continent = europe
 					}
+					capital_scope = {
+						is_on_continent = asia
+					}
+					num_of_factories > 30
 				}
-				country_event = britain.12
 			}
+		}
+		 country_event = britain.12
 	}
 	
 	option = {
@@ -373,7 +339,6 @@ country_event = {
 		ai_chance = { factor = 0 }
 	}
 }
-
 # React to British call
 country_event = {
 	id = britain.12
@@ -385,7 +350,6 @@ country_event = {
 	
 	option = {
 		name = britain.12.a
-		add_war_support = 0.1 #glorious crusade to free Europe from commienazi menace
 		ENG = { add_to_faction = ROOT }
 		ROOT = {
 			add_ai_strategy = {
@@ -401,7 +365,6 @@ country_event = {
 		ai_chance = { factor = 0 }
 	}
 }
-
 # France wants to join allies
 country_event = {
 	id = britain.13
@@ -413,7 +376,7 @@ country_event = {
 	
 	option = {
 		name = britain.13.a
-		add_to_faction = FROM
+		add_to_faction = FRA
 		FROM = {
 			add_ai_strategy = {
 				type = alliance
@@ -432,7 +395,7 @@ country_event = {
 		ai_chance = { factor = 0 }
 		FROM = { 
 			add_opinion_modifier = {
-				target = ROOT
+				target = FRA
 				modifier = FRA_go_with_britain_reject
 			}
 			country_event = { id = france.30 }
@@ -442,7 +405,6 @@ country_event = {
 		}
 	}
 }
-
 # Germany demands Slovenia from Yugoslavia
 country_event = {
 	id = britain.14
@@ -455,51 +417,23 @@ country_event = {
 	option = { # Abandon Yugoalvia
 		name = britain.14.a
 		ai_chance = { factor = 90 }
+		FRA = { country_event = { id = france.25 hours = 2 } }
 		YUG = {
 			add_opinion_modifier = { target = ENG modifier = western_betrayal }
 		}		
-		if = {
-			limit = {
-				country_exists = FRA
-			}
-			FRA = { country_event = { id = france.25 hours = 2 } }
-		}
-		else = {
-			if = {
-				limit = {
-					ITA = {
-						OR = {
-							NOT = { has_completed_focus = ITA_yugoslavia_friend }						
-							is_in_faction_with = GER
-							exists = no
-						}
-					}
-				}
-				YUG = {
-					add_opinion_modifier = { target = FRA modifier = western_betrayal }
-					country_event = { id = yugoslavia.5 hours = 6 }
-				}			
-			}
-			if = {
-				limit = { 
-					ITA = {
-						has_completed_focus = ITA_yugoslavia_friend
-						NOT = { is_in_faction_with = GER }
-						NOT = { has_war_with = YUG }
-					}
-				}
-				ITA = { country_event = { id = italy.12 } }
-			}
-		}
 	}
 	
 	option = { # Support Yugoslavia
 		name = britain.14.b
 		ai_chance = {
-			factor = 10
+			factor = 0
 			modifier = {
 				factor = 0
 				is_in_faction_with = GER
+			}
+			modifier = {
+				factor = 0 
+				is_historical_focus_on = yes  # historical mod
 			}
 		}
 		if = {
@@ -517,7 +451,6 @@ country_event = {
 			GER = { remove_from_faction = ENG }
 		}
 		add_political_power = -200
-		add_stability = -0.05
 		add_opinion_modifier = { target = GER modifier = condemn_aggression }
 		effect_tooltip = {
 			GER = {
@@ -550,7 +483,6 @@ country_event = {
 		}
 	}	
 }
-
 # France leaves the Allies
 country_event = {
 	id = britain.15
@@ -567,13 +499,12 @@ country_event = {
 		}
 	}
 }
-
 # King dies
 country_event = {
 	id = britain.16
 	title = britain.16.t
 	desc = britain.16.d
-	picture = GFX_report_event_europe_funeral
+	picture = GFX_report_event_king_george_v_funeral
 	
 	trigger = {
 		tag = ENG
@@ -590,6 +521,7 @@ country_event = {
 			set_country_flag = ENG_king_died
 			remove_ideas = george_v
 			add_ideas = ENG_king_edward
+			add_ideas = ENG_king_edward_penalty
 		}		
 	}
 	
@@ -598,10 +530,10 @@ country_event = {
 		effect_tooltip = {
 			remove_ideas = george_v		
 			add_ideas = ENG_king_edward
+			add_ideas = ENG_king_edward_penalty
 		}
 	}
 }
-
 # King abdicates
 country_event = {
 	id = britain.17
@@ -609,17 +541,10 @@ country_event = {
 	desc = britain.17.d
 	picture = GFX_report_event_generic_sign_treaty2
 	
-	trigger = {
-		tag = ENG
-		has_country_flag = ENG_king_died
-		date > 1936.12.1
-		NOT = { has_dlc = "Man the Guns" }
-	}
+	is_triggered_only = yes
 	
 	fire_only_once = yes
 
-	mean_time_to_happen = { days = 14 }
-	
 	immediate = {
 		hidden_effect = {
 			remove_ideas = ENG_king_edward
@@ -635,7 +560,6 @@ country_event = {
 		}
 	}
 }
-
 # Return of the Nazi King
 country_event = {
 	id = britain.18
@@ -647,7 +571,6 @@ country_event = {
 		tag = ENG
 		has_idea = ENG_george_vi
 		has_government = fascism
-		NOT = { has_dlc = "Man the Guns" }
 	}
 	
 	fire_only_once = yes
@@ -685,7 +608,6 @@ country_event = {
 		add_ideas = ENG_king_edward_fascism
 	}
 }
-
 #Britain receives warning of the Indian National Army
 country_event = {
 	id = britain.19
@@ -708,8 +630,6 @@ country_event = {
 		}
 	}
 }
-
-
 #Free India Government Leads Revolt
 country_event = {
 	id = britain.20
@@ -721,7 +641,7 @@ country_event = {
 
 	trigger = {
 		NOT = {
-			has_completed_focus = uk_free_india_focus
+			has_completed_focus = ENG_colonial_secretary
 		}
 		RAJ = {
 			is_puppet_of = ENG
@@ -753,10 +673,12 @@ country_event = {
 				}
 			}
 			RAJ = {
-				country_event = { id = britain.23 }
+				start_civil_war = {
+					ideology = fascism
+					size = 0.5
+				}
 			}
 		}
-		
 		if = {
 			limit = {
 				RAJ = {
@@ -778,9 +700,7 @@ country_event = {
 			}
 		}
 	}
-
 }
-
 country_event = {
 	id = britain.21
 	title = britain.21.t
@@ -803,7 +723,7 @@ country_event = {
     id = britain.22
     title = britain.22.t
     desc = britain.22.d
-    picture = GFX_report_event_royal_parade
+    picture = GFX_report_event_election_vote   # Where did the stanley baldwin picture go?? Was it in gfx addon or missed from the focus extended mod?
  
     fire_only_once = yes
  
@@ -811,129 +731,1419 @@ country_event = {
         original_tag = ENG
         has_government = democratic
         has_idea = ENG_george_vi
-        date > 1937.5.27
-        has_start_date < 1936.01.02
-        NOT = { has_country_flag = baldwin_resigned }
-    }
+	}
 
     mean_time_to_happen = {
-        days = 7
+        days = 14
     }
 
     option = {
         name = britain.22.a
         retire_country_leader = yes
-        create_country_leader = {
-        	name = "Neville Chamberlain"
-        	desc = "POLITICS_NEVILLE_CHAMBERLAIN_DESC"
-        	picture = "Portrait_Britain_Neville_Chamberlain.dds"
-        	expire = "1965.1.1"
-        	ideology = conservatism
-        	traits = {
-        		chamberlain_appeaser rearmer
-        	}
-        }
-        set_country_flag = baldwin_resigned
       }
 }
-
-#RAJ gets to choose sides in Indian civil war
 country_event = {
-	id = britain.23
-	title = britain.23.t
-	desc = britain.23.d
-	picture = GFX_report_event_indian_soldiers
-
-	is_triggered_only = yes
+	id = britain.36 
+	title = britain.36.t 
+	desc = britain.36.d 
+	picture = GFX_report_event_election_vote
 	
-	#side with government
-	option = {
-		ai_chance = {
-			factor = 100
-			modifier = {
-				has_government = fascism
-				factor = 0
-			}
-		}
-		name = britain.23.a
-		start_civil_war = {
-				ideology = fascism
-				size = 0.5
-		}
-	}
-	#side with fascists
-	option = {
-		name = britain.23.b
-		start_civil_war = {
-				ruling_party = fascism
-				ideology = neutrality
-				size = 0.5
-		}
-		random_other_country = {
-			limit = {
-				original_tag = RAJ
-				has_government = neutrality
-				is_puppet_of = ENG
-			}
-			set_cosmetic_tag = RAJ_UK
-		}
-	}
-}
-
-# Shadow Scheme Factories
-country_event = {
-    id = britain.24
-    title = britain.24.t
-    desc = britain.24.d
-    picture = GFX_report_event_generic_factory
- 
-    fire_only_once = yes
+	fire_only_once = yes
  
     trigger = {
         original_tag = ENG
-        has_completed_focus = shadow_scheme_focus
-        has_war = yes
-    }
+        has_government = democratic
+        has_completed_focus = ENG_containment 
+	}
 
     mean_time_to_happen = {
-        days = 7
+        days = 1
     }
+	
+	option = {
+		name = britain.36.a
+		retire_country_leader = yes
+		add_ideas = partial_economic_mobilisation
+		add_stability = -0.1
+	}
+}
 
-    option = {
-        name = britain.24.a
-        random_owned_controlled_state = {
-			limit = {
-				is_in_home_area = yes
-				free_building_slots = {
-					building = arms_factory
-					size > 1
-					include_locked = yes
-				}
-			}
-			add_extra_state_shared_building_slots = 2
-			add_building_construction = {
-				type = arms_factory
-				level = 2
-				instant_build = yes
-			}
-			set_state_flag = shadow_scheme_2AF
-		}
-		random_owned_controlled_state = {
-			limit = {
-				is_in_home_area = yes
-				free_building_slots = {
-					building = arms_factory
-					size > 1
-					include_locked = yes
-				}
-			}
-			add_extra_state_shared_building_slots = 2
-			add_building_construction = {
-				type = arms_factory
-				level = 2
-				instant_build = yes
-			}
-			set_state_flag = shadow_scheme_2AF
-		}
+add_namespace = BICE_britain
+#The K6, Red Telephone Box
+country_event = {
+	id = BICE_britain.1
+	title = BICE_britain.1.t
+	desc = BICE_britain.1.d
+	picture = GFX_report_event_k6
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = ENG
+		date > 1936.1.30
+		not = { has_country_flag = K6 }
+	}
+
+	option = {
+		name = BICE_britain.1.a	#A British icon
+		add_stability = 0.02 # social cohesion
+		add_political_power = 30 # pride in British Telecoms !
+		
     }
 }
+
+
+country_event = {
+	id = BICE_britain.31
+	title = BICE_britain.31.t
+	desc = BICE_britain.31.d
+	picture = GFX_report_event_merchant_ship_01
+	
+	is_triggered_only = yes
+
+	option = {
+		name = BICE_britain.31.a	
+		add_stability = 0.01
+			
+		ROOT = {
+			TUR = {
+				add_opinion_modifier = { target = USA modifier = unholy_alliance_trade }
+			}
+			add_opinion_modifier = { target = TUR modifier = unholy_alliance_trade }
+		
+		}
+	}
+}
+
+
+country_event = {
+	id = BICE_britain.2
+	title = BICE_britain.2.t
+	desc = BICE_britain.2.d
+	picture = GFX_report_event_churchill
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = ENG
+		date > 1936.2.12
+		not = { has_country_flag = Churchill_speech }
+	}
+
+	option = {
+		name = BICE_britain.2.a	#Churchill's speech
+		set_country_flag = Churchill_speech
+		add_stability = 0.01
+			
+		ROOT = {
+			add_opinion_modifier = {
+				target = GER
+				modifier = anti_fascist_diplomacy_fascists
+			}
+		
+		}
+	}
+}
+
+
+#English Communists
+country_event = {
+	id = BICE_britain.3
+	title = BICE_britain.3.t
+	desc = BICE_britain.3.d
+	picture = GFX_report_event_soviet_purge_speech
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = ENG
+		date > 1936.2.14
+	}
+
+	option = {
+		name = BICE_britain.3.a	# We love Stalin !
+		add_stability = -0.02
+		add_popularity = {
+			ideology = communism
+			popularity = 0.03
+		}
+	}
+}
+#Palestinian Rebels
+country_event = {
+	id = BICE_britain.4
+	title = BICE_britain.4.t
+	desc = BICE_britain.4.d
+	picture = GFX_report_event_middle_eastern_soldier
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = ENG
+		date > 1936.1.19
+		not = { has_country_flag = Palestinian_Rebels }
+		is_in_faction_with = EGY 
+	}
+	
+	mean_time_to_happen = {
+		days = 130	
+	}
+
+	option = {
+		name = BICE_britain.4.a	#Rebels !
+		set_country_flag = Palestinian_Rebels
+		# needs effect Political points lost ?/ infra/ building loss in province ?
+		EGY = {
+		    add_autonomy_ratio = {
+			    value = 0.05
+		   }
+		   add_stability = -0.05
+		}
+
+		add_political_power = -20 
+		add_stability = -0.02
+	}
+}
+#British Union of Fascists (BUF)
+country_event = {
+	id = BICE_britain.5
+	title = BICE_britain.5.t
+	desc = BICE_britain.5.d
+	picture = GFX_report_event_BUF
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = ENG
+		date > 1936.9.4
+		not = { has_country_flag = Cable_street }
+	}
+
+	option = {
+		name = BICE_britain.5.a	#Battle of Cable Street
+		set_country_flag = Cable_street
+		add_stability = -0.02
+		add_popularity = {
+			ideology = fascism
+			popularity = 0.03
+		}
+	}
+}
+#The Public Order Act 1936
+country_event = {
+	id = BICE_britain.6
+	title = BICE_britain.6.t
+	desc = BICE_britain.6.d
+	picture = GFX_report_event_generic_read_write
+
+	is_triggered_only = yes
+
+	option = {
+		name = BICE_britain.6.a	#Pass the Act
+		add_stability = 0.03
+		add_popularity = {
+			ideology = fascism
+			popularity = -0.03
+		}
+		add_popularity = {
+			ideology = communism
+			popularity = -0.03
+		}
+		ai_chance = { factor = 100 }
+	}
+	option = {
+		name= BICE_britain.6.b	#No Need
+		ai_chance = { factor = 0 }
+	}
+}
+#BBC Televison Regular Service Begins
+country_event = {
+	id = BICE_britain.7
+	title = BICE_britain.7.t
+	desc = BICE_britain.7.d
+	picture = GFX_report_event_bbc
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = ENG
+		date > 1936.10.20
+		not = { has_country_flag = BBC_TV   }
+	}
+
+	option = {
+		name = BICE_britain.7.a	#Tune in to BBC TV
+		set_country_flag = BBC_TV 
+		###### Need effect
+		add_stability = 0.02
+		add_political_power = 25 # 
+	}
+}
+#Supermarine Spitfire Mk I
+country_event = {
+	id = BICE_britain.8
+	title = BICE_britain.8.t
+	desc = BICE_britain.8.d
+	picture = GFX_report_event_spitfire
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = ENG
+		date > 1938.4.1
+		not = { has_country_flag =  Spitfire }
+		has_tech = tech_spitfire_equipment_1
+	}
+
+	option = {
+		name = BICE_britain.8.a	#A Beautiful Machine
+		set_country_flag =  Spitfire
+		load_oob = "19th_Squadron_RAF"
+		# tech increase
+	}
+}
+#Hawker Hurricane Mk I
+country_event = {
+	id = BICE_britain.9
+	title = BICE_britain.9.t
+	desc = BICE_britain.9.d
+	picture = GFX_event_aircraft_producer
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = ENG
+		date > 1937.11.1
+		not = { has_country_flag = Hurricane }
+		has_tech = tech_hawker_hurricane_mki_equipment_1
+	}
+
+	option = {
+		name = BICE_britain.9.a	# A Splendid Machine
+		set_country_flag = Hurricane
+		load_oob = "111th_Squadron_RAF"
+		# tech increase
+	}
+}
+#Halifax visits Germany
+country_event = {
+	id = BICE_britain.10
+	title = BICE_britain.10.t
+	desc = BICE_britain.10.d
+	picture = GFX_report_event_pierre_laval
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = ENG
+		date > 1937.10.17
+		not = { has_country_flag = Reich_visit }
+	}
+
+	option = {
+		name = BICE_britain.10.a	#Hitler's Advice
+		set_country_flag = Reich_visit
+		add_political_power = -30 
+		ROOT = {
+			add_opinion_modifier = {
+				target = GER
+				modifier = improve_relation
+			}
+		}
+	}
+}
+#Sigmund Freud arrives in London
+country_event = {
+	id = BICE_britain.11
+	title = BICE_britain.11.t
+	desc = BICE_britain.11.d
+	picture = GFX_report_event_freud
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = ENG
+		date > 1938.5.6
+		not = { has_country_flag = Freud  }
+	}
+
+	option = {
+		name = BICE_britain.11.a	#Good for him
+		set_country_flag = Freud
+		
+		add_tech_bonus = {
+			name = research_bonus
+			bonus = 0.25
+			uses = 1
+			category = decryption_tech
+		}
+	}
+}
+#Test cricket on TV
+country_event = {
+	id = BICE_britain.12
+	title = BICE_britain.12.t
+	desc = BICE_britain.12.d
+	picture = GFX_report_event_bbc
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = ENG
+		date > 1938.5.24
+		not = { has_country_flag = CricketTV }
+	}
+
+	option = {
+		name = BICE_britain.12.a	#Cor Blimey !
+		set_country_flag = CricketTV
+		add_stability = 0.02
+	}
+}
+#Anthony Eden Resigns
+country_event = {
+	id = BICE_britain.13
+	title = BICE_britain.13.t
+	desc = BICE_britain.13.d
+	picture = GFX_report_event_generic_read_write
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = ENG
+		date > 1939.1.20
+		has_country_flag = impossible
+		not = { has_country_flag = Eden_resigns }
+	}
+
+	option = {
+		name = BICE_britain.13.a	#Install Halifax
+		set_country_flag = Eden_resigns
+	}
+}
+#Propaganda broadcasts
+country_event = {
+	id = BICE_britain.14
+	title = BICE_britain.14.t
+	desc = BICE_britain.14.d
+	picture = GFX_report_event_radio_broadcast
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = ENG
+		has_war_with = GER
+	}
+
+	option = {
+		name = BICE_britain.14.a	#Broadcast
+		add_war_support = 0.02
+	}
+}
+#The Franco regime
+country_event = {
+	id = BICE_britain.15
+	title = BICE_britain.15.t
+	desc = BICE_britain.15.d
+	picture = GFX_report_event_spain_civil_war_franco_thank_you
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = ENG
+		date > 1937.1.30
+		##############################
+		has_country_flag = impossible
+		##############################
+		has_global_flag = scw_over 
+		#not = { has_war_with = SPA }
+		#	exists = {original_tag = SPR}
+		#	SPA = { head_of_state = 10032 }
+		not = { has_country_flag = Franco  }
+	}
+
+	option = {
+		name = BICE_britain.15.a	#
+		set_country_flag = Franco
+		ai_chance = { factor = 100 }
+		add_political_power = -30
+		#SPA = { neutrality = 50 }
+		#ROOT = {
+		##	add_opinion_modifier = {
+		#		target = SPA
+		#		modifier = improve_relation
+		#	}
+		#
+		#}
+	}
+	option = {
+		name = BICE_britain.15.b	#
+		set_country_flag = Franco
+		ai_chance = { factor = 0 }
+		add_political_power = 30
+		#SPA = { neutrality = -20 }
+		#ROOT = {
+		#	add_opinion_modifier = {
+		#		target = SPA
+		#		modifier = minor_sanctions_relations
+		#	}
+		#}
+	}
+}
+#The Altmark Incident
+country_event = {
+	id = BICE_britain.16
+	title = BICE_britain.16.t
+	desc = BICE_britain.16.d
+	picture = GFX_report_event_altmark_incident
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = ENG
+		date > 1940.1.16
+		NOR = {exists = yes}
+		not = { has_war_with = NOR }
+		has_war_with = GER 
+		not = { has_country_flag = Altmark  }
+	}
+
+	option = {
+		name = BICE_britain.16.a	#
+		set_country_flag = Altmark 
+			NOR = {
+			add_opinion_modifier = {
+				target = ROOT
+				modifier = protest_action_light
+			}
+		}
+	}
+}
+#Fascist sympathisers arrested
+country_event = {
+	id = BICE_britain.17
+	title = BICE_britain.17.t
+	desc = BICE_britain.17.d
+	picture = GFX_report_event_british_fascists
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = ENG
+		has_war_with = GER 
+		date > 1940.4.22
+		not = { has_country_flag = Fascist_arrested  }
+		not = { has_country_flag = no_Fascist_arrested }
+	}
+
+	option = {
+		name = BICE_britain.17.a	#Lock 'em up
+		set_country_flag = Fascist_arrested 
+		#remove_minister = 1042 #Mosley
+		add_stability = -0.02
+		add_popularity = {
+			ideology = fascism
+			popularity = -0.05
+		}
+		ai_chance = { factor = 100 }
+	}
+	option = {
+		name = BICE_britain.17.b	#no need
+		set_country_flag = no_Fascist_arrested 
+		ai_chance = { factor = 0 }
+		add_stability = -0.01
+	}			
+}
+#Blood,Toil,Tears,Sweat
+country_event = {
+	id = BICE_britain.18
+	title = BICE_britain.18.t
+	desc = BICE_britain.18.d
+	picture = GFX_report_event_churchill
+
+	is_triggered_only = yes
+
+	immediate = {
+		add_country_leader_trait = cornered_fox
+	}
+	option = {
+		name = BICE_britain.18.a	#"Blood,Toil,Tears,Sweat
+	}
+}
+#The Emergency Powers Act
+country_event = {
+	id = BICE_britain.19
+	title = BICE_britain.19.t
+	desc = BICE_britain.19.d
+	picture = GFX_report_event_parliament
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = BICE_britain.19.a	#Pass the Act"
+		ai_chance = { factor = 100 }
+		set_country_flag =  EPA
+		# needs effects
+		add_political_power = -300
+		add_ideas = war_economy
+		add_ideas = extensive_conscription
+	}
+	option = {
+		name = BICE_britain.19.b	#Forget It
+		ai_chance = { factor = 0 }
+		set_country_flag = no_EPA
+		# needs effects
+	}
+}
+#Never give up
+country_event = {
+	id = BICE_britain.20
+	title = BICE_britain.20.t
+	desc = BICE_britain.20.d
+	picture = GFX_report_event_churchill_address_by_radio
+
+	is_triggered_only = yes
+
+	option = {
+		name = BICE_britain.20.a	#Never give up
+	}
+}
+#Our Finest Hour
+country_event = {
+	id = BICE_britain.21
+	title = BICE_britain.21.t
+	desc = BICE_britain.21.d
+	picture = GFX_report_event_churchill_address_by_radio
+
+	is_triggered_only = yes
+
+	option = {
+		name = BICE_britain.21.a	#Our Finest Hou
+	}
+}
+#Thank the RAF
+country_event = {
+	id = BICE_britain.22
+	title = BICE_britain.22.t
+	desc = BICE_britain.22.d
+	picture = GFX_report_event_RAF_pilot
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = ENG
+		date > 1940.7.20
+		has_war_with = GER 
+		FRA = { has_capitulated = yes }
+		not = { has_country_flag = So_much_owed  }
+	}
+
+	option = {
+		name = BICE_britain.22.a	#Thank the RAF
+		set_country_flag = So_much_owed
+		add_stability = 0.03
+	}
+}
+#U-110
+country_event = {
+	id = BICE_britain.23
+	title = BICE_britain.23.t
+	desc = BICE_britain.23.d
+	picture = GFX_report_event_uboot
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = ENG
+		date > 1941.4.9
+		has_war_with = GER 
+		not = { has_country_flag = U_110 }
+	}
+
+	option = {
+		name = BICE_britain.23.a	#Excellent
+		set_country_flag = U_110
+		add_tech_bonus = {
+			name = research_bonus
+			bonus = 0.2
+			uses = 1
+			category = decryption_tech
+		}
+		GER = { country_event = BICE_britain.24 }
+	}
+}
+country_event = {
+	id = BICE_britain.24
+	title = BICE_britain.24.t
+	desc = BICE_britain.24.d
+	picture = GFX_report_event_uboot
+
+	is_triggered_only = yes
+
+	option = {
+		name = BICE_britain.24.a	#Bastards
+		
+		#needs effect
+	}
+}
+#National Service (No. 2) Act
+country_event = {
+	id = BICE_britain.25
+	title = BICE_britain.25.t
+	desc = BICE_britain.25.d
+	picture = GFX_report_event_national_service
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = ENG
+		date > 1941.11.18
+		has_war = yes
+		not = { has_country_flag = NSA }
+	}
+
+	option = {
+		name = BICE_britain.25.a	#Join up !
+		set_country_flag = NSA
+		add_manpower = 25000
+		army_experience = 35
+	}
+}
+#The Atlantic Charter
+country_event = {
+	id = BICE_britain.26
+	title = BICE_britain.26.t
+	desc = BICE_britain.26.d
+	picture = GFX_news_event_fdr_and_churchill
+
+	is_triggered_only = yes
+
+	option = {
+		name = BICE_britain.26.a	#Excellent
+		ai_chance = { factor = 10 }
+		add_stability = 0.05
+		add_political_power = 100
+		effect_tooltip = {
+		add_stability = 0.05
+		add_political_power = 100
+		every_country = { limit = { OR = { tag = GER is_in_faction_with = GER } }
+		     add_stability = -0.03
+		}
+		every_country = { limit = { is_in_faction_with = ENG }
+		     add_stability = 0.04
+		}
+		}
+		news_event = { id = usa.66 }
+	}
+	option = {
+		name = BICE_britain.26.b
+		add_war_support = 0.05
+		ai_chance = { factor = 0 }
+	}
+}
+
+#The Bevin Boys
+country_event = {
+	id = BICE_britain.27
+	title = BICE_britain.27.t
+	desc = BICE_britain.27.d
+	picture = GFX_report_event_national_service
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = ENG
+		date > 1943.11.1
+		has_war = yes
+		not = { has_country_flag = coalbevins }
+		not = { has_country_flag = armedbevins }
+	}
+
+	option = {
+		name = BICE_britain.27.a	#To the coal mines
+		set_country_flag = coalbevins
+		# industrial effieceny
+		# resources
+		every_owned_state = {
+			limit = {
+				is_core_of = ENG
+				free_building_slots = {
+					building = industrial_complex
+					size > 2
+					include_locked = no
+				}
+			}
+			
+			add_building_construction = {
+				type = arms_factory
+				level = 3
+				instant_build = no
+			}
+		}
+		
+	}
+	option = {
+		name = BICE_britain.27.b	#To the armed forces
+		set_country_flag =  armedbevins
+		add_manpower = 35000
+		army_experience = 35
+	}
+}
+#71 Eagles Squadron is formed
+country_event = {
+	id = BICE_britain.28
+	title = BICE_britain.28.t
+	desc = BICE_britain.28.d
+	picture = GFX_report_event_raf_wing
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = ENG
+		date > 1940.8.1
+		not = { has_country_flag = eagle71 }
+		has_tech = tech_spitfire_equipment_1
+	}
+
+	option = {
+		name = BICE_britain.28.a	#
+		set_country_flag = eagle71
+		load_oob = "71_Eagles_Squadron"
+	}
+}
+#121 Eagles Squadron joins the fight!
+country_event = {
+	id = BICE_britain.29
+	title = BICE_britain.29.t
+	desc = BICE_britain.29.d
+	picture = GFX_report_event_raf_wing
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = ENG
+		date > 1940.4.1
+		not = { has_country_flag = eagle121 }
+		has_tech = tech_spitfire_equipment_1
+	}
+
+	option = {
+		name = BICE_britain.28.a	#
+		set_country_flag = eagle121
+		load_oob = "121_Eagles_Squadron"
+	}
+}
+#133 Eagles Squadron is battle-ready!
+country_event = {
+	id = BICE_britain.30
+	title = BICE_britain.30.t
+	desc = BICE_britain.30.d
+	picture = GFX_report_event_raf_wing
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = ENG
+		date > 1940.7.1
+		not = { has_country_flag = eagle131 }
+		has_tech = tech_spitfire_equipment_1
+	}
+
+	option = {
+		name = BICE_britain.30.a	#
+		set_country_flag = eagle131
+		load_oob = "133_Eagles_Squadron"
+	}
+}
+#### Imperator Britain ####
+#British Overthrow of Iranian Shah
+country_event = {
+	id = BICE_britain.36
+	title = BICE_britain.36.t
+	desc = BICE_britain.36.d
+	picture = GFX_report_iranian_shah
+	
+	is_triggered_only = yes
+	
+	
+	option = {
+	ai_chance = {
+		factor = 90
+		}
+		name = BICE_britain.36.a
+			add_political_power = -80
+			PER = { country_event = { id = Per.1 }}
+	}
+	option = {
+	ai_chance = {
+		factor = 0
+		}
+		name = BICE_britain.36.b
+			PER = { add_opinion_modifier = { target = ENG modifier = small_increase } }
+			SOV = { add_opinion_modifier = { target = ENG modifier = small_decrease } }
+			add_stability = -0.05
+	}
+}
+
+
+country_event = { 
+	id = britain.37 
+	title = britain.37.t 
+	desc = britain.37.d
+	picture = GFX_report_event_RAF_pilot
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = britain.37.a 
+		ai_chance = { factor = 100 }
+		if = { 
+			limit = { NOT = { has_tech = decimetric_radar }
+			}
+			set_technology = { 
+				decimetric_radar = 1 
+			}
+		}
+		random_owned_controlled_state = {
+			prioritize = { 127 }
+				add_building_construction = {
+					type = radar_station
+					level = 1
+					instant_build = yes
+				}
+			}
+		random_owned_controlled_state = {
+			prioritize = { 126 }
+				add_building_construction = {
+					type = radar_station
+					level = 1
+					instant_build = yes
+				}
+			}
+		random_owned_controlled_state = {
+			prioritize = { 125 }
+				add_building_construction = {
+					type = radar_station
+					level = 1
+					instant_build = yes
+				}
+			}
+		random_owned_controlled_state = {
+			prioritize = { 123 }
+				add_building_construction = {
+					type = radar_station
+					level = 1
+					instant_build = yes
+				}
+			}
+		random_owned_controlled_state = {
+			prioritize = { 131 }
+				add_building_construction = {
+					type = radar_station
+					level = 1
+					instant_build = yes
+				}
+		}
+	}
+	option = {
+		name = britain.37.b 
+		ai_chance = { factor = 0 }
+		add_political_power = 50
+	}
+}
+
+
+
+
+# Claim Safety buffer around Hong Kong
+country_event = {
+	id = britain.41
+	title = britain.41.t
+	desc = britain.41.d
+	picture = GFX_report_event_british_light_tanks
+	
+	
+	
+	
+	fire_only_once = yes
+	
+	trigger = {
+		tag = ENG
+		has_war = no	
+		CHI = { OR = { has_capitulated = yes exists = no is_puppet = yes } }
+		326 = { is_controlled_by = ENG }   # Hong Kong
+		OR = { 
+		AND = { 
+		602 = { CONTROLLER = { OR = { tag = JAP is_subject_of = JAP } } } 
+		755 = { CONTROLLER = { OR = { tag = JAP is_subject_of = JAP } } } 
+		608 = { CONTROLLER = { OR = { tag = JAP is_subject_of = JAP } } } 
+		} # some states
+		AND = { 
+		605 = { CONTROLLER = { OR = { tag = JAP is_subject_of = JAP } } } 
+		755 = { CONTROLLER = { OR = { tag = JAP is_subject_of = JAP } } } 
+		608 = { CONTROLLER = { OR = { tag = JAP is_subject_of = JAP } } } 
+		} # some states
+		AND = { 
+		605 = { CONTROLLER = { OR = { tag = JAP is_subject_of = JAP } } } 
+		597 = { CONTROLLER = { OR = { tag = JAP is_subject_of = JAP } } } 
+		600 = { CONTROLLER = { OR = { tag = JAP is_subject_of = JAP } } } 
+		} # some states
+		AND = { 
+		605 = { CONTROLLER = { OR = { tag = JAP is_subject_of = JAP } } } 
+		613 = { CONTROLLER = { OR = { tag = JAP is_subject_of = JAP } } } 
+		592 = { CONTROLLER = { OR = { tag = JAP is_subject_of = JAP } } } 
+		} # some states
+		}
+	}
+	
+	mean_time_to_happen = {
+		days = 16
+	}
+	
+	option = {
+		name = britain.41.a
+		ai_chance = {
+			factor = 90
+		}
+		JAP = {
+		country_event = { days = 3 id = japan.30 } 
+		}
+		hidden_effect = {
+			news_event = { id = news.336 }
+		}
+	}
+	option = {
+		name = britain.41.b
+		ai_chance = {
+			factor = 0
+		}
+	}
+}
+
+# Japan agrees
+country_event = {
+	id = britain.42
+	title = britain.42.t
+	desc = britain.42.d
+	picture = GFX_report_event_molotov_ribentrop_handshake
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = britain.42.a
+		ENG = { 
+			transfer_state = 592   #Pearl river delta
+		}
+		ENG = { 
+			transfer_state = 593   #Guangdong
+		}
+
+		news_event = { id = news.335 }
+
+		FRA = {
+		         country_event = { days = 3 id = britain.44 } 
+		}
+	}
+}
+
+# Claim Safety buffer - Japan Rejects Demand
+country_event = {
+	id = britain.43
+	title = britain.43.t
+	desc = britain.43.d
+	picture = GFX_report_event_lithuania_army
+
+	is_triggered_only = yes
+	
+	option = {
+		name = britain.43.a
+		if = {
+		limit = { 592 = { is_controlled_by = JAP } }
+		
+		create_wargoal = {
+					type = take_state_focus
+					target = JAP
+					generator = { 592 }
+				}
+		     else = {
+			 if = {
+		limit = { 282 = { is_controlled_by = JAP } }
+		create_wargoal = {
+					type = take_state_focus
+					target = JAP
+					generator = { 282 }
+				}
+
+		}
+			 }
+		}
+		
+		
+		
+		every_country = {
+		limit = {
+			is_in_faction_with = ENG
+		}
+    		add_opinion_modifier = { target = JAP modifier = embargo }
+		add_opinion_modifier = { target = JAP modifier = protest_action}
+		}
+		
+		ENG = {
+		add_opinion_modifier = { target = JAP modifier = embargo }
+		add_opinion_modifier = { target = JAP modifier = condemn_aggression }
+		}
+	
+		hidden_effect = {
+			news_event = { id = news.339 }
+		}
+	}
+}
+
+country_event = {
+	id = britain.44
+	title = britain.44.t
+	desc = britain.44.d
+	picture = GFX_report_event_british_light_tanks
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = britain.44.a
+		ai_chance = {
+			factor = 90
+		}
+		effect_tooltip = {
+		
+		if = { limit = { 592 = { is_controlled_by = JAP } }
+				
+				FRA = {
+					country_event = { days = 1 id = britain.46 }
+				}
+							
+				else = {
+				  
+					if = { limit = { 524 = { is_controlled_by = JAP } }
+						FRA = {
+							country_event = { days = 1 id = britain.46 }
+						}				  
+					}
+				}
+			}
+		}
+		JAP = {
+			country_event = { id = japan.31 } 
+		}
+	}
+	option = {
+		name = britain.44.b
+		ai_chance = {
+			factor = 0
+		}
+	}
+}
+
+# Japan agrees
+country_event = {
+	id = britain.45
+	title = britain.45.t
+	desc = britain.45.d
+	picture = GFX_report_event_molotov_ribentrop_handshake
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = britain.45.a
+		if = {
+		limit = { 671 = { is_controlled_by = CAM } }
+			CAM = { 
+	    		transfer_state = 594   # near Vietnam
+	     	}
+
+		    else {
+				FRA = { 
+	         		transfer_state = 594   # near Vietnam
+	        	}
+			}
+		}
+			
+		news_event = { id = news.340 }
+
+	}
+}
+
+# Claim Safety buffer - Japan Rejects Demand
+country_event = {
+	id = britain.46
+	title = britain.46.t
+	desc = britain.46.d
+	picture = GFX_report_event_lithuania_army
+
+	is_triggered_only = yes
+	
+	option = {
+		name = britain.46.a
+		ai_chance = {
+			factor = 90
+		}
+		if = {
+		limit = { 592 = { is_controlled_by = JAP } }
+		
+		create_wargoal = {
+					type = take_state_focus
+					target = JAP
+					generator = { 592 }
+				}
+		
+		else = {
+			 if = {
+		limit = { 282 = { is_controlled_by = JAP } }
+		               create_wargoal = {
+					type = take_state_focus
+					target = JAP
+					generator = { 282 }
+				}
+				
+		}
+			 }
+		}
+		
+		every_country = {
+		limit = {
+			is_in_faction_with = FRA
+		}
+    		add_opinion_modifier = { target = JAP modifier = embargo }
+		add_opinion_modifier = { target = JAP modifier = protest_action }
+		}
+		FRA = {
+		add_opinion_modifier = { target = JAP modifier = embargo }
+		add_opinion_modifier = { target = JAP modifier = condemn_aggression }
+		}
+		
+		hidden_effect = {
+			news_event = { id = news.339 }
+		}
+	}
+	option = {
+		name = britain.46.b
+		ai_chance = {
+			factor = 0
+		}
+	}
+}
+
+# Cyprus
+
+country_event = {
+	id = britain.100
+	title = britain.100.t
+	desc = britain.100.d
+	picture = GFX_report_event_cyprustalep
+
+	is_triggered_only = yes
+	
+	option = { # Accept demands
+		name = britain.100.a
+		ai_chance = { 
+			factor = 5
+			modifier = {
+				factor = 5
+				NOT = {
+					OR = {
+						is_puppet_of = TUR
+						is_in_faction_with = TUR
+					}
+				}
+				TUR = {
+					surrender_progress > 0.09
+				}
+			}
+			modifier = {
+				factor = 0
+				any_other_country = {
+					has_war_with = TUR
+				}
+			}
+			modifier = {
+				factor = 0
+				any_other_country = {
+					NOT = {
+						tag = TUR
+					}
+					ENG = {
+						is_puppet_of = PREV
+					}
+					NOT = {
+						is_in_faction_with = TUR
+					}
+				}
+			}
+		}
+		TUR = {
+			country_event = { days = 2 id = turkey.29 }
+		}
+	}
+	option = { # Refuse
+		name = britain.100.b		
+		ai_chance = { 
+			factor = 95
+			modifier = {
+				factor = 95
+				is_historical_focus_on = no
+				NOT = {
+					TUR = {
+						surrender_progress > 0.09
+					}
+				}
+				NOT = {
+					any_other_country = {
+						has_war_with = TUR
+					}
+				}
+				NOT = {
+					any_other_country = {
+						NOT = {
+							tag = TUR
+						}
+						ENG = {
+							is_puppet_of = PREV
+						}
+						NOT = {
+							is_in_faction_with = TUR
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					is_in_faction_with = TUR
+					ENG = {
+						is_puppet_of = TUR
+					}
+				}
+			}
+		}
+		effect_tooltip = {
+			TUR = {
+				create_wargoal = {
+				type = take_state_focus
+				target = ENG
+				generator = { 183 }
+				}
+			}
+		}
+		hidden_effect = {
+			TUR = {
+				country_event = { days = 2 id = turkey.30 }
+			}
+		}		
+	}
+}
+
+# Turkey wants to join allies
+country_event = {
+	id = britain.101
+	title = britain.101.t
+	desc = britain.101.d
+	picture = GFX_report_event_allied_turkey
+
+	is_triggered_only = yes
+	
+	option = {
+		name = britain.101.a
+		add_to_faction = FROM
+		FROM = {
+			add_ai_strategy = {
+				type = alliance
+				id = "ENG"
+				value = 1000
+			}
+		}
+		hidden_effect = {
+			news_event = { days = 1 id = news.1281 }
+		}
+	}
+	
+	option = {
+		name = britain.101.b
+		ai_chance = { factor = 0 }
+		FROM = { 
+			add_opinion_modifier = {
+				target = ROOT
+				modifier = TUR_go_with_britain_reject
+			}
+		}
+		hidden_effect = {
+			news_event = { days = 1 id = news.1282 }
+		}
+	}
+}
+
+country_event = ( #
+	id = britain.400
+	title = britain.400.t
+	desc = britain.400.d
+	picture = GFX_Matilda_II_event
+
+	is_triggered_only = yes
+
+	option = {
+		name = britain.400.a
+	} 
+}
+
+country_event = ( #
+	id = britain.401
+	title = britain.401.t
+	desc = britain.401.d
+	picture = GFX_Crusader_event
+
+	is_triggered_only = yes
+
+	option = {
+		name = britain.401.a
+	} 
+}
+
+country_event = ( #
+	id = britain.402
+	title = britain.402.t
+	desc = britain.402.d
+	picture = GFX_Cromwell_event
+
+	is_triggered_only = yes
+
+	option = {
+		name = britain.402.a
+	} 
+}
+
+country_event = ( #
+	id = britain.403
+	title = britain.403.t
+	desc = britain.403.d
+	picture = GFX_Churchill_event
+
+	is_triggered_only = yes
+
+	option = {
+		name = britain.403.a
+	} 
+}
+
+country_event = ( #
+	id = britain.404
+	title = britain.404.t
+	desc = britain.404.d
+	picture = GFX_Centurion_event
+
+	is_triggered_only = yes
+
+	option = {
+		name = britain.404.a
+	} 
+}
+
+### EOF ###
