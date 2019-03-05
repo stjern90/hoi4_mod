@@ -1,5 +1,12 @@
 on_actions = {
 	# country 
+	on_startup = {
+		effect = {
+			
+			#AI construction
+            GER = { country_event = EAI_C.0 }
+        }
+    }
 	on_new_term_election = {
 		random_events = {
 			100 = usa.6
@@ -189,14 +196,8 @@ on_actions = {
 		}
 	}
 
-	# country random events
-	#on_bi_yearly_pulse = {
-	#
-	#}
-
-	#on_five_year_pulse = {
-	#
-	#}
+	#on_yearly_pulse = {
+        #}
 
 	on_border_war_lost = {
 		effect = {
@@ -416,28 +417,42 @@ on_actions = {
 				}				
 				FROM = { country_event = { id = usa.16 days = 1 } }
 			}
-			if = {
-				limit = {
-					has_dlc = "Man the Guns"
-					OR = {
-						AND = {
-							has_naval_treaty_trigger = yes
-							FROM = {
-								is_major = yes
-							}
-						}
-						AND = {
-							is_major = yes
-							FROM = {
-								has_naval_treaty_trigger = yes
-							}
-						}
+                        if = { 
+			        limit = {
+				        FROM = {
+					      has_idea = idea_peace
 					}
-				}
-				every_country = {
-					limit = { has_naval_treaty_trigger = yes }
-					remove_naval_treaty_effect = yes
-					#MTG_TODO_GABRIEL: news event
+			         }
+			         FROM = { remove_ideas = idea_peace }
+			}
+			if = { 
+			        limit = {
+				        ROOT = {
+					      has_idea = idea_peace
+					}
+			         }
+			         ROOT = { remove_ideas = idea_peace }
+			}
+			if = { 
+			    limit = {
+				NOT = { has_global_flag = london_treaty_broken_final }
+				        ROOT = {
+					      is_major = yes
+					}
+					FROM = {
+					      is_major = yes
+					}
+				        OR = {
+				        ROOT = {
+					      has_idea = london_naval_treaty
+					}
+					FROM = {
+					      has_idea = london_naval_treaty
+					}
+					}
+			         }
+				every_country = { limit = { has_idea = london_naval_treaty }
+			                country_event = { id = japan.388 }
 				}
 			}
 			## Soviet defensive war while having purge penalty
@@ -513,6 +528,22 @@ on_actions = {
 				}
 				set_global_flag = GER_has_started_war
 			}
+            if = {
+				limit = {
+					ROOT = { tag = JAP NOT = { has_country_flag = intervened } }
+					FROM = {
+						OR = {
+							tag = CHI
+							tag = SHX
+							tag = YUN
+							tag = GXC
+						}
+					}
+				}
+				ROOT = {
+					country_event = { id = japan.36 days = 1 }
+				}
+			}
 
 
 
@@ -550,6 +581,38 @@ on_actions = {
 					GER_remove_mefo_bills = yes
 					set_country_flag = mefo_bills_removed_through_war
 				}
+			}
+            if = { # set ostfront year variable if Soviet declares war on germany
+				limit = {
+				        tag = SOV
+					FROM = { 
+				                OR = {
+						       tag = GER
+						       is_in_faction_with = GER
+						}
+				        }
+				}
+				set_variable = { global.ostfront_year_4 = 1 }
+				 if = { limit = { NOT = { has_global_flag = ostfront_started } }
+				        set_global_flag = ostfront_started
+				        country_event = { id = pride.3 months = 1 }
+				 }
+			}
+			if = { # set ostfron year variable if Germany declares war on soviet
+				limit = {
+				        tag = GER
+					FROM = { 
+				                OR = {
+						       tag = SOV
+						       is_in_faction_with = SOV
+						}
+				        }
+				}
+			        set_variable = { global.ostfront_year_4 = 1 }
+				 if = { limit = { NOT = { has_global_flag = ostfront_started } }
+				        set_global_flag = ostfront_started
+				        country_event = { id = pride.3 months = 1 }
+				 }
 			}
 
 			#Remove previous ideology civil war faction from Democratic Germany faction and add Democratic civil war faction to Germany's faction
