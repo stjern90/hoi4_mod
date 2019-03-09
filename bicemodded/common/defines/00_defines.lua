@@ -1803,11 +1803,11 @@ NAI = {
 	NAVY_PREFERED_MAX_SIZE = 55,						-- AI will generally attempt to merge fleets into this size, but as a soft limit.
 	INVASION_COASTAL_PROVS_PER_ORDER = 25,				-- AI will consider one extra invasion per number of provinces stated here (num orders = total coast / this)
 
-	CONVOY_NEED_SAFETY_BUFFER = 1.90,					-- AI will try and keep 15% more convoys than what it needs.
+	CONVOY_NEED_SAFETY_BUFFER = 1.00,					-- AI will try and keep 15% more convoys than what it needs.
 	REGION_THREAT_PER_SUNK_CONVOY = 50,					-- Threat value per convoy sunk in a region. Decays over time.
 	REGION_THREAT_LEVEL_TO_AVOID_REGION = 25 * 10,		-- How much threat must be generated in region ( by REGION_THREAT_PER_SUNK_CONVOY ) so the AI will decide to mark the region as avoid
 	REGION_THREAT_LEVEL_TO_BLOCK_REGION = 25 * 100,		-- How much threat must be generated in region ( by REGION_THREAT_PER_SUNK_CONVOY ) so the AI will decide to mark the region as avoid
-	REGION_CONVOY_DANGER_DAILY_DECAY = 1,				-- When convoys are sunk it generates threat in the region which the AI uses to prio nalval missions
+	REGION_CONVOY_DANGER_DAILY_DECAY = 3,				-- When convoys are sunk it generates threat in the region which the AI uses to prio nalval missions
 
 	ESCORT_BOMBERS_IMPORTANCE_MODIFIER = 3.0,
 	PRODUCTION_LINE_SWITCH_SURPLUS_NEEDED_MODIFIER = 0.1,	-- Is modified by efficency modifiers.
@@ -2175,7 +2175,7 @@ NAI = {
 	CONVOY_ESCORT_MUL_FROM_NO_CONVOYS = 0.02,                     -- score multiplier when no convoys are around
 	CONVOY_RAID_MIN_ENEMY_THREAT = 0.05,
 
-	MAX_UNIT_RATIO_FOR_INVASIONS = 0.5,							-- countries won't use armies more than this ratio of total units for invasions
+	MAX_UNIT_RATIO_FOR_INVASIONS = 0.35,							-- countries won't use armies more than this ratio of total units for invasions
 	MAX_INVASION_FRONT_SCORE = 2000,							-- max score for naval invasion front scores
 	MIN_FRONT_SCORE_FOR_AFTER_INVASION_AREAS = 1500,			-- min score for army fronts that are created on recently invaded regions
 	
