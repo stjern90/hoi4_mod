@@ -1014,10 +1014,15 @@ if = {
 	limit = {
 		has_dlc = "Together for Victory"
 	}
-	set_autonomy = {
-		target = BLR
-		autonomous_state = autonomy_integrated_puppet
-	}
+	if = {
+						limit = {
+							NOT = { has_dlc = "Death or Dishonor" }
+						}
+						set_autonomy = { target = BLR autonomy_state = autonomy_integrated_puppet }
+					}
+					else = {
+						set_autonomy = { target = BLR autonomy_state = autonomy_reichskommissariat }
+					}
 	else = {
 		puppet = BLR
 	}
@@ -1086,7 +1091,7 @@ if = {
 				create_country_leader = {
 					name = "Erich Koch"
 					desc = "POLITICS_HINRICH_LOHSE_DESC"
-					picture = "gfx/leaders/Europe/Portrait_Europe_Generic_6.dds"
+					picture = "gfx/leaders/Europe/portrait_europe_generic_6.dds
 					expire = "1965.1.1"
 					ideology = nazism
 					traits = {
@@ -1355,6 +1360,57 @@ GER_military_buildup = {
 		}
 
 		complete_effect = {
+			add_timed_idea = { idea = GER_jaegernotprogramm days = 180 }
+		}
+	}
+	GER_jaegernotprogramm = {
+
+		icon = generic_air
+
+		available = {
+			OR = {
+			has_war_with = USA
+			has_war_with = SOV
+			}
+			AND = {
+				has_deployed_air_force_size = {
+					type = fighter
+					size < 800
+				}
+				has_equipment = {
+					fighter_equipment < 300
+				}
+			}
+			NOT = {
+				has_idea = GER_jaegernotprogramm
+			}
+		}
+
+		cost = 50
+		fire_only_once = yes
+		ai_will_do = {
+			factor = 1
+		}
+
+		visible = {
+			has_war = yes
+			AND = {
+				has_deployed_air_force_size = {
+					type = fighter
+					size < 1000
+				}
+				has_equipment = {
+					fighter_equipment < 400
+				}
+			}
+			NOT = {
+				has_idea = GER_jaegernotprogramm
+			}
+		}
+
+		complete_effect = {
+			add_stability = -0.05
+			add_war_support = -0.05
 			add_timed_idea = { idea = GER_jaegernotprogramm days = 180 }
 		}
 	}
