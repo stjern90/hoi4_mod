@@ -682,6 +682,12 @@ country_event = {
 	# Oh, well then...
 	option = {
 		name = mtg_netherlands.21.a
+		effect_tooltip = {
+			add_timed_idea = {
+				idea = HOL_curtail_colonial_autonomy_subject
+				days = 545
+			}
+		}
 	}
 }
 
@@ -3069,5 +3075,100 @@ country_event = {
 				}
 			}
 		}
+	}
+}
+
+# Event asking BEL/LUX whether they want to unify
+country_event = {
+	id = mtg_netherlands.77
+	title = mtg_netherlands.77.t
+	desc = mtg_netherlands.77.d
+	picture = GFX_report_event_generic_sign_treaty1
+
+	is_triggered_only = yes
+	
+	# Sounds good
+	option = {
+		name = mtg_netherlands.77.a
+		custom_effect_tooltip = GAME_OVER_TT
+		FROM = {
+			country_event = { id = mtg_netherlands.78 }
+			set_country_flag = HOL_benelux_flag@ROOT
+		}
+	}
+
+	# We think not
+	option = {
+		name = mtg_netherlands.77.b
+		ai_chance = {
+			factor = 0
+		}
+		FROM = { country_event = { id = mtg_netherlands.79 } }
+	}
+}
+
+# Event for Netherlands informing BEL/LUX accepted
+country_event = {
+	id = mtg_netherlands.78
+	title = mtg_netherlands.78.t
+	desc = mtg_netherlands.78.d
+	picture = GFX_report_event_generic_sign_treaty1
+
+	is_triggered_only = yes
+	
+	# Great
+	option = {
+		name = excellent
+		if = {
+			limit = {
+				has_country_flag = HOL_benelux_flagBEL
+				has_country_flag = HOL_benelux_flagLUX
+			}
+			set_global_flag = HOL_benelux_formed
+			set_cosmetic_tag = HOL_benelux_unified
+			BEL = {
+				every_unit_leader = {
+					set_nationality = ROOT
+				}
+			}
+			LUX = {
+				every_unit_leader = {
+					set_nationality = ROOT
+				}
+			}
+			annex_country = {
+			    target = BEL
+			    transfer_troops = yes
+			}
+			annex_country = {
+			    target = LUX
+			    transfer_troops = yes
+			}
+			every_state = {
+				limit = {
+					OR = {
+						is_core_of = BEL
+						is_core_of = LUX
+					}
+				}
+				add_core_of = ROOT
+			}
+			hidden_effect = { news_event = { id = mtg_news.64 days = 1 } }
+		}
+	}
+}
+
+# Event for Netherlands informing BEL/LUX rejected
+country_event = {
+	id = mtg_netherlands.79
+	title = mtg_netherlands.79.t
+	desc = mtg_netherlands.79.d
+	picture = GFX_report_event_generic_sign_treaty1
+
+	is_triggered_only = yes
+	
+	# Unfortunate
+	option = {
+		name = unfortunate
 	}
 }
