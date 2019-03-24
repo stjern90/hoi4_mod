@@ -696,6 +696,7 @@ propaganda_efforts = {
 		target_trigger = {
 			FROM = {
 				NOT = { is_neighbor_of = ROOT }
+				NOT = { is_in_faction_with = ROOT }
 				OR = {
 					AND = {
 						NOT = { has_government = ROOT }
@@ -765,6 +766,7 @@ propaganda_efforts = {
 		target_trigger = {
 			FROM = {
 				is_neighbor_of = ROOT
+				NOT = { is_in_faction_with = ROOT }
 				OR = {
 					AND = {
 						NOT = { has_government = ROOT }
@@ -991,7 +993,32 @@ operations = {
 			}
 		}
 		ai_will_do = {
-			factor = 0
+			factor = 1
+			modifier = {
+				factor = 0 # Don't blow up the canal as USA. Ever.
+				tag = USA
+			}
+			modifier = {
+				factor = 0 # Don't blow up the canal if enemies have weak navies but you are a strong naval power
+				has_navy_size = {
+					size > 50
+				}
+				NOT = {
+					any_enemy_country = {
+						has_navy_size = {
+							size > 50
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 200 # Always blow up the canal as JAP or GER when at war with USA (priority)
+				OR = {
+					is_in_faction_with = JAP
+					is_in_faction_with = GER
+				}
+				has_war_with = USA
+			}
 		}
 	}
 }
@@ -1116,12 +1143,24 @@ special_projects = {
 		ai_will_do = {
 			factor = 1
 			modifier = {
-				factor = 0
-				has_navy_size = { size < 100 }
+				factor = 0 # Don't bother if your navy is weak AND not USA
+				has_navy_size = { size < 50 }
+				NOT = { tag = USA }
+				has_war = yes
 			}
 			modifier = {
-				factor = 0
-				has_country_flag = blew_up_panama
+				factor = 200 # Prioritize if you decisively beat USA's navy
+				has_war_with = USA
+				USA = { has_navy_size = { size < 50 } }
+				has_navy_size = { size > 100 }
+			}
+			modifier = {
+				factor = 200 # Prioritize if USA
+				tag = USA
+			}
+			modifier = {
+				factor = 10 # Prioritize if not at war
+				has_war = no
 			}
 		}
 	}

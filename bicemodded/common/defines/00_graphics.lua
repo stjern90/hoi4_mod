@@ -639,6 +639,8 @@ NGraphics = {
 	STRATEGIC_NAVY_COLOR_GOOD = {0, 0.8, 0, 1}, -- zones has missions with good suppremacy
 	STRATEGIC_NAVY_COLOR_AVERAGE = {0.8, 0.8, 0, 1}, -- zones has missions with average suppremacy
 	
+	STRATEGIC_NAVY_NO_TASKFORCES_ASSIGNED = {0.9, 0.3, 0.3, 1},  -- zones has fleets assigned to them but no no taskforce can reach it or not enough taskforce to cover that region
+	
 	STRATEGIC_NAVY_COLOR_BAD_WHILE_HIGHLIGHTING_HOLD = {0.7, 0.0, 0.40, 0.5}, 	-- zones has missions with bad suppremacy on highlighted regions with a hold mission selected
 	STRATEGIC_NAVY_COLOR_GOOD_WHILE_HIGHLIGHTING_HOLD = {0, 0.6, 0.5, 1},		-- zones has missions with good suppremacy on highlighted regions with a hold mission selected
 	STRATEGIC_NAVY_COLOR_AVERAGE_WHILE_HIGHLIGHTING_HOLD = {0.5, 0.5, 0.6, 1},	-- zones has missions with average suppremacy on highlighted regions with a hold mission selected
@@ -953,6 +955,20 @@ NInterface = {
 	PRODUCTION_SHIP_FILTERS_ROLE_SELECTION_WINDOW_OFFSET_Y = -8,
 
 	SHIP_FUEL_EFFICIENCY_WARNING_THRESHOLD = 60.0,			-- Fuel usage threshold above which a ship is considered fuel inefficient for always on missions
+	
+	NAVAL_STRIKE_FORCE_ATTACK_LIKELYHOOD_THR_VERY_LIKELY = 0.8,	-- threshold above which to show that a strike force is "very likely" to engage an enemy
+	NAVAL_STRIKE_FORCE_ATTACK_LIKELYHOOD_THR_LIKELY = 0.6,		-- same, for "likely"
+	NAVAL_STRIKE_FORCE_ATTACK_LIKELYHOOD_THR_UNLIKELY = 0.3,	-- same, for "unlikely"
+
+	CONVOY_ESCORT_PRESENCE_WARNING_THRESHOLD = 0.95,		-- Value for the Escort Presence below which a warning will be shown on the naval mission map icon
+
+	MISSION_PATROL_SOFT_REQ_THRESHOLD_SURFACE_DETECTION = 22,	-- Value below which the mission icon for the patrol mission is showing a warning
+	MISSION_PATROL_SOFT_REQ_THRESHOLD_SPEED = 60,			-- (kph) Same, but for Speed of the task force
+	MISSION_PATROL_SOFT_REQ_THRESHOLD_SURFACE_VISIBILITY = 1.4,	-- Same, but for the surface visibility of the task force (lower means more fit for the mission for this one)
+	MISSION_CONVOY_ESCORT_SOFT_REQ_THRESHOLD_SUB_DETECTION = 2,	-- Same, for convoy escort
+	MISSION_CONVOY_ESCORT_SOFT_REQ_THRESHOLD_DEPTH_CHARGES_AVG = 8,	-- Average of the stat Depth Charges in the task force
+	MISSION_CONVOY_ESCORT_SOFT_REQ_THRESHOLD_DEPTH_CHARGES_SUM = 8,	-- Sum of the stat Depth Charges in the task force
+	MISSION_NAVAL_INVASION_SUPPORT_SOFT_REQ_THRESHOLD_SHORE_BOMBARDMENT = 3,	-- Same, for naval invasion. Sum of the stat Shore Bombardment in the task force
 },
 
 
