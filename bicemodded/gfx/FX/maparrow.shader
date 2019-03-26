@@ -367,7 +367,7 @@ PixelShader =
 			float vMaskValue = saturate( vMask.r + vMask.g + vMask.b );
 			vMaskValue *= vTime_IsSelected_FadeInOut.z > 0 ? saturate( Levels( Input.uv_isHead_variant.x, 0.0f, vTime_IsSelected_FadeInOut.z ) + vIsHead ) : 1;
 			vMaskValue *= vTime_IsSelected_FadeInOut.w > 0 ? saturate( Levels( 1.0f - Input.uv_isHead_variant.x, 0.0f, vTime_IsSelected_FadeInOut.w ) + vIsHead ) : 1;
-			clip( vMaskValue <= 0 ? 0 : 1 );
+			clip( vMaskValue <= 0 ? -1 : 1 ); //SVA
 			vMaskValue *= FxMask( float2( vUV.x * 2.0f, vUV.y ), vIsHead );
 
 			float4 vPattern = tex2D( TexPattern, vUV );
@@ -376,13 +376,13 @@ PixelShader =
 		#if 1
 			vArrowColor.rgb = RGBtoHSV(vArrowColor.rgb);
 			vArrowColor.r = mod( vArrowColor.r, 6.0 ); //H
-			vArrowColor.g *= 0.8; //S
-			vArrowColor.b *= 0.7; //V
+			vArrowColor.g *= 1.0; //S //SVA
+			vArrowColor.b *= 1.0; //V //SVA
 			vArrowColor.rgb = HSVtoRGBPost(vArrowColor.rgb);
 
 			float4 vColor = saturate( vPattern * vArrowColor );
 			float3 vColor2 = CalculateLighting( Input.prepos, Input.vScreenCoord, vNormal, vColor );
-			vColor.rgb = lerp(vColor.rgb, vColor2, 0.5);
+			//vColor.rgb = lerp(vColor.rgb, vColor2, 0.5); //SVA
 		#else
 			float4 vColor = saturate( vPattern * vArrowColor );
 			vColor.rgb = CalculateLighting( Input.prepos, Input.vScreenCoord, vNormal, vColor );
@@ -417,7 +417,7 @@ PixelShader =
 			clip( vMask.a <= 0 ? -1 : 1 );
 			vMask.rgb = vMask.rgb * ArrowMask.rgb * vMask.a;
 			float vMaskValue = saturate( vMask.r + vMask.g + vMask.b );
-			clip( vMaskValue <= 0 ? 0 : 1 );
+			clip( vMaskValue <= 0 ? -1 : 1 ); //SVA
 
 			float4 vPattern = tex2D( TexPattern, vUV );
 
@@ -425,13 +425,13 @@ PixelShader =
 			#if 1
 				vArrowColor.rgb = RGBtoHSV(vArrowColor.rgb);
 				vArrowColor.r = mod( vArrowColor.r, 6.0 ); //H
-				vArrowColor.g *= 0.8; //S
-				vArrowColor.b *= 0.8; //V
+				vArrowColor.g *= 1.0; //S //SVA
+				vArrowColor.b *= 1.0; //V //SVA
 				vArrowColor.rgb = HSVtoRGBPost(vArrowColor.rgb);
 
 				float4 vColor = saturate( vPattern * vArrowColor );
 				float3 vColor2 = CalculateLighting( Input.prepos, Input.vScreenCoord, vNormal, vColor );
-				vColor.rgb = lerp(vColor.rgb, vColor2, 0.5);
+				//vColor.rgb = lerp(vColor.rgb, vColor2, 0.5); //SVA
 			#else
 				float4 vColor = saturate( vPattern * vArrowColor );
 				vColor.rgb = CalculateLighting( Input.prepos, Input.vScreenCoord, vNormal, vColor );
@@ -467,8 +467,8 @@ PixelShader =
 			//vColor.a -= ( ( sin( vTime_IsSelected.x * MAP_ARROW_SEL_BLINK_SPEED ) * MAP_ARROW_SEL_BLINK_RANGE + 1.0f - MAP_ARROW_SEL_BLINK_RANGE * 0.5f ) * 0.5f ) * vTime_IsSelected.y;
 			//clip( vColor.a );
 		
-			vColor.rgb = CalculateLighting( Input.prepos, Input.vScreenCoord, vNormal, vColor );
-			vColor.rgb = ApplyDistanceFog( vColor.rgb, Input.prepos );
+			//vColor.rgb = CalculateLighting( Input.prepos, Input.vScreenCoord, vNormal, vColor ); //SVA
+			//vColor.rgb = ApplyDistanceFog( vColor.rgb, Input.prepos ); //SVA
 			//vColor.rgb = DayNight( vColor.rgb, CalcGlobeNormal( Input.prepos.xz ) );
 			return vColor;
 		}

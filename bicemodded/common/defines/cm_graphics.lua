@@ -1,5 +1,12 @@
-NDefines_Graphics.NMapIcons.STRATEGIC_AIR_PRIORITY_AIR_MISSION = 290
+-- NDefines_Graphics.NMapMode.MAP_MODE_MANPOWER_RANGE_COLOR_FROM = { 0.75, 0.75, 0.75, 1.0 }
+-- NDefines_Graphics.NMapMode.MAP_MODE_MANPOWER_RANGE_COLOR_TO = { 0.0, 1.0, 0.0, 1.0 }
 
+-- NDefines_Graphics.NMapMode.MAP_MODE_INFRA_RANGE_COLOR_FROM = { 0.75, 0.75, 0.75, 1.0 }
+-- NDefines_Graphics.NMapMode.MAP_MODE_INFRA_RANGE_COLOR_TO = { 0.0, 1.0, 0.0, 1.0 }
+
+----------------------------
+
+NDefines_Graphics.NMapIcons.STRATEGIC_AIR_PRIORITY_AIR_MISSION = 290
 
 NDefines_Graphics.NGraphics.VICTORY_POINT_MAP_ICON_TEXT_CUTOFF = {300, 500, 1500}
 
