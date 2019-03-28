@@ -814,6 +814,93 @@ country_event = {
 	}
 }
 
+#CHI demands warlords join faction
+country_event = {
+	id = china.97
+	title = wtt_prc.10.t
+	desc = wtt_prc.10.desc
+	picture = GFX_report_event_chinese_soldiers_02
+
+	is_triggered_only = yes
+	
+	option = {
+		name = wtt_prc.10.a #approve
+		ai_chance = {
+			base = 90
+		}
+		if = {
+			limit = {
+				FROM = {
+					is_faction_leader = yes
+				}
+			}
+			FROM = {
+				add_to_faction = PREV
+			}
+		}
+		add_ai_strategy = {
+			type = alliance
+			id = "CHI"
+			value = 200
+		}
+		add_ideas = CHI_national_defense_propaganda
+		FROM = {
+			country_event = china.98
+		}
+	}
+
+	option = {
+		name = wtt_prc.10.b #disapprove
+		ai_chance = {
+			base = 10
+		}
+		FROM = {
+			country_event = china.99
+		}
+		FROM = {
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = PREV
+			}
+		}
+	}
+}
+
+#Warlord accepts
+country_event = {
+	id = china.98
+	title = wtt_prc.11.t
+	desc = wtt_prc.11.desc
+	picture = GFX_report_event_chinese_japanese_handshake
+
+	is_triggered_only = yes
+	
+	option = {
+		name = excellent
+		
+	}
+}
+
+#Warlord refuses
+country_event = {
+	id = china.99
+	title = wtt_prc.12.t
+	desc = wtt_prc.12.desc
+	picture = GFX_report_event_chinese_army_training
+
+	is_triggered_only = yes
+	
+	option = {
+		name = wtt_prc.12.a #approve
+		effect_tooltip = {
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = FROM
+			}
+		}
+	}
+}
+
 # Japan attacks - Chinese Popular Front forms
 country_event = {
 	id = china.100
@@ -839,7 +926,15 @@ country_event = {
 	option = {
 		ai_chance = { factor = 100 }
 		name = china.100.a
-		create_faction = chinese_united_front
+		if = {
+			limit = {
+				CHI = { is_in_faction = no }
+			}
+			CHI = {
+				set_rule = { can_create_factions = yes }
+				create_faction = chinese_united_front
+			}
+		}
 		add_ideas = KMT_united_front
 		#load_oob = "CHI_united_front"
 		set_global_flag = CHI_unite
@@ -898,11 +993,11 @@ country_event = {
 			 }
 		       }
 		   }
-		   AND = {
-		     is_in_faction_with = CHI
-		     has_idea = add_your_idea_here
-		   }
-	      }
+			AND = {
+				is_in_faction_with = CHI
+				has_idea = CHI_national_defense_propaganda
+			}
+		}
 	}
 
 	immediate = {
@@ -930,22 +1025,16 @@ country_event = {
 						tag = GXC
 					}
 				}
-			hidden_effect = {
-				CHI = {
-					set_country_flag = gxc_sumitted
-					create_field_marshal = {
-						id = 1005
-						name = "Li Zongren"
-						portrait_path = "gfx/leaders/CHI/lizongren.dds"
-						traits = {  defensive_doctrine  }
-							skill = 3
-							attack_skill = 3
-							defense_skill = 4
-							planning_skill = 2
-							logistics_skill = 4
+				hidden_effect = {
+					CHI = {
+						set_country_flag = gxc_sumitted
+					}
+					GXC = {
+						every_unit_leader = {
+							set_nationality = CHI
+						}
 					}
 				}
-			}
 			}
 			if = {
 				limit = {
@@ -954,17 +1043,12 @@ country_event = {
 					}
 				}
 				CHI = {
-					create_corps_commander = {
-						name = "Long Yun"
-						portrait_path = "gfx/leaders/Asia/Portrait_Asia_Generic_warlord1.dds"
-						traits = {  infantry_officer }
-						skill = 3
-							attack_skill = 2
-							defense_skill = 3
-							planning_skill = 1
-							logistics_skill = 4
-					}
 					set_country_flag = yun_sumitted
+				}
+				YUN = {
+					every_unit_leader = {
+						set_nationality = CHI
+					}
 				}
 			}
 			if = {
@@ -974,17 +1058,12 @@ country_event = {
 					}
 				}
 				CHI = {
-					create_corps_commander = {
-						name = "Yan Xishan"
-						portrait_path = "gfx/leaders/Asia/Portrait_Asia_Generic_warlord2.dds"
-						traits = { infantry_officer }
-						skill = 2
-							attack_skill = 1
-							defense_skill = 2
-							planning_skill = 2
-							logistics_skill = 5
-					}
 					set_country_flag = shx_sumitted
+				}
+				SHX = {
+					every_unit_leader = {
+						set_nationality = CHI
+					}
 				}
 			}
 			if = {
@@ -994,18 +1073,12 @@ country_event = {
 					}
 				}
 				CHI = {
-					create_corps_commander = {
-						id = 1006
-						name = "Ma Bufang"
-						portrait_path = "gfx/leaders/kmt_mod/Ma_Bufang.dds"
-						traits = {  trickster }
-						skill = 2
-						attack_skill = 2
-						defense_skill = 3
-						planning_skill = 2
-						logistics_skill = 4
-					}
 					set_country_flag = xsm_sumitted
+				}
+				XSM = {
+					every_unit_leader = {
+						set_nationality = CHI
+					}
 				}
 			}
 		}
