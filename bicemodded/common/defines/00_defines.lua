@@ -162,7 +162,7 @@ NDiplomacy = {
 },
 
 NCountry = {
-	EVENT_PROCESS_OFFSET = 9,						-- Events are checked every X day per character or province (1 is ideal, but CPU heavy)
+	EVENT_PROCESS_OFFSET = 10,						-- Events are checked every X day per character or province (1 is ideal, but CPU heavy)
 	BASE_RESEARCH_SLOTS = 3,						-- Base number of research slots per country.
 	VP_TO_SUPPLY_BASE = 3,							-- Bonus to supply from a VP, no matter the level
 	VP_TO_SUPPLY_BONUS_CONVERSION = 1.1,			-- Bonus to supply local supplies from Victory Points, multiplied by this aspect and rounded to closest integer
@@ -1703,8 +1703,8 @@ NAI = {
 	CASUALTY_RATIO_TO_PULL_EXPEDITIONARIES_BACK = 0.1,			-- AI will pull expeditioniries back if its casualties is aboce this ratio compared to their total deployed manpower
 	CASUALTY_RATIO_TO_NOT_SEND_EXPEDITIONARIES = 0.05,			-- AI will not send expeditioniries if its casualties is aboce this ratio compared to their total deployed manpower
 	
-	SURRENDER_LEVEL_TO_PULL_EXPEDITIONARIES_BACK = 0.3,			-- AI will pull expeditioniries back if its surrender level is above this ratio
-	SURRENDER_LEVEL_TO_NOT_SEND_EXPEDITIONARIES = 0.15,			-- AI will not send expeditioniries if its surrender level is above this ratio
+	SURRENDER_LEVEL_TO_PULL_EXPEDITIONARIES_BACK = 0.15,			-- AI will pull expeditioniries back if its surrender level is above this ratio
+	SURRENDER_LEVEL_TO_NOT_SEND_EXPEDITIONARIES = 0.05,			-- AI will not send expeditioniries if its surrender level is above this ratio
 
 	EXPEDITIONARY_CASUALTY_DECAY_RATIO = 0.3333,				-- expeditionary manpower lost will decay by thousands daily by this ratio (compared to deployed manpower)
 	NUM_DAYS_TO_PULL_EXPEDITIONARIES_BACK = 14,					-- AI will pull units back from non-ai players after waiting this days if things are not going well for its units
@@ -1806,7 +1806,7 @@ NAI = {
 	PRODUCTION_LINE_SWITCH_SURPLUS_NEEDED_MODIFIER = 0.1,	-- Is modified by efficency modifiers.
 	PLAN_ACTIVATION_MAJOR_WEIGHT_FACTOR = 1,			-- AI countries will hold on activating plans if stronger countries have plans in the same location. Majors count extra (value of 1 will negate this)
 	PLAN_ACTIVATION_PLAYER_WEIGHT_FACTOR = 1,		-- AI countries will hold on activating plans if player controlled countries have plans in the same location. Majors count extra (value of 1 will negate this)
-	AREA_DEFENSE_BASE_IMPORTANCE = 3,					-- Area defense order base importance value (used for determining order of troop selections)
+	AREA_DEFENSE_BASE_IMPORTANCE = 6,					-- Area defense order base importance value (used for determining order of troop selections)
 	AREA_DEFENSE_CIVIL_WAR_IMPORTANCE = 10000,			-- Area defense order importance value when a country is in a civil war as target or revolter.
 
 	COMBINED_ARMS_LEVEL = 1,							-- 0 = Never, 1 = Infantry/Artillery, 2 = Go wild
@@ -2128,12 +2128,12 @@ NAI = {
 	SHIP_STR_RATIO_EXIT_REPAIRS = 1.00,							-- the ships will leave repairs if they are >= this ratio of total str
 	REPAIR_TASKFORCE_SIZE = 4,									-- repair taskforce sizes are limited to this many ships
 	
-	PLAN_VALUE_BONUS_FOR_MOVING_UNITS = 0.35,					-- AI plans gets a bonus when units are not moving and ready to fight
-	AGGRESSIVENESS_BONUS_FOR_FRONTS_THAT_ARE_ON_HIGH_AGGRESSIVENESS = -0.4,	-- AI gets a bonus to aggresiveness if it is already executing an aggressive plan (lower is more aggressive)
+	PLAN_VALUE_BONUS_FOR_MOVING_UNITS = 0.2,					-- AI plans gets a bonus when units are not moving and ready to fight
+	AGGRESSIVENESS_BONUS_FOR_FRONTS_THAT_ARE_ON_HIGH_AGGRESSIVENESS = -0.1,	-- AI gets a bonus to aggresiveness if it is already executing an aggressive plan (lower is more aggressive)
 	AGGRESSIVENESS_CHECK_BASE = 2.0,                            -- front comparison where ai will consider aggressive stance, unless it is already then the number above is used
 	AGGRESSIVENESS_CHECK_EASY_TARGET = -0.4,                    -- if target nation is flagged as easy target we also adjust down the front comparison needed
 	AGGRESSIVENESS_CHECK_CAREFUL = 0.6,                         -- at what front strength balance do we go careful
-	FRONT_EVAL_UNIT_ACCURACY = 0.7,                             -- scale how stupid ai will act on fronts. 0 is potato
+	FRONT_EVAL_UNIT_ACCURACY = 0.8,                             -- scale how stupid ai will act on fronts. 0 is potato
 
 	PRODUCTION_CARRIER_PLANE_BUFFER_RATIO = 1.5,				-- in additiona to total deck size of carriers, we want at list this ratio to buffer it
 	PRODUCTION_CARRIER_PLANE_PRODUCTION_BOOST_TO_BUFFER = 4.0,  -- production of carrier planes will go up by this ratio if we lack buffers
