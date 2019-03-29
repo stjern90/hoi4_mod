@@ -963,7 +963,7 @@ NInterface = {
 	CONVOY_ESCORT_PRESENCE_WARNING_THRESHOLD = 0.95,		-- Value for the Escort Presence below which a warning will be shown on the naval mission map icon
 
 	MISSION_PATROL_SOFT_REQ_THRESHOLD_SURFACE_DETECTION = 22,	-- Value below which the mission icon for the patrol mission is showing a warning
-	MISSION_PATROL_SOFT_REQ_THRESHOLD_SPEED = 60,			-- (kph) Same, but for Speed of the task force
+	MISSION_PATROL_SOFT_REQ_THRESHOLD_SPEED = 30,			-- (kph) Same, but for Speed of the task force
 	MISSION_PATROL_SOFT_REQ_THRESHOLD_SURFACE_VISIBILITY = 1.4,	-- Same, but for the surface visibility of the task force (lower means more fit for the mission for this one)
 	MISSION_CONVOY_ESCORT_SOFT_REQ_THRESHOLD_SUB_DETECTION = 2,	-- Same, for convoy escort
 	MISSION_CONVOY_ESCORT_SOFT_REQ_THRESHOLD_DEPTH_CHARGES_AVG = 8,	-- Average of the stat Depth Charges in the task force
