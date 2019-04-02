@@ -504,7 +504,7 @@ NMilitary = {
 	LAND_COMBAT_ORG_ARMOR_ON_SOFT_DICE_SIZE = 5,   -- extra damage dice if our armor outclasses enemy
 	LAND_COMBAT_STR_ARMOR_DEFLECTION_FACTOR = 0.5, -- damage reduction if armor outclassing enemy
 	LAND_COMBAT_ORG_ARMOR_DEFLECTION_FACTOR = 0.5, -- damage reduction if armor outclassing enemy
-	LAND_COMBAT_COLLATERAL_FACTOR = 0.002,		   -- Factor to scale collateral damage to infra and forts with.
+	LAND_COMBAT_COLLATERAL_FACTOR = 0.0014,		   -- Factor to scale collateral damage to infra and forts with.
 	LAND_COMBAT_FORT_DAMAGE_CHANCE = 2,		-- chance to get a hit to damage on forts. (out of 100)
 	ATTRITION_DAMAGE_ORG = 0.1,					   -- damage from attrition to Organisation
 	ATTRITION_EQUIPMENT_LOSS_CHANCE = 0.12,		   -- Chance for loosing equipment when suffer attrition. Scaled up the stronger attrition is. Then scaled down by equipment reliability.
@@ -1636,7 +1636,7 @@ NAI = {
 	PLAN_AVG_PREPARATION_TO_EXECUTE = 0.75,		-- % or more average plan preparation before executing
 	
 	REDEPLOY_DISTANCE_VS_ORDER_SIZE = 1.0,		-- Factor applied to the path length of a unit compared to length of an order to determine if it should use strategic redeployment
-	UNIT_ASSIGNMENT_TERRAIN_IMPORTANCE = 0.2,	-- Terrain score for units are multiplied by this when the AI is deciding which front they should be assigned to
+	UNIT_ASSIGNMENT_TERRAIN_IMPORTANCE = 0.05,	-- Terrain score for units are multiplied by this when the AI is deciding which front they should be assigned to
 	
 	SUPPLY_CRISIS_LIMIT = 0.9,					-- If a unit is standing in an area with 
 	
