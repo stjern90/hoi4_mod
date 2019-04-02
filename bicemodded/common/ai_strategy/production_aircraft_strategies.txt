@@ -1,0 +1,351 @@
+############################################################################################################
+#	Expert AI mod - aircraft production
+############################################################################################################
+
+EAI_default_aircraft_production_strategy = {
+	enable = { always = yes }
+
+	ai_strategy = { type = equipment_variant_production_factor id = fighter_equipment            value = -100 }
+	ai_strategy = { type = equipment_variant_production_factor id = cv_fighter_equipment         value = -100 }
+	ai_strategy = { type = equipment_variant_production_factor id = jet_fighter_equipment        value = -100 }
+
+	ai_strategy = { type = equipment_variant_production_factor id = heavy_fighter_equipment      value = -100 }
+
+	ai_strategy = { type = equipment_variant_production_factor id = CAS_equipment                value = -100 }
+	ai_strategy = { type = equipment_variant_production_factor id = cv_CAS_equipment             value = -100 }
+
+	ai_strategy = { type = equipment_variant_production_factor id = nav_bomber_equipment         value = -100 }
+	ai_strategy = { type = equipment_variant_production_factor id = cv_nav_bomber_equipment      value = -100 }
+
+	ai_strategy = { type = equipment_variant_production_factor id = rocket_interceptor_equipment value = -100 }
+
+	ai_strategy = { type = equipment_variant_production_factor id = suicide_craft_equipment      value = -100 }
+
+	ai_strategy = { type = equipment_variant_production_factor id = tac_bomber_equipment         value = -100 }
+	ai_strategy = { type = equipment_variant_production_factor id = jet_tac_bomber_equipment     value = -100 }
+
+	ai_strategy = { type = equipment_variant_production_factor id = strat_bomber_equipment       value = -100 }
+	ai_strategy = { type = equipment_variant_production_factor id = jet_strat_bomber_equipment   value = -100 }
+
+	ai_strategy = { type = equipment_variant_production_factor id = transport_plane_equipment    value = -100 }
+	
+	ai_strategy = { type = equipment_variant_production_factor id = rocket_interceptor_equipment value = -100 }
+	ai_strategy = { type = equipment_variant_production_factor id = suicide_craft_equipment      value = -100 }
+}
+
+# fighter
+EAI_FTR_aircraft_production_strategy = {
+	enable = {
+		EAI_FTR_aircraft_production = yes
+		
+		NOT = { has_tech = jet_fighter1 }
+		
+		has_deployed_air_force_size = { size < 15000 type = fighter }
+	}
+	abort = {
+		NOT = { 
+			AND = {
+				EAI_FTR_aircraft_production = yes
+				
+				NOT = { has_tech = jet_fighter1 }
+				
+				has_deployed_air_force_size = { size < 20000 type = fighter }
+			}
+		}
+	}
+
+	ai_strategy = { type = equipment_variant_production_factor id = fighter_equipment            value = 100 }
+}
+EAI_JET_FTR_aircraft_production_strategy = {
+	enable = {
+		EAI_FTR_aircraft_production = yes
+		
+		has_tech = jet_fighter1
+		
+		has_deployed_air_force_size = { size < 15000 type = fighter }
+	}
+	abort = {
+		NOT = { 
+			AND = {
+				EAI_FTR_aircraft_production = yes
+				
+				has_tech = jet_fighter1
+				
+				has_deployed_air_force_size = { size < 17500 type = fighter }
+			}
+		}
+	}
+
+	ai_strategy = { type = equipment_variant_production_factor id = jet_fighter_equipment         value = 100 }
+}
+
+# heavy fighter
+EAI_HFTR_aircraft_production_strategy = {
+	enable = {
+		EAI_HFTR_aircraft_production = yes
+		
+		NOT = { has_tech = jet_fighter1 }
+		
+		has_deployed_air_force_size = { size < 15000 type = fighter }
+	}
+	abort = {
+		NOT = {
+			AND = {
+				EAI_HFTR_aircraft_production = yes
+				
+				NOT = { has_tech = jet_fighter1 }
+		
+				has_deployed_air_force_size = { size < 17500 type = fighter }
+			}
+		}
+	}
+
+	ai_strategy = { type = equipment_variant_production_factor id = heavy_fighter_equipment      value = 50 }
+}
+
+# close air support
+EAI_CAS_aircraft_production_strategy = {
+	enable = {
+		EAI_CAS_aircraft_production = yes
+		
+		has_deployed_air_force_size = { size < 5000 type = cas }
+	}
+	abort = {
+		NOT = {
+			AND = {
+				EAI_CAS_aircraft_production = yes
+		
+				has_deployed_air_force_size = { size < 7500 type = cas }
+			}
+		}
+	}
+
+	ai_strategy = { type = equipment_variant_production_factor id = CAS_equipment                value = 25 }
+}
+
+# tactical bomber
+EAI_TAC_aircraft_production_strategy = {
+	enable = {
+		EAI_TAC_aircraft_production = yes
+		
+		NOT = { has_tech = jet_tactical_bomber1 }
+		
+		has_deployed_air_force_size = { size < 4000 type = tactical_bomber }
+		
+		if = { limit = { EAI_FTR_aircraft_production = yes enemies_strength_ratio > 0.5 }
+			has_deployed_air_force_size = { size > 1250 type = fighter }
+		}
+	}
+	abort = {
+		NOT = {
+			AND = {
+				EAI_TAC_aircraft_production = yes
+				
+				NOT = { has_tech = jet_tactical_bomber1 }
+		
+				has_deployed_air_force_size = { size < 4500 type = tactical_bomber }
+				
+				if = { limit = { EAI_FTR_aircraft_production = yes enemies_strength_ratio > 0.5 }
+					has_deployed_air_force_size = { size > 1000 type = fighter }
+				}
+			}
+		}
+	}
+
+	ai_strategy = { type = equipment_variant_production_factor id = tac_bomber_equipment         value = 30 }
+}
+EAI_JET_TAC_aircraft_production_strategy = {
+	enable = {
+		EAI_TAC_aircraft_production = yes
+		
+		has_tech = jet_tactical_bomber1
+		
+		has_deployed_air_force_size = { size < 4000 type = tactical_bomber }
+		
+		if = { limit = { EAI_FTR_aircraft_production = yes enemies_strength_ratio > 0.5 }
+			has_deployed_air_force_size = { size > 1250 type = fighter }
+		}
+	}
+	abort = {
+		NOT = {
+			AND = {
+				EAI_TAC_aircraft_production = yes
+				
+				has_tech = jet_tactical_bomber1
+		
+				has_deployed_air_force_size = { size < 4500 type = tactical_bomber }
+				
+				if = { limit = { EAI_FTR_aircraft_production = yes enemies_strength_ratio > 0.5 }
+					has_deployed_air_force_size = { size > 1000 type = fighter }
+				}
+			}
+		}
+	}
+
+	ai_strategy = { type = equipment_variant_production_factor id = jet_tac_bomber_equipment         value = 4 }
+}
+
+# naval bomber
+EAI_NAV_aircraft_production_strategy = {
+	enable = {
+		EAI_NAV_aircraft_production = yes
+
+		has_deployed_air_force_size = { size < 2000 type = naval_bomber }
+		
+		if = { limit = { EAI_FTR_aircraft_production = yes enemies_strength_ratio > 0.5 }
+			has_deployed_air_force_size = { size > 1000 type = fighter }
+		}
+	}
+	abort = {
+		NOT = {
+			AND = {
+				EAI_NAV_aircraft_production = yes
+
+				has_deployed_air_force_size = { size < 2500 type = naval_bomber }
+		
+				if = { limit = { EAI_FTR_aircraft_production = yes enemies_strength_ratio > 0.5 }
+					has_deployed_air_force_size = { size > 500 type = fighter }
+				}
+			}
+		}
+	}
+
+	ai_strategy = { type = equipment_variant_production_factor id = nav_bomber_equipment         value = 60 }
+}
+EAI_NAV_aircraft_production_strategy_2 = {
+	enable = {
+		has_tech = naval_bomber1
+		
+		num_of_military_factories > 40
+
+		has_deployed_air_force_size = { size < 2000 type = naval_bomber }
+	}
+	abort = {
+		NOT = {
+			AND = {
+				has_tech = naval_bomber1
+		
+				num_of_military_factories > 40
+
+				has_deployed_air_force_size = { size < 2500 type = naval_bomber }
+			}
+		}
+	}
+
+	ai_strategy = { type = equipment_variant_production_factor id = nav_bomber_equipment         value = 20 }
+}
+EAI_NAV_aircraft_production_strategy_3 = {
+	enable = {
+		has_tech = naval_bomber1
+
+		has_deployed_air_force_size = { size < 2000 type = naval_bomber }
+		
+		num_of_military_factories > 50
+
+		alliance_naval_strength_ratio < 1
+	}
+	abort = {
+		NOT = {
+			AND = {
+				has_tech = naval_bomber1
+
+				has_deployed_air_force_size = { size < 2500 type = naval_bomber }
+		
+				num_of_military_factories > 50
+			}
+		}
+	}
+
+	ai_strategy = { type = equipment_variant_production_factor id = nav_bomber_equipment         value = 20 }
+}
+
+# strategic bomber
+EAI_STR_aircraft_production_strategy = {
+	enable = {
+		EAI_STR_aircraft_production = yes
+		
+		NOT = { has_tech = jet_strategic_bomber1 }
+		
+		has_deployed_air_force_size = { size < 5000 type = strategic_bomber }
+		
+		if = { limit = { EAI_FTR_aircraft_production = yes enemies_strength_ratio > 0.5 }
+			has_deployed_air_force_size = { size > 1500 type = fighter }
+		}
+	}
+	abort = {
+		NOT = {
+			AND = {
+				NOT = { has_tech = jet_strategic_bomber1 }
+			
+				has_deployed_air_force_size = { size < 7500 type = strategic_bomber }
+		
+				if = { limit = { EAI_FTR_aircraft_production = yes enemies_strength_ratio > 0.5 }
+					has_deployed_air_force_size = { size > 1000 type = fighter }
+				}
+			}
+		}
+	}
+
+	ai_strategy = { type = equipment_variant_production_factor id = strat_bomber_equipment       value = 75 }
+}
+EAI_JET_STR_aircraft_production_strategy = {
+	enable = {
+		EAI_STR_aircraft_production = yes
+		
+		has_tech = jet_strategic_bomber1
+		
+		has_deployed_air_force_size = { size < 5000 type = strategic_bomber }
+		
+		if = { limit = { EAI_FTR_aircraft_production = yes enemies_strength_ratio > 0.5 }
+			has_deployed_air_force_size = { size > 1500 type = fighter }
+		}
+	}
+	abort = {
+		NOT = {
+			AND = {
+				has_tech = jet_strategic_bomber1
+			
+				has_deployed_air_force_size = { size < 7500 type = strategic_bomber }
+		
+				if = { limit = { EAI_FTR_aircraft_production = yes enemies_strength_ratio > 0.5 }
+					has_deployed_air_force_size = { size > 1000 type = fighter }
+				}
+			}
+		}
+	}
+
+	ai_strategy = { type = equipment_variant_production_factor id = jet_strat_bomber_equipment       value = 100 }
+}
+
+# carrier fighter/naval bomber
+EAI_CV_aircraft_production_strategy = {
+	enable = {
+		EAI_CV_aircraft_production = yes
+	}
+	abort = {
+		NOT = {
+			AND = {
+				EAI_CV_aircraft_production = yes
+			}
+		}
+	}
+
+	ai_strategy = { type = equipment_variant_production_factor id = cv_fighter_equipment         value = 5 }
+	ai_strategy = { type = equipment_variant_production_factor id = cv_nav_bomber_equipment      value = 10 }
+}
+
+# transport
+EAI_TRNS_aircraft_production_strategy = {
+	enable = {
+		EAI_TRNS_aircraft_production = yes
+	}
+	abort = {
+		NOT = {
+			AND = {
+				EAI_TRNS_aircraft_production = yes
+			}
+		}
+	}
+
+	ai_strategy = { type = equipment_variant_production_factor id = transport_plane_equipment    value = 1 }
+}

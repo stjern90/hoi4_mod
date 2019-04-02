@@ -655,7 +655,7 @@ NMilitary = {
 	
 	PLAN_EXECUTE_CAREFUL_LIMIT = 25,				-- When looking for an attach target, this score limit is required in the battle plan to consider province for attack
 	PLAN_EXECUTE_BALANCED_LIMIT = 0,				-- When looking for an attach target, this score limit is required in the battle plan to consider province for attack
-	PLAN_EXECUTE_RUSH = -200,						-- When looking for an attach target, this score limit is required in the battle plan to consider province for attack
+	PLAN_EXECUTE_RUSH = -20,						-- When looking for an attach target, this score limit is required in the battle plan to consider province for attack
 	PLAN_EXECUTE_CAREFUL_MAX_FORT = 5,				-- If execution mode is set to careful, units will not attack provinces with fort levels greater than or equal to this
 	
 	PLAN_MAX_PROGRESS_TO_JOIN = 0.50,				-- If Lower progress than this, probably needs support
@@ -1547,7 +1547,7 @@ NAI = {
 	VARIANT_UPGRADE_MIN_XP = 180,				-- Minimum XP before attempting to create a new variant.
 	UPGRADE_XP_RUSH_UPDATE = 200,				-- If XP is above this on the daily tick the AI will attempt to spend it
 	FOCUS_TREE_CONTINUE_FACTOR = 1.5,			-- Factor for score of how likely the AI is to keep going down a focus tree rather than starting a new path.
-	PLAN_VALUE_TO_EXECUTE = 0.1,				-- AI will typically avoid carrying out a plan it below this value (0.0 is considered balanced).
+	PLAN_VALUE_TO_EXECUTE = 0.2,				-- AI will typically avoid carrying out a plan it below this value (0.0 is considered balanced).
 	DECLARE_WAR_NOT_NEIGHBOR_FACTOR = 0.25,		-- Multiplier applied before force factor if country is not neighbor with the one it is considering going to war
 	CALL_ALLY_BASE_DESIRE = 20,					-- exactly what it says
 	CALL_ALLY_DEMOCRATIC_DESIRE = 50,			-- Desire to call ally added for democratic AI
@@ -1793,7 +1793,7 @@ NAI = {
 	REFIT_SHIP_RELUCTANCE = 28,							-- How often to consider refitting to new equipment variants for ships in the field
 	REFIT_SHIP_PERCENTAGE_OF_FORCES = 0.1,				-- How big part of the navy that should be considered for refitting
 	NAVY_PREFERED_MAX_SIZE = 55,						-- AI will generally attempt to merge fleets into this size, but as a soft limit.
-	INVASION_COASTAL_PROVS_PER_ORDER = 25,				-- AI will consider one extra invasion per number of provinces stated here (num orders = total coast / this)
+	INVASION_COASTAL_PROVS_PER_ORDER = 28,				-- AI will consider one extra invasion per number of provinces stated here (num orders = total coast / this)
 
 	CONVOY_NEED_SAFETY_BUFFER = 1.00,					-- AI will try and keep 15% more convoys than what it needs.
 	REGION_THREAT_PER_SUNK_CONVOY = 50,					-- Threat value per convoy sunk in a region. Decays over time.
@@ -1913,9 +1913,9 @@ NAI = {
 	
 	LAND_DEFENSE_MIN_FACTORIES_FOR_AIR_IMPORTANCE = 6,	-- If amount of factories is less importance of factories won't apply
 	
-	LAND_DEFENSE_FIGHERS_PER_PLANE = 0.5,				-- Amount of air superiority planes requested per enemy plane
+	LAND_DEFENSE_FIGHERS_PER_PLANE = 0.4,				-- Amount of air superiority planes requested per enemy plane
 	LAND_DEFENSE_INTERSEPTORS_PER_BOMBERS = 1.0,		-- Amount of air interceptor planes requested per enemy plane
-	LAND_DEFENSE_INTERSEPTORS_PER_PLANE = 0.2,				-- Amount of air interceptor planes requested per enemy plane (non bomber)
+	LAND_DEFENSE_INTERSEPTORS_PER_PLANE = 0.0,				-- Amount of air interceptor planes requested per enemy plane (non bomber)
 	
 	LAND_COMBAT_AIR_SUPERIORITY_IMPORTANCE = 1.0,		-- Strategic importance of air superiority ( amount of enemy planes in area )
 	LAND_COMBAT_OUR_ARMIES_AIR_IMPORTANCE = 100,			-- Strategic importance of our armies
@@ -2091,22 +2091,22 @@ NAI = {
 	NAVY_ACTUAL_FUEL_USAGE_WEIGHT_ON_OIL_REQUEST = 0.5, 					-- weight of actual fuel usage of ships compared to what is being asked for missions while calculating oil needed for trade
 	AIR_ACTUAL_FUEL_USAGE_WEIGHT_ON_OIL_REQUEST = 0.5, 						-- weight of actual fuel usage of planes compared to what is being asked for missions while calculating oil needed for trade
 	
-	MONTHS_TO_FILL_FUEL_BUFFER_WITH_OIL_REQUESTS = 8.0, 					-- in war time, coutries will try to fill their buffer in this duration and trade for oil if necesarry
-	MONTHS_TO_FILL_FUEL_BUFFER_WITH_OIL_REQUESTS_IN_PEACE_TIME = 14.0,      -- in peace time, coutries will try to fill their buffer in this duration and trade for oil if necesarry
+	MONTHS_TO_FILL_FUEL_BUFFER_WITH_OIL_REQUESTS = 9.0, 					-- in war time, coutries will try to fill their buffer in this duration and trade for oil if necesarry
+	MONTHS_TO_FILL_FUEL_BUFFER_WITH_OIL_REQUESTS_IN_PEACE_TIME = 15.0,      -- in peace time, coutries will try to fill their buffer in this duration and trade for oil if necesarry
 	
 	FUEL_CONSUMPTION_MULT_FOR_FUEL_SAVING_MODE = 0.5,				-- fuel consumptions will be limited by this ratio in fuel saving mode
 	FUEL_CONSUMPTION_MULT_REGULAR_FUEL_MODE = 1.0,					-- fuel consumptions will be limited by this ratio in regular fuel mode
 	FUEL_CONSUMPTION_MULT_AGRESSIVE_FUEL_MODE = 2.0,				-- fuel consumptions will be limited by this ratio in aggressive fuel usage mode
 	
-	DAYS_FUEL_REMAINING_TO_ENTER_FUEL_SAVING_MODE = 30,				-- countries will enter fuel saving mode if they will be out of fuel in this number of days and their fuel ratio is below next define
+	DAYS_FUEL_REMAINING_TO_ENTER_FUEL_SAVING_MODE = 40,				-- countries will enter fuel saving mode if they will be out of fuel in this number of days and their fuel ratio is below next define
 	DAYS_FUEL_REMAINING_TO_ENTER_FUEL_SAVING_MODE_FUEL_RATIO = 0.4,
 	
 	FUEL_RATIO_TO_EXIST_FUEL_SAVING_MODE = 0.60, 					-- countries will exit fuel saving mode if they have more fuel ratio than this
 
-	WANTED_MAX_FUEL_BUFFER_IN_DAYS_FOR_ARMY_MAX_CONSUMPTION = 90,  -- AI will try to buffer at least this amount of days on max consumption, will trade if necesarry and will go into fuel saving mode/aggresive mode using this buffer 
-	WANTED_MAX_FUEL_BUFFER_IN_DAYS_FOR_AIR_MAX_CONSUMPTION  = 90,  -- AI will try to buffer at least this amount of days on max consumption, will trade if necesarry and will go into fuel saving mode/aggresive mode using this buffer
-	WANTED_MAX_FUEL_BUFFER_IN_DAYS_FOR_NAVY_MAX_CONSUMPTION = 90,  -- AI will try to buffer at least this amount of days on max consumption, will trade if necesarry and will go into fuel saving mode/aggresive mode using this buffer
-	MIN_WANTED_MAX_FUEL = 50,									   -- minimum value for wanted fuel buffers for AI (in thousands)
+	WANTED_MAX_FUEL_BUFFER_IN_DAYS_FOR_ARMY_MAX_CONSUMPTION = 300,  -- AI will try to buffer at least this amount of days on max consumption, will trade if necesarry and will go into fuel saving mode/aggresive mode using this buffer 
+	WANTED_MAX_FUEL_BUFFER_IN_DAYS_FOR_AIR_MAX_CONSUMPTION  = 300,  -- AI will try to buffer at least this amount of days on max consumption, will trade if necesarry and will go into fuel saving mode/aggresive mode using this buffer
+	WANTED_MAX_FUEL_BUFFER_IN_DAYS_FOR_NAVY_MAX_CONSUMPTION = 300,  -- AI will try to buffer at least this amount of days on max consumption, will trade if necesarry and will go into fuel saving mode/aggresive mode using this buffer
+	MIN_WANTED_MAX_FUEL = 60,									   -- minimum value for wanted fuel buffers for AI (in thousands)
 
 	GIE_LEND_LEASE_TO_PLAYER_EXILE_DESIRE_BONUS = 40, -- AI host is more likely to accept lend lease requests from a player.
 
@@ -2126,12 +2126,12 @@ NAI = {
 	SHIP_STR_RATIO_EXIT_REPAIRS = 1.00,							-- the ships will leave repairs if they are >= this ratio of total str
 	REPAIR_TASKFORCE_SIZE = 4,									-- repair taskforce sizes are limited to this many ships
 	
-	PLAN_VALUE_BONUS_FOR_MOVING_UNITS = 0.2,					-- AI plans gets a bonus when units are not moving and ready to fight
-	AGGRESSIVENESS_BONUS_FOR_FRONTS_THAT_ARE_ON_HIGH_AGGRESSIVENESS = -0.1,	-- AI gets a bonus to aggresiveness if it is already executing an aggressive plan (lower is more aggressive)
+	PLAN_VALUE_BONUS_FOR_MOVING_UNITS = 0.1,					-- AI plans gets a bonus when units are not moving and ready to fight
+	AGGRESSIVENESS_BONUS_FOR_FRONTS_THAT_ARE_ON_HIGH_AGGRESSIVENESS = -0.05,	-- AI gets a bonus to aggresiveness if it is already executing an aggressive plan (lower is more aggressive)
 	AGGRESSIVENESS_CHECK_BASE = 2.0,                            -- front comparison where ai will consider aggressive stance, unless it is already then the number above is used
-	AGGRESSIVENESS_CHECK_EASY_TARGET = -0.4,                    -- if target nation is flagged as easy target we also adjust down the front comparison needed
+	AGGRESSIVENESS_CHECK_EASY_TARGET = -0.1,                    -- if target nation is flagged as easy target we also adjust down the front comparison needed
 	AGGRESSIVENESS_CHECK_CAREFUL = 0.6,                         -- at what front strength balance do we go careful
-	FRONT_EVAL_UNIT_ACCURACY = 0.8,                             -- scale how stupid ai will act on fronts. 0 is potato
+	FRONT_EVAL_UNIT_ACCURACY = 0.95,                             -- scale how stupid ai will act on fronts. 0 is potato
 
 	PRODUCTION_CARRIER_PLANE_BUFFER_RATIO = 1.5,				-- in additiona to total deck size of carriers, we want at list this ratio to buffer it
 	PRODUCTION_CARRIER_PLANE_PRODUCTION_BOOST_TO_BUFFER = 4.0,  -- production of carrier planes will go up by this ratio if we lack buffers
