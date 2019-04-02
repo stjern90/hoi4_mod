@@ -1,0 +1,779 @@
+############################################################################################################
+#	Expert AI mod - naval strategies
+############################################################################################################
+
+# strike forces
+
+EAI_USA_strike_force_pacific = {
+	enable = {
+		original_tag = USA
+
+		NOT = {
+			any_home_area_neighbor_country = {
+				has_war_with = ROOT
+			}
+		}
+
+		any_country = {
+			capital_scope = { OR = { is_on_continent = asia is_on_continent = pacific is_on_continent = oceania } }
+			has_war_with = ROOT
+		}
+	}
+
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = strike_force_home_base id = 105 }
+}
+
+EAI_USA_strike_force_europe = {
+	enable = {
+		original_tag = USA
+
+		NOT = {
+			any_home_area_neighbor_country = {
+				has_war_with = ROOT
+			}
+		}
+
+		any_country = {
+			capital_scope = { is_on_continent = europe }
+			has_war_with = ROOT
+		}
+	}
+
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = strike_force_home_base id = 18 }
+}
+
+# avoidance
+
+EAI_GER_avoid_ENG = {
+	enable = {
+		original_tag = GER
+		
+		has_war_with = ENG
+
+		NOT = { ENG = { has_capitulated = yes } }
+
+		alliance_naval_strength_ratio < 1.0
+	}
+	
+	abort_when_not_enabled = yes
+	
+	ai_strategy = { type = naval_avoid_region id = 18 value = 5000 }
+	ai_strategy = { type = naval_avoid_region id = 16 value = 5000 }
+	ai_strategy = { type = naval_avoid_region id = 43 value = 5000 }
+}
+
+EAI_ITA_avoid_ETH = {
+	enable = { original_tag = ITA enemies_naval_strength_ratio > 1.0 }
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = naval_avoid_region id = 47 value = 2000 }
+	ai_strategy = { type = naval_avoid_region id = 48 value = 2000 }
+	ai_strategy = { type = naval_avoid_region id = 61 value = 2000 }
+	ai_strategy = { type = naval_avoid_region id = 62 value = 2000 }
+	ai_strategy = { type = naval_avoid_region id = 65 value = 2000 }
+	ai_strategy = { type = naval_avoid_region id = 103 value = 2000 }
+	ai_strategy = { type = naval_avoid_region id = 102 value = 2000 }
+	ai_strategy = { type = naval_avoid_region id = 104 value = 2000 }
+}
+
+EAI_allies_atlantic_trade_route = {
+	enable = { is_in_faction_with = ENG alliance_naval_strength_ratio < 8 }
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = naval_avoid_region id = 43 value = -3000 }
+	ai_strategy = { type = naval_avoid_region id = 44 value = -3000 }
+	ai_strategy = { type = naval_avoid_region id = 50 value = -3000 }
+	ai_strategy = { type = naval_avoid_region id = 55 value = -3000 }
+	ai_strategy = { type = naval_avoid_region id = 54 value = -3000 }
+
+	ai_strategy = { type = naval_avoid_region id = 18 value = 50 }
+	ai_strategy = { type = naval_avoid_region id = 16 value = 50 }
+	ai_strategy = { type = naval_avoid_region id = 42 value = 50 }
+	ai_strategy = { type = naval_avoid_region id = 47 value = 50 }
+}
+
+EAI_allies_avoid_mediterranean = {
+	enable = { 
+		is_in_faction_with = ENG 
+		NOT = { original_tag = USA } 
+		alliance_naval_strength_ratio < 8 
+		OR = { has_war_with = ITA has_war_with = GER } 
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = naval_avoid_region id = 68 value = 50 }
+	ai_strategy = { type = naval_avoid_region id = 168 value = 500 }
+	ai_strategy = { type = naval_avoid_region id = 169 value = 500 }
+	ai_strategy = { type = naval_avoid_region id = 29 value = 500 }
+	ai_strategy = { type = naval_avoid_region id = 69 value = 50 }
+	ai_strategy = { type = naval_avoid_region id = 100 value = 50 }
+}
+
+EAI_allies_avoid_baltic = {
+	enable = { 
+		is_in_faction_with = ENG 
+		OR = { has_war_with = SOV has_war_with = GER } 
+		NOT = { 58 = { CONTROLLER = { is_in_faction_with = ENG } } }
+	} #
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = naval_avoid_region id = 206 value = 5000 }
+	ai_strategy = { type = naval_avoid_region id = 9 value = 5000 }
+	ai_strategy = { type = naval_avoid_region id = 173 value = 5000 }
+}
+
+EAI_axis_avoid_mediterranean = {
+	enable = { 
+		is_in_faction_with = GER 
+		alliance_naval_strength_ratio < 2 
+		OR = { has_war_with = ENG } 
+		OR = {
+			NOT = { any_state = { OR = { state = 118 state 290 } CONTROLLER = { is_in_faction_with = ROOT } } } # gibraltar
+			NOT = { any_state = { OR = { state = 446 state 453 } CONTROLLER = { is_in_faction_with = ROOT } } }	# suez
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = naval_avoid_region id = 68 value = 50 }
+	ai_strategy = { type = naval_avoid_region id = 169 value = 50 }
+	ai_strategy = { type = naval_avoid_region id = 69 value = 50 }
+	ai_strategy = { type = naval_avoid_region id = 100 value = 50 }
+}
+
+EAI_axis_avoid_mediterranean_2 = {
+	enable = { 
+		is_in_faction_with = GER 
+		alliance_naval_strength_ratio < 2 
+		OR = { has_war_with = ENG } 
+		any_state = { OR = { state = 452 state = 447 state = 446 state = 453 } CONTROLLER = { is_in_faction_with = ENG } }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = naval_avoid_region id = 69 value = 500 }
+}
+
+# misc
+
+EAI_peace_time_naval_missions = {
+	enable = { has_war = no }
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = naval_mission_threshold id = "MISSION_PATROL" value = 50000 }
+	ai_strategy = { type = naval_mission_threshold id = "MISSION_STRIKE_FORCE" value = 50000 }
+	ai_strategy = { type = naval_mission_threshold id = "MISSION_CONVOY_ESCORT" value = 50000 }
+	ai_strategy = { type = naval_mission_threshold id = "MISSION_CONVOY_RAIDING" value = 50000 }
+}
+
+EAI_conserve_fuel = {
+	enable = { is_major = yes OR = { fuel_ratio < 0.25 has_fuel < 50000 } }
+	abort = { NOT = { fuel_ratio < 0.4 has_fuel < 100000 } }
+
+	ai_strategy = { type = naval_mission_threshold id = "MISSION_CONVOY_RAIDING" value = 200000 }
+	ai_strategy = { type = naval_mission_threshold id = "MISSION_MINES_PLANTING" value = 200000 }
+	ai_strategy = { type = naval_mission_threshold id = "MISSION_MINES_SWEEPING" value = 200000 }
+}
+
+EAI_conserve_fuel_JAP = {
+	enable = { original_tag = JAP OR = { fuel_ratio < 0.95 } has_war = no }
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = naval_mission_threshold id = "MISSION_TRAINING" value = 200000 }
+}
+
+EAI_invasion_blitz_JAP = {
+	enable = { original_tag = JAP has_country_flag = EAI_invasion_blitz_JAP }
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = naval_mission_threshold id = "MISSION_PATROL" value = 200000 }
+	ai_strategy = { type = naval_mission_threshold id = "MISSION_STRIKE_FORCE" value = 200000 }
+	ai_strategy = { type = naval_mission_threshold id = "MISSION_CONVOY_RAIDING" value = 200000 }
+	ai_strategy = { type = naval_mission_threshold id = "MISSION_MINES_PLANTING" value = 200000 }
+	ai_strategy = { type = naval_mission_threshold id = "MISSION_MINES_SWEEPING" value = 200000 }
+}
+
+############################################################################ 
+#	scripted invasion AI
+############################################################################
+
+### special cases
+
+EAI_pacific_war_JAP = {
+	enable = {
+		original_tag = JAP
+		
+		OR = { has_war_with = PHI focus_progress = { focus = JAP_secure_the_philippines progress > 0 } }
+	}
+	
+	abort_when_not_enabled = yes
+	
+	ai_strategy = { type = invade id = "PHI" value = 4000 }
+}
+
+EAI_pacific_war_JAP_2 = {
+	enable = {
+		original_tag = JAP
+		
+		has_war_with = MAL
+	}
+	
+	abort_when_not_enabled = yes
+	
+	ai_strategy = { type = invade id = "MAL" value = 4000 }
+}
+
+EAI_pacific_war_JAP_3 = {
+	enable = {
+		original_tag = JAP
+		
+		has_war_with = INS
+	}
+	
+	abort_when_not_enabled = yes
+	
+	ai_strategy = { type = invade id = "INS" value = 4000 }
+}
+
+EAI_pacific_war_JAP_4 = {
+	enable = {
+		original_tag = JAP
+
+		has_war_with = USA
+		
+		if = { limit = { has_war_with = INS } INS = { has_capitulated = yes } }
+		if = { limit = { has_war_with = MAL } MAL = { has_capitulated = yes } }
+		if = { limit = { has_war_with = PHI } PHI = { has_capitulated = yes } }
+	}
+	
+	abort_when_not_enabled = yes
+	
+	ai_strategy = { type = invade id = "USA" value = 4000 }
+}
+
+EAI_pacific_war_USA = {
+	enable = {
+		original_tag = USA
+		
+		has_war_with = JAP
+		
+		NOT = { JAP = { has_country_flag = EAI_naval_invasion_from_@ROOT } }
+	}
+	
+	abort_when_not_enabled = yes
+	
+	ai_strategy = { type = invade id = "JAP" value = 4000 }
+}
+
+###
+
+EAI_disable_invasions = { # MTS
+	enable = { always = yes }
+
+	ai_strategy = { type = invade id = "GER" value = -2000 }
+	ai_strategy = { type = invade id = "ENG" value = -2000 }
+	ai_strategy = { type = invade id = "SOV" value = -2000 }
+	ai_strategy = { type = invade id = "SWE" value = -2000 }
+	ai_strategy = { type = invade id = "FRA" value = -2000 }
+	ai_strategy = { type = invade id = "LUX" value = -2000 }
+	ai_strategy = { type = invade id = "BEL" value = -2000 }
+	ai_strategy = { type = invade id = "HOL" value = -2000 }
+	ai_strategy = { type = invade id = "CZE" value = -2000 }
+	ai_strategy = { type = invade id = "POL" value = -2000 }
+	ai_strategy = { type = invade id = "AUS" value = -2000 }
+	ai_strategy = { type = invade id = "LIT" value = -2000 }
+	ai_strategy = { type = invade id = "EST" value = -2000 }
+	ai_strategy = { type = invade id = "LAT" value = -2000 }
+	ai_strategy = { type = invade id = "SPR" value = -2000 }
+	ai_strategy = { type = invade id = "ITA" value = -2000 }
+	ai_strategy = { type = invade id = "ROM" value = -2000 }
+	ai_strategy = { type = invade id = "YUG" value = -2000 }
+	ai_strategy = { type = invade id = "SER" value = -2000 }
+	ai_strategy = { type = invade id = "SWI" value = -2000 }
+	ai_strategy = { type = invade id = "TUR" value = -2000 }
+	ai_strategy = { type = invade id = "GRE" value = -2000 }
+	ai_strategy = { type = invade id = "ALB" value = -2000 }
+	ai_strategy = { type = invade id = "NOR" value = -2000 }
+	ai_strategy = { type = invade id = "DEN" value = -2000 }
+	ai_strategy = { type = invade id = "BUL" value = -2000 }
+	ai_strategy = { type = invade id = "POR" value = -2000 }
+	ai_strategy = { type = invade id = "FIN" value = -2000 }
+	ai_strategy = { type = invade id = "IRE" value = -2000 }
+	ai_strategy = { type = invade id = "HUN" value = -2000 }
+	ai_strategy = { type = invade id = "AFG" value = -2000 }
+	ai_strategy = { type = invade id = "ARG" value = -2000 }
+	ai_strategy = { type = invade id = "AST" value = -2000 }
+	ai_strategy = { type = invade id = "BHU" value = -2000 }
+	ai_strategy = { type = invade id = "BOL" value = -2000 }
+	ai_strategy = { type = invade id = "BRA" value = -2000 }
+	ai_strategy = { type = invade id = "CAN" value = -2000 }
+	ai_strategy = { type = invade id = "CHI" value = -2000 }
+	ai_strategy = { type = invade id = "CHL" value = -2000 }
+	ai_strategy = { type = invade id = "COL" value = -2000 }
+	ai_strategy = { type = invade id = "COS" value = -2000 }
+	ai_strategy = { type = invade id = "ECU" value = -2000 }
+	ai_strategy = { type = invade id = "ELS" value = -2000 }
+	ai_strategy = { type = invade id = "ETH" value = -2000 }
+	ai_strategy = { type = invade id = "GUA" value = -2000 }
+	ai_strategy = { type = invade id = "HON" value = -2000 }
+	ai_strategy = { type = invade id = "IRQ" value = -2000 }
+	ai_strategy = { type = invade id = "JAP" value = -2000 }
+	ai_strategy = { type = invade id = "KOR" value = -2000 }
+	ai_strategy = { type = invade id = "LIB" value = -2000 }
+	ai_strategy = { type = invade id = "MEX" value = -2000 }
+	ai_strategy = { type = invade id = "MEN" value = -2000 }
+	ai_strategy = { type = invade id = "NEP" value = -2000 }
+	ai_strategy = { type = invade id = "NIC" value = -2000 }
+	ai_strategy = { type = invade id = "NZL" value = -2000 }
+	ai_strategy = { type = invade id = "PAN" value = -2000 }
+	ai_strategy = { type = invade id = "PER" value = -2000 }
+	ai_strategy = { type = invade id = "PHI" value = -2000 }
+	ai_strategy = { type = invade id = "PRU" value = -2000 }
+	ai_strategy = { type = invade id = "SAF" value = -2000 }
+	ai_strategy = { type = invade id = "SAU" value = -2000 }
+	ai_strategy = { type = invade id = "SIA" value = -2000 }
+	ai_strategy = { type = invade id = "SIK" value = -2000 }
+	ai_strategy = { type = invade id = "TIB" value = -2000 }
+	ai_strategy = { type = invade id = "URG" value = -2000 }
+	ai_strategy = { type = invade id = "VEN" value = -2000 }
+	ai_strategy = { type = invade id = "YUN" value = -2000 }
+	ai_strategy = { type = invade id = "USA" value = -2000 }
+	ai_strategy = { type = invade id = "MON" value = -2000 }
+	ai_strategy = { type = invade id = "TAN" value = -2000 }
+	ai_strategy = { type = invade id = "PAR" value = -2000 }
+	ai_strategy = { type = invade id = "CUB" value = -2000 }
+	ai_strategy = { type = invade id = "DOM" value = -2000 }
+	ai_strategy = { type = invade id = "HAI" value = -2000 }
+	ai_strategy = { type = invade id = "YEM" value = -2000 }
+	ai_strategy = { type = invade id = "OMA" value = -2000 }
+	ai_strategy = { type = invade id = "SLO" value = -2000 }
+	ai_strategy = { type = invade id = "RAJ" value = -2000 }
+	ai_strategy = { type = invade id = "CRO" value = -2000 }
+	ai_strategy = { type = invade id = "GXC" value = -2000 }
+	ai_strategy = { type = invade id = "PRC" value = -2000 }
+	ai_strategy = { type = invade id = "SHX" value = -2000 }
+	ai_strategy = { type = invade id = "XSM" value = -2000 }
+	ai_strategy = { type = invade id = "ICE" value = -2000 }
+	ai_strategy = { type = invade id = "LEB" value = -2000 }
+	ai_strategy = { type = invade id = "JOR" value = -2000 }
+	ai_strategy = { type = invade id = "SYR" value = -2000 }
+	ai_strategy = { type = invade id = "EGY" value = -2000 }
+	ai_strategy = { type = invade id = "LBA" value = -2000 }
+	ai_strategy = { type = invade id = "WGR" value = -2000 }
+	ai_strategy = { type = invade id = "DDR" value = -2000 }
+	ai_strategy = { type = invade id = "PAL" value = -2000 }
+	ai_strategy = { type = invade id = "ISR" value = -2000 }
+	ai_strategy = { type = invade id = "VIN" value = -2000 }
+	ai_strategy = { type = invade id = "CAM" value = -2000 }
+	ai_strategy = { type = invade id = "MAL" value = -2000 }
+	ai_strategy = { type = invade id = "INS" value = -2000 }
+	ai_strategy = { type = invade id = "LAO" value = -2000 }
+	ai_strategy = { type = invade id = "MNT" value = -2000 }
+	ai_strategy = { type = invade id = "UKR" value = -2000 }
+	ai_strategy = { type = invade id = "GEO" value = -2000 }
+	ai_strategy = { type = invade id = "KAZ" value = -2000 }
+	ai_strategy = { type = invade id = "AZR" value = -2000 }
+	ai_strategy = { type = invade id = "ARM" value = -2000 }
+	ai_strategy = { type = invade id = "BLR" value = -2000 }
+	ai_strategy = { type = invade id = "ANG" value = -2000 }
+	ai_strategy = { type = invade id = "MZB" value = -2000 }
+	ai_strategy = { type = invade id = "ZIM" value = -2000 }
+	ai_strategy = { type = invade id = "COG" value = -2000 }
+	ai_strategy = { type = invade id = "KEN" value = -2000 }
+	ai_strategy = { type = invade id = "PAK" value = -2000 }
+	ai_strategy = { type = invade id = "BOT" value = -2000 }
+	ai_strategy = { type = invade id = "MAN" value = -2000 }
+	ai_strategy = { type = invade id = "BAH" value = -2000 }
+	ai_strategy = { type = invade id = "BAN" value = -2000 }
+	ai_strategy = { type = invade id = "BLZ" value = -2000 }
+	ai_strategy = { type = invade id = "BRM" value = -2000 }
+	ai_strategy = { type = invade id = "CRC" value = -2000 }
+	ai_strategy = { type = invade id = "GDL" value = -2000 }
+	ai_strategy = { type = invade id = "GYA" value = -2000 }
+	ai_strategy = { type = invade id = "JAM" value = -2000 }
+	ai_strategy = { type = invade id = "KYR" value = -2000 }
+	ai_strategy = { type = invade id = "MAD" value = -2000 }
+	ai_strategy = { type = invade id = "MOL" value = -2000 }
+	ai_strategy = { type = invade id = "PNG" value = -2000 }
+	ai_strategy = { type = invade id = "PUE" value = -2000 }
+	ai_strategy = { type = invade id = "QAT" value = -2000 }
+	ai_strategy = { type = invade id = "SCO" value = -2000 }
+	ai_strategy = { type = invade id = "SRL" value = -2000 }
+	ai_strategy = { type = invade id = "SUR" value = -2000 }
+	ai_strategy = { type = invade id = "TAJ" value = -2000 }
+	ai_strategy = { type = invade id = "TRI" value = -2000 }
+	ai_strategy = { type = invade id = "TMS" value = -2000 }
+	ai_strategy = { type = invade id = "UAE" value = -2000 }
+	ai_strategy = { type = invade id = "UZB" value = -2000 }
+	ai_strategy = { type = invade id = "KUW" value = -2000 }
+	ai_strategy = { type = invade id = "CYP" value = -2000 }
+	ai_strategy = { type = invade id = "MLT" value = -2000 }
+	ai_strategy = { type = invade id = "ALG" value = -2000 }
+	ai_strategy = { type = invade id = "MOR" value = -2000 }
+	ai_strategy = { type = invade id = "TUN" value = -2000 }
+	ai_strategy = { type = invade id = "SUD" value = -2000 }
+	ai_strategy = { type = invade id = "ERI" value = -2000 }
+	ai_strategy = { type = invade id = "DJI" value = -2000 }
+	ai_strategy = { type = invade id = "SOM" value = -2000 }
+	ai_strategy = { type = invade id = "UGA" value = -2000 }
+	ai_strategy = { type = invade id = "RWA" value = -2000 }
+	ai_strategy = { type = invade id = "BRD" value = -2000 }
+	ai_strategy = { type = invade id = "TZN" value = -2000 }
+	ai_strategy = { type = invade id = "ZAM" value = -2000 }
+	ai_strategy = { type = invade id = "MLW" value = -2000 }
+	ai_strategy = { type = invade id = "GAB" value = -2000 }
+	ai_strategy = { type = invade id = "RCG" value = -2000 }
+	ai_strategy = { type = invade id = "EQG" value = -2000 }
+	ai_strategy = { type = invade id = "CMR" value = -2000 }
+	ai_strategy = { type = invade id = "CAR" value = -2000 }
+	ai_strategy = { type = invade id = "CHA" value = -2000 }
+	ai_strategy = { type = invade id = "NGA" value = -2000 }
+	ai_strategy = { type = invade id = "DAH" value = -2000 }
+	ai_strategy = { type = invade id = "TOG" value = -2000 }
+	ai_strategy = { type = invade id = "GHA" value = -2000 }
+	ai_strategy = { type = invade id = "IVO" value = -2000 }
+	ai_strategy = { type = invade id = "VOL" value = -2000 }
+	ai_strategy = { type = invade id = "MLI" value = -2000 }
+	ai_strategy = { type = invade id = "SIE" value = -2000 }
+	ai_strategy = { type = invade id = "GNA" value = -2000 }
+	ai_strategy = { type = invade id = "GNB" value = -2000 }
+	ai_strategy = { type = invade id = "SEN" value = -2000 }
+	ai_strategy = { type = invade id = "GAM" value = -2000 }
+	ai_strategy = { type = invade id = "WLS" value = -2000 }
+	ai_strategy = { type = invade id = "NGR" value = -2000 }
+	ai_strategy = { type = invade id = "CSA" value = -2000 }
+	ai_strategy = { type = invade id = "USB" value = -2000 }
+	ai_strategy = { type = invade id = "MRT" value = -2000 }
+	ai_strategy = { type = invade id = "NMB" value = -2000 }
+	ai_strategy = { type = invade id = "WES" value = -2000 }
+	ai_strategy = { type = invade id = "BAS" value = -2000 }
+	ai_strategy = { type = invade id = "CAY" value = -2000 }
+	ai_strategy = { type = invade id = "MLD" value = -2000 }
+	ai_strategy = { type = invade id = "FIJ" value = -2000 }
+	ai_strategy = { type = invade id = "SLV" value = -2000 }
+	ai_strategy = { type = invade id = "BOS" value = -2000 }
+	ai_strategy = { type = invade id = "MAC" value = -2000 }
+	ai_strategy = { type = invade id = "NIR" value = -2000 }
+	ai_strategy = { type = invade id = "D01" value = -2000 }
+	ai_strategy = { type = invade id = "D02" value = -2000 }
+	ai_strategy = { type = invade id = "D03" value = -2000 }
+	ai_strategy = { type = invade id = "D04" value = -2000 }
+	ai_strategy = { type = invade id = "D05" value = -2000 }
+	ai_strategy = { type = invade id = "D06" value = -2000 }
+	ai_strategy = { type = invade id = "D07" value = -2000 }
+	ai_strategy = { type = invade id = "D08" value = -2000 }
+	ai_strategy = { type = invade id = "D09" value = -2000 }
+	ai_strategy = { type = invade id = "D10" value = -2000 }
+	ai_strategy = { type = invade id = "D11" value = -2000 }
+	ai_strategy = { type = invade id = "D12" value = -2000 }
+	ai_strategy = { type = invade id = "D13" value = -2000 }
+	ai_strategy = { type = invade id = "D14" value = -2000 }
+	ai_strategy = { type = invade id = "D15" value = -2000 }
+}
+
+EAI_naval_invasion_from_GER = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_GER } abort_when_not_enabled = yes ai_strategy = { type = invade id = "GER" value = 7000 } } # MTS
+EAI_naval_invasion_from_ENG = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_ENG } abort_when_not_enabled = yes ai_strategy = { type = invade id = "ENG" value = 7000 } }
+EAI_naval_invasion_from_SOV = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_SOV } abort_when_not_enabled = yes ai_strategy = { type = invade id = "SOV" value = 7000 } }
+EAI_naval_invasion_from_SWE = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_SWE } abort_when_not_enabled = yes ai_strategy = { type = invade id = "SWE" value = 7000 } }
+EAI_naval_invasion_from_FRA = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_FRA } abort_when_not_enabled = yes ai_strategy = { type = invade id = "FRA" value = 7000 } }
+EAI_naval_invasion_from_LUX = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_LUX } abort_when_not_enabled = yes ai_strategy = { type = invade id = "LUX" value = 7000 } }
+EAI_naval_invasion_from_BEL = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_BEL } abort_when_not_enabled = yes ai_strategy = { type = invade id = "BEL" value = 7000 } }
+EAI_naval_invasion_from_HOL = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_HOL } abort_when_not_enabled = yes ai_strategy = { type = invade id = "HOL" value = 7000 } }
+EAI_naval_invasion_from_CZE = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_CZE } abort_when_not_enabled = yes ai_strategy = { type = invade id = "CZE" value = 7000 } }
+EAI_naval_invasion_from_POL = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_POL } abort_when_not_enabled = yes ai_strategy = { type = invade id = "POL" value = 7000 } }
+EAI_naval_invasion_from_AUS = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_AUS } abort_when_not_enabled = yes ai_strategy = { type = invade id = "AUS" value = 7000 } }
+EAI_naval_invasion_from_LIT = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_LIT } abort_when_not_enabled = yes ai_strategy = { type = invade id = "LIT" value = 7000 } }
+EAI_naval_invasion_from_EST = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_EST } abort_when_not_enabled = yes ai_strategy = { type = invade id = "EST" value = 7000 } }
+EAI_naval_invasion_from_LAT = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_LAT } abort_when_not_enabled = yes ai_strategy = { type = invade id = "LAT" value = 7000 } }
+EAI_naval_invasion_from_SPR = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_SPR } abort_when_not_enabled = yes ai_strategy = { type = invade id = "SPR" value = 7000 } }
+EAI_naval_invasion_from_ITA = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_ITA } abort_when_not_enabled = yes ai_strategy = { type = invade id = "ITA" value = 7000 } }
+EAI_naval_invasion_from_ROM = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_ROM } abort_when_not_enabled = yes ai_strategy = { type = invade id = "ROM" value = 7000 } }
+EAI_naval_invasion_from_YUG = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_YUG } abort_when_not_enabled = yes ai_strategy = { type = invade id = "YUG" value = 7000 } }
+EAI_naval_invasion_from_SER = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_SER } abort_when_not_enabled = yes ai_strategy = { type = invade id = "SER" value = 7000 } }
+EAI_naval_invasion_from_SWI = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_SWI } abort_when_not_enabled = yes ai_strategy = { type = invade id = "SWI" value = 7000 } }
+EAI_naval_invasion_from_TUR = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_TUR } abort_when_not_enabled = yes ai_strategy = { type = invade id = "TUR" value = 7000 } }
+EAI_naval_invasion_from_GRE = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_GRE } abort_when_not_enabled = yes ai_strategy = { type = invade id = "GRE" value = 7000 } }
+EAI_naval_invasion_from_ALB = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_ALB } abort_when_not_enabled = yes ai_strategy = { type = invade id = "ALB" value = 7000 } }
+EAI_naval_invasion_from_NOR = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_NOR } abort_when_not_enabled = yes ai_strategy = { type = invade id = "NOR" value = 7000 } }
+EAI_naval_invasion_from_DEN = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_DEN } abort_when_not_enabled = yes ai_strategy = { type = invade id = "DEN" value = 7000 } }
+EAI_naval_invasion_from_BUL = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_BUL } abort_when_not_enabled = yes ai_strategy = { type = invade id = "BUL" value = 7000 } }
+EAI_naval_invasion_from_POR = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_POR } abort_when_not_enabled = yes ai_strategy = { type = invade id = "POR" value = 7000 } }
+EAI_naval_invasion_from_FIN = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_FIN } abort_when_not_enabled = yes ai_strategy = { type = invade id = "FIN" value = 7000 } }
+EAI_naval_invasion_from_IRE = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_IRE } abort_when_not_enabled = yes ai_strategy = { type = invade id = "IRE" value = 7000 } }
+EAI_naval_invasion_from_HUN = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_HUN } abort_when_not_enabled = yes ai_strategy = { type = invade id = "HUN" value = 7000 } }
+EAI_naval_invasion_from_AFG = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_AFG } abort_when_not_enabled = yes ai_strategy = { type = invade id = "AFG" value = 7000 } }
+EAI_naval_invasion_from_ARG = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_ARG } abort_when_not_enabled = yes ai_strategy = { type = invade id = "ARG" value = 7000 } }
+EAI_naval_invasion_from_AST = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_AST } abort_when_not_enabled = yes ai_strategy = { type = invade id = "AST" value = 7000 } }
+EAI_naval_invasion_from_BHU = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_BHU } abort_when_not_enabled = yes ai_strategy = { type = invade id = "BHU" value = 7000 } }
+EAI_naval_invasion_from_BOL = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_BOL } abort_when_not_enabled = yes ai_strategy = { type = invade id = "BOL" value = 7000 } }
+EAI_naval_invasion_from_BRA = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_BRA } abort_when_not_enabled = yes ai_strategy = { type = invade id = "BRA" value = 7000 } }
+EAI_naval_invasion_from_CAN = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_CAN } abort_when_not_enabled = yes ai_strategy = { type = invade id = "CAN" value = 7000 } }
+EAI_naval_invasion_from_CHI = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_CHI } abort_when_not_enabled = yes ai_strategy = { type = invade id = "CHI" value = 7000 } }
+EAI_naval_invasion_from_CHL = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_CHL } abort_when_not_enabled = yes ai_strategy = { type = invade id = "CHL" value = 7000 } }
+EAI_naval_invasion_from_COL = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_COL } abort_when_not_enabled = yes ai_strategy = { type = invade id = "COL" value = 7000 } }
+EAI_naval_invasion_from_COS = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_COS } abort_when_not_enabled = yes ai_strategy = { type = invade id = "COS" value = 7000 } }
+EAI_naval_invasion_from_ECU = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_ECU } abort_when_not_enabled = yes ai_strategy = { type = invade id = "ECU" value = 7000 } }
+EAI_naval_invasion_from_ELS = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_ELS } abort_when_not_enabled = yes ai_strategy = { type = invade id = "ELS" value = 7000 } }
+EAI_naval_invasion_from_ETH = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_ETH } abort_when_not_enabled = yes ai_strategy = { type = invade id = "ETH" value = 7000 } }
+EAI_naval_invasion_from_GUA = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_GUA } abort_when_not_enabled = yes ai_strategy = { type = invade id = "GUA" value = 7000 } }
+EAI_naval_invasion_from_HON = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_HON } abort_when_not_enabled = yes ai_strategy = { type = invade id = "HON" value = 7000 } }
+EAI_naval_invasion_from_IRQ = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_IRQ } abort_when_not_enabled = yes ai_strategy = { type = invade id = "IRQ" value = 7000 } }
+EAI_naval_invasion_from_JAP = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_JAP } abort_when_not_enabled = yes ai_strategy = { type = invade id = "JAP" value = 7000 } }
+EAI_naval_invasion_from_KOR = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_KOR } abort_when_not_enabled = yes ai_strategy = { type = invade id = "KOR" value = 7000 } }
+EAI_naval_invasion_from_LIB = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_LIB } abort_when_not_enabled = yes ai_strategy = { type = invade id = "LIB" value = 7000 } }
+EAI_naval_invasion_from_MEX = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_MEX } abort_when_not_enabled = yes ai_strategy = { type = invade id = "MEX" value = 7000 } }
+EAI_naval_invasion_from_MEN = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_MEN } abort_when_not_enabled = yes ai_strategy = { type = invade id = "MEN" value = 7000 } }
+EAI_naval_invasion_from_NEP = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_NEP } abort_when_not_enabled = yes ai_strategy = { type = invade id = "NEP" value = 7000 } }
+EAI_naval_invasion_from_NIC = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_NIC } abort_when_not_enabled = yes ai_strategy = { type = invade id = "NIC" value = 7000 } }
+EAI_naval_invasion_from_NZL = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_NZL } abort_when_not_enabled = yes ai_strategy = { type = invade id = "NZL" value = 7000 } }
+EAI_naval_invasion_from_PAN = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_PAN } abort_when_not_enabled = yes ai_strategy = { type = invade id = "PAN" value = 7000 } }
+EAI_naval_invasion_from_PER = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_PER } abort_when_not_enabled = yes ai_strategy = { type = invade id = "PER" value = 7000 } }
+EAI_naval_invasion_from_PHI = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_PHI } abort_when_not_enabled = yes ai_strategy = { type = invade id = "PHI" value = 7000 } }
+EAI_naval_invasion_from_PRU = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_PRU } abort_when_not_enabled = yes ai_strategy = { type = invade id = "PRU" value = 7000 } }
+EAI_naval_invasion_from_SAF = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_SAF } abort_when_not_enabled = yes ai_strategy = { type = invade id = "SAF" value = 7000 } }
+EAI_naval_invasion_from_SAU = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_SAU } abort_when_not_enabled = yes ai_strategy = { type = invade id = "SAU" value = 7000 } }
+EAI_naval_invasion_from_SIA = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_SIA } abort_when_not_enabled = yes ai_strategy = { type = invade id = "SIA" value = 7000 } }
+EAI_naval_invasion_from_SIK = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_SIK } abort_when_not_enabled = yes ai_strategy = { type = invade id = "SIK" value = 7000 } }
+EAI_naval_invasion_from_TIB = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_TIB } abort_when_not_enabled = yes ai_strategy = { type = invade id = "TIB" value = 7000 } }
+EAI_naval_invasion_from_URG = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_URG } abort_when_not_enabled = yes ai_strategy = { type = invade id = "URG" value = 7000 } }
+EAI_naval_invasion_from_VEN = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_VEN } abort_when_not_enabled = yes ai_strategy = { type = invade id = "VEN" value = 7000 } }
+EAI_naval_invasion_from_YUN = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_YUN } abort_when_not_enabled = yes ai_strategy = { type = invade id = "YUN" value = 7000 } }
+EAI_naval_invasion_from_USA = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_USA } abort_when_not_enabled = yes ai_strategy = { type = invade id = "USA" value = 7000 } }
+EAI_naval_invasion_from_MON = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_MON } abort_when_not_enabled = yes ai_strategy = { type = invade id = "MON" value = 7000 } }
+EAI_naval_invasion_from_TAN = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_TAN } abort_when_not_enabled = yes ai_strategy = { type = invade id = "TAN" value = 7000 } }
+EAI_naval_invasion_from_PAR = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_PAR } abort_when_not_enabled = yes ai_strategy = { type = invade id = "PAR" value = 7000 } }
+EAI_naval_invasion_from_CUB = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_CUB } abort_when_not_enabled = yes ai_strategy = { type = invade id = "CUB" value = 7000 } }
+EAI_naval_invasion_from_DOM = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_DOM } abort_when_not_enabled = yes ai_strategy = { type = invade id = "DOM" value = 7000 } }
+EAI_naval_invasion_from_HAI = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_HAI } abort_when_not_enabled = yes ai_strategy = { type = invade id = "HAI" value = 7000 } }
+EAI_naval_invasion_from_YEM = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_YEM } abort_when_not_enabled = yes ai_strategy = { type = invade id = "YEM" value = 7000 } }
+EAI_naval_invasion_from_OMA = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_OMA } abort_when_not_enabled = yes ai_strategy = { type = invade id = "OMA" value = 7000 } }
+EAI_naval_invasion_from_SLO = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_SLO } abort_when_not_enabled = yes ai_strategy = { type = invade id = "SLO" value = 7000 } }
+EAI_naval_invasion_from_RAJ = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_RAJ } abort_when_not_enabled = yes ai_strategy = { type = invade id = "RAJ" value = 7000 } }
+EAI_naval_invasion_from_CRO = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_CRO } abort_when_not_enabled = yes ai_strategy = { type = invade id = "CRO" value = 7000 } }
+EAI_naval_invasion_from_GXC = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_GXC } abort_when_not_enabled = yes ai_strategy = { type = invade id = "GXC" value = 7000 } }
+EAI_naval_invasion_from_PRC = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_PRC } abort_when_not_enabled = yes ai_strategy = { type = invade id = "PRC" value = 7000 } }
+EAI_naval_invasion_from_SHX = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_SHX } abort_when_not_enabled = yes ai_strategy = { type = invade id = "SHX" value = 7000 } }
+EAI_naval_invasion_from_XSM = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_XSM } abort_when_not_enabled = yes ai_strategy = { type = invade id = "XSM" value = 7000 } }
+EAI_naval_invasion_from_ICE = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_ICE } abort_when_not_enabled = yes ai_strategy = { type = invade id = "ICE" value = 7000 } }
+EAI_naval_invasion_from_LEB = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_LEB } abort_when_not_enabled = yes ai_strategy = { type = invade id = "LEB" value = 7000 } }
+EAI_naval_invasion_from_JOR = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_JOR } abort_when_not_enabled = yes ai_strategy = { type = invade id = "JOR" value = 7000 } }
+EAI_naval_invasion_from_SYR = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_SYR } abort_when_not_enabled = yes ai_strategy = { type = invade id = "SYR" value = 7000 } }
+EAI_naval_invasion_from_EGY = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_EGY } abort_when_not_enabled = yes ai_strategy = { type = invade id = "EGY" value = 7000 } }
+EAI_naval_invasion_from_LBA = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_LBA } abort_when_not_enabled = yes ai_strategy = { type = invade id = "LBA" value = 7000 } }
+EAI_naval_invasion_from_WGR = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_WGR } abort_when_not_enabled = yes ai_strategy = { type = invade id = "WGR" value = 7000 } }
+EAI_naval_invasion_from_DDR = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_DDR } abort_when_not_enabled = yes ai_strategy = { type = invade id = "DDR" value = 7000 } }
+EAI_naval_invasion_from_PAL = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_PAL } abort_when_not_enabled = yes ai_strategy = { type = invade id = "PAL" value = 7000 } }
+EAI_naval_invasion_from_ISR = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_ISR } abort_when_not_enabled = yes ai_strategy = { type = invade id = "ISR" value = 7000 } }
+EAI_naval_invasion_from_VIN = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_VIN } abort_when_not_enabled = yes ai_strategy = { type = invade id = "VIN" value = 7000 } }
+EAI_naval_invasion_from_CAM = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_CAM } abort_when_not_enabled = yes ai_strategy = { type = invade id = "CAM" value = 7000 } }
+EAI_naval_invasion_from_MAL = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_MAL } abort_when_not_enabled = yes ai_strategy = { type = invade id = "MAL" value = 7000 } }
+EAI_naval_invasion_from_INS = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_INS } abort_when_not_enabled = yes ai_strategy = { type = invade id = "INS" value = 7000 } }
+EAI_naval_invasion_from_LAO = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_LAO } abort_when_not_enabled = yes ai_strategy = { type = invade id = "LAO" value = 7000 } }
+EAI_naval_invasion_from_MNT = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_MNT } abort_when_not_enabled = yes ai_strategy = { type = invade id = "MNT" value = 7000 } }
+EAI_naval_invasion_from_UKR = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_UKR } abort_when_not_enabled = yes ai_strategy = { type = invade id = "UKR" value = 7000 } }
+EAI_naval_invasion_from_GEO = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_GEO } abort_when_not_enabled = yes ai_strategy = { type = invade id = "GEO" value = 7000 } }
+EAI_naval_invasion_from_KAZ = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_KAZ } abort_when_not_enabled = yes ai_strategy = { type = invade id = "KAZ" value = 7000 } }
+EAI_naval_invasion_from_AZR = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_AZR } abort_when_not_enabled = yes ai_strategy = { type = invade id = "AZR" value = 7000 } }
+EAI_naval_invasion_from_ARM = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_ARM } abort_when_not_enabled = yes ai_strategy = { type = invade id = "ARM" value = 7000 } }
+EAI_naval_invasion_from_BLR = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_BLR } abort_when_not_enabled = yes ai_strategy = { type = invade id = "BLR" value = 7000 } }
+EAI_naval_invasion_from_ANG = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_ANG } abort_when_not_enabled = yes ai_strategy = { type = invade id = "ANG" value = 7000 } }
+EAI_naval_invasion_from_MZB = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_MZB } abort_when_not_enabled = yes ai_strategy = { type = invade id = "MZB" value = 7000 } }
+EAI_naval_invasion_from_ZIM = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_ZIM } abort_when_not_enabled = yes ai_strategy = { type = invade id = "ZIM" value = 7000 } }
+EAI_naval_invasion_from_COG = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_COG } abort_when_not_enabled = yes ai_strategy = { type = invade id = "COG" value = 7000 } }
+EAI_naval_invasion_from_KEN = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_KEN } abort_when_not_enabled = yes ai_strategy = { type = invade id = "KEN" value = 7000 } }
+EAI_naval_invasion_from_PAK = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_PAK } abort_when_not_enabled = yes ai_strategy = { type = invade id = "PAK" value = 7000 } }
+EAI_naval_invasion_from_BOT = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_BOT } abort_when_not_enabled = yes ai_strategy = { type = invade id = "BOT" value = 7000 } }
+EAI_naval_invasion_from_MAN = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_MAN } abort_when_not_enabled = yes ai_strategy = { type = invade id = "MAN" value = 7000 } }
+EAI_naval_invasion_from_BAH = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_BAH } abort_when_not_enabled = yes ai_strategy = { type = invade id = "BAH" value = 7000 } }
+EAI_naval_invasion_from_BAN = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_BAN } abort_when_not_enabled = yes ai_strategy = { type = invade id = "BAN" value = 7000 } }
+EAI_naval_invasion_from_BLZ = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_BLZ } abort_when_not_enabled = yes ai_strategy = { type = invade id = "BLZ" value = 7000 } }
+EAI_naval_invasion_from_BRM = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_BRM } abort_when_not_enabled = yes ai_strategy = { type = invade id = "BRM" value = 7000 } }
+EAI_naval_invasion_from_CRC = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_CRC } abort_when_not_enabled = yes ai_strategy = { type = invade id = "CRC" value = 7000 } }
+EAI_naval_invasion_from_GDL = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_GDL } abort_when_not_enabled = yes ai_strategy = { type = invade id = "GDL" value = 7000 } }
+EAI_naval_invasion_from_GYA = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_GYA } abort_when_not_enabled = yes ai_strategy = { type = invade id = "GYA" value = 7000 } }
+EAI_naval_invasion_from_JAM = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_JAM } abort_when_not_enabled = yes ai_strategy = { type = invade id = "JAM" value = 7000 } }
+EAI_naval_invasion_from_KYR = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_KYR } abort_when_not_enabled = yes ai_strategy = { type = invade id = "KYR" value = 7000 } }
+EAI_naval_invasion_from_MAD = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_MAD } abort_when_not_enabled = yes ai_strategy = { type = invade id = "MAD" value = 7000 } }
+EAI_naval_invasion_from_MOL = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_MOL } abort_when_not_enabled = yes ai_strategy = { type = invade id = "MOL" value = 7000 } }
+EAI_naval_invasion_from_PNG = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_PNG } abort_when_not_enabled = yes ai_strategy = { type = invade id = "PNG" value = 7000 } }
+EAI_naval_invasion_from_PUE = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_PUE } abort_when_not_enabled = yes ai_strategy = { type = invade id = "PUE" value = 7000 } }
+EAI_naval_invasion_from_QAT = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_QAT } abort_when_not_enabled = yes ai_strategy = { type = invade id = "QAT" value = 7000 } }
+EAI_naval_invasion_from_SCO = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_SCO } abort_when_not_enabled = yes ai_strategy = { type = invade id = "SCO" value = 7000 } }
+EAI_naval_invasion_from_SRL = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_SRL } abort_when_not_enabled = yes ai_strategy = { type = invade id = "SRL" value = 7000 } }
+EAI_naval_invasion_from_SUR = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_SUR } abort_when_not_enabled = yes ai_strategy = { type = invade id = "SUR" value = 7000 } }
+EAI_naval_invasion_from_TAJ = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_TAJ } abort_when_not_enabled = yes ai_strategy = { type = invade id = "TAJ" value = 7000 } }
+EAI_naval_invasion_from_TRI = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_TRI } abort_when_not_enabled = yes ai_strategy = { type = invade id = "TRI" value = 7000 } }
+EAI_naval_invasion_from_TMS = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_TMS } abort_when_not_enabled = yes ai_strategy = { type = invade id = "TMS" value = 7000 } }
+EAI_naval_invasion_from_UAE = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_UAE } abort_when_not_enabled = yes ai_strategy = { type = invade id = "UAE" value = 7000 } }
+EAI_naval_invasion_from_UZB = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_UZB } abort_when_not_enabled = yes ai_strategy = { type = invade id = "UZB" value = 7000 } }
+EAI_naval_invasion_from_KUW = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_KUW } abort_when_not_enabled = yes ai_strategy = { type = invade id = "KUW" value = 7000 } }
+EAI_naval_invasion_from_CYP = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_CYP } abort_when_not_enabled = yes ai_strategy = { type = invade id = "CYP" value = 7000 } }
+EAI_naval_invasion_from_MLT = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_MLT } abort_when_not_enabled = yes ai_strategy = { type = invade id = "MLT" value = 7000 } }
+EAI_naval_invasion_from_ALG = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_ALG } abort_when_not_enabled = yes ai_strategy = { type = invade id = "ALG" value = 7000 } }
+EAI_naval_invasion_from_MOR = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_MOR } abort_when_not_enabled = yes ai_strategy = { type = invade id = "MOR" value = 7000 } }
+EAI_naval_invasion_from_TUN = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_TUN } abort_when_not_enabled = yes ai_strategy = { type = invade id = "TUN" value = 7000 } }
+EAI_naval_invasion_from_SUD = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_SUD } abort_when_not_enabled = yes ai_strategy = { type = invade id = "SUD" value = 7000 } }
+EAI_naval_invasion_from_ERI = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_ERI } abort_when_not_enabled = yes ai_strategy = { type = invade id = "ERI" value = 7000 } }
+EAI_naval_invasion_from_DJI = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_DJI } abort_when_not_enabled = yes ai_strategy = { type = invade id = "DJI" value = 7000 } }
+EAI_naval_invasion_from_SOM = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_SOM } abort_when_not_enabled = yes ai_strategy = { type = invade id = "SOM" value = 7000 } }
+EAI_naval_invasion_from_UGA = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_UGA } abort_when_not_enabled = yes ai_strategy = { type = invade id = "UGA" value = 7000 } }
+EAI_naval_invasion_from_RWA = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_RWA } abort_when_not_enabled = yes ai_strategy = { type = invade id = "RWA" value = 7000 } }
+EAI_naval_invasion_from_BRD = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_BRD } abort_when_not_enabled = yes ai_strategy = { type = invade id = "BRD" value = 7000 } }
+EAI_naval_invasion_from_TZN = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_TZN } abort_when_not_enabled = yes ai_strategy = { type = invade id = "TZN" value = 7000 } }
+EAI_naval_invasion_from_ZAM = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_ZAM } abort_when_not_enabled = yes ai_strategy = { type = invade id = "ZAM" value = 7000 } }
+EAI_naval_invasion_from_MLW = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_MLW } abort_when_not_enabled = yes ai_strategy = { type = invade id = "MLW" value = 7000 } }
+EAI_naval_invasion_from_GAB = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_GAB } abort_when_not_enabled = yes ai_strategy = { type = invade id = "GAB" value = 7000 } }
+EAI_naval_invasion_from_RCG = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_RCG } abort_when_not_enabled = yes ai_strategy = { type = invade id = "RCG" value = 7000 } }
+EAI_naval_invasion_from_EQG = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_EQG } abort_when_not_enabled = yes ai_strategy = { type = invade id = "EQG" value = 7000 } }
+EAI_naval_invasion_from_CMR = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_CMR } abort_when_not_enabled = yes ai_strategy = { type = invade id = "CMR" value = 7000 } }
+EAI_naval_invasion_from_CAR = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_CAR } abort_when_not_enabled = yes ai_strategy = { type = invade id = "CAR" value = 7000 } }
+EAI_naval_invasion_from_CHA = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_CHA } abort_when_not_enabled = yes ai_strategy = { type = invade id = "CHA" value = 7000 } }
+EAI_naval_invasion_from_NGA = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_NGA } abort_when_not_enabled = yes ai_strategy = { type = invade id = "NGA" value = 7000 } }
+EAI_naval_invasion_from_DAH = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_DAH } abort_when_not_enabled = yes ai_strategy = { type = invade id = "DAH" value = 7000 } }
+EAI_naval_invasion_from_TOG = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_TOG } abort_when_not_enabled = yes ai_strategy = { type = invade id = "TOG" value = 7000 } }
+EAI_naval_invasion_from_GHA = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_GHA } abort_when_not_enabled = yes ai_strategy = { type = invade id = "GHA" value = 7000 } }
+EAI_naval_invasion_from_IVO = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_IVO } abort_when_not_enabled = yes ai_strategy = { type = invade id = "IVO" value = 7000 } }
+EAI_naval_invasion_from_VOL = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_VOL } abort_when_not_enabled = yes ai_strategy = { type = invade id = "VOL" value = 7000 } }
+EAI_naval_invasion_from_MLI = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_MLI } abort_when_not_enabled = yes ai_strategy = { type = invade id = "MLI" value = 7000 } }
+EAI_naval_invasion_from_SIE = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_SIE } abort_when_not_enabled = yes ai_strategy = { type = invade id = "SIE" value = 7000 } }
+EAI_naval_invasion_from_GNA = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_GNA } abort_when_not_enabled = yes ai_strategy = { type = invade id = "GNA" value = 7000 } }
+EAI_naval_invasion_from_GNB = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_GNB } abort_when_not_enabled = yes ai_strategy = { type = invade id = "GNB" value = 7000 } }
+EAI_naval_invasion_from_SEN = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_SEN } abort_when_not_enabled = yes ai_strategy = { type = invade id = "SEN" value = 7000 } }
+EAI_naval_invasion_from_GAM = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_GAM } abort_when_not_enabled = yes ai_strategy = { type = invade id = "GAM" value = 7000 } }
+EAI_naval_invasion_from_WLS = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_WLS } abort_when_not_enabled = yes ai_strategy = { type = invade id = "WLS" value = 7000 } }
+EAI_naval_invasion_from_NGR = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_NGR } abort_when_not_enabled = yes ai_strategy = { type = invade id = "NGR" value = 7000 } }
+EAI_naval_invasion_from_CSA = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_CSA } abort_when_not_enabled = yes ai_strategy = { type = invade id = "CSA" value = 7000 } }
+EAI_naval_invasion_from_USB = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_USB } abort_when_not_enabled = yes ai_strategy = { type = invade id = "USB" value = 7000 } }
+EAI_naval_invasion_from_MRT = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_MRT } abort_when_not_enabled = yes ai_strategy = { type = invade id = "MRT" value = 7000 } }
+EAI_naval_invasion_from_NMB = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_NMB } abort_when_not_enabled = yes ai_strategy = { type = invade id = "NMB" value = 7000 } }
+EAI_naval_invasion_from_WES = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_WES } abort_when_not_enabled = yes ai_strategy = { type = invade id = "WES" value = 7000 } }
+EAI_naval_invasion_from_BAS = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_BAS } abort_when_not_enabled = yes ai_strategy = { type = invade id = "BAS" value = 7000 } }
+EAI_naval_invasion_from_CAY = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_CAY } abort_when_not_enabled = yes ai_strategy = { type = invade id = "CAY" value = 7000 } }
+EAI_naval_invasion_from_MLD = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_MLD } abort_when_not_enabled = yes ai_strategy = { type = invade id = "MLD" value = 7000 } }
+EAI_naval_invasion_from_FIJ = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_FIJ } abort_when_not_enabled = yes ai_strategy = { type = invade id = "FIJ" value = 7000 } }
+EAI_naval_invasion_from_SLV = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_SLV } abort_when_not_enabled = yes ai_strategy = { type = invade id = "SLV" value = 7000 } }
+EAI_naval_invasion_from_BOS = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_BOS } abort_when_not_enabled = yes ai_strategy = { type = invade id = "BOS" value = 7000 } }
+EAI_naval_invasion_from_MAC = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_MAC } abort_when_not_enabled = yes ai_strategy = { type = invade id = "MAC" value = 7000 } }
+EAI_naval_invasion_from_NIR = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_NIR } abort_when_not_enabled = yes ai_strategy = { type = invade id = "NIR" value = 7000 } }
+EAI_naval_invasion_from_D01 = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_D01 } abort_when_not_enabled = yes ai_strategy = { type = invade id = "D01" value = 7000 } }
+EAI_naval_invasion_from_D02 = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_D02 } abort_when_not_enabled = yes ai_strategy = { type = invade id = "D02" value = 7000 } }
+EAI_naval_invasion_from_D03 = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_D03 } abort_when_not_enabled = yes ai_strategy = { type = invade id = "D03" value = 7000 } }
+EAI_naval_invasion_from_D04 = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_D04 } abort_when_not_enabled = yes ai_strategy = { type = invade id = "D04" value = 7000 } }
+EAI_naval_invasion_from_D05 = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_D05 } abort_when_not_enabled = yes ai_strategy = { type = invade id = "D05" value = 7000 } }
+EAI_naval_invasion_from_D06 = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_D06 } abort_when_not_enabled = yes ai_strategy = { type = invade id = "D06" value = 7000 } }
+EAI_naval_invasion_from_D07 = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_D07 } abort_when_not_enabled = yes ai_strategy = { type = invade id = "D07" value = 7000 } }
+EAI_naval_invasion_from_D08 = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_D08 } abort_when_not_enabled = yes ai_strategy = { type = invade id = "D08" value = 7000 } }
+EAI_naval_invasion_from_D09 = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_D09 } abort_when_not_enabled = yes ai_strategy = { type = invade id = "D09" value = 7000 } }
+EAI_naval_invasion_from_D10 = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_D10 } abort_when_not_enabled = yes ai_strategy = { type = invade id = "D10" value = 7000 } }
+EAI_naval_invasion_from_D11 = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_D11 } abort_when_not_enabled = yes ai_strategy = { type = invade id = "D11" value = 7000 } }
+EAI_naval_invasion_from_D12 = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_D12 } abort_when_not_enabled = yes ai_strategy = { type = invade id = "D12" value = 7000 } }
+EAI_naval_invasion_from_D13 = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_D13 } abort_when_not_enabled = yes ai_strategy = { type = invade id = "D13" value = 7000 } }
+EAI_naval_invasion_from_D14 = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_D14 } abort_when_not_enabled = yes ai_strategy = { type = invade id = "D14" value = 7000 } }
+EAI_naval_invasion_from_D15 = { reversed = yes enable = { has_country_flag = EAI_naval_invasion_from_D15 } abort_when_not_enabled = yes ai_strategy = { type = invade id = "D15" value = 7000 } }
+
+###
+
+# # mediterranean
+# EAI_avoid_transport_region_68 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 68 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 68 value = 2000 } }
+# EAI_avoid_transport_region_169 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 169 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 169 value = 2000 } }
+# EAI_avoid_transport_region_27 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 27 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 27 value = 2000 } }
+# EAI_avoid_transport_region_168 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 168 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 168 value = 2000 } }
+# EAI_avoid_transport_region_69 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 69 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 69 value = 2000 } }
+# EAI_avoid_transport_region_30 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 30 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 30 value = 2000 } }
+# EAI_avoid_transport_region_100 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 100 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 100 value = 2000 } }
+
+# # north atlantic
+# EAI_avoid_transport_region_18 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 18 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 18 value = 2000 } }
+# EAI_avoid_transport_region_16 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 16 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 16 value = 2000 } }
+# EAI_avoid_transport_region_43 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 43 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 43 value = 2000 } }
+# EAI_avoid_transport_region_173 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 173 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 173 value = 2000 } }
+# EAI_avoid_transport_region_174 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 174 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 174 value = 2000 } }
+# EAI_avoid_transport_region_46 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 46 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 46 value = 2000 } }
+# EAI_avoid_transport_region_45 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 45 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 45 value = 2000 } }
+# EAI_avoid_transport_region_44 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 44 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 44 value = 2000 } }
+# EAI_avoid_transport_region_49 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 49 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 49 value = 2000 } }
+# EAI_avoid_transport_region_47 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 47 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 47 value = 2000 } }
+# EAI_avoid_transport_region_42 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 42 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 42 value = 2000 } }
+# EAI_avoid_transport_region_50 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 50 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 50 value = 2000 } }
+# EAI_avoid_transport_region_51 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 51 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 51 value = 2000 } }
+# EAI_avoid_transport_region_55 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 55 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 55 value = 2000 } }
+# EAI_avoid_transport_region_56 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 56 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 56 value = 2000 } }
+# EAI_avoid_transport_region_57 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 57 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 57 value = 2000 } }
+# EAI_avoid_transport_region_54 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 54 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 54 value = 2000 } }
+# EAI_avoid_transport_region_170 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 170 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 170 value = 2000 } }
+# EAI_avoid_transport_region_52 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 52 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 52 value = 2000 } }
+# EAI_avoid_transport_region_53 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 53 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 53 value = 2000 } }
+# EAI_avoid_transport_region_59 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 59 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 59 value = 2000 } }
+# EAI_avoid_transport_region_58 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 58 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 58 value = 2000 } }
+# EAI_avoid_transport_region_48 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 48 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 48 value = 2000 } }
+# EAI_avoid_transport_region_166 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 166 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 166 value = 2000 } }
+
+# # south atlantic
+# EAI_avoid_transport_region_68 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 61 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 61 value = 2000 } }
+# EAI_avoid_transport_region_68 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 66 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 66 value = 2000 } }
+# EAI_avoid_transport_region_68 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 62 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 62 value = 2000 } }
+# EAI_avoid_transport_region_68 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 64 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 64 value = 2000 } }
+# EAI_avoid_transport_region_68 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 67 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 67 value = 2000 } }
+# EAI_avoid_transport_region_68 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 65 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 65 value = 2000 } }
+
+# # indian ocean
+# EAI_avoid_transport_region_103 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 103 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 103 value = 2000 } }
+# EAI_avoid_transport_region_102 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 102 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 102 value = 2000 } }
+# EAI_avoid_transport_region_104 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 104 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 104 value = 2000 } }
+# EAI_avoid_transport_region_60 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 60 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 60 value = 2000 } }
+# EAI_avoid_transport_region_85 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 85 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 85 value = 2000 } }
+# EAI_avoid_transport_region_74 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 74 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 74 value = 2000 } }
+# EAI_avoid_transport_region_71 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 71 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 71 value = 2000 } }
+# EAI_avoid_transport_region_101 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 101 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 101 value = 2000 } }
+# EAI_avoid_transport_region_99 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 99 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 99 value = 2000 } }
+
+# # west pacific
+# EAI_avoid_transport_region_73 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 73 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 73 value = 2000 } }
+# EAI_avoid_transport_region_72 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 72 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 72 value = 2000 } }
+# EAI_avoid_transport_region_75 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 75 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 75 value = 2000 } }
+# EAI_avoid_transport_region_93 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 93 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 93 value = 2000 } }
+# EAI_avoid_transport_region_80 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 80 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 80 value = 2000 } }
+# EAI_avoid_transport_region_92 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 92 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 92 value = 2000 } }
+# EAI_avoid_transport_region_91 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 91 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 91 value = 2000 } }
+# EAI_avoid_transport_region_82 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 82 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 82 value = 2000 } }
+# EAI_avoid_transport_region_81 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 81 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 81 value = 2000 } }
+# EAI_avoid_transport_region_86 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 86 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 86 value = 2000 } }
+# EAI_avoid_transport_region_83 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 83 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 83 value = 2000 } }
+# EAI_avoid_transport_region_84 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 84 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 84 value = 2000 } }
+# EAI_avoid_transport_region_78 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 78 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 78 value = 2000 } }
+# EAI_avoid_transport_region_76 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 76 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 76 value = 2000 } }
+# EAI_avoid_transport_region_77 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 77 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 77 value = 2000 } }
+# EAI_avoid_transport_region_79 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 79 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 79 value = 2000 } }
+# EAI_avoid_transport_region_90 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 90 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 90 value = 2000 } }
+# EAI_avoid_transport_region_94 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 94 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 94 value = 2000 } }
+# EAI_avoid_transport_region_177 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 177 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 177 value = 2000 } }
+# EAI_avoid_transport_region_87 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 87 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 87 value = 2000 } }
+# EAI_avoid_transport_region_97 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 97 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 97 value = 2000 } }
+# EAI_avoid_transport_region_180 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 180 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 180 value = 2000 } }
+# EAI_avoid_transport_region_95 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 95 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 95 value = 2000 } }
+# EAI_avoid_transport_region_96 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 96 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 96 value = 2000 } }
+# EAI_avoid_transport_region_88 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 88 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 88 value = 2000 } }
+
+# # east pacific
+# EAI_avoid_transport_region_112 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 112 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 112 value = 2000 } }
+# EAI_avoid_transport_region_178 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 178 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 178 value = 2000 } }
+# EAI_avoid_transport_region_179 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 179 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 179 value = 2000 } }
+# EAI_avoid_transport_region_113 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 113 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 113 value = 2000 } }
+# EAI_avoid_transport_region_32 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 32 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 32 value = 2000 } }
+# EAI_avoid_transport_region_63 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 63 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 63 value = 2000 } }
+# EAI_avoid_transport_region_108 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 108 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 108 value = 2000 } }
+# EAI_avoid_transport_region_109 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 109 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 109 value = 2000 } }
+# EAI_avoid_transport_region_107 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 107 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 107 value = 2000 } }
+# EAI_avoid_transport_region_110 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 110 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 110 value = 2000 } }
+# EAI_avoid_transport_region_175 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 175 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 175 value = 2000 } }
+# EAI_avoid_transport_region_172 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 172 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 172 value = 2000 } }
+# EAI_avoid_transport_region_105 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 105 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 105 value = 2000 } }
+# EAI_avoid_transport_region_111 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 111 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 111 value = 2000 } }
+# EAI_avoid_transport_region_106 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 106 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 106 value = 2000 } }
+# EAI_avoid_transport_region_89 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 89 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 89 value = 2000 } }
+# EAI_avoid_transport_region_171 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 171 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 171 value = 2000 } }
+# EAI_avoid_transport_region_114 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 114 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 114 value = 2000 } }
+# EAI_avoid_transport_region_176 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 176 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 176 value = 2000 } }
+# EAI_avoid_transport_region_105 = { enable = { NOT = { has_global_flag = EAI_performance_mode } any_enemy_country = { ships_in_area = { area = 105 size > 9 } } } abort_when_not_enabled = yes ai_strategy = { type = naval_avoid_region id = 105 value = 2000 } }
