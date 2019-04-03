@@ -2028,7 +2028,7 @@ NAI = {
 	
 	HIGH_PRIO_NAVAL_MISSION_SCORES = {  -- priorities for regions to get assigned to a mission
 		0, -- HOLD (consumes fuel HOLD_MISSION_MOVEMENT_COST fuel while moving)
-		100000, -- PATROL		
+		1000, -- PATROL		
 		1000, -- STRIKE FORCE 
 		1500, -- CONVOY RAIDING
 		1000, -- CONVOY ESCORT
