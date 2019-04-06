@@ -865,8 +865,7 @@ country_event = {
 		}
 		if = {
 			limit = {
-				NOT = { is_in_faction_with = CHI }
-				CHI = { is_in_faction = no }
+				is_in_faction = no
 			}
 			CHI = {
 				set_rule = { can_create_factions = yes }
@@ -903,6 +902,10 @@ country_event = {
 			base = 20
 			modifier = {
 				has_country_flag = SOV_xian_refuse
+				factor = 0
+			}
+			modifier = {
+				is_historical_focus_on = yes
 				factor = 0
 			}
 		}
@@ -1149,13 +1152,12 @@ country_event = {
 		ai_chance = {
 			base = 50
 		}
-		#hidden_effect = {
-		#	news_event = { id = news.288 days = 1 } # United Front forms
-		#}
+		hidden_effect = {
+			news_event = { id = news.288 days = 1 } # United Front forms
+		}
 		if = {
 			limit = {
-				NOT = { is_in_faction_with = CHI }
-				CHI = { is_in_faction = no }
+				is_in_faction = no
 			}
 			CHI = {
 				set_rule = { can_create_factions = yes }
@@ -1377,8 +1379,7 @@ country_event = {
 		}
 		if = {
 			limit = {
-				NOT = { is_in_faction_with = CHI }
-				CHI = { is_in_faction = no }
+				is_in_faction = no
 			}
 			CHI = {
 				set_rule = { can_create_factions = yes }
@@ -1415,6 +1416,10 @@ country_event = {
 			base = 20
 			modifier = {
 				has_country_flag = SOV_xian_refuse
+				factor = 0
+			}
+			modifier = {
+				is_historical_focus_on = yes
 				factor = 0
 			}
 		}
@@ -1666,12 +1671,52 @@ country_event = {
 		}
 		if = {
 			limit = {
-				NOT = { is_in_faction_with = CHI }
-				CHI = { is_in_faction = no }
+				is_in_faction = no
 			}
 			CHI = {
 				set_rule = { can_create_factions = yes }
 				create_faction = chinese_united_front
+			}
+		}
+		CCP = { 
+				add_ai_strategy = {
+					type = alliance
+					id = "CHI"
+					value = 200
+				}
+			}
+			CHI = { 
+				add_ai_strategy = {
+					type = alliance
+					id = "CCP"
+					value = 200
+				}
+			}
+			CCP = { 
+				add_ai_strategy = {
+					type = conquer
+					id = "CHI"
+					value = -100
+				}
+			}
+			CHI = { 
+				add_ai_strategy = {
+					type = conquer
+					id = "CCP"
+					value = -100
+				}
+			}
+		if = {
+			limit = {
+				CHI = { is_faction_leader = yes }
+			}
+			CHI = { add_to_faction = CCP }
+			
+			every_country = {
+				limit = {
+					is_subject_of = CHI
+				}
+				CHI = { add_to_faction = PREV }
 			}
 		}
 		if = {
@@ -1692,7 +1737,21 @@ country_event = {
 				}
 				CHI = { add_to_faction = PREV }
 			}
+			set_global_flag = CHI_unite
+	    	set_global_flag = CHI_unite_CCP
 		}
+		CHI = {
+				remove_ideas = CHI_encircle_communists_1
+				remove_ideas = CHI_encircle_communists_2
+				if = { 
+				limit = { has_war_with = CCP }
+				white_peace = CCP
+				}
+			}
+			CCP = {
+				remove_ideas  = CHI_encircled_by_nationalists
+			}
+		
 		event_target:CHI_xian_instigator = { clr_country_flag = CHI_xian_instigator_flag }
 	}
 
