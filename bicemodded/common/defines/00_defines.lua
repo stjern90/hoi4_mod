@@ -1098,7 +1098,7 @@ NNavy = {
 	IN_COMBAT_FUEL_COST = 2.0,										-- ships in combat will get this ratio for fuel cost
 	
 	MAX_FUEL_FLOW_MULT = 2.0, -- max fuel flow ratio for ships, which will be multiplied by supply
-	FUEL_COST_MULT = 0.10, -- fuel multiplier for all naval missions
+	FUEL_COST_MULT = 0.05, -- fuel multiplier for all naval missions
 	
 	OUT_OF_FUEL_SPEED_FACTOR = -0.75,
 	OUT_OF_FUEL_RANGE_FACTOR = -0.75,
