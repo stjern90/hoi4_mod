@@ -401,7 +401,7 @@ NTechnology = {
 	LICENSE_PRODUCTION_TECH_BONUS = 0.2,	-- License production tech bonus
     DEFAULT_XP_RESEARCH_COST = 100,			-- default xp cost of a research to speed up the process
 	DEFAULT_XP_RESEARCH_BONUS = 1.0,		-- default research bonus gained when xp is used to research an item
-	MIN_RESEARCH_SPEED = 0.1,				-- research speed can't go below this value
+	MIN_RESEARCH_SPEED = 0.15,				-- research speed can't go below this value
 },
 
 NPolitics = {
@@ -772,11 +772,11 @@ NMilitary = {
 	
 	UNIT_UPKEEP_ATTRITION = 0.00,							--Constant attrition value applied to armies.
 
-	FUEL_PENALTY_START_RATIO = 0.33,				-- ratio of fuel in an army to start getting penalties
+	FUEL_PENALTY_START_RATIO = 0.25,				-- ratio of fuel in an army to start getting penalties
 	
 	SURPLUS_SUPPLY_RATIO_FOR_ZERO_FUEL_FLOW = 1.5,		-- if a supply chunk has more supply needed than this ratio + 1 compared to its max supply flow, the units inside the chiunk will get no fuel 
 	
-	ARMY_MAX_FUEL_FLOW_MULT = 0.6,					-- max fuel ratio that an army can get per hour, multiplied by supply situation
+	ARMY_MAX_FUEL_FLOW_MULT = 1.5,					-- max fuel ratio that an army can get per hour, multiplied by supply situation
 	
 	ARMY_FUEL_COST_MULT = 0.4,						-- fuel cost multiplier for all army related stuff
 	ARMY_COMBAT_FUEL_MULT =   1.0,					-- fuel consumption ratio in combat (plus ARMY_MOVEMENT_FUEL_MULT if you are also moving. ie offensive combat)
@@ -1033,15 +1033,15 @@ NNavy = {
 	LEADER_EXPERIENCE_SCALE = 1.0,
 	BATTLE_NAME_VP_FACTOR = 100,									-- Name is given by ((VP value) * BATTLE_NAME_VP_FACTOR) / (Distance VP -> battle)
 	BATTLE_NAME_VP_CUTOFF = 1.0,									-- If best score of above calculation is below this, name will be that of region.
-	AMPHIBIOUS_LANDING_PENALTY = -0.7,								-- amphibious landing penalty
+	AMPHIBIOUS_LANDING_PENALTY = -0.75,								-- amphibious landing penalty
 	AMPHIBIOUS_INVADE_SPEED_BASE = 0.5, 							-- every hour movement progress on amphibious invasion
 	AMPHIBIOUS_INVADE_MOVEMENT_COST = 24.0, 						-- total progress cost of movement while amphibious invading
-	AMPHIBIOUS_INVADE_ATTACK_LOW = 0.2, 							-- low and high cap of attack modifier scale. Scale interpolated by invasion progress.
+	AMPHIBIOUS_INVADE_ATTACK_LOW = 0.15, 							-- low and high cap of attack modifier scale. Scale interpolated by invasion progress.
 	AMPHIBIOUS_INVADE_ATTACK_HIGH = 1.0,
 	AMPHIBIOUS_INVADE_DEFEND_LOW = 1.5, 							-- low and high cap of defend modifier scale. Scale interpolated by invasion progress.
 	AMPHIBIOUS_INVADE_DEFEND_HIGH = 1.0,
 	AMPHIBIOUS_INVADE_LANDING_PENALTY_DECREASE = 3.5, 				-- scale of bonus that decreases "amphibious penalty" during combat, relative to invading transporter tech.
-	BASE_CARRIER_SORTIE_EFFICIENCY = 0.5,							-- factor of planes that can sortie by default from a carrier
+	BASE_CARRIER_SORTIE_EFFICIENCY = 0.60,							-- factor of planes that can sortie by default from a carrier
 	CONVOY_ATTACK_BASE_FACTOR = 0.15,                               -- base % of convoys that get intercepted
 	NAVAL_SPEED_MODIFIER = 0.1,	                    				-- basic speed control
 	NAVAL_RANGE_TO_INGAME_DISTANCE = 0.12,							-- Scale the ship stats "naval_range" to the ingame distance
@@ -1058,7 +1058,7 @@ NNavy = {
 	SUBMARINE_HIDE_TIMEOUT = 16,										-- Amount of in-game-hours that takes the submarine (with position unrevealed), to hide.
 	SUBMARINE_REVEALED_TIMEOUT = 12,								-- Amount of in-game-hours that makes the submarine visible if it is on the defender side.
 	SUBMARINE_REVEAL_BASE_CHANCE = 5,							    -- Base chance for submarine detection. It's modified by the difference of a spootter's submarines detection vs submarine visibility. Use this variable for game balancing. value is 1/10000 chance
-	SHORE_BOMBARDMENT_CAP = 0.25,
+	SHORE_BOMBARDMENT_CAP = 0.3,
 	ANTI_AIR_TARGETING = 0.9,                                       -- how good ships are at hitting aircraft
 	MIN_TRACTED_ASSIST_DAMAGE_RATIO = 0.05,							-- How much damage counts as assist damage
 	SUPPLY_NEED_FACTOR = 4,										    -- multiplies supply usage
