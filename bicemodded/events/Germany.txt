@@ -81,29 +81,63 @@ country_event = {
 		}
 	}
 }
-#Non agression UK
+#Oil Weapon Treaty
 country_event = {
 	id = germany.250
 	title = germany.250.t
 	desc = germany.250.d
-	picture = GFX_report_event_lord_halifax
+	picture = GFX_report_event_hitler_and_generals
 	
 	is_triggered_only = yes
 	
 	option = {
-		name = germany.250.a	#join
+		name = germany.250.a	#accept
 		ai_chance = {
-			factor = 0
-			}
-		diplomatic_relation = { country = GER relation = non_aggression_pact }
+			factor = 100
 		}
+			if = {
+				limit = {
+					has_dlc = "Man the Guns"
+				}
+				ROM = {
+					give_resource_rights = { receiver = GER state = 46 }
+				}
+				else = {
+					random_owned_controlled_state = {
+						prioritize = { 65 }
+						add_extra_state_shared_building_slots = 1
+						add_building_construction = {
+						type = synthetic_refinery
+						level = 1
+						instant_build = yes
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					ROM = {
+						has_tech = infantry_weapons1
+					}
+				}
+				ROM = {
+				add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 1500 producer = GER }
+				add_equipment_to_stockpile = { type = infantry_uniforms  amount = 1500 producer = GER }
+				add_equipment_to_stockpile = { type = support_equipment_1 amount = 1500 producer = GER }
+				}
+			} 
+			ROM = { 
+			add_opinion_modifier = { target = GER modifier = pact_of_steel_opinion }
+			}
+	}
+	
 	option = {
 		name = germany.250.b	#refuse
 		ai_chance = {
-			factor = 100
+			factor = 0
 			}
 		add_opinion_modifier = { target = GER modifier = hostile_status }
-		GER = { add_opinion_modifier = { target = ENG modifier = hostile_status}
+		GER = { add_opinion_modifier = { target = ROM modifier = hostile_status}
 		}
 	}
 }
