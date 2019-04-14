@@ -139,7 +139,6 @@ ability = {
 		}
 	}
 	
-	
 	siege_artillery = {
 		name = ABILITY_SIEGE_ARTILLERY
 		desc = ABILITY_SIEGE_ARTILLERY_DESC
@@ -148,13 +147,66 @@ ability = {
 		
 		allowed = {
 			has_ability = siege_artillery
-			is_border_war = no
+			is_leading_army_group = no
+			is_border_war = no			
+		}
+		
+		unit_modifiers = {
+			fort = {
+				attack = 0.1
+			}
+			fortification_damage = 1.0
+			fortification_collateral_chance = 1.0
+		}
+		cost = 0.1
+		duration = 168
+		
+		
+		ai_will_do = {
+			factor = -1
+			modifier = {
+				FROM = {
+					command_power > 1.5
+				}
+				
+				set_temp_variable = { temp = num_units_offensive_combats }
+				check_variable = { temp > 6 }
+				set_temp_variable = { temp2 = num_units_offensive_combats_against@fort }
+				divide_temp_variable = { temp2 = temp }
+				check_variable = { temp2 > 0.5 }
+				
+				add = 2
+			}
+			modifier = {
+				FROM = {
+					command_power > 1.5
+				}
+				set_temp_variable = { temp2 = num_units_offensive_combats_against@fort }
+				check_variable = { temp2 > 8 }
+				
+				add = 2
+			}
+		}
+	}
+	
+	heavy_siege_artillery = {
+		name = ABILITY_SIEGE_ARTILLERY
+		desc = ABILITY_SIEGE_ARTILLERY_DESC
+		
+		type = army_leader
+		
+		allowed = {
+			has_ability = heavy_siege_artillery
+			is_leading_army_group = no
+			is_border_war = no			
+			check_variable = { num_artillery > 1 }
 		}
 		
 		unit_modifiers = {
 			fort = {
 				attack = 0.2
 			}
+			army_artillery_attack_factor = 0.05
 			fortification_damage = 2.0
 			fortification_collateral_chance = 2.0
 		}
