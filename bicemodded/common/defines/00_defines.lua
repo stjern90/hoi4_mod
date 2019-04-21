@@ -1293,7 +1293,7 @@ NNavy = {
 	BASE_NAVAL_INVASION_SPOTTING_SPEED = 0.0,						-- daily base spotting speed against unit transfers
 
 	CONVOY_SPOTTING_SPEED_MULT = 1.0,								-- spotting speed mult against convoys
-	UNIT_TRANSFER_SPOTTING_SPEED_MULT = 5.0,						-- spotting speed mult against unit transfers
+	UNIT_TRANSFER_SPOTTING_SPEED_MULT = 2.0,						-- spotting speed mult against unit transfers
 	NAVAL_INVASION_SPOTTING_SPEED_MULT = 10.0,						-- spotting speed mult against naval invasion armies
 	
 	
@@ -1302,7 +1302,7 @@ NNavy = {
 	SPOTTING_SPEED_EFFECT_FOR_INITIAL_CONVOY_SPOTTING = 1.20,		-- effect of convoy spotting speed for initial spotting of regular convoys. this along with prev value is added together and rolled a random once for every convoy to check for spotting
 	SPOTTING_MOD_FOR_CONVOY_COUNT = 0.2,							-- a modifier for scaling the count of convoys on a parabolic curve (counvoy_count ^ SPOTTING_MOD_FOR_CONVOY_COUNT)
 
-	UNIT_TRANSFER_DETECTION_CHANCE_BASE = 25.02,						-- unit transfer and naval invasion base chance detection percentage (if this fails, no detection is done on that tick)
+	UNIT_TRANSFER_DETECTION_CHANCE_BASE = 10.02,						-- unit transfer and naval invasion base chance detection percentage (if this fails, no detection is done on that tick)
 	BASE_SPOTTING_EFFECT_FOR_INITIAL_UNIT_TRANSFER_SPOTTING = 10.0,	-- same as BASE_SPOTTING_EFFECT_FOR_INITIAL_CONVOY_SPOTTING, but for naval transfer convoys
 	SPOTTING_SPEED_EFFECT_FOR_INITIAL_UNIT_TRANSFER_SPOTTING = 20.0, -- same as SPOTTING_SPEED_EFFECT_FOR_INITIAL_CONVOY_SPOTTING, but for naval transfer convoys
 	BASE_SPOTTING_EFFECT_FOR_INITIAL_NAVAL_INVASION_SPOTTING = 2.4,    -- same as BASE_SPOTTING_EFFECT_FOR_INITIAL_CONVOY_SPOTTING, but for naval invasion convoys
@@ -1790,8 +1790,8 @@ NAI = {
 	UPGRADE_DIVISION_RELUCTANCE = 1.0,					-- How often to consider upgrading to new templates for units in the field
 	UPGRADE_PERCENTAGE_OF_FORCES = 0.005,					-- How big part of the army that should be considered for upgrading
 
-	REFIT_SHIP_RELUCTANCE = 28,							-- How often to consider refitting to new equipment variants for ships in the field
-	REFIT_SHIP_PERCENTAGE_OF_FORCES = 0.1,				-- How big part of the navy that should be considered for refitting
+	REFIT_SHIP_RELUCTANCE = 500,							-- How often to consider refitting to new equipment variants for ships in the field
+	REFIT_SHIP_PERCENTAGE_OF_FORCES = 0.0,				-- How big part of the navy that should be considered for refitting
 	NAVY_PREFERED_MAX_SIZE = 55,						-- AI will generally attempt to merge fleets into this size, but as a soft limit.
 	INVASION_COASTAL_PROVS_PER_ORDER = 28,				-- AI will consider one extra invasion per number of provinces stated here (num orders = total coast / this)
 
@@ -2028,7 +2028,7 @@ NAI = {
 	
 	HIGH_PRIO_NAVAL_MISSION_SCORES = {  -- priorities for regions to get assigned to a mission
 		0, -- HOLD (consumes fuel HOLD_MISSION_MOVEMENT_COST fuel while moving)
-		1000, -- PATROL		
+		3800, -- PATROL		
 		1000, -- STRIKE FORCE 
 		1500, -- CONVOY RAIDING
 		1000, -- CONVOY ESCORT
@@ -2054,19 +2054,19 @@ NAI = {
 	
 	-- all-screen taskforces will be shared between convoy defense, mine missions and patrols (in this prio) 
 	-- and these ratios limits the maximum ratio of these taskforces to allocate on type
-	MAX_SCREEN_TASKFORCES_FOR_CONVOY_DEFENSE_MIN = 0.20, -- maximum ratio of all screen-ships forces to be used in convoy defense (increases up to max as AI loses convoys).
+	MAX_SCREEN_TASKFORCES_FOR_CONVOY_DEFENSE_MIN = 0.40, -- maximum ratio of all screen-ships forces to be used in convoy defense (increases up to max as AI loses convoys).
 	MAX_SCREEN_TASKFORCES_FOR_CONVOY_DEFENSE_MAX = 0.70, -- maximum ratio of all screen-ships forces to be used in convoy defense (increases up to max as AI loses convoys).
 	MAX_SCREEN_TASKFORCES_FOR_CONVOY_DEFENSE_MIN_CONVOY_THREAT = 100, -- AI will increase screen assignment for escort missions as threate increases
 	MAX_SCREEN_TASKFORCES_FOR_CONVOY_DEFENSE_MAX_CONVOY_THREAT = 1500,-- AI will increase screen assignment for escort missions as threate increases
 	
 	
-	MAX_SCREEN_TASKFORCES_FOR_MINE_SWEEPING = 0.15, -- maximum ratio of screens forces to be used in mine sweeping
+	MAX_SCREEN_TASKFORCES_FOR_MINE_SWEEPING = 0.05, -- maximum ratio of screens forces to be used in mine sweeping
 	MAX_SCREEN_TASKFORCES_FOR_MINE_SWEEPING_PRIO = 0.8, -- if you have mines near your owned states, you will start priotize mine missions and will assign this ratio of screens
 	MAX_SCREEN_TASKFORCES_FOR_MINE_SWEEPING_PRIO_MIN_MINES = 10, -- lowest mine for prioing mine missions
 	MAX_SCREEN_TASKFORCES_FOR_MINE_SWEEPING_PRIO_MAX_MINES = 1000, -- highest mines for highest prio for mine missions
 	
 	
-	MAX_SCREEN_TASKFORCES_FOR_MINE_LAYING = 0.15, -- maximum ratio of screens forces to be used in mine laying
+	MAX_SCREEN_TASKFORCES_FOR_MINE_LAYING = 0.05, -- maximum ratio of screens forces to be used in mine laying
 	MAX_SCREEN_FORCES_FOR_INVASION_SUPPORT = 0.0, -- max ratio of screens forces to be used in naval invasion missions
 	MAX_CAPITAL_FORCES_FOR_INVASION_SUPPORT = 0.4, -- max ratio of capital forces to be used in naval invasion missions
 	MAX_PATROL_TO_STRIKE_FORCE_RATIO = 3.0,	-- maximum patrol/strike force ratio
@@ -2114,9 +2114,9 @@ NAI = {
 	NAVAL_BASE_RATIO_ALLOCATED_FOR_REPAIRS_IN_WAR_TIME = 0.6,	-- ai will allocate at most this ratio of dockyards for repairs in war time
 	
 	MAX_FUEL_CONSUMPTION_RATIO_FOR_AIR_TRAINING = 0.25,			-- ai will use at most this ratio of affordable fuel for air training
-	MAX_FUEL_CONSUMPTION_RATIO_FOR_NAVY_TRAINING = 0.25,		-- ai will use at most this ratio of affordable fuel for naval training
+	MAX_FUEL_CONSUMPTION_RATIO_FOR_NAVY_TRAINING = 0.2,		-- ai will use at most this ratio of affordable fuel for naval training
 	
-	MAX_FULLY_TRAINED_SHIP_RATIO_FOR_TRAINING = 0.7,			-- ai will not train a taskforce if fully trained ships are above this ratio
+	MAX_FULLY_TRAINED_SHIP_RATIO_FOR_TRAINING = 0.8,			-- ai will not train a taskforce if fully trained ships are above this ratio
 	
 	NUM_SILOS_PER_CIVILIAN_FACTORIES = 0.0025,					-- ai will try to build a silo per this ratio of civ factories
 	NUM_SILOS_PER_MILITARY_FACTORIES = 0.012,					-- ai will try to build a silo per this ratio of mil factories
@@ -2133,7 +2133,7 @@ NAI = {
 	AGGRESSIVENESS_CHECK_CAREFUL = 0.6,                         -- at what front strength balance do we go careful
 	FRONT_EVAL_UNIT_ACCURACY = 0.95,                             -- scale how stupid ai will act on fronts. 0 is potato
 
-	PRODUCTION_CARRIER_PLANE_BUFFER_RATIO = 1.5,				-- in additiona to total deck size of carriers, we want at list this ratio to buffer it
+	PRODUCTION_CARRIER_PLANE_BUFFER_RATIO = 1.7,				-- in additiona to total deck size of carriers, we want at list this ratio to buffer it
 	PRODUCTION_CARRIER_PLANE_PRODUCTION_BOOST_TO_BUFFER = 4.0,  -- production of carrier planes will go up by this ratio if we lack buffers
 	
 	
