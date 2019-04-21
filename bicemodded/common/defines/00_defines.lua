@@ -1058,7 +1058,7 @@ NNavy = {
 	SUBMARINE_HIDE_TIMEOUT = 16,										-- Amount of in-game-hours that takes the submarine (with position unrevealed), to hide.
 	SUBMARINE_REVEALED_TIMEOUT = 12,								-- Amount of in-game-hours that makes the submarine visible if it is on the defender side.
 	SUBMARINE_REVEAL_BASE_CHANCE = 5,							    -- Base chance for submarine detection. It's modified by the difference of a spootter's submarines detection vs submarine visibility. Use this variable for game balancing. value is 1/10000 chance
-	SHORE_BOMBARDMENT_CAP = 0.3,
+	SHORE_BOMBARDMENT_CAP = 0.35,
 	ANTI_AIR_TARGETING = 0.9,                                       -- how good ships are at hitting aircraft
 	MIN_TRACTED_ASSIST_DAMAGE_RATIO = 0.05,							-- How much damage counts as assist damage
 	SUPPLY_NEED_FACTOR = 4,										    -- multiplies supply usage
@@ -2016,7 +2016,7 @@ NAI = {
 	MIN_NAVAL_MISSION_PRIO_TO_ASSIGN = {  -- priorities for regions to get assigned to a mission
 		0, -- HOLD (consumes fuel HOLD_MISSION_MOVEMENT_COST fuel while moving)
 		200, -- PATROL		
-		200, -- STRIKE FORCE 
+		800, -- STRIKE FORCE 
 		200, -- CONVOY RAIDING
 		100, -- CONVOY ESCORT
 		200, -- MINES PLANTING	
@@ -2028,8 +2028,8 @@ NAI = {
 	
 	HIGH_PRIO_NAVAL_MISSION_SCORES = {  -- priorities for regions to get assigned to a mission
 		0, -- HOLD (consumes fuel HOLD_MISSION_MOVEMENT_COST fuel while moving)
-		3800, -- PATROL		
-		1000, -- STRIKE FORCE 
+		1000, -- PATROL		
+		5000, -- STRIKE FORCE 
 		1500, -- CONVOY RAIDING
 		1000, -- CONVOY ESCORT
 		-1, -- MINES PLANTING	
@@ -2041,8 +2041,8 @@ NAI = {
 	
 	MAX_MISSION_PER_TASKFORCE = {  -- max mission region/taskforce ratio
 		0, -- HOLD (consumes fuel HOLD_MISSION_MOVEMENT_COST fuel while moving)
-		1.5, -- PATROL		
-		6, -- STRIKE FORCE 
+		3, -- PATROL		
+		4, -- STRIKE FORCE 
 		1.5, -- CONVOY RAIDING
 		4, -- CONVOY ESCORT
 		2, -- MINES PLANTING
