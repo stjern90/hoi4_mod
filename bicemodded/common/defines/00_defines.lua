@@ -1120,7 +1120,7 @@ NNavy = {
 
 	AGGRESSION_SETTINGS_VALUES = { -- ships will use this values while deciding to attack enemies
 		0,		-- do not engage
-		0.5,	-- low
+		0.6,	-- low
 		0.9,	-- medium
 		2.0,	-- high
 		10000,	-- I am death incarnate!
@@ -1523,7 +1523,7 @@ NAI = {
 	RESEARCH_BASE_DAYS = 85,					-- AI adds a base number of days when weighting completion time for techs to ensure it doesn't only research quick techs
 	DECLARE_WAR_RELATIVE_FORCE_FACTOR = 0.5,	-- Weight of relative force between nations that consider going to war
 	TRADEABLE_FACTORIES_FRACTION = 1,			-- Will at most trade away this fraction of factories.
-	MIN_DELIVERED_TRADE_FRACTION = 0.6,			-- AI will cancel trade deals that are not able to deliver more than this fraction of the agreed amount
+	MIN_DELIVERED_TRADE_FRACTION = 0.4,			-- AI will cancel trade deals that are not able to deliver more than this fraction of the agreed amount
 	SEA_PATH_LENGTH_SCORE_BASE = -30,           -- scoring reduction from naval paths for AI when picking trade partners
 	NAVAL_TRANSPORTS_FASEA_PATH_LENGTH_SCORE_BASE = -30,           -- scoring reduction from naval paths for AI when picking trade partners
 	MINIMUM_GOOD_TRADE_RATIO_PER_CIV = 0.005,   -- for each civ factory we have mul with this we are allowed to trade under % of resource on a trade
@@ -2016,7 +2016,7 @@ NAI = {
 	MIN_NAVAL_MISSION_PRIO_TO_ASSIGN = {  -- priorities for regions to get assigned to a mission
 		0, -- HOLD (consumes fuel HOLD_MISSION_MOVEMENT_COST fuel while moving)
 		200, -- PATROL		
-		800, -- STRIKE FORCE 
+		400, -- STRIKE FORCE 
 		200, -- CONVOY RAIDING
 		100, -- CONVOY ESCORT
 		200, -- MINES PLANTING	
@@ -2029,7 +2029,7 @@ NAI = {
 	HIGH_PRIO_NAVAL_MISSION_SCORES = {  -- priorities for regions to get assigned to a mission
 		0, -- HOLD (consumes fuel HOLD_MISSION_MOVEMENT_COST fuel while moving)
 		1000, -- PATROL		
-		5000, -- STRIKE FORCE 
+		2000, -- STRIKE FORCE 
 		1500, -- CONVOY RAIDING
 		1000, -- CONVOY ESCORT
 		-1, -- MINES PLANTING	
@@ -2071,15 +2071,15 @@ NAI = {
 	MAX_CAPITAL_FORCES_FOR_INVASION_SUPPORT = 0.4, -- max ratio of capital forces to be used in naval invasion missions
 	MAX_PATROL_TO_STRIKE_FORCE_RATIO = 3.0,	-- maximum patrol/strike force ratio
 	
-	MAX_FACTORY_TO_SPARE_FOR_MISSION_FUEL_TRADE = 0.25, 						-- amount of factories to spend on oil trade in case of fuel need for missions
+	MAX_FACTORY_TO_SPARE_FOR_MISSION_FUEL_TRADE = 0.3, 						-- amount of factories to spend on oil trade in case of fuel need for missions
 	MAX_FACTORY_TO_SPARE_FOR_CRITICAL_MISSION_FUEL_TRADE = 0.5, 			-- amount of factories to spend on oil trade in case of fuel need for prio missions
-	MAX_FACTORY_TO_TRADE_FOR_FUEL = 0.5,
+	MAX_FACTORY_TO_TRADE_FOR_FUEL = 0.55,
 	
 	FUEL_TRADE_PRIO_FOR_CONVOY_DEFENSE = 0.3,								-- AI will be less reluctant to cancel convoy missions if it is trading for oil
 	
-	MAX_FACTORY_TO_SPARE_FOR_MISSION_FUEL_TRADE_IN_PEACE = 0.1, 			-- amount of factories to spend on oil trade in case of fuel need for missions in peace time
-	MAX_FACTORY_TO_SPARE_FOR_CRITICAL_MISSION_FUEL_TRADE_IN_PEACE = 0.2, 	-- amount of factories to spend on oil trade in case of fuel need for prio missions in peace time
-	MAX_FACTORY_TO_TRADE_FOR_FUEL_IN_PEACE = 0.5,
+	MAX_FACTORY_TO_SPARE_FOR_MISSION_FUEL_TRADE_IN_PEACE = 0.2, 			-- amount of factories to spend on oil trade in case of fuel need for missions in peace time
+	MAX_FACTORY_TO_SPARE_FOR_CRITICAL_MISSION_FUEL_TRADE_IN_PEACE = 0.3, 	-- amount of factories to spend on oil trade in case of fuel need for prio missions in peace time
+	MAX_FACTORY_TO_TRADE_FOR_FUEL_IN_PEACE = 0.55,
 
 
 	FUEL_REQUEST_RATIO_FOR_COMBATS = 0.6,									-- ratio of ship combat fuel cost that is to be considered in fuel usage and request system
@@ -2133,7 +2133,7 @@ NAI = {
 	AGGRESSIVENESS_CHECK_CAREFUL = 0.6,                         -- at what front strength balance do we go careful
 	FRONT_EVAL_UNIT_ACCURACY = 0.95,                             -- scale how stupid ai will act on fronts. 0 is potato
 
-	PRODUCTION_CARRIER_PLANE_BUFFER_RATIO = 1.7,				-- in additiona to total deck size of carriers, we want at list this ratio to buffer it
+	PRODUCTION_CARRIER_PLANE_BUFFER_RATIO = 3,				-- in additiona to total deck size of carriers, we want at list this ratio to buffer it
 	PRODUCTION_CARRIER_PLANE_PRODUCTION_BOOST_TO_BUFFER = 4.0,  -- production of carrier planes will go up by this ratio if we lack buffers
 	
 	
