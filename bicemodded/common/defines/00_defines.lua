@@ -1805,7 +1805,7 @@ NAI = {
 	PLAN_ACTIVATION_MAJOR_WEIGHT_FACTOR = 1,			-- AI countries will hold on activating plans if stronger countries have plans in the same location. Majors count extra (value of 1 will negate this)
 	PLAN_ACTIVATION_PLAYER_WEIGHT_FACTOR = 1,		-- AI countries will hold on activating plans if player controlled countries have plans in the same location. Majors count extra (value of 1 will negate this)
 	AREA_DEFENSE_BASE_IMPORTANCE = 4,					-- Area defense order base importance value (used for determining order of troop selections)
-	AREA_DEFENSE_CIVIL_WAR_IMPORTANCE = 10000,			-- Area defense order importance value when a country is in a civil war as target or revolter.
+	AREA_DEFENSE_CIVIL_WAR_IMPORTANCE = 7,			-- Area defense order importance value when a country is in a civil war as target or revolter.
 
 	COMBINED_ARMS_LEVEL = 1,							-- 0 = Never, 1 = Infantry/Artillery, 2 = Go wild
 	MAX_DISTANCE_NALAV_INVASION = 350.0,				-- AI is extremely unwilling to plan naval invasions above this naval distance limit.
