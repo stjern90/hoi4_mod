@@ -1368,7 +1368,7 @@ NNavy = {
 	LIGHT_GUN_ATTACK_TO_SHORE_BOMBARDMENT							= 0.05, -- light gun attack value is divided by this value * 100 and added to shore bombardment modifier 
 
 	GUN_HIT_PROFILES = { -- hit profiles for guns, if target ih profile is lower the gun will have lower accuracy
-		90.0,	-- big guns
+		80.0,	-- big guns
 		105.0,	-- torpedos
 		40.0,	-- small guns
 	},
