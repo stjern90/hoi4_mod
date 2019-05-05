@@ -816,7 +816,7 @@ focus_tree = {
 		prerequisite = { focus = SOV_Tolkach }
 		x = 1 
 		y = 2
-		cost = 10
+		cost = 10.5
 		available = {
 		}
 		ai_will_do = {
@@ -873,6 +873,12 @@ focus_tree = {
 				bonus = 0.5
 				uses = 2
 				category = construction_tech
+			}
+			add_tech_bonus = {
+				name = heavy_industry_tech_bonus
+				bonus = 0.5
+				uses = 2
+				category = heavy_industry
 			}
 		}
 	}
@@ -1130,9 +1136,15 @@ focus_tree = {
 			}
 			add_tech_bonus = {
 				name = construction_tech_bonus
-				bonus = 0.5
-				uses = 2
+				bonus = 0.75
+				uses = 1
 				category = construction_tech
+			}
+			add_tech_bonus = {
+				name = heavy_industry_tech_bonus
+				bonus = 0.75
+				uses = 2
+				category = heavy_industry
 			}
 			add_popularity = {
 			ideology = communism
@@ -3115,12 +3127,154 @@ focus_tree = {
 		}
 	}
 	# TODO: add mechanic that renews molotov pact when the spirit runs out?
+	
+	focus = {
+	id = SOV_Baltic_Sea_1
+	icon = GFX_goal_generic_construct_military
+	cost = 6
+   available = {
+   195 = { is_controlled_by = ROOT } 
+   208 = { is_controlled_by = ROOT } 
+   }
+	x = 21
+	y = 0
+	completion_reward = {
+			208 = {
+					add_building_construction = {
+						type = bunker
+						level = 1
+						province = 104
+						instant_build = yes
+					}
+					add_building_construction = {
+						type = coastal_bunker
+						level = 2
+						province = 104
+						instant_build = yes
+					}
+				
+				}
+				195 = {
+					add_building_construction = {
+						type = coastal_bunker
+						level = 2
+						province = 3151
+						instant_build = yes
+					}
+					add_building_construction = {
+						type = naval_base
+						level = 2
+						province = 3151
+						instant_build = yes
+					}
+				}
+			
+		}
+	
+
+   }
+	
+	focus = {
+	id = SOV_Sevastopol
+	icon = GFX_goal_generic_construct_military
+	cost = 6
+   available = {
+   137 = { is_controlled_by = ROOT } 
+   }
+	x = 23
+	y = 0
+	completion_reward = {
+			137 = {
+					add_building_construction = {
+						type = bunker
+						level = 2
+						province = 3686
+						instant_build = yes
+					}
+					add_building_construction = {
+						type = coastal_bunker
+						level = 2
+						province = 3686
+						instant_build = yes
+					}
+					set_building_level = {
+						type = bunker
+						level = 3
+						province = {
+							all_provinces = yes
+							level < 3
+						}
+					}
+					add_building_construction = {
+					type = coastal_bunker
+					province = {
+						all_provinces = yes
+						limit_to_coastal = yes
+					}
+					level = 1
+					instant_build = yes
+				}
+		}
+	}
+
+   }
+   
+   focus = {
+	id = SOV_Black_Sea
+	icon = GFX_goal_generic_build_navy
+	cost = 6
+	prerequisite = { focus = SOV_Sevastopol }
+    mutually_exclusive = { focus = SOV_Baltic_Sea }
+	available = {
+	      OR = {
+               
+			   custom_trigger_tooltip = {
+				tooltip = SOV_great_purge_navy_tt
+				NOT = { has_country_flag = purge_2_group_a }
+		    	}
+			   date > 1938.6.1
+		  }
+	}
+	x = 23
+	y = 1
+	completion_reward = {
+			navy_experience = 20
+			add_tech_bonus = {
+				name = ships_bonus
+				bonus = 0.25
+				uses = 5
+				category = naval_equipment
+			}
+	}
+
+   }
+   
+   focus = {
+	id = SOV_Baltic_Sea
+	icon = GFX_sov_bb
+	mutually_exclusive = { focus = SOV_Black_Sea }
+	prerequisite = { focus = SOV_Baltic_Sea_1 }
+	cost = 6
+
+	x = 21
+	y = 1
+	completion_reward = {
+			navy_experience = 20
+			add_tech_bonus = {
+				name = ships_bonus
+				bonus = 0.75
+				uses = 1
+				category = bb_tech
+			}
+	}
+
+   }
 
 	focus = {
 		id = SOV_anti_capitalist_diplomacy
 		icon = GFX_goal_molotov_ribbentrop_pact
 		prerequisite = { focus = SOV_stalin_constitution }
-		x = 20
+		x = 19
 		y = 1
 		cost = 2
 		available = { 
@@ -3426,6 +3580,7 @@ focus_tree = {
 		completion_reward = {
 			custom_effect_tooltip = SOV_great_purge_tt
 			custom_effect_tooltip = SOV_great_purge_tt2
+			custom_effect_tooltip = SOV_great_purge_tt3
 			
 			#Full military purge. Hardest penalty
 			if = {
@@ -3439,131 +3594,9 @@ focus_tree = {
 						has_country_flag = purge_2_group_b
 					}
 				}
-				add_timed_idea = {
-					idea = officers_purged
-					days = 1714
-				}
-				hidden_effect = {
-					country_event = { id = soviet.37 days = 186 }				
-				}
+				
 				hidden_effect = {
 					news_event = { hours = 6 id = news.219 }
-				}
-			}
-			#Full military purge. Hardest penalty (player)
-			if = {
-				limit = {
-					OR = {
-						has_country_flag = purge_1_group_a
-						has_country_flag = purge_1_group_b
-					}
-					OR = {						
-						has_country_flag = purge_2_group_a
-						has_country_flag = purge_2_group_b
-					}
-				}
-				add_timed_idea = {
-					idea = officers_purged_b
-					days = 1714
-				}
-			}
-
-			#1 military purge. Lower penalty
-			if = {
-				limit = {
-					OR = {
-						AND = {
-							NOT = { 
-								OR = { 
-									has_country_flag = purge_1_group_a
-									has_country_flag = purge_1_group_b
-								}
-							}
-							OR = {						
-								has_country_flag = purge_2_group_a
-								has_country_flag = purge_2_group_b
-							}
-						}
-						AND = {
-							OR = { 
-								has_country_flag = purge_1_group_a
-								has_country_flag = purge_1_group_b
-							}
-							NOT = {
-								OR = {						
-									has_country_flag = purge_2_group_a
-									has_country_flag = purge_2_group_b
-								}
-							}
-						}
-					}
-				}
-				add_timed_idea = {
-					idea = officers_purged_4
-					days = 1181
-				}
-				hidden_effect = {
-					country_event = { id = soviet.40 days = 306 }				
-				}
-			}	
-			#1 military purge. Lower penalty  (player)
-			if = {
-				limit = {
-					OR = {
-						AND = {
-							NOT = { 
-								OR = { 
-									has_country_flag = purge_1_group_a
-									has_country_flag = purge_1_group_b
-								}
-							}
-							OR = {						
-								has_country_flag = purge_2_group_a
-								has_country_flag = purge_2_group_b
-							}
-						}
-						AND = {
-							OR = { 
-								has_country_flag = purge_1_group_a
-								has_country_flag = purge_1_group_b
-							}
-							NOT = {
-								OR = {						
-									has_country_flag = purge_2_group_a
-									has_country_flag = purge_2_group_b
-								}
-							}
-						}
-					}
-				}
-				add_timed_idea = {
-					idea = officers_purged_b
-					days = 1341
-				}
-			}	
-
-			#No military purge. Lowest penalty.
-			if = {
-				limit = {
-					NOT = {
-						OR = {
-							has_country_flag = purge_1_group_a
-							has_country_flag = purge_1_group_b
-						}
-					}
-					NOT = {
-						OR = {
-							has_country_flag = purge_2_group_a
-							has_country_flag = purge_2_group_b
-						}
-					}
-				}
-				add_timed_idea = {
-					idea = officers_purged_7
-					days = 743
-				}
-				hidden_effect = {
-					country_event = { id = soviet.43 days = 306 }				
 				}
 			}
 
@@ -3673,7 +3706,10 @@ focus_tree = {
 		available_if_capitulated = yes
 
 		completion_reward = {
-			add_ideas = YUG_idea_very_empowered_peasant_councils
+			add_timed_idea = {
+				idea = YUG_idea_very_empowered_peasant_councils
+				days = 730
+			}
 		}
 	}
 
@@ -3881,6 +3917,30 @@ focus_tree = {
 			}
 		}
 	}
+	
+	focus = {
+	id = SOV_Campaign_for_Mass_Mechanization
+	icon = GFX_goal_generic_army_motorized
+	cost = 7
+	prerequisite = {
+		focus = SOV_guards
+	}
+	x = 28
+	y = 5
+	completion_reward = {
+		add_tech_bonus = {
+			uses = 1
+			bonus = 0.75
+			ahead_reduction = 0.5
+			category = cat_mechanized_equipment
+		}
+		add_timed_idea = {
+			idea = SOV_mecha
+			days = 365
+		}
+	}
+
+}
 	
 	focus = {
 		id = SOV_Sikorski_Mayski_agreement
