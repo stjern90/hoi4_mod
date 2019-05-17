@@ -321,7 +321,6 @@ country_event = {
 			}
 			transfer_state = 146
 			transfer_state = 147
-			transfer_state = 722
 		}
 	}
 
@@ -332,11 +331,73 @@ country_event = {
 			base = 0
 		}
 	}
+	
+	#Surrender and offer a lot of territory
+	option = {
+		name = finland.7.c
+		ai_chance = {
+			base = 0    
+		}
+		SOV = {
+			country_event = { id = finland.88 }
+		}
+		custom_effect_tooltip = finland.7.a_tt
+		effect_tooltip = {
+			SOV = { 
+				white_peace = {
+					tag = FIN 
+					message = FIN_agree_peace 
+				} 
+			}
+			transfer_state = 146
+			transfer_state = 147
+			transfer_state = 722
+		}
+	}
 }
 
 #Soviet response to Finish surrender
 country_event = {
 	id = finland.8
+	title = finland.8.t
+	desc = finland.8.d
+	picture = GFX_report_event_soviet_finnish_pact
+	
+	is_triggered_only = yes
+
+	#Accept surrender
+	option = {
+		name = finland.8.a
+		ai_chance = {
+			base = 75  # added for Historical Mod
+		}		
+		white_peace = FIN
+		if = { limit = { SWE = { has_war_with = SOV } }
+		       white_peace = SWE  # also add for other countries that might have helped?
+		}
+		transfer_state = 146
+		transfer_state = 147
+		FIN = { country_event = { days = 1 id = finland.10 } } # historical mod
+		
+	}
+
+	#Take it all
+	option = {
+		name = finland.8.b
+		ai_chance = {
+			base = 1
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}			
+		}
+		FIN = { country_event = { id = finland.9 } }
+	}
+}
+
+#Soviet response to Finish surrender
+country_event = {
+	id = finland.88
 	title = finland.8.t
 	desc = finland.8.d
 	picture = GFX_report_event_soviet_finnish_pact
@@ -432,9 +493,6 @@ country_event = {
 		name = finland.mod.a
 		add_ideas = neutrality_idea 
 		set_global_flag = first_finish_war_over
-		hidden_effect = {
-		722 = { set_demilitarized_zone = yes }
-		}
 	}
 }
 #mannerheim line 
