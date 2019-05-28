@@ -107,6 +107,10 @@ on_actions = {
 			1000 = soviet.32
 			1000 = soviet.33
 			1000 = soviet.34
+			#cheating molotov
+			1000 = germany.247
+			1000 = germany.257
+			1000 = germany.258
 		}
 	}
 
@@ -270,20 +274,6 @@ on_actions = {
 	#FROM is country getting invited.
 	on_offer_join_faction = {
 		effect = {
-			#Give achievement to nation joining a faction, but not in one from game start
-			if = {
-				limit = {
-					date > 1936.01.02
-				}
-				FROM = {
-					if = {
-						limit = {
-							is_faction_leader = no
-						}
-						set_country_flag = achievement_has_joined_faction
-					}
-				}
-			}
 			#Remove anti_soviet_pact if joining commie Soviet in faction
 			if = {
 				limit = {
@@ -296,33 +286,17 @@ on_actions = {
 				FROM = {
 					remove_ideas = anti_soviet_pact
 				}
-			}
-	
-			# Sunset invasion check
-			if = {
+			}	
+            if = {
 				limit = {
-					is_puppet = no
-					OR = {
-						AND = {
-							tag = MEX
-							FROM = {
-								capital_scope = {
-									NOT = { is_on_continent = south_america }
-								}
-							}
-						}
-						AND = {
-							FROM = {
-								tag = MEX
-							}
-							capital_scope = {
-								NOT = { is_on_continent = south_america }
-							}
-						}
-					}
+					original_tag = ENG
+				
+				FROM = {
+					original_tag = IRE
 				}
-				set_country_flag = achievement_failed_sunset_invasion
-			}			
+				}
+				FROM = { country_event = { id = ireland.9 days = 1 } }
+			}				
 		}
 	}
 
@@ -340,32 +314,6 @@ on_actions = {
 					}
 				}
 				remove_ideas = anti_soviet_pact
-			}
-
-			# Sunset invasion check
-			if = {
-				limit = {
-					is_puppet = no
-					OR = {
-						AND = {
-							tag = MEX
-							FROM = {
-								capital_scope = {
-									NOT = { is_on_continent = south_america }
-								}
-							}
-						}
-						AND = {
-							FROM = {
-								tag = MEX
-							}
-							capital_scope = {
-								NOT = { is_on_continent = south_america }
-							}
-						}
-					}
-				}
-				set_country_flag = achievement_failed_sunset_invasion
 			}
 
 			# Romania shouldn't declare war on Bulgaria on historical mode, if both are going to join the Axis
@@ -455,6 +403,47 @@ on_actions = {
 				every_country = { limit = { has_idea = london_naval_treaty }
 			                country_event = { id = japan.388 }
 				}
+			}
+			if = {
+				limit = {
+					ROOT = {
+						tag = GER
+					}
+					FROM = {
+						tag = POL
+					}
+					NOT = { has_global_flag = sov_yes_pact }
+				}
+				SOV = { country_event = { id = germany.248 days = 3 } }				
+			}
+			if = {
+				limit = {
+					ROOT = {
+						tag = ITA
+						is_in_faction_with = GER
+					}
+					FROM = {
+						tag = GRE
+					}
+					GER = { 
+				    	is_ai = yes 
+				    	NOT = { 
+				        	is_in_faction_with = GRE
+				        	has_war_with = GRE
+				    	}
+					}
+					
+					85 = { is_controlled_by_ROOT_or_ally = yes }
+					16 = { is_controlled_by_ROOT_or_ally = yes }
+		
+	             	NOT = {
+		            	any_state = {
+		            		OR = { region = 19 region = 20 region = 5 region = 6 region = 21 region = 26 state = 161 state = 162 }
+			               	controller = { has_war_with = GER }
+			            }
+	              	}
+				}
+				GER = { country_event = { id = germany.252 days = 20 } }				
 			}
 			## Soviet defensive war while having purge penalty
 			if = {
