@@ -355,8 +355,8 @@ NProduction = {
 	BASE_FACTORY_EFFICIENCY_GAIN = 0.95,		-- Base efficiency gain for factories per unit produced in %. 1.00
 	BASE_FACTORY_EFFICIENCY_BALANCE_FACTOR = 0.1, 			-- Factory efficiency balancing factor
 	BASE_FACTORY_EFFICIENCY_VARIANT_CHANGE_FACTOR = 90,		-- Base factor for changing production variants in %.
-	BASE_FACTORY_EFFICIENCY_PARENT_CHANGE_FACTOR = 72,		-- Base factor for changing production parent<->children in %.
-	BASE_FACTORY_EFFICIENCY_FAMILY_CHANGE_FACTOR = 55,		-- Base factor for changing production with same family in %.
+	BASE_FACTORY_EFFICIENCY_PARENT_CHANGE_FACTOR = 60,		-- Base factor for changing production parent<->children in %.
+	BASE_FACTORY_EFFICIENCY_FAMILY_CHANGE_FACTOR = 50,		-- Base factor for changing production with same family in %.
 	BASE_FACTORY_EFFICIENCY_ARCHETYPE_CHANGE_FACTOR = 35, 	-- Base factor for changing production with same archetype in %.
 	EQUIPMENT_BASE_LEND_LEASE_WEIGHT = 1.0, -- Base equipment lend lease weight
 	EQUIPMENT_LEND_LEASE_WEIGHT_FACTOR = 0.01, -- Base equipment lend lease factor
@@ -465,7 +465,7 @@ NMilitary = {
 	DIVISION_SIZE_FOR_XP = 8,                   -- how many battalions should a division have to count as a full divisions when calculating XP stuff
 	CORPS_COMMANDER_ARMIES_CAP = -1,			-- how many armies a corps commander is limited to. 0 = inf, < 0 = blocked
 	FIELD_MARSHAL_DIVISIONS_CAP = 24,			-- how many divisions a field marshall is limited to. 0 = inf, < 0 = blocked
-	FIELD_MARSHAL_ARMIES_CAP = 15,				-- how many armies a field marshall is limited to. 0 = inf, < 0 = blocked
+	FIELD_MARSHAL_ARMIES_CAP = 5,				-- how many armies a field marshall is limited to. 0 = inf, < 0 = blocked
 
 	UNIT_LEADER_GENERATION_CAPITAL_CONTINENT_FACTOR = 100, --Integer factor to multiply manpower.
 
@@ -562,8 +562,8 @@ NMilitary = {
 	REINFORCEMENT_REQUEST_MAX_WAITING_DAYS = 14,   -- Every X days the equipment will be sent, regardless if still didn't produced all that has been requested.
 	REINFORCEMENT_REQUEST_DAYS_FREQUENCY = 7,	   -- How many days must pass until we may give another reinforcement request
 	EXPERIENCE_COMBAT_FACTOR = 0.06,
-	ALERT_VERY_LOW_SUPPLY_LEVEL = 0.4,			   -- At which point we show up the low and very low supply level alert. Value is in % of supplies supported vs required.
-	ALERT_LOW_SUPPLY_LEVEL = 0.8,
+	ALERT_VERY_LOW_SUPPLY_LEVEL = 0.45,			   -- At which point we show up the low and very low supply level alert. Value is in % of supplies supported vs required.
+	ALERT_LOW_SUPPLY_LEVEL = 0.9,
 	UNIT_DIGIN_CAP = 5,                           -- how "deep" you can dig you can dig in until hitting max bonus
 	UNIT_DIGIN_SPEED = 1,						   -- how "deep" you can dig a day.
 	PARACHUTE_FAILED_EQUIPMENT_DIV = 50.0,		   -- When the transport plane was shot down, we drop unit with almost NONE equipment
@@ -1665,7 +1665,7 @@ NAI = {
 	FASCISTS_ALLY_FASCISTS = -20,
 	FASCISTS_ALLY_DEMOCRACIES = -100,
 	FASCISTS_ALLY_COMMUNISTS = -100,
-	FASCISTS_ANTAGONIZE_FASCISTS = -25,
+	FASCISTS_ANTAGONIZE_FASCISTS = -35,
 	FASCISTS_ANTAGONIZE_DEMOCRACIES = 100,
 	FASCISTS_ANTAGONIZE_COMMUNISTS = 100,
 	DEMOCRACIES_BEFRIEND_FASCISTS = -25,
@@ -1674,9 +1674,9 @@ NAI = {
 	DEMOCRACIES_ALLY_FASCISTS = -50,
 	DEMOCRACIES_ALLY_DEMOCRACIES = 0,
 	DEMOCRACIES_ALLY_COMMUNISTS = -50,
-	DEMOCRACIES_ANTAGONIZE_FASCISTS = 10,
-	DEMOCRACIES_ANTAGONIZE_DEMOCRACIES = -25,
-	DEMOCRACIES_ANTAGONIZE_COMMUNISTS = 0,
+	DEMOCRACIES_ANTAGONIZE_FASCISTS = 5,
+	DEMOCRACIES_ANTAGONIZE_DEMOCRACIES = -45,
+	DEMOCRACIES_ANTAGONIZE_COMMUNISTS = -10,
 	COMMUNISTS_BEFRIEND_FASCISTS = -25,
 	COMMUNISTS_BEFRIEND_DEMOCRACIES = -25,
 	COMMUNISTS_BEFRIEND_COMMUNISTS = 25,
@@ -1684,8 +1684,8 @@ NAI = {
 	COMMUNISTS_ALLY_DEMOCRACIES = -65,
 	COMMUNISTS_ALLY_COMMUNISTS = 0,
 	COMMUNISTS_ANTAGONIZE_FASCISTS = 70,
-	COMMUNISTS_ANTAGONIZE_DEMOCRACIES = 10,
-	COMMUNISTS_ANTAGONIZE_COMMUNISTS = -10,
+	COMMUNISTS_ANTAGONIZE_DEMOCRACIES = 0,
+	COMMUNISTS_ANTAGONIZE_COMMUNISTS = -20,
 	
 	TENSION_MIN_FOR_GUARANTEE_VS_MINOR = 5, -- for non faction people AI will not consider you worth guaranteeing below this
 	
