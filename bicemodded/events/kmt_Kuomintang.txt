@@ -201,28 +201,14 @@ country_event = {
 	desc = kmt.6.d
 	picture = GFX_report_event_gathering_protest
 	
-	fire_only_once = yes
-		
-	trigger = {
-		tag = CHI
-		has_idea = CHI_national_defense_propaganda
-		OR = {
-			has_offensive_war_with = CCP
-			has_offensive_war_with = SHX
-			has_offensive_war_with = GXC
-			has_offensive_war_with = XSM
-			has_offensive_war_with = YUN
-		}
-	}
-	
-	mean_time_to_happen = { days = 1 }
+	is_triggered_only = yes
 	
 	immediate = {
 		CHI = { 
 			remove_ideas = CHI_national_defense_propaganda
 			add_timed_idea = {
 				idea = CHI_national_defense_propaganda_busted
-				days = 360
+				days = 270
 			}
 		}
 	}
@@ -233,35 +219,8 @@ country_event = {
 			remove_ideas = CHI_national_defense_propaganda 
 			add_timed_idea = {
 				idea = CHI_national_defense_propaganda_busted
-				days = 600
+				days = 270
 			}
-		}
-	}
-}
-
-#Japan invades remove busted
-country_event = {
-	id = kmt.7
-	hidden = yes
-	
-	fire_only_once = yes
-	
-	trigger = {
-		OR = {
-			tag = CHI
-			tag = CCP
-		}
-		has_idea = CHI_national_defense_propaganda_busted
-		AND = {
-			has_defensive_war_with = JAP
-			has_offensive_war_with = CHI
-			
-		}
-	}
-	
-	immediate = {
-		CHI = {
-			remove_ideas = CHI_national_defense_propaganda_busted
 		}
 	}
 }
@@ -476,19 +435,6 @@ country_event = {
 		ai_chance = { 
 			factor = 15
 			modifier = {
-				add = 70
-				has_global_flag = CHI_warred_with_JAP
-				NOT = {
-					CHI = {
-						has_war_with = JAP
-					}
-					country_exists = CCP
-				}
-				CHI = {
-					has_completed_focus = KMT_warlord_after_civil_war
-				}
-			}
-			modifier = {
 				factor = -100
 				has_war_with = CHI
 			}
@@ -595,24 +541,26 @@ country_event = {
 					tag = SHX
 				}
 			}
+			hidden_effect = {
+				SHX = {
+					if = {
+						limit = { 
+							has_country_leader = {
+								name = "Yan Xishan"
+								ruling_only = yes
+							}
+						}
+						retire_country_leader = yes
+					}
+					every_unit_leader = {
+						set_nationality = FROM
+					}
+				}
+				set_country_flag = shx_sumitted
+			}
 			CHI = {
 				country_event = { id = kmt.75 }
 				annex_country = { target = ROOT transfer_troops = yes }
-			}
-			hidden_effect = {
-				CHI = {
-					set_country_flag = shx_sumitted
-					create_corps_commander = {
-						name = "Yan Xishan"
-						portrait_path = "gfx/leaders/Asia/Portrait_Asia_Generic_warlord2.dds"
-						traits = {   }
-						skill = 2
-						attack_skill = 3
-							defense_skill = 4
-							planning_skill = 2
-							logistics_skill = 4
-					}
-				}
 			}
 		}
 		if = {
@@ -621,43 +569,22 @@ country_event = {
 					tag = GXC
 				}
 			}
-			CHI = {
-				country_event = { id = kmt.75 }
-				annex_country = { target = ROOT transfer_troops = yes }
-			}
 			hidden_effect = {
-				CHI = {
-					set_country_flag = gxc_sumitted
-					create_field_marshal = {
-					    id = 1005
-					    name = "Li Zongren"
-				     	portrait_path = "gfx/leaders/GXC/Portrait_Guanxi_Clique_Li_Zongren.dds"
-					    traits = {  offensive_doctrine  }
-					    skill = 3
-					}
+				GXC = {
 					if = {
-						limit = {
-							has_completed_focus = KMT_warlord_after_civil_war
+						limit = { 
+							has_country_leader = {
+								name = "Li Zongren"
+								ruling_only = yes
+							}
 						}
-						create_corps_commander = {
-							name = "Bai Chongxi"
-							portrait_path = "gfx/leaders/kmt_mod/Bai_Chongxi.dds"
-							traits = { trickster }
-							skill = 3
-							attack_skill = 3
-							defense_skill = 4
-							planning_skill = 2
-							logistics_skill = 4
-						}
+						retire_country_leader = yes
+					}
+					every_unit_leader = {
+						set_nationality = FROM
 					}
 				}
-			}
-		}
-		if = {
-			limit = {
-				ROOT = {
-					tag = XSM
-				}
+				set_country_flag = gxc_sumitted
 			}
 			CHI = {
 				country_event = { id = kmt.75 }
@@ -670,24 +597,26 @@ country_event = {
 					tag = YUN
 				}
 			}
+			hidden_effect = {
+				YUN = {
+					if = {
+						limit = { 
+							has_country_leader = {
+								name = "Long Yun"
+								ruling_only = yes
+							}
+						}
+						retire_country_leader = yes
+					}
+					every_unit_leader = {
+						set_nationality = FROM
+					}
+				}
+				set_country_flag = yun_sumitted
+			}
 			CHI = {
 				country_event = { id = kmt.75 }
 				annex_country = { target = ROOT transfer_troops = yes }
-			}
-			hidden_effect = {
-				CHI = {
-					set_country_flag = yun_sumitted
-					create_corps_commander = {
-						name = "Long Yun"
-						portrait_path = "gfx/leaders/Asia/Portrait_Asia_Generic_warlord1.dds"
-						traits = {  }
-						skill = 2
-						attack_skill = 3
-							defense_skill = 4
-							planning_skill = 2
-							logistics_skill = 4
-					}
-				}
 			}
 		}
 		if = {
@@ -696,26 +625,28 @@ country_event = {
 					tag = XSM
 				}
 			}
+			hidden_effect = {
+				XSM = {
+					if = {
+						limit = { 
+							has_country_leader = {
+								name = "Ma Bufang"
+								ruling_only = yes
+							}
+						}
+						retire_country_leader = yes
+					}
+					every_unit_leader = {
+						set_nationality = FROM
+					}
+				}
+				set_country_flag = xsm_sumitted
+			}
 			CHI = {
 				country_event = { id = kmt.75 }
 				annex_country = { target = ROOT transfer_troops = yes }
 			}
-			hidden_effect = {
-				CHI = {
-					set_country_flag = xsm_sumitted
-					create_corps_commander = {
-						id = 1006
-						name = "Ma Bufang"
-						portrait_path = "gfx/leaders/kmt_mod/Ma_Bufang.dds"
-						traits = {  trickster }
-						skill = 3
-						attack_skill = 3
-							defense_skill = 4
-							planning_skill = 2
-							logistics_skill = 4
-					}
-				}
-			}
+			
 		}
 	}
 	
@@ -784,7 +715,7 @@ country_event = {
 		if = {
 			limit = {
 				FROM = {
-					tag = SHX
+					tag = XSM
 				}
 			}
 			custom_effect_tooltip = kmt_mbf_join
@@ -817,20 +748,13 @@ country_event = {
 	desc = kmt.76.d
 	picture = GFX_report_event_chinese_soldiers_02
 	
+	is_triggered_only = yes
 	fire_only_once = yes
 	
-	mean_time_to_happen = { days = 3 }
-	
 	trigger = {
-		tag = CHI
-		SHX = {
-			exists = no
-		}
-		CHI = { 
 			NOT = {
 				has_country_flag = shx_sumitted
 			}
-		}
 	}
 	
 	option = {
@@ -843,17 +767,20 @@ country_event = {
 		}
 		name = kmt.76.a
 		custom_effect_tooltip = kmt_yxs_join
+		set_country_flag = shx_sumitted
 		hidden_effect = {
-			CHI = {
-				create_corps_commander = {
-					name = "Yan Xishan"
-					portrait_path = "gfx/leaders/Asia/Portrait_Asia_Generic_warlord2.dds"
-					traits = { }
-					skill = 2
-					attack_skill = 3
-							defense_skill = 4
-							planning_skill = 2
-							logistics_skill = 4
+			SHX = {
+				if = {
+					limit = { 
+						has_country_leader = {
+							name = "Yan Xishan"
+							ruling_only = yes
+						}
+					}
+					retire_country_leader = yes
+				}
+				every_unit_leader = {
+					set_nationality = ROOT
 				}
 			}
 		}
@@ -869,7 +796,7 @@ country_event = {
 		}
 		name = kmt.76.b
 		add_stability = 0.01
-		add_political_power = 100
+		add_political_power = 50
 	}
 }
 
@@ -880,20 +807,13 @@ country_event = {
 	desc = kmt.77.d
 	picture = GFX_report_event_chinese_soldiers_02
 	
+	is_triggered_only = yes
 	fire_only_once = yes
 	
-	mean_time_to_happen = { days = 3 }
-	
 	trigger = {
-		tag = CHI
-		GXC = {
-			exists = no
-		}
-		CHI = { 
 			NOT = {
 				has_country_flag = gxc_sumitted
 			}
-		}
 	}
 	
 	option = {
@@ -902,14 +822,20 @@ country_event = {
 		}
 		name = kmt.77.a
 		custom_effect_tooltip = kmt_lzr_join
+		set_country_flag = gxc_sumitted
 		hidden_effect = {
-			CHI = {
-				create_field_marshal = {
-					id = 1005
-					name = "Li Zongren"
-					portrait_path = "gfx/leaders/GXC/Portrait_Guanxi_Clique_Li_Zongren.dds"
-					traits = {  offensive_doctrine }
-					skill = 3
+			GXC = {
+				if = {
+					limit = { 
+						has_country_leader = {
+							name = "Li Zongren"
+							ruling_only = yes
+						}
+					}
+					retire_country_leader = yes
+				}
+				every_unit_leader = {
+					set_nationality = ROOT
 				}
 			}
 		}
@@ -921,7 +847,7 @@ country_event = {
 		}
 		name = kmt.77.b
 		add_stability = 0.01
-		add_political_power = 100
+		add_political_power = 50
 	}
 }
 
@@ -932,20 +858,13 @@ country_event = {
 	desc = kmt.78.d
 	picture = GFX_report_event_chinese_soldiers_02
 	
+	is_triggered_only = yes
 	fire_only_once = yes
 	
-	mean_time_to_happen = { days = 3 }
-	
 	trigger = {
-		tag = CHI
-		YUN = {
-			exists = no
-		}
-		CHI = { 
 			NOT = {
 				has_country_flag = yun_sumitted
 			}
-		}
 	}
 	
 	option = {
@@ -958,17 +877,20 @@ country_event = {
 		}
 		name = kmt.78.a
 		custom_effect_tooltip = kmt_ly_join
+		set_country_flag = yun_sumitted
 		hidden_effect = {
-			CHI = {
-				create_corps_commander = {
-					name = "Long Yun"
-					portrait_path = "gfx/leaders/Asia/Portrait_Asia_Generic_warlord1.dds"
-					traits = { }
-					skill = 2
-					attack_skill = 3
-							defense_skill = 4
-							planning_skill = 2
-							logistics_skill = 4
+			YUN = {
+				if = {
+					limit = { 
+						has_country_leader = {
+							name = "Long Yun"
+							ruling_only = yes
+						}
+					}
+					retire_country_leader = yes
+				}
+				every_unit_leader = {
+					set_nationality = ROOT
 				}
 			}
 		}	
@@ -984,7 +906,7 @@ country_event = {
 		}
 		name = kmt.78.b
 		add_stability = 0.01
-		add_political_power = 100
+		add_political_power = 50
 	}
 }
 	
@@ -1333,20 +1255,13 @@ country_event = {
 	desc = kmt.183.d
 	picture = GFX_report_event_chinese_soldiers_02
 	
+	is_triggered_only = yes
 	fire_only_once = yes
 	
-	mean_time_to_happen = { days = 3 }
-	
 	trigger = {
-		tag = CHI
-		XSM = {
-			exists = no
-		}
-		CHI = { 
 			NOT = {
 				has_country_flag = xsm_sumitted
 			}
-		}
 	}
 	
 	option = {
@@ -1355,18 +1270,20 @@ country_event = {
 		}
 		name = kmt.78.a
 		custom_effect_tooltip = kmt_mbf_join
+		set_country_flag = xsm_sumitted
 		hidden_effect = {
-			CHI = {
-				create_corps_commander = {
-					id = 1006
-					name = "Ma Bufang"
-					portrait_path = "gfx/leaders/kmt_mod/Ma_Bufang.dds"
-					traits = { trickster }
-					skill = 3
-					attack_skill = 3
-							defense_skill = 4
-							planning_skill = 2
-							logistics_skill = 4
+			XSM = {
+				every_unit_leader = {
+					set_nationality = ROOT
+				}
+				if = {
+					limit = { 
+						has_country_leader = {
+							name = "Ma Bufang"
+							ruling_only = yes
+						}
+					}
+					retire_country_leader = yes
 				}
 			}
 		}
@@ -1378,7 +1295,7 @@ country_event = {
 		}
 		name = kmt.78.b
 		add_stability = 0.01
-		add_political_power = 100
+		add_political_power = 50
 	}
 }
 
@@ -2030,19 +1947,12 @@ country_event = {
 	desc = kmt.207.d
 	picture = GFX_report_event_japanese_transport_soldiers
 	
+	is_triggered_only = yes
 	trigger = {
-		tag = CHI
-		JAP = {
-			has_completed_focus = JAP_prepare_border
-		}
 		NOT = {
 			has_global_flag = jap_support_chi_pro_jap
 		}
 	}
-	
-	fire_only_once = yes
-	
-	mean_time_to_happen = { days = 2 }
 	
 	option = {
 		ai_chance = { factor = 0 }
