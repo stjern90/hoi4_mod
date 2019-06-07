@@ -225,6 +225,306 @@ country_event = {
 	}
 }
 
+#TIB offer
+country_event = {
+	id = kmt.8 
+	title = kmt.8.t 
+	desc = kmt.8.d
+	picture = GFX_report_event_generic_sign_treaty1
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = { 
+			base = 20 
+			modifier = {
+				strength_ratio = {
+					tag = FROM
+					ratio < 0.75
+				}
+				add = 60
+			}
+			modifier = {
+				FROM = {
+					has_war = yes
+					surrender_progress > 0.1 
+				}
+				factor = 0
+			}
+		}
+		name = kmt.8.a
+		FROM = { 
+			annex_country = { target = ROOT transfer_troops = no } 
+			country_event = { id = kmt.9 }
+		}
+	}
+	
+	option = {
+		ai_chance = { base = 80 }
+		name = kmt.8.b
+		effect_tooltip = {
+			FROM = {
+				create_wargoal = {
+					type = annex_everything
+					target = ROOT
+				}
+			}
+		}
+		FROM = { country_event = { id = kmt.10 days = 1 } }
+	}
+}
+
+#TIB compromise
+country_event = {
+	id = kmt.9 
+	title = kmt.9.t
+	desc = kmt.9.d
+	picture = GFX_report_event_generic_sign_treaty1
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.9.a
+		add_political_power = 120
+	}
+}
+
+#TIB refused
+country_event = {
+	id = kmt.10
+	title = kmt.10.t
+	desc = kmt.10.d
+	picture = GFX_report_event_generic_sign_treaty1
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.10.a
+		create_wargoal = {
+			type = annex_everything
+			target = FROM
+		}
+	}
+}
+
+#redraw mcmahon - start
+country_event = {
+	id = kmt.11
+	title =  kmt.11.t
+	desc = kmt.11.d
+	picture = GFX_report_event_generic_read_write
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		OVERLORD = {
+			save_global_event_target_as = KMT_kmt11_temp_overlord 
+		}
+	}
+	
+	option = {
+		ai_chance = { 
+			base = 5 
+		}
+		name = kmt.11.a
+		FROM = { 
+			transfer_state = 434 
+			country_event = { id = kmt.12 }
+		}
+		add_political_power = -125
+	}
+	
+	option = {
+		ai_chance = { base = 80 }
+		name = kmt.11.b
+		trigger = {
+			is_subject = yes
+		}
+		OVERLORD = { country_event = { id = kmt.11 days = 1 }}
+		add_political_power = -500
+	}
+	
+	option = {
+		ai_chance = { 
+			base = 1 
+			modifier = {
+				is_major = yes
+				event_target:KMT_central_gov_tag = { is_major = no }
+				add = 25
+			}
+			modifier = {
+				is_major = yes
+				event_target:KMT_central_gov_tag = { is_major = yes }
+				add = 10
+			}
+			modifier = {
+				is_major = no
+				event_target:KMT_central_gov_tag = { is_major = yes }
+				factor = 0
+			}
+			modifier = {
+				strength_ratio = {
+					tag = event_target:KMT_central_gov_tag
+					ratio > 1.25
+				}
+				factor = 2.5
+			}
+		}
+		name = kmt.11.c
+		FROM = { country_event = { id = kmt.14 days = 1 } }
+		custom_effect_tooltip = kmt.11.c_tt 
+	}
+}
+
+#redraw mcmahon - accept
+country_event = {
+	id = kmt.12
+	title = kmt.12.t
+	desc = kmt.12.d
+	picture = GFX_report_event_generic_read_write
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		name = kmt.12.a
+	}
+}
+
+#case to ENG
+country_event = {
+	id = kmt.13
+	title = kmt.13.t
+	desc = kmt.13.d
+	picture = GFX_report_event_generic_read_write
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		ai_chance = { factor = 30 }
+		name = kmt.13.a
+		add_political_power = -250
+		CHI = { 
+			transfer_state = 434 
+			country_event = { id = kmt.12 }
+		}
+	}
+	
+	option = {
+		ai_chance = { factor = 70 }
+		name = kmt.13.b
+		CHI = { country_event = { id = kmt.14 days = 1 } }
+		custom_effect_tooltip = kmt.13.b_tt 
+	}
+}
+
+#redraw mcmahon - refused
+country_event = {
+	id = kmt.14
+	title = kmt.14.t
+	picture = GFX_report_event_generic_read_write
+	desc = kmt.14.d
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		ai_chance = { 
+			factor = 50 
+			modifier = {
+				OR = {
+					AND = {
+						FROM = { has_war = no }
+						strength_ratio = {
+							tag = FROM
+							ratio < 1
+						}
+					}
+					AND = {
+						FROM = { has_war = yes }
+						strength_ratio = {
+							tag = FROM
+							ratio < 0.8
+						}
+					}
+				}
+				factor = 1.5
+			}
+			modifier = {
+				strength_ratio = {
+					tag = FROM
+					ratio < 0.5
+				}
+				factor = 100
+			}
+		}
+		name = kmt.14.a
+		add_political_power = -250
+	}
+	
+	option = {
+		ai_chance = { 
+			factor = 50 
+			modifier = {
+				has_war = yes
+				factor = 0.5
+			}
+			modifier = {
+				OR = {
+					AND = {
+						has_war = no
+						strength_ratio = {
+							tag = FROM
+							ratio > 1.5
+						}
+					}
+					AND = {
+						has_war = yes
+						strength_ratio = {
+							tag = FROM
+							ratio > 2
+						}
+					}
+				}
+				factor = 2
+			}
+			modifier = {
+				OR = {
+					AND = {
+						has_war = no
+						strength_ratio = {
+							tag = FROM
+							ratio > 2
+						}
+					}
+					AND = {
+						has_war = yes
+						strength_ratio = {
+							tag = FROM
+							ratio > 2.5
+						}
+					}
+				}
+				factor = 5
+			}
+			modifier = {
+				surrender_progress > 0.5
+				factor = 0
+			}
+		}
+		name = kmt.14.b
+		declare_war_on = {
+			target = FROM
+			type = take_state_focus
+			generator = { 434 }
+		}
+	}
+}
+
 
 #demand taiwan #USED
 country_event = {
@@ -1735,6 +2035,231 @@ country_event = {
 			CHI = {
 				transfer_state = PREV
 			}
+		}
+	}
+}
+
+#befriend tibet event
+country_event = {
+	id = kmt.197
+	title = kmt.197.t
+	desc = kmt.197.d
+	picture = GFX_report_event_generic_sign_treaty2
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = {
+			base = 80
+		}
+		trigger = {
+			FROM = {
+				is_faction_leader = yes
+			}
+			is_puppet = no
+		}
+		name = kmt.197.a
+		add_opinion_modifier = { target = FROM modifier = chi_tib_diplomatic_focus }
+		FROM = {
+			add_to_faction = ROOT
+			country_event = { id = kmt.198 }
+		}
+		every_state = {
+			limit = {
+				is_owned_by = ROOT
+				is_claimed_by = FROM
+			}
+			remove_claim_by = FROM
+		}
+		every_state = {
+			limit = {
+				is_owned_by = ROOT
+				is_core_of = FROM
+			}
+			remove_core_of = FROM
+			set_variable = { KMT_is_not_central_core@FROM = 1 }
+		}
+		every_state = {
+			limit = {
+				is_core_of = FROM
+				is_claimed_by = ROOT
+			}
+			remove_claim_by = ROOT
+		}
+		every_state = {
+			limit = {
+				is_core_of = FROM
+				is_core_of = ROOT
+			}
+			remove_core_of = ROOT
+		}
+		set_global_flag = CHI_TIB_friend
+	}
+	
+	option = {
+		ai_chance = {
+			base = 20
+		}
+		name = kmt.197.b
+		add_opinion_modifier = { target = FROM modifier = chi_tib_diplomatic_focus }
+		if = {
+			limit = {
+				is_puppet = yes
+			}
+			overlord = {
+				country_event = { id = kmt.475 }
+			}
+		}
+		FROM = {
+			puppet = ROOT
+			country_event = { id = kmt.199 }
+		}
+		every_state = {
+			limit = {
+				is_owned_by = ROOT
+				is_claimed_by = FROM
+			}
+			remove_claim_by = FROM
+		}
+		every_state = {
+			limit = {
+				is_owned_by = ROOT
+				is_core_of = FROM
+			}
+			remove_core_of = FROM
+			set_variable = { KMT_is_not_central_core@FROM = 1 }
+		}
+		every_state = {
+			limit = {
+				is_core_of = FROM
+				is_claimed_by = ROOT
+			}
+			remove_claim_by = ROOT
+		}
+		every_state = {
+			limit = {
+				is_core_of = FROM
+				is_core_of = ROOT
+			}
+			remove_core_of = ROOT
+		}
+		set_global_flag = CHI_TIB_friend
+	}
+	
+	option = {
+		name = kmt.197.c
+		add_opinion_modifier = { target = FROM modifier = chi_tib_diplomatic_focus }
+		FROM = {
+			country_event = { id = kmt.200 }
+		}
+		every_state = {
+			limit = {
+				is_owned_by = ROOT
+				is_claimed_by = FROM
+			}
+			remove_claim_by = FROM
+		}
+		every_state = {
+			limit = {
+				is_owned_by = ROOT
+				is_core_of = FROM
+			}
+			remove_core_of = FROM
+			set_variable = { KMT_is_not_central_core@FROM = 1 }
+		}
+		every_state = {
+			limit = {
+				is_core_of = FROM
+				is_claimed_by = ROOT
+			}
+			remove_claim_by = ROOT
+		}
+		every_state = {
+			limit = {
+				is_core_of = FROM
+				is_core_of = ROOT
+			}
+			remove_core_of = ROOT
+		}
+		set_global_flag = CHI_TIB_friend
+	}
+	
+	option = {
+		name = kmt.197.e
+		ai_chance = {
+			base = 5
+			modifier = {
+				has_wargoal_against = FROM
+				add = 100
+			}
+		}
+		FROM = {
+			country_event = { id = kmt.201 }
+		}
+	}
+}
+
+#befriend tibet event - tibet join faction
+country_event = {
+	id = kmt.198
+	title = kmt.198.t
+	desc = kmt.198.d
+	picture = GFX_report_event_hitler_handshake
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.198.a
+	}
+}
+
+#befriend tibet event - tibet puppeted
+country_event = {
+	id = kmt.199
+	title = kmt.199.t
+	desc = kmt.199.d
+	picture = GFX_report_event_hitler_handshake
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.199.a
+	}
+}
+
+#befriend tibet event - tibet revoke claims
+country_event = {
+	id = kmt.200
+	title = kmt.200.t
+	desc = kmt.200.d
+	picture = GFX_report_event_hitler_handshake
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.200.a
+	}
+}
+
+#befriend tibet event - tibet says noob
+country_event = {
+	id = kmt.201
+	title = kmt.201.t
+	desc = kmt.201.d
+	picture = GFX_report_event_japan_army_mountainside
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.201.a
+	}
+	
+	option = {
+		name = kmt.201.b
+		add_political_power = -10
+		create_wargoal = {
+			target = FROM
+			type = annex_everything
 		}
 	}
 }
@@ -3775,6 +4300,45 @@ country_event = {
 				transfer_troops = yes
 			}
 		}
+	}
+}
+
+
+#tib breaks free
+country_event = {
+	id = kmt.475
+	title = kmt.475.t
+	desc =  kmt.475.d
+	
+	picture = GFX_report_event_china_infiltration
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = kmt.475.a
+		ai_chance = {
+			base = 30
+			modifier = {
+				is_major = yes
+				factor = 80
+			}
+		}
+		create_wargoal = {
+			target = TIB
+			type = puppet_wargoal_focus
+		}
+	}
+	
+	option = {
+		name = kmt.475.b
+		ai_chance = {
+			base = 70
+			modifier = {
+				is_major = yes
+				factor = 20
+			}
+		}
+		add_political_power = -50
 	}
 }
 
