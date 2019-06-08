@@ -698,7 +698,7 @@ focus_tree = {
 		}
 		
 		completion_reward = {
-			event_target:WTT_current_china_leader = { country_event = wtt_prc.1 }
+			CHI = { country_event = wtt_prc.1 }
 		}
 	}
 	
@@ -1669,8 +1669,8 @@ focus_tree = {
 	focus = {
 		id = PRC_excavation_NW
 		icon = GFX_goal_steel
-		prerequisite = { focus = PRC_centralized_economic_planning }
-		x = 0
+		prerequisite = { focus = PRC_excavation_NE }
+		x = 1
 		y = 4
 		relative_position_id = PRC_local_industry 
 		cost = 6
@@ -1830,7 +1830,7 @@ focus_tree = {
 
 		available = {
 			strength_ratio = {
-				tag = event_target:WTT_current_china_leader
+				tag = CHI
 				ratio > 0.5
 			}
 			num_of_factories > 49
@@ -1956,7 +1956,7 @@ focus_tree = {
 		id = PRC_nationalise_companies
 		icon = GFX_goal_generic_demand_territory
 		prerequisite = { focus = PRC_five_year_plan_of_china }
-		x = -1 
+		x = 0 
 		y = 1 
 		relative_position_id = PRC_five_year_plan_of_china
 		
@@ -2049,7 +2049,8 @@ focus_tree = {
 		icon = GFX_goal_economic_control
 		prerequisite = { focus = PRC_invite_soviet_experts }
 		prerequisite = { focus = PRC_new_industrial_center }
-		x = 1 
+		prerequisite = { focus = PRC_hundred_flowers_campaign }
+		x = -1 
 		y = 1
 		relative_position_id = PRC_new_industrial_center
 		
@@ -2172,7 +2173,7 @@ focus_tree = {
 		icon = GFX_focus_generic_socialist_science
 		prerequisite = { focus = PRC_literacy_programs }
 		prerequisite = { focus = PRC_five_year_plan_of_china }
-		x = 1 
+		x = 2 
 		y = 1 
 		relative_position_id = PRC_five_year_plan_of_china
 
@@ -2223,6 +2224,7 @@ focus_tree = {
 	focus = {
 		id = PRC_chemical_research_institute
 		icon = GFX_focus_research
+		prerequisite = { focus = PRC_hundred_flowers_campaign }
 		prerequisite = { focus = PRC_specialist_training_program }
 		prerequisite = { focus = PRC_tsinghua_university }
 		x = 1 
@@ -2236,7 +2238,7 @@ focus_tree = {
 		}
 
 		available = {
-			num_of_factories > 74
+			num_of_factories > 115
 		}
 
 		bypass = {
@@ -2257,7 +2259,7 @@ focus_tree = {
 		icon = GFX_goal_generic_defence
 		prerequisite = { focus = PRC_war_of_liberation }
 		prerequisite = { focus = PRC_socialism_with_chinese_characteristics }
-		x = 1
+		x = 0
 		y = 2
 		relative_position_id = PRC_war_of_liberation
 
@@ -2376,7 +2378,7 @@ focus_tree = {
 		id = PRC_establish_the_peoples_liberation_army_air_force
 		icon = GFX_goal_generic_build_airforce
 		prerequisite = { focus = PRC_peoples_liberation_army }
-		x = -5
+		x = -3
 		y = 1
 		relative_position_id = PRC_peoples_liberation_army
 		
@@ -3318,18 +3320,181 @@ focus_tree = {
 		}
 	}
 	
-	focus = { # TODO!!! WIP
+	focus = {
+		id = PRC_cult_of_personality
+		icon = GFX_focus_prc_maoism
+		prerequisite = { focus = PRC_peoples_liberation_army }
+		prerequisite = { focus = PRC_suppress_counterrevolutionaries }
+		x = -1
+		y = 2
+		relative_position_id = PRC_proclaim_the_peoples_republic
+		cost = 10
+		
+		completion_reward = {
+			add_country_leader_trait = the_great_chairman
+		}
+	}
+	
+	focus = {
+		id = PRC_suppress_counterrevolutionaries
+		icon = GFX_goal_generic_political_pressure
+		prerequisite = { focus = PRC_proclaim_the_peoples_republic }
+		available = {
+			has_government = communism
+		}
+		x = -1
+		y = 1
+		relative_position_id = PRC_proclaim_the_peoples_republic
+		cost = 10
+		
+		completion_reward = {
+			add_popularity = {
+				ideology = fascism
+				popularity = -0.08
+			}
+			add_popularity = {
+				ideology = democratic
+				popularity = -0.08
+			}
+			add_popularity = {
+				ideology = neutrality
+				popularity = -0.08
+			}
+			add_country_leader_trait = dictator
+		}
+	}	
+	
+	focus = {
+		id = PRC_156_project
+		icon = GFX_goal_generic_construct_civ_factory
+		prerequisite = { focus = PRC_support_the_heavy_industry }
+		x = 0
+		y = 1
+		relative_position_id = PRC_support_the_heavy_industry
+		available = {
+			SOV = {
+				has_opinion = {
+					target = ROOT
+					value > 9
+				}
+			}
+			has_war = no
+		}
+		cost = 11
+		
+		completion_reward = {
+			add_opinion_modifier = {
+				modifier = industrial_assistance
+				target = SOV
+			}
+			#add_ideas = PRC_sov_assistance_in_industry
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 2
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 3
+				add_building_construction = {
+					type = industrial_complex
+					level = 3
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 2
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 3
+				add_building_construction = {
+					type = arms_factory
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+	}	
+	
+	focus = {
+		id = PRC_hundred_flowers_campaign
+		icon = GFX_goal_generic_propaganda
+		prerequisite = { focus = PRC_cult_of_personality }
+		available = {
+			OR = {
+				has_war = no
+				has_civil_war = yes
+			}
+			has_government = communism
+			608 = { is_fully_controlled_by = ROOT }
+			613 = { is_fully_controlled_by = ROOT }
+			592 = { is_fully_controlled_by = ROOT }
+			605 = { is_fully_controlled_by = ROOT }
+		}
+		x = 0
+		y = 2
+		relative_position_id = PRC_cult_of_personality
+		cost = 50
+        bypass = {
+			has_country_flag = baihua_completed
+		}
+		cancel = {
+			NOT = { has_government = communism }
+		}
+		select_effect = {
+			country_event = { id = kmt.32 days = 1 }
+			set_country_flag = KMT_hundred_flowers_started
+		}
+		
+		completion_reward = {
+			custom_effect_tooltip = KMT_hundred_flowers_tt
+			hidden_effect = {
+				country_event = { id = kmt.37 }
+			}
+		}
+	}
+	
+	focus = { 
 		id = PRC_restart_the_civil_war
 		icon = GFX_goal_generic_major_war
+		prerequisite = { focus = PRC_100_regiments_campaign focus = PRC_peoples_war }
 		available = { 
 			country_exists = CHI
 			NOT = {
 				has_war_with = CHI
 			}
-			CHI =
+			is_puppet = no
+			custom_trigger_tooltip = {
+				tooltip = CHI_warred_with_JAP
+				has_global_flag = CHI_warred_with_JAP
+				NOT = {
+					has_war_with = JAP
+				}
+			}
 		}
-		x = 41
-		y = 0
+		x = 0
+		y = 3
+		relative_position_id = PRC_provoke_japan
 		cost = 10
 		ai_will_do = {
 			factor = 1000
