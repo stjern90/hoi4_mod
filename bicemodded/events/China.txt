@@ -1113,21 +1113,10 @@ country_event = {
 	title = china.100.t
 	desc = china.100.d
 	picture = GFX_report_event_marco_polo_bridge
+	
+	is_triggered_only = yes
 
 	fire_only_once = yes
-
-	trigger = {
-		tag = CHI
-		has_war_with = JAP
-		JAP = { has_offensive_war = yes }
-		has_defensive_war = yes
-		NOT = { has_global_flag = CHI_unite }
-		NOT = { has_global_flag = CHI_no_national_front_flag }
-	}
-
-	mean_time_to_happen = {
-		days = 1
-	}
 	
 	option = {
 		ai_chance = { factor = 100 }
@@ -1145,11 +1134,21 @@ country_event = {
 		#load_oob = "CHI_united_front"
 		set_global_flag = CHI_unite
 		set_global_flag = CHI_unite_CCP
+		CCP = { country_event = { id = china.104 days = 1 } }
+		hidden_effect = {
+		if = {
+			limit = {
+				NOT = { has_completed_focus = CHI_united_front }
+			}
+			bypass_focus = CHI_united_front
+		}
+		}
 	}
-	#option = {
-	#	name = china.100.b
-	#	#Nothing
-	#}
+	option = {
+	    ai_chance = { factor = 0 }
+		name = china.100.b
+		#Nothing
+	}
 }
 
 # Japan attacks - Chinese Popular Front forms
@@ -1417,41 +1416,10 @@ country_event = {
 	title = china.104.t
 	desc = china.104.d
 	picture = GFX_report_event_chinese_soldiers
+	
+	is_triggered_only = yes
 
 	fire_only_once = yes
-
-	trigger = {
-		OR = {
-			AND = {
-				CCP = {
-					exists = yes
-				}
-				CHI = { has_country_flag = CHI_hostile_against_warlords }
-				NOT = {
-					has_global_flag = CHI_no_national_front_flag
-				}
-			}
-			has_global_flag = CHI_unite_CCP
-		}
-		tag = CCP
-		CHI = {
-			has_war_with = JAP 
-			has_defensive_war = yes
-		}
-		JAP = { has_offensive_war = yes }
-		CHI = { is_faction_leader = yes }
-		NOT = {
-			has_war_with = CHI
-			is_puppet = yes
-		}
-
-
-		is_in_faction = no
-	}
-
-	mean_time_to_happen = {
-		days = 10
-	}
 	
 	option = {
 		ai_chance = { factor = 100 }
@@ -1461,22 +1429,26 @@ country_event = {
 			country_event = china.106
 			add_to_faction = ROOT
 		}
-		if = {
-			limit = {
-				CHI = {
-					NOT = {
-							has_country_flag = mao_is_greatest
-					}
-				}
-			}
-			CCP = { add_opinion_modifier = { target = CHI modifier = unstable_alliance } }
-			CHI = { add_opinion_modifier = { target = CCP modifier = unstable_alliance } }			
-		}
+
+		CCP = { add_opinion_modifier = { target = CHI modifier = unstable_alliance } }
+		CHI = { add_opinion_modifier = { target = CCP modifier = unstable_alliance } }			
+		
 		add_to_war = {
 			targeted_alliance = CHI
 			enemy = JAP
 		}
-		SHX = { country_event = china.105 }
+		if = {
+			limit = { 
+		    	SHX = { 
+	          		is_in_faction = no
+	        		NOT = { has_war_with = CHI }
+	        		NOT = { has_war_with = CCP } 
+					is_puppet = no
+		    	}
+			}
+			SHX = { country_event = china.105 }
+		}
+		
 		if = {
 			limit = { NOT = { has_war_with = SOV } }
 			custom_effect_tooltip = china.104_CCP_SOV_reinforcements
@@ -1518,7 +1490,7 @@ country_event = {
 	}
 }
 
-# CCP option to join China faction
+# CCP option to request SHX gets annexed
 country_event = {
 	id = china.1040
 	title = china.1040.t
@@ -1530,20 +1502,25 @@ country_event = {
 	trigger = {
 		tag = CCP
 		has_war_with = JAP
+        has_defensive_war = yes
+        OR = {
 		CHI = {
 			has_war_with = JAP 
 			has_defensive_war = yes
 		}
-		JAP = { has_offensive_war = yes }
-		is_in_faction_with = CHI
-		CHI = { is_faction_leader = yes }
-		NOT = {
-			has_war_with = CHI
-			is_puppet = yes
+SHX = {
+			has_war_with = JAP 
+			has_defensive_war = yes
 		}
+}
+		#is_in_faction_with = CHI
+
+		is_puppet = no
+		
 		SHX = { 
 		exists = yes 
 		is_puppet = no
+        is_in_faction = no
 		}
 	}
 
@@ -1647,7 +1624,7 @@ country_event = {
 	}
 }
 
-# China - Info that PRX has joined faction
+# China - Info that PRC has joined faction
 country_event = {
 	id = china.106
 	title = china.106.t
@@ -1694,9 +1671,6 @@ country_event = {
 		has_global_flag = CHI_unite
 		NOT = { has_war_with = JAP }
 		is_faction_leader = yes
-		NOT = {
-			has_country_flag = mao_is_greatest
-		}
 	}
 
 	mean_time_to_happen = {
@@ -2283,7 +2257,7 @@ country_event = {
 			}			
 		}
 		trigger = {
-			controls_state = 802
+			controls_state = 802 # todo, invalid state
 		}
 		set_country_flag = CCP_capital_decided
 		set_rule = {
