@@ -5452,6 +5452,8 @@ focus_tree = {
 		}
 		
 		available = {
+			amount_research_slots > 5
+            num_of_controlled_states > 25
 		}
 		
 		bypass = {
@@ -5480,7 +5482,7 @@ focus_tree = {
 			factor = 1
 			modifier = {
 				factor = 4
-				tag = PRC			
+				tag = CCP			
 			}
 		}
 
@@ -5514,30 +5516,19 @@ focus_tree = {
 		ai_will_do = {
 			factor = 1
 			modifier = {
-				num_of_factories < 50
+				num_of_factories < 90
 				factor = 0
 			}
 		}
 
 		available = {
-
 		}
 
 		bypass = {
-			if = {
-				limit = { NOT = { original_tag = CHI } }
-				CHI = {
-					OR = {
-						exists = no
-						has_war_with = ROOT
-						is_subject_of = ROOT
-						ROOT = { has_wargoal_against = PREV }
-					}
-				}
-			}
-			if = {
-				limit = { NOT = { original_tag = PRC } }
-				PRC = {
+
+            if = {
+				limit = { NOT = { original_tag = CCP } }
+				CCP = {
 					OR = {
 						exists = no
 						has_war_with = ROOT
@@ -5632,6 +5623,87 @@ focus_tree = {
 					create_wargoal = {
 						type = annex_everything
 						target = PREV
+					}
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = CHI_preemptive_preparation
+		icon = GFX_goal_generic_construction2
+		prerequisite = { focus = CHI_nationalise_companies }
+		available = {
+			has_war = no
+			is_puppet = no
+			
+			   OR = {
+			    AND = {
+				custom_trigger_tooltip = {
+				tooltip = CHI_warred_with_JAP
+				has_global_flag = CHI_warred_with_JAP
+				NOT = {
+					has_war_with = JAP
+				}
+				}
+				}
+				AND = {
+				date > 1938.3.1
+				NOT = {
+					has_war_with = JAP
+				}
+				}
+							
+			}
+		}
+		x = -3
+		y = 0
+		relative_position_id = CHI_major_power_in_the_east
+		cost = 14
+		bypass = {
+		    OR = {
+			has_war_with = CCP
+			CCP = { exists = no }
+			}
+		}
+		continue_if_invalid = yes
+		
+		completion_reward = {
+		    add_timed_idea = {
+					idea = CHI_encircle_communists_1
+					days = 700
+			}
+			# todo: add the party popularity nerf in an event about betraying the united front
+			if = { limit = { is_in_faction_with = CCP has_government = democratic  }
+			add_popularity = {
+					ideology = democratic
+					popularity = -0.08
+				}
+			}
+			if = { limit = { is_in_faction_with = CCP has_government = neutrality  }
+			add_popularity = {
+					ideology = neutrality
+					popularity = -0.08
+				}
+			}
+			custom_effect_tooltip = CHI_prep_2_tt
+			hidden_effect = {
+				every_owned_state = {
+					limit = {
+						is_controlled_by = ROOT
+						any_neighbor_state = {
+							is_owned_by = CCP
+						}
+					}
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+					add_building_construction = {
+						type = air_base
+						level = 1
+						instant_build = yes
 					}
 				}
 			}
