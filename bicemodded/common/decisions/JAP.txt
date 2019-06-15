@@ -6,10 +6,9 @@ JAP_intervene_in_china = {
 		icon = jap_conquer_china
 
 		available = {
-		    has_country_flag = impossible
-			
+		    #has_country_flag = impossible
+			608 = { is_controlled_by_ROOT_or_ally = yes }
 				OR = {
-				608 = { is_controlled_by_ROOT_or_ally = yes }
 				614 = { is_controlled_by_ROOT_or_ally = yes }
 				597 = { is_controlled_by_ROOT_or_ally = yes }
 				743 = { is_controlled_by_ROOT_or_ally = yes }
@@ -31,7 +30,7 @@ JAP_intervene_in_china = {
 
 		visible = {
 			has_completed_focus = JAP_intervene_in_china
-			has_war = no
+			#has_war = no
 			any_country = {
 				is_literally_china = yes
 				has_war_with = ROOT
@@ -39,20 +38,54 @@ JAP_intervene_in_china = {
 		}
 
 		complete_effect = {
-			add_named_threat = { threat = -2 name = JAP_reorginized_china_instatement }
-			set_global_flag = jap_china_peace_deal_white
+		if = {
+		        	limit = { MEN = { exists = yes } }
+					set_country_flag = MEN_exists
+				}
+			add_named_threat = { threat = -2 name = JAP_reorginized_china_instatement_2 }
+			set_country_flag = jap_china_occupation_setup
 			add_stability = 0.03
 			MEN = {
-				transfer_state = 592 
-				transfer_state = 593 
-				transfer_state = 595 
-				transfer_state = 596 
-				transfer_state = 597 
-				transfer_state = 598 
-				transfer_state = 608 
-				transfer_state = 613 
-				transfer_state = 614 
-				transfer_state = 743 
+			    if = {
+		        	limit = { 592 = { is_fully_controlled_by = JAP } }
+					set_state_controller = 592 
+				}
+				if = {
+		        	limit = { 593 = { is_fully_controlled_by = JAP } }
+					set_state_controller = 593 
+				}
+				if = {
+		        	limit = { 595 = { is_fully_controlled_by = JAP } }
+					set_state_controller = 595 
+				}
+				if = {
+		        	limit = { 596 = { is_fully_controlled_by = JAP } }
+					set_state_controller = 596 
+				}
+				if = {
+		        	limit = { 597 = { is_fully_controlled_by = JAP } }
+					set_state_controller = 597 
+				}
+				if = {
+		        	limit = { 598 = { is_fully_controlled_by = JAP } }
+					set_state_controller = 598 
+				}
+				if = {
+		        	limit = { 608 = { is_fully_controlled_by = JAP } }
+					set_state_controller = 608
+				}
+				if = {
+		        	limit = { 613 = { is_fully_controlled_by = JAP } }
+					set_state_controller = 613
+				}
+				if = {
+		        	limit = { 614 = { is_fully_controlled_by = JAP } }
+					set_state_controller = 614
+				}
+				if = {
+		        	limit = { 743 = { is_fully_controlled_by = JAP } }
+					set_state_controller = 743
+				}
 
 				595 = { add_core_of = MEN }
 				596 = { add_core_of = MEN }
@@ -63,9 +96,23 @@ JAP_intervene_in_china = {
 				614 = { add_core_of = MEN }
 				743 = { add_core_of = MEN }
 			}
+			if = {
+	limit = {
+		has_dlc = "Together for Victory"
+	}
+	set_autonomy = {
+		target = MEN
+		autonomous_state = autonomy_integrated_puppet
+	}
+	else = {
+		set_autonomy = {
+			target = MEN
+			autonomous_state = autonomy_puppet
+		}
+	}
+}
 			MEN = {
-				ROOT = { puppet = PREV }
-				set_capital = 613
+				#set_capital = 613
 				set_politics = {
 					ruling_party = fascism
 					elections_allowed = no
@@ -76,7 +123,10 @@ JAP_intervene_in_china = {
 	communism = 12
 	neutrality = 22
 }
-			
+			if = {
+		        	limit = { has_country_flag = MEN_exists }
+					retire_country_leader = yes
+				}
 				create_country_leader = {
 					name = "Wang Jingwei"
 					desc = "POLITICS_WANG_JINGWEI_DESC"
@@ -84,27 +134,16 @@ JAP_intervene_in_china = {
 					expire = "1965.1.1"
 					ideology = fascism_ideology
 					traits = {
-						#
+						low_legitimacy
 					}
 				}
 				set_country_flag = JAP_puppet
 				set_party_name = { ideology = fascism long_name = KMT_wjw name = KMT_wjw }
 				add_ideas = KMT_jap_military_advisors
-
-				JAP = {
-					set_autonomy = {
-						target = PREV
-						autonomous_state = autonomy_puppet
-					}
-				}
+         set_cosmetic_tag = WJW
 				diplomatic_relation = {
 					relation = military_access
 					country = MAN
-					active = yes
-				}
-				diplomatic_relation = {
-					relation = military_access
-					country = MEN
 					active = yes
 				}
 			
@@ -116,14 +155,53 @@ JAP_intervene_in_china = {
 						active = yes
 					}
 				}
-				MEN = {
-					diplomatic_relation = {
-						relation = military_access
-						country = PREV
-						active = yes
-					}
-				}
 			}
+		}
+	}
+	JAP_reorginized_china_instatement3 = {
+
+		icon = jap_conquer_china
+
+		available = {
+		    
+			    any_state = {
+				   is_core_of = CHI 
+				   is_fully_controlled_by = JAP
+				}
+			
+		}
+		
+		ai_will_do = {
+			factor = 0
+		}
+
+		fire_only_once = no
+		days_re_enable = 45
+
+		visible = {
+		has_country_flag = jap_china_occupation_setup
+			has_completed_focus = JAP_intervene_in_china
+			any_country = {
+				is_literally_china = yes
+				has_war_with = ROOT
+			}
+		}
+
+		complete_effect = {
+		every_state = {
+					limit = {
+						is_core_of = CHI 
+						NOT = {
+						    OR = {
+				            	state = 524 #  not taiwan, more?
+	            			}
+						}
+				        is_controlled_by = JAP
+					}
+					MEN = {
+			        	set_state_controller = PREV
+	          		}
+				}
 		}
 	}
 	JAP_china_step_up_war_effort = {
