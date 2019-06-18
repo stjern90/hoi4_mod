@@ -23,10 +23,11 @@ country_event = {
 		hidden_effect = {
 			load_oob = "PRC_SOV_reinforcements"
 		}
-		add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 1100 producer = SOV }
+		add_equipment_to_stockpile = { type = infantry_equipment_0 amount = 1200 producer = SOV }
 		add_equipment_to_stockpile = { type = infantry_uniforms_0 amount = 800 producer = SOV }
 		add_equipment_to_stockpile = { type = artillery_equipment_0 amount = 100 producer = SOV }
 		add_equipment_to_stockpile = { type = horse_equipment_0 amount = 500 producer = SOV }
+		add_equipment_to_stockpile = { type = support_equipment_1 amount = 500 producer = CCP }
 	}
 }
 
@@ -85,14 +86,13 @@ country_event = {
 	title = CCP.11.t
 	desc = CCP.11.d
 	picture = GFX_report_event_europe_funeral
-	
-	trigger = {
-		tag = CCP
-		has_war = no
-		has_global_flag = CCP_cr_started
-	}
-	
-	mean_time_to_happen = { days = 111 }
+	is_triggered_only = yes #  what is this?
+	#trigger = {
+	#	tag = CCP
+	#	has_war = no
+	#	has_global_flag = CCP_cr_started
+	#}
+	#mean_time_to_happen = { days = 111 }
 	
 	fire_only_once = yes
 	
@@ -111,49 +111,6 @@ country_event = {
 	}
 }
 
-
-#peace with xsm?
-country_event = {
-	id = CCP.24
-	title = CCP.24.t
-	desc = CCP.24.d
-	picture = GFX_report_event_dead_soldiers
-	
-	trigger = {
-		has_global_flag = west_expedition_started
-		NOT = {
-			has_global_flag = no_more_failed_event
-		}
-		tag = CCP
-		has_offensive_war_with = XSM
-		NOT = {
-			CHI = {
-				has_completed_focus = KMT_north_west_insurgence
-			}
-		}
-		XSM = {
-			surrender_progress < 0.35
-		}
-	}
-	
-	mean_time_to_happen = { days = 160 }
-	
-	option = {
-		ai_chance = { factor = 10 
-		modifier = {
-		factor = 0
-		is_historical_focus_on = yes
-		}
-		}
-		name = CCP.24.a
-		white_peace = XSM 
-	}
-	
-	option = {
-		ai_chance = { factor = 10 }
-		name = CCP.24.b
-	}
-}
 
 #baiqiuen #reuse 
 country_event = {
@@ -202,16 +159,17 @@ country_event = {
 	desc = CCP.26.d
 	picture = GFX_report_event_gathering_protest
 	
-	trigger = {
-		tag = CCP
-		has_war = no
-		has_global_flag = CCP_cr_started
-		NOT = {
-			has_global_flag = CR_ended
-		}
-	}
+	is_triggered_only = yes #  what is this?
+	#trigger = {
+	#	tag = CCP
+	#	has_war = no
+	#	has_global_flag = CCP_cr_started
+	#	NOT = {
+	#		has_global_flag = CR_ended
+	#	}
+	#}
 	
-	mean_time_to_happen = { days = 60 }
+	#mean_time_to_happen = { days = 60 }
 	
 	fire_only_once = yes
 	
@@ -378,8 +336,127 @@ country_event = {
 	}
 }
 
+#event for integration of government
+country_event = {
+	id = CCP.32
+	title = CCP.32.t
+	desc = CCP.32.d
+	
+	picture = GFX_report_event_generic_sign_treaty1
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = { factor = 100 }
+		name = CCP.32.a
+		CHI = {
+			annex_country = {
+				target = CCP
+				transfer_troops = yes
+			}
+			if = {
+				limit = {
+					CCP = {
+						is_ai = no
+					}
+				}
+				change_tag_from = CCP
+			}
+		}
+		every_unit_leader = {
+			set_nationality = CHI
+		}
+		every_state = {
+			limit = {
+				is_core_of = CCP
+				NOT = { is_core_of = CHI }
+			}
+			add_core_of = CHI
+			remove_core_of = CCP
+		}
+		every_state = {
+			limit = {
+				is_core_of = CCP
+			}
+			remove_core_of = CCP
+		}
+		every_state = {
+			limit = {
+				is_claimed_by = CCP
+				NOT = { is_claimed_by = CHI }
+			}
+			add_claim_by = CHI
+			remove_claim_by = CCP
+		}
+		every_state = {
+			limit = {
+				is_claimed_by = CCP
+			}
+			remove_claim_by = CCP
+		}
+	}
+}
 
-
+#event for integration of government
+country_event = {
+	id = CCP.33
+	title = CCP.33.t
+	desc = CCP.33.d
+	
+	picture = GFX_report_event_generic_sign_treaty1
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = { factor = 100 }
+		name = CCP.33.a
+		CCP = {
+			annex_country = {
+				target = CHI
+				transfer_troops = yes
+			}
+			if = {
+				limit = {
+					CHI = {
+						is_ai = no
+					}
+				}
+				change_tag_from = CHI
+			}
+		}
+		every_unit_leader = {
+			set_nationality = CCP
+		}
+		every_state = {
+			limit = {
+				is_core_of = CHI
+				NOT = { is_core_of = CCP }
+			}
+			add_core_of = CCP
+			remove_core_of = CHI
+		}
+		every_state = {
+			limit = {
+				is_core_of = CHI
+			}
+			remove_core_of = CHI
+		}
+		every_state = {
+			limit = {
+				is_claimed_by = CHI
+				NOT = { is_claimed_by = CCP }
+			}
+			add_claim_by = CCP
+			remove_claim_by = CHI
+		}
+		every_state = {
+			limit = {
+				is_claimed_by = CHI
+			}
+			remove_claim_by = CHI
+		}
+	}
+}
 
 
 #fuck china
@@ -711,23 +788,8 @@ country_event = {
 	
 	immediate = {
 		hidden_effect = {
-			if = {
-				limit = {
-					NOT = {
-						has_tech = tech_support
-					}
-				}
-				set_technology = { tech_support = 1 }
-			}
-			if = {
-				limit = {
-					NOT = {
-						has_tech = hmg
-					}
-				}
-				set_technology = { hmg = 1 }
-			}
 			add_equipment_to_stockpile = { type = infantry_equipment_0 amount = 2500 producer = SOV }
+			add_equipment_to_stockpile = { type = support_equipment_1 amount = 750 producer = SOV }
 			set_country_flag = sov_supported
 		}
 	}
@@ -735,9 +797,8 @@ country_event = {
 	option = {
 		name = CCP.48.a
 		effect_tooltip = {
-			set_technology = { tech_support = 1 }
-			set_technology = { hmg = 1 }
 			add_equipment_to_stockpile = { type = infantry_equipment_0 amount = 2500 producer = SOV }
+			add_equipment_to_stockpile = { type = support_equipment_1 amount = 750 producer = SOV }
 		}
 	}
 }
@@ -750,85 +811,7 @@ country_event = {
 	desc = CCP.49.d
 	picture = GFX_report_event_chinese_soldiers_fighting
 	
-	trigger = {
-		tag = CCP
-		has_war_with = CHI
-		has_global_flag = CCP_civil_war_started
-		717 = { 
-			owner = {
-				OR = {
-					tag = CHI
-					tag = CCP
-				}
-			}
-		}
-		328 = { 
-			owner = {
-				OR = {
-					tag = CHI
-					tag = CCP
-				}
-			}
-		}
-		716 = { 
-			owner = {
-				OR = {
-					tag = CHI
-					tag = CCP
-				}
-			}
-		}
-		714 = { 
-			owner = {
-				OR = {
-					tag = CHI
-					tag = CCP
-				}
-			}
-		}
-		715 = { 
-			owner = {
-				OR = {
-					tag = CHI
-					tag = CCP
-				}
-			}
-		}
-		610 = { 
-			owner = {
-				OR = {
-					tag = CHI
-					tag = CCP
-				}
-			}
-		}
-		611 = { 
-			owner = {
-				OR = {
-					tag = CHI
-					tag = CCP
-				}
-			}
-		}
-		612 = { 
-			owner = {
-				OR = {
-					tag = CHI
-					tag = CCP
-				}
-			}
-		}
-		750 = { 
-			owner = {
-				OR = {
-					tag = CHI
-					tag = CCP
-				}
-			}
-		}
-	}
-	
-	mean_time_to_happen = { days = 30 }
+	is_triggered_only = yes # todo: fire this from decision or focus 'dongbei uprising'
 	
 	fire_only_once = yes
 	
@@ -861,151 +844,8 @@ country_event = {
 	}
 }
 
-#some nra defects
-country_event = {
-	id = CCP.50
-	title = CCP.50.t
-	desc = CCP.50.d
-	picture = GFX_report_event_chinese_soldiers_fighting
-	
-	trigger = {
-		tag = CCP
-		has_war_with = CHI
-		has_global_flag = CCP_civil_war_started
-		OR = {
-			controls_state = 603
-			controls_state = 802
-		}
-		CHI = {
-			has_idea = KMT_harsh_takeover
-		}
-	}
-	
-	mean_time_to_happen = { days = 75 }
-	
-	fire_only_once = yes
-	
-	immediate = {
-		hidden_effect = {
-			if = {
-				limit = {
-					controls_state = 603
-				}
-				load_oob = "CCP_nra_defect_beijing"
-			}
-			if = {
-				limit = {
-					controls_state = 802
-				}
-				load_oob = "CCP_nra_defect_yanan"
-			}
-		}
-	}
-	
-	option = {
-		name = CCP.50.a
-	}
-}
 
 
-#create partisans
-country_event = {
-	id = CCP.52
-	hidden = yes
-	
-	trigger = {
-		any_state = {
-			controller = {
-				has_war_with = ROOT
-				has_idea = PRC_enemy_partisan
-			}
-			is_core_of = ROOT
-		}
-		has_idea = PRC_create_partisan
-		tag = CCP
-	}
-	
-	is_triggered_only = yes
-	
-	immediate = {
-		random_state = {
-			limit = {
-				controller = {
-					has_war_with = ROOT
-					has_idea = PRC_enemy_partisan
-				}
-				is_core_of = ROOT
-			}
-			create_unit = { 
-				division = "name = \"You Ji Dui\" division_template = \"You Ji Dui\" start_experience_factor = 0.25" 
-				owner = CCP
-			}
-		}
-		random_state = {
-			limit = {
-				controller = {
-					has_war_with = ROOT
-					has_idea = PRC_enemy_partisan
-				}
-				is_core_of = ROOT
-			}
-			create_unit = { 
-				division = "name = \"You Ji Dui\" division_template = \"You Ji Dui\" start_experience_factor = 0.25" 
-				owner = CCP
-			}
-		}
-		country_event = { id = CCP.52 days = 30 }
-	}
-	
-	option = {
-	}
-}
-
-#set flag no more fail west expedition
-country_event = {
-	id = CCP.53
-	hidden = yes
-	
-	trigger = {
-		has_global_flag = west_expedition_started
-		OR = {
-			CCP = {
-				NOT = {
-					has_war_with = XSM
-				}
-			}
-			AND = {
-				CCP = {
-					is_in_faction = yes
-				}
-				any_country = {
-					is_in_faction_with = CCP
-					has_war_with = XSM
-					has_war_together_with = CCP
-				}
-			}
-			AND = {
-				XSM = {
-					is_in_faction = yes
-				}
-				any_country = {
-					is_in_faction_with = XSM
-					has_war_with = CCP
-					has_war_together_with = XSM
-				}
-			}
-		}
-	}
-	
-	mean_time_to_happen = { days = 2 }
-	
-	immediate = {
-		set_global_flag = no_more_failed_event
-	}
-	
-	option = {
-	}
-}
 
 #CCP proposal for grand northwest united
 country_event = {

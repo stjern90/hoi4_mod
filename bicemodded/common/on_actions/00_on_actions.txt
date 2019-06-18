@@ -338,20 +338,171 @@ on_actions = {
 	on_declare_war = {
 		effect = {
 		#set flag for warred with jap
+		    if = {
+				limit = {
+					OR = {
+						AND = {
+							ROOT = { tag = GER }
+							FROM = { tag = SOV }
+						}
+						AND = {
+							ROOT = { tag = SOV }
+							FROM = { tag = GER }
+						}
+					}
+				}
+				SOV = { country_event = { id = operation.53 } }
+			}	
 			if = {
 				limit = {
 					OR = {
 						AND = {
-							ROOT = { tag = CHI }
+							ROOT = { tag = GER is_ai = yes }
+							FROM = { 
+							OR = {
+							tag = FRA
+							tag = ENG
+						any_country = {
+								is_in_faction_with = FRA
+						}
+						any_country = {
+								is_in_faction_with = ENG
+						}
+					}
+							}
+							}
+						AND = {
+							ROOT = { 
+							OR = {
+							tag = FRA
+							tag = ENG
+						any_country = {
+								is_in_faction_with = FRA
+						}
+						any_country = {
+								is_in_faction_with = ENG
+						}
+					}
+						}
+							FROM = { tag = GER is_ai = yes }
+						}
+					}
+				}
+				GER = { country_event = { id = operation.70 } }
+			}
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							ROOT = { tag = GER }
+							OR = {
+							tag = FRA
+							FROM = {
+						any_country = {
+								is_in_faction_with = FRA
+						}
+					}
+							}
+						}
+						AND = {
+							ROOT = { 
+							OR = {
+							tag = FRA
+							FROM = {
+						any_country = {
+								is_in_faction_with = FRA
+						}
+					}
+							}
+							}
+							FROM = { tag = GER }
+						}
+					}
+				}
+				FRA = { country_event = { id = operation.90 } }
+			}
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							ROOT = { 
+							OR = {
+							tag = CHI 
+							tag = CCP
+							any_country = {
+								is_in_faction_with = CHI
+						}
+							}
+							}
 							FROM = { tag = JAP }
 						}
 						AND = {
 							ROOT = { tag = JAP }
-							FROM = { tag = CHI }
+							FROM = {
+							OR = {
+							tag = CHI 
+							tag = CCP
+							any_country = {
+								is_in_faction_with = CHI
+						}
+							}
+							}
 						}
 					}
 				}
 				set_global_flag = CHI_warred_with_JAP
+			}
+			if = {
+				limit = {
+							FROM = { 
+						    	OR = {
+							tag = CHI 
+							tag = CCP
+							any_country = {
+								is_in_faction_with = CHI
+						}
+							}
+						    	NOT = { has_global_flag = CHI_unite }
+	                        	NOT = { has_global_flag = CHI_no_national_front_flag }
+							}
+							ROOT = { tag = JAP }
+				}			
+				CHI = { country_event = { id = china.100 days = 1 } }
+			}
+			if = {
+				limit = {
+							FROM = { 
+						    	OR = {
+							tag = CHI 
+							tag = CCP
+							any_country = {
+								is_in_faction_with = CHI
+						}
+							}
+						    	NOT = { has_global_flag = CHI_unite }
+	                        	NOT = { has_global_flag = CHI_no_national_front_flag }
+							}
+							ROOT = { tag = JAP }
+							CCP = {
+							OR = {
+			AND = {
+				CHI = { has_country_flag = CHI_hostile_against_warlords }
+				NOT = {
+					has_global_flag = CHI_no_national_front_flag
+				}
+			}
+			has_global_flag = CHI_unite_CCP
+		}
+		NOT = {
+			has_war_with = CHI
+			is_puppet = yes
+		}
+        NOT = { has_global_flag = CCP_no_join }
+
+		is_in_faction = no
+							}
+				}			
+				CCP = { country_event = { id = china.104 days = 1 } }
 			}
 			if = {
 				limit = {
@@ -431,6 +582,23 @@ on_actions = {
 					NOT = { has_global_flag = sov_yes_pact }
 				}
 				SOV = { country_event = { id = germany.248 days = 3 } }				
+			}
+			if = {
+				limit = {
+					ROOT = {
+					    OR = {
+						tag = CCP
+						tag = CHI
+						}
+					}
+					FROM = {
+						OR = {
+						tag = CCP
+						tag = CHI
+						}
+					}
+				}
+				set_global_flag = CCP_civil_war_started			
 			}
 			if = {
 				limit = {
@@ -718,9 +886,9 @@ on_actions = {
 				random_country = {
 					limit = {
 						original_tag = FRA
-						has_completed_focus = FRA_support_the_right
+						has_completed_focus = FRA_far_right_leagues
 					}
-					country_event = { id = france.32 }
+					country_event = { id = france.320 }
 				}
 			}
 		}
@@ -875,6 +1043,20 @@ on_actions = {
 					NOT = { has_government = communism }
 				}
 				set_rule = { can_create_factions = yes }
+			}
+			if = {
+				limit = {
+					original_tag = CCP
+					NOT = { has_government = communism }
+				}
+				country_event = { id = CCP.32 }
+			}
+			if = {
+				limit = {
+					original_tag = CHI
+					has_government = communism
+				}
+				country_event = { id = CCP.33 }
 			}
 			if = {
 				limit = { has_government = democratic }

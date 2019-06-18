@@ -15,42 +15,25 @@ country_event = {
 	mean_time_to_happen = { days = 27 }
 
     trigger = {
-		529 = {
-			is_controlled_by = JAP
-		}
-		530 = {
-			is_controlled_by = JAP
-		}
-		531 = {
-			is_controlled_by = JAP
-		}
-		532 = {
-			is_controlled_by = JAP
-		}
-		282 = {
-			is_controlled_by = JAP
-		}
-		534 = {
-			is_controlled_by = JAP
-		}
-		535 = {
-			is_controlled_by = JAP
-		}
-		533 = {
-			is_controlled_by = JAP
-		}
+		
+		has_full_control_of_state = 282
+		has_full_control_of_state = 528
+		has_full_control_of_state = 529
+		has_full_control_of_state = 530
+		has_full_control_of_state = 531
+		has_full_control_of_state = 532
+		has_full_control_of_state = 533
+		has_full_control_of_state = 534
+		has_full_control_of_state = 535
+		has_full_control_of_state = 536
+		has_full_control_of_state = 555
 		tag = JAP
-        JAP = {
-			OR = {
-				has_offensive_war_with = CHI
-				has_offensive_war_with = CCP
-				has_offensive_war_with = SHX
-				has_offensive_war_with = XSM
-				has_offensive_war_with = GXC
-				has_offensive_war_with = YUN
-			}
+        any_country = {
+			is_literally_china = yes
+			has_defensive_war_with = JAP
 		}
-        country_exists = JAP
+		NOT = { divisions_in_state = { state = 527 size > 0 }}
+		NOT = { divisions_in_state = { state = 525 size > 0 }}
 		NOT = {
 			527 = {
 				controller = {
@@ -87,11 +70,26 @@ country_event = {
         NOT = {
 			has_global_flag = jap_civil_war_sf
 		}
+		any_state = {
+			OR = {
+				state = 527
+				state = 525
+				is_core_of = CHI
+				is_core_of = CCP
+			}
+			owner = {
+				OR = {
+					tag = JAP
+					is_puppet_of = JAP
+				}
+			}
+		}
 	}
 	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = jap_civil_war_sf
+			set_global_flag = jap_civil_war_sf_duration
 			if = {
 				limit = {
 					JAP = { 
@@ -152,7 +150,7 @@ country_event = {
 					value = -1000
 				}
 			}
-			add_political_power = -500
+			add_political_power = -250
 			add_ideas = sino_jap_war_fail_naisen
 			if = {
 				limit = {
@@ -186,7 +184,7 @@ country_event = {
 				load_oob = "JAP_sunfall_civil_war"
 				set_equipment_fraction = 0.9
 				set_stability = 0.85
-				set_war_support = 0.8
+				set_war_support = 0.65
 				add_popularity = {
 					ideology = democratic
 					popularity = 1
@@ -269,7 +267,7 @@ country_event = {
 					value = -1000
 				}
 			}
-			add_political_power = -500
+			add_political_power = -250
 			add_ideas = sino_jap_war_fail_naisen
 			CHI = {
 				transfer_state = 524
@@ -286,38 +284,29 @@ country_event = {
     id = sfl.2
     hidden = yes
 	
-	mean_time_to_happen = { days = 20 }
+	mean_time_to_happen = { days = 2 }
 	
 	fire_only_once = yes
 
     trigger = {
+		always = no
         NOT = {
 			527 = { is_controlled_by = JAP }
 			527 = { controller = { is_puppet_of = JAP } } 
 			525 = { is_controlled_by = JAP }
 			525 = { controller = { is_puppet_of = JAP } } 
+			525 = { controller = { tag = KOR } } 
+			525 = { controller = { original_tag = KOR } } 
+			527 = { controller = { tag = KOR } } 
+			527 = { controller = { original_tag = KOR } } 
 		}
 	}
 	
 	immediate = {
-		if = {
-			limit = {
-				525 = {
-					controller = {
-						NOT = {
-							OR = {
-								tag = KOR
-								original_tag = KOR
-							}
-						}
-					}
-				}
-			}
-			525 = {
-				controller = {
-					set_country_flag = sfl_kor_fired
-					country_event = { id = sfl.3 days = 14  }
-				}
+		525 = {
+			controller = {
+				set_country_flag = sfl_kor_fired
+				country_event = { id = sfl.3 days = 3  }
 			}
 		}
 		if = {
@@ -326,10 +315,6 @@ country_event = {
 					controller = {
 						NOT = {
 							has_country_flag = sfl_kor_fired
-							OR = {
-								tag = KOR
-								original_tag = KOR
-							}
 						}
 					}
 				}
@@ -337,7 +322,7 @@ country_event = {
 			527 = {
 				controller = {
 					set_country_flag = sfl_kor_fired
-					country_event = { id = sfl.3 days = 14 }
+					country_event = { id = sfl.3 days = 3 }
 				}
 			}
 		}
@@ -375,6 +360,12 @@ country_event = {
 				custom_effect_tooltip = kmt_kor_north_liberated
 				hidden_effect = {
 					load_oob = "KOR_liberated_north"
+					every_country = {
+						limit = {
+							has_war_together_with = ROOT
+						}
+						give_military_access = PREV
+					}
 					give_military_access = ROOT
 				}
 			}
@@ -390,6 +381,12 @@ country_event = {
 				custom_effect_tooltip = kmt_kor_south_liberated
 				hidden_effect = {
 					load_oob = "KOR_liberated_south"
+					every_country = {
+						limit = {
+							has_war_together_with = ROOT
+						}
+						give_military_access = PREV
+					}
 					give_military_access = ROOT
 				}
 			}
@@ -398,6 +395,7 @@ country_event = {
 			if = {
 				limit = {
 					country_exists = JAP
+					has_war_with = JAP
 				}
 				JAP = {
 					country_event = { id = sfl.7 hours = 3 }
@@ -511,6 +509,12 @@ country_event = {
 				custom_effect_tooltip = kmt_kor_north_liberated
 				hidden_effect = {
 					load_oob = "KOR_liberated_north"
+					every_country = {
+						limit = {
+							has_war_together_with = ROOT
+						}
+						give_military_access = PREV
+					}
 					give_military_access = ROOT
 				}
 			}
@@ -526,6 +530,12 @@ country_event = {
 				custom_effect_tooltip = kmt_kor_south_liberated
 				hidden_effect = {
 					load_oob = "KOR_liberated_south"
+					every_country = {
+						limit = {
+							has_war_together_with = ROOT
+						}
+						give_military_access = PREV
+					}
 					give_military_access = ROOT
 				}
 			}
@@ -534,6 +544,7 @@ country_event = {
 			if = {
 				limit = {
 					country_exists = JAP
+					has_war_with = JAP
 				}
 				JAP = {
 					country_event = { id = sfl.7 hours = 3 }
@@ -739,26 +750,38 @@ country_event = {
 				is_core_of = CHI
 				is_core_of = CCP
 			}
-			is_owned_by = JAP
+			is_owned_by = ROOT
 		}
 		has_government = democratic
 		has_global_flag = jap_civil_war_sf
 		has_civil_war = no
 		OR = {
-			country_exists = CCP
-			country_exists = CHI
-		}
-		OR = {
-			CHI = {
-				is_puppet = no
+			AND = {
+				CHI = {
+					is_puppet = no
+					exists = yes
+					NOT = {
+						has_war_with = ROOT
+					}
+				}
+				any_state = {
+					is_core_of = CHI
+					is_owned_by = ROOT
+				}
 			}
-			CCP = {
-				is_puppet = no
+			AND = {
+				CCP = {
+					is_puppet = no
+					exists = yes
+					NOT = {
+						has_war_with = ROOT
+					}
+				}
+				any_state = {
+					is_core_of = CCP
+					is_owned_by = ROOT
+				}
 			}
-		}
-		OR = {
-			NOT = { has_war_with = CHI }
-			NOT = { has_war_with = CCP }
 		}
 	}
 	
@@ -779,7 +802,7 @@ country_event = {
 			}
 		}
 		ai_chance = { 
-			factor = 15
+			factor = 100
 			modifier = {
 				factor = 0
 				CHI = {
@@ -819,17 +842,7 @@ country_event = {
 		}
 		set_global_flag = jap_return_to_CCP
 		ai_chance = { 
-			factor = 80
-			modifier = {
-				factor = 0
-				all_owned_state = {
-					all_neighbor_state = {
-						NOT = {
-							owner = { tag = CCP }
-						}
-					}
-				}
-			}
+			factor = 0
 		}
 		name = sfl.8.b
 		CCP = {
@@ -865,7 +878,7 @@ country_event = {
 				}
 				create_wargoal = {
 					target = JAP
-					type = annex_everything
+					type = take_core_state
 				}
 			}
 			CHI = {
@@ -875,7 +888,7 @@ country_event = {
 				}
 				create_wargoal = {
 					target = JAP
-					type = annex_everything
+					type = take_core_state
 				}
 			}
 		}
@@ -1059,7 +1072,7 @@ country_event = {
 		}
 		create_wargoal = {
 			target = JAP
-			type = annex_everything
+			type = take_core_state
 		}
 		add_ai_strategy = {
 			type = antagonize
@@ -1079,7 +1092,7 @@ country_event = {
 	trigger = {
 		has_global_flag = jap_civil_war_sf
 		has_civil_war = no
-		tag = JAP
+		original_tag = JAP
 		OR = {
 			525 = {
 				is_owned_by = ROOT
@@ -1125,6 +1138,11 @@ country_event = {
 				}
 			}
 		}
+		KOR = {
+			set_politics = {
+				ruling_party = democratic
+			}
+		}
 	}
 	
 	option = {
@@ -1142,6 +1160,7 @@ country_event = {
 	picture = GFX_report_event_dead_soldiers
 	
 	trigger = {
+		always = no
 		tag = JAP
 		has_global_flag = jap_civil_war_sf
 		has_global_flag = kor_liberated
@@ -1186,46 +1205,67 @@ country_event = {
 		}
 		custom_effect_tooltip = sfl_jap_forfeit_land
 		hidden_effect = {
-			if = {
+			every_state = {
 				limit = {
-					country_exists = MEN
+					is_core_of = ROOT
+					owner = {
+						OR = {
+							tag = JAP
+							is_subject_of = JAP
+						}
+					}
+					CONTROLLER = {
+						NOT = { tag = CCP }
+					}
 				}
-				annex_country = {
-					target = MEN
-					transfer_troops = no
-				}
-			}
-			if = {
-				limit = {
-					country_exists = MAN
-				}
-				annex_country = {
-					target = MAN
-					transfer_troops = no
-				}
-			}
-			if = {
-				limit = {
-					country_exists = KOR 
-				}
-				annex_country = {
-					target = KOR 
-					transfer_troops = no
+				ROOT = {
+					transfer_state = PREV
 				}
 			}
 			every_state = {
 				limit = {
-					is_core_of = CHI
-					OR = {
-						is_owned_by = JAP
+					is_core_of = CCP
+					owner = {
+						OR = {
+							tag = JAP
+							is_subject_of = JAP
+						}
+					}
+					CONTROLLER = {
+						tag = CCP
 					}
 				}
-				CHI = {
+				CCP = {
 					transfer_state = PREV
 				}
 			}
 		}
 		white_peace = JAP
+		if = {
+			limit = {
+				KOR = {
+					exists = yes
+					OR = {
+						is_puppet_of = ROOT
+						is_in_faction_with = ROOT
+					}
+				}
+			}
+			every_state = {
+				limit = {
+					is_core_of = KOR
+					owner = {
+						OR = {
+							tag = FROM
+							is_subject_of = FROM
+						}
+					}
+				}
+				KOR = {
+					transfer_state = PREV
+				}
+			}
+		}
 	}
 	
 	option = {
@@ -1238,18 +1278,65 @@ country_event = {
 		hidden_effect = {
 			every_state = {
 				limit = {
-					is_core_of = CHI
-					OR = {
-						is_owned_by = JAP
-						is_owned_by = MEN
+					is_core_of = ROOT
+					owner = {
+						OR = {
+							tag = JAP
+							is_subject_of = JAP
+						}
+					}
+					CONTROLLER = {
+						NOT = { tag = CCP }
 					}
 				}
-				CHI = {
+				ROOT = {
+					transfer_state = PREV
+				}
+			}
+			every_state = {
+				limit = {
+					is_core_of = CCP
+					owner = {
+						OR = {
+							tag = JAP
+							is_subject_of = JAP
+						}
+					}
+					CONTROLLER = {
+						tag = CCP
+					}
+				}
+				CCP = {
 					transfer_state = PREV
 				}
 			}
 		}
 		white_peace = JAP
+		if = {
+			limit = {
+				KOR = {
+					exists = yes
+					OR = {
+						is_puppet_of = ROOT
+						is_in_faction_with = ROOT
+					}
+				}
+			}
+			every_state = {
+				limit = {
+					is_core_of = KOR
+					owner = {
+						OR = {
+							tag = FROM
+							is_subject_of = FROM
+						}
+					}
+				}
+				KOR = {
+					transfer_state = PREV
+				}
+			}
+		}
 		custom_effect_tooltip = sfl_later_war_with_jap
 		hidden_effect = {
 			country_event = { id = sfl.21 days = 30 }
@@ -1258,7 +1345,6 @@ country_event = {
 	
 	option = {
 		name = sfl.19.c
-		custom_effect_tooltip = sfl_cant_peace_with_axis_later
 		ai_chance = { factor = 0 }
 		JAP = {
 			country_event = { id = sfl.22 }

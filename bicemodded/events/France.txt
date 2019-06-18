@@ -1218,10 +1218,6 @@ country_event = {
 			}
 		}		
 	}
-
-	immediate = {
-		set_global_flag = achievement_france_surrender
-	}
 	
 	option = { # Become Vichy
 		name = france.10.a
@@ -1242,6 +1238,15 @@ country_event = {
 		custom_effect_tooltip = france.10.b_tt
 	}
 	option = { # Ask for British Union
+	trigger= {
+		NOT = {
+		has_game_rule = {
+				rule = must_vichy
+				option = block
+
+			}
+			}
+			}
 		name = france.10.c
 		ai_chance = {
 			factor = 0
@@ -1710,6 +1715,7 @@ country_event = {
 			limit = { original_tag = FRA has_government = fascism }
 			ROOT = { puppet = PREV }
 			set_cosmetic_tag = FRA_GER_fascism
+			save_global_event_target_as = VICHY_FRANCE
 	    	retire_country_leader = yes
 		create_country_leader = {
 			name = "Philippe Pétain"
@@ -2077,6 +2083,15 @@ country_event = {
 	}
 
 	option = { # Conquer everything!
+	trigger= {
+		NOT = {
+		has_game_rule = {
+				rule = must_vichy
+				option = block
+
+			}
+			}
+			}
 		name = france.14.b
 		ai_chance = { 
 			factor = 50 
@@ -3225,4 +3240,34 @@ country_event = {
 			}
 		}		
 	}
+}
+
+# Hidden event to add AI values for nationalist spain if France is going fascist
+country_event = {
+    id = france.320
+    hidden = yes
+ 
+    fire_only_once = yes
+
+    is_triggered_only = yes
+
+    immediate = {
+    	random_other_country = {
+			limit = {
+				original_tag = SPR
+				has_government = fascism
+			}
+			FRA = {
+				add_ai_strategy = {
+					type = befriend
+					id = "PREV"
+					value = 200
+				}
+			}
+		}
+    }
+
+    option = {
+        name = france.320.a
+     }
 }
