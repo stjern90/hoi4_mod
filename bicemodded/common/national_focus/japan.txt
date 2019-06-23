@@ -3920,9 +3920,7 @@ focus_tree = {
 	focus = {
 		id = JAP_expand_the_showa_steel_works
 		icon = GFX_goal_generic_construct_civilian
-		prerequisite = { focus = JAP_fortify_the_border }
-		prerequisite = { focus = JAP_light_industry_development }
-		prerequisite = { focus =  JAP_develop_aluminum_sources }
+		prerequisite = { focus =  JAP_fortify_the_border focus =  JAP_light_industry_development focus =  JAP_develop_aluminum_sources }
 		x = 32
 		y = 2
 		
@@ -4063,7 +4061,7 @@ focus_tree = {
 		id = JAP_develop_chinese_resources
 		icon = GFX_goal_generic_construct_civilian
 		prerequisite = { focus = JAP_China_Infra }
-		prerequisite = { focus = JAP_expand_manchurian_railways focus = JAP_chinese_occupation }
+		prerequisite = { focus = JAP_chinese_occupation }
 		x = 31
 		y = 5
 
@@ -4074,28 +4072,9 @@ focus_tree = {
 		}
 
 		available = {
-			any_country = {
-				OR = {
-					tag = ROOT
-					is_puppet_of = ROOT
-					AND = {
-						tag = CHI
-						is_in_faction_with = ROOT
-					}
-				}
-				has_full_control_of_state = 605
-			}
-			any_country = {
-				OR = {
-					tag = ROOT
-					is_puppet_of = ROOT
-					AND = {
-						tag = CHI
-						is_in_faction_with = ROOT
-					}
-				}
-				has_full_control_of_state = 325
-			}
+		# TODO: better states codition
+			605 = { is_controlled_by_ROOT_or_ally = yes }
+			325 = { is_controlled_by_ROOT_or_ally = yes }
 		}
 
 		bypass = {
@@ -4123,10 +4102,10 @@ focus_tree = {
 					}
 					add_building_construction = {
 						type = infrastructure
-						level = 3
+						level = 1
 						instant_build = yes
 					}
-					set_state_flag = JAP_expand_manchurian_railways_Inf1
+					#set_state_flag = JAP_expand_manchurian_railways_Inf1
 				}
 				random_owned_controlled_state = {
 					limit = {
@@ -4139,20 +4118,59 @@ focus_tree = {
 					}
 					add_building_construction = {
 						type = infrastructure
-						level = 2
+						level = 1
 						instant_build = yes
 					}
-					set_state_flag = JAP_expand_manchurian_railways_Inf2
+					#set_state_flag = JAP_expand_manchurian_railways_Inf2
 				}
 			}
+			
+			MEN = {
+				random_owned_controlled_state = {
+					limit = {
+						is_fully_controlled_by = PREV						
+						free_building_slots = {
+							building = infrastructure
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+					#set_state_flag = JAP_expand_manchurian_railways_Inf3
+				}
+				random_owned_controlled_state = {
+					limit = {
+						is_fully_controlled_by = PREV						
+						free_building_slots = {
+							building = infrastructure
+							size > 1
+							include_locked = yes
+						}
+					}
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+					#set_state_flag = JAP_expand_manchurian_railways_Inf4
+				}
+			}
+			
+			unlock_decision_category_tooltip = prospect_for_resources
+			unlock_decision_tooltip = develop_shandong_aluminium_deposits
+			unlock_decision_tooltip = develop_suiyuan_steel_deposits
 		}
 	}	
 	focus = {
 		id = JAP_expand_manchurian_railways
 		icon = GFX_goal_generic_construct_infrastructure		
-		prerequisite = { focus = JAP_japanese_settlement }
-		x = 32
-		y = 6
+		prerequisite = { focus =  JAP_expand_the_showa_steel_works focus =  JAP_heavy_industry_development focus =  JAP_North_Ports }
+		x = 33
+		y = 3
 		
 		cost = 5.5
 
@@ -4271,9 +4289,7 @@ focus_tree = {
 	focus = {
 		id = JAP_heavy_industry_development
 		icon = GFX_goal_generic_build_tank
-		prerequisite = { focus =  JAP_fortify_the_border }
-		prerequisite = { focus =  JAP_light_industry_development }
-		prerequisite = { focus =  JAP_develop_aluminum_sources }
+		prerequisite = { focus =  JAP_fortify_the_border focus =  JAP_light_industry_development focus =  JAP_develop_aluminum_sources }
 		x = 30
 		y = 2
 
@@ -4328,9 +4344,7 @@ focus_tree = {
 	focus = {
 		id = JAP_japanese_settlement
 		icon = GFX_goal_generic_construct_civ_factory
-		prerequisite = { focus =  JAP_expand_the_showa_steel_works }
-		prerequisite = { focus =  JAP_heavy_industry_development }
-		prerequisite = { focus =  JAP_North_Ports }
+		prerequisite = { focus =  JAP_expand_the_showa_steel_works focus =  JAP_heavy_industry_development focus =  JAP_North_Ports }
 		x = 31
 		y = 3
 		
@@ -4637,11 +4651,11 @@ focus_tree = {
 	focus = {
 		id = JAP_chi_ports
 		icon = GFX_goal_generic_build_navy
-		prerequisite = { focus = JAP_japanese_settlement }
-		prerequisite = { focus = JAP_North_Ports }
+		prerequisite = { focus = JAP_China_Infra }
+		prerequisite = { focus = JAP_chinese_occupation }
 		
-		x = 33
-		y = 4
+		x = 27
+		y = 5
 		
 		cost = 5
 		
@@ -4710,6 +4724,151 @@ focus_tree = {
 			}
 		}
 	}
+	
+	focus = {
+		id = JAP_chi_two_empires
+		icon = GFX_goal_generic_occupy_states_ongoing_war
+		x = 31
+		y = 7
+		prerequisite = { focus = JAP_mandate_of_heaven }
+		prerequisite = { focus = JAP_ascend_the_throne }
+		
+		cost = 6
+
+		ai_will_do = {
+			factor = 2
+		}
+
+		available = {
+			MEN = {
+				is_subject_of = ROOT
+				has_stability > 0.6
+				has_full_control_of_state = 608
+		     	has_full_control_of_state = 743
+			    has_full_control_of_state = 613
+				has_full_control_of_state = 605
+			}	
+            MAN = {
+			    has_completed_focus = MCK_for_the_emperor
+				is_subject_of = ROOT
+				has_stability > 0.6
+				has_full_control_of_state = 328
+				OR = {
+		     		has_full_control_of_state = 615
+			    	has_full_control_of_state = 622
+				}			
+			}			
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		complete_tooltip = {
+
+		}
+
+		completion_reward = {
+	     	add_stability = 0.1
+		    MEN = {
+				add_stability = 0.1
+			}	
+            MAN = {
+				add_stability = 0.1
+			}	
+		}
+	}
+	
+	focus = {
+		id = JAP_ascend_the_throne
+		icon = GFX_goal_generic_occupy_states_ongoing_war
+		x = 28
+		y = 6
+		prerequisite = { focus = JAP_chinese_interrior }
+		prerequisite = { focus = JAP_chi_ports }
+		
+		cost = 10
+
+		ai_will_do = {
+			factor = 2
+		}
+
+		available = {
+			MEN = {
+				is_in_faction_with = ROOT
+				is_subject_of = ROOT
+				has_full_control_of_state = 608
+				OR = {
+		     		has_full_control_of_state = 743
+			    	has_full_control_of_state = 613
+				}
+			}			
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		complete_tooltip = {
+
+		}
+
+		completion_reward = {
+		    # TODO, crown an emperor for MEN (reorganized china)
+		}
+	}
+	
+	focus = {
+		id = JAP_mandate_of_heaven
+		icon = GFX_goal_generic_occupy_states_ongoing_war
+		x = 33
+		y = 6
+		prerequisite = { focus = JAP_expand_manchurian_railways }
+		#prerequisite = { focus = JAP_chi_ports }
+		
+		cost = 10
+
+		ai_will_do = {
+			factor = 2
+		}
+
+		available = {
+			MAN = {
+				is_in_faction_with = ROOT
+				is_subject_of = ROOT
+				has_full_control_of_state = 328
+				OR = {
+		     		has_full_control_of_state = 615
+			    	has_full_control_of_state = 622
+				}
+			}				
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		complete_tooltip = {
+
+		}
+
+		completion_reward = {
+		    # TODO, force AI Man to take MCK_for_the_emperor focus
+		}
+	}
+	
 	focus = {
 		id = JAP_North_Tech
 		x = 22
@@ -5526,7 +5685,7 @@ focus_tree = {
 	focus = {
 		id = JAP_studying_the_atom
 		icon = GFX_focus_research			
-		x = 30
+		x = 28
 		y = 7
 		cost = 10
 		ai_will_do = {
@@ -5550,7 +5709,7 @@ focus_tree = {
 		id = JAP_nuclear_winter
 		icon = GFX_goal_generic_secret_weapon			
 		prerequisite = { focus = JAP_studying_the_atom }	
-		x = 30
+		x = 28
 		y = 8
 		cost = 10
 		ai_will_do = {
@@ -5574,7 +5733,7 @@ focus_tree = {
 		id = JAP_f_go
 		icon = GFX_goal_support_fascism			
 		prerequisite = { focus = JAP_nuclear_winter }	
-		x = 30
+		x = 28
 		y = 9
 		cost = 10
 		ai_will_do = {
