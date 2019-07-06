@@ -1061,7 +1061,7 @@ NNavy = {
 	NAVAL_TRANSFER_BASE_NAVAL_DIST_ADD = 100,						-- Extra cost for naval movement ( compared to land movement ) when deciding what ports to use for a naval transfer
 	NAVAL_TRANSFER_BASE_NAVAL_DIST_MULT = 20,						-- Multiplier for the cost of naval movement ( compared to land movement ) when deciding what ports to use for naval transfer
 	NAVAL_SUPREMACY_INTEL_LOW = 0.3,								-- we need more intel than this to get any supremacy
-	NAVAL_SUPREMACY_CAN_INVADE = 0.5,								-- required naval supremacy to perform invasions on an area
+	NAVAL_SUPREMACY_CAN_INVADE = 0.6,								-- required naval supremacy to perform invasions on an area
 	CARRIER_STACK_PENALTY = 4,										-- The most efficient is 4 carriers in combat. 5+ brings the penalty to the amount of wings in battle.
 	CARRIER_STACK_PENALTY_EFFECT = 0.2,								-- Each carrier above the optimal amount decreases the amount of airplanes being able to takeoff by such %.
 	SHORE_BOMBARDMENT_CAP = 0.35,
@@ -1092,24 +1092,24 @@ NNavy = {
 	NAVY_REPAIR_BASE_SEARCH_BOOST_FOR_SAME_COUNTRY = 5,				-- while searching for a naval base for repairs, your own bases gets a bonus
 	
 	MISSION_FUEL_COSTS = {  -- fuel cost for each mission
-		0.2, -- HOLD (consumes fuel HOLD_MISSION_MOVEMENT_COST fuel while moving)
+		0.3, -- HOLD (consumes fuel HOLD_MISSION_MOVEMENT_COST fuel while moving)
 		1.0, -- PATROL		
 		1.0, -- STRIKE FORCE (does not cost fuel at base, and uses IN_COMBAT_FUEL_COST in combat. this is just for the movement in between)	
 		1.0, -- CONVOY RAIDING
 		1.0, -- CONVOY ESCORT
 		1.0, -- MINES PLANTING	
 		1.0, -- MINES SWEEPING	
-		0.8, -- TRAIN
-		0.2, -- RESERVE_FLEET (consumes fuel HOLD_MISSION_MOVEMENT_COST fuel while moving)
+		1.25, -- TRAIN
+		0.3, -- RESERVE_FLEET (consumes fuel HOLD_MISSION_MOVEMENT_COST fuel while moving)
 		1.0, -- NAVAL_INVASION_SUPPORT (does not cost fuel at base, only costs while doing bombardment and escorting units)
 	},
 	
 	HOLD_MISSION_MOVEMENT_COST = 1.0,								-- ships on hold cost this much fuel while moving
-	ON_BASE_FUEL_COST = 0.2,										-- ships that waits at naval bases cost this ratio
+	ON_BASE_FUEL_COST = 0.3,										-- ships that waits at naval bases cost this ratio
 	IN_COMBAT_FUEL_COST = 2.0,										-- ships in combat will get this ratio for fuel cost
 	
 	MAX_FUEL_FLOW_MULT = 2.0, -- max fuel flow ratio for ships, which will be multiplied by supply
-	FUEL_COST_MULT = 0.05, -- fuel multiplier for all naval missions
+	FUEL_COST_MULT = 0.04, -- fuel multiplier for all naval missions
 	
 	OUT_OF_FUEL_SPEED_FACTOR = -0.5,
 	OUT_OF_FUEL_RANGE_FACTOR = -0.5,
