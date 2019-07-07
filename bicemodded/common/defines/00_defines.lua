@@ -1099,17 +1099,17 @@ NNavy = {
 		1.0, -- CONVOY ESCORT
 		1.0, -- MINES PLANTING	
 		1.0, -- MINES SWEEPING	
-		1.25, -- TRAIN
+		1.5, -- TRAIN
 		0.3, -- RESERVE_FLEET (consumes fuel HOLD_MISSION_MOVEMENT_COST fuel while moving)
 		1.0, -- NAVAL_INVASION_SUPPORT (does not cost fuel at base, only costs while doing bombardment and escorting units)
 	},
 	
 	HOLD_MISSION_MOVEMENT_COST = 1.0,								-- ships on hold cost this much fuel while moving
-	ON_BASE_FUEL_COST = 0.3,										-- ships that waits at naval bases cost this ratio
+	ON_BASE_FUEL_COST = 0.4,										-- ships that waits at naval bases cost this ratio
 	IN_COMBAT_FUEL_COST = 2.0,										-- ships in combat will get this ratio for fuel cost
 	
 	MAX_FUEL_FLOW_MULT = 2.0, -- max fuel flow ratio for ships, which will be multiplied by supply
-	FUEL_COST_MULT = 0.04, -- fuel multiplier for all naval missions
+	FUEL_COST_MULT = 0.03, -- fuel multiplier for all naval missions
 	
 	OUT_OF_FUEL_SPEED_FACTOR = -0.5,
 	OUT_OF_FUEL_RANGE_FACTOR = -0.5,
@@ -1131,9 +1131,9 @@ NNavy = {
 
 	AGGRESSION_SETTINGS_VALUES = { -- ships will use this values while deciding to attack enemies
 		0.5,		-- do not engage
-		0.8,	-- low
-		1.1,	-- medium
-		2.0,	-- high
+		0.95,	-- low
+		1.25,	-- medium
+		2.5,	-- high
 		10000,	-- I am death incarnate!
 	},
 	
@@ -1203,7 +1203,7 @@ NNavy = {
 	MISSION_SUPREMACY_RATIOS = { -- supremacy multipliers for different mission types
 		0.0, -- HOLD
 		1.0, -- PATROL		
-		1.0, -- STRIKE FORCE 
+		0.75, -- STRIKE FORCE 
 		0.5, -- CONVOY RAIDING
 		0.5, -- CONVOY ESCORT
 		0.3, -- MINES PLANTING	
@@ -1214,8 +1214,8 @@ NNavy = {
 	},
 	
 	SUPREMACY_PER_SHIP_PER_MANPOWER = 0.05,							-- supremacy of a ship is calculated using its IC, manpower and a base define
-	SUPREMACY_PER_SHIP_PER_IC = 0.005,
-	SUPREMACY_PER_SHIP_BASE = 100.0,
+	SUPREMACY_PER_SHIP_PER_IC = 0.02,
+	SUPREMACY_PER_SHIP_BASE = 50.0,
 
 	NAVAL_MINES_IN_REGION_MAX = 600.0,								-- Max number of mines that can be layed by the ships. The value should be hidden from the user, as we present % so it's an abstract value that should be used for balancing.
 	NAVAL_MINES_PLANTING_SPEED_MULT = 0.01,						-- Value used to overall balance of the speed of planting naval mines
@@ -1326,7 +1326,7 @@ NNavy = {
 		1.0,	-- small guns
 	},
 	
-	BASE_JOIN_COMBAT_HOURS						= 8,				-- the taskforces that wants to join existing combats will wait for at least this amount
+	BASE_JOIN_COMBAT_HOURS						= 4,				-- the taskforces that wants to join existing combats will wait for at least this amount
 	LOW_ORG_FACTOR_ON_JOIN_COMBAT_DURATION		= 4.0,				-- low org of the ships will be factored in when a taskforce wants to join combat
 		
 	BASE_POSITIONING												= 1.0,	-- base value for positioning
@@ -2009,10 +2009,10 @@ NAI = {
 
 	CARRIER_TASKFORCE_MAX_CARRIER_COUNT = 4, 		-- optimum carrier count for carrier taskforces
 	CAPITAL_TASKFORCE_MAX_CAPITAL_COUNT = 12, 		-- optimum capital count for capital taskforces
-	SCREEN_TASKFORCE_MAX_SHIP_COUNT = 12,			-- optimum screen count for screen taskforces
+	SCREEN_TASKFORCE_MAX_SHIP_COUNT = 10,			-- optimum screen count for screen taskforces
 	SUB_TASKFORCE_MAX_SHIP_COUNT = 10 ,				-- optimum sub count for sub taskforces
 	
-	MIN_CAPITALS_FOR_CARRIER_TASKFORCE = 10,			-- carrier fleets will at least have this amount of capitals
+	MIN_CAPITALS_FOR_CARRIER_TASKFORCE = 2,			-- carrier fleets will at least have this amount of capitals
 	CAPITALS_TO_CARRIER_RATIO = 1.5,				-- capital to carrier count in carrier taskfoces
 	SCREENS_TO_CAPITAL_RATIO = 4.0,					-- screens to capital/carrier count in carrier & capital taskforces
 	
@@ -2057,15 +2057,15 @@ NAI = {
 	
 	MAX_MISSION_PER_TASKFORCE = {  -- max mission region/taskforce ratio
 		0, -- HOLD (consumes fuel HOLD_MISSION_MOVEMENT_COST fuel while moving)
-		2, -- PATROL		
-		5, -- STRIKE FORCE 
+		4, -- PATROL		
+		4, -- STRIKE FORCE 
 		1.5, -- CONVOY RAIDING
 		4, -- CONVOY ESCORT
 		2, -- MINES PLANTING
 		2, -- MINES SWEEPING
 		0, -- TRAIN
 		0, -- RESERVE_FLEET
-		10, -- NAVAL INVASION SUPPORT
+		8, -- NAVAL INVASION SUPPORT
 	},
 	
 	-- all-screen taskforces will be shared between convoy defense, mine missions and patrols (in this prio) 
@@ -2085,7 +2085,7 @@ NAI = {
 	MAX_SCREEN_TASKFORCES_FOR_MINE_LAYING = 0.05, -- maximum ratio of screens forces to be used in mine laying
 	MAX_SCREEN_FORCES_FOR_INVASION_SUPPORT = 0.0, -- max ratio of screens forces to be used in naval invasion missions
 	MAX_CAPITAL_FORCES_FOR_INVASION_SUPPORT = 0.4, -- max ratio of capital forces to be used in naval invasion missions
-	MAX_PATROL_TO_STRIKE_FORCE_RATIO = 3.0,	-- maximum patrol/strike force ratio
+	MAX_PATROL_TO_STRIKE_FORCE_RATIO = 4.0,	-- maximum patrol/strike force ratio
 	
 	MAX_FACTORY_TO_SPARE_FOR_MISSION_FUEL_TRADE = 0.3, 						-- amount of factories to spend on oil trade in case of fuel need for missions
 	MAX_FACTORY_TO_SPARE_FOR_CRITICAL_MISSION_FUEL_TRADE = 0.5, 			-- amount of factories to spend on oil trade in case of fuel need for prio missions
