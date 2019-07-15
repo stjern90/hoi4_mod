@@ -44,7 +44,7 @@ focus_tree = {
 				328 = {
 					add_building_construction = {
 						type = infrastructure
-						level = 2
+						level = 1
 						instant_build = yes
 					}
 				}
@@ -72,7 +72,7 @@ focus_tree = {
 				717 = {
 					add_building_construction = {
 						type = infrastructure
-						level = 2
+						level = 1
 						instant_build = yes
 					}
 				}
@@ -86,7 +86,7 @@ focus_tree = {
 				714 = {
 					add_building_construction = {
 						type = infrastructure
-						level = 2
+						level = 1
 						instant_build = yes
 					}
 				}
@@ -139,10 +139,10 @@ focus_tree = {
 					}
 				}
 				716 = {
-					add_extra_state_shared_building_slots = 5
+					add_extra_state_shared_building_slots = 2
 					add_building_construction = {
 						type = industrial_complex
-						level = 5
+						level = 2
 						instant_build = yes
 					}
 				}
@@ -186,7 +186,7 @@ focus_tree = {
 				716 = {	
 					add_resource = {
 						type = steel
-						amount = 35
+						amount = 20
 					}
 				}
 			}
@@ -387,7 +387,7 @@ focus_tree = {
 		icon = GFX_goal_generic_build_tank
 		x = 4
 		y = 1
-		cost = 10
+		cost = 11
 		completion_reward = {
 			random_owned_controlled_state = {
 				limit = {
@@ -398,10 +398,10 @@ focus_tree = {
 						include_locked = yes
 					}
 				}
-				add_extra_state_shared_building_slots = 3
+				add_extra_state_shared_building_slots = 2
 				add_building_construction = {
 					type = industrial_complex
-					level = 3
+					level = 2
 					instant_build = yes
 				}
 				add_building_construction = {
@@ -413,16 +413,16 @@ focus_tree = {
 			random_owned_controlled_state = {
 				limit = {
 					is_core_of = ROOT
-					free_building_slots = { = 3
+					free_building_slots = { 
 						building = arms_factory
-						size > 3
+						size > 2
 						include_locked = yes
 					}
 				}
-				add_extra_state_shared_building_slots = 3
+				add_extra_state_shared_building_slots = 2
 				add_building_construction = {
 					type = arms_factory
-					level = 3
+					level = 2
 					instant_build = yes
 				}
 			}
@@ -503,6 +503,14 @@ focus_tree = {
 				category = industry
 				category = infantry_weapons
 			}
+			if = {
+				limit = {
+						has_dlc = "Together for Victory"
+				}
+				add_autonomy_ratio = {
+					value = -0.05
+		    	}
+			}			
 		}
 	}
 	
@@ -553,6 +561,14 @@ focus_tree = {
 				uses = 1
 				bonus = 0.5
 				category = industry
+			}
+			if = {
+				limit = {
+						has_dlc = "Together for Victory"
+				}
+				add_autonomy_ratio = {
+					value = -0.05
+		    	}
 			}
 		}
 	}
@@ -619,6 +635,9 @@ focus_tree = {
 		x = 6
 		y = 4
 		cost = 10
+		ai_will_do = {
+			factor = 60
+		}
 		completion_reward = {
 			random_owned_controlled_state = {
 				limit = {
@@ -661,9 +680,12 @@ focus_tree = {
 		prerequisite = { focus = MCK_prepare_for_war }
 		x = 6
 		y = 5
-		cost = 10
+		cost = 9
 		available = {
 			has_war = yes
+		}
+		ai_will_do = {
+			factor = 30
 		}
 		completion_reward = {
 			random_owned_controlled_state = {
@@ -771,17 +793,63 @@ has_war_with = CHI
 	focus = {    # take control of the northern chinese states
 		id = MAN_vassalize_ccp
 		icon = GFX_goal_generic_forceful_treaty
+		prerequisite = { focus = MCK_a_self_sufficient_army }
 		prerequisite = { focus = MAN_vassalize_mengukuo }
 		available = {
 			OR = { is_puppet_of = JAP is_in_faction_with = JAP  }
 	              #Check here if certain states are controlled by 'root or ally of japan' 
-	
-			CCP = { is_puppet_of = JAP }
+				  custom_trigger_tooltip = {
+				  tooltip = MAN_get_north_china_tt
+			any_state = {
+			
+			OR = {
+			region = 231
+			region = 144
+			}
+			
+			CONTROLLER = {
+			OR = {
+			is_subject_of = JAP
+			tag = JAP
+			}
+			}
+			}
+			
+			}
+			
+			
+		}
+		
+		bypass = {
+		
+		
+		custom_trigger_tooltip = {
+				  tooltip = MAN_get_north_china_bypass_tt
+			NOT = {
+		any_state = {
+			OR = {
+			region = 231
+			region = 144
+			}
+			CONTROLLER = {
+			NOT = {tag = MAN }
+			}
+			
+			
+			}
+		}
+			
+			}
 		}
 		x = 8
 		y = 5
 		cost = 6.5
-		ai_will_do = { 	factor = 40 }	
+		ai_will_do = { 	factor = 40 
+		modifier = {
+		factor = 0
+		has_war_with = CCP
+		}
+		}	
 		cancel_if_invalid = yes
 		continue_if_invalid = no
 		available_if_capitulated = no
@@ -792,12 +860,13 @@ has_war_with = CHI
         focus = {    # core stuff
 		id = MAN_cores_of_empire
 		icon = GFX_goal_generic_forceful_treaty
+		prerequisite = { focus = MCK_for_the_emperor }
 		prerequisite = { focus = MAN_vassalize_ccp }
 		available = {
 			OR = { is_puppet_of = JAP is_in_faction_with = JAP  }
 	              #Check here if certain states are controlled by 'root or ally of japan' 
 		}
-		x = 8
+		x = 7
 		y = 6
 		cost = 12
 		ai_will_do = { 	factor = 40 }	
@@ -1174,10 +1243,10 @@ has_war_with = CHI
 		prerequisite = { focus = MCK_river_force }
 		prerequisite = { focus = MCK_labour_service_corps }
 		available = {
-			has_army_manpower = { size > 399999 }
+			has_army_manpower = { size > 299999 }
 		}
 		ai_will_do = {
-			factor = 0
+			factor = 2
 			modifier = {
 				factor = 1
 				date > 1940.5.1
@@ -2096,7 +2165,10 @@ has_war_with = CHI
 
 		available = {
 			OR = {
+			    custom_trigger_tooltip = {
+				tooltip = navy_focuses_allowed_tt
 				has_country_flag = MCK_navy_allowed
+				}
 				NOT = {
 					is_puppet_of = JAP
 				}
@@ -2109,110 +2181,65 @@ has_war_with = CHI
 
 		complete_tooltip = {
 			navy_experience = 25
-			add_extra_state_shared_building_slots = 2
-			add_building_construction = {
-				type = dockyard
-				level = 2
-				instant_build = yes
+			random_state = {				
+				limit = {
+					has_state_flag = naval_effort_built1
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_state = {				
+				limit = {
+					has_state_flag = naval_effort_built2
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = dockyard
+					level = 1
+					instant_build = yes
+				}
 			}
 		}
 		
 		completion_reward = {
 			navy_experience = 25
-			if = {
-				limit = {
-					NOT = {
-						any_owned_state = {
-							dockyard > 0
-							free_building_slots = {
-								building = dockyard
-								size > 2
-								include_locked = yes
-							}
-						}
-					}
-					any_owned_state = {
-						is_coastal = yes
-					}
-				}
-				random_owned_controlled_state = {
+			random_owned_controlled_state = {
 					limit = {
-						is_coastal = yes
+						is_in_home_area = yes
 						free_building_slots = {
 							building = dockyard
-							size > 2
+							size > 0
 							include_locked = yes
 						}
 					}
-					add_extra_state_shared_building_slots = 2
 					add_building_construction = {
 						type = dockyard
 						level = 2
 						instant_build = yes
 					}
+					set_state_flag = naval_effort_built1
 				}
-				set_country_flag = naval_effort_built
-			}
-			if = {
-				limit = {
-					NOT = { has_country_flag = naval_effort_built }
-					any_owned_state = {
-						dockyard > 0
-						free_building_slots = {
-							building = dockyard
-							size > 2
-							include_locked = yes
-						}
-					}
-				}
-				random_owned_controlled_state = {
+			random_owned_controlled_state = {
 					limit = {
-						dockyard > 0
+						is_in_home_area = yes
+						NOT = { has_state_flag = naval_effort_built1 }
 						free_building_slots = {
 							building = dockyard
-							size > 2
+							size > 0
 							include_locked = yes
 						}
 					}
-					add_extra_state_shared_building_slots = 2
 					add_building_construction = {
 						type = dockyard
-						level = 2
+						level = 1
 						instant_build = yes
 					}
-				}
-				set_country_flag = naval_effort_built
-			}
-			if = {
-				limit = {
-					NOT = { has_country_flag = naval_effort_built }
-					NOT = {
-						any_owned_state = {
-							free_building_slots = {
-								building = dockyard
-								size > 2
-								include_locked = yes
-							}
-						}
-					}
-				}
-				random_state = {
-					limit = {
-						controller = { tag = ROOT }
-						free_building_slots = {
-							building = dockyard
-							size > 2
-							include_locked = yes
-						}
-					}
-					add_extra_state_shared_building_slots = 2
-					add_building_construction = {
-						type = dockyard
-						level = 2
-						instant_build = yes
-					}
-				}
-			}			
+					set_state_flag = naval_effort_built2
+				}			
 		}
 	}
 
@@ -3957,7 +3984,7 @@ has_war_with = CHI
 		prerequisite = { focus = MCK_a_self_sufficient_army }
 		available = {
 			is_puppet_of = JAP
-			750 = {
+			745 = {
 				is_controlled_by = JAP
 			}
 		}
@@ -3967,6 +3994,7 @@ has_war_with = CHI
 
 		completion_reward = {
 			JAP = { country_event = { id = jap.31 days = 1 }}
+			custom_effect_tooltip = unlock_navy_focuses_tt
 		}
 	}
 
@@ -3996,7 +4024,7 @@ has_war_with = CHI
 		prerequisite = { focus = MCK_send_cadets_to_japan }
 		x = 12
 		y = 7
-		cost = 10
+		cost = 8.5
 
 		completion_reward = {
 			army_experience = 10
@@ -4014,7 +4042,7 @@ has_war_with = CHI
 		}
 		x = 10
 		y = 7
-		cost = 10
+		cost = 7
 
 		completion_reward = {
 			JAP = {
