@@ -711,8 +711,9 @@ focus_tree = {
 		id = PRC_prepare_for_war_with_japan
 		icon = GFX_goal_generic_major_war
 		prerequisite = { focus = PRC_revolutionary_military_commission }
+		mutually_exclusive = { focus = PRC_focus_on_china }
 		x = -1
-		y = 2
+		y = 1
 		relative_position_id = PRC_revolutionary_military_commission
 
 		cost = 5
@@ -747,6 +748,12 @@ focus_tree = {
 
 		completion_reward = {
 			add_war_support = 0.1
+			CCP = {
+				country_event = wtt_prc.9
+			}
+			SHX = {
+				country_event = wtt_prc.3 
+			}
 		}
 	}
 	
@@ -754,6 +761,7 @@ focus_tree = {
 		id = PRC_government_of_national_defense
 		icon = GFX_focus_chi_united_front
 		prerequisite = { focus = PRC_prepare_for_war_with_japan }
+		mutually_exclusive = { focus = PRC_approach_the_front }
 		x = 0
 		y = 1
 		relative_position_id = PRC_prepare_for_war_with_japan
@@ -785,6 +793,13 @@ focus_tree = {
 		
 		completion_reward = {
 			CHI = { country_event = wtt_prc.1 }
+			if = { 
+				limit = {
+					has_non_aggression_pact_with = SHX
+					SHX = { exists = yes }
+				}
+			SHX = { country_event = wtt_prc.6 }
+			}
 		}
 	}
 	
@@ -926,7 +941,7 @@ focus_tree = {
 		icon = GFX_focus_AST_war_japan
 		prerequisite = { focus = PRC_prepare_for_war_with_japan }
 		x = -2
-		y = 1
+		y = 2
 		relative_position_id = PRC_prepare_for_war_with_japan
 
 		cost = 7
@@ -1006,6 +1021,7 @@ focus_tree = {
 		icon = GFX_goal_generic_position_armies
 		prerequisite = { focus = PRC_revolutionary_military_commission }
 		mutually_exclusive = { focus = PRC_start_to_reform_the_army }
+		mutually_exclusive = { focus = PRC_focus_on_china }
 		x = 3 
 		y = 1 
 		relative_position_id = PRC_revolutionary_military_commission 
@@ -1033,10 +1049,10 @@ focus_tree = {
 	
 	focus = {
 		id = PRC_implement_devious_tactics
-		icon = GFX_goal_generic_position_armies
+		icon = GFX_Goal_Communist_Partisans2
 		prerequisite = { focus = PRC_improve_the_guerilla_tactics }
-		x = 0 
-		y = 1 
+		x = -1 
+		y = 2 
 		relative_position_id = PRC_improve_the_guerilla_tactics 
 		
 		cost = 4 
@@ -1061,7 +1077,7 @@ focus_tree = {
 	
 	focus = {
 		id = PRC_start_to_reform_the_army
-		icon = GFX_goal_generic_position_armies
+		icon = GFX_Goal_Commie_recruits
 		prerequisite = { focus = PRC_revolutionary_military_commission }
 		mutually_exclusive = { focus = PRC_improve_the_guerilla_tactics }
 		x = 5
@@ -1090,10 +1106,11 @@ focus_tree = {
 	
 	focus = {
 		id = PRC_field_army
-		icon = GFX_goal_generic_position_armies
-		prerequisite = { focus = PRC_start_to_reform_the_army }
+		icon = GFX_goal_focus_communist_army
+		prerequisite = { focus = PRC_exploit_the_weak_neighbours }
+		prerequisite = { focus = PRC_china_medical_university }
 		x = 0 
-		y = 1 
+		y = 3 
 		relative_position_id = PRC_start_to_reform_the_army 
 		
 		cost = 11 
@@ -1312,8 +1329,10 @@ focus_tree = {
 		id = PRC_focus_on_china
 		icon = GFX_goal_generic_major_war
 		prerequisite = { focus = PRC_revolutionary_military_commission }
+		mutually_exclusive = { focus = PRC_prepare_for_war_with_japan }
+		mutually_exclusive = { focus = PRC_improve_the_guerilla_tactics }
 		x = 1
-		y = 2
+		y = 1
 		relative_position_id = PRC_revolutionary_military_commission
 
 		cost = 7
@@ -1348,18 +1367,18 @@ focus_tree = {
 	focus = { 
 		id = PRC_west_expedition
 		icon = GFX_goal_generic_allies_build_infantry
+		prerequisite = { focus = PRC_improve_the_guerilla_tactics }
 		mutually_exclusive = { focus =  PRC_approach_the_front }
-		prerequisite = { focus = PRC_focus_on_china }
-		prerequisite = { focus = PRC_implement_devious_tactics }
-		x = 3
+		x = 2
 		y = 1
 		relative_position_id = PRC_focus_on_china
 		
 		cost = 4
 		
 		available = {
-			country_exists = XSM
+			XSM = { can_ROOT_get_wargoal_on_THIS = yes }
 		}
+		
 		bypass = {
 			NOT = {
 			    OR = {
@@ -1367,9 +1386,6 @@ focus_tree = {
 				has_war_with = XSM
 				}
 			}
-		}
-		available = {
-				XSM = { can_ROOT_get_wargoal_on_THIS = yes }
 		}
 		
         cancel_if_invalid = yes
@@ -1412,9 +1428,10 @@ focus_tree = {
 	focus = {
 		id = PRC_approach_the_front
 		icon = GFX_goal_generic_territory_or_war
-		mutually_exclusive = { focus =  PRC_west_expedition }
-		prerequisite = { focus = PRC_focus_on_china }
-		x = 1 
+		mutually_exclusive = { focus = PRC_west_expedition }
+		mutually_exclusive = { focus = PRC_government_of_national_defense }
+		prerequisite = { focus = PRC_improve_the_guerilla_tactics }
+		x = 0
 		y = 1 
 		relative_position_id = PRC_focus_on_china
 		
@@ -1488,9 +1505,9 @@ focus_tree = {
 		id = PRC_west_liberation
 		icon = GFX_goal_generic_allies_build_infantry
 		prerequisite = { focus = PRC_west_expedition }
-		x = 2
-		y = 2
-		relative_position_id = PRC_focus_on_china
+		x = 1
+		y = 1
+		relative_position_id = PRC_west_expedition
 		
 		cost = 2
 		
@@ -1521,10 +1538,10 @@ focus_tree = {
 		id = PRC_exploit_the_weak_neighbours
 		icon = GFX_goal_generic_territory_or_war
 		prerequisite = { focus = PRC_focus_on_china }
-		prerequisite = { focus = PRC_field_army }
+		prerequisite = { focus = PRC_start_to_reform_the_army }
 		x = 0
-		y = 2
-		relative_position_id = PRC_field_army
+		y = 1
+		relative_position_id = PRC_start_to_reform_the_army
 
 		cost = 10
 
@@ -1578,12 +1595,11 @@ focus_tree = {
 		id = PRC_china_medical_university
 		icon = GFX_focus_research
 		prerequisite = { focus = PRC_provisional_science_department }
-		prerequisite = { focus = PRC_implement_devious_tactics focus = PRC_field_army }
 		x = -1
 		y = 2
 		relative_position_id = PRC_the_yanan_base_area
 
-		cost = 10
+		cost = 6
 
 		ai_will_do = {
 			factor = 1
@@ -1698,7 +1714,7 @@ focus_tree = {
 		icon = GFX_goal_generic_intelligence_exchange
 		prerequisite = { focus = PRC_local_industry }
 		prerequisite = { focus = PRC_socialism_with_chinese_characteristics }
-		x = -1
+		x = 0
 		y = 2 
 		relative_position_id = PRC_local_industry 
 		
@@ -1777,11 +1793,10 @@ focus_tree = {
 	focus = {
 		id = PRC_infiltration
 		icon = GFX_focus_prc_infiltration
-		prerequisite = { focus = PRC_focus_on_china }
 		prerequisite = { focus = PRC_implement_devious_tactics }
 		x = 0
-		y = 2
-		relative_position_id = PRC_focus_on_china
+		y = 1
+		relative_position_id = PRC_implement_devious_tactics
 
 		cost = 7
 
@@ -1821,7 +1836,7 @@ focus_tree = {
 	focus = {
 		id = PRC_war_of_liberation
 		icon = GFX_Goal_Liberation_war
-		prerequisite = { focus = PRC_infiltration focus = PRC_exploit_the_weak_neighbours }
+		prerequisite = { focus = PRC_infiltration focus = PRC_field_army }
 		x = 2
 		y = 1
 		relative_position_id = PRC_infiltration
@@ -3579,18 +3594,17 @@ focus_tree = {
 		cost = 5 
 		
 		available = {
-SOV = { is_in_faction = yes is_faction_leader = yes }
-			}
+			SOV = { is_in_faction = yes is_faction_leader = yes }
+		}
 			
 		bypass = {
 		}
 		
 		completion_reward = {
-if = { limit = { is_in_faction = yes  }
+			if = { limit = { is_in_faction = yes  }
 			leave_faction = yes
-			
-}
-SOV = { add_to_faction = ROOT }
+			}
+			SOV = { add_to_faction = ROOT }
 		}
 	}
 	
