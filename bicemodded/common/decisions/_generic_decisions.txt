@@ -793,8 +793,8 @@ operations = {
 		available = {
 			is_puppet = no
 			AND = {
-				446 = { is_controlled_by_ROOT_or_ally = yes }
-				453 = { is_controlled_by_ROOT_or_ally = yes }
+				446 = { is_controlled_by_ROOT_or_subject = yes }
+				453 = { is_controlled_by_ROOT_or_subject = yes }
 			}
 			OR = {
 				NOT = {
@@ -818,7 +818,7 @@ operations = {
 			has_war = yes
 			NOT = { has_global_flag = SUEZ_CANAL_BLOCKED }
 			any_state = {
-				is_controlled_by_ROOT_or_ally = yes
+				is_controlled_by_ROOT_or_subject = yes
 				OR = {
 					region = 28
 					region = 128
@@ -860,8 +860,8 @@ operations = {
 			if = {
 				limit = {
 					OR = {
-						446 = { is_controlled_by_ROOT_or_ally = yes }
-					        453 = { is_controlled_by_ROOT_or_ally = yes }
+						446 = { is_controlled_by_ROOT_or_subject = yes }
+					        453 = { is_controlled_by_ROOT_or_subject = yes }
 					}
 					NOT = { has_global_flag = SUEZ_CANAL_BLOCKED }
 				}
@@ -894,57 +894,33 @@ operations = {
 				}
 			}
 		}
-		ai_will_do = {
-			factor = 1
+		ai_will_do = { 
+			base = 0
+
 			modifier = {
-				factor = 0
-				NOT = {
+				add = 1000
+
+				alliance_naval_strength_ratio < 0.5
+
+				has_navy_size = { size < 25 }
+
+				original_tag = ITA
+
+				OR = {
+					surrender_progress > 0.15
+
 					any_enemy_country = {
 						OR = {
-							controls_state = 452
-							controls_state = 447
-							controls_state = 456
-							controls_state = 457
-							controls_state = 454
-							controls_state = 455
-							OR = {
-								divisions_in_state = { state = 454 size > 2 }
-								divisions_in_state = { state = 447 size > 2 }
-								divisions_in_state = { state = 457 size > 2 }
-								divisions_in_state = { state = 456 size > 2 }
-							}
+							divisions_in_state = { state = 446 size > 3 } 
+							divisions_in_state = { state = 453 size > 3 }
 						}
 					}
+
+					447 = { CONTROLLER = { has_war_with = ROOT } }
+					452 = { CONTROLLER = { has_war_with = ROOT } }
+					451 = { CONTROLLER = { has_war_with = ROOT } }
+					450 = { CONTROLLER = { has_war_with = ROOT } }
 				}
-			}
-			modifier = {
-				factor = 0 # Don't blow the canal when you've got troops needing supplies in the Horn of Africa, and no land route has been established there
-				any_allied_country = {
-					NOT = {
-						OR = {
-							has_full_control_of_state = 457
-							has_full_control_of_state = 456
-						}
-					}
-					NOT = { has_full_control_of_state = 551 }
-					OR = {
-						divisions_in_state = { state = 550 size > 0 }
-						divisions_in_state = { state = 268 size > 0 }
-						divisions_in_state = { state = 269 size > 0 }
-						divisions_in_state = { state = 559 size > 0 }
-					}
-				}
-			}
-			modifier = {
-				factor = 200 # Try to cut the enemy off from the mediterranean if you also occupy Gibraltar
-				OR = {
-					has_full_control_of_state = 118
-					any_allied_country = {
-						has_full_control_of_state = 118
-					}
-				}
-				has_war = yes
-				NOT = { tag = ENG }
 			}
 		}
 	}
@@ -957,7 +933,7 @@ operations = {
 			
 		}
 		available = {
-			685 = { is_controlled_by_ROOT_or_ally = yes }
+			685 = { is_controlled_by_ROOT_or_subject = yes }
 		}
 	
 		visible = {
@@ -1023,31 +999,21 @@ operations = {
 			}
 		}
 		ai_will_do = {
-			factor = 1
+			base = 0
+			
 			modifier = {
-				factor = 0 # Don't blow up the canal as USA. Ever.
-				tag = USA
-			}
-			modifier = {
-				factor = 0 # Don't blow up the canal if enemies have weak navies but you are a strong naval power
-				has_navy_size = {
-					size > 50
-				}
-				NOT = {
+				add = 1000
+				alliance_naval_strength_ratio < 0.5
+				OR = {
+				    304 = { CONTROLLER = { has_war_with = ROOT } }
+					685 = { CONTROLLER = { has_war_with = ROOT } }
 					any_enemy_country = {
-						has_navy_size = {
-							size > 50
-						}
+						OR = {			divisions_in_state = { state = 304 size > 0 }	divisions_in_state = { state = 685 size > 0 } 		}
 					}
 				}
-			}
-			modifier = {
-				factor = 200 # Always blow up the canal as JAP or GER when at war with USA (priority)
-				OR = {
-					is_in_faction_with = JAP
-					is_in_faction_with = GER
-				}
-				has_war_with = USA
+				
+				divisions_in_state = { state = 304 size < 1 }
+				divisions_in_state = { state = 685 size < 1 } 
 			}
 		}
 	}
@@ -1060,8 +1026,8 @@ special_projects = {
 		icon = GFX_decision_generic_special_project
 
 		available = {
-			446 = { is_controlled_by_ROOT_or_ally = yes }
-			453 = { is_controlled_by_ROOT_or_ally = yes }
+			446 = { is_controlled_by_ROOT_or_subject = yes }
+			453 = { is_controlled_by_ROOT_or_subject = yes }
 			num_of_civilian_factories_available_for_projects > 25
 		}
 	
@@ -1082,8 +1048,8 @@ special_projects = {
 		remove_effect = {
 			if = {
 				limit = {
-					446 = { is_controlled_by_ROOT_or_ally = yes }
-					453 = { is_controlled_by_ROOT_or_ally = yes }
+					446 = { is_controlled_by_ROOT_or_subject = yes }
+					453 = { is_controlled_by_ROOT_or_subject = yes }
 				}
 				set_country_flag = rebuilt_suez
 				clr_global_flag = SUEZ_CANAL_BLOCKED
