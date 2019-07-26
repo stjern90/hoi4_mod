@@ -954,7 +954,7 @@ NAir = {
 	},
 	MAX_FUEL_FLOW_MULT = 1.0, -- max fuel flow ratio for planes, which will be multiplied by supply
 	
-	FUEL_COST_MULT = 0.32, -- fuel multiplier for all air missions
+	FUEL_COST_MULT = 0.3, -- fuel multiplier for all air missions
 	
 	MISSION_EFFICIENCY_MULT_AT_LACK_OF_FUEL = 0.33, 				-- multiplier for mission efficiency when a base lacks fuel
 	
@@ -1109,7 +1109,7 @@ NNavy = {
 	IN_COMBAT_FUEL_COST = 2.0,										-- ships in combat will get this ratio for fuel cost
 	
 	MAX_FUEL_FLOW_MULT = 2.0, -- max fuel flow ratio for ships, which will be multiplied by supply
-	FUEL_COST_MULT = 0.03, -- fuel multiplier for all naval missions
+	FUEL_COST_MULT = 0.04, -- fuel multiplier for all naval missions
 	
 	OUT_OF_FUEL_SPEED_FACTOR = -0.5,
 	OUT_OF_FUEL_RANGE_FACTOR = -0.5,
@@ -1813,9 +1813,9 @@ NAI = {
 
 	CONVOY_NEED_SAFETY_BUFFER = 1.00,					-- AI will try and keep 15% more convoys than what it needs.
 	REGION_THREAT_PER_SUNK_CONVOY = 50,					-- Threat value per convoy sunk in a region. Decays over time.
-	REGION_THREAT_LEVEL_TO_AVOID_REGION = 25 * 10,		-- How much threat must be generated in region ( by REGION_THREAT_PER_SUNK_CONVOY ) so the AI will decide to mark the region as avoid
-	REGION_THREAT_LEVEL_TO_BLOCK_REGION = 25 * 100,		-- How much threat must be generated in region ( by REGION_THREAT_PER_SUNK_CONVOY ) so the AI will decide to mark the region as avoid
-	REGION_CONVOY_DANGER_DAILY_DECAY = 3,				-- When convoys are sunk it generates threat in the region which the AI uses to prio nalval missions
+	REGION_THREAT_LEVEL_TO_AVOID_REGION = 250,		-- How much threat must be generated in region ( by REGION_THREAT_PER_SUNK_CONVOY ) so the AI will decide to mark the region as avoid
+	REGION_THREAT_LEVEL_TO_BLOCK_REGION = 2500,		-- How much threat must be generated in region ( by REGION_THREAT_PER_SUNK_CONVOY ) so the AI will decide to mark the region as avoid
+	REGION_CONVOY_DANGER_DAILY_DECAY = 4,				-- When convoys are sunk it generates threat in the region which the AI uses to prio nalval missions
 
 	PRODUCTION_LINE_SWITCH_SURPLUS_NEEDED_MODIFIER = 0.1,	-- Is modified by efficency modifiers.
 	PLAN_ACTIVATION_MAJOR_WEIGHT_FACTOR = 1,			-- AI countries will hold on activating plans if stronger countries have plans in the same location. Majors count extra (value of 1 will negate this)
