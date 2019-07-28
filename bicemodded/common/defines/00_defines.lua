@@ -1154,7 +1154,7 @@ NNavy = {
 	AGGRESSION_CONVOY_STRENGTH_FACTOR = 0.3,			  -- convoys in combat gets a penalty to their strength in aggression calculations
 	
 	SUBMARINE_ESCAPE_RATIOS = { -- subs will escape battle in convoy raid if there are enemies that can attack
-		50,     -- do not engage
+		25,     -- do not engage
 		10,   -- low
 		3.0,   -- medium
 		1.0,   -- high
@@ -1381,7 +1381,7 @@ NNavy = {
 
 	GUN_HIT_PROFILES = { -- hit profiles for guns, if target ih profile is lower the gun will have lower accuracy
 		80.0,	-- big guns
-		105.0,	-- torpedos
+		120.0,	-- torpedos
 		40.0,	-- small guns
 	},
 	
