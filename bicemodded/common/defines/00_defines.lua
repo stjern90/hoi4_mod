@@ -2063,7 +2063,7 @@ NAI = {
 		4, -- CONVOY ESCORT
 		2, -- MINES PLANTING
 		2, -- MINES SWEEPING
-		0, -- TRAIN
+		4, -- TRAIN
 		0, -- RESERVE_FLEET
 		8, -- NAVAL INVASION SUPPORT
 	},
@@ -2130,9 +2130,9 @@ NAI = {
 	NAVAL_BASE_RATIO_ALLOCATED_FOR_REPAIRS_IN_WAR_TIME = 0.6,	-- ai will allocate at most this ratio of dockyards for repairs in war time
 	
 	MAX_FUEL_CONSUMPTION_RATIO_FOR_AIR_TRAINING = 0.25,			-- ai will use at most this ratio of affordable fuel for air training
-	MAX_FUEL_CONSUMPTION_RATIO_FOR_NAVY_TRAINING = 0.2,		-- ai will use at most this ratio of affordable fuel for naval training
+	MAX_FUEL_CONSUMPTION_RATIO_FOR_NAVY_TRAINING = 0.5,		-- ai will use at most this ratio of affordable fuel for naval training
 	
-	MAX_FULLY_TRAINED_SHIP_RATIO_FOR_TRAINING = 0.8,			-- ai will not train a taskforce if fully trained ships are above this ratio
+	MAX_FULLY_TRAINED_SHIP_RATIO_FOR_TRAINING = 1.0,			-- ai will not train a taskforce if fully trained ships are above this ratio
 	
 	NUM_SILOS_PER_CIVILIAN_FACTORIES = 0.0025,					-- ai will try to build a silo per this ratio of civ factories
 	NUM_SILOS_PER_MILITARY_FACTORIES = 0.012,					-- ai will try to build a silo per this ratio of mil factories
