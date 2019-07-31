@@ -2087,15 +2087,15 @@ NAI = {
 	MAX_CAPITAL_FORCES_FOR_INVASION_SUPPORT = 0.4, -- max ratio of capital forces to be used in naval invasion missions
 	MAX_PATROL_TO_STRIKE_FORCE_RATIO = 4.0,	-- maximum patrol/strike force ratio
 	
-	MAX_FACTORY_TO_SPARE_FOR_MISSION_FUEL_TRADE = 0.3, 						-- amount of factories to spend on oil trade in case of fuel need for missions
+	MAX_FACTORY_TO_SPARE_FOR_MISSION_FUEL_TRADE = 0.35, 						-- amount of factories to spend on oil trade in case of fuel need for missions
 	MAX_FACTORY_TO_SPARE_FOR_CRITICAL_MISSION_FUEL_TRADE = 0.5, 			-- amount of factories to spend on oil trade in case of fuel need for prio missions
 	MAX_FACTORY_TO_TRADE_FOR_FUEL = 0.55,
 	
 	FUEL_TRADE_PRIO_FOR_CONVOY_DEFENSE = 0.3,								-- AI will be less reluctant to cancel convoy missions if it is trading for oil
 	
-	MAX_FACTORY_TO_SPARE_FOR_MISSION_FUEL_TRADE_IN_PEACE = 0.2, 			-- amount of factories to spend on oil trade in case of fuel need for missions in peace time
-	MAX_FACTORY_TO_SPARE_FOR_CRITICAL_MISSION_FUEL_TRADE_IN_PEACE = 0.3, 	-- amount of factories to spend on oil trade in case of fuel need for prio missions in peace time
-	MAX_FACTORY_TO_TRADE_FOR_FUEL_IN_PEACE = 0.55,
+	MAX_FACTORY_TO_SPARE_FOR_MISSION_FUEL_TRADE_IN_PEACE = 0.35, 			-- amount of factories to spend on oil trade in case of fuel need for missions in peace time
+	MAX_FACTORY_TO_SPARE_FOR_CRITICAL_MISSION_FUEL_TRADE_IN_PEACE = 0.45, 	-- amount of factories to spend on oil trade in case of fuel need for prio missions in peace time
+	MAX_FACTORY_TO_TRADE_FOR_FUEL_IN_PEACE = 0.65,
 
 
 	FUEL_REQUEST_RATIO_FOR_COMBATS = 0.6,									-- ratio of ship combat fuel cost that is to be considered in fuel usage and request system
@@ -2130,7 +2130,7 @@ NAI = {
 	NAVAL_BASE_RATIO_ALLOCATED_FOR_REPAIRS_IN_WAR_TIME = 0.6,	-- ai will allocate at most this ratio of dockyards for repairs in war time
 	
 	MAX_FUEL_CONSUMPTION_RATIO_FOR_AIR_TRAINING = 0.25,			-- ai will use at most this ratio of affordable fuel for air training
-	MAX_FUEL_CONSUMPTION_RATIO_FOR_NAVY_TRAINING = 0.5,		-- ai will use at most this ratio of affordable fuel for naval training
+	MAX_FUEL_CONSUMPTION_RATIO_FOR_NAVY_TRAINING = 0.6,		-- ai will use at most this ratio of affordable fuel for naval training
 	
 	MAX_FULLY_TRAINED_SHIP_RATIO_FOR_TRAINING = 1.0,			-- ai will not train a taskforce if fully trained ships are above this ratio
 	
