@@ -547,7 +547,7 @@ NMilitary = {
 	WARSCORE_MIN_HOURS = 48,						-- minimum hours
 	UNIT_EXPERIENCE_PER_COMBAT_HOUR = 0.0001,
 	UNIT_EXPERIENCE_SCALE = 1.0,
-	UNIT_EXPERIENCE_PER_TRAINING_DAY = 0.0014,
+	UNIT_EXPERIENCE_PER_TRAINING_DAY = 0.0015,
 	TRAINING_MAX_LEVEL = 4,
 	DEPLOY_TRAINING_MAX_LEVEL = 2,
 	TRAINING_EXPERIENCE_SCALE = 80.0,				-- was 62.0 testing a bit more cause training needs so much more equipment than vanilla game
@@ -2107,8 +2107,8 @@ NAI = {
 	NAVY_ACTUAL_FUEL_USAGE_WEIGHT_ON_OIL_REQUEST = 0.5, 					-- weight of actual fuel usage of ships compared to what is being asked for missions while calculating oil needed for trade
 	AIR_ACTUAL_FUEL_USAGE_WEIGHT_ON_OIL_REQUEST = 0.5, 						-- weight of actual fuel usage of planes compared to what is being asked for missions while calculating oil needed for trade
 	
-	MONTHS_TO_FILL_FUEL_BUFFER_WITH_OIL_REQUESTS = 9.0, 					-- in war time, coutries will try to fill their buffer in this duration and trade for oil if necesarry
-	MONTHS_TO_FILL_FUEL_BUFFER_WITH_OIL_REQUESTS_IN_PEACE_TIME = 15.0,      -- in peace time, coutries will try to fill their buffer in this duration and trade for oil if necesarry
+	MONTHS_TO_FILL_FUEL_BUFFER_WITH_OIL_REQUESTS = 2.0, 					-- in war time, coutries will try to fill their buffer in this duration and trade for oil if necesarry
+	MONTHS_TO_FILL_FUEL_BUFFER_WITH_OIL_REQUESTS_IN_PEACE_TIME = 3.0,      -- in peace time, coutries will try to fill their buffer in this duration and trade for oil if necesarry
 	
 	FUEL_CONSUMPTION_MULT_FOR_FUEL_SAVING_MODE = 0.5,				-- fuel consumptions will be limited by this ratio in fuel saving mode
 	FUEL_CONSUMPTION_MULT_REGULAR_FUEL_MODE = 1.0,					-- fuel consumptions will be limited by this ratio in regular fuel mode
