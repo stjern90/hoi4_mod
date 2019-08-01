@@ -95,7 +95,13 @@ tactic_cc_attack = {
 	
 	active = yes
 	
-	base =  { factor = 4 }
+	base =  {
+		factor = 4
+		modifier = {
+			add = 2
+			has_trait = infantry_expert
+		}
+	}
 	picture = cc_attack
 	display_phase = close_combat
 
@@ -111,7 +117,13 @@ tactic_cc_defend = {
 	
 	active = yes
 	
-	base =  { factor = 4 }
+	base =  {
+		factor = 4
+		modifier = {
+			add = 2
+			has_trait = infantry_expert
+		}
+	}
 	picture = cc_defend
 	display_phase = close_combat
 
@@ -128,7 +140,13 @@ tactic_cc_storm = {
 	
 	active = yes
 	
-	base =  { factor = 2 }
+	base =  {
+		factor = 2
+		modifier = {
+			add = 2
+			has_trait = infantry_expert
+		}
+	}
 	picture = cc_storm
 	display_phase = close_combat
 
@@ -145,7 +163,13 @@ tactic_cc_local_strong_point = {
 	active = yes
 	display_phase = close_combat
 
-	base =  { factor = 2 }
+	base =  {
+		factor = 2
+		modifier = {
+			add = 2
+			has_trait = infantry_expert
+		}
+	}
 	picture = cc_local_strong_point
 	
 	attacker = -0.2			#attacker gets a penalty to doing damage
@@ -159,7 +183,13 @@ tactic_cc_withdraw = {
 	
 	active = yes
 	
-	base =  { factor = 1 }
+	base =  {
+		factor = 1
+		modifier = {
+			add = 2
+			has_trait = infantry_expert
+		}
+	}
 	picture = cc_withdraw
 	display_phase = close_combat
 
@@ -182,6 +212,7 @@ tactic_encirclement = {
 			has_trait = panzer_leader
 			has_trait = trickster
 			has_trait = combined_arms_expert
+			has_trait = motorized_leader
 		}
 	}
 	
@@ -191,10 +222,7 @@ tactic_encirclement = {
 		factor = 4
 		modifier = {
 			add = 4
-			OR = {
-				has_trait = panzer_expert
-				has_trait = combined_arms_expert
-			}
+				has_trait = motorized_expert
 		}
 	}
 	
@@ -216,6 +244,10 @@ tactic_delay = {
 	
 	base =  {
 		factor = 4
+		modifier = {
+			add = 4
+			has_trait = cavalry_expert
+		}
 	}
 	picture = delay
 	countered_by = tactic_shock
@@ -367,11 +399,8 @@ tactic_breakthrough = { #counters ambush
 	base =  { 
 	factor = 4 
     	modifier = {
-			add = 2
-			OR = {
-				has_trait = panzer_expert
+			add = 4
 				has_trait = spearhead_specialist
-			}
 		}
 	}
 	picture = breakthrough
@@ -397,7 +426,13 @@ tactic_ambush = { #counters shock
 	
 	active = yes
 	
-	base =  { factor = 4 }
+	base =  {
+		factor = 4
+		modifier = {
+			add = 4
+			has_trait = ambusher
+		}
+	}
 	picture = ambush
 	countered_by = tactic_breakthrough
 	
@@ -413,7 +448,6 @@ tactic_blitz = {
 		OR = {
 			skill > 4
 			has_trait = panzer_leader
-			has_trait = spearhead_specialist
 			skill_advantage > 1
 		}
 	}
@@ -424,10 +458,7 @@ tactic_blitz = {
 		factor = 4
 		modifier = {
 			add = 4
-			OR = {
-				has_trait = panzer_expert
-				has_trait = combined_arms_expert
-			}
+			has_trait = panzer_expert	
 		}
 	}
 	
@@ -448,12 +479,19 @@ tactic_elastic_defense = { #counters blitz
 		OR = {
 			has_trait = defensive_doctrine
 			skill > 2
+			has_trait = combined_arms_expert
 		}
 	}
 	
 	active = no
 	
-	base =  { factor = 4 }
+	base =  {
+		factor = 4
+		modifier = {
+			add = 4
+			has_trait = combined_arms_expert
+		}
+	}
 	picture = elastic_defence
 	
 	attacker_movement_speed = -0.25
@@ -471,12 +509,22 @@ tactic_backhand_blow = { #counters breakthrough
 				has_trait = defensive_doctrine
 				skill > 3
 			}
+			AND = {
+				has_trait = fast_planner
+				skill > 4
+			}
 		}
 	}
 	
 	active = no
 	
-	base =  { factor = 4 }
+	base =  {
+		factor = 4
+		modifier = {
+			add = 4
+			has_trait = fast_planner
+		}
+	}
 	picture = backhand_blow
 	
     attacker_movement_speed = -0.2
@@ -711,7 +759,13 @@ tactic_guerrilla_tactics = { #People's army defender tactic. also for German vol
 	
 	active = no
 	
-	base =  { factor = 4 }
+	base =  {
+		factor = 4
+		modifier = {
+			add = 4
+			has_trait = guerilla_fighter
+		}
+	}
 	picture = tactic_guerrilla_tactics
 	
     combat_width = -0.5
@@ -730,7 +784,16 @@ tactic_human_wave_tactics = { #People's army attacker tactic
 	
 	active = no
 	
-	base =  { factor = 4 }
+	base =  { 
+		factor = 4 
+		modifier = {
+			add = 4
+			has_trait = logistics_wizard
+		}	
+	
+	
+	
+	}
 	picture = tactic_human_wave_tactics
 	
 	combat_width = 0.5
@@ -771,7 +834,7 @@ tactic_infantry_charge = { #GBP -> Infantry attacker tactic
     	factor = 3 
 		modifier = {
          	add = 2
-        	has_trait = infantry_leader
+        	has_trait = skirmisher
     	}
 	}
 	picture = tactic_infantry_charge
@@ -785,12 +848,20 @@ tactic_planned_attack = { #GBP -> Armor attacker tactic
 	trigger = {
 		is_attacker = yes
 		phase = no
+		OR = {
+			skill > 4
+			has_trait = thorough_planner
+			skill_advantage > 1		
 	}
 	
 	active = no
 	
-	base =  { 
-    	factor = 4  	
+	base =  {
+		factor = 4
+		modifier = {
+			add = 4
+			has_trait = thorough_planner
+		}
 	}
 	picture = tactic_planned_attack
 	
@@ -806,7 +877,13 @@ tactic_relentless_assault = { #Deep battle attacker tactic
 	
 	active = no
 	
-	base =  { factor = 4 }
+	base =  {
+		factor = 4
+		modifier = {
+			add = 4
+			has_trait = expert_delegator
+		}
+	}
 	picture = tactic_relentless_assault
 	
 	attacker_movement_speed = 0.15
@@ -837,6 +914,10 @@ tactic_unexpected_thrust = { #Mobile warfare attacker tactic
 			add = 1
 			has_trait = motorized_expert
 		}
+		modifier = {
+			add = 3
+			has_trait = camouflage_expert
+		}
 	}
 	picture = tactic_unexpected_thrust
 	
@@ -856,8 +937,8 @@ tactic_overwhelming_fire = { # Counters Banzai charge
 	base =  { 
     	factor = 2 
     	modifier = {
-			add = 1
-			has_trait = artillery_expert
+			add = 2
+			has_trait = defensive_doctrine
     	}
 	}
 	picture = tactic_overwhelming_fire
