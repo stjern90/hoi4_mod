@@ -1541,7 +1541,7 @@ focus_tree = {
 		id = AST_naval_auxiliary_patrol
 		icon = GFX_goal_generic_fortify_city
 		prerequisite = { focus = AST_royal_australian_submarine_service focus = AST_scrap_iron_flotilla }
-		x = 0
+		x = -1
 		y = 3
 		relative_position_id = AST_cockatoo_island_shipyards
 
@@ -1571,11 +1571,67 @@ focus_tree = {
 			add_ideas = AST_naval_auxiliary_patrol
 		}
 	}
+	
+	focus = {
+		id = AST_improve_dockyard_facilities
+		icon = GFX_goal_generic_production2
+		prerequisite = { focus = AST_royal_australian_submarine_service focus = AST_scrap_iron_flotilla }
+		x = 1
+		y = 3
+		relative_position_id = AST_cockatoo_island_shipyards
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 5
+		}
+
+		available = {
+		   has_tech = ship_industry
+		}
+		
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			if = {
+				limit = {
+					has_dlc = "Man the Guns"
+				}
+				add_ideas = AST_improved_dockyard_facilities_mtg
+			}
+			else = {
+				add_ideas = AST_improved_dockyard_facilities_legacy
+			}
+				random_owned_controlled_state = {
+					limit = {
+						is_coastal = yes
+						free_building_slots = {
+							building = dockyard
+							size > 1
+							include_locked = yes
+						}
+						dockyard > 1
+					}
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = dockyard
+						level = 2
+						instant_build = yes
+					}
+				}
+		}
+	}
 
 	focus = {
 		id = AST_cruisers
 		icon = GFX_goal_generic_navy_battleship
-		prerequisite = { focus = AST_naval_auxiliary_patrol }
+		prerequisite = { focus = AST_naval_auxiliary_patrol focus = AST_improve_dockyard_facilities }
 		x = -1
 		y = 4
 		relative_position_id = AST_cockatoo_island_shipyards
@@ -1613,7 +1669,7 @@ focus_tree = {
 	focus = {
 		id = AST_pacific_area_navy
 		icon = GFX_goal_generic_navy_doctrines_tactics
-		prerequisite = { focus = AST_naval_auxiliary_patrol }
+		prerequisite = { focus = AST_naval_auxiliary_patrol focus = AST_improve_dockyard_facilities }
 		x = 1
 		y = 4
 		relative_position_id = AST_cockatoo_island_shipyards
@@ -1683,62 +1739,6 @@ focus_tree = {
 
 		completion_reward = {
 			add_ideas = AST_australia_rules_the_waves
-		}
-	}
-	
-	focus = {
-		id = AST_improve_dockyard_facilities
-		icon = GFX_goal_generic_production2
-		prerequisite = { focus = AST_pacific_area_navy }
-		x = 1
-		y = 6
-		relative_position_id = AST_cockatoo_island_shipyards
-
-		cost = 10
-
-		ai_will_do = {
-			factor = 5
-		}
-
-		available = {
-		   has_tech = ship_industry
-		}
-		
-		bypass = {
-
-		}
-
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-
-		completion_reward = {
-			if = {
-				limit = {
-					has_dlc = "Man the Guns"
-				}
-				add_ideas = AST_improved_dockyard_facilities_mtg
-			}
-			else = {
-				add_ideas = AST_improved_dockyard_facilities_legacy
-			}
-				random_owned_controlled_state = {
-					limit = {
-						is_coastal = yes
-						free_building_slots = {
-							building = dockyard
-							size > 1
-							include_locked = yes
-						}
-						dockyard > 1
-					}
-					add_extra_state_shared_building_slots = 2
-					add_building_construction = {
-						type = dockyard
-						level = 2
-						instant_build = yes
-					}
-				}
 		}
 	}
 	
@@ -2636,7 +2636,10 @@ focus_tree = {
 		available_if_capitulated = yes
 
 		completion_reward = {
-			add_ideas = AST_invest_in_victory
+			swap_ideas = {
+					remove_idea = AST_memory_of_gallipoli
+					add_idea = AST_invest_in_victory
+				}
 		}
 	}
 
@@ -3634,6 +3637,7 @@ focus_tree = {
 			hidden_effect = {
 				news_event = { id = news.253 hours = 5 }
 			}
+			remove_ideas =  AST_memory_of_gallipoli
 		}
 	}
 
