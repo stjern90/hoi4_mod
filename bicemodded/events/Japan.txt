@@ -418,6 +418,7 @@ country_event = {
 	option = {
 		name = japan.11.a
 		add_political_power = -100
+		ai_chance = { factor = 10 }
 		SIA = { 
 			country_event = { id = japan.12 }
 		}
@@ -459,7 +460,12 @@ country_event = {
 
 	option = {
 		name = japan.12.b
-		ai_chance = { factor = 10 }
+		ai_chance = { 
+		factor = 10 
+		modifier = {
+		factor = 0
+		}
+		}
 		JAP = { 
 			country_event = { id = japan.14 }
 			effect_tooltip = {
@@ -923,13 +929,13 @@ country_event = {
 	fire_only_once = yes
 	
 	trigger = {
-		has_idea = london_naval_treaty
+		has_naval_treaty_trigger = yes
 	}
 	
 	option = { 
 		name = japan.27.a
 		add_stability = -0.03
-		remove_ideas = london_naval_treaty
+		london_naval_treaty_clear_all = yes
 		set_country_flag = broke_london_flag
 		ai_chance = { 
 			factor = 8
@@ -1400,7 +1406,7 @@ news_event = {
 		name = japan.37.b	
 		trigger = {
 		NOT = { has_country_flag = broke_london_flag }
-		NOT = { has_idea = london_naval_treaty }
+		has_naval_treaty_trigger = no
 		}
 		ai_chance = { factor = 10 }
 		effect_tooltip = {
@@ -1415,10 +1421,10 @@ news_event = {
 		name = japan.37.c	
 		trigger = {
 		NOT = { has_country_flag = broke_london_flag }
-		has_idea = london_naval_treaty
+		has_naval_treaty_trigger = yes
 		}
 		ai_chance = { factor = 10 }
-		remove_ideas = london_naval_treaty
+		london_naval_treaty_clear_all = yes
 		add_stability = -0.03
 		effect_tooltip = {
 		event_target:broke_london_treaty = {
@@ -1436,7 +1442,7 @@ news_event = {
 		name = japan.37.e	
 		trigger = {
 		NOT = { has_country_flag = broke_london_flag }
-		has_idea = london_naval_treaty
+		has_naval_treaty_trigger = yes
 		}
 		ai_chance = { factor = 0 }
 		add_war_support = -0.02
@@ -1508,8 +1514,8 @@ news_event = {
 	option = { 
 	   #Oh noes!
 		name = japan.38.a
-		if = { limit { has_idea = london_naval_treaty }
-		remove_ideas = london_naval_treaty
+		if = { limit = { has_naval_treaty_trigger = yes }
+		london_naval_treaty_clear_all = yes
 		}
 	}
 }
@@ -1530,7 +1536,7 @@ country_event = {
 	option = { 
 	   #Oh noes!
 		name = japan.388.a
-		remove_ideas = london_naval_treaty
+		london_naval_treaty_clear_all = yes
 	}
 }
 
@@ -2007,6 +2013,37 @@ country_event = {
 	    MEN = { exists = yes }
 	    }
 		MEN = { annex_country = { target = CHI transfer_troops = no } }
+if = { limit = { has_country_flag = jap_china_occupation_setup  }
+MEN = {
+set_politics = {
+					ruling_party = fascism
+					elections_allowed = no
+				}
+				set_popularities = {
+    democratic = 2
+	fascism = 64
+	communism = 12
+	neutrality = 22
+}
+set_stability = 0.4
+set_war_support = 0.2
+            load_focus_tree = MEN_focus
+				create_country_leader = {
+					name = "Wang Jingwei"
+					desc = "POLITICS_WANG_JINGWEI_DESC"
+					picture = "gfx/leaders/kmt_mod/Portrait_Wang_Jingwei.dds"
+					expire = "1965.1.1"
+					ideology = fascism_ideology
+					traits = {
+						low_legitimacy
+					}
+				}
+				set_country_flag = JAP_puppet
+				set_party_name = { ideology = fascism long_name = KMT_wjw name = KMT_wjw }
+				add_ideas = KMT_jap_military_advisors
+         set_cosmetic_tag = WJW
+}
+}
 	}
 	
 	option = {
@@ -2203,16 +2240,28 @@ country_event = {
 			factor = 100
 		}
 		 if = {
-		        	limit = { 608 = { is_owned_by = MEN } }
-					transfer_state = 608
-				}	
-                else_if = {
-		        	limit = { 608 = { is_fully_controlled_by = MEN } }
+		        	limit = { 608 = { is_fully_controlled_by = MEN  } }
+					if = {
+		        	  limit = { CHI = { exists = yes has_war_with = JAP } }
+					CHI = { transfer_state = 608 }
+					}
+					else_if = {
+		        	  limit = { CCP = { exists = yes has_war_with = JAP } }
+					CCP = { transfer_state = 608 }
+			    		else = {
+				        	transfer_state = 608
+			    		}
+					}
+					
 					set_state_controller = 608 
-				}
+				}	
+				
+
+				
 		        if = {
 		        	limit = { 743 = { is_owned_by = MEN } }
 					transfer_state = 743
+					set_state_controller = 743 
 				}	
                 else_if = {
 		        	limit = { 743 = { is_fully_controlled_by = MEN } }
@@ -2221,6 +2270,7 @@ country_event = {
 				if = {
 		        	limit = { 613 = { is_owned_by = MEN } }
 					transfer_state = 613
+					set_state_controller = 613
 				}	
                 else_if = {
 		        	limit = { 613 = { is_fully_controlled_by = MEN } }
@@ -2229,6 +2279,7 @@ country_event = {
 				if = {
 		        	limit = { 326 = { is_owned_by = MEN } }
 					transfer_state = 326
+					set_state_controller = 326
 				}	
                 else_if = {
 		        	limit = { 326 = { is_fully_controlled_by = MEN } }
@@ -2244,6 +2295,7 @@ country_event = {
 		        if = {
 		        	limit = { 743 = { is_owned_by = MEN } }
 					transfer_state = 743
+					set_state_controller = 743 
 				}	
                 else_if = {
 		        	limit = { 743 = { is_fully_controlled_by = MEN } }
@@ -2252,6 +2304,7 @@ country_event = {
 				if = {
 		        	limit = { 613 = { is_owned_by = MEN } }
 					transfer_state = 613
+					set_state_controller = 613
 				}	
                 else_if = {
 		        	limit = { 613 = { is_fully_controlled_by = MEN } }
@@ -2260,6 +2313,7 @@ country_event = {
 				if = {
 		        	limit = { 326 = { is_owned_by = MEN } }
 					transfer_state = 326
+					set_state_controller = 326
 				}	
                 else_if = {
 		        	limit = { 326 = { is_fully_controlled_by = MEN } }
