@@ -12,6 +12,289 @@ focus_tree = {
 	continuous_focus_position = { x = 0 y = 1900 }
 	
 	focus = {
+		id = JAP_better_relations_with_germany
+		icon = GFX_focus_chi_mission_to_germany
+		prerequisite = { focus = }
+		x = 40
+		y = 0
+		#relative_position_id = 
+		
+		cost = 2
+		
+		available_if_capitulated = no 
+		
+		ai_will_do = {
+			factor = 2 
+		}
+		
+		completion_reward = {
+			GER = {
+				country_event = { id = germany.341 days = 1 }
+				custom_effect_tooltip = needs_approval
+			}
+			effect_tooltip = {
+				diplomatic_relation = {
+					country = GER
+					relation = non_aggression_pact
+					active = yes
+				}
+				JAP = {
+					add_political_power = 100
+					add_war_support = 0.025
+					add_opinion_modifier = { target = GER modifier = GER_replaced_abassador }
+				}
+				GER = {
+					add_political_power = 100
+					add_war_support = 0.025
+					add_opinion_modifier = { target = JAP modifier = GER_replace_the_abassador_in_japan }
+				}
+				CHI = {
+					add_stability = -0.025
+					add_war_support = 0.025
+					add_opinion_modifier = { target = GER modifier = GER_replaced_abassador_in_japan }
+					country_event = germany.340 
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = JAP_german_anti_comintern_pact
+		icon = GFX_goal_anti_comintern_pact
+		prerequisite = { focus = JAP_better_relations_with_germany }
+		x = 1
+		y = 1
+		relative_position_id = JAP_better_relations_with_germany
+		
+		cost = 2
+
+		available_if_capitulated = yes
+		
+		available = {
+			AND = {
+				country_exists = GER
+				GER = { is_puppet = no }
+				NOT = { has_war_with = GER }
+			}
+		}
+
+		ai_will_do = {
+			factor = 5
+		}	
+		completion_reward = {
+			GER = {
+				country_event = germany.83
+				custom_effect_tooltip = needs_approval
+			}
+		}
+	}
+	
+	focus = {
+		id = JAP_industrial_cooperation_with_germany
+		icon = GFX_goal_generic_intelligence_exchange
+		prerequisite = { focus = JAP_better_relations_with_germany }
+		x = -1
+		y = 1
+		relative_position_id = JAP_better_relations_with_germany
+		
+		cost = 2
+		
+		available = { 
+		}
+		
+		bypass = {
+		}
+		
+		completion_reward = {
+			GER = {
+				add_tech_bonus = {
+					#name = 
+					bonus = 0.5
+					uses = 2
+					category = industry
+				}
+			}
+			JAP = {
+				add_tech_bonus = {
+					#name = 
+					bonus = 0.5
+					uses = 2
+					category = industry
+				}
+			}
+			MAN = {
+				add_tech_bonus = {
+					#name = 
+					bonus = 0.5
+					uses = 2
+					technology = excavation1
+					technology = excavation2
+					technology = excavation3
+					technology = excavation4
+					technology = excavation5
+					category = industry
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = JAP_ask_germany_for_support_with_synthetic_technology 
+		icon = GFX_goal_wirtschaftliche_forschungsgesellschaft
+		prerequisite = { focus = JAP_industrial_cooperation_with_germany }
+		x = 0 
+		y = 2 
+		relative_position_id = JAP_industrial_cooperation_with_germany 
+		
+		cost = 2 
+		
+		available = {
+		}
+		
+		completion_reward = {
+			JAP = {
+				add_tech_bonus = {
+					#name = 
+					bonus = 0.4
+					uses = 2
+					category = synth_resources
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = JAP_military_cooperations_with_germany
+		icon = GFX_goal_generic_military_deal
+		prerequisite = { focus = JAP_industrial_cooperation_with_germany focus = JAP_german_anti_comintern_pact }
+		x = 1
+		y = 1
+		relative_position_id = JAP_industrial_cooperation_with_germany
+		
+		cost = 3
+		
+		available = {
+		}
+		
+		completion_reward = {
+			JAP = {
+				country_event = germany.345
+				custom_effect_tooltip = needs_approval
+			}
+		}
+	}
+	
+	focus = {
+		id = JAP_sign_tripartite_pact
+		icon = GFX_focus_chi_mission_to_germany
+		prerequisite = { focus = JAP_military_cooperations_with_germany }
+		x = 0
+		y = 2
+		relative_position_id = JAP_military_cooperations_with_germany
+
+		cost = 2
+
+		ai_will_do = {
+			factor = 3
+			modifier = {
+				factor = 0
+				NOT = { GER = { is_in_faction_with = ITA } }
+			}
+		}
+
+		available = {
+			any_country = {
+				original_tag = GER
+				has_government = fascism
+				NOT = { has_war_with = ROOT }
+			}
+			any_country = {
+				original_tag = ITA
+				has_government = fascism
+				NOT = { has_war_with = ROOT }
+			}
+		}
+
+		bypass = {
+			custom_trigger_tooltip = {
+				tooltip = JAP_sign_tripartite_pact_bypass_tt
+				OR = {
+					NOT = {
+						any_country = {
+							original_tag = GER
+							has_government = fascism
+						}
+					}
+					any_country = {
+						original_tag = GER
+						has_government = fascism
+						has_war_with = ROOT
+					}
+					NOT = {
+						any_country = {
+							original_tag = ITA
+							has_government = fascism
+						}
+					}
+					any_country = {
+						original_tag = ITA
+						has_government = fascism
+						has_war_with = ROOT
+					}	
+				}	
+			}
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+
+		completion_reward = {
+			GER = {
+				country_event = { id = wtt_japan.109 days = 1 }
+			}
+		}
+	}
+	
+	focus = {
+		id = JAP_research_cooperation_with_germany
+		icon = GFX_goal_continuous_research
+		prerequisite = { focus = JAP_sign_tripartite_pact }
+		x = 0
+		y = 1
+		relative_position_id = JAP_sign_tripartite_pact
+		
+		cost = 2
+		
+		available = {
+		}
+		
+		completion_reward = {
+			if = {
+				limit = {
+					NOT = {
+						is_in_tech_sharing_group = axis_research
+					}
+				}
+					
+				add_to_tech_sharing_group = axis_research
+			}
+			GER = {
+				if = {
+					limit = {
+						NOT = {
+							is_in_tech_sharing_group = axis_research
+						}
+					}
+						
+					add_to_tech_sharing_group = axis_research
+				}
+			}
+		}
+	}
+	
+	focus = {
 		id = JAP_challenge_the_zaibatsus
 		mutually_exclusive = { focus = JAP_guide_the_zaibatsus }
 		icon = GFX_focus_jap_zaibatsu

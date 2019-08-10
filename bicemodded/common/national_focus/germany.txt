@@ -3256,15 +3256,71 @@ focus_tree = {
 	}	
 	
 	focus = {
-		id = GER_japan_friend
-		icon = GFX_goal_generic_military_deal
-		prerequisite = { focus = GER_rhineland }
-		mutually_exclusive = { focus = GER_china_friend }
+		id = GER_replace_the_ambassador_in_japan 
+		icon = GFX_focus_chi_collaboration_with_the_japanese
+		prerequisite = { focus = GER_reform_das_auswaertige_amt focus = GER_support_das_aussenpolitische_amt_der_NSDAP }
+		x = 4
+		y = 1
+		relative_position_id = GER_reform_das_auswaertige_amt
+		
+		cost = 2
+		
+		available_if_capitulated = no 
+		
+		ai_will_do = {
+			factor = 2 
+		}
+		
+		completion_reward = {
+			JAP = {
+				country_event = { id = germany.337 days = 1 }
+				custom_effect_tooltip = needs_approval
+			}
+			effect_tooltip = {
+				diplomatic_relation = {
+				country = JAP
+				relation = non_aggression_pact
+				active = yes
+				}
+				GER = {
+					add_political_power = 100
+					add_war_support = 0.025
+					add_opinion_modifier = { target = JAP modifier = GER_replace_the_abassador_in_japan }
+				}
+				JAP = {
+					add_political_power = 100
+					add_war_support = 0.025
+					add_opinion_modifier = { target = GER modifier = GER_replaced_abassador }
+				}
+				CHI = {
+					add_stability = -0.025
+					add_war_support = 0.025
+					add_opinion_modifier = { target = GER modifier = GER_replaced_abassador_in_japan }
+					country_event = germany.340 
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = GER_japan_anti_comintern_pact
+		icon = GFX_goal_anti_comintern_pact
+		prerequisite = { focus = GER_replace_the_ambassador_in_japan }
+		mutually_exclusive = { focus = GER_china_anti_comintern_pact }
+		x = 1
+		y = 1
+		relative_position_id = GER_replace_the_ambassador_in_japan
+		
+		cost = 2
+
+		available_if_capitulated = yes
+		
 		available = {
 			AND = {
 				country_exists = JAP
 				JAP = { is_puppet = no }
 				NOT = { has_war_with = JAP }
+				NOT = { GER = { has_idea = SOV_molotov_ribbentrop_pact } }
 				JAP = {
 					custom_trigger_tooltip = {
 						tooltip = GER_alone_or_peace_faction_tt
@@ -3273,44 +3329,294 @@ focus_tree = {
 				}
 			}
 		}
-		x = 10
-		y = 1
-		cost = 2.5
-
-		available_if_capitulated = yes
 
 		ai_will_do = {
 			factor = 5
 		}	
+		
 		completion_reward = {
 			JAP = {
 				country_event = germany.83
-			}
-			JAP = {
-				add_opinion_modifier = { target = GER modifier = ger_jap_diplomacy_focus }
-			}
-			CHI = {
-				add_opinion_modifier = { target = GER modifier = withdrew_advisors }
-			}
-			JAP = { 
-				add_opinion_modifier = { target = SOV modifier = pact_against_us }
-			}
-			GER = { 
-				add_opinion_modifier = { target = SOV modifier = pact_against_us }
+				custom_effect_tooltip = needs_approval
 			}
 		}
 	}
-
+	
 	focus = {
-		id = GER_china_friend
+		id = GER_industrial_cooperation_with_japan
+		icon = GFX_goal_generic_intelligence_exchange
+		prerequisite = { focus = GER_replace_the_ambassador_in_japan }
+		x = -1
+		y = 1
+		relative_position_id = GER_replace_the_ambassador_in_japan
+		
+		cost = 2
+		
+		available = { 
+		}
+		
+		bypass = {
+		}
+		
+		completion_reward = {
+			GER = {
+				add_tech_bonus = {
+					name = GER_JAP_industrial_cooperation
+					bonus = 0.5
+					uses = 2
+					category = industry
+				}
+			}
+			JAP = {
+				add_tech_bonus = {
+					name = GER_JAP_industrial_cooperation
+					bonus = 0.5
+					uses = 2
+					category = industry
+				}
+			}
+			MAN = {
+				add_tech_bonus = {
+					name = GER_JAP_industrial_cooperation
+					bonus = 0.5
+					uses = 2
+					technology = excavation1
+					technology = excavation2
+					technology = excavation3
+					technology = excavation4
+					technology = excavation5
+					category = industry
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = GER_support_the_japanese_with_synthetic_technology 
+		icon = GFX_goal_wirtschaftliche_forschungsgesellschaft
+		prerequisite = { focus = GER_industrial_cooperation_with_japan }
+		x = 0 
+		y = 2 
+		relative_position_id = GER_industrial_cooperation_with_japan 
+		
+		cost = 2 
+		
+		available = {
+		}
+		
+		completion_reward = {
+			JAP = {
+				add_tech_bonus = {
+					#name = 
+					bonus = 0.4
+					uses = 2
+					category = synth_resources
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = GER_military_cooperations_with_japan 
 		icon = GFX_goal_generic_military_deal
-		prerequisite = { focus = GER_rhineland }
-		mutually_exclusive = { focus = GER_japan_friend }
+		prerequisite = { focus = GER_industrial_cooperation_with_japan focus = GER_japan_anti_comintern_pact }
+		mutually_exclusive = { focus = GER_military_cooperations_with_china }
+		x = 1
+		y = 1
+		relative_position_id = GER_industrial_cooperation_with_japan
+		
+		cost = 3
+		
+		available = {
+		}
+		
+		completion_reward = {
+			JAP = {
+				country_event = germany.345
+				custom_effect_tooltip = needs_approval 
+			}
+		}
+	}
+	
+	focus = {
+		id = GER_sign_tripartite_pact
+		icon = GFX_focus_chi_collaboration_with_the_japanese
+		prerequisite = { focus = GER_military_cooperations_with_japan }
+		prerequisite = { focus = GER_stahlpakt }
+		x = -2
+		y = 2
+		relative_position_id = GER_military_cooperations_with_japan
+
+		cost = 2
+
+		ai_will_do = {
+			factor = 3
+			modifier = {
+				factor = 0
+				NOT = { GER = { is_in_faction_with = ITA } }
+			}
+		}
+
+		available = {
+			any_country = {
+				original_tag = GER
+				has_government = fascism
+				NOT = { has_war_with = ROOT }
+			}
+			any_country = {
+				original_tag = ITA
+				has_government = fascism
+				NOT = { has_war_with = ROOT }
+			}
+		}
+
+		bypass = {
+			custom_trigger_tooltip = {
+				tooltip = JAP_sign_tripartite_pact_bypass_tt
+				OR = {
+					NOT = {
+						any_country = {
+							original_tag = JAP
+							has_government = fascism
+						}
+					}
+					any_country = {
+						original_tag = JAP
+						has_government = fascism
+						has_war_with = ROOT
+					}
+					NOT = {
+						any_country = {
+							original_tag = ITA
+							has_government = fascism
+						}
+					}
+					any_country = {
+						original_tag = ITA
+						has_government = fascism
+						has_war_with = ROOT
+					}	
+				}	
+			}
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+
+		completion_reward = {
+			JAP = {
+				country_event = { id = germany.347 days = 1 }
+			}
+		}
+	}
+	
+	focus = {
+		id = GER_research_cooperation_with_japan 
+		icon = GFX_goal_continuous_research
+		prerequisite = { focus = GER_military_cooperations_with_japan }
+		x = 0
+		y = 3
+		relative_position_id = GER_military_cooperations_with_japan
+		
+		cost = 2
+		
+		available = {
+		}
+		
+		completion_reward = {
+			if = {
+				limit = {
+					NOT = {
+						is_in_tech_sharing_group = axis_research
+					}
+				}
+					
+				add_to_tech_sharing_group = axis_research
+			}
+			JAP = {
+				if = {
+					limit = {
+						NOT = {
+							is_in_tech_sharing_group = axis_research
+						}
+					}
+						
+					add_to_tech_sharing_group = axis_research
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = GER_continue_the_trade_agreement_with_china
+		icon = GFX_focus_chi_cooperation_with_the_nationalists
+		prerequisite = { focus = GER_reform_das_auswaertige_amt focus = GER_support_das_aussenpolitische_amt_der_NSDAP }
+		x = 8
+		y = 1	
+		relative_position_id = GER_reform_das_auswaertige_amt
+		
+		cost = 2 
+		
+		ai_will_do = { 
+			factor = 1 
+		}
+		
+		available = { 
+			CHI = { NOT = { has_completed_focus = CHI_continue_the_trade_agreement_with_germany } }
+		}
+		
+		bypass = {
+			CHI = { has_completed_focus = CHI_continue_the_trade_agreement_with_germany }
+			has_idea = german_chinese_trade_agreement_ger
+		}
+		
+		completion_reward = {
+			CHI = { 
+			country_event = { id = germany.334 }
+			custom_effect_tooltip = needs_approval
+			}
+				effect_tooltip = { 
+					748 = {
+						add_extra_state_shared_building_slots = 2
+						add_building_construction = {
+						type = industrial_complex
+						level = 2
+						instant_build = yes
+						}	
+					}
+					diplomatic_relation = {
+						country = CHI
+						relation = non_aggression_pact
+						active = yes
+					}
+					
+					GER = { add_ideas = german_chinese_trade_agreement_ger }
+					CHI = { add_ideas = german_chinese_trade_agreement_chi }
+				}
+		}
+	}
+	
+	focus = {
+		id = GER_china_anti_comintern_pact
+		icon = GFX_goal_anti_comintern_pact
+		prerequisite = { focus = GER_continue_the_trade_agreement_with_china }
+		mutually_exclusive = { focus = GER_japan_anti_comintern_pact }
+		x = -1
+		y = 1
+		relative_position_id = GER_continue_the_trade_agreement_with_china
+		
+		cost = 3
+		
+		available_if_capitulated = yes
+		
 		available = {
 			AND = {
 				country_exists = CHI
 				CHI = { is_puppet = no }
 				NOT = { has_war_with = CHI }
+				NOT = { GER = { has_idea = SOV_molotov_ribbentrop_pact } }
 				CHI = {
 					custom_trigger_tooltip = {
 						tooltip = GER_alone_or_peace_faction_tt
@@ -3319,10 +3625,6 @@ focus_tree = {
 				}
 			}
 		}
-		x = 12
-		y = 1
-		cost = 3
-		available_if_capitulated = yes
 
 		ai_will_do = {
 			factor = 0.25
@@ -3330,26 +3632,75 @@ focus_tree = {
 		completion_reward = {
 			CHI = {
 				country_event = germany.83
-			}
-			CHI = {
-				add_opinion_modifier = { target = GER modifier = ger_chi_diplomacy_focus }
-			}
-			JAP = {
-				add_opinion_modifier = { target = GER modifier = supported_the_chinese }
-			}
-			CHI = {
-				add_opinion_modifier = {target = SOV modifier = pact_against_us }
-			}
-			GER = { 
-				add_opinion_modifier = { target = SOV modifier = pact_against_us }
+				custom_effect_tooltip = needs_approval
 			}
 		}
 	}
+	
+	focus = {
+		id = GER_industrial_cooperation_with_china
+		icon = GFX_goal_generic_intelligence_exchange
+		prerequisite = { focus = GER_continue_the_trade_agreement_with_china }
+		x = 1
+		y = 1
+		relative_position_id = GER_continue_the_trade_agreement_with_china
+		
+		cost = 2
+		
+		available = { 
+		}
+		
+		bypass = {
+		}
+		
+		completion_reward = {
+			GER = {
+				add_offsite_building = { type = industrial_complex level = 2 }
+			}
+			CHI = {
+				add_tech_bonus = {
+					name = GER_CHI_industrial_cooperation
+					bonus = 0.5
+					uses = 2
+					category = industry
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = GER_military_cooperations_with_china 
+		icon = GFX_goal_generic_military_deal
+		prerequisite = { focus = GER_industrial_cooperation_with_china focus = GER_china_anti_comintern_pact }
+		mutually_exclusive = { focus = GER_military_cooperations_with_japan }
+		x = -1
+		y = 1
+		relative_position_id = GER_industrial_cooperation_with_china
+		
+		cost = 3
+		
+		available = {
+		}
+		
+		completion_reward = {
+			CHI = {
+				country_event = germany.345
+				custom_effect_tooltip = needs_approval 
+			}
+		}
+	}
+	
 	focus = {
 		id = GER_sweden_friend
 		icon = GFX_goal_swedenfication
-		prerequisite = { focus = GER_rhineland }
-		prerequisite = { focus = GER_naval_rearmament }
+		prerequisite = { focus = GER_prepare_the_navy_to_be_at_war_with_uk }
+		prerequisite = { focus = GER_reform_das_auswaertige_amt focus = GER_support_das_aussenpolitische_amt_der_NSDAP }
+		x = 2
+		y = 1
+		relative_position_id = GER_prepare_the_navy_to_be_at_war_with_uk
+
+		cost = 12
+		
 		available = {
 			has_government = fascism
 			NOT = { has_war_with = SWE }
@@ -3366,10 +3717,6 @@ focus_tree = {
 				NOT = { country_exists = SWE }
 			}
 		}
-		x = 24
-		y = 1
-
-		cost = 12
 		ai_will_do = {
 			factor = 1
 		}	
@@ -3411,8 +3758,14 @@ focus_tree = {
 	focus = { 
 		id = GER_befriend_nationalist_spain
 		icon = GFX_Goal_Befriend_Spain
-		prerequisite = { focus = GER_rhineland }
+		prerequisite = { focus = GER_reform_das_auswaertige_amt focus = GER_support_das_aussenpolitische_amt_der_NSDAP }
 		mutually_exclusive = { focus = GER_secure_spain }
+		x = 14
+		y = 1
+		relative_position_id = GER_reform_das_auswaertige_amt
+		
+		cost = 5
+		
 		available = {
 			SPR = { has_civil_war = no }
 			any_other_country = {
@@ -3422,15 +3775,10 @@ focus_tree = {
 			}
 			has_completed_focus = GER_Legion_Condor
 		}
-		x = 26
-		y = 1
-		cost = 5
 		ai_will_do = {
 			factor = 0
 		}
-		completion_reward = {
-		
-		     
+		completion_reward = {    
 			random_country = {
 				limit = {
 					original_tag = SPR
@@ -3455,14 +3803,13 @@ focus_tree = {
 		id = GER_docking_rights
 		icon = GFX_goal_generic_navy_cruiser
 		prerequisite = { focus = GER_befriend_nationalist_spain }
-		
-		x = 26
-		y = 2
+		x = 0
+		y = 1
+		relative_position_id = GER_befriend_nationalist_spain
 		
 		cost = 4
 
 		available_if_capitulated = yes
-
 		available = {	
 			SPR = { has_civil_war = no }
 			any_other_country = {
@@ -3519,6 +3866,12 @@ focus_tree = {
 		id = GER_nationalist_spain_ally
 		icon = GFX_goal_generic_major_alliance
 		prerequisite = { focus = GER_docking_rights }
+		x = 0
+		y = 1
+		relative_position_id = GER_docking_rights
+		
+		cost = 10
+		
 		available = {
 			SPR = { has_civil_war = no }
 			any_other_country = {
@@ -3546,9 +3899,6 @@ focus_tree = {
 		#		is_in_faction_with = GER
 		#	}
 		#}
-		x = 26
-		y = 3
-		cost = 10
 		ai_will_do = {
 			factor = 10
 		}	
@@ -3585,6 +3935,12 @@ focus_tree = {
 		id = GER_befriend_arg
 		icon = GFX_befriend_arg
 		prerequisite = { focus = GER_befriend_nationalist_spain }
+		x = 4
+		y = 2
+		relative_position_id = GER_befriend_nationalist_spain
+		
+		cost = 5
+		
 		available = {
 			ARG = { 
 			has_civil_war = no
@@ -3593,9 +3949,6 @@ focus_tree = {
 			}
 			
 		}
-		x = 24
-		y = 3
-		cost = 5
 		ai_will_do = {
 			factor = 0
 		}
@@ -3616,9 +3969,9 @@ focus_tree = {
 		id = GER_docking_rights_arg
 		icon = GFX_arg_navy
 		prerequisite = { focus = GER_befriend_arg }
-		
-		x = 24
-		y = 4
+		x = 0
+		y = 1
+		relative_position_id = GER_befriend_arg
 		
 		cost = 4
 
@@ -3648,7 +4001,6 @@ focus_tree = {
 				
 					
 					ARG = {
-						
 						diplomatic_relation = {
 							country = GER
 							relation = docking_rights
@@ -3663,46 +4015,258 @@ focus_tree = {
 			factor = 1
 		}
 	}
+	focus = { 
+		id = GER_reform_das_auswaertige_amt
+		icon = GFX_goal_generic_improve_relations
+		prerequisite = { focus = GER_rhineland }
+		mutually_exclusive = { focus = GER_support_das_aussenpolitische_amt_der_NSDAP }
+		x = 16
+		y = 1 
+		relative_position_id = GER_rhineland
+		
+		cost = 2 
+		
+		available_if_capitulated = no 
+		available = {
+		}
+		
+		bypass = {
+		}
+		
+		ai_will_do = {
+			factor = 2 
+		}
+		
+		completion_reward = {
+			add_stability = 0.05
+			add_political_power = 120
+		}
+	}
 	focus = {
-		id = GER_italy_ally
-		icon = GFX_Goal_Befriend_Italy
-		prerequisite = { focus = GER_japan_friend focus = GER_china_friend }
-		mutually_exclusive = { focus = GER_south_tyrol }
+		id = GER_support_das_aussenpolitische_amt_der_NSDAP
+		icon = GFX_Goal_Roma_Berlino
+		prerequisite = { focus = GER_rhineland }
+		prerequisite = { focus = GER_Schutzstaffel_focus }
+		mutually_exclusive = { focus = GER_reform_das_auswaertige_amt }
+		x = 14
+		y = 1 
+		relative_position_id = GER_rhineland 
+		
+		cost = 4 
+		
+		available_if_capitulated = no 
+		available = {
+		}
+		
+		bypass = {
+		}
+		
+		ai_will_do = {
+			factor = 4 
+		}
+		
+		completion_reward = {
+			add_war_support = 0.05
+			add_popularity = { ideology = fascism popularity = 0.05 }
+		}
+	}
+	focus = { 
+		id = GER_achse_berlin_rom 
+		icon = GFX_Goal_Roma_Berlino
+		prerequisite = { focus = GER_reform_das_auswaertige_amt focus = GER_support_das_aussenpolitische_amt_der_NSDAP }
+		x = 1
+		y = 1
+		relative_position_id = GER_support_das_aussenpolitische_amt_der_NSDAP
+		
+		cost = 2 
+		
+		available_if_capitulated = no
+		available = {
+		}
+		
+		bypass = {
+			OR = {
+				is_in_faction_with = ITA
+				has_war_with = ITA
+				NOT = { country_exists = ITA }
+				ITA = { has_completed_focus = ITA_asse_roma_berlino }
+			}
+		}
+		
+		ai_will_do = {
+			factor = 2 
+		}
+		
+		completion_reward = {
+		}
+	}
+	
+	focus = {
+		id = GER_italy_anti_comintern_pact
+		icon = GFX_goal_anti_comintern_pact
+		prerequisite = { focus = GER_achse_berlin_rom }
+		x = 1
+		y = 1
+		relative_position_id = GER_achse_berlin_rom
+		
+		cost = 2 
+		
+		available_if_capitulated = no
 		available = {
 			NOT = { has_war_with = ITA }
 		}
 
 		bypass = {
-			
 			OR = {
 				is_in_faction_with = ITA
 				has_war_with = ITA
 				NOT = { country_exists = ITA }
 			}
 		}
-
-		x = 10
-		y = 2
-		cost = 2
+		
 		ai_will_do = {
 			factor = 15
 		}	
-		available_if_capitulated = yes
+	
 		completion_reward = {
 			ITA = {
 				country_event = germany.83
-			}
-			ITA = {
-				add_opinion_modifier = { target = GER modifier = ger_ita_alliance_focus }
+				custom_effect_tooltip = needs_approval
 			}
 		}
 	}
+	
+	focus = { 
+		id = GER_stahlpakt 
+		icon = GFX_Goal_Befriend_Italy
+		prerequisite = { focus = GER_achse_berlin_rom }
+		x = 0 
+		y = 3 
+		relative_position_id = GER_achse_berlin_rom 
+		
+		cost = 2 
+		
+		available_if_capitulated = no
+		available = {
+			NOT = { has_war_with = ITA }
+		}
+		
+		bypass = {		
+			OR = {
+				is_in_faction_with = ITA
+				has_war_with = ITA
+				NOT = { country_exists = ITA }
+				ITA = { has_completed_focus = ITA_pact_of_steel }
+			}
+		}
+		ai_will_do = {
+			factor = 2 
+		}
+		
+		completion_reward = {
+			diplomatic_relation = { 
+				country = ITA
+				relation = non_aggression_pact
+			}
+		}
+	}
+	
+	focus = {
+		id = GER_research_cooperation_with_italy 
+		icon = GFX_goal_continuous_research
+		prerequisite = { focus = GER_stahlpakt }
+		x = 1
+		y = 2
+		relative_position_id = GER_stahlpakt
+		
+		cost = 2
+		
+		available = {
+		}
+		
+		completion_reward = {
+			if = {
+				limit = {
+					NOT = {
+						is_in_tech_sharing_group = axis_research
+					}
+				}
+					
+				add_to_tech_sharing_group = axis_research
+			}
+			ITA = {
+				if = {
+					limit = {
+						NOT = {
+							is_in_tech_sharing_group = axis_research
+						}
+					}
+						
+					add_to_tech_sharing_group = axis_research
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = GER_africa_korps
+		icon = GFX_goal_DAK
+		prerequisite = { focus = GER_stahlpakt }
+		x = -1
+		y = 1
+		relative_position_id = GER_stahlpakt
+		
+		cost = 2
+		
+		available = {
+			ITA = { has_war_with = ENG }
+			is_in_faction_with = ITA
+			448 = { is_owned_and_controlled_by = ITA }
+		}
+		bypass = {
+			ITA = {
+				exists = no
+			}
+		}
+		completion_reward = {
+			GER = {
+			country_event = germany.233
+			}
+		}
+	}
+	
+	focus = {
+		id = GER_achtung_minen 
+		icon = GFX_goal_achtung_minen
+		prerequisite = { focus = GER_africa_korps }
+		x = 0
+		y = 1
+		relative_position_id = GER_africa_korps
+		
+		cost = 2 
+		
+		available = {
+			ITA = { has_war_with = ENG }
+			is_in_faction_with = ITA 
+		}
+		
+		completion_reward = {
+			custom_effect_tooltip = GER_achtung_minen_effect
+			hidden_effect = { set_technology = { achtung_minen = 1 } }
+		}
+	}
+
 	focus = {
 		id = GER_south_tyrol
 		icon = GFX_goal_tyrol
-		prerequisite = { focus = GER_japan_friend focus = GER_china_friend }
 		prerequisite = { focus = GER_anschluss }
-		mutually_exclusive = { focus = GER_italy_ally }
+		mutually_exclusive = { focus = GER_achse_berlin_rom }
+		x = -2
+		y = 0
+		relative_position_id = GER_achse_berlin_rom
+		
+		cost = 8
+		
 		available = {
 			NOT = { owns_state = 39  }  #South Tyrol
 			is_puppet = no
@@ -3726,9 +4290,7 @@ focus_tree = {
 		}
 		available_if_capitulated = no
 		cancel_if_invalid = no
-		x = 12
-		y = 2
-		cost = 8
+
 		ai_will_do = {
 			factor = 1
 		}	
@@ -5849,45 +6411,6 @@ focus_tree = {
 		}
 	}
 	
-	focus = {
-		id = GER_africa_korps
-		icon = GFX_goal_DAK
-		prerequisite = { focus = GER_italy_ally }
-		x = 10
-		y = 3
-		cost = 2
-		available = {
-		ITA = { has_war_with = ENG }
-		is_in_faction_with = ITA
-		448 = { is_owned_and_controlled_by = ITA }
-		}
-		bypass = {
-			ITA = {
-				exists = no
-			}
-		}
-		completion_reward = {
-			GER = {
-			country_event = germany.233
-			}
-		}
-	}
-	focus = {
-		id = GER_achtung_minen 
-		icon = GFX_goal_achtung_minen
-		prerequisite = { focus = GER_africa_korps }
-		x = 10
-		y = 4
-		cost = 2 
-		available = {
-		ITA = { has_war_with = ENG }
-		is_in_faction_with = ITA 
-		}
-		completion_reward = {
-			custom_effect_tooltip = GER_achtung_minen_effect
-			hidden_effect = { set_technology = { achtung_minen = 1 } }
-		}
-	}
 
 
 
