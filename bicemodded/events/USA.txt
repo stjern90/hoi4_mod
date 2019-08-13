@@ -122,11 +122,19 @@ country_event = {
 			if = {
 				limit = { not = { has_dlc = "Man the Guns" } }
 				ENG = {	load_oob = "ENG_destroyers_for_bases" }
-				CAN = { load_oob = "CAN_destroyers_for_bases" }
 			}
 			else = {
 				ENG = {	load_oob = "ENG_destroyers_for_bases_mtg" }
-				CAN = { load_oob = "CAN_destroyers_for_bases_mtg" }
+			}
+			if = {
+				limit = { not = { has_dlc = "Man the Guns" } CAN = { is_in_faction_with = ENG } }
+				CAN = { load_oob = "CAN_destroyers_for_bases" 
+				       country_event = { id = usa.402 days = 3 } }
+			}
+			if = {
+				limit = { has_dlc = "Man the Guns" CAN = { is_in_faction_with = ENG } }
+				CAN = { load_oob = "CAN_destroyers_for_bases_mtg" 
+				       country_event = { id = usa.402 days = 3 } }
 			}
 			ENG = {
 				if = { limit = { 696 = { is_controlled_by = ENG } }
@@ -149,9 +157,7 @@ country_event = {
 				}
 			}
 		}
-                CAN = {
-                        country_event = { id = usa.402 days = 3 }
-                }
+                
 		USA = {
 			if = { limit = { 696 = { is_controlled_by = ENG } }
 				transfer_state = 696
@@ -175,7 +181,7 @@ country_event = {
 				target = ROOT
 				modifier = destroyers_for_bases_opinion
 			}
-			country_event = { id = usa.401 days = 3 }
+			news_event = { id = usa.401 days = 3 }
 		}
 	}
 
@@ -188,20 +194,33 @@ country_event = {
 }
 
 # Britain accepts offer
-country_event = {
+news_event = {
 	id = usa.401
 	title = usa.401.t
 	desc = usa.401.desc
-	picture = GFX_report_event_usa_destroyers
-
+	picture = GFX_news_event_fletcher
+    
 	is_triggered_only = yes
-	
+	major = yes
 	option = { 
 		name = usa.401.a
-		hidden_effect = {
-		USA = {
-				country_event = { id = usa.50 days = 4 }
-			}
+		trigger = {
+		is_in_faction_with = ENG
+		}
+		add_stability = 0.01
+	}
+	option = { 
+		name = usa.401.b
+		trigger = {
+		is_in_faction_with = GER
+		}
+		add_stability = -0.01
+	}
+	option = { 
+		name = usa.401.c
+		trigger = {
+		NOT = { is_in_faction_with = GER }
+		NOT = { is_in_faction_with = ENG }
 		}
 	}
 }
@@ -1062,7 +1081,7 @@ country_event = {
 				send_equipment = {
 					target = ENG
 					type = convoy
-					amount = 75
+					amount = 100
 			}
 
 			}
