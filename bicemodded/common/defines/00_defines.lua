@@ -777,7 +777,7 @@ NMilitary = {
 	
 	ARMY_MAX_FUEL_FLOW_MULT = 1.5,					-- max fuel ratio that an army can get per hour, multiplied by supply situation
 	
-	ARMY_FUEL_COST_MULT = 0.4,						-- fuel cost multiplier for all army related stuff
+	ARMY_FUEL_COST_MULT = 0.38,						-- fuel cost multiplier for all army related stuff
 	ARMY_COMBAT_FUEL_MULT =   1.0,					-- fuel consumption ratio in combat (plus ARMY_MOVEMENT_FUEL_MULT if you are also moving. ie offensive combat)
 	ARMY_TRAINING_FUEL_MULT = 1.0,					-- fuel consumption ratio while training
 	ARMY_MOVEMENT_FUEL_MULT = 1.0,					-- fuel consumption ratio while moving
@@ -954,7 +954,7 @@ NAir = {
 	},
 	MAX_FUEL_FLOW_MULT = 1.0, -- max fuel flow ratio for planes, which will be multiplied by supply
 	
-	FUEL_COST_MULT = 0.3, -- fuel multiplier for all air missions
+	FUEL_COST_MULT = 0.27, -- fuel multiplier for all air missions
 	
 	MISSION_EFFICIENCY_MULT_AT_LACK_OF_FUEL = 0.33, 				-- multiplier for mission efficiency when a base lacks fuel
 	
@@ -1093,20 +1093,20 @@ NNavy = {
 	
 	MISSION_FUEL_COSTS = {  -- fuel cost for each mission
 		0.3, -- HOLD (consumes fuel HOLD_MISSION_MOVEMENT_COST fuel while moving)
-		1.0, -- PATROL		
-		1.0, -- STRIKE FORCE (does not cost fuel at base, and uses IN_COMBAT_FUEL_COST in combat. this is just for the movement in between)	
-		1.0, -- CONVOY RAIDING
-		1.0, -- CONVOY ESCORT
-		1.0, -- MINES PLANTING	
-		1.0, -- MINES SWEEPING	
-		1.8, -- TRAIN
-		0.3, -- RESERVE_FLEET (consumes fuel HOLD_MISSION_MOVEMENT_COST fuel while moving)
-		1.0, -- NAVAL_INVASION_SUPPORT (does not cost fuel at base, only costs while doing bombardment and escorting units)
+		0.9, -- PATROL		
+		0.9, -- STRIKE FORCE (does not cost fuel at base, and uses IN_COMBAT_FUEL_COST in combat. this is just for the movement in between)	
+		0.9, -- CONVOY RAIDING
+		0.9, -- CONVOY ESCORT
+		0.9, -- MINES PLANTING	
+		0.9, -- MINES SWEEPING	
+		1.6, -- TRAIN
+		0.28, -- RESERVE_FLEET (consumes fuel HOLD_MISSION_MOVEMENT_COST fuel while moving)
+		0.9, -- NAVAL_INVASION_SUPPORT (does not cost fuel at base, only costs while doing bombardment and escorting units)
 	},
 	
 	HOLD_MISSION_MOVEMENT_COST = 1.0,								-- ships on hold cost this much fuel while moving
-	ON_BASE_FUEL_COST = 0.4,										-- ships that waits at naval bases cost this ratio
-	IN_COMBAT_FUEL_COST = 2.0,										-- ships in combat will get this ratio for fuel cost
+	ON_BASE_FUEL_COST = 0.36,										-- ships that waits at naval bases cost this ratio
+	IN_COMBAT_FUEL_COST = 1.8,										-- ships in combat will get this ratio for fuel cost
 	
 	MAX_FUEL_FLOW_MULT = 2.0, -- max fuel flow ratio for ships, which will be multiplied by supply
 	FUEL_COST_MULT = 0.04, -- fuel multiplier for all naval missions
