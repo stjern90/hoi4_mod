@@ -1814,6 +1814,77 @@ focus_tree = {
 			}
 		}
 	}
+	
+	focus = {
+		id = SOV_Central_Asian_Estates
+		icon = GFX_focus_generic_industry_sov
+		prerequisite = { focus = SOV_develop_sinkiang }
+		prerequisite = { focus = SOV_develop_mongolia }
+		x = 13
+		y = 7
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+		     587 = { 
+			 add_core_of = SOV 
+			 set_state_category = pastoral
+			 add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+					}
+			 }
+			 402 = { 
+			 add_core_of = SOV 
+			 add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+					}
+			 }
+			 406 = { 
+			 add_core_of = SOV 
+			 set_state_category = pastoral
+			 add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+					}
+			 }
+			 588 = { 
+			 add_core_of = SOV 
+			 add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+					}
+			 }
+			 585 = { 
+			 add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+					}
+			 }
+		}
+	}
+	
+	focus = {
+		id = SOV_far_east_army
+		icon = GFX_Goal_Soviet_Defense2
+		prerequisite = { focus = SOV_develop_mongolia }
+		x = 12
+		y = 8
+		cost = 4
+		ai_will_do = {
+			factor = 1
+		}
+	}
 
 	focus = {
 		id = SOV_stalin_constitution
@@ -2274,8 +2345,11 @@ focus_tree = {
 	focus = {
 		id = SOV_vasily_chuikov
 		icon = GFX_focus_sov_recall_zhuikov
-		prerequisite = { focus = SOV_annex_tannu_tuva }
+		#prerequisite = { focus = SOV_annex_tannu_tuva }
 		mutually_exclusive = { focus = SOV_war_with_japan }
+		available = {
+		    has_completed_focus = SOV_far_east_fortification
+		}
 		x = 9
 		y = 7
 		cost = 3
@@ -2298,7 +2372,7 @@ focus_tree = {
 	focus = {
 		id = SOV_japan_agreement
 		icon = GFX_Befriend_japan2
-		prerequisite = { focus = SOV_annex_tannu_tuva }
+        prerequisite = { focus = SOV_vasily_chuikov }
 		mutually_exclusive = { focus = SOV_war_with_japan }
 		x = 9
 		y = 8
@@ -2330,7 +2404,9 @@ focus_tree = {
 		id = SOV_war_with_japan
 		icon = GFX_focus_attack_japan
 		mutually_exclusive = { focus = SOV_vasily_chuikov }
-		prerequisite = { focus = SOV_annex_tannu_tuva }
+		available = {
+		    has_completed_focus = SOV_far_east_fortification
+		}
 		x = 7
 		y = 7
 		available = {
@@ -2363,7 +2439,7 @@ focus_tree = {
 			}
 		}
 		will_lead_to_war_with = JAP
-		cost = 20
+		cost = 8
 		ai_will_do = {
 			factor = 1
 
@@ -3097,7 +3173,7 @@ focus_tree = {
 	focus = {
 		id = SOV_ratify_molotov
 		icon = GFX_Accommodation_with_germany
-		prerequisite = { focus = SOV_claim_bessarabia SOV_pak_puppet SOV_rebuild_iran }
+		prerequisite = { focus = SOV_claim_bessarabia focus = SOV_pak_puppet focus = SOV_rebuild_iran }
 		mutually_exclusive = { focus = SOV_war_with_germany }
 		available = {
 			country_exists = GER
@@ -3408,7 +3484,7 @@ focus_tree = {
 		prerequisite = { focus = SOV_stalin_constitution }
 		x = 19
 		y = 1
-		cost = 2
+		cost = 3
 		available = { 
 			date > 1938.08.01
 			threat > 0.3
@@ -3418,7 +3494,30 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			add_political_power = 25 
+			completion_reward = {
+			every_other_country = {
+				limit = { has_government = fascism }
+				add_opinion_modifier = { target = SOV modifier = anti_capitalist_diplomacy_focus }
+			}
+			USA = { 
+				if = {
+					limit = { NOT = { has_government = communism } }
+					add_opinion_modifier = { target = SOV modifier = anti_capitalist_diplomacy_capitalists } 
+				}
+			}
+			ENG = {
+				if = { 
+					limit = { NOT = { has_government = communism } }
+					add_opinion_modifier = { target = SOV modifier = anti_capitalist_diplomacy_capitalists } 
+				}
+			}
+			FRA = { 
+				if = {
+					limit = { NOT = { has_government = communism } }
+					add_opinion_modifier = { target = SOV modifier = anti_capitalist_diplomacy_capitalists } 
+				}
+			}
+		}
 		}
 	}
 
@@ -4188,6 +4287,84 @@ prerequisite = { focus = SOV_Baltic_Sea focus = SOV_Black_Sea }
 			}
 		}
 	}
+	
+	focus = {
+		id = SOV_Deep_Battle
+		icon = GFX_focus_generic_provoke_border_clashes
+		cost = 7
+		prerequisite = {
+			#focus = SOV_Create_a_Unified_Military_Doctrine
+		}
+		mutually_exclusive = {
+			#focus = SOV_peoples_war
+		}
+		available = {
+		    has_completed_focus = SOV_lessons_of_war
+		}
+		x = 29
+		y = 5
+
+		completion_reward = {
+			if = {
+				limit = {
+					any_army_leader = {
+						has_id = 401
+					}
+				}
+				add_tech_bonus = {
+					uses = 3
+					bonus = 0.5
+					category = land_doctrine
+				}
+				else = {
+					add_tech_bonus = {
+						uses = 2
+						bonus = 0.5
+						category = land_doctrine
+					}
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = SOV_superior_fp
+		icon = GFX_focus_generic_provoke_border_clashes
+		cost = 7
+		prerequisite = {
+			#focus = SOV_Create_a_Unified_Military_Doctrine
+		}
+		mutually_exclusive = {
+			#focus = SOV_peoples_war
+		}
+		available = {
+		    has_completed_focus = SOV_lessons_of_war
+		}
+		x = 29
+		y = 6
+
+		completion_reward = {
+			if = {
+				limit = {
+					any_army_leader = {
+						has_id = 401
+					}
+				}
+				add_tech_bonus = {
+					uses = 3
+					bonus = 0.5
+					category = land_doctrine
+				}
+				else = {
+					add_tech_bonus = {
+						uses = 2
+						bonus = 0.5
+						category = land_doctrine
+					}
+				}
+			}
+		}
+	}
 
 	focus = {
 		id = SOV_STAVKA
@@ -4327,7 +4504,7 @@ prerequisite = { focus = SOV_Baltic_Sea focus = SOV_Black_Sea }
 		prerequisite = { focus = SOV_STAVKA }
 		prerequisite = { focus = SOV_positive_heroism }
 		x = 33
-		y = 3
+		y = 4
 		cost = 3
 		available = {
 			has_war_with = GER	
