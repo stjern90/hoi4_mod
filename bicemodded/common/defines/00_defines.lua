@@ -1130,8 +1130,8 @@ NNavy = {
 	MISSION_DEFAULT_SPREAD_BASE = 1.0, -- multiplier for mission spreads. higher = less ships on start
 
 	AGGRESSION_SETTINGS_VALUES = { -- ships will use this values while deciding to attack enemies
-		0.5,		-- do not engage
-		0.95,	-- low
+		0.4,		-- do not engage
+		0.9,	-- low
 		1.25,	-- medium
 		2.5,	-- high
 		10000,	-- I am death incarnate!
