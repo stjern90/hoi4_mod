@@ -8012,129 +8012,6 @@ country_event = {
 	option = { name = "OK" }
 }
 
-
-#vichy
-country_event = {
-	id = germany.256
-	title = germany.256.t
-	desc = germany.256.d
-	picture = GFX_news_event_038
-	
-	
-	mean_time_to_happen = {
-		days = 20
-	}
-
-	trigger = {
-		tag = GER
-		NOT = { has_country_flag = stop_vichy_state_autotransfer }
-		FRA = { has_capitulated = yes }
-		event_target:VICHY_FRANCE = { is_subject_of = GER } 
-		OR = {
-		event_target:VICHY_FRANCE = { controls_state = 19 } 
-		event_target:VICHY_FRANCE = { controls_state = 23 } 
-		event_target:VICHY_FRANCE = { controls_state = 30 } 
-		event_target:VICHY_FRANCE = { controls_state = 29 } 
-		event_target:VICHY_FRANCE = { controls_state = 28 } 
-        event_target:VICHY_FRANCE = { controls_state = 27 } 
-		event_target:VICHY_FRANCE = { controls_state = 17 } 
-		event_target:VICHY_FRANCE = { controls_state = 15 } 
-		event_target:VICHY_FRANCE = { controls_state = 24 }  
-		event_target:VICHY_FRANCE = { controls_state = 16 }  
-		event_target:VICHY_FRANCE = { controls_state = 14 } 
-		}
-	}
-
-	option = {
-		name = germany.256.a
-		ai_chance = {
-			factor = 10
-		}
-		19 = {
-			if = {
-				limit = { is_controlled_by = event_target:VICHY_FRANCE }
-				GER = { set_state_controller = 19 }
-			}
-		}
-		23 = {
-			if = {
-				limit = { is_controlled_by = event_target:VICHY_FRANCE }
-				GER = { set_state_controller = 23 }
-			}
-		}
-		14 = {
-			if = {
-				limit = { is_controlled_by = event_target:VICHY_FRANCE }
-				GER = { set_state_controller = 14 }
-			}
-		}
-		15 = {
-			if = {
-				limit = { is_controlled_by = event_target:VICHY_FRANCE }
-				GER = { set_state_controller = 15 }
-			}
-		}
-		30 = {
-			if = {
-				limit = { is_controlled_by = event_target:VICHY_FRANCE }
-				GER = { set_state_controller = 30 }
-			}
-		}
-		24 = {
-			if = {
-				limit = { is_controlled_by = event_target:VICHY_FRANCE }
-				GER = { set_state_controller = 24 }
-			}
-		}
-		16 = {
-			if = {
-				limit = { is_controlled_by = event_target:VICHY_FRANCE }
-				GER = { set_state_controller = 16 }
-			}
-		}
-		27 = {
-			if = {
-				limit = { is_controlled_by = event_target:VICHY_FRANCE }
-				GER = { set_state_controller = 27 }
-			}
-		}
-		17 = {
-			if = {
-				limit = { is_controlled_by = event_target:VICHY_FRANCE }
-				GER = { set_state_controller = 17 }
-			}
-		}
-		
-		28 = {
-			if = {
-				limit = { is_controlled_by = event_target:VICHY_FRANCE }
-				GER = { set_state_controller = 28 }
-			}
-		}
-		29 = {
-			if = {
-				limit = { is_controlled_by = event_target:VICHY_FRANCE }
-				GER = { set_state_controller = 29 }
-			}
-		}
-		
-	}
-	
-	option = {
-		name = germany.256.b
-		ai_chance = {
-			factor = 0
-		}
-	}
-	option = {
-		name = germany.256.c
-		ai_chance = {
-			factor = 0
-		}
-		set_country_flag = stop_vichy_state_autotransfer
-	}
-}
-
 country_event = {
 	id = germany.249
 	title = germany.249.t
@@ -8300,7 +8177,208 @@ country_event = {
 	}
 }
 
+# Molotov-Ribbentrop Pact (Germany)
+country_event = {
+	id = germany.253
+	title = germany.253.t
+	desc = germany.253.d
+	picture = GFX_report_event_mol_pact
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = germany.253.a	#sounds good
+		ai_chance = { 
+			factor = 50 
+		}
+		#add_opinion_modifier = { target = SOV modifier = MR_pact }# pact		
+		custom_effect_tooltip = germany.253.a.tt
+			add_timed_idea = {
+				idea = SOV_molotov_ribbentrop_pact_2 days = 1000
+			}
+		
+		SOV = {
+			country_event = { days = 1 id = germany.254 }
+		}
+		set_global_flag = sov_yes_pact_2
+	}
+	
+	option = {
+		name = germany.253.b	#no way 
+		ai_chance = {
+			factor = 10
+		}
+		add_political_power = -75	
+		add_opinion_modifier = { target = SOV modifier = refused_MR_pact }# no pact 
+		SOV = {
+			country_event = { days = 1 id = germany.255 }
+		}
+		clr_global_flag = sov_yes_pact
+	}
+}
+# GermanySign MR Pact 2
+country_event = {
+	id = germany.254
+	title = germany.254.t
+	desc = germany.254.d
+	picture = GFX_report_event_sov_sign_pact
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = germany.254.a	#neat
+		every_other_country = {
+			limit = {
+				NOT = { tag = GER }
+				has_government = fascism 
+			}
+			#add_opinion_modifier = { target = GER modifier = MR_pact_fascists }
+		}
+		add_war_support = -0.05
+		diplomatic_relation = { country = GER relation = non_aggression_pact }
+		#add_opinion_modifier = { target = GER modifier = MR_pact }# pact
+		hidden_effect = {
+			country_event = { hours = 6 id = news.32 }
+		}
+	}
+}
+# Germany Reject MR Pact
+country_event = {
+	id = germany.255
+	title = germany.255.t
+	desc = germany.255.d
+	picture = GFX_report_event_sov_refuse_pact
 
+	is_triggered_only = yes
+	
+	option = {
+		name = germany.255.a	#bah
+		add_stability = -0.05 # embarrased
+		add_opinion_modifier = { target = GER modifier = refused_MR_pact }# no pact
+	}
+}
+
+#vichy
+country_event = {
+	id = germany.256
+	title = germany.256.t
+	desc = germany.256.d
+	picture = GFX_news_event_038
+	
+	
+	mean_time_to_happen = {
+		days = 20
+	}
+
+	trigger = {
+		tag = GER
+		NOT = { has_country_flag = stop_vichy_state_autotransfer }
+		FRA = { has_capitulated = yes }
+		event_target:VICHY_FRANCE = { is_subject_of = GER } 
+		OR = {
+		event_target:VICHY_FRANCE = { controls_state = 19 } 
+		event_target:VICHY_FRANCE = { controls_state = 23 } 
+		event_target:VICHY_FRANCE = { controls_state = 30 } 
+		event_target:VICHY_FRANCE = { controls_state = 29 } 
+		event_target:VICHY_FRANCE = { controls_state = 28 } 
+        event_target:VICHY_FRANCE = { controls_state = 27 } 
+		event_target:VICHY_FRANCE = { controls_state = 17 } 
+		event_target:VICHY_FRANCE = { controls_state = 15 } 
+		event_target:VICHY_FRANCE = { controls_state = 24 }  
+		event_target:VICHY_FRANCE = { controls_state = 16 }  
+		event_target:VICHY_FRANCE = { controls_state = 14 } 
+		}
+	}
+
+	option = {
+		name = germany.256.a
+		ai_chance = {
+			factor = 10
+		}
+		19 = {
+			if = {
+				limit = { is_controlled_by = event_target:VICHY_FRANCE }
+				GER = { set_state_controller = 19 }
+			}
+		}
+		23 = {
+			if = {
+				limit = { is_controlled_by = event_target:VICHY_FRANCE }
+				GER = { set_state_controller = 23 }
+			}
+		}
+		14 = {
+			if = {
+				limit = { is_controlled_by = event_target:VICHY_FRANCE }
+				GER = { set_state_controller = 14 }
+			}
+		}
+		15 = {
+			if = {
+				limit = { is_controlled_by = event_target:VICHY_FRANCE }
+				GER = { set_state_controller = 15 }
+			}
+		}
+		30 = {
+			if = {
+				limit = { is_controlled_by = event_target:VICHY_FRANCE }
+				GER = { set_state_controller = 30 }
+			}
+		}
+		24 = {
+			if = {
+				limit = { is_controlled_by = event_target:VICHY_FRANCE }
+				GER = { set_state_controller = 24 }
+			}
+		}
+		16 = {
+			if = {
+				limit = { is_controlled_by = event_target:VICHY_FRANCE }
+				GER = { set_state_controller = 16 }
+			}
+		}
+		27 = {
+			if = {
+				limit = { is_controlled_by = event_target:VICHY_FRANCE }
+				GER = { set_state_controller = 27 }
+			}
+		}
+		17 = {
+			if = {
+				limit = { is_controlled_by = event_target:VICHY_FRANCE }
+				GER = { set_state_controller = 17 }
+			}
+		}
+		
+		28 = {
+			if = {
+				limit = { is_controlled_by = event_target:VICHY_FRANCE }
+				GER = { set_state_controller = 28 }
+			}
+		}
+		29 = {
+			if = {
+				limit = { is_controlled_by = event_target:VICHY_FRANCE }
+				GER = { set_state_controller = 29 }
+			}
+		}
+		
+	}
+	
+	option = {
+		name = germany.256.b
+		ai_chance = {
+			factor = 0
+		}
+	}
+	option = {
+		name = germany.256.c
+		ai_chance = {
+			factor = 0
+		}
+		set_country_flag = stop_vichy_state_autotransfer
+	}
+}
 
 country_event = {
 	id = germany.300
