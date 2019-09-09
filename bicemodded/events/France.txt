@@ -1183,7 +1183,7 @@ country_event = {
 		tag = FRA
 		has_war_with = GER
 		OR = {
-		surrender_progress > 0.3
+		surrender_progress > 0.23
 		16 = { is_controlled_by = GER }
 		AND = {
 		14 = { is_controlled_by = GER }
@@ -1191,7 +1191,7 @@ country_event = {
 		}
 		}
 		is_in_faction_with = ENG
-		ENG = { has_war_with = GER }
+		#ENG = { has_war_with = GER }
 		GER = {
 			OR = {
 				is_faction_leader = yes
@@ -1201,6 +1201,8 @@ country_event = {
 		has_civil_war = no
 		
 		#Don't fire if France has pushed pretty far into ITA or GER
+                OR = {
+                surrender_progress > 0.37 # case where italy goes in hard
 		NOT = {
 			any_state = {
 				is_on_continent = europe
@@ -1216,7 +1218,8 @@ country_event = {
 					}
 				}
 			}
-		}		
+		}	
+                }	
 	}
 	
 	option = { # Become Vichy
@@ -1248,6 +1251,7 @@ country_event = {
 
 			}
 			}
+                       ENG = { has_war_with = GER }
 			}
 		name = france.10.c
 		ai_chance = {
@@ -1505,9 +1509,25 @@ country_event = {
 				transfer_state = 31
 			}
 		}
+		if = {
+			limit = {
+				31 = { #Midi-Pyrinees
+					owner = { original_tag = FRA }
+					is_controlled_by = event_target:NAT_SPAIN
+				}
+			}
+			event_target:NAT_SPAIN = {
+				transfer_state = 31
+			}
+		}
 		FRA = {
 			set_capital = 539
+			
 			hidden_effect = {
+			delete_unit_template_and_units = { division_template = "Division d'Infanterie" }
+			delete_unit_template_and_units = { division_template = "Infantry Division 39 at b" }
+			delete_unit_template_and_units = { division_template = "Brigade de Chars de Combat" }
+			delete_unit_template_and_units = { division_template = "Brigade Coloniale" }
 					set_state_controller = 26
 					set_state_controller = 22
 					set_state_controller = 25
@@ -1718,6 +1738,8 @@ country_event = {
 			ROOT = { puppet = PREV }
 			set_cosmetic_tag = FRA_GER_fascism
 			save_global_event_target_as = VICHY_FRANCE
+			add_timed_idea = { idea = recently_setup days = 60 }
+			16 = {  CONTROLLER = { country_event = france.31  } }
 	    	retire_country_leader = yes
 		create_country_leader = {
 			name = "Philippe Pétain"
@@ -1730,10 +1752,6 @@ country_event = {
 			}
 		}
 			set_capital = 26
-			delete_unit_template_and_units = { division_template = "Division d'Infanterie" }
-			delete_unit_template_and_units = { division_template = "Infantry Division 39 at b" }
-			delete_unit_template_and_units = { division_template = "Brigade de Chars de Combat" }
-			delete_unit_template_and_units = { division_template = "Brigade Coloniale" }
 			set_politics = {
 				ruling_party = fascism
 				elections_allowed = no
@@ -1930,6 +1948,10 @@ country_event = {
 		FRA = {
 			set_capital = 539
 			hidden_effect = {
+			delete_unit_template_and_units = { division_template = "Division d'Infanterie" }
+			delete_unit_template_and_units = { division_template = "Infantry Division 39 at b" }
+			delete_unit_template_and_units = { division_template = "Brigade de Chars de Combat" }
+			delete_unit_template_and_units = { division_template = "Brigade Coloniale" }
 					set_state_controller = 26
 					set_state_controller = 22
 					set_state_controller = 25
@@ -2061,6 +2083,8 @@ country_event = {
 			limit = { original_tag = FRA has_government = neutrality }
 			ROOT = { puppet = PREV }
 			set_capital = 26
+			add_timed_idea = { idea = recently_setup days = 60 }
+			16 = {  CONTROLLER = { country_event = france.31  } }
 			set_politics = {
 				ruling_party = neutrality
 				elections_allowed = no
@@ -2553,17 +2577,8 @@ country_event = {
     desc = france.31.d
     picture = GFX_report_event_german_parade_paris
  
- 
 	fire_only_once = yes
-	
-	trigger = {
-		original_tag = GER
-		NOT = { 16 = { is_controlled_by = FRA } }
-	}
-
-	mean_time_to_happen = {
-		days = 8
-	}
+	is_triggered_only = yes
 
 	option = {
 		name = france.31.a
@@ -2605,7 +2620,7 @@ country_event = {
 				level = 2
 			}
 		}
-		if = { limit = { 7 = { is_controlled_by = GER } }
+		if = { limit = { 7 = { OR = { is_controlled_by = GER is_controlled_by = event_target:VICHY_FRANCE } } }
 		7 = {
 	    	remove_building = {
 				type = dockyard
@@ -2621,7 +2636,7 @@ country_event = {
 			}
 		}
 		}
-		if = { limit = { 8 = { is_controlled_by = GER } }
+		if = { limit = { 8 = { OR = { is_controlled_by = GER is_controlled_by = event_target:VICHY_FRANCE } } }
 		8 = {
 	    	remove_building = {
 				type = industrial_complex
@@ -2633,7 +2648,7 @@ country_event = {
 			}
 		}
 		}
-		if = { limit = { 36 = { is_controlled_by = GER } }
+		if = { limit = { 36 = { OR = { is_controlled_by = GER is_controlled_by = event_target:VICHY_FRANCE } } }
 		36 = {
 	    	remove_building = {
 				type = dockyard
@@ -2641,7 +2656,7 @@ country_event = {
 			}
 		}
 		}
-		if = { limit = { 6 = { is_controlled_by = GER } }
+		if = { limit = { 6 = { OR = { is_controlled_by = GER is_controlled_by = event_target:VICHY_FRANCE } } }
 		6 = {
 	    	remove_building = {
 				type = dockyard
@@ -2658,7 +2673,7 @@ country_event = {
 		}
 		}
 		
-		if = { limit = { 21 = { is_controlled_by = GER } }
+		if = { limit = { 21 = { OR = { is_controlled_by = GER is_controlled_by = event_target:VICHY_FRANCE } } }
 		21 = {
 	    	remove_building = {
 				type = dockyard
@@ -2667,7 +2682,7 @@ country_event = {
 		}
 		}
 		
-		if = { limit = { 37 = { is_controlled_by = GER } }
+		if = { limit = { 37 = { OR = { is_controlled_by = GER is_controlled_by = event_target:VICHY_FRANCE } } }
 		37 = {
 	    	remove_building = {
 				type = dockyard
@@ -2676,7 +2691,7 @@ country_event = {
 		}
 		}
 		
-		if = { limit = { 142 = { is_controlled_by = GER } }
+		if = { limit = { 142 = { OR = { is_controlled_by = GER is_controlled_by = event_target:VICHY_FRANCE } } }
 		142 = {
 	    	remove_building = {
 				type = dockyard
@@ -2685,7 +2700,7 @@ country_event = {
 		}
 		}
 		
-		if = { limit = { 51 = { is_controlled_by = GER } }
+		if = { limit = { 51 = { OR = { is_controlled_by = GER is_controlled_by = event_target:VICHY_FRANCE } } }
 		51 = {
 	    	add_extra_state_shared_building_slots = 1
 					add_building_construction = {

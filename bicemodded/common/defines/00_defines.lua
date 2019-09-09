@@ -777,7 +777,7 @@ NMilitary = {
 	
 	ARMY_MAX_FUEL_FLOW_MULT = 1.5,					-- max fuel ratio that an army can get per hour, multiplied by supply situation
 	
-	ARMY_FUEL_COST_MULT = 0.4,						-- fuel cost multiplier for all army related stuff
+	ARMY_FUEL_COST_MULT = 0.38,						-- fuel cost multiplier for all army related stuff
 	ARMY_COMBAT_FUEL_MULT =   1.0,					-- fuel consumption ratio in combat (plus ARMY_MOVEMENT_FUEL_MULT if you are also moving. ie offensive combat)
 	ARMY_TRAINING_FUEL_MULT = 1.0,					-- fuel consumption ratio while training
 	ARMY_MOVEMENT_FUEL_MULT = 1.0,					-- fuel consumption ratio while moving
@@ -813,7 +813,7 @@ NAir = {
 	COMBAT_MAX_WINGS_AT_GROUND_ATTACK = 5000,	        	-- we can really pounce a land strike and escalate
 	COMBAT_MAX_WINGS_AT_ONCE_PORT_STRIKE = 2000,        -- we can really pounce a naval strike and escalate
 	AIR_REGION_SUPERIORITY_PIXEL_SCALE = 0.04,           -- air superiority scale = superiority/(pixels*this)
-	COMBAT_MULTIPLANE_CAP = 3.0,						-- How many planes can shoot at each plane on other side ( if there are 100 planes we are atttacking COMBAT_MULTIPLANE_CAP * 100 of our planes can shoot )
+	COMBAT_MULTIPLANE_CAP = 2.0,						-- How many planes can shoot at each plane on other side ( if there are 100 planes we are atttacking COMBAT_MULTIPLANE_CAP * 100 of our planes can shoot )
 	COMBAT_DAMAGE_SCALE = 0.12,							-- Higher value = more shot down planes
 	COMBAT_DAMAGE_SCALE_CARRIER = 5,                    -- same as above but used inside naval combat for carrier battles
 	DETECT_CHANCE_FROM_OCCUPATION = 0.15, 				-- How much the controlled provinces in area affects the air detection base value.
@@ -954,7 +954,7 @@ NAir = {
 	},
 	MAX_FUEL_FLOW_MULT = 1.0, -- max fuel flow ratio for planes, which will be multiplied by supply
 	
-	FUEL_COST_MULT = 0.3, -- fuel multiplier for all air missions
+	FUEL_COST_MULT = 0.27, -- fuel multiplier for all air missions
 	
 	MISSION_EFFICIENCY_MULT_AT_LACK_OF_FUEL = 0.33, 				-- multiplier for mission efficiency when a base lacks fuel
 	
@@ -1051,7 +1051,7 @@ NNavy = {
 	AMPHIBIOUS_INVADE_DEFEND_HIGH = 1.0,
 	AMPHIBIOUS_INVADE_LANDING_PENALTY_DECREASE = 3.5, 				-- scale of bonus that decreases "amphibious penalty" during combat, relative to invading transporter tech.
 	BASE_CARRIER_SORTIE_EFFICIENCY = 0.60,							-- factor of planes that can sortie by default from a carrier
-	CONVOY_ATTACK_BASE_FACTOR = 0.14,                               -- base % of convoys that get intercepted
+	CONVOY_ATTACK_BASE_FACTOR = 0.13,                               -- base % of convoys that get intercepted
 	NAVAL_SPEED_MODIFIER = 0.12,	                    				-- basic speed control
 	NAVAL_RANGE_TO_INGAME_DISTANCE = 0.12,							-- Scale the ship stats "naval_range" to the ingame distance
 	NAVAL_INVASION_PREPARE_HOURS = 168,								-- base hours needed to prepare an invasion
@@ -1093,20 +1093,20 @@ NNavy = {
 	
 	MISSION_FUEL_COSTS = {  -- fuel cost for each mission
 		0.3, -- HOLD (consumes fuel HOLD_MISSION_MOVEMENT_COST fuel while moving)
-		1.0, -- PATROL		
-		1.0, -- STRIKE FORCE (does not cost fuel at base, and uses IN_COMBAT_FUEL_COST in combat. this is just for the movement in between)	
-		1.0, -- CONVOY RAIDING
-		1.0, -- CONVOY ESCORT
-		1.0, -- MINES PLANTING	
-		1.0, -- MINES SWEEPING	
-		1.8, -- TRAIN
-		0.3, -- RESERVE_FLEET (consumes fuel HOLD_MISSION_MOVEMENT_COST fuel while moving)
-		1.0, -- NAVAL_INVASION_SUPPORT (does not cost fuel at base, only costs while doing bombardment and escorting units)
+		0.9, -- PATROL		
+		0.9, -- STRIKE FORCE (does not cost fuel at base, and uses IN_COMBAT_FUEL_COST in combat. this is just for the movement in between)	
+		0.9, -- CONVOY RAIDING
+		0.9, -- CONVOY ESCORT
+		0.9, -- MINES PLANTING	
+		0.9, -- MINES SWEEPING	
+		1.6, -- TRAIN
+		0.28, -- RESERVE_FLEET (consumes fuel HOLD_MISSION_MOVEMENT_COST fuel while moving)
+		0.9, -- NAVAL_INVASION_SUPPORT (does not cost fuel at base, only costs while doing bombardment and escorting units)
 	},
 	
 	HOLD_MISSION_MOVEMENT_COST = 1.0,								-- ships on hold cost this much fuel while moving
-	ON_BASE_FUEL_COST = 0.4,										-- ships that waits at naval bases cost this ratio
-	IN_COMBAT_FUEL_COST = 2.0,										-- ships in combat will get this ratio for fuel cost
+	ON_BASE_FUEL_COST = 0.36,										-- ships that waits at naval bases cost this ratio
+	IN_COMBAT_FUEL_COST = 1.8,										-- ships in combat will get this ratio for fuel cost
 	
 	MAX_FUEL_FLOW_MULT = 2.0, -- max fuel flow ratio for ships, which will be multiplied by supply
 	FUEL_COST_MULT = 0.04, -- fuel multiplier for all naval missions
@@ -1130,8 +1130,8 @@ NNavy = {
 	MISSION_DEFAULT_SPREAD_BASE = 1.0, -- multiplier for mission spreads. higher = less ships on start
 
 	AGGRESSION_SETTINGS_VALUES = { -- ships will use this values while deciding to attack enemies
-		0.5,		-- do not engage
-		0.95,	-- low
+		0.4,		-- do not engage
+		0.9,	-- low
 		1.25,	-- medium
 		2.5,	-- high
 		10000,	-- I am death incarnate!
@@ -1154,9 +1154,9 @@ NNavy = {
 	AGGRESSION_CONVOY_STRENGTH_FACTOR = 0.3,			  -- convoys in combat gets a penalty to their strength in aggression calculations
 	
 	SUBMARINE_ESCAPE_RATIOS = { -- subs will escape battle in convoy raid if there are enemies that can attack
-		25,     -- do not engage
-		10,   -- low
-		3.0,   -- medium
+		12.5,     -- do not engage
+		8.5,   -- low
+		2.5,   -- medium
 		1.0,   -- high
 		0.1,   -- I am death incarnate!
 	},
@@ -1308,7 +1308,7 @@ NNavy = {
 	NAVAL_INVASION_SPOTTING_SPEED_MULT = 10.0,						-- spotting speed mult against naval invasion armies
 	
 	
-	CONVOY_DETECTION_CHANCE_BASE = 4.17,							-- regular convoy base chance detection percentage (if this fails, no detection is done on that tick)
+	CONVOY_DETECTION_CHANCE_BASE = 4.0,							-- regular convoy base chance detection percentage (if this fails, no detection is done on that tick)
 	BASE_SPOTTING_EFFECT_FOR_INITIAL_CONVOY_SPOTTING = 0.35,		-- effect of base convoy spotting for initial spotting of regular convoys. this along with next value is added together and rolled a random  once for every convoy to check for spotting
 	SPOTTING_SPEED_EFFECT_FOR_INITIAL_CONVOY_SPOTTING = 1.20,		-- effect of convoy spotting speed for initial spotting of regular convoys. this along with prev value is added together and rolled a random once for every convoy to check for spotting
 	SPOTTING_MOD_FOR_CONVOY_COUNT = 0.2,							-- a modifier for scaling the count of convoys on a parabolic curve (counvoy_count ^ SPOTTING_MOD_FOR_CONVOY_COUNT)
@@ -1387,7 +1387,7 @@ NNavy = {
 	
 	DEPTH_CHARGES_HIT_CHANCE_MULT 									= 2.0, 		-- multiplies hit chance of small guns
 	DEPTH_CHARGES_DAMAGE_MULT 										= 1.0, 		-- multiplies damage of depth charges
-	DEPTH_CHARGES_HIT_PROFILE 										= 120.0,	-- hit profile for depth charges
+	DEPTH_CHARGES_HIT_PROFILE 										= 110.0,	-- hit profile for depth charges
 	
 	
 	CONVOY_HIT_PROFILE												= 120.0,  	-- convoys has this contant hit profile
@@ -1416,11 +1416,11 @@ NNavy = {
 	
 	MISSION_EFFICIENCY_POW_FACTOR									= 1.7,		-- mission efficiencies will be powered up by this to further penalize low efficiencies
 	
-	SUBMARINE_HIDE_TIMEOUT 											= 20,		-- Amount of in-game-hours that takes the submarine (with position unrevealed), to hide.
-	SUBMARINE_REVEALED_TIMEOUT 										= 16,		-- Amount of in-game-hours that makes the submarine visible if it is on the defender side.
+	SUBMARINE_HIDE_TIMEOUT 											= 24,		-- Amount of in-game-hours that takes the submarine (with position unrevealed), to hide.
+	SUBMARINE_REVEALED_TIMEOUT 										= 20,		-- Amount of in-game-hours that makes the submarine visible if it is on the defender side.
 	SUBMARINE_REVEAL_BASE_CHANCE 									= 12,		-- Base factor for submarine detection. It's modified by the difference of a spotter's submarines detection vs submarine visibility. Use this variable for game balancing. setting this too low will cause bad spotting issues.
 	SUBMARINE_REVEAL_POW 											= 3.0,		-- A scaling factor that is applied to the reveal chance in order to make large differences in detection vs visibility more pronounced
-	SUBMARINE_BASE_TORPEDO_REVEAL_CHANCE 							= 0.04,		-- Chance of a submarine being revealed when it fires. 1.0 is 100%. this chance is then multiplied with modifier created by comparing firer's visibiility and target's detection
+	SUBMARINE_BASE_TORPEDO_REVEAL_CHANCE 							= 0.1,		-- Chance of a submarine being revealed when it fires. 1.0 is 100%. this chance is then multiplied with modifier created by comparing firer's visibiility and target's detection
 	
 	MAX_NUM_HOURS_TO_WAIT_AT_ALLY_DOCKYARDS_FOR_REPAIRS 			= 48,		-- taskforces will wait at most this amount of hours in ally bases for repairs before switching to another base for repairs
 	
