@@ -11,29 +11,30 @@ Code
 // --------------------------------------------------------------
 // ------------------    Light          -------------------------
 // --------------------------------------------------------------
-static const float NIGHT_AMBIENT_BOOST = 3.5f; // can just be baked into the below later ye?
+static const float NIGHT_AMBIENT_BOOST = 3.0f; // can just be baked into the below later ye?
 
 
 static const float3 DayAmbientMapPosX = float3(0.1, 0.1, 0.05);  // right
 static const float3 DayAmbientMapNegX = float3(0.15, 0.15, 0.15);  // left
-static const float3 DayAmbientMapPosY = float3(0.06, 0.06, 0.09);  // kills everything
+static const float3 DayAmbientMapPosY = float3(0.03, 0.03, 0.06);  // kills everything
 static const float3 DayAmbientMapNegY = float3(0.0, 0.0, 0.0);  // from under
 static const float3 DayAmbientMapPosZ = float3(0.0502, 0.05023, 0.1023);  // top
 static const float3 DayAmbientMapNegZ = float3(0.03, 0.033, 0.033);  // bottom
 
-static const float3 NightAmbientMapPosX = float3(0.1, 0.1, 0.1);  // right
+static const float3 NightAmbientMapPosX = float3(0.2, 0.2, 0.2);  // right
 static const float3 NightAmbientMapNegX = float3(0.0, 0.0, 0.0);  // left
-static const float3 NightAmbientMapPosY = float3(0.00, 0.00, 0.00);  // kills everything
-static const float3 NightAmbientMapNegY = float3(0.0, 0.0, 0.05);  // from under
-static const float3 NightAmbientMapPosZ = float3(0.03, 0.05, 0.1);  // top
-static const float3 NightAmbientMapNegZ = float3(0.07, 0.07, 0.1);  // bottom
+static const float3 NightAmbientMapPosY = float3(0.01, 0.01, 0.01);  // kills everything
+static const float3 NightAmbientMapNegY = float3(0.0, 0.0, 0.1);  // from under
+static const float3 NightAmbientMapPosZ = float3(0.06, 0.1, 0.15);  // top
+static const float3 NightAmbientMapNegZ = float3(0.14, 0.14, 0.2);  // bottom
 
-static const float3 NightAmbientPosX = float3(1.0, 1.0, 1.0);  // right
-static const float3 NightAmbientNegX = float3(0.1, 0.1, 0.1);  // left
-static const float3 NightAmbientPosY = float3(0.05, 0.05, 0.05);  // kills everything
+// NOTE: regular unit ambient colors set from defines. this is night
+static const float3 NightAmbientPosX = float3(2.0, 2.0, 2.0);  // right
+static const float3 NightAmbientNegX = float3(0.2, 0.2, 0.2);  // left
+static const float3 NightAmbientPosY = float3(0.1, 0.1, 0.1);  // kills everything
 static const float3 NightAmbientNegY = float3(0.0, 0.0, 0.0);  // from under
-static const float3 NightAmbientPosZ = float3(1.5, 1.5, 1.5);  // top
-static const float3 NightAmbientNegZ = float3(0.4, 0.4, 0.4);  // bottom
+static const float3 NightAmbientPosZ = float3(3.0, 3.0, 3.0);  // top
+static const float3 NightAmbientNegZ = float3(0.8, 0.8, 0.8);  // bottom
 
 // --------------------------------------------------------------
 // ------------------    Specular       -------------------------
@@ -45,9 +46,9 @@ static const float MAP_SPECULAR_WIDTH			= 15.0;
 // --------------------------------------------------------------
 // ------------------    TERRAIN        -------------------------
 // --------------------------------------------------------------
-static const float CITY_LIGHTS_TILING 			= 0.0453;
-static const float CITY_LIGHTS_INTENSITY 		= 10.0;
-static const float CITY_LIGHTS_BLOOM_FACTOR 	= 0.5;
+static const float CITY_LIGHTS_TILING 			= 0.09103;
+static const float CITY_LIGHTS_INTENSITY 		= 5.5;
+static const float CITY_LIGHTS_BLOOM_FACTOR 	= 0.3;
 
 static const float TERRAIN_TILE_FREQ 			= 128.0f;
 static const float MAP_NUM_TILES 				= 5.0f;
@@ -61,12 +62,12 @@ static const float MUD_TILING 					= 0.07;
 static const float MUD_NORMAL_CUTOFF 			= 10.982;
 static const float MUD_STRENGHTEN 				= 1.0;
 
-static const float 	SNOW_OPACITY_MIN			= 1.1f;
-static const float 	SNOW_OPACITY_MAX			= 0.6f;
-static const float 	SNOW_CAM_MIN 				= 1.0f;
-static const float 	SNOW_CAM_MAX 				= 100.0f;
-static const float 	ICE_CAM_MIN 				= 1.0f;
-static const float 	ICE_CAM_MAX 				= 50.0f;
+static const float 	SNOW_OPACITY_MIN			= 0.95f;
+static const float 	SNOW_OPACITY_MAX			= 0.2f;
+static const float 	SNOW_CAM_MIN 				= 50.0f;
+static const float 	SNOW_CAM_MAX 				= 300.0f;
+static const float 	ICE_CAM_MIN 				= 100.0f;
+static const float 	ICE_CAM_MAX 				= 350.0f;
 
 
 static const float 	SNOW_START_HEIGHT 			= 3.0f;
@@ -84,10 +85,10 @@ static const float 	SNOW_FROST_MIN_EFFECT  		= 0.4f;
 static const float3 ICE_COLOR 					= float3( 0.5f, 0.6f, 0.9f );
 static const float 	ICE_NOISE_TILING  			= 0.1f; //0.068f;
 
-static const float WATER_COLOR_LIGHTNESS = 0.3;
+static const float WATER_COLOR_LIGHTNESS = 0.5;
 static const float WATER_RIPPLE_EFFECT = 0.0025;
 
-static const float COLORMAP_OVERLAY_STRENGTH 	= 0.58f; //2.0f;
+static const float COLORMAP_OVERLAY_STRENGTH 	= 0.7f; //0.7f;
 static const float3 FAKE_CUBEMAP_COLOR 			= float3(0.0f, 0.0f, 0.0f);
 
 // MILD_WINTER_VALUE = ###,						defines.lua   (reload defines)
@@ -95,7 +96,7 @@ static const float3 FAKE_CUBEMAP_COLOR 			= float3(0.0f, 0.0f, 0.0f);
 // SEVERE_WINTER_VALUE = ###,					defines.lua   (reload defines)
 
 
-static const float 	BORDER_TILE					= 0.5f;
+static const float 	BORDER_TILE					= 0.4f;
 // BORDER_WIDTH		= ###						defines.lua   (reload defines)
 
 
@@ -111,19 +112,19 @@ static const float 	TREE_SEASON_FADE_TWEAK 		= 2.5f;
 // --------------------------------------------------------------
 // ------------------    HDR          	-------------------------
 // --------------------------------------------------------------
-static const float3 LUMINANCE_VECTOR  			= float3(0.155f, 0.5154f, 0.0021f);
+static const float3 LUMINANCE_VECTOR  			= float3(0.2125f, 0.7154f, 0.0721f);
 
 // --------------------------------------------------------------
 // ------------------    TREES          -------------------------
 // --------------------------------------------------------------
 static const float 	TREE_SPECULAR = 0.1f;
-static const float 	TREE_ROUGHNESS = 0.1f;
+static const float 	TREE_ROUGHNESS = 0.6f;
 
 // --------------------------------------------------------------
 // ------------------    WATER          -------------------------
 // --------------------------------------------------------------
 
-//static const float  WATER_TILE					= 6.0f;
+//static const float  WATER_TILE					= 4.0f;
 static const float  WATER_TIME_SCALE			= 1.0f / 50.0f;
 static const float  WATER_HEIGHT = 9.5f;
 static const float  WATER_HEIGHT_RECP = 1.0f / WATER_HEIGHT;
@@ -180,7 +181,7 @@ static const float  SHADOW_WEIGHT_TREE   		= 0.7f;
 
 
 
-// CAMERA_MIN_HEIGHT = 70.0,					defines.lua   (reload defines)
+// CAMERA_MIN_HEIGHT = 50.0,					defines.lua   (reload defines)
 // CAMERA_MAX_HEIGHT = 3000.0,					defines.lua   (reload defines)
 
 // --------------------------------------------------------------
@@ -208,7 +209,7 @@ static const float BORDER_MAP_TILE = 180.0f;
 // ------------------    SECONDARY COLOR MAP   ------------------
 // --------------------------------------------------------------
 
-static const float SEC_MAP_TILE = 8000.0f;
+static const float SEC_MAP_TILE = 6000.0f;
 
 
 // --------------------------------------------------------------
@@ -223,8 +224,8 @@ static const float MAP_ARROW_NORMALS_STR_WATER = 0.08f;
 // --------------------------------------------------------------
 // ------------------    PARTICLES   ----------------------------
 // --------------------------------------------------------------
-static const float PARTICLE_FADE_START_DISTANCE = 200;
-static const float PARTICLE_FADE_STOP_DISTANCE = 450;
+static const float PARTICLE_FADE_START_DISTANCE = 100;
+static const float PARTICLE_FADE_STOP_DISTANCE = 350;
 
 // --------------------------------------------------------------
 // -------------    RIM LIGHT (PDXMESH)   -----------------------
@@ -237,7 +238,7 @@ static const float4 RIM_COLOR 		= float4( 0.3f, 0.3f, 0.3f, 0.0f );
 // --------------------------------------------------------------
 // -------------    MAP BORDER (PDXMESH)   ----------------------
 // --------------------------------------------------------------
-static const float3 BORDER_SUN_INTENSITY = float3(1.5, 1.5, 1.5);
+static const float3 BORDER_SUN_INTENSITY = float3(1.5, 1.5, 1.6);
 static const float3 BORDER_SUN_DIRECTION = float3(-0.2, 0.9, 0.1);
 //static const float3 BORDER_SUN_DIRECTION = float3(-0.1, 0.5, 0.0);
 //static const float3 BORDER_SUN_DIRECTION = float3(0.2, 0.5, 0.0);

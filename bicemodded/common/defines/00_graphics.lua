@@ -502,15 +502,15 @@ NGraphics = {
 	COUNTER_MODE_ALLEGIANCE_ENEMY = { 0.91, 0.30, 0.30, 1.0 },
 	COUNTER_MODE_ALLEGIANCE_OTHER = { 0.8, 0.8, 0.8, 1.0 },
 	
-	MAX_MESHES_LOADED_PER_FRAME = 20,
+	MAX_MESHES_LOADED_PER_FRAME = 15,
 	MESH_POPUP_SCALE_UP_SPEED = 5.0,
 	MESH_POPUP_SCALE_DOWN_SPEED = 2.1,
 	SHIP_POPUP_SCALE_DOWN_SPEED = 4.1,
 	PORT_SHIP_OFFSET = 2.0,
 	SHIP_IN_PORT_SCALE = 0.25,
-	MAP_BUILDINGS_SHRINK_DISTANCE = 180,				
+	MAP_BUILDINGS_SHRINK_DISTANCE = 90,				
 	CITY_SPRAWL_SHRINK_DISTANCE = 220.0, 			-- Start shrinking at this distance
-	DRAW_MAP_OBJECTS_CUTOFF = 550.0,					-- Remove map objects at this distance
+	DRAW_MAP_OBJECTS_CUTOFF = 250.0,					-- Remove map objects at this distance
 	PROVINCE_NAME_DRAW_DISTANCE = 500.0, 			-- Remove province names beyond this distance
 	DIRECTION_POINTER_DRAW_DISTANCE = 1200.0,		-- Direction pointer arrow will not be drawn beyond this distance
 	DIRECTION_POINTER_INTERPOLATION_SPEED = 0.275,	-- How fast the arrow is interpolating
@@ -758,7 +758,7 @@ NGraphics = {
 	MOON_HEIGHT = 600, -- higher means softer shadows and more intense light
 	SUN_HEIGHT  = 1500, -- higher means softer shadows and more intense light
 	MOON_HEIGHT_WATER = 550,   -- higher means softer shadows and more intense light
-	SUN_HEIGHT_WATER  = 500,  -- higher means softer shadows and more intense light
+	SUN_HEIGHT_WATER  = 999999999999999,  -- higher means softer shadows and more intense light
 	MOON_LATITUDE = 0, -- NOT USED
 	SUN_LATITUDE  = 848,
 	SECOND_MOON_LATITUDE = 100, -- Used to put a "fake" sun/moon on the other side of the globe to hide the seem that would otherwise appear there
@@ -780,7 +780,7 @@ NGraphics = {
 	CUBEMAP_INTENSITY = 1.0,
 	
 	TREE_FADE_NEAR = 250.0,
-	TREE_FADE_FAR = 350.0,
+	TREE_FADE_FAR = 400.0,
 	
 	TRADE_ROUTE_NUM_CONVOYS_SCALE_FACTOR = 0.3,
 	TRADE_ROUTE_MAX_NUM_CONVOYS = 4,
