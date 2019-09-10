@@ -508,7 +508,7 @@ NGraphics = {
 	SHIP_POPUP_SCALE_DOWN_SPEED = 4.1,
 	PORT_SHIP_OFFSET = 2.0,
 	SHIP_IN_PORT_SCALE = 0.25,
-	MAP_BUILDINGS_SHRINK_DISTANCE = 90,				
+	MAP_BUILDINGS_SHRINK_DISTANCE = 110,				
 	CITY_SPRAWL_SHRINK_DISTANCE = 220.0, 			-- Start shrinking at this distance
 	DRAW_MAP_OBJECTS_CUTOFF = 250.0,					-- Remove map objects at this distance
 	PROVINCE_NAME_DRAW_DISTANCE = 500.0, 			-- Remove province names beyond this distance
@@ -758,7 +758,7 @@ NGraphics = {
 	MOON_HEIGHT = 600, -- higher means softer shadows and more intense light
 	SUN_HEIGHT  = 1500, -- higher means softer shadows and more intense light
 	MOON_HEIGHT_WATER = 550,   -- higher means softer shadows and more intense light
-	SUN_HEIGHT_WATER  = 999999999999999,  -- higher means softer shadows and more intense light
+	SUN_HEIGHT_WATER  = 999,  -- higher means softer shadows and more intense light
 	MOON_LATITUDE = 0, -- NOT USED
 	SUN_LATITUDE  = 848,
 	SECOND_MOON_LATITUDE = 100, -- Used to put a "fake" sun/moon on the other side of the globe to hide the seem that would otherwise appear there
@@ -773,7 +773,7 @@ NGraphics = {
 	AMBIENT_LIGHT_NEG_Z = { 0.55, 0.1, 0.9 }, -- bottom
 
 	SUN_DIFFUSE_COLOR   = {0.14, 0.0, 1.0},
-	SUN_INTENSITY 		= 0.8; -- 0.4
+	SUN_INTENSITY 		= 0.85; -- 0.4
 	MOON_DIFFUSE_COLOR  = {0.58, 0.5, 1.0},
 	MOON_INTENSITY 		= 2.5;
 
