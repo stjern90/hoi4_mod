@@ -502,15 +502,15 @@ NGraphics = {
 	COUNTER_MODE_ALLEGIANCE_ENEMY = { 0.91, 0.30, 0.30, 1.0 },
 	COUNTER_MODE_ALLEGIANCE_OTHER = { 0.8, 0.8, 0.8, 1.0 },
 	
-	MAX_MESHES_LOADED_PER_FRAME = 15,
+	MAX_MESHES_LOADED_PER_FRAME = 10,
 	MESH_POPUP_SCALE_UP_SPEED = 5.0,
 	MESH_POPUP_SCALE_DOWN_SPEED = 2.1,
 	SHIP_POPUP_SCALE_DOWN_SPEED = 4.1,
 	PORT_SHIP_OFFSET = 2.0,
 	SHIP_IN_PORT_SCALE = 0.25,
-	MAP_BUILDINGS_SHRINK_DISTANCE = 110,				
+	MAP_BUILDINGS_SHRINK_DISTANCE = 180,				
 	CITY_SPRAWL_SHRINK_DISTANCE = 220.0, 			-- Start shrinking at this distance
-	DRAW_MAP_OBJECTS_CUTOFF = 250.0,					-- Remove map objects at this distance
+	DRAW_MAP_OBJECTS_CUTOFF = 550.0,					-- Remove map objects at this distance
 	PROVINCE_NAME_DRAW_DISTANCE = 500.0, 			-- Remove province names beyond this distance
 	DIRECTION_POINTER_DRAW_DISTANCE = 1200.0,		-- Direction pointer arrow will not be drawn beyond this distance
 	DIRECTION_POINTER_INTERPOLATION_SPEED = 0.275,	-- How fast the arrow is interpolating
@@ -528,9 +528,9 @@ NGraphics = {
 	LIGHT_HDR_RANGE = 1.0,
 	BORDER_WIDTH = 1.5,
 	PROVINCE_BORDER_FADE_NEAR = 200,
-	PROVINCE_BORDER_FADE_FAR = 350,
-	STATE_BORDER_FADE_NEAR = 500,
-	STATE_BORDER_FADE_FAR = 800,
+	PROVINCE_BORDER_FADE_FAR = 300,
+	STATE_BORDER_FADE_NEAR = 400,
+	STATE_BORDER_FADE_FAR = 500,
 	LAND_UNIT_MOVEMENT_SPEED = 12  ,
 	NAVAL_UNIT_MOVEMENT_SPEED = 12,
 	ARROW_MOVEMENT_SPEED = 2,
@@ -702,8 +702,8 @@ NGraphics = {
 	NAVAL_MINES_COUNT_TO_VISUAL_ASPECT = 0.1, -- How many in-game-naval-mines is one visual 3d naval mine?
 	MAP_ICONS_GROUP_MAX_SIZE = 15, -- max size in screen pixels of the group of merged icons
 	MAP_ICONS_GROUP_CAM_DISTANCE = 165.0, -- camera distance at which the icons begin to group up
-	MAP_ICONS_STATE_GROUP_CAM_DISTANCE = 400.0, -- Camera distance at which the icons begin to group up on state level
-	MAP_ICONS_STRATEGIC_GROUP_CAM_DISTANCE = 600, -- second camera distance at which the icons begin to group up
+	MAP_ICONS_STATE_GROUP_CAM_DISTANCE = 500.0, -- Camera distance at which the icons begin to group up on state level
+	MAP_ICONS_STRATEGIC_GROUP_CAM_DISTANCE = 700, -- second camera distance at which the icons begin to group up
 	MAP_ICONS_STRATEGIC_AREA_HUGE = 220,
 	MAP_ICONS_STATE_HUGE = 100,
 	MAPICON_GROUP_PASSES = 20, -- how many mapicons get processed per frame for grouping. more = quicker response, fewer = better performance
@@ -756,9 +756,9 @@ NGraphics = {
 	TONE_MAP_MIDDLE_GREY = 0.5, --0.7
 	TONE_MAP_LUMINANCE_WHITE = 1.0, --
 	MOON_HEIGHT = 600, -- higher means softer shadows and more intense light
-	SUN_HEIGHT  = 1500, -- higher means softer shadows and more intense light
+	SUN_HEIGHT  = 600, -- higher means softer shadows and more intense light
 	MOON_HEIGHT_WATER = 550,   -- higher means softer shadows and more intense light
-	SUN_HEIGHT_WATER  = 999,  -- higher means softer shadows and more intense light
+	SUN_HEIGHT_WATER  = 5000,  -- higher means softer shadows and more intense light
 	MOON_LATITUDE = 0, -- NOT USED
 	SUN_LATITUDE  = 848,
 	SECOND_MOON_LATITUDE = 100, -- Used to put a "fake" sun/moon on the other side of the globe to hide the seem that would otherwise appear there
@@ -773,14 +773,14 @@ NGraphics = {
 	AMBIENT_LIGHT_NEG_Z = { 0.55, 0.1, 0.9 }, -- bottom
 
 	SUN_DIFFUSE_COLOR   = {0.14, 0.0, 1.0},
-	SUN_INTENSITY 		= 0.85; -- 0.4
+	SUN_INTENSITY 		= 1.0; -- 0.4
 	MOON_DIFFUSE_COLOR  = {0.58, 0.5, 1.0},
 	MOON_INTENSITY 		= 2.5;
 
 	CUBEMAP_INTENSITY = 1.0,
 	
 	TREE_FADE_NEAR = 250.0,
-	TREE_FADE_FAR = 400.0,
+	TREE_FADE_FAR = 350.0,
 	
 	TRADE_ROUTE_NUM_CONVOYS_SCALE_FACTOR = 0.3,
 	TRADE_ROUTE_MAX_NUM_CONVOYS = 4,
@@ -844,7 +844,7 @@ NGraphics = {
 	CAMERA_OUTSIDE_MAP_DISTANCE_BOTTOM = 200.0,
 
 	CAMERA_ZOOM_SPEED = 50,
-	CAMERA_ZOOM_KEY_SCALE = 0.001,
+	CAMERA_ZOOM_KEY_SCALE = 0.02,
 	CAMERA_ZOOM_SPEED_DISTANCE_MULT = 20.0,				-- Zoom speed multiplier. When camera is max zoome out, the zooming in speed will get 100% of CAMERA_ZOOM_SPEED_DISTANCE_MULT zooming speed.
 	
 	ORDERS_MOUSE_INTERSECT_DISTANCE_MULT = 2.6, 		-- For balancing the collision distance with painted arrows and fronts.
