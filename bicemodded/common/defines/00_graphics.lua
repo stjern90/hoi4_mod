@@ -701,9 +701,15 @@ NGraphics = {
 	NAVAL_MINES_CLUMP_NEAR_TERRITORY = 25, -- Higher chance to spawn 3d naval mine near our territory
 	NAVAL_MINES_COUNT_TO_VISUAL_ASPECT = 0.1, -- How many in-game-naval-mines is one visual 3d naval mine?
 	MAP_ICONS_GROUP_MAX_SIZE = 15, -- max size in screen pixels of the group of merged icons
+<<<<<<< HEAD
 	MAP_ICONS_GROUP_CAM_DISTANCE = 165.0, -- camera distance at which the icons begin to group up
 	MAP_ICONS_STATE_GROUP_CAM_DISTANCE = 500.0, -- Camera distance at which the icons begin to group up on state level
 	MAP_ICONS_STRATEGIC_GROUP_CAM_DISTANCE = 700, -- second camera distance at which the icons begin to group up
+=======
+	MAP_ICONS_GROUP_CAM_DISTANCE = 160.0, -- camera distance at which the icons begin to group up
+	MAP_ICONS_STATE_GROUP_CAM_DISTANCE = 450.0, -- Camera distance at which the icons begin to group up on state level
+	MAP_ICONS_STRATEGIC_GROUP_CAM_DISTANCE = 675, -- second camera distance at which the icons begin to group up
+>>>>>>> f672edabfd6c5c8a2384828866d721bd41e25b19
 	MAP_ICONS_STRATEGIC_AREA_HUGE = 220,
 	MAP_ICONS_STATE_HUGE = 100,
 	MAPICON_GROUP_PASSES = 20, -- how many mapicons get processed per frame for grouping. more = quicker response, fewer = better performance
