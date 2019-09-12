@@ -773,7 +773,7 @@ NGraphics = {
 	AMBIENT_LIGHT_NEG_Z = { 0.55, 0.1, 0.9 }, -- bottom
 
 	SUN_DIFFUSE_COLOR   = {0.14, 0.0, 1.0},
-	SUN_INTENSITY 		= 1.0; -- 0.4
+	SUN_INTENSITY 		= 0.9; -- 0.4
 	MOON_DIFFUSE_COLOR  = {0.58, 0.5, 1.0},
 	MOON_INTENSITY 		= 2.5;
 
