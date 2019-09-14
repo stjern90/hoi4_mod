@@ -8,8 +8,6 @@
 
 NDefines_Graphics.NMapIcons.STRATEGIC_AIR_PRIORITY_AIR_MISSION = 290
 
-NDefines_Graphics.NGraphics.VICTORY_POINT_MAP_ICON_TEXT_CUTOFF = {300, 500, 1500}
-
 --NDefines_Graphics.NGraphics.MAP_ICONS_GROUP_MAX_SIZE = 0
 NDefines_Graphics.NGraphics.MAP_ICONS_GROUP_CAM_DISTANCE = 150				--group moving and still units
 NDefines_Graphics.NGraphics.MAP_ICONS_STATE_GROUP_CAM_DISTANCE = 400.0		--group into states
