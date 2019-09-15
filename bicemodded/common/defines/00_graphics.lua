@@ -756,9 +756,9 @@ NGraphics = {
 	TONE_MAP_MIDDLE_GREY = 0.5, --0.7
 	TONE_MAP_LUMINANCE_WHITE = 1.0, --
 	MOON_HEIGHT = 600, -- higher means softer shadows and more intense light
-	SUN_HEIGHT  = 600, -- higher means softer shadows and more intense light
+	SUN_HEIGHT  = 750, -- higher means softer shadows and more intense light
 	MOON_HEIGHT_WATER = 550,   -- higher means softer shadows and more intense light
-	SUN_HEIGHT_WATER  = 5000,  -- higher means softer shadows and more intense light
+	SUN_HEIGHT_WATER  = 55000,  -- higher means softer shadows and more intense light
 	MOON_LATITUDE = 0, -- NOT USED
 	SUN_LATITUDE  = 848,
 	SECOND_MOON_LATITUDE = 100, -- Used to put a "fake" sun/moon on the other side of the globe to hide the seem that would otherwise appear there
@@ -773,11 +773,11 @@ NGraphics = {
 	AMBIENT_LIGHT_NEG_Z = { 0.55, 0.1, 0.9 }, -- bottom
 
 	SUN_DIFFUSE_COLOR   = {0.14, 0.0, 1.0},
-	SUN_INTENSITY 		= 0.9; -- 0.4
+	SUN_INTENSITY 		= 1.0; -- 0.4
 	MOON_DIFFUSE_COLOR  = {0.58, 0.5, 1.0},
 	MOON_INTENSITY 		= 2.5;
 
-	CUBEMAP_INTENSITY = 1.0,
+	CUBEMAP_INTENSITY = 0.9,
 	
 	TREE_FADE_NEAR = 250.0,
 	TREE_FADE_FAR = 350.0,
