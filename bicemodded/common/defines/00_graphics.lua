@@ -844,7 +844,7 @@ NGraphics = {
 	CAMERA_OUTSIDE_MAP_DISTANCE_BOTTOM = 200.0,
 
 	CAMERA_ZOOM_SPEED = 50,
-	CAMERA_ZOOM_KEY_SCALE = 0.02,
+	CAMERA_ZOOM_KEY_SCALE = 0.01,
 	CAMERA_ZOOM_SPEED_DISTANCE_MULT = 20.0,				-- Zoom speed multiplier. When camera is max zoome out, the zooming in speed will get 100% of CAMERA_ZOOM_SPEED_DISTANCE_MULT zooming speed.
 	
 	ORDERS_MOUSE_INTERSECT_DISTANCE_MULT = 2.6, 		-- For balancing the collision distance with painted arrows and fronts.
@@ -984,7 +984,7 @@ NFrontend = {
 	CAMERA_END_X = 2958.0,							-- Move to position in main menu
 	CAMERA_END_Y = 900.0,
 	CAMERA_END_Z = 1400.0,
-	CAMERA_MIN_HEIGHT = 50.0,						-- Minimum camera height
+	CAMERA_MIN_HEIGHT = 35.0,						-- Minimum camera height
 	CAMERA_MAX_HEIGHT = 3000.0,						-- Maximum camera height
 	CAMERA_SPEED_IN_MENUS = 0.1,
 	CAMERA_INTERPOLATION_SPEED = 0.19,
