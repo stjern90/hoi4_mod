@@ -141,11 +141,13 @@ country_event = {	# Soviets says yes   historical mod
 		set_global_flag = first_finish_war_over
 	}
 }
+
 country_event = { # historical mod - Finland join GER during GER vs SOV
 	id = twevents.27
 	title = twevents.27.t
 	desc = twevents.27.d
 	picture = GFX_report_event_finnish_soldiers_snow
+	is_triggered_only = yes
 	
 	trigger = {
 	    tag = GER
@@ -157,7 +159,6 @@ country_event = { # historical mod - Finland join GER during GER vs SOV
 		    		208 = { is_controlled_by = GER }
 		    		209 = { is_controlled_by = GER }
 		    	}
-		    
 		
 	}
 	
@@ -175,8 +176,57 @@ country_event = { # historical mod - Finland join GER during GER vs SOV
 }
 
 
-country_event = {
+country_event = { # historical mod - Finland join GER during GER vs SOV
+	id = twevents.74
+	title = twevents.74.t
+	desc = twevents.74.d
+	picture = GFX_report_event_finnish_soldiers_snow
 	
+	trigger = {
+	    tag = FIN
+		is_puppet = no
+		NOT = { has_war_with = GER }
+		NOT = { has_government = communism }
+		NOT = { is_in_faction = yes }
+		GER = {
+			has_war_with = SOV
+		    	OR = {
+		    		208 = { is_controlled_by = GER }
+		    		209 = { is_controlled_by = GER }
+		    	}
+		    }
+		
+	}
+	
+	fire_only_once = yes
+	
+	option = {
+		name = twevents.74.a
+		ai_chance = { factor = 100 }
+		GER = {
+			country_event = {
+				id = twevents.27
+				days = 1
+				}
+			}
+	}
+	
+	option = {
+    	name = twevents.74.b
+		declare_war_on = {
+			target = SOV
+			}
+		hidden_effect = { FIN = { remove_ideas = neutrality_idea } }
+    }
+	
+	
+	option = {
+    	name = twevents.74.c
+    }
+}
+
+
+country_event = {
 	id = twevents.46
 	title = twevents.46.t
 	desc = twevents.46.d
@@ -656,19 +706,103 @@ country_event = {  # End of RK Kaukasus
 		ai_chance = { 
 			factor = 1 
 			}
-			every_state = {
-				limit = {  is_owned_by = GEO  }
-				SOV = {	transfer_state = PREV	}
-				GEO = {remove_state_core = PREV	}	
+		every_state = {
+			limit = {  is_owned_by = GEO  }
+			SOV = {	transfer_state = PREV	}
+			GEO = {remove_state_core = PREV	}	
+			}
+		GEO = {
+			set_cosmetic_tag = GEO
+			add_state_core = 231
+			add_state_core = 788
+			}
+		}
+		
+	}
+	
+
+country_event = { # Redrawing the soviet map : Finnish territory
+	id = twevents.75
+	title = twevents.75.t
+	desc = twevents.75.d
+	picture = GFX_report_event_finnish_soldiers_snow
+	
+	trigger = {
+	    tag = GER
+		is_puppet = no
+		FIN = { is_in_faction = yes }
+		NOT = { has_war_with = SOV }
+		OR = { GER = { owns_state = 146 }  FIN = { owns_state = 146} }
+		OR = { GER = { owns_state = 147 }  FIN = { owns_state = 147} }
+		#Above = Winter War status quo
+		OR = { GER = { owns_state = 213 }  FIN = { owns_state = 213} }
+		OR = { GER = { owns_state = 215 }  FIN = { owns_state = 215} }
+		OR = { GER = { owns_state = 216 }  FIN = { owns_state = 216} }
+		#Above = Greater Finland
+
+	}
+	
+	fire_only_once = yes
+	
+	option = { # Only what they lost
+		name = twevents.75.a
+		FIN = {
+			transfer_state = 147
+			transfer_state = 146
+			
+			country_event = {
+				id = twevents.76
+				days = 1
 				}
-			GEO = {
-				set_cosmetic_tag = GEO
-				add_state_core = 231
-				add_state_core = 788
+				
+			}
+	}
+	
+	option = { # Greater Finland
+    	name = twevents.75.b
+		ai_chance = { factor = 100 }
+		FIN = {
+			transfer_state = 147
+			transfer_state = 146
+			
+			transfer_state = 213
+			transfer_state = 215
+			transfer_state = 216
+			
+			country_event = {
+				id = twevents.77
+				days = 1
 				}
 			}
-			
-		}
+    }
+}
+
+
+country_event = { # Redrawing the soviet map : Finnish territory
+	id = twevents.76
+	title = twevents.76.t
+	desc = twevents.76.d
+	picture = GFX_report_event_finnish_soldiers_snow
+	is_triggered_only = yes
+	
+	option = {
+		name = twevents.76.a
 	}
+	
+}
+	
+country_event = { # Redrawing the soviet map : Finnish territory
+	id = twevents.77
+	title = twevents.77.t
+	desc = twevents.77.d
+	picture = GFX_report_event_finnish_soldiers_snow
+	is_triggered_only = yes
+	
+	option = {
+		name = twevents.77.a
+	}
+	
+}
+	
 
 ### EOF ###
