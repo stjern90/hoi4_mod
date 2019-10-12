@@ -70,7 +70,7 @@ POL_plans_for_war = {
 		
 		complete_effect = {
 			POL = {
-				add_ideas = { Armia_krajowa }
+				add_ideas = { POL_armiakraj }
 			}
 			hidden_effect = {
 				set_country_flag = armiakrajowa
@@ -85,6 +85,7 @@ POL_plans_for_war = {
 POL_armiakrajowa2 = {
 	
 	POL_warsawuprising = {
+		icon = gfx_POL_uprising
 		allowed = {
 			always = yes
 		}
@@ -96,6 +97,7 @@ POL_armiakrajowa2 = {
 		}
 		
 		available = {
+			check_variable = { resistance > 60 }
 			original_tag = POL
 			POL = { has_capitulated = yes }
 			date > 1944.1.1
@@ -116,6 +118,8 @@ POL_armiakrajowa2 = {
 				load_oob = "POL_ak"
 				set_province_controller = 13264
 				set_province_controller = 3544
+				set_country_flag = national1
+				subtract_from_variable = { resistance = 10 }
 			}
 			news_event = { id = news.1305 }
 		}
@@ -123,6 +127,7 @@ POL_armiakrajowa2 = {
 	}
 	
 	POL_operationtempest = {
+		icon = gfx_POL_uprising
 		allowed = {
 			always = yes
 		}
@@ -134,6 +139,7 @@ POL_armiakrajowa2 = {
 		}
 		
 		available = {
+			check_variable = { resistance > 90 }
 			original_tag = POL
 			POL = { has_capitulated = yes }
 			date > 1944.1.1
@@ -192,8 +198,91 @@ POL_armiakrajowa2 = {
 						}
 					}
 				}
+				set_country_flag = national2
+				subtract_from_variable = { resistance = 20 }
 			}
 		}
 	}
+	
+	POL_destruction = {
+		icon = gfx_POL_uprising
+		allowed = {
+			always = yes
+		}
 		
+		visible = {
+			original_tag = POL
+			POL = { has_capitulated = yes }
+			date > 1940.1.1
+		}
+		
+		available = {
+			check_variable = { resistance > 35 }
+			original_tag = POL
+			POL = { has_capitulated = yes }
+			date > 1940.1.1
+		}
+		
+		ai_will_do = {
+			factor = 200
+		}
+		
+		days_re_enable = 60
+		
+		complete_effect = {
+			GER = {
+				random_owned_controlled_state = {
+					damage_building = {
+						type = arms_factory
+						damage = 3
+					}
+				}	
+			}
+			GER = {
+				country_event = { id = germany.700 }
+			}
+			hidden_effect = {
+				subtract_from_variable = { resistance = 5 }
+			}
+		}
+	}
+	
+	POL_resistance = {
+		icon = gfx_POL_uprising
+		allowed = {
+			always = yes
+		}
+		
+		visible = {
+			original_tag = POL
+			POL = { has_capitulated = yes }
+		}
+		
+		available = {
+			original_tag = POL
+			POL = { has_capitulated = yes }
+			date > 1939.1.1
+		}
+		
+		ai_will_do = {
+			factor = 200
+		}
+		
+		days_re_enable = 50
+		
+		cost = 35
+		
+		complete_effect = {
+			hidden_effect = {
+				add_to_variable = { resistance = 10 }
+				if = {
+					limit = {
+						check_variable = { resistance > 100 }
+					}
+					set_variable = { resistance = 100 } 
+				}
+			}
+			custom_effect_tooltip = POL_resistancett
+		}
+	}
 }
