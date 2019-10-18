@@ -20,14 +20,14 @@ ability = {
 			}
 		}
 		
-		cost = 0.4
+		cost = 0.2
 		duration = 168
-		
+		cooldown = 168
 		unit_modifiers = {
-			army_speed_factor = 0.15
+			army_speed_factor = 0.12
 			army_armor_attack_factor = 0.4
-			breakthrough_factor = 0.3
-			air_cas_present_factor = 0.25
+			breakthrough_factor = 0.25
+			air_cas_present_factor = 0.20
 			army_fuel_consumption_factor = 0.5
 			#land_night_attack = -0.2
 		}
@@ -102,16 +102,17 @@ ability = {
 			}
 		}
 		
-		cost = 0.40
+		cost = 0.2
+		duration = 168
 		duration = 168
 		
 		unit_modifiers = {
-			army_speed_factor = 0.1
+			army_speed_factor = 0.08
 			army_armor_attack_factor = 0.3
-			breakthrough_factor = 0.3
-			air_cas_present_factor = 0.2
-			army_fuel_consumption_factor = 0.3
-			land_night_attack = -0.2
+			breakthrough_factor = 0.2
+			air_cas_present_factor = 0.18
+			army_fuel_consumption_factor = 0.35
+			land_night_attack = -0.15
 		}
 	}
 	
@@ -159,8 +160,9 @@ ability = {
 			}
 		}
 		
-		cost = 0.40
+		cost = 0.15
 		duration = 168
+		cooldown = 56
 		
 		unit_modifiers = {
 			army_infantry_attack_factor = 0.35
@@ -188,8 +190,9 @@ ability = {
 			}
 		}
 		
-		cost = 0.3
+		cost = 0.15
 		duration = 168
+		cooldown = 56
 		
 		one_time_effect = {
 			add_temporary_buff_to_units = {
@@ -203,6 +206,19 @@ ability = {
 		
 		ai_will_do = {
 			factor = -1
+			modifier = {
+				FROM = {
+					has_war_support > 0.4
+				}
+				
+				check_variable = { num_units_defensive_combats > 6 }
+				
+				set_temp_variable = { temp = avg_defensive_combat_status }
+				check_variable = { temp < 0.40 }
+				check_variable = { ai_random > temp }
+				
+				add = 2
+			}
 		}
 	}
 	
@@ -226,32 +242,22 @@ ability = {
 			factor = -1
 			modifier = {
 				FROM = {
-					has_war_support > 0.1
-					command_power > 1.5
+					has_war_support > 0.4
 				}
-				check_variable = { num_units_offensive_combats > 7 }
 				
-				set_temp_variable = { temp = avg_offensive_combat_status }
-				check_variable = { temp > 0.45 }
+				check_variable = { num_units_defensive_combats > 6 }
+				
+				set_temp_variable = { temp = avg_defensive_combat_status }
+				check_variable = { temp < 0.40 }
 				check_variable = { ai_random > temp }
 				
 				add = 2
 			}
-			modifier = {
-				FROM = {
-					has_war_support > 0.4
-					command_power > 1.5
-				}
-				check_variable = { num_units_offensive_combats > 14 }
-				
-				set_temp_variable = { temp = avg_offensive_combat_status }
-				check_variable = { temp > 0.4 }
-				add = 1
-			}
 		}
 		
-		cost = 0.3
+		cost = 0.15
 		duration = 168
+		cooldown = 56
 		
 		unit_modifiers = {
 			defence = 0.2
@@ -268,6 +274,7 @@ ability = {
 		type = army_leader
 		
 		allowed = {
+			is_leading_army_group = yes
 			is_border_war = no
 			OWNER = {
 				has_tech = guerilla_warfare
@@ -278,32 +285,21 @@ ability = {
 			factor = -1
 			modifier = {
 				FROM = {
-					has_war_support > 0.1
-					command_power > 1.5
+					has_war_support > 0.4
 				}
-				check_variable = { num_units_offensive_combats > 7 }
 				
-				set_temp_variable = { temp = avg_offensive_combat_status }
-				check_variable = { temp > 0.45 }
+				check_variable = { num_units_defensive_combats > 6 }
+				
+				set_temp_variable = { temp = avg_defensive_combat_status }
+				check_variable = { temp < 0.40 }
 				check_variable = { ai_random > temp }
 				
 				add = 2
 			}
-			modifier = {
-				FROM = {
-					has_war_support > 0.4
-					command_power > 1.5
-				}
-				check_variable = { num_units_offensive_combats > 14 }
-				
-				set_temp_variable = { temp = avg_offensive_combat_status }
-				check_variable = { temp > 0.4 }
-				add = 1
-			}
 		}
 		
-		cost = 0.2
-		duration = 168
+		cost = 0.1
+		duration = 336
 		
 		one_time_effect = {
 			add_temporary_buff_to_units = {
@@ -377,7 +373,7 @@ ability = {
 			fortification_damage = 1.0
 			fortification_collateral_chance = 1.0
 		}
-		cost = 0.1
+		cost = 0.15
 		duration = 168
 		cooldown = 168
 		
@@ -520,8 +516,9 @@ ability = {
 			}
 		}
 		
-		cost = 0.45
+		cost = 0.15
 		duration = 168
+		cooldown = 56
 	}
 	
 	makeshift_bridges = {
@@ -649,9 +646,37 @@ ability = {
 		}
 		
 			
-		cost = 0.2
+		cost = 0.15
 		duration = 168
-		cooldown = 504
+		cooldown = 56
+		
+		ai_will_do = {
+			factor = -1
+			modifier = {
+				FROM = {
+					has_war_support > 0.1
+					command_power > 1.5
+				}
+				check_variable = { num_units_offensive_combats > 7 }
+				
+				set_temp_variable = { temp = avg_offensive_combat_status }
+				check_variable = { temp > 0.45 }
+				check_variable = { ai_random > temp }
+				
+				add = 2
+			}
+			modifier = {
+				FROM = {
+					has_war_support > 0.4
+					command_power > 1.5
+				}
+				check_variable = { num_units_offensive_combats > 14 }
+				
+				set_temp_variable = { temp = avg_offensive_combat_status }
+				check_variable = { temp > 0.4 }
+				add = 1
+			}
+		}
 	}
 	
 
