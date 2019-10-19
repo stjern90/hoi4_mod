@@ -931,7 +931,7 @@ NAir = {
 		0.0, -- PARADROP		
 		0.0, -- NAVAL_KAMIKAZE	
         0.0, -- PORT_STRIKE		
-		0.15, -- AIR_SUPPLY		
+		0.0, -- AIR_SUPPLY		
 		0.0, -- TRAINING
 		0.0, -- NAVAL_MINES_PLANTING
 		0.0, -- NAVAL_MINES_SWEEPING
