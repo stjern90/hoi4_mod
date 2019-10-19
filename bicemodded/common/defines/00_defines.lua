@@ -221,10 +221,10 @@ NCountry = {
 	MAJOR_IC_RATIO = 3,                         -- difference in total factories needed to be considered major with respect to other nation
 	MAJOR_MIN_FACTORIES = 45,						-- need at least these many factories to become a major
 	MAX_INTELLIGENCE_DIFFERENCE = 3.0,				-- Max difference in intelligence levels between countries
-	MAX_INTELLIGENCE_DATA_DEVIATION = 1.0,          -- Max deviation in estimating default espionage values ( 0.0 - 1.0 )
-	MAX_INTELLIGENCE_MILITARY_DATA_DEVIATION = 1.0, -- Max deviation in estimating enemy military units amount ( 0.0 - 1.0 )
+	MAX_INTELLIGENCE_DATA_DEVIATION = 0.8,          -- Max deviation in estimating default espionage values ( 0.0 - 1.0 )
+	MAX_INTELLIGENCE_MILITARY_DATA_DEVIATION = 0.8, -- Max deviation in estimating enemy military units amount ( 0.0 - 1.0 )
 	MAX_INTELLIGENCE_NAVY_DATA_DEVIATION = 0.3,		-- Max deviation in estimating enemy ships amount ( 0.0 - 1.0 )
-	MAX_INTELLIGENCE_AIR_DATA_DEVIATION = 1.0,		-- Max deviation in estimating enemy air planes amount ( 0.0 - 1.0 )
+	MAX_INTELLIGENCE_AIR_DATA_DEVIATION = 0.8,		-- Max deviation in estimating enemy air planes amount ( 0.0 - 1.0 )
 	MAX_INTELLIGENCE_INDUSTRY_DATA_DEVIATION = 0.4,	-- Max deviation in estimating enemy industry amount ( 0.0 - 1.0 )
 	MAX_INTELLIGENCE_CONVOY_DATA_DEVIATION = 0.3,	-- Max deviation in estimating enemy convoys amount ( 0.0 - 1.0 )
     MAX_INTELLIGENCE_MANPOWER_DATA_DEVIATION = 0.4,	-- Max deviation in estimating enemy total manpower amount ( 0.0 - 1.0 )
@@ -487,7 +487,7 @@ NMilitary = {
 	MAX_AIR_EXPERIENCE = 750,			--Max air experience a country can store
 	
 	COMBAT_MINIMUM_TIME = 8,			-- Shortest time possible for a combat in hours
-	SPOTTING_QUALITY_DROP_HOURS = 4, 	-- Each X hours the intel quality drops after unit was spotted.
+	SPOTTING_QUALITY_DROP_HOURS = 5, 	-- Each X hours the intel quality drops after unit was spotted.
 	LEADER_GROUP_MAX_SIZE = 1000, 		-- 5 Max slots for leader groups.
 	
 	MIN_SUPPLY_CONSUMPTION = 0.2,					-- minimum value of supply consumption that a unit can get
