@@ -1,0 +1,371 @@
+scripted_gui = {
+
+	money = {
+		context_type = player_context
+		
+		window_name = "money_container"
+		
+		visible = {
+			#player_only_trigger = yes
+		}
+		
+		dynamic_lists = {
+			topbar_list = {
+				array = Root.topbar_array 
+				change_scope = yes 
+				entry_container = "topbar_list_container"
+			}
+			topbar_menu = { 
+				array = topbar_menu 
+				change_scope = yes
+				entry_container = "topbar_menu_container"
+			}  
+		}
+		
+		properties = { 
+			topbar_icon = {    
+				image = "[GetTopbarIcon]"
+			} 
+		}
+		
+		effects = {
+			officer_box_btn_click = {
+				if = {
+					limit = {
+						NOT = { has_country_flag = show_officer_effect }
+					}
+					custom_effect_tooltip = TOTAL_OFFICERS_TT_2  
+					custom_effect_tooltip = TOTAL_OFFICERS_TT_2b  
+					custom_effect_tooltip = TOTAL_OFFICERS_TT_2c  
+					custom_effect_tooltip = TOTAL_OFFICERS_TT_2d  
+					custom_effect_tooltip = TOTAL_OFFICERS_TT_2e  
+					custom_effect_tooltip = TOTAL_OFFICERS_TT_3 
+					custom_effect_tooltip = TOTAL_OFFICERS_TT_4 
+					custom_effect_tooltip = TOTAL_OFFICERS_TT_5
+					custom_effect_tooltip = TOTAL_OFFICERS_TT_6
+					custom_effect_tooltip = TOTAL_OFFICERS_TT_7 
+					custom_effect_tooltip = TOTAL_OFFICERS_TT_8  
+				}
+				else = {
+					custom_effect_tooltip = OFFICERS_EFFECT_TT_1
+				}
+			}
+			officer_box_click = {
+				if = {
+					limit = {
+						has_country_flag = show_officer_effect
+					} 
+					clr_country_flag = show_officer_effect
+				}
+				else = {
+					set_country_flag = show_officer_effect
+				}
+			} 
+			casualties_box_click = { 
+				if = {
+					limit = { 
+						check_variable = { topbar_array^num < 13 }
+					}
+					random_state = {
+						limit = {
+							NOT = {
+								has_state_flag = selected_topbar
+							}
+						}
+						ROOT = { add_to_array = { topbar_array = PREV } }
+						set_state_flag = {
+							flag = selected_topbar_info 
+							value = 100 
+						}
+					}
+				}
+			}
+			
+			#TOPBAR Dynamic Info 
+			list_click = { 
+				for_each_loop = {
+					array = Root.topbar_array
+					
+					if = {
+						limit = {
+							var:v = { has_state_flag = show_topbar_menu }
+						}
+						var:v = { clear_array = topbar_menu clr_state_flag = show_topbar_menu }
+					}
+				}
+				FROM = {
+					if = { 	
+						limit = {
+							NOT = {
+								meta_trigger = {
+									text = {
+										has_state_flag = {
+											flag = selected_topbar_info
+											value = [X]
+										}
+									}
+									X = "[Prev.GetID]"
+								}
+							}
+						}
+						clear_topbar_list_flags = yes
+						meta_effect = {
+							text = {
+								set_state_flag = {
+									flag = selected_topbar_info
+									value = [X]
+								}
+							}
+							X = "[Prev.GetID]"
+						} 
+					}
+				}
+			}
+			list_right_click = {
+				if = {
+					limit = {
+						state = 5
+					}
+					meta_effect = {  
+						text = { 
+							add_to_variable = { topbar_resource_list_[FROM]_[ROOT] = 1 } 
+							if = {
+								limit = {
+									check_variable = { topbar_resource_list_[FROM]_[ROOT] > 5 }
+								}
+								clear_variable = topbar_resource_list_[FROM]_[ROOT] 
+							}
+						} 
+						ROOT = "[Root.GetTag]"
+						FROM = "[From.GetID]"
+					}
+				} 
+				if = {
+					limit = {
+						state = 6
+					}
+					meta_effect = {  
+						text = { 
+							add_to_variable = { topbar_popularity_list_[FROM]_[ROOT] = 1 } 
+							if = {
+								limit = {
+				 					check_variable = { topbar_popularity_list_[FROM]_[ROOT] > 9 }
+								}
+								clear_variable = topbar_popularity_list_[FROM]_[ROOT]
+							}
+						} 
+						ROOT = "[Root.GetTag]"
+						FROM = "[From.GetID]"
+					}
+				} 
+				
+				if = {
+					limit = {
+						state = 12 
+					}
+					meta_effect = {   
+						text = { 
+							add_to_variable = { topbar_special_forces_list_[FROM]_[ROOT] = 1 } 
+							if = {
+								limit = { #total, mount, para, marine + their supports, commando
+									check_variable = { topbar_special_forces_list_[FROM]_[ROOT] > 7 }
+								}
+								clear_variable = topbar_special_forces_list_[FROM]_[ROOT]
+							}
+						} 
+						ROOT = "[Root.GetTag]"
+						FROM = "[From.GetID]"
+					}
+				} 
+				if = {
+					limit = {
+						state = 14
+					}
+					meta_effect = {  
+						text = { 
+							add_to_variable = { topbar_ship_list_[FROM]_[ROOT] = 1 } 
+							if = {
+								limit = { #all ship units
+									check_variable = { topbar_ship_list_[FROM]_[ROOT] > 12 }
+								}
+								clear_variable = topbar_ship_list_[FROM]_[ROOT]
+							}
+						}   
+						ROOT = "[Root.GetTag]"
+						FROM = "[From.GetID]"
+					}
+				} 
+				
+				if = {
+					limit = {
+						state = 16  
+					}
+					meta_effect = {  
+						text = { 
+							add_to_variable = { topbar_pp_list_[FROM]_[ROOT] = 1 } 
+							if = {
+								limit = { #political power factor, daily political power
+									check_variable = { topbar_pp_list_[FROM]_[ROOT] > 1 }
+								}
+								clear_variable = topbar_pp_list_[FROM]_[ROOT]
+							}
+						} 
+						ROOT = "[Root.GetTag]"
+						FROM = "[From.GetID]"
+					}
+				} 
+				
+				if = {  
+					limit = { 
+						state = 19 
+					} 
+					meta_effect = {   
+						text = {  
+							add_to_variable = { topbar_factories_list_[FROM]_[ROOT] = 1 } 
+							if = {
+								limit = { #all factories
+									check_variable = { topbar_factories_list_[FROM]_[ROOT] > 3 }
+								}
+								clear_variable = topbar_factories_list_[FROM]_[ROOT]
+							}
+						}  
+						ROOT = "[Root.GetTag]"  
+						FROM = "[From.GetID]"
+					}
+				} 
+				if = {
+					limit = {
+						state = 21
+					}
+					meta_effect = {  
+						text = { 
+							add_to_variable = { topbar_states_list_[FROM]_[ROOT] = 1 } 
+							if = {
+								limit = { #all factories
+									check_variable = { topbar_states_list_[FROM]_[ROOT] > 4 }
+								}
+								clear_variable = topbar_states_list_[FROM]_[ROOT]
+							}
+						} 
+						ROOT = "[Root.GetTag]"
+						FROM = "[From.GetID]"
+					}
+				} 
+			}
+			list_shift_click = {
+				if = {
+					limit = {   
+						state = 5   
+					}
+					meta_effect = { 
+						text = {
+							add_to_variable = { topbar_resource_var_[FROM]_[ROOT] = 1 } 
+							if = {
+								limit = { 
+									check_variable = { topbar_resource_var_[FROM]_[ROOT] > 4 }
+								}
+								clear_variable = topbar_resource_var_[FROM]_[ROOT] 
+							}
+						}
+						ROOT = "[Root.GetTag]"
+						FROM = "[From.GetID]"
+					}
+				}
+			}
+			background_button_click = {
+				if = {
+					limit = {
+						NOT = { has_state_flag = show_topbar_menu } 
+					}
+					for_each_loop = { 
+						array = Root.topbar_array
+						
+						if = { 
+							limit = {
+								var:v = { has_state_flag = show_topbar_menu }
+							} 
+							var:v = { clear_array = topbar_menu clr_state_flag = show_topbar_menu }
+						}
+					}
+					set_state_flag = show_topbar_menu
+					add_to_array = { topbar_menu = 1 }
+					add_to_array = { topbar_menu = 2 }
+					add_to_array = { topbar_menu = 3 }
+					add_to_array = { topbar_menu = 4 } 
+					add_to_array = { topbar_menu = 5 }
+					add_to_array = { topbar_menu = 6 }
+					#add_to_array = { topbar_menu = 7 }
+					if = { #MEFO
+						limit = { ROOT = { tag = GER } }
+						add_to_array = { topbar_menu = 8 } 
+					}
+					#add_to_array = { topbar_menu = 9 }
+					add_to_array = { topbar_menu = 10 }
+					add_to_array = { topbar_menu = 11 }
+					add_to_array = { topbar_menu = 12 }
+					#add_to_array = { topbar_menu = 13 }
+					add_to_array = { topbar_menu = 14 }
+					add_to_array = { topbar_menu = 15 }
+					#add_to_array = { topbar_menu = 16 }
+					add_to_array = { topbar_menu = 17 } 
+					add_to_array = { topbar_menu = 18 }
+					add_to_array = { topbar_menu = 19 }
+					add_to_array = { topbar_menu = 20 }  
+					#add_to_array = { topbar_menu = 21 }
+					add_to_array = { topbar_menu = 22 }
+					add_to_array = { topbar_menu = 23 }
+					add_to_array = { topbar_menu = 24 }
+					#add_to_array = { topbar_menu = 25 }
+				}
+				else_if = {
+					limit = {
+						has_state_flag = show_topbar_menu 
+					}
+					clr_state_flag = show_topbar_menu
+					clear_array = topbar_menu 
+				}
+			}
+			background_button_right_click = {	
+				clear_topbar_list_flags = yes
+				ROOT = { remove_from_array = { topbar_array = PREV } }
+				#meta_effect = {
+				#	text = {
+				#		remove_from_array = { Root.topbar_array = [X] }
+				#	}
+				#	X = "[This.GetID]"
+				#}
+			}
+			
+		}
+		
+		triggers = {
+			casualties_box_visible = {
+				always = yes
+			}
+			casualties_box_2_visible = {
+				has_war = yes
+			}
+			casualties_icon_visible = {
+				always = yes
+			}
+			total_casualties_visible = {
+				has_war = yes
+			}
+			officer_box_btn_visible = {
+				always = no 
+			}
+			officer_box_visible = {
+				always = no 
+			}
+			total_officer_visible = {
+				always = no 
+			}
+			background_box_visible = {
+				has_state_flag = show_topbar_menu
+			}
+	
+			
+		}
+	}
+	
+}
