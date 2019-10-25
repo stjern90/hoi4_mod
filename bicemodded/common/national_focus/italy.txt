@@ -337,7 +337,7 @@ focus_tree = {
 		available_if_capitulated = yes
 		cancel_if_invalid = yes
 		available = {
-
+                116 = { is_controlled_by_ROOT_or_ally = yes }
 		      	
 				446 = { is_controlled_by_ROOT_or_ally = yes }
 
@@ -373,7 +373,7 @@ focus_tree = {
 		x = 1
 		y = 3
 
-		cost = 10
+		cost = 8
 
 		ai_will_do = {
 
@@ -382,25 +382,28 @@ focus_tree = {
 		}
 
 		available_if_capitulated = yes
-			available = {
-		
-		       has_navy_size = {
- 			   size > 2
-    			type = carrier
-		}	}		
+		available = {
+		     OR = {
+		        has_navy_size = {
+ 			         size > 2
+    		    	type = carrier
+	        	}	
+				has_navy_size = {
+ 			         size > 15
+    		    	type = capital_ship
+	        	}	
+	    	}	
+        }		
 		
 
 		completion_reward = {			
-			remove_ideas = ITA_quota_90_idea	
 			add_ideas = mare_nostrum
 			
 			add_tech_bonus = {
 				name = ITA_various_tech
 				uses = 3
-				bonus = 0.2
-				technology = advanced_computing_machine
-				technology = advanced_encryption
-				technology = advanced_decryption
+				bonus = 0.25
+				category = computing_tech
 				
 			}
 		}
@@ -701,10 +704,7 @@ focus_tree = {
 				name = ITA_various_tech
 				uses = 4
 				bonus = 0.5				
-				technology = advanced_computing_machine	
-				technology = advanced_encryption
-				technology = advanced_decryption
-				technology = advanced_centimetric_radar		
+				category = computing_tech	
 			}
 		}
 	}
@@ -1061,7 +1061,8 @@ focus_tree = {
 		cancel_if_invalid = yes
 
 		completion_reward = {
-
+        air_experience = -50
+		navy_experience = -50
 		remove_ideas = poor_coordination_between_sea_and_air	
 				
 			}
@@ -1732,8 +1733,11 @@ focus_tree = {
 
 				technology = HQ_communications
 				technology = HQ_radio
+				technology = corps_communications
 				technology = infantry_radio
 				technology = artillery_radio
+				technology = vehicle_radio
+				technology = recon_radio
 			}
 	
 		}
@@ -2606,7 +2610,7 @@ focus_tree = {
 
 		completion_reward = {
 
-			if = { limit = { OR = { is_ai = no has_global_flag = ai_speeches } } 
+			if = { limit = { OR = { NOT = { is_ai = yes } has_global_flag = ai_speeches } } 
 				hidden_effect = {
 
 					sound_effect = sp_ita_ethiopia
@@ -2754,10 +2758,10 @@ focus_tree = {
 			ITA = {
 				add_opinion_modifier = { target = GER modifier = ita_diplomacy_focus }
 			}
-			hidden_effect = {			
-				
-				sound_effect = sp_ita_berlino
-				
+			if = { limit = { OR = { NOT = { is_ai = yes } has_global_flag = ai_speeches } } 
+			hidden_effect = {						
+				sound_effect = sp_ita_berlino			
+			}
 			}
 		}
 	}
@@ -2814,10 +2818,10 @@ focus_tree = {
 				}
 			}
 		add_popularity = { ideology = fascism popularity = 0.05 }
-		hidden_effect = {			
-				
-				sound_effect = sp_ita_rome
-				
+		if = { limit = { OR = { NOT = { is_ai = yes } has_global_flag = ai_speeches } } 
+		hidden_effect = {						
+				sound_effect = sp_ita_rome			
+			}
 			}
 		}
 	}
@@ -3948,7 +3952,7 @@ focus_tree = {
 			factor = 6
 		}
 		available_if_capitulated = yes
-		completion_reward = {
+		completion_reward = {	
 			add_tech_bonus = {
 				name = construction_tech_bonus
 				bonus = 0.4
@@ -4873,12 +4877,16 @@ focus_tree = {
 		icon = GFX_banks
 		x = 41
 		y = 3
-		cost = 10
+		cost = 11
 		ai_will_do = {
 			factor = 10
 		}	
 		completion_reward = {
-			add_ideas = ITA_riforma_bancaria_idea			
+		    add_popularity = { ideology = fascism popularity = -0.04 }
+		    swap_ideas = { 
+				remove_idea = ITA_quota_90_idea
+				add_idea = ITA_riforma_bancaria_idea
+			}		
 		}
 	}
 
@@ -6002,29 +6010,21 @@ focus_tree = {
 		completion_reward = {
 
 			create_wargoal = {
-
 				type = take_state_focus
-
 				target = GRE
-
 				generator = { 47 } 
-
 			}
 			if = { limit = { ROM = { has_guaranteed = GRE } }
 			ROM = { country_event = { id = romania.9} }
 			}
             
 			hidden_effect = {
-
 				news_event = { hours = 6 id = news.186 } 				
-				if = { limit = { OR = { is_ai = no has_global_flag = ai_speeches } } 
+				if = { limit = { OR = { NOT = { is_ai = yes } has_global_flag = ai_speeches } } 
 				    sound_effect = sp_ita_reni_grecia
                 }
-
 			}
-
 		}
-
 	}	
 
 	focus = {
@@ -6593,9 +6593,9 @@ focus_tree = {
 			OR = {	
 					is_ai = yes
 					AND = { 			
-		     	has_army_manpower = { size > 1000000 }	     	
+		     	has_army_manpower = { size > 1250000 }	     	
 
-		      	has_army_experience > 125				
+		      	has_army_experience > 100				
 		        47 = { is_controlled_by_ROOT_or_ally = yes }
 				182 = { is_controlled_by_ROOT_or_ally = yes }
 				448 = { is_controlled_by_ROOT_or_ally = yes }
@@ -6607,6 +6607,7 @@ focus_tree = {
 		cancel_if_invalid = yes
 
 		completion_reward = {
+		    army_experience = -50
 			add_war_support = 0.08
 			swap_ideas = { 
 				remove_idea = italian_leadership

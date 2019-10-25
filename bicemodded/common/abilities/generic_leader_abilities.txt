@@ -15,20 +15,29 @@ ability = {
 			#is_leading_army_group = no
 			is_border_war = no
 			OWNER = {
-				has_tech = mobile_warfare
-				tag = GER 
+				OR = {
+					AND = {
+						has_tech = mobile_warfare
+						tag = GER 
+						has_completed_focus = GER_advanced_blitzkrieg
+					}
+					has_tech = modern_blitzkrieg
+					has_tech = tactical_control
+				}
 			}
 		}
 		
-		cost = 0.4
+		cost = 0.2
 		duration = 168
-		
+		cooldown = 168
 		unit_modifiers = {
-			army_speed_factor = 0.15
-			army_armor_attack_factor = 0.4
+			army_speed_factor = 0.05
+			army_armor_attack_factor = 0.3	
+            mechanized_speed_factor = 0.07			
+			mechanized_attack_factor = 0.3			
 			breakthrough_factor = 0.3
-			air_cas_present_factor = 0.25
-			army_fuel_consumption_factor = 0.5
+			air_cas_present_factor = 0.05
+			army_fuel_consumption_factor = 0.4
 			#land_night_attack = -0.2
 		}
 		
@@ -64,7 +73,10 @@ ability = {
 			is_border_war = no
 			OWNER = {
 				has_tech = mobile_warfare
-				NOT = { tag = GER }
+				NOT = { has_tech = modern_blitzkrieg }
+				NOT = { has_tech = werwolf_guerillas }
+				NOT = { has_completed_focus = GER_advanced_blitzkrieg }
+				
 				if = {
 					limit = {
 						has_dlc = "Waking the Tiger"
@@ -102,18 +114,23 @@ ability = {
 			}
 		}
 		
-		cost = 0.40
+		cost = 0.2
 		duration = 168
+		cooldown = 168
 		
 		unit_modifiers = {
-			army_speed_factor = 0.1
-			army_armor_attack_factor = 0.3
-			breakthrough_factor = 0.3
-			air_cas_present_factor = 0.2
-			army_fuel_consumption_factor = 0.3
-			land_night_attack = -0.2
+			army_speed_factor = 0.04
+			army_armor_attack_factor = 0.2
+			mechanized_attack_factor = 0.2
+			breakthrough_factor = 0.2
+			air_cas_present_factor = 0.03
+			army_fuel_consumption_factor = 0.35
+			land_night_attack = -0.1
 		}
 	}
+	
+	
+	
 	
 	mass_assault = { 
 		name = ABILITY_MASS_ASSAULT
@@ -159,14 +176,70 @@ ability = {
 			}
 		}
 		
-		cost = 0.40
+		cost = 0.10
 		duration = 168
+		cooldown = 56
+		
+		one_time_effect = {
+			add_temporary_buff_to_units = {
+				org_damage_multiplier = -0.5
+				str_damage_multiplier = 0.2
+				days = 7
+			}
+		}
 		
 		unit_modifiers = {
-			army_infantry_attack_factor = 0.35
+			army_infantry_attack_factor = 0.2
+            breakthrough_factor = 0.2
 			supply_consumption_factor = -0.10
 			army_morale_factor = 0.15
-			defence = -0.2
+		}
+		
+	}
+	
+	blitz_defense = {
+		name = ABILITY_BLITZ_DEFENSE
+		desc = ABILITY_BLITZ_DEFENSE_DESC
+		
+		sound_effect = command_power_ability_offensive
+		
+		type = army_leader
+		
+		allowed = {
+			OWNER = { has_tech = werwolf_guerillas }
+			is_leading_army_group = no
+			is_border_war = no
+		}
+		
+		cost = 0.2
+		duration = 168
+		cooldown = 168
+		
+		unit_modifiers = {
+			defence = 0.15
+			army_speed_factor = 0.08
+			army_fuel_consumption_factor = 0.20
+			enemy_army_bonus_air_superiority_factor = -0.1
+			encryption_factor = 0.5
+			recon_factor = 0.5
+		}
+				
+			
+		ai_will_do = {
+			factor = -1
+			modifier = {
+				FROM = {
+					has_war_support > 0.4
+				}
+				
+				check_variable = { num_units_defensive_combats > 6 }
+				
+				set_temp_variable = { temp = avg_defensive_combat_status }
+				check_variable = { temp < 0.40 }
+				check_variable = { ai_random > temp }
+				
+				add = 2
+			}
 		}
 	}
 		
@@ -188,8 +261,9 @@ ability = {
 			}
 		}
 		
-		cost = 0.3
+		cost = 0.15
 		duration = 168
+		cooldown = 56
 		
 		one_time_effect = {
 			add_temporary_buff_to_units = {
@@ -203,6 +277,19 @@ ability = {
 		
 		ai_will_do = {
 			factor = -1
+			modifier = {
+				FROM = {
+					has_war_support > 0.4
+				}
+				
+				check_variable = { num_units_defensive_combats > 6 }
+				
+				set_temp_variable = { temp = avg_defensive_combat_status }
+				check_variable = { temp < 0.40 }
+				check_variable = { ai_random > temp }
+				
+				add = 2
+			}
 		}
 	}
 	
@@ -218,7 +305,7 @@ ability = {
 			is_leading_army_group = no
 			is_border_war = no
 			OWNER = {
-				has_tech = operational_concentration
+				has_tech = peoples_army
 			}
 		}
 		
@@ -226,32 +313,22 @@ ability = {
 			factor = -1
 			modifier = {
 				FROM = {
-					has_war_support > 0.1
-					command_power > 1.5
+					has_war_support > 0.4
 				}
-				check_variable = { num_units_offensive_combats > 7 }
 				
-				set_temp_variable = { temp = avg_offensive_combat_status }
-				check_variable = { temp > 0.45 }
+				check_variable = { num_units_defensive_combats > 6 }
+				
+				set_temp_variable = { temp = avg_defensive_combat_status }
+				check_variable = { temp < 0.40 }
 				check_variable = { ai_random > temp }
 				
 				add = 2
 			}
-			modifier = {
-				FROM = {
-					has_war_support > 0.4
-					command_power > 1.5
-				}
-				check_variable = { num_units_offensive_combats > 14 }
-				
-				set_temp_variable = { temp = avg_offensive_combat_status }
-				check_variable = { temp > 0.4 }
-				add = 1
-			}
 		}
 		
-		cost = 0.3
+		cost = 0.15
 		duration = 168
+		cooldown = 56
 		
 		unit_modifiers = {
 			defence = 0.2
@@ -268,9 +345,10 @@ ability = {
 		type = army_leader
 		
 		allowed = {
+			is_leading_army_group = yes
 			is_border_war = no
 			OWNER = {
-				has_tech = guerilla_warfare
+				has_tech = operational_concentration
 			}
 		}
 		
@@ -278,31 +356,20 @@ ability = {
 			factor = -1
 			modifier = {
 				FROM = {
-					has_war_support > 0.1
-					command_power > 1.5
+					has_war_support > 0.4
 				}
-				check_variable = { num_units_offensive_combats > 7 }
 				
-				set_temp_variable = { temp = avg_offensive_combat_status }
-				check_variable = { temp > 0.45 }
+				check_variable = { num_units_defensive_combats > 6 }
+				
+				set_temp_variable = { temp = avg_defensive_combat_status }
+				check_variable = { temp < 0.40 }
 				check_variable = { ai_random > temp }
 				
 				add = 2
 			}
-			modifier = {
-				FROM = {
-					has_war_support > 0.4
-					command_power > 1.5
-				}
-				check_variable = { num_units_offensive_combats > 14 }
-				
-				set_temp_variable = { temp = avg_offensive_combat_status }
-				check_variable = { temp > 0.4 }
-				add = 1
-			}
 		}
 		
-		cost = 0.2
+		cost = 0.1
 		duration = 168
 		
 		one_time_effect = {
@@ -332,7 +399,7 @@ ability = {
 		
 		unit_modifiers = {
 			planning_speed = 4.0
-			max_planning = 0.15
+			max_planning = 0.05
 		}
 		
 			
@@ -377,7 +444,7 @@ ability = {
 			fortification_damage = 1.0
 			fortification_collateral_chance = 1.0
 		}
-		cost = 0.1
+		cost = 0.15
 		duration = 168
 		cooldown = 168
 		
@@ -513,15 +580,16 @@ ability = {
 		
 		one_time_effect = {
 			add_temporary_buff_to_units = {
-				combat_offense = 0.15
+				combat_offense = 0.12
 				org_damage_multiplier = -0.6
 								
 				days = 7
 			}
 		}
 		
-		cost = 0.45
+		cost = 0.15
 		duration = 168
+		cooldown = 56
 	}
 	
 	makeshift_bridges = {
@@ -645,13 +713,41 @@ ability = {
 		
 		unit_modifiers = {
 			dont_lose_dig_in_on_attack = 1
-			army_attack_factor = 0.15
+			army_attack_factor = 0.07
 		}
 		
 			
-		cost = 0.2
+		cost = 0.15
 		duration = 168
-		cooldown = 504
+		cooldown = 56
+		
+		ai_will_do = {
+			factor = -1
+			modifier = {
+				FROM = {
+					has_war_support > 0.1
+					command_power > 1.5
+				}
+				check_variable = { num_units_offensive_combats > 7 }
+				
+				set_temp_variable = { temp = avg_offensive_combat_status }
+				check_variable = { temp > 0.45 }
+				check_variable = { ai_random > temp }
+				
+				add = 2
+			}
+			modifier = {
+				FROM = {
+					has_war_support > 0.4
+					command_power > 1.5
+				}
+				check_variable = { num_units_offensive_combats > 14 }
+				
+				set_temp_variable = { temp = avg_offensive_combat_status }
+				check_variable = { temp > 0.4 }
+				add = 1
+			}
+		}
 	}
 	
 
