@@ -524,7 +524,7 @@ focus = {
 	}
     }
     
-    	focus = {
+    focus = {
 		id = FIN_frantic_planning
 		icon = GFX_goal_generic_build_tank
 		prerequisite = { focus = FIN_eastern_defense }
@@ -537,7 +537,7 @@ focus = {
 		}
 		completion_reward = {
         
-        add_ideas = FIN_motitus_tactics
+			add_ideas = FIN_motitus_tactics
 			add_tech_bonus = {
 				name = POL_prepare_for_the_next_war
 				bonus = 0.7
@@ -578,26 +578,379 @@ focus = {
 		id = FIN_promote_sisu
 		icon = GFX_goal_generic_small_arms
 		prerequisite = { focus = FIN_frantic_planning focus = FIN_molotov_cocktails }
-		x = 5
+		x = 6
 		y = 2
 		cost = 10
+		
 		completion_reward = {
-        
             add_ideas = FIN_white_guard_idea
-            
 			army_experience = 25
 			add_tech_bonus = {
 				name = land_doc_bonus
 				bonus = 0.4
 				uses = 1
 				category = land_doctrine
-                
 			}
 		}
 	}
+	
+	focus = {
+		id = FIN_winterwar
+		icon = GFX_Goal_FIN_coop
+		x = 9
+		y = 0
+		cost = 7
+		
+		available = {
+			has_global_flag = winterwar
+		}
+		
+		completion_reward = {
+			add_timed_idea = {
+				idea = FIN_aftermath
+				days = 80
+			}
+		}
+	}
+	
+	focus = {
+		id = FIN_winterwar2
+		icon = GFX_Goal_FIN_refuge
+		prerequisite = { focus = FIN_winterwar }
+		x = 9
+		y = 1
+		cost = 5
+		
+		available = {
+			has_global_flag = winterwar
+		}
+		
+		bypass = {
+			NOT = { has_idea = FIN_refuge }
+		}
+		
+		completion_reward = {
+			remove_ideas = { FIN_refuge }
+			add_political_power = 50
+		}
+	}
+	
+	focus = {
+		id = FIN_rebuild
+		icon = GFX_Goal_FIN_infra
+		prerequisite = { focus = FIN_infra }
+		x = 14
+		y = 3
+		cost = 3
+		
+		available = {
+			has_global_flag = winterwar
+			146 = { CONTROLLER = { OR = { tag = FIN is_subject_of = FIN is_in_faction_with = FIN } } }
+		}
+		
+		completion_reward = {
+			146 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = FIN_infra
+		icon = GFX_goal_prepare_to_invade_union
+		prerequisite = { focus = FIN_sovietthreat }
+		x = 14
+		y = 2
+		cost = 6
+		
+		available = {
+			has_global_flag = winterwar
+			150 = { CONTROLLER = { OR = { tag = FIN is_subject_of = FIN is_in_faction_with = FIN } } } 	
+			148 = { CONTROLLER = { OR = { tag = FIN is_subject_of = FIN is_in_faction_with = FIN } } } 	
+		}
+		
+		bypass = {
+			AND = {
+				150 = {
+					infrastructure = 10
+				}
+				148 = {
+					infrastructure = 10
+				}
+			}
+		}
+		
+		completion_reward = {
+			150 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			148 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = FIN_appeal
+		icon = GFX_Goal_FIN_appeal
+		prerequisite = { focus = FIN_sovietthreat }
+		x = 12
+		y = 2
+		cost = 2
+		
+		available = {
+			has_war_with = SOV
+			date < 1940.8.1
+		}
+		
+		completion_reward = {
+			if = {
+				limit = {
+					ENG = { exists = yes }
+				}
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = 1000
+					producer = ENG
+				}
+			}
+			add_political_power = 50
+		}
+	}
+	
+	focus = {
+		id = FIN_patrol
+		icon = GFX_Goal_FIN_patrol
+		prerequisite = { focus = FIN_infra }
+		x = 12
+		y = 3
+		cost = 5
+		
+		available = {
+			has_war_with = SOV
+		}
+		
+		completion_reward = {
+			add_timed_idea = {
+				idea = FIN_patrolforce
+				days = 180
+			}
+		}
+	}
+	
+	focus = {
+		id = FIN_invest
+		icon = GFX_Goal_FIN_invest
+		prerequisite = { focus = FIN_promote_sisu }
+		x = 10
+		y = 3
+		cost = 10
+		
+		completion_reward = {
+			if = {
+				limit = {
+					EST = { exists = yes }
+					LAT = { exists = yes }
+					LIT = { exists = yes }
+				}
+				150 = {
+					add_extra_state_shared_building_slots = 3
+					add_building_construction = {
+						type = industrial_complex
+						level = 3
+						instant_build = yes
+					}
+				}
+			}
+			else = {
+				150 = {
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = industrial_complex
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = FIN_agrarian
+		icon = GFX_Goal_FIN_agrarian
+		prerequisite = { focus = FIN_invest }
+		mutually_exclusive = { focus = FIN_industrial }
+		x = 8
+		y = 4
+		cost = 12
+		
+		available = {
+			NOT = { has_government = fascism }
+		}
+		
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = FIN_bread
+				add_idea = FIN_bread2
+			}
+			custom_effect_tooltip = FIN_agrarian2
+			hidden_effect = {
+				random_owned_controlled_state = {
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = industrial_complex
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = FIN_industrial
+		icon = GFX_Goal_FIN_industrial
+		prerequisite = { focus = FIN_invest }
+		mutually_exclusive = { focus = FIN_agrarian }
+		x = 12
+		y = 4
+		cost = 12
+		
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = FIN_bread
+				add_idea = FIN_bread3
+			}
+		}
+	}
+	
+	focus = {
+		id = FIN_estonia
+		icon = GFX_Goal_FIN_estonia
+		prerequisite = { focus = FIN_deterrence }
+		x = 8
+		y = 3
+		cost = 10
+		
+		available = {
+			EST = { exists = yes }
+		}
+		
+		ai_will_do = {
+			factor = 0
+		}
+		
+		will_lead_to_war_with = EST
+		
+		completion_reward = {
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = EST
+			}
+		}
+	}
+	
+	focus = {
+		id = FIN_industrial2
+		icon = GFX_goal_generic_construction
+		prerequisite = { focus = FIN_industrial focus = FIN_agrarian } 
+		x = 10
+		y = 5
+		cost = 10
+		
+		completion_reward = {
+			if = {
+				limit = {
+					has_idea = FIN_bread2
+				}
+				swap_ideas = {
+					remove_idea = FIN_bread2
+					add_idea = FIN_bread3
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = FIN_bread
+				}
+				swap_ideas = {
+					remove_idea = FIN_bread
+					add_idea = FIN_bread2
+				}
+			}
+			else = {
+				remove_ideas = FIN_bread3
+			}
+		}
+	}
+	
+	focus = {
+		id = FIN_industrial3
+		icon = GFX_goal_wheat
+		prerequisite = { focus = FIN_industrial2 } 
+		x = 10
+		y = 6
+		cost = 10
+		
+		bypass = {
+			NOT = { 
+				OR = { 
+					has_idea = FIN_bread3  
+					has_idea = FIN_bread2
+					has_idea = FIN_bread
+				}
+			}
+		}
+		
+		completion_reward = {
+			remove_ideas = FIN_bread3
+			random_owned_controlled_state = {
+				prioritize = { 722 }
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex 
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = FIN_military_arms
+		icon = GFX_Goal_FIN_factory
+		prerequisite = { focus = FIN_frantic_planning }
+		x = 4
+		y = 2
+		cost = 7
+		
+		completion_reward = {
+			random_owned_controlled_state = {
+				prioritize = { 111 }
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}	
+			}
+		}
+		
+	}
     
    
-		focus = {
+	focus = {
 		id = FIN_ski_infantry
 		icon = GFX_goal_generic_allies_build_infantry
 		x = 6
@@ -760,7 +1113,7 @@ focus = {
 		icon = GFX_goal_generic_intelligence_exchange
 		x = 12
 		y = 0
-		cost = 10
+		cost = 2
 		completion_reward = {
 			add_political_power = 100
 		}
@@ -768,685 +1121,120 @@ focus = {
 
 
 	focus = {
-		id = FIN_nationalist_support
-		icon = GFX_goal_support_fascism
+		id = FIN_sovietthreat
+		icon = GFX_focus_ger_great_red_menace
 		prerequisite = { focus = FIN_imitate_sweden }
-		mutually_exclusive = { focus = FIN_communist_support }
-        mutually_exclusive = { focus = FIN_democratic_support }
-        mutually_exclusive = { focus = FIN_cautious_politics }
-
 		x = 13
 		y = 1
-		cost = 10
+		cost = 3
 
 		ai_will_do = {
 			factor = 0
 		}
 		completion_reward = {
-			add_ideas = fascist_influence
-			#Increases Fascist Support
+			add_political_power = 80
 		}
 	}
     
-    	focus = {
-		id = FIN_communist_support
-		icon = GFX_goal_support_communism
+    focus = {
+		id = FIN_germanaid
+		icon = GFX_focus_chi_army_reform
 		prerequisite = { focus = FIN_imitate_sweden }
-		mutually_exclusive = { focus = FIN_nationalist_support }
-        mutually_exclusive = { focus = FIN_democratic_support }
-        mutually_exclusive = { focus = FIN_cautious_politics }
-
-		x = 15
+		
+		available = { GER = { exists = yes } }
+		x = 11
 		y = 1
-		cost = 10
+		cost = 8
 
 		ai_will_do = {
 			factor = 2
 		}
 		completion_reward = {
-			add_ideas = communist_influence
-			#Increases Communist Support
-		}
-	}
-    
-    	focus = {
-		id = FIN_democratic_support
-		icon = GFX_goal_support_democracy
-		prerequisite = { focus = FIN_imitate_sweden }
-		mutually_exclusive = { focus = FIN_communist_support }
-        mutually_exclusive = { focus = FIN_nationalist_support }
-        mutually_exclusive = { focus = FIN_cautious_politics }
-
-		x = 11
-		y = 1
-		cost = 10
-
-		ai_will_do = {
-			factor = 0
-		}
-		completion_reward = {
-			add_ideas = democratic_influence
-			#Increase in Democratic Support
-		}
-	}
-    
-    
-
-    
-     focus = {
-		id = FIN_cautious_politics
-		icon = GFX_goal_generic_neutrality_focus
-		prerequisite = { focus = FIN_imitate_sweden }
-        mutually_exclusive = { focus = FIN_communist_support }
-        mutually_exclusive = { focus = FIN_nationalist_support }
-        mutually_exclusive = { focus = FIN_democratic_support }
-		x = 9
-		y = 1
-		cost = 10
-		ai_will_do = {
-			factor = 12
-		}
-		completion_reward = {
-			if = {
-				limit = { NOT = { has_idea = neutrality_idea } }
-				add_ideas = neutrality_idea
+			add_timed_idea = {
+				idea = FIN_germanaid
+				days = 90
 			}
-			add_political_power = 100
 		}
 	}
     
     focus = {
 		id = FIN_deterrence
-		icon = GFX_goal_generic_defence
-		prerequisite = { focus = FIN_cautious_politics }
+		icon = GFX_Goal_FIN_def
+		prerequisite = { focus = FIN_germanaid }
+		prerequisite = { focus = FIN_winterwar2 }
 		x = 8
 		y = 2
 		cost = 10
+		
+		available = {
+			GER = { 
+				exists = yes 
+			} 
+		}
+		
 		completion_reward = {
-			add_ideas = deterrence
+			random_owned_controlled_state = {
+				prioritize = { 149 }
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 111 }
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
 		}
 	}
     
     focus = {
-		id = FIN_pacifist_sentiment
-		icon = GFX_goal_generic_national_unity
-		prerequisite = {focus = FIN_deterrence }
+		id = FIN_cooperate
+		icon = GFX_Goal_FIN_tank
+		prerequisite = { focus = FIN_germanaid }
+		prerequisite = { focus = FIN_winterwar2 }
+		prerequisite = { focus = FIN_sovietthreat }
 		available = { 
-			OR = { 
-				threat > 0.75 
-				has_defensive_war = yes 
-			}
+			GER = { exists = yes }
+			GER = { has_war_with = SOV }
+			FIN = { has_war_with = SOV }
 		}
 
 		continue_if_invalid = yes
 		
-		x = 7
-		y = 3
-		cost = 10
-		completion_reward = {
-			if = {
-				limit = { NOT = { has_idea = neutrality_idea } }
-				set_rule = { can_create_factions = yes }
-			}
-			add_ideas = why_we_fight_focus
-		}
-	}
-    
-    
-    focus = {
-		id = FIN_liberal_unity
-		icon = GFX_goal_generic_demand_territory
-	 	prerequisite = {
-	 		focus = FIN_democratic_support
-	 	}
-		x = 11
-		y = 2
-		cost = 10
-		ai_will_do = {
-			factor = 0
-		}
-		completion_reward = {
-			set_country_flag = FRA_strengthen_government_support_focus_flag
-			add_timed_idea = {
-				idea = FRA_strengthen_government_support_focus
-				days = 365
-			}
-		}
-	}
-    
-    focus = {
-		id = FIN_revive_the_kalmar_union
-		icon = GFX_goal_generic_navy_cruiser
-		available = {
-			is_puppet = no
-			is_in_faction = no
-            has_government = democratic
-            
-            SWE = {
-				exists = yes
-				has_government = democratic
-                is_in_faction = no
-			}
-		}
-	 	prerequisite = { focus = FIN_liberal_unity }
-	 	mutually_exclusive = { focus = FIN_join_the_allies }
-	 	bypass = {
-	 		is_in_faction_with = SWE
-	 		is_faction_leader = yes
-	 	}
-		x = 9
-		y = 3
-		cost = 10
-		ai_will_do = {
-			factor = 0.1
-
-			modifier = {
-				factor = 10
-				ai_irrationality > 20
-			}
-			modifier = {
-				factor = 2
-				ai_irrationality > 30
-			}
-		}
-		completion_reward = {
-			add_stability = 0.05
-			set_rule = { can_create_factions = yes }
-			create_faction = "second_kalmar_union"
-			if = {
-				limit = {
-					SWE = { 
-						is_puppet = no
-						NOT = { has_war_with = FIN }
-					}
-				}
-				SWE = { country_event = finland.17 }
-				hidden_effect = {
-					news_event = { hours = 6 id = finland.922 }
-				}
-			}
-		}
-	}
-    
-    focus = {
-		id = FIN_invite_norway
-		icon = GFX_goal_generic_improve_relations
-		available = {
-			is_puppet = no
-            NOR = {
-				exists = yes
-				has_government = democratic
-                is_in_faction = no
-			}
-		}
-	 	prerequisite = { focus = FIN_revive_the_kalmar_union }
-	 	bypass = {
-	 		is_in_faction_with = NOR
-	 	}
-		x = 8
-		y = 4
-		cost = 10
-		ai_will_do = {
-			factor = 0.1
-
-			modifier = {
-				factor = 10
-				ai_irrationality > 20
-			}
-			modifier = {
-				factor = 2
-				ai_irrationality > 30
-			}
-		}
-		completion_reward = {
-			if = {
-				limit = {
-					NOR = { 
-						is_puppet = no
-						NOT = { has_war_with = FIN }
-					}
-				}
-				NOR = { country_event = finland.17 }
-			}
-		}
-	}
-    
-	focus = {
-		id = FIN_invite_denmark
-		icon = GFX_goal_generic_improve_relations
-		available = {
-			is_puppet = no
-            DEN = {
-				exists = yes
-				has_government = democratic
-                is_in_faction = no
-			}
-		}
-	 	prerequisite = { focus = FIN_revive_the_kalmar_union }
-	 	bypass = {
-	 		is_in_faction_with = DEN
-	 	}
 		x = 10
-		y = 4
+		y = 2
 		cost = 10
-		ai_will_do = {
-			factor = 0.1
-
-			modifier = {
-				factor = 10
-				ai_irrationality > 20
-			}
-			modifier = {
-				factor = 2
-				ai_irrationality > 30
-			}
-		}
 		completion_reward = {
 			if = {
 				limit = {
-					DEN = { 
-						is_puppet = no
-						NOT = { has_war_with = FIN }
+					FIN = {
+						NOT = { has_war_with = SOV }
 					}
 				}
-				DEN = { country_event = finland.17 }
-			}
-		}
-	}
-    
-    
-    focus = {
-		id = FIN_join_the_allies
-		icon = GFX_goal_anschluss
-		available = {
-			is_puppet = no
-			has_government = democratic
-			ENG = {
-				exists = yes
-				has_government = democratic
-			}
-			NOT = { has_war_with = ENG }
-		}
-		bypass = {
-			is_in_faction_with = ENG
-			NOT = {
-				has_completed_focus = FIN_revive_the_kalmar_union
-			}
-		}
-        
-	 	prerequisite = { focus = FIN_liberal_unity }
-	 	mutually_exclusive = { focus = FIN_revive_the_kalmar_union }
-		x = 11
-		y = 3
-		cost = 10
-		ai_will_do = {
-			factor = 0
-		}
-		completion_reward = {
-			ENG = { country_event = { id = finland.25 } }
-		}
-	}
-    focus = {
-		id = FIN_USA_In_Fac_Get_Slot
-		icon = GFX_focus_research
-		available = {
-			is_in_faction_with = USA
-		}
-		x = 11
-		y = 6
-		cost = 10
-		ai_will_do = {
-			factor = 10
-		}
-		
-		completion_reward = {
-			add_research_slot = 1
-		}
-	}
-    
-    
-    focus = {
-		id = FIN_wolf_divisions
-		icon = GFX_goal_generic_wolf_pack
-	 	available = {
-	 		OR = {
-	 			has_government = fascism
-	 			fascism > 0.4
-	 		}
-		}
-	 	prerequisite = { focus = FIN_nationalist_support }
-		x = 13
-		y = 3
-		cost = 10
-		#ai_will_do = {
-		#	factor = 1
-		#}
-		completion_reward = {
-			add_ideas = FRA_army_of_aggression_focus		
-		}
-	}
-    
-    
-    focus = {
-		id = FIN_propaganda_machine
-		prerequisite = { focus = FIN_wolf_divisions }
-		icon = GFX_goal_generic_secret_weapon
-	
-	 	available = {
-	 		OR = {
-	 			has_government = fascism
-	 			fascism > 0.6
-	 		}
-			
-		}
-		x = 13
-		y = 4
-		cost = 10
-		ai_will_do = {
-			factor = 10
-		}	
-		completion_reward = {
-			add_ideas = triumphant_will
-		}
-	}
-    
-    
-    	focus = {
-		id = FIN_expansionism
-		icon = GFX_goal_generic_more_territorial_claims
-		prerequisite = { focus = FIN_communist_support focus =   FIN_nationalist_support }
-		x = 14
-		y = 2
-		cost = 10
-		completion_reward = {
-			add_ideas = military_youth_focus
-			if = {
-				limit = { has_government = fascism }
-				add_popularity = {
-					ideology = fascism
-					popularity = 0.1
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = 2500
+					producer = GER
+				}
+				add_equipment_to_stockpile = {
+					type = panzer_ii_equipment_1
+					amount = 180
+					producer = GER
 				}
 			}
-			if = {
-				limit = { has_government = communism }
-				add_popularity = {
-					ideology = communism
-					popularity = 0.1
-				}
-			}
-		}
-	}
-    
-    
-    	focus = {
-		id = FIN_southern_foothold
-		icon = GFX_goal_generic_territory_or_war
-		prerequisite = { focus = FIN_expansionism }
-		x = 15
-		y = 3
-		cost = 10
-		ai_will_do = {
-			factor = 0
-		}
-
-		bypass = {
-			NOT = { country_exists = EST }
-		}
-
-		completion_reward = {
-        create_wargoal = {
-				type = take_state_focus
-				target = EST
-				generator = { 13 } 
-                generator = { 191 } 
-
-			}
-			add_state_claim = 13
-			add_state_claim = 191
-			add_named_threat = { threat = 2 name = FIN_finland_claims_threat }
-			EST = {
-				if = {
-					limit = { 
-						ROOT = { has_government = fascism }
-						NOT = { has_government = fascism }
-					}
-					add_popularity = {
-						ideology = fascism
-						popularity = -0.15
-					}
-				}
-				if = {
-					limit = { 
-						ROOT = { has_government = communism }
-						NOT = { has_government = communism }
-					}
-					add_popularity = {
-						ideology = communism
-						popularity = -0.15
-					}
-				}
-				if = {
-					limit = {
-						ROOT = { has_government = democratic }
-						NOT = { has_government = democratic }
-					}
-					add_popularity = {
-						ideology = democratic
-						popularity = -0.15
-					}
-				}
-			}
-
+			custom_effect_tooltip = FIN_military3
 			hidden_effect = {
-				news_event = { hours = 6 id = finland.952 }
+				set_country_flag = FIN_summer
 			}
 		}
 	}
-    
-    
-    focus = {
-		id = FIN_german_support
-		icon = GFX_goal_generic_attack_allies
-		available = {
-			is_puppet = no
-			has_government = fascism
-			GER = { has_war_with = SOV }
-			GER = {
-				exists = yes
-				has_government = fascism
-			}
-			NOT = { has_war_with = GER }
-		}
-		bypass = {
-			is_in_faction_with = GER
-			NOT = {
-				has_completed_focus = FIN_revive_the_kalmar_union
-			}
-		}
-        
-	 	prerequisite = { focus = FIN_wolf_divisions }
-        
-		x = 15
-		y = 4
-		cost = 10
-		ai_will_do = {
-			factor = 0.9
-
-			modifier = {
-				factor = 2
-				ai_irrationality < 15
-			}
-			modifier = {
-				factor = 2
-				ai_irrationality < 20
-			}
-			modifier = {
-				factor = 0.5
-				ai_irrationality > 30
-			}
-		}
-		completion_reward = {
-			GER = { country_event = { id = finland.333 } }
-		}
-	}
-    
-    	focus = {
-		id = FIN_the_winter_war
-		icon = GFX_goal_generic_war_with_comintern
-		prerequisite = { focus = FIN_german_support }
-		will_lead_to_war_with = SOV
-
-		cancel = {
-			NOT = { country_exists = SOV }
-		}
-		x = 15
-		y = 5
-		cost = 10
-		historical_ai = {
-			NOT = {
-				any_neighbor_country = {
-					has_war_with = ROOT
-				}		
-			}
-		}
-		bypass = {
-			has_war_with = SOV
-		}
-		ai_will_do = {
-			factor = 10
-			modifier = {
-				factor = 0
-				OR = {
-					has_army_manpower = { size < 1199999 }
-					any_neighbor_country = {
-						has_war_with = ROOT
-					}
-				}
-			}
-			modifier = {
-				factor = 0
-				is_historical_focus_on = yes
-				date < 1939.1.1
-			}
-		}	
-		completion_reward = {
-        
-                add_state_claim = 213
-			    add_state_claim = 216
-                add_state_claim = 215
-			    add_state_claim = 208
-                add_state_claim = 195
-        
-			create_wargoal = {
-				type = take_state_focus
-				target = SOV
-				generator = { 213 } 
-                generator = { 216 } 
-                generator = { 208 } 
-                generator = { 195 } 
-                generator = { 215 } 
-			}
-			
-		}
-	}
-    
-    	focus = {
-		id = FIN_legalize_communism
-		icon = GFX_goal_tripartite_pact
-	 	prerequisite = { focus = FIN_communist_support }
-		x = 16
-		y = 2
-		cost = 10
-		#ai_will_do = {
-		#	factor = 1
-		#}
-		completion_reward = {
-			add_political_power = 100
-            remove_ideas = FIN_communism_banned
-		}
-	}
-    
-    	focus = {
-		id = FIN_kommunistinen_nuorisoliitto
-		icon = GFX_goal_generic_propaganda
-		prerequisite = { focus = FIN_legalize_communism }
-		x = 17
-		y = 3
-		cost = 10
-		completion_reward = {
-			add_ideas = indoctrination_focus
-			add_political_power = 150
-		}
-	}
-    
-     focus = {
-		id = FIN_the_karjala_agreement
-		icon = GFX_goal_generic_forceful_treaty
-		available = {
-			is_puppet = no
-			has_government = communism
-			SOV = {
-				exists = yes
-				has_government = communism
-			}
-			NOT = { has_war_with = SOV }
-		}
-		bypass = {
-			is_in_faction_with = SOV
-		}
-        
-	 	prerequisite = { focus = FIN_kommunistinen_nuorisoliitto }
-		x = 17
-		y = 4
-		cost = 10
-		ai_will_do = {
-			factor = 0.9
-
-			modifier = {
-				factor = 2
-				ai_irrationality < 15
-			}
-			modifier = {
-				factor = 2
-				ai_irrationality < 20
-			}
-			modifier = {
-				factor = 0.5
-				ai_irrationality > 30
-			}
-		}
-		completion_reward = {
-            
-            custom_effect_tooltip = FIN_cedeland
-            
-
-			SOV = { 
-            country_event = { id = finland.355 }
-            custom_effect_tooltip = needs_approval
-            }
-		}
-	}
-    
-   
-   	focus = {
-		id = FIN_independent_revolution
-		icon = GFX_goal_generic_dangerous_deal
-		prerequisite = { focus = FIN_kommunistinen_nuorisoliitto }
-		x = 19
-		y = 4
-		cost = 10
-		completion_reward = {
-			add_ideas = ideological_fanaticism_focus
-			set_rule = {
-				can_create_factions = yes
-			}
-			hidden_effect = {
-				set_rule = { can_use_kamikaze_pilots = yes }
-			}
-			custom_effect_tooltip = kamikaze_focus_tooltip
-		}
-	}
-    
     
    
 	focus = {
@@ -1484,7 +1272,7 @@ focus = {
 		}
 	}
     
-    	focus = {
+    focus = {
 		id = FIN_limited_motorization
 		icon = GFX_goal_generic_army_motorized
 		bypass = { has_tech = motorised_infantry }
