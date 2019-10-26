@@ -433,6 +433,8 @@ technologies = {
 			default_morale = 0.1
 		}
 		
+		army_leader_start_attack_level = 2
+		
 		enable_tactic = tactic_breakthrough
 		
 		motorized = {
@@ -697,7 +699,7 @@ technologies = {
 		
 	}
 	
-	nd_conscription = { #Conjuncted Defence
+	nd_conscription = { #Combined Defence
 
 		category_line_artillery = {
 			soft_attack = 0.05
@@ -1497,9 +1499,9 @@ technologies = {
 			research_cost_coeff = 1
 		}
 		
-		#planning max bonus increase
-		max_planning = 0.1
+		recon_factor = 0.15
 		supply_consumption_factor = -0.05
+		special_forces_cap = 0.05
 
 		xp_research_type = army
 		xp_research_cost = 50
@@ -1532,9 +1534,11 @@ OR = { is_in_faction_with = ENG tag = ENG }
 	
 	prepared_defense = {
 
+
+		encryption = 1
+		
 		category_all_infantry = {
 			defense = 0.10
-			max_organisation = 10
 		}
 		
 		path = {
@@ -1661,7 +1665,7 @@ OR = { is_in_faction_with = ENG tag = ENG }
 	
 	assault_concentration = {
 	
-		max_planning = 0.07
+		special_forces_cap = 0.025
 
 		enable_tactic = tactic_overwhelming_fire
 		path = {
@@ -1694,12 +1698,14 @@ OR = { is_in_faction_with = ENG tag = ENG }
 	
 	branch_interoperation = {
 
-		category_all_infantry = {
-			max_organisation = 5
-		}
+		
 		category_tanks = {
-			max_organisation = 1
+			max_organisation = 2
 		}
+		
+		air_cas_present_factor = 0.07
+		
+		recon_factor = 0.1
 		
 		path = {
 			leads_to_tech = assault_breakthrough 
@@ -1818,7 +1824,9 @@ OR = { is_in_faction_with = ENG tag = ENG }
 		category_tanks = {
 			max_organisation = 1
 		}
-
+		
+		decryption_factor = 0.65
+		
 		xp_research_type = army
 		xp_research_cost = 50
 		xp_research_bonus = 0.50
@@ -1888,7 +1896,7 @@ OR = { is_in_faction_with = ENG tag = ENG }
 	
 	central_planning = {
 
-		max_planning = 0.07
+		decryption_factor = 0.2
 		planning_speed = 0.1
 		attrition = -0.1
 
@@ -1925,6 +1933,7 @@ OR = { is_in_faction_with = ENG tag = ENG }
 	
 		supply_consumption_factor = -0.05
 		
+		
 		path = {
 			leads_to_tech = night_assault_tactics 
 			research_cost_coeff = 1
@@ -1957,7 +1966,7 @@ OR = { is_in_faction_with = ENG tag = ENG }
 
 		#reduce land night combat penalty
 		land_night_attack = 0.2 # negates half of base penalty
-	
+		decryption_factor = 0.2
 	
 		path = {
 			leads_to_tech = attritional_containment 
@@ -2025,6 +2034,7 @@ OR = { is_in_faction_with = ENG tag = ENG }
 	infiltration_in_depth = {
 
 		land_reinforce_rate = 0.02
+		decryption_factor = 0.2
 		
 		recon = { 
 			recon = 1
@@ -2132,9 +2142,21 @@ OR = { is_in_faction_with = ENG tag = ENG }
 	
 	pocket_defence = {
 
-		#reduced pocketed combat penalty and/or reduces the out of supply penalty or increases time before moving to worse penalty
-		no_supply_grace = 48 # more hours before supply penalty changes
-		out_of_supply_factor = -0.10
+		
+		pocket_penalty = -0.15
+		
+		no_supply_grace = 120
+		
+		category_light_infantry = {
+			need = {
+			   infantry_equipment = -3
+			}
+		}
+		category_all_infantry = {
+			need = {
+			  horse_equipment = -3
+			}
+		}
 				
 		path = {
 			leads_to_tech = defence_in_depth
@@ -2153,6 +2175,8 @@ OR = { is_in_faction_with = ENG tag = ENG }
 					set_country_flag = mass_assault_a
 				}
 			}
+			
+			custom_effect_tooltip = pocket_defence_equipment 
         }
 		
 		xp_research_type = army
@@ -2181,7 +2205,7 @@ OR = { is_in_faction_with = ENG tag = ENG }
 	
 	defence_in_depth = {
 
-		org_loss_when_moving = -0.1
+		max_dig_in_factor = 0.1
         dig_in_speed_factor = 0.15
 
 		category_light_infantry = {
@@ -2189,8 +2213,15 @@ OR = { is_in_faction_with = ENG tag = ENG }
 		}
         category_all_infantry = {
 			max_organisation = 4
+			
 		}
 		
+		
+		category_all_infantry = {
+			need = {
+			  horse_equipment = -50
+			}
+		}
 		
 		path = {
 			leads_to_tech = large_front_operations
@@ -2229,8 +2260,24 @@ OR = { is_in_faction_with = ENG tag = ENG }
 		xor = {
 			peoples_army
 		}
+		
+		training_time_factor = -0.15
+		army_leader_start_defense_level = 1
+		category_light_infantry = {
+			need = {
+			   infantry_uniforms = -3
+			}
+		}
+		category_all_infantry = {
+			need = {
+			  infantry_uniforms = -3
+			}
+		}
+		
+		on_research_complete = { custom_effect_tooltip = peoples_army_equipment }
 
-
+		
+		
 		supply_consumption_factor = -0.05
 
 		enable_tactic = tactic_relentless_assault
@@ -2304,7 +2351,7 @@ OR = { is_in_faction_with = ENG tag = ENG }
 	
 	operational_concentration = {
 
-		max_planning = 0.1
+		
 		category_all_infantry = {
 			max_organisation = 10
 		}
@@ -2345,12 +2392,17 @@ OR = { is_in_faction_with = ENG tag = ENG }
 	vast_offensives = {
 
 		supply_consumption_factor = -0.05
-		category_all_infantry = {
-			soft_attack = 0.07
+		 infantry = {
+			hard_attack = 0.25
 		}
-		
-		category_light_infantry = {
-			soft_attack = 0.07
+		light_infantry = {
+			hard_attack = 0.35
+		}
+		militia = {
+			hard_attack = 0.5
+		}
+		garrison = {
+		    hard_attack = 0.5
 		}
 		
 		enable_tactic = tactic_overwhelming_fire
@@ -2391,6 +2443,21 @@ OR = { is_in_faction_with = ENG tag = ENG }
 		category_all_infantry = {
 			max_organisation = 5
 			breakthrough = 0.20
+		}
+		
+		category_light_infantry = {
+			need = {
+			   infantry_equipment = -3
+			}
+		}
+		category_all_infantry = {
+			need = {
+			   infantry_equipment = -3
+			}
+		}
+		
+		on_research_complete = {
+			custom_effect_tooltip = mass_assault_tooltip
 		}
 		
 		enable_tactic = tactic_breakthrough
@@ -2471,9 +2538,9 @@ OR = { is_in_faction_with = ENG tag = ENG }
 	
 	continuous_offensive = {
 
-               land_reinforce_rate = 0.01
+             
 		org_loss_when_moving = -0.1
-		
+		training_time_factor = -0.3
 		category_all_armor = {
 			default_morale = 0.1
 		}
@@ -2516,11 +2583,13 @@ OR = { is_in_faction_with = ENG tag = ENG }
 			max_strength = 1
 		}
 		
-		#Increased Partisan effect on your land occupied by others
-		partisan_effect = 0.15 #10% more partisan effects
-		#Land Units take less attrition
-		attrition = -0.15 #take 10% less attrition losses
+		training_time_factor = -0.15
 		
+		land_reinforce_rate = 0.1
+		
+		
+		
+				
 		enable_tactic = tactic_human_wave_tactics
 		
 		path = {
@@ -2572,7 +2641,22 @@ OR = { is_in_faction_with = ENG tag = ENG }
 		category_light_infantry = {
 			default_morale = 0.30
 		}
-		land_reinforce_rate = 0.02
+		
+		category_light_infantry = {
+			need = {
+			   infantry_equipment = -3
+			}
+		}
+		category_all_infantry = {
+			need = {
+			   infantry_equipment = -3
+			}
+		}
+		
+		on_research_complete = {
+			custom_effect_tooltip = mass_assault_tooltip
+		}
+		
 		supply_consumption_factor = -0.04
 		
 		
@@ -2612,7 +2696,7 @@ OR = { is_in_faction_with = ENG tag = ENG }
 		category_tanks = {
 			max_organisation = 2
 		}
-		max_planning = 0.04
+		max_dig_in_factor = 0.1
 		
 		
 		path = {
@@ -2648,17 +2732,31 @@ OR = { is_in_faction_with = ENG tag = ENG }
 
 				
 		infantry = {
-			soft_attack = 0.05
-			hard_attack = 0.05
+			soft_attack = 0.1
+			
 		}
 		light_infantry = {
-			soft_attack = 0.05
-			hard_attack = 0.05
+			soft_attack = 0.1
+			
 		}
 		militia = {
-			soft_attack = 0.05
-			hard_attack = 0.05
+			soft_attack = 0.1
+			
 		}
+		
+		category_light_infantry = {
+			need = {
+			  infantry_uniforms = -3
+			}
+		}
+		category_all_infantry = {
+			need = {
+			 infantry_uniforms = -3
+			}
+		}
+		
+		on_research_complete = { custom_effect_tooltip = peoples_army_equipment }
+		
 
 		
 		path = {
@@ -2696,12 +2794,25 @@ OR = { is_in_faction_with = ENG tag = ENG }
 	
 	guerilla_warfare = {
 
-		out_of_supply_factor = -0.30
-		category_army = {
-			default_morale = 0.2
+		training_time_factor = -0.15
+		dig_in_speed_factor = 0.2
+		pocket_penalty = -0.05
+		category_light_infantry = {
+			need = {
+			   infantry_equipment = -3
+			}
+		}
+		category_all_infantry = {
+			need = {
+			   infantry_equipment = -3
+			}
 		}
 		
-		partisan_effect = 0.2
+		on_research_complete = {
+			custom_effect_tooltip = mass_assault_tooltip
+		}
+		
+		#partisan_effect = 0.2
 		
 		path = {
 			leads_to_tech = ma_barrage
