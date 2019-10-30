@@ -503,7 +503,7 @@ focus = {
 		icon = GFX_goal_generic_construction2
 		x = 4
 		y = 0
-		cost = 10
+		cost = 9
 		completion_reward = {
         
        add_ideas = FIN_mannerheim_legacy_idea
@@ -511,9 +511,9 @@ focus = {
         
         add_tech_bonus = {
 				name = POL_prepare_for_the_next_war
-				bonus = 0.6
+				bonus = 0.75
 				uses = 1
-				category = land_doctrine
+				category = cat_guerilla_warfare
 			}
             
 	}
@@ -582,9 +582,9 @@ focus = {
 			army_experience = 25
 			add_tech_bonus = {
 				name = land_doc_bonus
-				bonus = 0.4
+				bonus = 0.75
 				uses = 1
-				category = land_doctrine
+				category = cat_guerilla_warfare
 			}
 		}
 	}
@@ -1309,6 +1309,389 @@ focus = {
 			}
 		}
 	}
+
+focus = {
+		id = FIN_communist_support
+		icon = GFX_goal_support_communism
+		prerequisite = { focus = FIN_imitate_sweden }
+		mutually_exclusive = { focus = FIN_germanaid }
+        mutually_exclusive = { focus = FIN_democratic_support }
+        mutually_exclusive = { focus = FIN_sovietthreat }
+
+		x = 19
+		y = 1
+		cost = 10
+
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			add_ideas = communist_influence
+			#Increases Communist Support
+		}
+	}
+
+    focus = {
+		id = FIN_legalize_communism
+		icon = GFX_goal_tripartite_pact
+	 	prerequisite = { focus = FIN_communist_support }
+		x = 19
+		y = 2
+		cost = 10
+		#ai_will_do = {
+		#	factor = 1
+		#}
+		completion_reward = {
+			add_political_power = 100
+            remove_ideas = FIN_communism_banned
+		}
+	}
+    
+    	focus = {
+		id = FIN_kommunistinen_nuorisoliitto
+		icon = GFX_goal_generic_propaganda
+		prerequisite = { focus = FIN_legalize_communism }
+		x = 19
+		y = 4
+		cost = 10
+		completion_reward = {
+			add_ideas = indoctrination_focus
+			add_political_power = 150
+		}
+	}
+    
+     focus = {
+		id = FIN_the_karjala_agreement
+		icon = GFX_goal_generic_forceful_treaty
+		available = {
+			is_puppet = no
+			has_government = communism
+			SOV = {
+				exists = yes
+				has_government = communism
+			}
+			NOT = { has_war_with = SOV }
+		}
+		bypass = {
+			is_in_faction_with = SOV
+		}
+        
+	 	prerequisite = { focus = FIN_kommunistinen_nuorisoliitto }
+		x = 18
+		y = 5
+		cost = 10
+		ai_will_do = {
+			factor = 0.9
+
+			modifier = {
+				factor = 2
+				ai_irrationality < 15
+			}
+			modifier = {
+				factor = 2
+				ai_irrationality < 20
+			}
+			modifier = {
+				factor = 0.5
+				ai_irrationality > 30
+			}
+		}
+		completion_reward = {
+            
+            custom_effect_tooltip = FIN_cedeland
+            
+
+			SOV = { 
+            country_event = { id = finland.355 }
+            custom_effect_tooltip = needs_approval
+            }
+		}
+	}
+    
+   
+   	focus = {
+		id = FIN_independent_revolution
+		icon = GFX_goal_generic_dangerous_deal
+		prerequisite = { focus = FIN_kommunistinen_nuorisoliitto }
+		x = 20
+		y = 5
+		cost = 10
+		completion_reward = {
+			add_ideas = ideological_fanaticism_focus
+			set_rule = {
+				can_create_factions = yes
+			}
+			hidden_effect = {
+				set_rule = { can_use_kamikaze_pilots = yes }
+			}
+			custom_effect_tooltip = kamikaze_focus_tooltip
+		}
+	}
+	
+	focus = {
+		id = FIN_democratic_support
+		icon = GFX_goal_support_democracy
+		prerequisite = { focus = FIN_imitate_sweden }
+		mutually_exclusive = { focus = FIN_communist_support }
+        mutually_exclusive = { focus = FIN_germanaid }
+        mutually_exclusive = { focus = FIN_sovietthreat }
+
+		x = 21
+		y = 1
+		cost = 10
+
+		ai_will_do = {
+			factor = 0
+		}
+		completion_reward = {
+			add_ideas = democratic_influence
+			if = {
+				limit = { NOT = { has_idea = neutrality_idea } }
+				add_ideas = neutrality_idea
+			}
+			#Increase in Democratic Support
+		}
+	}
+    
+
+    
+    focus = {
+		id = FIN_pacifist_sentiment
+		icon = GFX_goal_generic_national_unity
+		prerequisite = {focus = FIN_democratic_support }
+
+		available = { 
+			OR = { 
+				threat > 0.75 
+				has_defensive_war = yes 
+			}
+		}
+
+		continue_if_invalid = yes
+		
+		x = 21
+		y = 3
+		cost = 10
+		completion_reward = {
+			if = {
+				limit = { NOT = { has_idea = neutrality_idea } }
+				set_rule = { can_create_factions = yes }
+			}
+			add_ideas = why_we_fight_focus
+		}
+	}
+    
+    
+    focus = {
+		id = FIN_liberal_unity
+		icon = GFX_goal_generic_demand_territory
+	 	prerequisite = {
+	 		focus = FIN_pacifist_sentiment
+	 	}
+		x = 23
+		y = 4
+		cost = 10
+		ai_will_do = {
+			factor = 0
+		}
+		completion_reward = {
+			set_country_flag = FRA_strengthen_government_support_focus_flag
+			add_timed_idea = {
+				idea = FRA_strengthen_government_support_focus
+				days = 365
+			}
+		}
+	}
+    
+    focus = {
+		id = FIN_revive_the_kalmar_union
+		icon = GFX_goal_generic_navy_cruiser
+		available = {
+			is_puppet = no
+			is_in_faction = no
+            has_government = democratic
+            
+            SWE = {
+				exists = yes
+				has_government = democratic
+                is_in_faction = no
+			}
+		}
+	 	prerequisite = { focus = FIN_liberal_unity }
+	 	mutually_exclusive = { focus = FIN_join_the_allies }
+	 	bypass = {
+	 		is_in_faction_with = SWE
+	 		is_faction_leader = yes
+	 	}
+		x = 24
+		y = 5
+		cost = 10
+		ai_will_do = {
+			factor = 0.1
+
+			modifier = {
+				factor = 10
+				ai_irrationality > 20
+			}
+			modifier = {
+				factor = 2
+				ai_irrationality > 30
+			}
+		}
+		completion_reward = {
+			add_stability = 0.05
+			set_rule = { can_create_factions = yes }
+			create_faction = "second_kalmar_union"
+			if = {
+				limit = {
+					SWE = { 
+						is_puppet = no
+						NOT = { has_war_with = FIN }
+					}
+				}
+				SWE = { country_event = finland.17 }
+				hidden_effect = {
+					news_event = { hours = 6 id = finland.922 }
+				}
+			}
+		}
+	}
+    
+    focus = {
+		id = FIN_invite_norway
+		icon = GFX_goal_generic_improve_relations
+		available = {
+			is_puppet = no
+            NOR = {
+				exists = yes
+				has_government = democratic
+                is_in_faction = no
+			}
+		}
+	 	prerequisite = { focus = FIN_revive_the_kalmar_union }
+	 	bypass = {
+	 		is_in_faction_with = NOR
+	 	}
+		x = 24
+		y = 6
+		cost = 10
+		ai_will_do = {
+			factor = 0.1
+
+			modifier = {
+				factor = 10
+				ai_irrationality > 20
+			}
+			modifier = {
+				factor = 2
+				ai_irrationality > 30
+			}
+		}
+		completion_reward = {
+			if = {
+				limit = {
+					NOR = { 
+						is_puppet = no
+						NOT = { has_war_with = FIN }
+					}
+				}
+				NOR = { country_event = finland.17 }
+			}
+		}
+	}
+    
+	focus = {
+		id = FIN_invite_denmark
+		icon = GFX_goal_generic_improve_relations
+		available = {
+			is_puppet = no
+            DEN = {
+				exists = yes
+				has_government = democratic
+                is_in_faction = no
+			}
+		}
+	 	prerequisite = { focus = FIN_revive_the_kalmar_union }
+	 	bypass = {
+	 		is_in_faction_with = DEN
+	 	}
+		x = 26
+		y = 6
+		cost = 10
+		ai_will_do = {
+			factor = 0.1
+
+			modifier = {
+				factor = 10
+				ai_irrationality > 20
+			}
+			modifier = {
+				factor = 2
+				ai_irrationality > 30
+			}
+		}
+		completion_reward = {
+			if = {
+				limit = {
+					DEN = { 
+						is_puppet = no
+						NOT = { has_war_with = FIN }
+					}
+				}
+				DEN = { country_event = finland.17 }
+			}
+		}
+	}
+    
+    
+    focus = {
+		id = FIN_join_the_allies
+		icon = GFX_goal_anschluss
+		available = {
+			is_puppet = no
+			has_government = democratic
+			ENG = {
+				exists = yes
+				has_government = democratic
+			}
+			NOT = { has_war_with = ENG }
+		}
+		bypass = {
+			is_in_faction_with = ENG
+			NOT = {
+				has_completed_focus = FIN_revive_the_kalmar_union
+			}
+		}
+        
+	 	prerequisite = { focus = FIN_liberal_unity }
+	 	mutually_exclusive = { focus = FIN_revive_the_kalmar_union }
+		x = 22
+		y = 5
+		cost = 10
+		ai_will_do = {
+			factor = 0
+		}
+		completion_reward = {
+			ENG = { country_event = { id = finland.25 } }
+		}
+	}
+    focus = {
+		id = FIN_USA_In_Fac_Get_Slot
+		icon = GFX_focus_research
+		available = {
+			is_in_faction_with = USA
+		}
+		x = 22
+		y = 6
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
 	
 	###
    
@@ -1351,7 +1734,7 @@ focus = {
 		id = FIN_limited_motorization
 		icon = GFX_goal_generic_army_motorized
 		bypass = { has_tech = motorised_infantry }
-		x = 20
+		x = 24
 		y = 0
 		cost = 10
 		completion_reward = {
@@ -1368,7 +1751,7 @@ focus = {
 		id = FIN_study_foreign_vehicles
 		icon = GFX_goal_generic_production
 		prerequisite = { focus = FIN_limited_motorization }
-		x = 21
+		x = 25
 		y = 1
 		cost = 10
 		completion_reward = {
@@ -1385,7 +1768,7 @@ focus = {
 		id = FIN_tuli_isku
 		icon = GFX_goal_generic_army_artillery2
 		prerequisite = { focus = FIN_limited_motorization }
-		x = 19
+		x = 23
 		y = 1
 		cost = 10
 		completion_reward = {
@@ -1403,7 +1786,7 @@ focus = {
 		id = FIN_further_artillery_support
 		icon = GFX_goal_generic_army_artillery2
 		prerequisite = { focus = FIN_tuli_isku }
-		x = 19
+		x = 23
 		y = 2
 		cost = 10
 		completion_reward = {
@@ -1422,7 +1805,7 @@ focus = {
 		icon = GFX_goal_generic_army_tanks
 		prerequisite = { focus = FIN_study_foreign_vehicles }
 		
-		x = 21
+		x = 25
 		y = 2
 		cost = 10
 
@@ -1458,7 +1841,7 @@ focus = {
 		icon = GFX_goal_generic_army_tanks
 		prerequisite = { focus = FIN_import_tanks }
 		
-		x = 21
+		x = 25
 		y = 3
 		cost = 10
 
@@ -1488,7 +1871,7 @@ focus = {
    	focus = {
 		id = FIN_aviation_effort
 		icon = GFX_goal_generic_build_airforce
-		x = 24
+		x = 28
 		y = 0
 		cost = 10
 
@@ -1569,7 +1952,7 @@ focus = {
 		id = FIN_paratroopers_and_air_bases
 		icon = GFX_goal_generic_air_production
 		prerequisite = { focus = FIN_aviation_effort }
-		x = 24
+		x = 28
 		y = 1
 		cost = 10
 		ai_will_do = {
@@ -1612,7 +1995,7 @@ focus = {
 		prerequisite = { focus = FIN_aviation_effort }
         
 		mutually_exclusive = { focus = FIN_bomber_focus }
-		x = 23
+		x = 27
 		y = 2
 		cost = 10
 		completion_reward = {
@@ -1646,7 +2029,7 @@ focus = {
 		icon = GFX_goal_generic_air_bomber
 		prerequisite = { focus = FIN_aviation_effort }
 		mutually_exclusive = { focus = FIN_fighter_focus }
-		x = 25
+		x = 29
 		y = 2
 		cost = 10
 		completion_reward = {
@@ -1676,7 +2059,7 @@ focus = {
 		id = FIN_aviation_effort_2
 		icon = GFX_goal_generic_air_doctrine
 		prerequisite = { focus = FIN_bomber_focus focus = FIN_fighter_focus }
-		x = 24
+		x = 28
 		y = 3
 		cost = 10
 
@@ -1756,7 +2139,7 @@ focus = {
 		icon = GFX_goal_generic_CAS
 		prerequisite = { focus = FIN_aviation_effort_2 }
         prerequisite = { focus = FIN_study_foreign_vehicles }
-		x = 22
+		x = 26
 		y = 4
 		cost = 10
 		completion_reward = {
@@ -1773,7 +2156,7 @@ focus = {
 		id = FIN_rocket_effort
 		icon = GFX_focus_rocketry
 		prerequisite = { focus = FIN_aviation_effort_2 }
-		x = 24
+		x = 28
 		y = 4
 		cost = 10
 		completion_reward = {
@@ -1800,7 +2183,7 @@ focus = {
 		icon = GFX_goal_generic_air_naval_bomber
 		prerequisite = { focus = FIN_aviation_effort_2 }
 		prerequisite = { focus = FIN_naval_effort }
-		x = 26
+		x = 30
 		y = 4
 		cost = 10
 		completion_reward = {
@@ -1817,7 +2200,7 @@ focus = {
 	focus = {
 		id = FIN_naval_effort
 		icon = GFX_goal_generic_construct_naval_dockyard
-		x = 28
+		x = 32
 		y = 0
 		cost = 10
 
@@ -1942,7 +2325,7 @@ focus = {
 		icon = GFX_goal_generic_build_navy
 		prerequisite = { focus = FIN_naval_effort }
 		mutually_exclusive = { focus = FIN_large_navy }
-		x = 27
+		x = 31
 		y = 1
 		cost = 10
 
@@ -1978,7 +2361,7 @@ focus = {
 		icon = GFX_goal_generic_navy_doctrines_tactics
 		prerequisite = { focus = FIN_naval_effort }
 		mutually_exclusive = { focus = FIN_flexible_navy }
-		x = 29
+		x = 33
 		y = 1
 		cost = 10
 
@@ -2009,7 +2392,7 @@ focus = {
 		id = FIN_submarine_effort
 		icon = GFX_goal_generic_navy_submarine
 		prerequisite = { focus = FIN_flexible_navy focus = FIN_large_navy }
-		x = 27
+		x = 31
 		y = 2
 		cost = 10
 
@@ -2040,7 +2423,7 @@ focus = {
 		id = FIN_cruiser_effort
 		icon = GFX_goal_generic_navy_cruiser
 		prerequisite = { focus = FIN_large_navy focus = FIN_flexible_navy }
-		x = 29
+		x = 33
 		y = 2
 		cost = 10
 
@@ -2072,7 +2455,7 @@ focus = {
 		id = FIN_destroyer_effort
 		icon = GFX_goal_generic_navy_anti_submarine
 		prerequisite = { focus = FIN_submarine_effort }
-		x = 27
+		x = 31
 		y = 3
 		cost = 10
 
@@ -2103,7 +2486,7 @@ focus = {
 		id = FIN_capital_ships_effort
 		icon = GFX_goal_generic_navy_battleship
 		prerequisite = { focus = FIN_cruiser_effort }
-		x = 29
+		x = 33
 		y = 3
 		cost = 13
 
@@ -2145,7 +2528,7 @@ focus = {
 				controls_state = 145
 			}
 		}
-		x = 31
+		x = 35
 		y = 1
 		cost = 10
 		icon = GFX_goal_generic_fortify_city
@@ -2180,7 +2563,7 @@ focus = {
 		id = FIN_marines_and_landing_craft
 		icon = GFX_goal_generic_amphibious_assault
 		prerequisite = { focus = FIN_fortress_aland }
-		x = 31
+		x = 35
 		y = 2
 		cost = 10
 		ai_will_do = {
@@ -2207,7 +2590,7 @@ focus = {
 		id = FIN_flying_lottas
 		icon = GFX_goal_generic_air_fighter2
 		prerequisite = { focus = FIN_aviation_effort_2 }
-		x = 25
+		x = 29
 		y = 5
 		cost = 10
 		ai_will_do = {
