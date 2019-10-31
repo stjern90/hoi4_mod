@@ -956,7 +956,7 @@ NAir = {
 	
 	FUEL_COST_MULT = 0.27, -- fuel multiplier for all air missions
 	
-	MISSION_EFFICIENCY_MULT_AT_LACK_OF_FUEL = 0.33, 				-- multiplier for mission efficiency when a base lacks fuel
+	MISSION_EFFICIENCY_MULT_AT_LACK_OF_FUEL = 0.28, 				-- multiplier for mission efficiency when a base lacks fuel
 	
 	BOMBING_TARGETING_RANDOM_FACTOR = 0.25,							-- % of picking the wrong target
 	BOMBING_PROV_BUILD_PRIO_SCALE = 1.0,							-- Scale of the selected priority for provincial buildings
