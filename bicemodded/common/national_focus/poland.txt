@@ -1921,7 +1921,7 @@ focus_tree = {
 		id = POL_strengthen_the_polish_state
 		icon = GFX_polish_state
 		
-		x = 36
+		x = 32
 		y = 0
 		cost = 10
 
@@ -1938,8 +1938,9 @@ focus_tree = {
 		id = POL_defensive_focus
 		icon = GFX_Goal_poland_defense
 		prerequisite = { focus = POL_strengthen_the_polish_state }
-		
-		x = 38
+		prerequisite = { focus = POL_the_four_year_plan }
+		relative_position_id = POL_strengthen_the_polish_state
+		x = 2
 		y = 1
 		cost = 10
 
@@ -1947,17 +1948,18 @@ focus_tree = {
 			factor = 10
 		}
 		completion_reward = {
-			add_ideas = deterrence
+			add_ideas = POL_defensive
 			#Grants Deterrence modifier
 		}
 	}
 
 	focus = {
-		id = POL_polish_militarism
-		icon = GFX_polish_militarism
+		id = POL_militarism2
+		icon = GFX_goal_POL_legacy
 		prerequisite = { focus = POL_strengthen_the_polish_state }
-		
-		x = 34
+		prerequisite = { focus = POL_the_four_year_plan }
+		relative_position_id = POL_strengthen_the_polish_state
+		x = -2
 		y = 1
 		cost = 10
 
@@ -1965,37 +1967,240 @@ focus_tree = {
 			factor = 10
 		}
 		completion_reward = {
-			army_experience = 20
+			army_experience = 15
 			add_ideas = POL_militarism_focus
 		}
 	}
-
+	
+	### new political tree ###
+	
 	focus = {
-		id = POL_polish_revanchism
-		icon = GFX_goal_generic_political_pressure
-		prerequisite = { focus = POL_polish_militarism }
+		id = POL_francecoop
+		icon = GFX_focus_chi_reach_out_to_france
+		prerequisite = { focus = POL_defensive_focus focus = POL_militarism2 }
+		relative_position_id = POL_defensive_focus
+		x = -1
+		y = 1
+		cost = 5
+
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			FRA = {
+				country_event = {
+					id = poland.56
+					days = 1
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = POL_hostility
+		icon = GFX_goal_POL_soviet
+		prerequisite = { focus = POL_militarism2 }
+		relative_position_id = POL_militarism2
+		x = 1
+		y = 1
+		cost = 7
 		
-		x = 32
+		available = {
+			SOV = { 
+				exists = yes 
+				has_war = no 
+				has_completed_focus = SOV_great_purge
+			}
+			POL = {
+				is_puppet = no
+				NOT = { is_in_faction_with = SOV }
+			}
+			date > 1937.1.1
+			
+		}
+
+		ai_will_do = {
+			factor = 5
+		}
+		completion_reward = {
+			SOV = {
+				country_event = {
+					id = poland.57
+					days = 1
+				}
+			}
+			add_political_power = 50
+		}
+	}
+	
+	
+	focus = {
+		id = POL_plan_east
+		icon = GFX_Goal_POL_planwest
+		prerequisite = { focus = POL_hostility focus = POL_poland_first }
+		relative_position_id = POL_hostility
+		x = -1
+		y = 1
+		cost = 10
+		
+		available = {
+			has_country_flag = POL_refuseap
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			97 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					instant_build = yes
+					province = 3393
+				}
+			}
+			784 = {
+				add_building_construction = {
+					type = bunker
+					level = 1
+					instant_build = yes
+					province = 3320
+				}
+			}
+			custom_effect_tooltip = POL_planeast
+			hidden_effect = {
+				set_country_flag = POL_eastplan
+			}
+		}
+	}
+	
+	focus = {
+		id = POL_british
+		icon = GFX_goal_british_fortifications
+		prerequisite = { focus = POL_francecoop focus = POL_hostility }
+		relative_position_id = POL_francecoop
+		x = -1
+		y = 1
+		cost = 3
+		
+		available = {
+			OR = {
+				is_in_faction_with = ENG
+				is_guaranteed_by = ENG
+			}
+		}
+		
+		bypass = {
+			ENG = { exists = no }
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			if = { limit = { has_idea = POL_defensive } 
+				remove_ideas = POL_defensive
+			}
+			add_ideas = POL_protected
+			hidden_effect = {
+				set_country_flag = POL_protected2
+			}
+		}
+	}
+	
+	focus = {
+		id = POL_armyfocus
+		icon = GFX_goal_POL_weaponeq
+		prerequisite = { focus = POL_defensive_focus }
+		relative_position_id = POL_defensive_focus
+		x = 0
+		y = 2
+		cost = 8
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			add_ideas = POL_weapons
+		}
+	}
+	
+	focus = {
+		id = POL_ukraine
+		icon = GFX_goal_POL_ukraineb
+		prerequisite = { focus = POL_hostility }
+		relative_position_id = POL_hostility
+		x = 0
 		y = 2
 		cost = 10
 
 		ai_will_do = {
 			factor = 10
 		}
+
 		completion_reward = {
-			add_ideas = POL_polish_revanchism_focus
-			#grants a -10% PP cost to war goal justification
+			remove_ideas = POL_ukraine
+		}
+	}
+	
+	focus = {
+		id = POL_mobilisation
+		icon = GFX_goal_POL_mobil
+		prerequisite = { focus = POL_british }
+		prerequisite = { focus = POL_armyfocus }
+		relative_position_id = POL_british
+		x = 1
+		y = 1
+		cost = 4
+		
+		available = {
+			GER = { has_completed_focus = GER_end_of_czechoslovakia }
+			if = { limit = { is_historical_focus_on = yes }
+				date > 1939.1.1
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			if = { 
+				limit = { 
+					NOT = { 
+						OR = { 
+							has_idea = extensive_conscription 
+							has_idea = service_by_requirement 
+							has_idea = all_adults_serve 
+							has_idea = scraping_the_barrel 
+						} 
+					}
+				}
+				add_ideas = extensive_conscription
+			}
+			add_timed_idea = {
+				idea = POL_mobilisation
+				days = 180
+			}
+			ENG = {
+				country_event = {
+					id = poland.61
+					days = 1
+				}
+			}
 		}
 	}
 
 	focus = {
 		id = POL_poland_first
 		icon = GFX_Pilsudski
-		prerequisite = { focus = POL_polish_militarism }
-		mutually_exclusive = { focus = POL_internationalism }
-
-		x = 34
-		y = 2
+		prerequisite = { focus = POL_militarism2 }
+		relative_position_id = POL_militarism2
+		x = -1
+		y = 1
 		cost = 10
 
 		ai_will_do = {
@@ -2009,24 +2214,6 @@ focus_tree = {
 	}
 
 	focus = {
-		id = POL_ideological_fanaticism
-		icon = GFX_goal_generic_propaganda
-		prerequisite = { focus = POL_poland_first }
-
-		x = 33
-		y = 3
-		cost = 10
-
-		ai_will_do = {
-			factor = 10
-		}
-		completion_reward = {
-			add_ideas = POL_ideological_fanaticism
-			#Same as in Generic Focus
-		}
-	}
-
-	focus = {
 		id = POL_the_between_the_seas_concept
 		icon = GFX_goal_anschluss
 		available = {
@@ -2034,8 +2221,9 @@ focus_tree = {
 			is_in_faction = no
 		}
 		prerequisite = { focus = POL_poland_first }
-		x = 31
-		y = 3
+		relative_position_id = POL_poland_first
+		x = -1
+		y = 1
 		cost = 10
         available_if_capitulated = no
 		ai_will_do = {
@@ -2064,9 +2252,9 @@ focus_tree = {
 			LIT = { is_puppet = yes }
 			has_war_with = LIT
 		}
-
-		x = 31
-		y = 4
+		relative_position_id = POL_the_between_the_seas_concept
+		x = 0
+		y = 1
 		cost = 10
 
 		ai_will_do = {
@@ -2196,34 +2384,33 @@ focus_tree = {
 		}
 	}
 
-	focus = {
-		id = POL_internationalism
-		icon = GFX_goal_generic_positive_trade_relations
-		prerequisite = { focus = POL_polish_militarism focus = POL_defensive_focus }
-		mutually_exclusive = { focus = POL_poland_first }
-
-		x = 36
-		y = 2
-		cost = 10
-
-		ai_will_do = {
-			factor = 15
-		}
-
-		completion_reward = {
-			add_ideas = POL_internationalism_focus
-			#Some sort of Relations boost modifier
-		}
-	}
+	#focus = {
+	#	id = POL_internationalism
+	#	icon = GFX_goal_generic_positive_trade_relations
+	#	prerequisite = { focus = POL_polish_militarism focus = POL_defensive_focus }
+	#	mutually_exclusive = { focus = POL_poland_first }
+	#
+	#	x = 36
+	#	y = 2
+	#	cost = 10
+	#
+	#	ai_will_do = {
+	#		factor = 15
+	#	}
+	#
+	#	completion_reward = {
+	#		add_ideas = POL_internationalism_focus
+	#		#Some sort of Relations boost modifier
+	#	}
+	#	}
 
 	focus = {
 		id = POL_authoritarianism
 		icon = GFX_goal_molotov_ribbentrop_pact
-		prerequisite = { focus = POL_internationalism }
-		mutually_exclusive = { focus = POL_liberalism }
-
-		x = 37
-		y = 3
+		prerequisite = { focus = POL_defensive_focus }
+		relative_position_id = POL_defensive_focus
+		x = 4
+		y = 1
 		cost = 10
 
 		ai_will_do = {
@@ -2239,9 +2426,9 @@ focus_tree = {
 		id = POL_paramilitarism
 		icon = GFX_Paramilitary
 		prerequisite = { focus = POL_authoritarianism }
-
-		x = 38
-		y = 4
+		relative_position_id = POL_authoritarianism
+		x = 3
+		y = 1
 		cost = 10
 
 		ai_will_do = {
@@ -2258,9 +2445,9 @@ focus_tree = {
 		icon = GFX_Goal_Pol_Fash
 		prerequisite = { focus = POL_authoritarianism }
 		mutually_exclusive = { focus = POL_go_left }
-
-		x = 36
-		y = 4
+		relative_position_id = POL_authoritarianism
+		x = 1
+		y = 1
 		cost = 10
 
 		ai_will_do = {
@@ -2276,9 +2463,9 @@ focus_tree = {
 		id = POL_military_youth
 		icon = GFX_Goal_Fash_youth
 		prerequisite = { focus = POL_go_right }
-
-		x = 37
-		y = 6
+		relative_position_id = POL_go_right
+		x = 1
+		y = 1
 		cost = 10
 
 		ai_will_do = {
@@ -2295,9 +2482,9 @@ focus_tree = {
 		icon = GFX_goal_generic_SS_focus
 		prerequisite = { focus = POL_military_youth }
 		prerequisite = { focus = POL_seek_accommodation_with_germany }
-				
-		x = 37
-		y = 8
+		relative_position_id = POL_military_youth
+		x = 0
+		y = 1
 		cost = 10
 
 		available = {
@@ -2317,9 +2504,9 @@ focus_tree = {
 		available = {
 			country_exists = GER
 		}
-		
-		x = 36
-		y = 5
+		relative_position_id = POL_go_right
+		x = -1
+		y = 1
 		cost = 10
 
 		ai_will_do = {
@@ -2337,9 +2524,9 @@ focus_tree = {
 		icon = GFX_Goal_pol_Com
 		prerequisite = { focus = POL_authoritarianism }
 		mutually_exclusive = { focus = POL_go_right }
-
-		x = 34
-		y = 4
+		relative_position_id = POL_authoritarianism
+		x = -1
+		y = 1
 		cost = 10
 
 		ai_will_do = {
@@ -2355,9 +2542,9 @@ focus_tree = {
 		id = POL_political_commissars
 		icon = GFX_Political_commissars
 		prerequisite = { focus = POL_go_left }
-
-		x = 33
-		y = 6
+		relative_position_id = POL_go_left
+		x = -1
+		y = 1
 		cost = 10
 
 		ai_will_do = {
@@ -2373,11 +2560,12 @@ focus_tree = {
 		id = POL_seek_accommodation_with_USSR
 		icon = GFX_focus_chi_mission_to_the_soviet_union
 		prerequisite = { focus = POL_go_left }
+		relative_position_id = POL_go_left
 		available = {
 			country_exists = SOV
 		}
-		x = 34
-		y = 5
+		x = 0
+		y = 2
 		cost = 10
 
 		ai_will_do = {
@@ -2389,133 +2577,99 @@ focus_tree = {
 			#Relation Boost with the USSR
 		}
 	}
+	
+	
 
-	focus = {
-		id = POL_liberalism
-		icon = GFX_goal_support_democracy
-		prerequisite = { focus = POL_internationalism }
-		prerequisite = { focus = POL_defensive_focus }
-		mutually_exclusive = { focus = POL_authoritarianism }
-
-		x = 39
-		y = 3
-		cost = 9
-
-		ai_will_do = {
-			factor = 15
-		}
-		completion_reward = {
-			add_ideas = democratic_influence
-			#Increase in Democratic Support
-		}
-	}
-
-	focus = {
-		id = POL_intervention_focus
-		icon = GFX_goal_generic_position_armies
-		prerequisite = { focus = POL_liberalism }
-
-		x = 40
-		y = 4
-		cost = 8
-
-		ai_will_do = {
-			factor = 10
-		}
-		completion_reward = {
-			set_rule = { can_send_volunteers = yes }
-			add_political_power = 150
-			#As per generic
-		}
-	}
-	focus = {
-		id = POL_USA_In_Fac_Get_Slot
-		icon = GFX_focus_research
-		available = {
-			is_in_faction_with = USA
-		}
-		x = 41
-		y = 6
-		cost = 12
-		ai_will_do = {
-			factor = 10
-		}
-		
-		completion_reward = {
-			add_tech_bonus = {
-				name = POL_const_nonus
-				bonus = 0.5
-				uses = 2
-				category = construction_tech
-			}
-		}
-	}
-	focus = {
-		id = POL_election
-		icon = GFX_goal_support_democracy
-		prerequisite = { focus = POL_liberalism }
-		available = { democratic > 0.4 }
-
-		x = 42
-		y = 4
-		cost = 8
-
-		ai_will_do = {
-			factor = 15
-		}
-		completion_reward = {
-			add_popularity = { ideology = democratic popularity = 0.03 }
-			set_politics = { 
-			ruling_party = democratic 
-            last_election = "1935.9.8"
-	        election_frequency = 36
-	        elections_allowed = yes			
-			}
-		}
-	}
-	focus = {
-		id = POL_draw_closer_to_britain
-		icon = GFX_focus_chi_british_cooperation
-		prerequisite = { focus = POL_election }
-		available = {
-			country_exists = ENG
-				ENG = {	has_capitulated = no
-						has_government = democratic 
-				}
-		}
-		
-
-		x = 42
-		y = 5
-		cost = 8
-
-		ai_will_do = {
-			factor = 10
-		}
-		completion_reward = {
-			add_opinion_modifier = { target = ENG modifier = POL_draw_closer_to_britain }
-			ENG = { add_opinion_modifier = { target = ROOT modifier = POL_draw_closer_to_britain } }
-			diplomatic_relation = { country = ENG relation = non_aggression_pact }
-			#Relation boost with the UK
-		}
-	}
-	focus = {
-		id = POL_volunteer_corps
-		icon = GFX_goal_generic_more_territorial_claims
-		prerequisite = { focus = POL_intervention_focus }
-
-		x = 40
-		y = 5
-		cost = 10
-
-		ai_will_do = {
-			factor = 10
-		}
-		completion_reward = {
-			add_ideas = volunteer_corps_focus
-			#As Per Generic Tree
-		}
-	}
+	#focus = {
+	#	id = POL_liberalism
+	#	icon = GFX_goal_support_democracy
+	#	prerequisite = { focus = POL_internationalism }
+	#	prerequisite = { focus = POL_defensive_focus }
+	#	mutually_exclusive = { focus = POL_authoritarianism }
+	#
+	#	x = 39
+	#	y = 3
+	#	cost = 9
+	#
+	#	ai_will_do = {
+	#		factor = 15
+	#	}
+	#	completion_reward = {
+	#		add_ideas = democratic_influence
+	#		#Increase in Democratic Support
+	#	}
+	#}
+	#focus = {
+	#	id = POL_USA_In_Fac_Get_Slot
+	#	icon = GFX_focus_research
+	#	available = {
+	#		is_in_faction_with = USA
+	#	}
+	#	x = 41
+	#	y = 6
+	#	cost = 12
+	#	ai_will_do = {
+	#		factor = 10
+	#	}
+	#	
+	#	completion_reward = {
+	#		add_tech_bonus = {
+	#			name = POL_const_nonus
+	#			bonus = 0.5
+	#			uses = 2
+	#			category = construction_tech
+	#		}
+	#	}
+	#}
+	#focus = {
+	#	id = POL_election
+	#	icon = GFX_goal_support_democracy
+	#	prerequisite = { focus = POL_liberalism }
+	#	available = { democratic > 0.4 }
+	#
+	#	x = 42
+	#	y = 4
+	#	cost = 8
+	#
+	#	ai_will_do = {
+	#		factor = 15
+	#	}
+	#	completion_reward = {
+	#		add_popularity = { ideology = democratic popularity = 0.03 }
+	#		set_politics = { 
+	#		ruling_party = democratic 
+    #       last_election = "1935.9.8"
+	#        election_frequency = 36
+	#        elections_allowed = yes			
+	#		}
+	#	}
+	#}
+	#focus = {
+	#	id = POL_draw_closer_to_britain
+	#	icon = GFX_focus_chi_british_cooperation
+	#	prerequisite = { focus = POL_election }
+	#	available = {
+	#		country_exists = ENG
+	#			ENG = {	has_capitulated = no
+	#					has_government = democratic 
+	#			}
+	#	}
+	#	
+	#
+	#	x = 42
+	#	y = 5
+	#	cost = 8
+	#
+	#	ai_will_do = {
+	#		factor = 10
+	#	}
+	#	completion_reward = {
+	#		add_opinion_modifier = { target = ENG modifier = POL_draw_closer_to_britain }
+	#		ENG = { add_opinion_modifier = { target = ROOT modifier = POL_draw_closer_to_britain } }
+	#		diplomatic_relation = { country = ENG relation = non_aggression_pact }
+	#		#Relation boost with the UK
+	#	}
+	#}
 ##########################
 ###INTERMARRUM EXTENDED###
 ##########################
