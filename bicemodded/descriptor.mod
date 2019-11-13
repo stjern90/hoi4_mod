@@ -1,5 +1,5 @@
-name="Total War Mod Local"
-path="mod/hoi4_mod/bicemodded"
+name="Total War Mod"
+path="C:/Users/johan/OneDrive/Documents/Paradox Interactive/Hearts of Iron IV/mod/hoi4_mod/bicemodded"
 replace_path="history"
 tags={
 	"Historical"
@@ -8,5 +8,5 @@ tags={
 	"Graphics"
 }
 picture="FrontTotalWar.jpg"
+supported_version="1.8.*"
 remote_file_id="806209426"
-supported_version="1.7.*"
