@@ -8,5 +8,5 @@ tags={
 	"Graphics"
 }
 picture="FrontTotalWar.jpg"
-supported_version="1.8.*"
+version="1.8.*"
 remote_file_id="806209426"
