@@ -771,7 +771,7 @@ NMilitary = {
 	
 	UNIT_UPKEEP_ATTRITION = 0.00,							--Constant attrition value applied to armies.
 
-	FUEL_PENALTY_START_RATIO = 0.25,				-- ratio of fuel in an army to start getting penalties
+	FUEL_PENALTY_START_RATIO = 0.8,				-- ratio of fuel in an army to start getting penalties
 	
 	SURPLUS_SUPPLY_RATIO_FOR_ZERO_FUEL_FLOW = 1.5,		-- if a supply chunk has more supply needed than this ratio + 1 compared to its max supply flow, the units inside the chiunk will get no fuel 
 	
@@ -791,7 +791,7 @@ NMilitary = {
 	OUT_OF_FUEL_EQUIPMENT_MULT = 0.7,				-- ratio of the stats that you get from equipments that uses fuel and you lack it
 	OUT_OF_FUEL_SPEED_MULT = 0.8,					-- speed mult that armies get when out of fuel
 	OUT_OF_FUEL_TRAINING_XP_GAIN_MULT = 0.0,		-- xp gain mult from training when a unit is out of fuel
-	FUEL_CAPACITY_DEFAULT_HOURS = 192               -- default capacity if not specified
+	FUEL_CAPACITY_DEFAULT_HOURS = 168             -- default capacity if not specified
 },
 
 
