@@ -478,7 +478,7 @@ NMilitary = {
 	MAX_DIVISION_SUPPORT_WIDTH = 2,			-- Max width of support in division designer.
 	MAX_DIVISION_SUPPORT_HEIGHT = 4,		-- Max height of support in division designer.
 	
-	BASE_DIVISION_BRIGADE_GROUP_COST = 6, 	--Base cost to unlock a regiment slot,
+	BASE_DIVISION_BRIGADE_GROUP_COST = 5, 	--Base cost to unlock a regiment slot,
 	BASE_DIVISION_BRIGADE_CHANGE_COST = 3,	--Base cost to change a regiment column.
 	BASE_DIVISION_SUPPORT_SLOT_COST = 4, 	--Base cost to unlock a support slot
 	
