@@ -330,6 +330,14 @@ GER_offensives = {
 			news_event = newsmod.11
 			add_war_support = 0.03
 			hidden_effect = {
+				if = {
+					limit = { 
+						is_historical_focus_on = yes 
+						NOT = { has_war_with = FRA }
+					}
+					FRA = { add_ideas = FRA_phoneywar }
+					GER = { add_ideas = FRA_phoneywar2 }
+				}
 			}
 			if = { limit = { OR = { is_ai = no has_global_flag = ai_speeches } } 
 			hidden_effect = {
@@ -445,6 +453,22 @@ GER_offensives = {
 					target = LUX
 					type = annex_everything 
 				}
+			}
+			if = {
+					limit = {
+						FRA = { has_idea = FRA_phoneywar }
+						GER = { has_idea = FRA_phoneywar2 }
+					}
+					FRA = {
+						remove_ideas = FRA_phoneywar
+						add_timed_idea = {
+							idea = FRA_surprise
+							days = 180
+						}
+					}
+					GER = {
+						remove_ideas = FRA_phoneywar2
+					}
 			}
 			hidden_effect = {
 				GER = {
@@ -1326,7 +1350,6 @@ GER_reichskommissariats = {
 		icon = ger_reichskommissariats
 
 		available = {
-			has_completed_focus = GER_form_the_reichskommissariats
 			has_government = fascism
 			10 = { is_fully_controlled_by = GER }
 			92 = { is_fully_controlled_by = GER }
@@ -1347,9 +1370,21 @@ GER_reichskommissariats = {
 		visible = {
 			has_completed_focus = GER_form_the_reichskommissariats
 			has_government = fascism
+			NOT = {
+				any_neighbor_country = {
+					is_puppet_of = GER
+					owns_state = 10
+					owns_state = 92
+					owns_state = 90
+					owns_state = 88
+					}
+				}
 			}
-
+			
+		
 		complete_effect = {
+			custom_effect_tooltip = GER_Generalgouvernement_tt
+			
 			if = {
 				limit = {
 					country_exists = POL
@@ -1361,73 +1396,95 @@ GER_reichskommissariats = {
 						set_state_controller = 92
 						set_state_controller = 88
 						set_state_controller = 90
+						start_civil_war = { ideology = fascism size = 1 }
 						}
-					}
-					
-				POL = {
-					start_civil_war = { ideology = fascism size = 1 }
-					}
-					
-				random_country = {
-					limit= {
-						original_tag = POL
-						has_government = fascism
-						}
-					
-					transfer_state = 10
-					transfer_state = 88
-					transfer_state = 90
-					transfer_state = 92
-					
-					GER = {
-						puppet = PREV
-						if = {
-							limit = {
-								NOT = { has_dlc = "Death or Dishonor" }
+						
+					random_country = {
+						limit= {
+							original_tag = POL
+							has_government = fascism
+							}
+						
+						remove_ideas = { deterrence why_we_fight_focus }
+						add_ideas = { RK_Harsh_conditions RK_Partisans }
+						
+						set_stability = 0.3
+						set_war_support = 0.3
+						
+						transfer_state = 10
+						transfer_state = 88
+						transfer_state = 90
+						transfer_state = 92
+						set_capital = 88
+						
+						GER = {
+							puppet = PREV
+							if = {
+								limit = {
+									NOT = { has_dlc = "Death or Dishonor" }
+									}
+								set_autonomy = { target = PREV autonomy_state = autonomy_integrated_puppet }
 								}
-							set_autonomy = { target = PREV autonomy_state = autonomy_integrated_puppet }
+							else = {
+								set_autonomy = { target = PREV autonomy_state = autonomy_reichskommissariat }
+								}
 							}
-						else = {
-							set_autonomy = { target = PREV autonomy_state = autonomy_reichskommissariat }
+						
+						set_cosmetic_tag = POL_reichskommissariat
+						
+						create_country_leader = {
+							name = "Hans Frank"
+							desc = ""
+							picture = "gfx/leaders/POL/Portrait_Poland_Hans_Frank.dds"
+							expire = "1965.1.1"
+							ideology = nazism
+							traits = {}
 							}
-						}
-					
-					set_cosmetic_tag = POL_reichskommissariat
-					
-					create_country_leader = {
-						name = "Hans Frank"
-						desc = ""
-						picture = "gfx/leaders/POL/Portrait_Poland_Hans_Frank.dds"
-						expire = "1965.1.1"
-						ideology = nazism
-						traits = {}
+							
+						set_party_name = { ideology = fascism long_name = GER_fascism_party_long name = GER_fascism_party}
+						set_party_name = { ideology = democratic long_name = underground_p_state_long name = underground_p_state}
+						
+						set_popularities = {
+							democratic = 30
+							fascism = 70
+							communism = 0
+							neutrality = 0
+							}
+							
 						}
 					}
 				}
 			else = {
-				POL = {
-					transfer_state = 10
-					transfer_state = 88
-					transfer_state = 90
-					transfer_state = 92
-					
-					GER = {
-						puppet = PREV
-						if = {
-							limit = {
-								NOT = { has_dlc = "Death or Dishonor" }
+			
+				hidden_effect = {
+					POL = {
+						transfer_state = 10
+						transfer_state = 88
+						transfer_state = 90
+						transfer_state = 92
+						set_capital = 88
+						
+						GER = {
+							puppet = PREV
+							if = {
+								limit = {
+									NOT = { has_dlc = "Death or Dishonor" }
+									}
+								set_autonomy = { target = PREV autonomy_state = autonomy_integrated_puppet }
 								}
-							set_autonomy = { target = PREV autonomy_state = autonomy_integrated_puppet }
+							else = {
+								set_autonomy = { target = PREV autonomy_state = autonomy_reichskommissariat }
+								}
 							}
-						else = {
-							set_autonomy = { target = PREV autonomy_state = autonomy_reichskommissariat }
-							}
-						}
 
-					set_cosmetic_tag = POL_reichskommissariat
-					
-					hidden_effect = {
-					
+						set_cosmetic_tag = POL_reichskommissariat
+						
+						remove_ideas = { deterrence why_we_fight_focus }
+						add_ideas = { RK_Harsh_conditions RK_Partisans }
+						
+						set_stability = 0.3
+						set_war_support = 0.3
+						
 						create_country_leader = {
 							name = "Hans Frank"
 							desc = ""
@@ -1438,16 +1495,14 @@ GER_reichskommissariats = {
 							}
 						
 						set_popularities = {
-							democratic = 15
+							democratic = 30
 							fascism = 70
 							communism = 0
-							neutrality = 15
+							neutrality = 0
 							}
 						
-						set_party_name = { ideology = fascism long_name = NSDAP name = NSDAP}
-						set_party_name = { ideology = communism long_name = Soviet_partisans name = Soviet_partisans}
-						set_party_name = { ideology = neutrality long_name = Independentists name = Independentists}
-						set_party_name = { ideology = democratic long_name = underground_p_state name = underground_p_state}
+						set_party_name = { ideology = fascism long_name = GER_fascism_party_long name = GER_fascism_party}
+						set_party_name = { ideology = democratic long_name = underground_p_state_long name = underground_p_state}
 						
 						set_research_slots = 5
 						inherit_technology = TUR
@@ -1466,17 +1521,18 @@ GER_reichskommissariats = {
 	icon = ger_reichskommissariats
 
 	available = {
-		has_completed_focus = GER_form_the_reichskommissariats
 		has_government = fascism
-		has_decision = GER_Generalgouvernement
-		
-		10 = { is_fully_controlled_by = POL }
-		92 = { is_fully_controlled_by = POL }
-		90 = { is_fully_controlled_by = POL }
-		88 = { is_fully_controlled_by = POL }
-		
+		any_neighbor_country = {
+			is_puppet_of = GER
+			owns_state = 10
+			owns_state = 92
+			owns_state = 90
+			owns_state = 88
+			}
+
 		89 = { is_fully_controlled_by = GER }
 		91 = { is_fully_controlled_by = GER }
+			
 		}
 
 	cost = 20
@@ -1492,16 +1548,40 @@ GER_reichskommissariats = {
 	visible = {
 		has_completed_focus = GER_form_the_reichskommissariats
 		has_government = fascism
-		has_decision = GER_Generalgouvernement
+		any_neighbor_country = {
+			is_puppet_of = GER
+			owns_state = 10
+			owns_state = 92
+			owns_state = 90
+			owns_state = 88
+			}
+		NOT = {
+			any_neighbor_country = {
+				is_puppet_of = GER
+				owns_state = 10
+				owns_state = 92
+				owns_state = 90
+				owns_state = 88
+				owns_state = 89
+				owns_state = 91
+				}
+			}
 		}
 
 	complete_effect = {
-			POL = {
-				add_state_core = 89
-				add_state_core = 91
-				transfer_state = 89
-				transfer_state = 91
-				}	
+		random_country = {
+		
+			limit = {
+				is_puppet_of = GER
+				owns_state = 10
+				}
+				
+			add_state_core = 89
+			add_state_core = 91
+			transfer_state = 89
+			transfer_state = 91
+			
+			}	
 		}
 	}
 
@@ -1972,47 +2052,56 @@ GER_reichskommissariats = {
 		}
 
 		complete_effect = {
-			release = LAT		
+		
+			custom_effect_tooltip = GER_reichskommissariat_ostland_tt
 			
-			LAT = {
-				transfer_state = 11
-				transfer_state = 784
-				transfer_state = 189
-				transfer_state = 12
-				transfer_state = 190
-				transfer_state = 13
-				transfer_state = 191
-				transfer_state = 95
-				transfer_state = 96
-				transfer_state = 206
-				transfer_state = 784
+			hidden_effect = {
+			
+				release = LAT		
 				
-				add_state_core = 11
-				add_state_core = 784
-				add_state_core = 189
-				add_state_core = 13
-				add_state_core = 191
-				add_state_core = 95
-				add_state_core = 96
-				add_state_core = 206
-				add_state_core = 784
-				
-				GER = {
-					puppet = PREV
-					if = {
-						limit = {
-							NOT = { has_dlc = "Death or Dishonor" }
+				LAT = {
+					remove_ideas = { liberty_ethos_focus deterrence neutrality_idea why_we_fight_focus}
+					add_ideas = { RK_Harsh_conditions RK_Partisans }
+					
+					transfer_state = 11
+					transfer_state = 784
+					transfer_state = 189
+					transfer_state = 12
+					transfer_state = 190
+					transfer_state = 13
+					transfer_state = 191
+					transfer_state = 95
+					transfer_state = 96
+					transfer_state = 206
+					transfer_state = 784
+					
+					add_state_core = 11
+					add_state_core = 784
+					add_state_core = 189
+					add_state_core = 13
+					add_state_core = 191
+					add_state_core = 95
+					add_state_core = 96
+					add_state_core = 206
+					add_state_core = 784
+					
+					GER = {
+						puppet = PREV
+						if = {
+							limit = {
+								NOT = { has_dlc = "Death or Dishonor" }
+							}
+							set_autonomy = { target = PREV autonomy_state = autonomy_integrated_puppet }
 						}
-						set_autonomy = { target = PREV autonomy_state = autonomy_integrated_puppet }
+						else = {
+							set_autonomy = { target = PREV autonomy_state = autonomy_reichskommissariat }
+						}
 					}
-					else = {
-						set_autonomy = { target = PREV autonomy_state = autonomy_reichskommissariat }
-					}
-				}
-				
-				set_cosmetic_tag = LAT_reichskommissariat
-				
-				hidden_effect = {
+					
+					set_cosmetic_tag = LAT_reichskommissariat
+					
+					set_stability = 0.3
+					set_war_support = 0.3
 					
 					create_country_leader = {
 						name = "Hinrich Lohse"
@@ -2030,7 +2119,7 @@ GER_reichskommissariats = {
 							neutrality = 20
 							}
 							
-					set_party_name = { ideology = fascism long_name = NSDAP name = NSDAP}
+					set_party_name = { ideology = fascism long_name = GER_fascism_party_long name = GER_fascism_party}
 					set_party_name = { ideology = communism long_name = Soviet_partisans name = Soviet_partisans}
 					set_party_name = { ideology = neutrality long_name = Independentists name = Independentists}
 					
@@ -2162,6 +2251,9 @@ GER_reichskommissariats = {
 		}
 
 		complete_effect = {
+		
+			custom_effect_tooltip = GER_reichskommissariat_ukraine_tt
+			
 			hidden_effect ={
 				UKR = {
 					remove_state_core = 89
@@ -2175,10 +2267,10 @@ GER_reichskommissariats = {
 					remove_state_core = 192
 					remove_state_core = 198
 					remove_state_core = 228
-				}
-			}		
-			release = UKR
-			hidden_effect ={
+				}	
+				
+				release = UKR
+				
 				UKR = {
 					add_state_core = 89
 					add_state_core = 91
@@ -2194,43 +2286,46 @@ GER_reichskommissariats = {
 					add_state_core = 198
 					add_state_core = 228
 				}
-			}
 				
-			UKR = {
-				transfer_state = 93
-				transfer_state = 199
-				transfer_state = 201
-				transfer_state = 202
-				transfer_state = 203
-				transfer_state = 197
-				transfer_state = 259
-				transfer_state = 226
-				transfer_state = 196
-				transfer_state = 200
-				transfer_state = 194
-				transfer_state = 94
-				
-				if = {
-					limit = { 
-						OR = {
-							GER = { has_country_flag = ger_occupation_transnistria}
-							GER = {
-								owns_state = 192
-								owns_state = 198
+				UKR = {
+					transfer_state = 93
+					transfer_state = 199
+					transfer_state = 201
+					transfer_state = 202
+					transfer_state = 203
+					transfer_state = 197
+					transfer_state = 259
+					transfer_state = 226
+					transfer_state = 196
+					transfer_state = 200
+					transfer_state = 194
+					transfer_state = 94
+					
+					if = {
+						limit = { 
+							OR = {
+								GER = { has_country_flag = ger_occupation_transnistria}
+								GER = {
+									owns_state = 192
+									owns_state = 198
+									}
 								}
 							}
+						transfer_state = 192
+						transfer_state = 198
 						}
-					transfer_state = 192
-					transfer_state = 198
+						
+					GER = {
+						puppet = PREV
+						set_autonomy = { target = PREV autonomy_state = autonomy_integrated_puppet }
 					}
+					set_cosmetic_tag = UKR_reichskommissariat
 					
-				GER = {
-					puppet = PREV
-					set_autonomy = { target = PREV autonomy_state = autonomy_integrated_puppet }
-				}
-				set_cosmetic_tag = UKR_reichskommissariat
-				
-				hidden_effect = {
+					set_stability = 0.3
+					set_war_support = 0.3
+
+					add_ideas = { RK_Harsh_conditions RK_Partisans }
+							
 					create_country_leader = {
 						name = "Erich Koch"
 						desc = ""
@@ -2248,12 +2343,14 @@ GER_reichskommissariats = {
 						neutrality = 10
 						}
 							
-					set_party_name = { ideology = fascism long_name = NSDAP name = NSDAP}
+					set_party_name = { ideology = fascism long_name = GER_fascism_party_long name = GER_fascism_party}
 					set_party_name = { ideology = communism long_name = Soviet_partisans name = Soviet_partisans}
 					set_party_name = { ideology = neutrality long_name = Independentists name = Independentists}
 					
 					set_research_slots = 5
 					inherit_technology = TUR
+					
+					set_capital = 93
 					
 				}
 			}
@@ -2406,39 +2503,47 @@ GER_reichskommissariats = {
 		}
 		
 		complete_effect = {
-			KAZ = {
-				transfer_state = 407
-				transfer_state = 406
-				transfer_state = 404
-				transfer_state = 590
-				transfer_state = 589
-				transfer_state = 587
-				transfer_state = 586
-				transfer_state = 585
-				transfer_state = 402
-				transfer_state = 584
-				transfer_state = 588
-				transfer_state = 405
-				transfer_state = 742
-				transfer_state = 732
-				transfer_state = 583
-				transfer_state = 654
-				
-				add_state_core = 654
-				add_state_core = 585
-				add_state_core = 584
-				add_state_core = 405
-				add_state_core = 742
-				add_state_core = 732
-				
-				GER = {
-					puppet = PREV
-					set_autonomy = { target = PREV autonomy_state = autonomy_reichskommissariat }
-				}
-				
-				set_cosmetic_tag = KAZ_reichskommissariat
-				
-				hidden_effect = {
+		
+			custom_effect_tooltip = GER_reichskommissariat_turkestan_tt
+		
+			hidden_effect = {
+				KAZ = {
+					transfer_state = 407
+					transfer_state = 406
+					transfer_state = 404
+					transfer_state = 590
+					transfer_state = 589
+					transfer_state = 587
+					transfer_state = 586
+					transfer_state = 585
+					transfer_state = 402
+					transfer_state = 584
+					transfer_state = 588
+					transfer_state = 405
+					transfer_state = 742
+					transfer_state = 732
+					transfer_state = 583
+					transfer_state = 654
+					
+					add_state_core = 654
+					add_state_core = 585
+					add_state_core = 584
+					add_state_core = 405
+					add_state_core = 742
+					add_state_core = 732
+					
+					GER = {
+						puppet = PREV
+						set_autonomy = { target = PREV autonomy_state = autonomy_reichskommissariat }
+					}
+					
+					set_cosmetic_tag = KAZ_reichskommissariat
+					
+					add_ideas = { RK_Harsh_conditions RK_Partisans }
+					
+					set_stability = 0.3
+					set_war_support = 0.3
+		
 					create_country_leader = {
 						name = "Hat Frunze"
 						desc = ""
@@ -2456,7 +2561,7 @@ GER_reichskommissariats = {
 						neutrality = 10
 						}
 						
-					set_party_name = { ideology = fascism long_name = NSDAP name = NSDAP}
+					set_party_name = { ideology = fascism long_name = GER_fascism_party_long name = GER_fascism_party}
 					set_party_name = { ideology = communism long_name = Soviet_partisans name = Soviet_partisans}
 					set_party_name = { ideology = neutrality long_name = Independentists name = Independentists}
 					
@@ -2504,47 +2609,53 @@ GER_reichskommissariats = {
 		}
 		
 		complete_effect = {
-			GEO = {
-				transfer_state = 231
-				transfer_state = 788
-				transfer_state = 230
-				transfer_state = 229
-				transfer_state = 232
-				transfer_state = 233
-				transfer_state = 234
-				transfer_state = 235
-				transfer_state = 238
-				transfer_state = 237
-				transfer_state = 236
-				transfer_state = 235
-				
-				add_state_core = 230
-				add_state_core = 229
-				add_state_core = 232
-				add_state_core = 233
-				add_state_core = 234
-				add_state_core = 235
-				add_state_core = 238
-				add_state_core = 237
-				add_state_core = 236
-				add_state_core = 235
+		
+			custom_effect_tooltip = GER_reichskommissariat_kaukasus_tt
 			
-				GER = {
-					puppet = PREV
-					if = {
-						limit = {
-							NOT = { has_dlc = "Death or Dishonor" }
+			hidden_effect = {
+				GEO = {
+					transfer_state = 231
+					transfer_state = 788
+					transfer_state = 230
+					transfer_state = 229
+					transfer_state = 232
+					transfer_state = 233
+					transfer_state = 234
+					transfer_state = 235
+					transfer_state = 238
+					transfer_state = 237
+					transfer_state = 236
+					transfer_state = 235
+					
+					add_state_core = 230
+					add_state_core = 229
+					add_state_core = 232
+					add_state_core = 233
+					add_state_core = 234
+					add_state_core = 235
+					add_state_core = 238
+					add_state_core = 237
+					add_state_core = 236
+					add_state_core = 235
+				
+					GER = {
+						puppet = PREV
+						if = {
+							limit = {
+								NOT = { has_dlc = "Death or Dishonor" }
+								}
+							set_autonomy = { target = PREV autonomy_state = autonomy_integrated_puppet }
 							}
-						set_autonomy = { target = PREV autonomy_state = autonomy_integrated_puppet }
+						else = {
+							set_autonomy = { target = PREV autonomy_state = autonomy_reichskommissariat }
+							}
 						}
-					else = {
-						set_autonomy = { target = PREV autonomy_state = autonomy_reichskommissariat }
-						}
-					}
-				
-				set_cosmetic_tag = GEO_reichskommissariat
-				
-				hidden_effect = {
+					
+					set_cosmetic_tag = GEO_reichskommissariat
+					add_ideas = { RK_Harsh_conditions RK_Partisans }
+					
+					set_stability = 0.3
+					set_war_support = 0.3
 				
 					create_country_leader = {
 						name = "Arno Schickedanz"
@@ -2562,7 +2673,7 @@ GER_reichskommissariats = {
 							neutrality = 10
 							}
 							
-					set_party_name = { ideology = fascism long_name = NSDAP name = NSDAP}
+					set_party_name = { ideology = fascism long_name = GER_fascism_party_long name = GER_fascism_party}
 					set_party_name = { ideology = communism long_name = Soviet_partisans name = Soviet_partisans}
 					set_party_name = { ideology = neutrality long_name = Independentists name = Independentists}
 					
