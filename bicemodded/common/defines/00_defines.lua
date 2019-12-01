@@ -771,11 +771,11 @@ NMilitary = {
 	
 	UNIT_UPKEEP_ATTRITION = 0.00,							--Constant attrition value applied to armies.
 
-	FUEL_PENALTY_START_RATIO = 0.8,				-- ratio of fuel in an army to start getting penalties
+	FUEL_PENALTY_START_RATIO = 0.75,				-- ratio of fuel in an army to start getting penalties
 	
-	SURPLUS_SUPPLY_RATIO_FOR_ZERO_FUEL_FLOW = 1.5,		-- if a supply chunk has more supply needed than this ratio + 1 compared to its max supply flow, the units inside the chiunk will get no fuel 
+	SURPLUS_SUPPLY_RATIO_FOR_ZERO_FUEL_FLOW = 2,		-- if a supply chunk has more supply needed than this ratio + 1 compared to its max supply flow, the units inside the chiunk will get no fuel 
 	
-	ARMY_MAX_FUEL_FLOW_MULT = 1.5,					-- max fuel ratio that an army can get per hour, multiplied by supply situation
+	ARMY_MAX_FUEL_FLOW_MULT = 2,					-- max fuel ratio that an army can get per hour, multiplied by supply situation
 	
 	ARMY_FUEL_COST_MULT = 0.38,						-- fuel cost multiplier for all army related stuff
 	ARMY_COMBAT_FUEL_MULT =   1.0,					-- fuel consumption ratio in combat (plus ARMY_MOVEMENT_FUEL_MULT if you are also moving. ie offensive combat)
