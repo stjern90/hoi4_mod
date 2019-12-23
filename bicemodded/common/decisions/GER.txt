@@ -581,7 +581,7 @@ GER_offensives = {
 					} 
 				} 
 				hidden_effect = {
-					sound_effect = sp_ger_totalwar 
+					sound_effect = sp_ger_russia
 				}
 			}
 			if = {
@@ -758,7 +758,27 @@ GER_offensives = {
 					}
 				}
 			}
-			news_event = { hours = 20 id = news.3145 }
+			if = {
+				limit = {
+					or = { 
+						surrender_progress > 0.05 
+						AND = {
+							ROM = { has_capitulated = yes }
+							ROM = { is_in_faction_with = GER }
+						}
+						AND = {
+							HUN = { has_capitulated = yes }
+							HUN = { is_in_faction_with = GER }
+						}
+						NOT = { SOV = { surrender_progress > 0 } }
+					}
+					
+				}
+				news_event = { hours = 20 id = worldnews.10 }
+			}
+			else = {
+				news_event = { hours = 20 id = news.3145 }
+			}
 			if = { 
 				limit = { 
 					OR = { 
@@ -794,7 +814,8 @@ GER_offensives = {
 		visible = {
 			has_war_with = SOV
 			NOT = { has_idea = Barbarossa_I }
-			AND = { date > 1943.03.01 date < 1943.08.01 } 
+			AND = { date > 1943.02.01 date < 1943.09.01 } 
+			
 		}
 	
 		icon = generic_scorched_earth
@@ -821,7 +842,38 @@ GER_offensives = {
 			if = { limit = { SWE = { has_completed_focus = SWE_eastern_front } }
 				SWE = { country_event = { id = operation.61 } }
 			}
-			news_event = { hours = 20 id = news.1304 }
+			if = {
+				limit = {
+					or = { 
+						surrender_progress > 0.05 
+						AND = {
+							ROM = { has_capitulated = yes }
+							ROM = { is_in_faction_with = GER }
+						}
+						AND = {
+							HUN = { has_capitulated = yes }
+							HUN = { is_in_faction_with = GER }
+						}
+						NOT = { SOV = { surrender_progress > 0 } }
+					}
+					
+				}
+				news_event = { hours = 20 id = worldnews.11 }
+			}
+			else = {
+				news_event = { hours = 20 id = news.1304 }
+			}
+			if = { 
+				limit = { 
+					OR = { 
+						is_ai = no 
+						has_global_flag = ai_speeches
+					} 
+				} 
+				hidden_effect = {
+					sound_effect = sp_ger_totalwar
+				}
+			}
 		}
     }
 	
@@ -969,17 +1021,15 @@ GER_offensives = {
 			has_war_with = USA
 			has_war_with = SOV
 		
-			AND = { date > 1944.11.01 date < 1945.02.01 } 
-		
-			NOT = { 
-				any_allied_country = { 
-					controls_state = 16
-					controls_state = 15
-					controls_state = 14
-					controls_state = 23
-					controls_state = 28
-					controls_state = 34
-				} 
+			or = { AND = { date > 1940.11.29 date < 1941.01.20 } AND = { date > 1941.11.29 date < 1942.01.20} AND = { date > 1942.11.29 date < 1943.01.20} AND = { date > 1943.11.29 date < 1944.01.20 } AND = { date > 1944.11.29 date < 1945.01.20} }
+			custom_trigger_tooltip = {
+				tooltip = controlgerfr
+				16 = { is_controlled_by_ROOT_or_ally = no }
+				15 = { is_controlled_by_ROOT_or_ally = no }
+				14 = { is_controlled_by_ROOT_or_ally = no }
+				23 = { is_controlled_by_ROOT_or_ally = no }
+				28 = { is_controlled_by_ROOT_or_ally = no }
+				34 = { is_controlled_by_ROOT_or_ally = no }
 			}
 			GER = { surrender_progress > 0.05 }
 
@@ -988,18 +1038,14 @@ GER_offensives = {
 		visible = {
 			has_war_with = SOV
 			has_war_with = USA
-			AND = { date > 1944.10.01 date < 1945.02.02 } 
 		}
 	
 		icon = generic_scorched_earth
 
 		cost = 0
+		
 		ai_will_do = {
 			factor = 500
-			modifier = {
-				factor = 0
-				date < 1944.12.16
-			}
 		}	
 		fire_only_once = yes
 	
@@ -1011,7 +1057,43 @@ GER_offensives = {
 			news_event = { hours = 20 id = news.1299 }
 		}
     }
+	lastmajor = {
+		allowed = {
+			tag = GER 
+		}
+		available = {
+			has_war_with = USA
+			has_war_with = SOV
+			has_idea = GER_bulge
+			GER = { surrender_progress > 0.05 }
+		}
+    
+		visible = {
+			has_war_with = SOV
+			has_war_with = USA
+			has_idea = GER_bulge
+		}
 	
+		icon = generic_scorched_earth
+
+		cost = 0
+		
+		ai_will_do = {
+			factor = 500
+		}	
+		fire_only_once = yes
+	
+		complete_effect = { 
+			add_timed_idea = {
+				idea = GER_nordwind
+				days = 30
+			}
+			add_timed_idea = {
+				idea = GER_bodenplatte
+				days = 30
+			}
+		}
+    }
 
 }
 
