@@ -241,10 +241,19 @@ focus_tree = {
 		relative_position_id = POL_plan_west
 		x = 1
 		y = 1
-		cost = 15
+		cost = 13
 		
 		available = {
-			date > 1939.1.1
+			custom_trigger_tooltip = {
+				tooltip = POL_org
+				AND = {
+					NOT = { has_idea = POL_officers }
+					NOT = { has_idea = POL_officers2 }
+					NOT = { has_idea = POL_officers3 }
+					NOT = { has_idea = POL_officers4 }
+					NOT = { has_idea = POL_betreyal }
+				}
+			}
 		}
 		
 		ai_will_do = {
@@ -815,11 +824,33 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 				name = POL_prepare_for_the_next_war
-				bonus = 0.5
+				bonus = 0.6
 				uses = 1
 				category = land_doctrine
 			}
 			#1x 50% cost reduction for one land doctrine research
+		}
+	}
+	
+	focus = {
+		id = POL_army_reform
+		icon = GFX_goal_POL_armyreform
+		
+		x = 9
+		y = 0
+		cost = 10
+
+		ai_will_do = {
+			factor = 5
+		}
+		completion_reward = {
+			unlock_decision_tooltip = POL_army
+			add_tech_bonus = {
+				name = POL_prepare_for_the_next_war
+				bonus = 0.2
+				uses = 1
+				category = land_doctrine
+			}
 		}
 	}
 
@@ -827,6 +858,7 @@ focus_tree = {
 		id = POL_modernise
 		icon = GFX_goal_generic_defence
 		prerequisite = { focus = POL_prepare_for_the_next_war }
+		prerequisite = { focus = POL_army_reform }
 		relative_position_id = POL_prepare_for_the_next_war
 		x = 0
 		y = 1
@@ -981,6 +1013,7 @@ focus_tree = {
 		id = POL_standardisation_of_equipment
 		icon = GFX_goal_generic_small_arms
 		prerequisite = { focus = POL_prepare_for_the_next_war }
+		prerequisite = { focus = POL_army_reform }
 		
 		x = 8
 		y = 1
@@ -1024,6 +1057,43 @@ focus_tree = {
 	}
 	
 	focus = {
+		id = POL_7tp
+		icon = GFX_goal_POL_seventp
+		prerequisite = { focus = POL_research }
+		relative_position_id = POL_research
+		x = -1
+		y = 1
+		cost = 7
+
+		ai_will_do = {
+			factor = 10
+		}
+		
+		completion_reward = {
+			add_tech_bonus = {
+				bonus = 0.75
+				uses = 1
+				category = cat_light_armor
+	
+			}
+			add_tech_bonus = {
+				bonus = 0.5
+				uses = 1
+				category = cat_light_td
+	
+			}
+			add_tech_bonus = {
+				bonus = 0.5
+				uses = 1
+				category = cat_light_art
+			}
+		}
+	}
+	
+	
+	### exile ###
+	
+	focus = {
 		id = POL_airforce
 		icon = GFX_goal_POL_air
 		prerequisite = { focus = POL_prepare_for_the_next_war }
@@ -1065,7 +1135,7 @@ focus_tree = {
 	focus = {
 		id = POL_armyfrance
 		icon = GFX_goal_POL_france
-		prerequisite = { focus = POL_prepare_for_the_next_war }
+		prerequisite = { focus = POL_army_reform }
 		relative_position_id = POL_prepare_for_the_next_war
 		x = 4
 		y = 1
@@ -2191,6 +2261,31 @@ focus_tree = {
 			add_timed_idea = {
 				idea = POL_mobilisation
 				days = 180
+			}
+			if = {
+				limit = { has_idea = POL_officers }
+				swap_ideas = {
+					remove_idea = POL_officers
+					add_idea = POL_officers2
+				}
+			}
+			else_if = {
+				limit = { has_idea = POL_officers2 }
+				swap_ideas = {
+					remove_idea = POL_officers2
+					add_idea = POL_officers3
+				}
+			}
+			else_if = {
+				limit = { has_idea = POL_officers3 }
+				swap_ideas = {
+					remove_idea =  POL_officers3
+					add_idea =  POL_officers4
+				}
+			}
+			else_if = { 
+				limit = { has_idea = POL_officers4 }
+				remove_ideas = POL_officers4
 			}
 			ENG = {
 				country_event = {
