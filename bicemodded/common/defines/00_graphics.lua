@@ -709,7 +709,7 @@ NGraphics = {
 	MAPICON_GROUP_PASSES = 20, -- how many mapicons get processed per frame for grouping. more = quicker response, fewer = better performance
 	MAPICON_GROUP_STRATEGIC_SIZE = 1000, -- for strategic areas of this size or bigger we dont do strategic area grouping
 	MAP_ICONS_GROUP_SPLIT_SELECTED_LIMIT = 10,   -- Maximum number of units selected that will cause icon stacks to split
-	MAP_ICONS_COARSE_COUNTRY_GROUPING_DISTANCE = 200, -- Distance at which icon grouping becomes very coarse and merges different types of units
+	MAP_ICONS_COARSE_COUNTRY_GROUPING_DISTANCE = 350, -- Distance at which icon grouping becomes very coarse and merges different types of units
 	MAP_ICONS_COARSE_COUNTRY_GROUPING_DISTANCE_STRATEGIC = 0, -- Distance at which icon grouping becomes very coarse and merges different types of units for strategic mapmodes
 	RIVER_FADE_FROM = 20.0, -- the last river endings got faded out, X distance from the ending...
 	RIVER_FADE_TO = 3.0,
