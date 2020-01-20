@@ -1262,7 +1262,7 @@ NNavy = {
  
 	BASE_SPOTTING = 1,												-- base spotting percentage for navy
 	BASE_SPOTTING_FROM_RADAR = 4,									-- base spotting percentage that comes from full radar coverage
-	BASE_SPOTTING_FROM_AIR_SUPERIORITY = 15,						-- base spotting percentage that comes from air superiority
+	BASE_SPOTTING_FROM_AIR_SUPERIORITY = 10,						-- base spotting percentage that comes from air superiority
 	BASE_SPOTTING_FROM_ACTIVE_NAVY = 8,							-- base spotting percentage that comes from ships in area
 	BASE_SPOTTING_ACTIVE_NAVY_MULT = 0.1,							-- multiplier for your navies base spotting percentage
 	BASE_SPOTTING_FROM_DECRYPTION = 8,								-- base spotting percentage that comes from decryption, can go negative (enemy decryption is subtracted)
