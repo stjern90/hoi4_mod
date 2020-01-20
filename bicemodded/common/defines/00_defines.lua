@@ -270,10 +270,10 @@ NCountry = {
 	HEROES_BEING_KILLED_WEEKLY_WAR_SUPPORT_PENALTY_DECAY = 0.0001,	-- Weekly decay of war heroes manpower lost war support penalty
 	MAX_HEROES_BEING_KILLED_WAR_SUPPORT_IMPACT = -0.3,				-- Max total penalty from war heroes manpower lost
 	
-	CONVOYS_BEING_RAIDED_WAR_SUPPORT_PENALTY_SCALE = -0.04,			-- Scaling of trade convoy raided to war support impact, will be added weekly as a war support penalty
+	CONVOYS_BEING_RAIDED_WAR_SUPPORT_PENALTY_SCALE = -0.03,		-- Scaling of trade convoy raided to war support impact, will be added weekly as a war support penalty
 	MAX_CONVOYS_BEING_RAIDED_WEEKLY_WAR_SUPPORT_PENALTY = -0.015,	-- Max penalty that will gained per week from trade convoy raided
 	CONVOYS_BEING_RAIDED_WEEKLY_WAR_SUPPORT_PENALTY_DECAY = 0.003,	-- Weekly decay of trade convoy raided war support penalty
-	MAX_CONVOYS_BEING_RAIDED_WAR_SUPPORT_IMPACT = -0.5,				-- Max total penalty from trade convoy raided
+	MAX_CONVOYS_BEING_RAIDED_WAR_SUPPORT_IMPACT = -0.35,				-- Max total penalty from trade convoy raided
 	
 	
 	CONVOYS_SUNK_MULTIPLIER_FOR_WAR_SUPPORT = 0.2,	-- once a trade convoy ship sunk, you will get a larger negative impact on your war support
