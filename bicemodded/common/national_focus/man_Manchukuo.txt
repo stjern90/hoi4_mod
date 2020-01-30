@@ -223,13 +223,32 @@ focus_tree = {
 				}
 			}
 			custom_effect_tooltip = available_political_advisor
-			show_ideas_tooltip = MCK_yoshisuke_aikawa
-
+			if = {
+				limit = {
+					NOT = {
+						has_dlc = "Together for Victory"
+					}
+				}
+				show_ideas_tooltip = MCK_yoshisuke_aikawa
+				else = {
+					show_ideas_tooltip = MCK_yoshisuke_aikawa_tfv
+				}
+			}
 			if = {
 				limit = {
 					is_ai = yes
 				}
-				add_ideas = MCK_yoshisuke_aikawa
+				if = {
+					limit = {
+						NOT = {
+							has_dlc = "Together for Victory"
+						}
+					}
+					add_ideas = MCK_yoshisuke_aikawa
+					else = {
+						add_ideas = MCK_yoshisuke_aikawa_tfv
+					}
+				}
 			}
 		}
 	}
@@ -264,12 +283,35 @@ focus_tree = {
 				}
 			}
 			custom_effect_tooltip = available_political_advisor
-			show_ideas_tooltip = MCK_naoki_hoshino
+			if = {
+				limit = {
+					NOT = {
+						has_dlc = "Together for Victory"
+					}
+				}
+				show_ideas_tooltip = MCK_naoki_hoshino
+				else = {
+					show_ideas_tooltip = MCK_naoki_hoshino_tfv
+				}
+			}
 			if = {
 				limit = {
 					is_ai = yes
+					NOT = {
+						has_dlc = "Together for Victory"
+					}
 				}
-				add_ideas = MCK_naoki_hoshino
+				if = {
+					limit = {
+						NOT = {
+							has_dlc = "Together for Victory"
+						}
+					}
+					add_ideas = MCK_naoki_hoshino
+					else = {
+						add_ideas = MCK_naoki_hoshino_tfv
+					}
+				}
 			}
 		}
 	}
@@ -735,9 +777,6 @@ focus_tree = {
 		ai_will_do = {
 			factor = 25
 		}
-	#bypass = {
-	#	has_war_with = CHI
-	#}
 		
 		cancel_if_invalid = yes
 		continue_if_invalid = no
@@ -856,7 +895,6 @@ focus_tree = {
 		id = MCK_enhance_local_policing
 		icon = GFX_goal_generic_political_pressure
 		prerequisite = { focus = MCK_five_race_under_one_union }
-		mutually_exclusive = { focus = MCK_an_alternative }
 		x = 11
 		y = 1
 		available = {
@@ -976,130 +1014,15 @@ focus_tree = {
 	}
 	
 	focus = {
-		id = MCK_an_alternative
-		icon = GFX_goal_tfv_saf_anti_colonialist_crusade
-		prerequisite = { focus = MCK_five_race_under_one_union }
-		mutually_exclusive = { focus = MCK_enhance_local_policing }
-		x = 17
-		y = 1
-		available = {
-			JAP = {
-				has_war = yes
-			}
-			is_puppet_of = JAP
-		}
-		cost = 10
-		completion_reward = {
-			add_ai_strategy = {
-				type = antagonize
-				id = "JAP"
-				value = 500
-			}
-			add_ai_strategy = {
-				type = befriend
-				id = "JAP"
-				value = -100
-			}
-			add_ai_strategy = {
-				type = alliance
-				id = "JAP"
-				value = -100
-			}
-			add_political_power = 75
-			hidden_effect = {
-				create_country_leader = {
-					name = "Aisin Gioro Puyi"
-					desc = "POLITICS_PU_YI_DESC"
-					picture = "gfx/leaders/MAN/Portrait_Manchuria_Henry_Pu_Yi.dds"
-					expire = "1965.1.1"
-					ideology = despotism
-					traits = {
-						popular_figurehead
-						emperors_ambition
-					}
-				}
-				create_country_leader = {
-					name = "Aisin Gioro Puyi"
-					desc = "POLITICS_PU_YI_DESC"
-					picture = "gfx/leaders/MAN/Portrait_Manchuria_Henry_Pu_Yi.dds"
-					expire = "1965.1.1"
-					ideology = conservatism
-					traits = {
-						popular_figurehead
-					}
-				}
-				create_country_leader = {
-					name = "Aisin Gioro Puyi"
-					desc = "POLITICS_PU_YI_DESC"
-					picture = "gfx/leaders/MAN/Portrait_Manchuria_Henry_Pu_Yi.dds"
-					expire = "1965.1.1"
-					ideology = marxism
-					traits = {
-						popular_figurehead
-					}
-				}
-			}
-		}
-	}
-	
-	focus = {
-		id = MCK_contact_qing_restorationists
-		icon = GFX_goal_generic_cavalry
-		prerequisite = { focus = MCK_an_alternative }
-		mutually_exclusive = { focus = MCK_contact_russian_fascists }
-		x = 14
-		y = 2
-		available = {
-			is_puppet_of = JAP
-			NOT = {
-				has_country_flag = independence_supported
-			}
-		}
-		cost = 10
-		completion_reward = {
-			add_political_power = 75
-		}
-	}
-	
-	focus = {
-		id = MCK_contact_russian_fascists
-		icon = GFX_goal_generic_dangerous_deal
-		prerequisite = { focus = MCK_an_alternative }
-		mutually_exclusive = { focus = MCK_contact_qing_restorationists }
-		x = 16
-		y = 2
-		available = {
-			is_puppet_of = JAP
-			SOV = {
-				NOT = {
-					OR = {
-						has_government = fascism
-						has_idea_with_trait = fascist_demagogue
-					}
-				}
-			}
-			NOT = {
-				has_country_flag = independence_supported
-			}
-		}
-		cost = 10
-		completion_reward = {
-			add_political_power = 75
-			custom_effect_tooltip = MCK_contact_white_tt
-		}
-	}
-	
-	focus = {
 		id = MCK_national_conscription
 		icon = GFX_goal_generic_more_territorial_claims
 		prerequisite = { focus = MCK_enhance_local_policing }
 		x = 12
 		y = 2
 		available = {
-			custom_trigger_tooltip = {
-				tooltip = CHI_warred_with_JAP
-				has_global_flag = CHI_warred_with_JAP
-				}
+			JAP = {
+				has_war = yes
+			}
 		}
 		bypass = {
 			OR = {
@@ -1310,134 +1233,6 @@ focus_tree = {
 	}
 	
 	focus = {
-		id = MCK_spread_restoration_propaganda
-		icon = GFX_goal_generic_propaganda
-		prerequisite = { focus = MCK_contact_qing_restorationists }
-		x = 14
-		y = 3
-		cost = 10
-		completion_reward = {
-			add_ideas = MCK_restoration_propaganda
-		}
-	}
-	
-	focus = {
-		id = MCK_sow_anti_japanese_sentiment
-		icon = GFX_goal_generic_forceful_treaty
-		prerequisite = { focus = MCK_spread_restoration_propaganda }
-		x = 14
-		y = 4
-		cost = 10
-		completion_reward = {
-			add_popularity = {
-				ideology = fascism
-				popularity = -0.15
-			}
-		}
-	}
-	
-	focus = {
-		id = MCK_strengthen_the_royal_guard
-		icon = GFX_goal_generic_political_pressure
-		prerequisite = { focus = MCK_sow_anti_japanese_sentiment }
-		available = {
-			neutrality > 0.35
-		}
-		x = 14
-		y = 5
-		cost = 10
-		completion_reward = {
-			if = {
-				limit = {
-					has_idea = MCK_reliant_idea
-				}
-				remove_ideas = MCK_reliant_idea
-				clr_country_flag = MCK_reliant_flag
-			}
-			add_popularity = {
-				ideology = neutrality
-				popularity = 0.10
-			}
-			custom_effect_tooltip = MCK_royal_guards_tt
-			hidden_effect = {
-				load_oob = "MCK_royal_guards"
-			}
-		}
-	}
-	
-	focus = {
-		id = MCK_coronation
-		icon = GFX_goal_manzhou_zhongyangyinhang
-		prerequisite = { focus = MCK_strengthen_the_royal_guard }
-		x = 14
-		y = 6
-		cost = 10
-		available = {
-			neutrality > 0.55
-		}
-		ai_will_do = {
-			factor = 0
-			modifier = {
-				factor = 0
-			}			
-		}
-		completion_reward = {
-			set_party_name = { ideology = neutrality long_name = MCK_qing_restored name = MCK_qing_restored }
-			hidden_effect = {
-				random_other_country = {
-					limit = {
-						has_war = no
-						is_puppet = no
-					}
-					puppet = MAN
-					end_puppet = MAN
-				}
-				set_politics = {
-					ruling_party = neutrality
-				}
-				add_popularity = {
-					ideology = neutrality
-					popularity = 0.95
-				}
-				add_popularity = {
-					ideology = democratic
-					popularity = 0.03
-				}
-				add_popularity = {
-					ideology = communism
-					popularity = 0.01
-				}
-				add_popularity = {
-					ideology = fascism
-					popularity = 0.01
-				}				
-			}
-			JAP = {
-				end_puppet = MAN
-				effect_tooltip = {
-					declare_war_on = {
-						target = MAN
-						type = puppet_wargoal_focus
-					}
-				}
-				country_event = { id = jap.11 }
-			}
-			if = {
-				limit = {
-					has_idea = MCK_dongbei_partisan
-				}
-				remove_ideas = MCK_dongbei_partisan
-			}
-			if = {
-				limit = {
-					has_idea = MCK_dongbei_partisan_pacified
-				}
-				remove_ideas = MCK_dongbei_partisan_pacified
-			}
-		}
-	}
-	
-	focus = {
 		id = MCK_destroy_opium_plantations
 		icon = GFX_goal_generic_consumer_goods
 		x = 26
@@ -1461,482 +1256,6 @@ focus_tree = {
 					has_idea = MCK_opium_plantation2
 				}
 				remove_ideas = MCK_opium_plantation2
-			}
-		}
-	}
-	
-	focus = {
-		id = MCK_assassination_of_japanese_officials
-		icon = GFX_goal_generic_military_deal
-		prerequisite = { focus = MCK_contact_russian_fascists }
-		x = 16
-		y = 3
-		cost = 10
-		available = {
-			is_puppet_of = JAP
-			SOV = {
-				NOT = {
-					OR = {
-						has_government = fascism
-						has_idea_with_trait = fascist_demagogue
-					}
-				}
-			}
-			
-		}
-		completion_reward = {
-			add_stability = -0.05
-			set_country_flag = MCK_assassinated
-			custom_effect_tooltip = MCK_assassination_tt
-			hidden_effect = {
-				JAP = {
-					country_event = { id = jap.12 }
-				}
-			}
-		}
-	}
-	
-	focus = {
-		id = MCK_arm_the_rfr
-		icon = GFX_goal_generic_military_sphere
-		prerequisite = { focus = MCK_secret_recuitment }
-		x = 16
-		y = 5
-		cost = 10
-		available = {
-			is_puppet_of = JAP
-			SOV = {
-				NOT = {
-					OR = {
-						has_government = fascism
-						has_idea_with_trait = fascist_demagogue
-					}
-				}
-			}
-			
-		}
-		completion_reward = {
-			if = {
-				limit = {
-					has_idea = MCK_reliant_idea
-				}
-				remove_ideas = MCK_reliant_idea
-				clr_country_flag = MCK_reliant_flag
-			}
-			army_experience = 50
-			add_ideas = MCK_rfr_supporters
-			add_tech_bonus = {
-				bonus = 0.5
-				uses = 1
-				category = land_doctrine
-			}
-		}
-	}
-	
-	focus = {
-		id = MCK_independence_war
-		icon = GFX_focus_AST_war_japan
-		prerequisite = { focus = MCK_arm_the_rfr }
-		x = 16
-		y = 6
-		cost = 10
-		available = {
-			is_puppet_of = JAP
-			has_army_manpower = { size > 299999 }
-		}
-		will_lead_to_war_with = JAP
-		completion_reward = {
-			set_party_name = { ideology = neutrality long_name = MCK_qing_restored name = MCK_qing_restored }
-			JAP = {
-				end_puppet = MAN
-			}
-			custom_effect_tooltip = MCK_rfr_arm_forces
-			hidden_effect = {
-				load_oob = "MCK_rfr_arm_forces"
-				random_other_country = {
-					limit = {
-						has_war = no
-						is_puppet = no
-					}
-					puppet = MAN
-					end_puppet = MAN
-				}
-				set_politics = {
-					ruling_party = neutrality
-				}
-				add_popularity = {
-					ideology = neutrality
-					popularity = 0.80
-				}
-				add_popularity = {
-					ideology = fascism
-					popularity = 0.15
-				}
-			}
-			declare_war_on = {
-				target = JAP
-				type = take_state_focus
-				generator = { 750 }
-			}
-			if = {
-				limit = {
-					has_idea = MCK_dongbei_partisan
-				}
-				remove_ideas = MCK_dongbei_partisan
-			}
-			if = {
-				limit = {
-					has_idea = MCK_dongbei_partisan_pacified
-				}
-				remove_ideas = MCK_dongbei_partisan_pacified
-			}
-			if = {
-				limit = {
-					has_idea = MCK_secret_recruitment_idea
-				}
-				remove_ideas = MCK_secret_recruitment_idea
-			}
-		}
-	}
-	
-	focus = {
-		id = MCK_turn_to_the_bolshelviks
-		icon = GFX_focus_generic_soviet_politics
-		prerequisite = { focus = MCK_an_alternative }
-		mutually_exclusive = { focus = MCK_contact_qing_restorationists focus = MCK_contact_russian_fascists }
-		x = 18
-		y = 2
-		cost = 10
-		ai_will_do = { factor = 0 }
-		available = {
-			NOT = {
-				has_country_flag = anti_comintern_member
-			}
-			is_puppet_of = JAP
-			SOV = {
-				exists = yes
-				has_government = communism
-			}
-			NOT = {
-				has_idea = MCK_democratic_influence
-				has_country_flag = independence_supported
-			}
-		}
-		completion_reward = {
-			SOV = {
-				country_event = { id = jap.13 }
-			}
-		}
-	}
-	
-	focus = {
-		id = MCK_head_towards_democracy
-		icon = GFX_goal_support_democracy
-		prerequisite = { focus = MCK_an_alternative }
-		mutually_exclusive = { focus = MCK_contact_qing_restorationists focus = MCK_contact_russian_fascists }
-		x = 20
-		y = 2
-		cost = 10
-		available = {
-			is_puppet_of = JAP
-			USA = {
-				exists = yes
-				has_government = democratic
-			}
-			NOT = {
-				has_idea = MCK_communist_influence
-				has_country_flag = independence_supported
-			}
-		}
-		completion_reward = {
-			USA = {
-				country_event = { id = jap.13 }
-			}
-		}
-	}
-	
-	focus = {
-		id = MCK_turn_over_the_rfr
-		icon = GFX_focus_generic_anti_fascist_diplomacy
-		prerequisite = { focus = MCK_turn_to_the_bolshelviks }
-		x = 18
-		y = 3
-		cost = 10
-		available = {
-			has_idea = MCK_communist_influence
-			has_country_flag = independence_supported
-			SOV = {
-				exists = yes
-				has_government = communism
-			}
-		}
-		completion_reward = {
-			add_stability = -0.05
-			add_popularity = {
-				ideology = fascism
-				popularity = -0.15
-			}
-			add_popularity = {
-				ideology = communism
-				popularity = 0.10
-			}
-			SOV = {
-				add_opinion_modifier = {
-					modifier = hand_over_rfr
-					target = MAN
-				}
-				set_country_flag = arrested
-				add_popularity = {
-					ideology = fascism
-					popularity = -0.15
-				}
-			}
-		}
-	}
-	
-	focus = {
-		id = MCK_manzhouli_secret_meeting
-		icon = GFX_goal_molotov_ribbentrop_pact
-		prerequisite = { focus = MCK_turn_over_the_rfr }
-		x = 18
-		y = 4
-		cost = 10
-		available = {
-			SOV = {
-				exists = yes
-				has_government = communism
-			}
-		}
-		completion_reward = {
-			add_popularity = {
-				ideology = communism
-				popularity = 0.1
-			}
-			if = {
-				limit = {
-					has_idea = MCK_dongbei_partisan
-				}
-				remove_ideas = MCK_dongbei_partisan
-			}
-			if = {
-				limit = {
-					has_idea = PRC_enemy_partisan
-				}
-				remove_ideas = PRC_enemy_partisan
-			}
-			if = {
-				limit = {
-					has_idea = MCK_reliant_idea
-				}
-				remove_ideas = MCK_reliant_idea
-			}
-			add_political_power = 100
-			add_ai_strategy = {
-				type = befriend
-				id = "SOV"
-				value = 200
-			}
-		}
-	}
-	
-	focus = {
-		id = MCK_soviet_intervention
-		icon = GFX_goal_support_communism
-		prerequisite = { focus = MCK_manzhouli_secret_meeting }
-		x = 18
-		y = 5
-		cost = 10
-		available = {
-			OR = {	
-				has_government = communism
-				communism > 0.6
-			}
-			SOV = {
-				exists = yes
-				has_government = communism
-			}
-		}
-		completion_reward = {
-			give_military_access = SOV
-			hidden_effect = {
-				SOV = {
-					load_oob = "SOV_mck_occupation_force"
-				}
-				random_other_country = {
-					limit = {
-						has_war = no
-						is_puppet = no
-					}
-					puppet = MAN
-					end_puppet = MAN
-				}
-				set_politics = {
-					ruling_party = communism
-				}
-				add_popularity = {
-					ideology = neutrality
-					popularity = 0.10
-				}
-				add_popularity = {
-					ideology = communism
-					popularity = 0.85
-				}
-				SOV = {
-					give_guarantee = MAN
-				}
-			}
-			JAP = {
-				end_puppet = MAN
-				create_wargoal = {
-					target = MAN
-					type = puppet_wargoal_focus
-				}
-			}
-		}
-	}
-	
-	focus = {
-		id = MCK_secret_aid_from_usa
-		icon = GFX_goal_generic_scientific_exchange
-		prerequisite = { focus = MCK_head_towards_democracy }
-		x = 20
-		y = 3
-		cost = 10
-		available = {
-			has_idea = MCK_democratic_influence
-			has_country_flag = independence_supported
-			USA = {
-				exists = yes
-				has_government = democratic
-			}
-		}
-		completion_reward = {
-			add_tech_bonus = {
-				uses = 5
-				bonus = 0.5
-				category = electronics
-				category = infantry_weapons
-				category = artillery
-				category = land_doctrine
-			}
-			if = {
-				limit = {
-					has_idea = MCK_reliant_idea
-				}
-				remove_ideas = MCK_reliant_idea
-			}
-		}
-	}
-	
-	focus = {
-		id = MCK_call_usa_to_act
-		icon = GFX_focus_generic_strike_at_democracy2
-		prerequisite = { focus = MCK_secret_protocol }
-		x = 20
-		y = 6
-		cost = 10
-		available = {
-			OR = {
-				has_government = democratic
-				democratic > 0.6
-			}
-			USA = {
-				exists = yes
-				NOT = {
-					OR = {
-						has_idea = undisturbed_isolation
-						has_idea = isolation
-					}
-				}
-				has_government = democratic
-				NOT = {
-					has_war_with = JAP
-				}
-			}
-		}
-		completion_reward = {
-			USA = { country_event = { id = jap.16 }}
-		}
-	}
-	
-	focus = {
-		id = MCK_secret_protocol
-		icon = GFX_goal_generic_intelligence_exchange
-		prerequisite = { focus = MCK_secret_aid_from_usa }
-		x = 20
-		y = 4
-		cost = 10
-		available = {
-			USA = {
-				exists = yes
-				has_government = democratic
-			}
-		}
-		completion_reward = {
-			add_stability = 0.1
-			if = {
-				limit = {
-					USA = {
-						NOT = {
-							has_war_with = JAP
-						}
-					}
-				}
-				custom_effect_tooltip = MCK_will_join_usa_in_war_against_japan_tt
-				set_global_flag = MCK_will_join_usa
-				else = {
-					JAP = {
-						end_puppet = MAN
-					}
-					hidden_effect = {
-						USA = {
-							set_autonomy = {
-								target = MAN
-								autonomy_state = autonomy_puppet
-							}
-							set_autonomy = {
-								target = MAN
-								autonomy_state = autonomy_free
-							}
-							if = {
-								limit = {
-									is_in_faction = no
-								}
-								create_faction = mck_liberate
-								add_to_faction = MAN
-								else = {
-									random_country = {
-										limit = {
-											is_in_faction_with = USA
-											is_faction_leader = yes
-										}
-										add_to_faction = MAN
-									}
-								}
-							}
-						}
-						set_political_party = {
-							ideology = communism
-							popularity = 0
-						}
-						set_political_party = {
-							ideology = fascism
-							popularity = 5
-						}
-						set_political_party = {
-							ideology = democratic
-							popularity = 20
-						}
-						set_political_party = {
-							ideology = neutrality
-							popularity = 80
-						}
-					}
-					add_to_war = {
-						targeted_alliance = USA
-						enemy = JAP
-					}
-				}
 			}
 		}
 	}
@@ -3984,44 +3303,6 @@ focus_tree = {
 		}
 	}
 	
-	focus = {
-		id = MCK_soviet_advisor
-		icon = GFX_goal_generic_military_deal
-		prerequisite = { focus = MCK_soviet_intervention }
-		x = 18
-		y = 6
-		cost = 10
-		available = {
-			has_government = communism
-			NOT = {
-				has_war_with = SOV
-			}
-			SOV = {
-				exists = yes
-			}
-			is_puppet = no
-		}
-		completion_reward = {
-			add_ideas = MCK_soviet_advisor_idea
-		}
-	}
-	
-	focus = {
-		id = MCK_resist
-		icon = GFX_goal_generic_military_deal
-		prerequisite = { focus = MCK_secret_protocol }
-		x = 21
-		y = 5
-		cost = 10
-		available = {
-			NOT = {
-				has_government = communism
-			}
-		}
-		completion_reward = {
-			add_ideas = KMT_resist_the_reds
-		}
-	}
 	
 	focus = {
 		id = MCK_industrial_developement
@@ -4146,18 +3427,7 @@ focus_tree = {
 			}
 		}
 	}
-	
-	focus = {
-		id = MCK_secret_recuitment
-		icon = GFX_goal_generic_improve_relations
-		prerequisite = { focus = MCK_assassination_of_japanese_officials }
-		x = 16
-		y = 4
-		cost = 10
-		completion_reward = {
-			add_ideas = MCK_secret_recruitment_idea
-		}
-	}
+
 	
 		
 }

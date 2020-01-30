@@ -8,7 +8,7 @@ phases = { # phase = no is the standard phase
 	tactical_withdrawal
 	seize_bridge
 	hold_bridge
-	#siege
+	siege
 }
 
 tactic_basic_attack = {
@@ -975,4 +975,149 @@ tactic_barrage = { #Superior firepower attacker tactic
 	defender = -0.25	
 }
 
+###SIEGE TACTICS
+tactic_besiege = {
+	is_attacker = yes
+	trigger = {
+		is_attacker = yes
+		phase = no
+		OR = {
+			is_fighting_in_terrain = urban
+			is_fighting_in_terrain = village
+			is_fighting_in_terrain = urbanregion
+			is_fighting_in_terrain = metropoliscity
+		}
+	}
+	
+	active = yes
+	
+	base =  { 
+		factor = 2 
+		modifier = {
+			add = 2
+			has_trait = artillery_leader
+		}
+		modifier = {
+			add = 2
+			has_trait = artillery_expert
+		}
+	}
+	
+	picture = assault
+	countered_by = tactic_counterattack
+	
+	phase = siege #changes phase to close combat
+	
+	attacker = 0.2			#attacker gets a bonus to doing damage
+}
 
+
+tactic_siege_barrage = {
+	is_attacker = yes
+	trigger = {
+		is_attacker = yes
+		phase = siege
+	}
+	
+	active = yes
+	
+	base =  {
+		factor = 4
+		modifier = {
+			add = 2
+			has_trait = infantry_expert
+		}
+	}
+	picture = cc_attack
+	display_phase = siege
+
+	attacker = 0			#attacker gets a bonus to doing damage
+	defender = -0.10
+}
+tactic_siege_ambush = {
+	is_attacker = no
+	trigger = {
+		is_attacker = no
+		phase = siege
+	}
+	
+	active = yes
+	
+	base =  {
+		factor = 1
+		modifier = {
+			add = 4
+			has_trait = ambusher
+		}
+	}
+	picture = cc_defend
+	display_phase = siege
+
+	
+	attacker = 0
+	defender = 0.30		#defender gets a bonus to doing damage
+}
+tactic_siege_storm = {
+	is_attacker = yes
+	trigger = {
+		is_attacker = yes
+		phase = siege
+	}
+	
+	active = yes
+	
+	base =  {
+		factor = 2
+		modifier = {
+			add = 2
+			has_trait = infantry_expert
+		}
+	}
+	picture = cc_storm
+	display_phase = siege
+
+	attacker = 0.50			#attacker gets a bonus to doing damage
+	defender = 0.40
+}
+tactic_siege_block_defence = { 
+	is_attacker = no
+	trigger = {
+		is_attacker = no
+		phase = siege
+	}
+	
+	active = yes
+	display_phase = siege
+
+	base =  {
+		factor = 4
+		modifier = {
+			add = 2
+			has_trait = infantry_expert
+		}
+	}
+	picture = cc_local_strong_point
+	
+	attacker = -0.30	#attacker gets a penalty to doing damage
+	defender = -0.15
+}
+tactic_end_siege = {
+	is_attacker = yes
+	trigger = {
+		is_attacker = yes
+		phase = siege
+	}
+	
+	active = yes
+	
+	base =  {
+		factor = 1
+	}
+	picture = cc_withdraw
+	display_phase = siege
+
+	phase = no #changes phase to no
+	
+	attacker = -0.05
+	defender = -0.05
+}

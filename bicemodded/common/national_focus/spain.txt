@@ -277,13 +277,8 @@ focus_tree = {
 		completion_reward = {
 			add_resource = {
 			type = tungsten
-			amount = 16
+			amount = 48
 			state = 170
-			}
-			add_resource = {
-			type = aluminium
-			amount = 16
-			state = 41
 			}
 		}
 	}
@@ -1392,7 +1387,7 @@ focus_tree = {
 	focus = {
 		id = SPR_Political_Effort
 		icon = GFX_goal_generic_demand_territory
-		x = 28
+		x = 25
 		y = 0
 		cost = 10
 		ai_will_do = {
@@ -1408,7 +1403,6 @@ focus_tree = {
 		id = SPR_Fascism
 		icon = GFX_goal_support_fascism #icon = GFX_goal_tripartite_pact
 		prerequisite = { focus = SPR_Political_Effort }
-		mutually_exclusive = { focus = SPR_Communism focus = SPR_Democracy }
 		x = 25
 		y = 1
 		cost = 10
@@ -1450,66 +1444,17 @@ focus_tree = {
 		}
 	}
 	
-	focus = {
-		id = SPR_Communism
-		icon = GFX_goal_support_communism #icon = GFX_goal_tripartite_pact
-		prerequisite = { focus = SPR_Political_Effort }
-		mutually_exclusive = { focus = SPR_Fascism focus = SPR_Democracy }
-		available = {
-			has_government = communism
-		}
-		x = 28
-		y = 1
-		cost = 10
-		ai_will_do = {
-			factor = 5
-		}
-		
-		completion_reward = {
-			#Increase nat unity
-			add_stability = 0.10
-		}
-	}
 	
-	focus = {
-		id = SPR_Spain_First
-		icon = GFX_goal_generic_occupy_states_ongoing_war
-		prerequisite = { focus = SPR_Fascist_Rec }
-		mutually_exclusive = { focus = SPR_Join_Germany }
-		available = {
-			has_government = fascism
-		}
-		bypass = {
-			is_in_faction = yes
-		}
-		x = 24
-		y = 3
-		cost = 10
-		ai_will_do = {
-			factor = 5
-		}
-		
-		completion_reward = {
-			set_rule = { can_create_factions = yes }
-		}
-	}
 	
 	focus = { 
 		id = SPR_Join_Germany
 		icon = GFX_focus_chi_mission_to_germany
 		prerequisite = { focus = SPR_Fascist_Rec }
-		mutually_exclusive = { focus = SPR_Spain_First }
-		bypass = {
-			is_in_faction_with = GER
-		}
 		available = {
-			#date > 1941.1.1
+			date > 1940.1.1
 			has_government = fascism
-			GER = {
-				is_faction_leader = yes
-			}
 		}
-		x = 26
+		x = 25
 		y = 3
 		cost = 10
 		ai_will_do = {
@@ -1517,50 +1462,16 @@ focus_tree = {
 		}
 		
 		completion_reward = {
-			GER = {
-				add_to_faction = ROOT
-			}
+			add_ideas = spr_german_trade
 		}
 	}
 	
-	focus = {
-		id = SPR_Befriend_Por
-		icon = GFX_goal_generic_major_alliance
-		prerequisite = { focus = SPR_Spain_First }
-		bypass = {
-			NOT = {
-				country_exists = POR
-			}
-		}
-		x = 24
-		y = 4
-		cost = 10
-		available = {
-			POR = {
-				has_opinion = { target = ROOT value > 99 }
-			}
-			NOT = {
-			AND = {
-                    has_government = democratic
-                    has_government = communism
-                }
-			}
-		}
-		ai_will_do = {
-			factor = 1
-		}
-		
-		completion_reward = {
-			 POR = { country_event = { id =  veren.1 } }
-
-		}
-	}
 	
 	focus = {
 		id = SPR_Take_Por
 		icon = GFX_goal_generic_occupy_start_war
 		prerequisite = { focus = SPR_Join_Germany }
-		x = 26
+		x = 25
 		y = 4
 		cost = 10
 		available = { 
@@ -1578,412 +1489,15 @@ focus_tree = {
 			add_state_claim = 181
 			add_state_claim = 112
 			add_state_claim = 180
-			create_wargoal = {
-				type = annex_everything
-				target = POR
-			}
-		}
-	}
-		
-	focus = {
-		id = SPR_Communist_Propaganda
-		icon = GFX_Goal_Commie_recruits
-		prerequisite = { focus = SPR_Communism }
-		x = 28
-		y = 2
-		cost = 10
-		available = {
-			has_government = communism
-		}
-		ai_will_do = {
-			factor = 0
-		}
-		
-		completion_reward = {
-			add_ideas = SPR_Communism_Idea
-			add_political_power = 75
 		}
 	}
 	
-	focus = {
-		id = SPR_Nuclear
-		icon = GFX_focus_wonderweapons
-		prerequisite = { focus = SPR_Research }
-		x = 8
-		y = 7
-		cost = 10
-		ai_will_do = {
-			factor = 6
-		}
-		available = {
-			OR = {
-				AND = {
-					has_government = democratic
-					has_war = yes
-					threat > 0.95
-				}
-				AND = {
-					has_government = communism
-					has_war = yes
-				}
-				AND = {
-					has_government = fascism
-					has_war = yes
-				}
-			}
-		}
-		
-		completion_reward = {
-			add_tech_bonus = {
-				name = SPR_Nuclear_Bonus
-				bonus = 0.5
-				uses = 2
-				category = nuclear
-				category = rocketry
-			}
-		}
-	}
-		
-	focus = {
-		id = SPR_Join_USSR
-		icon = GFX_focus_chi_mission_to_the_soviet_union
-		prerequisite = { focus = SPR_Communist_Propaganda }
-		mutually_exclusive = { focus = SPR_Por_Com }
-		x = 30
-		y = 3
-		cost = 10
-		available = {
-			has_government = communism
-			SOV = {
-				has_government = communism
-				is_faction_leader = yes
-			}
-		}
-		
-		completion_reward = {
-			SOV = {
-				add_to_faction = ROOT
-			}
-		}
-	}
-	
-	focus = {
-		id = SPR_Por_Com
-		icon = GFX_goal_generic_propaganda
-		prerequisite = { focus = SPR_Communist_Propaganda }
-		mutually_exclusive = { focus = SPR_Join_USSR }
-		x = 28
-		y = 3
-		cost = 10
-		bypass = {
-			POR = {
-				has_government = communism
-			}
-		}
-		
-		completion_reward = {
-			POR = {
-				add_ideas = SPR_influence_drift_communism
-			add_ai_strategy = {
-				type = alliance
-				id = "SPR"
-				value = 200
-				}
-			}
-		}
-	}
-
-	
-	focus = {
-		id = SPR_Por_Faction
-		icon = GFX_Goal_befriend_commie_portugal
-		prerequisite = { focus = SPR_Por_Com }
-		x = 28
-		y = 4
-		cost = 10
-		available = {
-		POR = {
-			NOT = {
-			OR = {
-                has_government = fascism
-                has_government = democratic
-				has_government = neutrality
-				}
-				}
-           }
-		}
-		
-		completion_reward = {
-			 POR = { country_event = { id =  veren.1 } }
-			set_rule = { can_create_factions = yes }
-		}
-	}
-
-	focus = {
-		id = SPR_Com_Take_Por
-		icon = GFX_goal_generic_occupy_start_war
-		prerequisite = { focus = SPR_Join_USSR }
-		x = 30
-		y = 4
-		cost = 10
-		available = { 
-			has_government = communism
-			NOT = {
-				is_in_faction_with = POR
-			}
-		}
-		ai_will_do = {
-			factor = 5
-		}
-		
-		completion_reward = {
-			add_state_claim = 179
-			add_state_claim = 181
-			add_state_claim = 112
-			add_state_claim = 180
-			create_wargoal = {
-				type = puppet_wargoal_focus
-				target = POR
-			}
-		}
-	}
-	
-	focus = {
-		id = SPR_Gib_Gib
-		icon = GFX_goal_generic_major_war
-		prerequisite = { focus = SPR_Take_Por }
-		x = 26
-		y = 5
-		cost = 10
-		available = {
-			has_government = fascism
-			country_exists = FRA
-			FRA = {
-				NOT = { 
-					is_puppet = yes
-					is_in_faction_with = GER
-				}
-			}
-		}
-		bypass = {
-			OR = {
-				NOT = {
-				country_exists = FRA
-				}
-				FRA = {
-				is_puppet = yes
-				}
-			}
-		}
-		ai_will_do = {
-			factor = 2
-		}
-		
-		completion_reward = {
-			create_wargoal = {
-				type = annex_everything
-				target = ENG
-			}
-		}
-	}
-	
-	focus = {
-		id = SPR_France_Attack
-		icon = GFX_Goal_stab_in_the_back
-		prerequisite = { focus = SPR_Befriend_Por }
-		x = 24
-		y = 5
-		cost = 10
-		available = {
-			has_government = fascism
-			country_exists = FRA
-		}
-		bypass = {
-			NOT = {
-			country_exists = FRA
-			}
-		}
-		ai_will_do = {
-			factor = 5
-		}
-		
-		completion_reward = {
-			create_wargoal = {
-				type = annex_everything
-				target = FRA
-			}
-		}
-	}
-	
-	focus = {
-		id = SPR_France_Communist
-		icon = GFX_focus_ger_great_red_menace
-		prerequisite = { focus = SPR_Com_Take_Por focus = SPR_Por_Faction }
-		x = 29
-		y = 5
-		cost = 10
-		available = {
-			has_government = communism
-			FRA = {
-				exists = yes
-				NOT = {
-					has_government = communism
-				}
-			}
-		}
-		bypass = { 
-		FRA = {
-			OR = {
-				exists = no
-				is_puppet = yes
-				has_government = communism
-				}
-			}
-		}
-		ai_will_do = {
-			factor = 5
-		}
-		
-		completion_reward = {
-			create_wargoal = {
-				type = puppet_wargoal_focus
-				target = FRA
-			}
-		}
-	}
-	
-	focus = {
-		id = SPR_The_rotten_core_of_europe
-		icon = GFX_focus_attack_germany
-		prerequisite = { focus = SPR_France_Communist }
-		x = 30
-		y = 6
-		cost = 10
-		ai_will_do = {
-			factor = 5
-		}
-		
-		completion_reward = {
-		create_wargoal = {
-				type = puppet_wargoal_focus
-				target = GER
-			}	
-		}
-	}
 	
 	focus = {
 		id = SPR_civil_war_veterans
 		icon = GFX_Goal_Militia
-		prerequisite = { focus = SPR_France_Communist focus = SPR_Gib_Gib focus = SPR_France_Attack }
-		x = 28
-		y = 6
-		cost = 10
-		ai_will_do = {
-			factor = 5
-		}
-		
-		completion_reward = {
-		add_ideas = SPR_civil_war_veterans	
-		}
-	}
-	
-	focus = {
-		id = SPR_the_revolution_triumphant
-		icon = GFX_Goal_communist_victory
-		prerequisite = { focus = SPR_civil_war_veterans }
-		prerequisite = { focus = SPR_The_rotten_core_of_europe }
-		
-		x = 29
-		y = 7
-		cost = 10
-		ai_will_do = {
-			factor = 5
-		}
-		
-		completion_reward = {
-			
-		}
-	}
-	
-	focus = {
-		id = SPR_Democracy
-		icon = GFX_goal_support_democracy
-		prerequisite = { focus = SPR_Political_Effort }
-		mutually_exclusive = { focus = SPR_Communism focus = SPR_Fascism }
-		x = 33
-		y = 1
-		cost = 10
-		ai_will_do = {
-			factor = 5
-			modifier = {
-			factor = 0
-			has_government = fascism
-			}
-		}
-		
-		completion_reward = {
-			ROOT = {
-				add_ideas = SPR_influence_drift_democratic
-				#Increase nat unity
-				add_stability = 0.05
-			}
-		}
-	}
-
-	
-	focus = {
-		id = SPR_the_franco_spaniard_alliance
-		icon = GFX_focus_chi_reach_out_to_france
-		prerequisite = { focus = SPR_Democracy_Por }
-		x = 35
-		y = 3
-		cost = 10
-		ai_will_do = {
-			factor = 5
-		}
-		
-		completion_reward = {
-		custom_effect_tooltip = SPR_franco_spanish
-		hidden_effect = {
-		give_guarantee = FRA
-        FRA = {
-        give_guarantee = SPR
-        }
-}		
-		}
-	}
-	
-	focus = {
-		id = SPR_invite_portugal
-		icon = GFX_Goal_Befriend_Portugal
-		prerequisite = { focus = SPR_the_franco_spaniard_alliance }
-		x = 35
-		y = 4
-		cost = 10
-		ai_will_do = {
-			factor = 5
-		}
-		
-		completion_reward = {
-		custom_effect_tooltip = SPR_add_portugal
-		hidden_effect = {
-		give_guarantee = POR
-        FRA = {
-        give_guarantee = POR
-        }
-        POR = {
-        give_guarantee = FRA
-		give_guarantee = SPR
-        }	
-}		
-		}
-	}
-	
-	focus = {
-		id = SPR_west_europe_trade_treaty
-		icon = GFX_Goal_Democracy_trade
-		prerequisite = { focus = SPR_invite_portugal }
-		x = 35
+		prerequisite = { focus = SPR_Take_Por }
+		x = 26
 		y = 5
 		cost = 10
 		ai_will_do = {
@@ -1991,140 +1505,33 @@ focus_tree = {
 		}
 		
 		completion_reward = {
-		add_offsite_building = { type = industrial_complex level = 5 }
-		hidden_effect = {
-        FRA = {
-        add_offsite_building = { type = industrial_complex level = 5 }
-        }
-        POR = {
-        add_offsite_building = { type = industrial_complex level = 5 }		
-		}
-		}
-	}
-	}
-	
-	focus = {
-		id = SPR_Democracy_Por
-		icon = GFX_goal_support_democracy
-		prerequisite = { focus = SPR_Democracy}
-		mutually_exclusive = { focus = SPR_Take_Por_Democratic }
-		available = {
-			has_government = democratic
-		}
-		bypass = {
-			POR = {
-				OR = {
-					has_government = democratic
-					exists = no
-				}
-			}
-		}
-		x = 34
-		y = 2
-		cost = 10
-		ai_will_do = {
-			factor = 5
-		}
-		
-		completion_reward = {
-			POR = {
-				add_ideas = SPR_influence_drift_democratic
-				add_ai_strategy = {
-					type = alliance
-					id = "SPR"
-					value = 200
-				}
-			}
+			add_ideas = SPR_civil_war_veterans	
 		}
 	}
 	
-	focus = {
-		id = SPR_Take_Por_Democratic
-		icon = GFX_goal_generic_occupy_start_war
-		prerequisite = { focus = SPR_Democracy }
-		mutually_exclusive = { focus = SPR_Democracy_Por }
-		available = {
-			POR = {
-				NOT = {
-					has_government = democratic
-				}
-			}
-		}
-		bypass = {
-			POR = {
-				has_government = democratic
-			}
-		}
-		x = 32
-		y = 2
-		cost = 10
-		ai_will_do = {
-			factor = 2
-		}
-		
-		completion_reward = {
-			create_wargoal = {
-				type = puppet_wargoal_focus
-				target = POR
-			}
-		}
-	}
-
-	focus = {
-		id = SPR_Italy 
-		icon = GFX_goal_generic_territory_or_war
-		prerequisite = { focus = SPR_Democracy_Por focus = SPR_Take_Por_Democratic focus = SPR_France_Communist focus = SPR_France_Attack }
-		available = {
-		NOT = {
-				is_in_faction_with = ITA
-			}
-			ITA = {
-				has_government = fascism
-			}
-		}
-		x = 32
-		y = 6
-		cost = 10
-		ai_will_do = {
-			factor = 5
-		}
-		
-		completion_reward = {
-		add_state_claim = 156
-		add_state_claim = 117
-		add_state_claim = 115
-		add_state_claim = 114
-			create_wargoal = {
-				type = topple_government
-				target = ITA
-			}
-		}
-	}
 	
 	focus = {
 		id = SPR_Expel_British_Gibraltarians
 		icon = GFX_goal_generic_more_territorial_claims
-		prerequisite = { focus = SPR_Gib_Gib focus = SPR_France_Communist }
+		prerequisite = { focus = SPR_Take_Por }
 		bypass = { 
 			SPR = {
 				owns_state = 118
 			}
 		}
 		available = {
-		NOT = {
+			NOT = {
 				is_in_faction_with = ENG
 			}
 			ENG = {
 				owns_state = 118
 			}
-			OR = {
-				has_government = communism
-				has_government = fascism
-				has_war_with = ENG
+			ROOT = {
+				controls_state = 118
 			}
 		}
-		x = 26
-		y = 6
+		x = 24
+		y = 5
 		cost = 10
 		ai_will_do = {
 			factor = 1
@@ -2137,58 +1544,6 @@ focus_tree = {
 		}
 	}
 	
-	focus = {
-		id = SPR_Ven
-		icon = GFX_goal_generic_position_armies
-		prerequisite = { focus = SPR_Take_Por_Democratic focus = SPR_Democracy_Por }
-		available = {
-			NOT = {
-				is_in_faction_with = VEN
-			}
-		}
-		x = 33
-		y = 3
-		cost = 10
-		ai_will_do = {
-			factor = 5
-		}
-		
-		completion_reward = {
-			create_wargoal = {
-			type = puppet_wargoal_focus
-			target = VEN
-			}
-		}
-	}
-	
-	focus = {
-		id = SPR_Col
-		icon = GFX_goal_generic_position_armies
-		prerequisite = { focus = SPR_France_Attack focus = SPR_Gib_Gib }
-		available = {
-			NOT = {
-				is_in_faction_with = COL
-			}
-			OR = {
-				has_government = communism
-				has_government = fascism
-				has_war_with = COL
-			}
-		}
-		x = 24
-		y = 6
-		cost = 10
-		ai_will_do = {
-			factor = 5
-		}
-		
-		completion_reward = {
-			create_wargoal = {
-			type = annex_everything
-			target = COL
-			}
-		}
-	}
 	
 	focus = {
 		id = SPR_Research_2
@@ -2206,120 +1561,6 @@ focus_tree = {
 		}
 	}
 	
-	focus = {
-		id = SPR_Cuba
-		icon = GFX_goal_generic_occupy_states_coastal
-		prerequisite = { focus = SPR_Col }
-		prerequisite = { focus = SPR_Expel_British_Gibraltarians }
-		available = { 
-			NOT = {
-				is_in_faction_with = USA
-				is_in_faction_with = CUB
-			}
-			OR = {
-				AND = {
-					has_government = democratic
-					threat > 0.95
-					}
-				has_government = fascism
-				has_government = communism
-			}
-		}
-		
-		x = 25
-		y = 7
-		cost = 10
-		ai_will_do = {
-			factor = 5
-		}
-		
-		completion_reward = {
-			create_wargoal = {
-				type = annex_everything
-				target = CUB
-			}
-		}
-	}
-	
-	focus = {
-		id = SPR_Phil
-		icon = GFX_goal_generic_position_armies
-		prerequisite = { focus = SPR_Cuba }
-		available = {
-			NOT = {
-			is_in_faction_with = USA
-			}
-			OR = {
-				AND = {
-					has_government = democratic
-					threat > 0.95
-					}
-				has_government = fascism
-				has_government = communism
-			}
-		}
-		x = 25
-		y = 8
-		cost = 10
-		ai_will_do = {
-			factor = 5
-		}
-		
-		completion_reward = {
-			create_wargoal = {
-				type = annex_everything
-				target = PHI
-			}
-		}
-	}
-	
-	focus = {
-		id = SPR_PRU
-		icon = GFX_goal_generic_position_armies
-		prerequisite = { focus = SPR_Ven }
-		available = {
-			NOT = {
-				is_in_faction_with = PRU
-			}
-		}
-		x = 33
-		y = 4
-		cost = 10
-		ai_will_do = {
-			factor = 5
-		}
-		
-		completion_reward = {
-			create_wargoal = {
-				type = puppet_wargoal_focus
-				target = PRU
-			}
-		}
-	}
-	
-	focus = {
-		id = SPR_DOM
-		icon = GFX_goal_generic_position_armies
-		prerequisite = { focus = SPR_PRU }
-		available = {
-			NOT = {
-				is_in_faction_with = DOM
-			}
-		}
-		x = 33
-		y = 5
-		cost = 10
-		ai_will_do = {
-			factor = 5
-		}
-		
-		completion_reward = {
-			create_wargoal = {
-				type = puppet_wargoal_focus
-				target = DOM
-			}
-		}
-	}
 	
 	focus = {
 		id = SPR_USA_In_Fac_Get_Slot
