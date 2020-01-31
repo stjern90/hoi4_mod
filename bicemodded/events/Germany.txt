@@ -1277,9 +1277,9 @@ country_event = {
 					LIT = { exists = yes }
 				}
 				LIT = { transfer_state = 784 }
-				else = {
-					SOV = { transfer_state = 784 }
-				}
+			else = {
+				SOV = { transfer_state = 784 }
+			}
 			}
 		}
 		SOV = { remove_state_claim = 784 }
@@ -1328,6 +1328,152 @@ country_event = {
 		}
 	}
 	
+	option = {
+	    name = germany.14.c      #### add transfer of some states to CZE (czech)
+	    trigger = { CZE = { exists = yes } }
+		ai_chance = {
+			base = 1
+			modifier = {
+				factor = 0
+				CZE = { exists = no }
+			}
+			modifier = {
+				factor = 60
+				is_in_faction_with = CZE
+			}
+			modifier = {
+		     	factor = 60
+				CZE = {
+				     OR = {
+				    	 has_government = communism
+			     		 has_government = fascism
+					 }
+				}
+			}
+		}
+		
+		if = {
+			limit = {
+				96 = {
+					OR = {
+						is_controlled_by = GER
+						any_other_country = {
+							controls_state = 96
+							is_in_faction_with = GER
+							GER = { is_faction_leader = yes }
+						}
+					}
+				}
+			}
+			SOV = { transfer_state = 96 }
+		}
+		if = {
+			limit = {
+				95 = {
+					OR = {
+						is_controlled_by = GER
+						any_other_country = {
+							controls_state = 95
+							is_in_faction_with = GER
+							GER = { is_faction_leader = yes }
+						}
+					}
+				}
+			}
+			SOV = { transfer_state = 95 }
+		}
+		if = {
+			limit = {
+				94 = {
+					OR = {
+						is_controlled_by = GER
+						any_other_country = {
+							controls_state = 94
+							is_in_faction_with = GER
+							GER = { is_faction_leader = yes }
+						}
+					}
+				}
+			}
+			SOV = { transfer_state = 94 }
+		}
+		if = {
+			limit = {
+				93 = {
+					OR = {
+						is_controlled_by = GER
+						any_other_country = {
+							controls_state = 93
+							is_in_faction_with = GER
+							GER = { is_faction_leader = yes }
+						}
+					}
+				}
+			}
+			SOV = { transfer_state = 93 }
+		}
+		if = {
+			limit = {
+				91 = {
+					OR = {
+						is_controlled_by = GER
+						any_other_country = {
+							controls_state = 91
+							is_in_faction_with = GER
+							GER = { is_faction_leader = yes }
+						}
+					}
+				}
+			}
+			SOV = { transfer_state = 91 }
+		}
+		if = {
+			limit = {
+				97 = {
+					OR = {
+						is_controlled_by = GER
+						any_other_country = {
+							controls_state = 97
+							is_in_faction_with = GER
+							GER = { is_faction_leader = yes }
+						}
+					}
+				}
+			}
+			SOV = { transfer_state = 97 }
+		}
+		if = {
+			limit = {
+				89 = {
+					OR = {
+						is_controlled_by = GER
+						any_other_country = {
+							controls_state = 89
+							is_in_faction_with = GER
+							GER = { is_faction_leader = yes }
+						}
+					}
+				}
+			}
+			SOV = { transfer_state = 89 }
+		}
+		if = {
+			limit = {
+				88 = {
+					OR = {
+						is_controlled_by = GER
+						any_other_country = {
+							controls_state = 88
+							is_in_faction_with = GER
+							GER = { is_faction_leader = yes }
+						}
+					}
+				}
+			}
+			CZE = { transfer_state = 88 }
+		}
+		SOV = { country_event = germany.15 }
+	}
 }
 # Germany honors MR Pact (Soviets)
 country_event = {
@@ -5239,6 +5385,852 @@ country_event = {
 	}
 }
 
+#Germany decides what to do with Croatia:
+
+country_event = {
+	id = germany.981
+	title = germany.981.t
+	desc = {
+		text = germany.981.d
+	}
+	picture = GFX_report_event_yugoslavian_split
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = germany.981.a   # setup croatie as german puppet
+		ai_chance = { 
+			factor = 25
+		}
+		set_state_controller = 103
+			set_state_controller = 104
+			set_state_controller = 109
+			activate_decision = GER_reichskommissariat_croatie
+		if = { limit = { ITA = { exists = yes NOT = { has_capitulated = yes }  } }
+		country_event = germany.982
+		else = { country_event = germany.983 }
+		}
+	}
+	option = {
+		name = germany.981.b   # setup croatie as italian puppet
+		ai_chance = { 
+			factor = 16
+			modifier =  { 
+				factor = 0 
+				is_historical_focus_on = yes
+			}
+		}
+		trigger = { ITA = { exists = yes NOT = { has_capitulated = yes }  }}
+		ITA = {
+		set_state_controller = 103
+			set_state_controller = 104
+			set_state_controller = 109
+			CRO = {
+					transfer_state = 103
+					transfer_state = 104
+					transfer_state = 109
+					#set_cosmetic_tag = CRO_reichskommissariat
+				}
+				set_autonomy = { target = CRO autonomy_state = autonomy_integrated_puppet }
+			}
+		country_event = germany.982
+        ITA = { country_event = germany.9810 }
+	}
+	option = {
+		name = germany.981.c  # no puppet
+		ai_chance = { 
+			factor = 6
+			modifier =  { 
+				factor = 0 
+				is_historical_focus_on = yes
+			}
+		}
+		if = { limit = { ITA = { exists = yes NOT = { has_capitulated = yes }  } }
+		country_event = germany.982
+		else = { country_event = germany.983 }
+		}
+	}
+}
+
+#Event to inform Italy that they have been given a Croatian puppet:
+
+country_event = {
+	id = germany.9810
+	title = germany.9810.t
+	desc = {
+		text = germany.9810.d
+	}
+	picture = GFX_report_event_yugoslavian_split
+	
+	is_triggered_only = yes
+	
+
+	option = {
+		name = germany.9810.a   # setup croatie as italian puppet
+		effect_tooltip = {
+		ITA = {
+		set_state_controller = 103
+			set_state_controller = 104
+			set_state_controller = 109
+			CRO = {
+					transfer_state = 103
+					transfer_state = 104
+					transfer_state = 109
+					#set_cosmetic_tag = CRO_reichskommissariat
+				}
+				set_autonomy = { target = CRO autonomy_state = autonomy_integrated_puppet }
+			}
+		}
+	}
+
+}
+
+#Germany decides what to give to Italy:
+
+country_event = {
+	id = germany.982
+	title = germany.982.t
+	desc = {
+		text = germany.982.d
+	}
+	picture = GFX_report_event_german_inspect_troops
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = germany.982.a   # honor italian conquests
+		ITA = {
+			set_state_controller = 105
+		}
+		if = { limit = { BUL = { exists = yes NOT = { has_capitulated = yes }  } }
+		country_event = germany.983
+		else = { country_event = germany.984 }
+		}
+		ITA = { country_event = germany.9820 }
+	}
+	option = {
+		name = germany.982.b   # give minimum demands
+		ITA = {
+			set_state_controller = 105
+		}
+		if = { limit = {  102 = { is_controlled_by = ITA } }
+		GER = {	set_state_controller = 102 } }
+		
+		if = { limit = {  103 = { is_controlled_by = ITA } }
+		GER = {	set_state_controller = 103 } }
+		
+		if = { limit = {  104 = { is_controlled_by = ITA } }
+		GER = {	set_state_controller = 104 } }
+		
+		if = { limit = {  106 = { is_controlled_by = ITA } }
+		GER = {	set_state_controller = 106 } }
+		
+		if = { limit = {  107 = { is_controlled_by = ITA } }
+		GER = {	set_state_controller = 107 } }
+		
+		if = { limit = {  108 = { is_controlled_by = ITA } }
+		GER = {	set_state_controller = 108 } }
+		
+		if = { limit = {  109 = { is_controlled_by = ITA } }
+		GER = {	set_state_controller = 109 } }
+		
+		if = { limit = {  764 = { is_controlled_by = ITA } }
+		GER = {	set_state_controller = 764 } }
+		
+		if = { limit = {  45 = { is_controlled_by = ITA } }
+		GER = {	set_state_controller = 45 } }
+		if = { limit = { BUL = { exists = yes NOT = { has_capitulated = yes }  } }
+		country_event = germany.983
+		else = { country_event = germany.984 }
+		}
+		ITA = { country_event = germany.9821 }
+	}
+	option = {
+		name = germany.982.c   # no, give to us
+		if = { limit = {  102 = { is_controlled_by = ITA } }
+		GER = {	set_state_controller = 102 } }
+		
+		if = { limit = {  103 = { is_controlled_by = ITA } }
+		GER = {	set_state_controller = 103 } }
+		
+		if = { limit = {  104 = { is_controlled_by = ITA } }
+		GER = {	set_state_controller = 104 } }
+		
+		if = { limit = {  105 = { is_controlled_by = ITA } }
+		GER = {	set_state_controller = 105 } }
+		
+		if = { limit = {  106 = { is_controlled_by = ITA } }
+		GER = {	set_state_controller = 106 } }
+		
+		if = { limit = {  107 = { is_controlled_by = ITA } }
+		GER = {	set_state_controller = 107 } }
+		
+		if = { limit = {  108 = { is_controlled_by = ITA } }
+		GER = {	set_state_controller = 108 } }
+		
+		if = { limit = {  109 = { is_controlled_by = ITA } }
+		GER = {	set_state_controller = 109 } }
+		
+		if = { limit = {  764 = { is_controlled_by = ITA } }
+		GER = {	set_state_controller = 764 } }
+		
+		if = { limit = {  45 = { is_controlled_by = ITA } }
+		GER = {	set_state_controller = 45 } }
+		if = { limit = { BUL = { exists = yes NOT = { has_capitulated = yes }  } }
+		country_event = germany.983
+		else = { country_event = germany.984 }
+		}
+		ITA = { country_event = germany.9822 }
+		
+	}
+}
+
+#Events to inform Italy about what Germany decided:
+
+country_event = {
+	id = germany.9820
+	title = germany.9820.t
+	desc = {
+		text = germany.9820.d
+	}
+	picture = GFX_report_event_yugoslavian_split
+	
+	is_triggered_only = yes
+	
+
+	option = {
+		name = germany.9820.a   # Germany lets Italy keep everything it conquered
+	}
+}
+
+country_event = {
+	id = germany.9821
+	title = germany.9821.t
+	desc = {
+		text = germany.9821.d
+	}
+	picture = GFX_report_event_yugoslavian_split
+	
+	is_triggered_only = yes
+	
+
+	option = {
+		name = germany.9821.a   # Germany gave only Montenegro to Italy
+	}
+}
+
+country_event = {
+	id = germany.9822
+	title = germany.9822.t
+	desc = {
+		text = germany.9822.d
+	}
+	picture = GFX_report_event_yugoslavian_split
+	
+	is_triggered_only = yes
+	
+
+	option = {
+		name = germany.9822.a   # Germany gave nothing to Italy
+	}
+}
+
+#Germany decides what to give to Bulgaria:
+
+country_event = {
+	id = germany.983
+	title = germany.983.t
+	desc = {
+		text = germany.983.d
+	}
+	picture = GFX_report_event_german_inspect_troops
+	
+	is_triggered_only = yes
+	
+	trigger = {  }
+	
+	option = {
+		name = germany.983.a   # honor bulgarian demands
+		trigger = { BUL = { exists = yes NOT = { has_capitulated = yes }  }}
+		ai_chance = { 
+			factor = 25
+		}
+		BUL = {
+			set_state_controller = 106
+		}
+		if = { limit = { HUN = { exists = yes NOT = { has_capitulated = yes }  } }
+		country_event = germany.985
+		}
+		BUL = { country_event = germany.9830 }
+	}
+	option = {
+		name = germany.983.b   # give minimum demands
+		trigger = { BUL = { exists = yes NOT = { has_capitulated = yes }  }}
+		BUL = {
+			set_state_controller = 106
+		}
+		if = { limit = {  102 = { is_controlled_by = BUL } }
+		GER = {	set_state_controller = 102 } }
+		
+		if = { limit = {  103 = { is_controlled_by = BUL } }
+		GER = {	set_state_controller = 103 } }
+		
+		if = { limit = {  104 = { is_controlled_by = BUL } }
+		GER = {	set_state_controller = 104 } }
+		
+		if = { limit = {  45 = { is_controlled_by = BUL } }
+		GER = {	set_state_controller = 45 } }
+		
+		if = { limit = {  107 = { is_controlled_by = BUL } }
+		GER = {	set_state_controller = 107 } }
+		
+		if = { limit = {  108 = { is_controlled_by = BUL } }
+		GER = {	set_state_controller = 108 } }
+		
+		if = { limit = {  109 = { is_controlled_by = BUL } }
+		GER = {	set_state_controller = 109 } }
+		
+		if = { limit = {  764 = { is_controlled_by = BUL } }
+		GER = {	set_state_controller = 764 } }
+		if = { limit = { HUN = { exists = yes NOT = { has_capitulated = yes }  } }
+		country_event = germany.985
+		}
+		BUL = { country_event = germany.9831 }
+	}
+	option = {
+		name = germany.983.c   # no, give to us
+		ai_chance = { 
+			factor = 15
+			modifier =  { # historical mod, speeding up germany
+				factor = 0 
+				is_historical_focus_on = yes
+			}
+		}
+		if = { limit = {  102 = { is_controlled_by = BUL } }
+		GER = {	set_state_controller = 102 } }
+		
+		if = { limit = {  103 = { is_controlled_by = BUL } }
+		GER = {	set_state_controller = 103 } }
+		
+		if = { limit = {  104 = { is_controlled_by = BUL } }
+		GER = {	set_state_controller = 104 } }
+		
+		if = { limit = {  105 = { is_controlled_by = BUL } }
+		GER = {	set_state_controller = 105 } }
+		
+		if = { limit = {  106 = { is_controlled_by = BUL } }
+		GER = {	set_state_controller = 106 } }
+		
+		if = { limit = {  107 = { is_controlled_by = BUL } }
+		GER = {	set_state_controller = 107 } }
+		
+		if = { limit = {  108 = { is_controlled_by = BUL } }
+		GER = {	set_state_controller = 108 } }
+		
+		if = { limit = {  109 = { is_controlled_by = BUL } }
+		GER = {	set_state_controller = 109 } }
+		
+		if = { limit = {  764 = { is_controlled_by = BUL } }
+		GER = {	set_state_controller = 764 } }
+		
+		if = { limit = {  45 = { is_controlled_by = BUL } }
+		GER = {	set_state_controller = 45 } }
+		if = { limit = { GRE = { exists = yes NOT = { has_capitulated = yes }  } }
+		country_event = germany.984
+		else = {  country_event = germany.985 }
+		}
+		BUL = { country_event = germany.9832 }
+	}
+}
+
+#Events to inform Bulgaria on what Germany decided:
+
+country_event = {
+	id = germany.9830
+	title = germany.9830.t
+	desc = {
+		text = germany.9830.d
+	}
+	picture = GFX_report_event_yugoslavian_split
+	
+	is_triggered_only = yes
+	
+
+	option = {
+		name = germany.9830.a   # Germany lets Bulgaria keep everything it conquered
+	}
+}
+
+country_event = {
+	id = germany.9831
+	title = germany.9831.t
+	desc = {
+		text = germany.9831.d
+	}
+	picture = GFX_report_event_yugoslavian_split
+	
+	is_triggered_only = yes
+	
+
+	option = {
+		name = germany.9831.a   # Germany gave only Macedonia to Bulgaria
+	}
+}
+
+country_event = {
+	id = germany.9832
+	title = germany.9832.t
+	desc = {
+		text = germany.9832.d
+	}
+	picture = GFX_report_event_yugoslavian_split
+	
+	is_triggered_only = yes
+	
+
+	option = {
+		name = germany.9832.a   # Germany gave nothing to Bulgaria
+	}
+}
+
+#Germany decides what to give to Greece, if Macedonia was not given to Bulgaria:
+
+country_event = {
+	id = germany.984
+	title = germany.984.t
+	desc = {
+		text = germany.984.d
+	}
+	picture = GFX_report_event_german_inspect_troops
+	
+	is_triggered_only = yes
+	
+	trigger = {  }
+	
+	option = {
+		name = germany.984.a   # honor GREgarian demands
+		ai_chance = { 
+			factor = 25
+			modifier =  { # historical mod, speeding up germany
+				factor = 0 
+				is_historical_focus_on = yes
+			}
+		}
+		trigger = { GRE = { exists = yes NOT = { has_capitulated = yes }  }}
+		GRE = {
+			set_state_controller = 106
+		}
+		if = { limit = { HUN = { exists = yes NOT = { has_capitulated = yes }  } }
+		country_event = germany.984
+		else = {  }
+		}
+		GRE = { country_event = germany.9840 }
+	}
+	option = {
+		name = germany.984.b   # give minimum demands
+		ai_chance = { 
+			factor = 15
+			modifier =  { # historical mod, speeding up germany
+				factor = 0 
+				
+				OR = {
+				NOT = { is_in_faction_with = GRE }
+				NOT = { GRE = {has_government = fascism } }
+				}
+			}
+			
+		}
+		trigger = { GRE = { exists = yes NOT = { has_capitulated = yes }  }}
+		GRE = {
+			set_state_controller = 106
+		}
+		if = { limit = {  102 = { is_controlled_by = GRE } }
+		GER = {	set_state_controller = 102 } }
+		
+		if = { limit = {  103 = { is_controlled_by = GRE } }
+		GER = {	set_state_controller = 103 } }
+		
+		if = { limit = {  104 = { is_controlled_by = GRE } }
+		GER = {	set_state_controller = 104 } }
+		
+		if = { limit = {  45 = { is_controlled_by = GRE } }
+		GER = {	set_state_controller = 45 } }
+		
+		if = { limit = {  107 = { is_controlled_by = GRE } }
+		GER = {	set_state_controller = 107 } }
+		
+		if = { limit = {  108 = { is_controlled_by = GRE } }
+		GER = {	set_state_controller = 108 } }
+		
+		if = { limit = {  109 = { is_controlled_by = GRE } }
+		GER = {	set_state_controller = 109 } }
+		
+		if = { limit = {  764 = { is_controlled_by = GRE } }
+		GER = {	set_state_controller = 764 } }
+		if = { limit = { GRE = { exists = yes NOT = { has_capitulated = yes }  } }
+		country_event = germany.985
+		else = { }
+		}
+		GRE = { country_event = germany.9841 }
+	}
+	option = {
+		name = germany.984.c   # no, give to us
+		
+		if = { limit = {  102 = { is_controlled_by = GRE } }
+		GER = {	set_state_controller = 102 } }
+		
+		if = { limit = {  103 = { is_controlled_by = GRE } }
+		GER = {	set_state_controller = 103 } }
+		
+		if = { limit = {  104 = { is_controlled_by = GRE } }
+		GER = {	set_state_controller = 104 } }
+		
+		if = { limit = {  105 = { is_controlled_by = GRE } }
+		GER = {	set_state_controller = 105 } }
+		
+		if = { limit = {  106 = { is_controlled_by = GRE } }
+		GER = {	set_state_controller = 106 } }
+		
+		if = { limit = {  107 = { is_controlled_by = GRE } }
+		GER = {	set_state_controller = 107 } }
+		
+		if = { limit = {  108 = { is_controlled_by = GRE } }
+		GER = {	set_state_controller = 108 } }
+		
+		if = { limit = {  109 = { is_controlled_by = GRE } }
+		GER = {	set_state_controller = 109 } }
+		
+		if = { limit = {  764 = { is_controlled_by = GRE } }
+		GER = {	set_state_controller = 764 } }
+		
+		if = { limit = {  45 = { is_controlled_by = GRE } }
+		GER = {	set_state_controller = 45 } }
+		if = { limit = { HUN = { exists = yes NOT = { has_capitulated = yes }  } }
+		country_event = germany.985
+		else = {  }
+		}
+		GRE = { country_event = germany.9842 }
+	}
+}
+
+#Events informing Greece on what Germany decided:
+
+country_event = {
+	id = germany.9840
+	title = germany.9840.t
+	desc = {
+		text = germany.9840.d
+	}
+	picture = GFX_report_event_yugoslavian_split
+	
+	is_triggered_only = yes
+	
+
+	option = {
+		name = germany.9840.a   # Germany lets Greece keep everything it conquered
+	}
+}
+
+country_event = {
+	id = germany.9841
+	title = germany.9841.t
+	desc = {
+		text = germany.9841.d
+	}
+	picture = GFX_report_event_yugoslavian_split
+	
+	is_triggered_only = yes
+	
+
+	option = {
+		name = germany.9841.a   # Germany gave only Macedonia to Greece
+	}
+}
+
+country_event = {
+	id = germany.9842
+	title = germany.9842.t
+	desc = {
+		text = germany.9842.d
+	}
+	picture = GFX_report_event_yugoslavian_split
+	
+	is_triggered_only = yes
+	
+
+	option = {
+		name = germany.9842.a   # Germany gave nothing to Greece
+	}
+}
+
+#Germany decides what to give to Hungary:
+
+country_event = {
+	id = germany.985
+	title = germany.985.t
+	desc = {
+		text = germany.985.d
+	}
+	picture = GFX_report_event_german_inspect_troops
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = germany.985.a   # honor hungarian demands
+		trigger = { HUN = { exists = yes NOT = { has_capitulated = yes }  }}
+		HUN = {
+			set_state_controller = 45
+		}
+		HUN = { country_event = germany.9850 }
+	}
+	option = {
+		name = germany.985.b   # give minimum demands
+		trigger = { HUN = { exists = yes NOT = { has_capitulated = yes }  }}
+		if = { limit = {  102 = { is_controlled_by = HUN } }
+		GER = {	set_state_controller = 102 } }
+		
+		if = { limit = {  103 = { is_controlled_by = HUN } }
+		GER = {	set_state_controller = 103 } }
+		
+		if = { limit = {  104 = { is_controlled_by = HUN } }
+		GER = {	set_state_controller = 104 } }
+		
+		if = { limit = {  105 = { is_controlled_by = HUN } }
+		GER = {	set_state_controller = 105 } }
+		
+		if = { limit = {  106 = { is_controlled_by = HUN } }
+		GER = {	set_state_controller = 106 } }
+		
+		if = { limit = {  107 = { is_controlled_by = HUN } }
+		GER = {	set_state_controller = 107 } }
+		
+		if = { limit = {  108 = { is_controlled_by = HUN } }
+		GER = {	set_state_controller = 108 } }
+		
+		if = { limit = {  109 = { is_controlled_by = HUN } }
+		GER = {	set_state_controller = 109 } }
+		
+		if = { limit = {  764 = { is_controlled_by = HUN } }
+		GER = {	set_state_controller = 764 } }
+		HUN = {
+			set_state_controller = 45
+		}
+		HUN = { country_event = germany.9851 }
+	}
+	option = {
+		name = germany.985.c   # no, give to us
+		if = { limit = {  102 = { is_controlled_by = HUN } }
+		GER = {	set_state_controller = 102 } }
+		
+		if = { limit = {  103 = { is_controlled_by = HUN } }
+		GER = {	set_state_controller = 103 } }
+		
+		if = { limit = {  104 = { is_controlled_by = HUN } }
+		GER = {	set_state_controller = 104 } }
+		
+		if = { limit = {  105 = { is_controlled_by = HUN } }
+		GER = {	set_state_controller = 105 } }
+		
+		if = { limit = {  106 = { is_controlled_by = HUN } }
+		GER = {	set_state_controller = 106 } }
+		
+		if = { limit = {  107 = { is_controlled_by = HUN } }
+		GER = {	set_state_controller = 107 } }
+		
+		if = { limit = {  108 = { is_controlled_by = HUN } }
+		GER = {	set_state_controller = 108 } }
+		
+		if = { limit = {  109 = { is_controlled_by = HUN } }
+		GER = {	set_state_controller = 109 } }
+		
+		if = { limit = {  764 = { is_controlled_by = HUN } }
+		GER = {	set_state_controller = 764 } }
+		
+		if = { limit = {  45 = { is_controlled_by = HUN } }
+		GER = {	set_state_controller = 45 } }
+		HUN = { country_event = germany.9852 }
+	}
+	
+	option = {
+		name = germany.985.e   # no, give to us
+		if = { limit = {  102 = { is_controlled_by = HUN } }
+		GER = {	set_state_controller = 102 } }
+		
+		if = { limit = {  103 = { is_controlled_by = HUN } }
+		GER = {	set_state_controller = 103 } }
+		
+		if = { limit = {  104 = { is_controlled_by = HUN } }
+		GER = {	set_state_controller = 104 } }
+		
+		if = { limit = {  105 = { is_controlled_by = HUN } }
+		GER = {	set_state_controller = 105 } }
+		
+		if = { limit = {  106 = { is_controlled_by = HUN } }
+		GER = {	set_state_controller = 106 } }
+		
+		if = { limit = {  107 = { is_controlled_by = HUN } }
+		GER = {	set_state_controller = 107 } }
+		
+		if = { limit = {  108 = { is_controlled_by = HUN } }
+		GER = {	set_state_controller = 108 } }
+		
+		if = { limit = {  109 = { is_controlled_by = HUN } }
+		GER = {	set_state_controller = 109 } }
+		
+		if = { limit = {  764 = { is_controlled_by = HUN } }
+		GER = {	set_state_controller = 764 } }
+		
+		if = { limit = {  45 = { is_controlled_by = HUN } }
+		GER = {	set_state_controller = 45 } }
+		
+		
+		if = { limit = {  102 = { NOT = { OR = { is_controlled_by = BUL is_controlled_by = ITA is_controlled_by = GRE } } } }
+		GER = {	set_state_controller = 102 } }
+		
+		if = { limit = {  103 = { NOT = { OR = { is_controlled_by = BUL is_controlled_by = ITA is_controlled_by = GRE is_controlled_by = CRO } } } }
+		GER = {	set_state_controller = 103 } }
+		
+		if = { limit = {  104 = { NOT = { OR = { is_controlled_by = BUL is_controlled_by = ITA is_controlled_by = GRE is_controlled_by = CRO } } } }
+		GER = {	set_state_controller = 104 } }
+		
+		if = { limit = {  105 = { NOT = { OR = { is_controlled_by = BUL is_controlled_by = ITA is_controlled_by = GRE } } } }
+		GER = {	set_state_controller = 105 } }
+		
+		if = { limit = {  106 = { NOT = { OR = { is_controlled_by = BUL is_controlled_by = ITA is_controlled_by = GRE } } } }
+		GER = {	set_state_controller = 106 } }
+		
+		if = { limit = {  107 = { NOT = { OR = { is_controlled_by = BUL is_controlled_by = ITA is_controlled_by = GRE } } } }
+		GER = {	set_state_controller = 107 } }
+		
+		if = { limit = {  108 = { NOT = { OR = { is_controlled_by = BUL is_controlled_by = ITA is_controlled_by = GRE } } } }
+		GER = {	set_state_controller = 108 } }
+		
+		if = { limit = {  109 = { NOT = { OR = { is_controlled_by = BUL is_controlled_by = ITA is_controlled_by = GRE is_controlled_by = CRO } } } }
+		GER = {	set_state_controller = 109 } }
+		
+		if = { limit = {  764 = { NOT = { OR = { is_controlled_by = BUL is_controlled_by = ITA is_controlled_by = GRE } } } }
+		GER = {	set_state_controller = 764 } }
+		
+		if = { limit = {  45 = { NOT = { OR = { is_controlled_by = BUL is_controlled_by = ITA is_controlled_by = GRE } } } }
+		GER = {	set_state_controller = 45 } }
+		HUN = { country_event = germany.9852 }
+	}
+	
+	option = {
+		name = germany.985.f   # no, give to us
+		if = { limit = {  102 = { is_controlled_by = HUN } }
+		GER = {	set_state_controller = 102 } }
+		
+		if = { limit = {  103 = { is_controlled_by = HUN } }
+		GER = {	set_state_controller = 103 } }
+		
+		if = { limit = {  104 = { is_controlled_by = HUN } }
+		GER = {	set_state_controller = 104 } }
+		
+		if = { limit = {  105 = { is_controlled_by = HUN } }
+		GER = {	set_state_controller = 105 } }
+		
+		if = { limit = {  106 = { is_controlled_by = HUN } }
+		GER = {	set_state_controller = 106 } }
+		
+		if = { limit = {  107 = { is_controlled_by = HUN } }
+		GER = {	set_state_controller = 107 } }
+		
+		if = { limit = {  108 = { is_controlled_by = HUN } }
+		GER = {	set_state_controller = 108 } }
+		
+		if = { limit = {  109 = { is_controlled_by = HUN } }
+		GER = {	set_state_controller = 109 } }
+		
+		if = { limit = {  764 = { is_controlled_by = HUN } }
+		GER = {	set_state_controller = 764 } }
+		
+		
+		if = { limit = {  102 = { NOT = { OR = { is_controlled_by = BUL is_controlled_by = ITA is_controlled_by = GRE } } } }
+		GER = {	set_state_controller = 102 } }
+		
+		if = { limit = {  103 = { NOT = { OR = { is_controlled_by = BUL is_controlled_by = ITA is_controlled_by = GRE is_controlled_by = CRO } } } }
+		GER = {	set_state_controller = 103 } }
+		
+		if = { limit = {  104 = { NOT = { OR = { is_controlled_by = BUL is_controlled_by = ITA is_controlled_by = GRE is_controlled_by = CRO } } } }
+		GER = {	set_state_controller = 104 } }
+		
+		if = { limit = {  105 = { NOT = { OR = { is_controlled_by = BUL is_controlled_by = ITA is_controlled_by = GRE } } } }
+		GER = {	set_state_controller = 105 } }
+		
+		if = { limit = {  106 = { NOT = { OR = { is_controlled_by = BUL is_controlled_by = ITA is_controlled_by = GRE } } } }
+		GER = {	set_state_controller = 106 } }
+		
+		if = { limit = {  107 = { NOT = { OR = { is_controlled_by = BUL is_controlled_by = ITA is_controlled_by = GRE } } } }
+		GER = {	set_state_controller = 107 } }
+		
+		if = { limit = {  108 = { NOT = { OR = { is_controlled_by = BUL is_controlled_by = ITA is_controlled_by = GRE } } } }
+		GER = {	set_state_controller = 108 } }
+		
+		if = { limit = {  109 = { NOT = { OR = { is_controlled_by = BUL is_controlled_by = ITA is_controlled_by = GRE is_controlled_by = CRO } } } }
+		GER = {	set_state_controller = 109 } }
+		
+		if = { limit = {  764 = { NOT = { OR = { is_controlled_by = BUL is_controlled_by = ITA is_controlled_by = GRE } } } }
+		GER = {	set_state_controller = 764 } }
+		
+		HUN = {
+			set_state_controller = 45
+		}
+		HUN = { country_event = germany.9851 }		
+	}
+}
+
+#Events informing Hungary on what Germany decided:
+
+country_event = {
+	id = germany.9850
+	title = germany.9850.t
+	desc = {
+		text = germany.9850.d
+	}
+	picture = GFX_report_event_yugoslavian_split
+	
+	is_triggered_only = yes
+	
+
+	option = {
+		name = germany.9850.a   # Germany lets Hungary keep everything it conquered
+	}
+}
+
+country_event = {
+	id = germany.9851
+	title = germany.9851.t
+	desc = {
+		text = germany.9851.d
+	}
+	picture = GFX_report_event_yugoslavian_split
+	
+	is_triggered_only = yes
+	
+
+	option = {
+		name = germany.9851.a   # Germany gave only Vojvodina to Hungary
+	}
+}
+
+country_event = {
+	id = germany.9852
+	title = germany.9852.t
+	desc = {
+		text = germany.9852.d
+	}
+	picture = GFX_report_event_yugoslavian_split
+	
+	is_triggered_only = yes
+	
+
+	option = {
+		name = germany.9852.a   # Germany gave nothing to Hungary
+	}
+}
+
+#Event for the peaceful annexation of Yugoslavia:
 
 country_event = {
 	id = germany.98
@@ -5249,6 +6241,7 @@ country_event = {
 	picture = GFX_report_event_german_inspect_troops
 	
 	is_triggered_only = yes
+	immediate = { set_country_flag = yugo_fate }
 	
 	option = {
 		name = germany.98.a
