@@ -92,116 +92,6 @@ country_event = {
 }
 
 country_event = {
-	id = better_canada.5
-	title = better_canada.5.t
-	desc = better_canada.5.d
-	picture = GFX_report_event_election_vote
-	
-	trigger = {
-		has_global_flag = newfoundland_referendum_rejected
-		NOT = { has_global_flag = newfoundland_rebellion }
-		CAN = {
-			NOT = {
-				AND = {
-					owns_state = 331
-					owns_state = 332
-				}
-			}
-		}
-		ENG = {
-			AND = {
-				owns_state = 331
-				owns_state = 332
-				NOT = { has_war_with = CAN }
-			}
-		}
-	}
-	
-	mean_time_to_happen = {
-		days = 365 # 1 year
-	}
-	
-	immediate = { set_global_flag = newfoundland_rebellion }
-	
-	option = {
-		name = better_canada.5.a	# Just as planned
-		ai_chance = { factor = 10 }
-		
-		CAN = {
-			transfer_state = 331
-			transfer_state = 332
-		}
-		
-		ENG = {
-			create_wargoal = {
-				type = take_state_focus
-				target = CAN
-				generator = { 331 332 }
-			}
-		}
-		
-		hidden_effect = {
-			news_event = { hours = 6 id = better_canada.6 }
-		}
-	}
-}
-
-news_event = { # Newfoundland and Labrador Join Canada
-	id = better_canada.6
-	title = better_canada.5.t
-	desc = better_canada.6.d
-	picture = GFX_news_event_canadian_pm_flag
-	
-	major = yes
-	
-	is_triggered_only = yes
-	
-	option = {
-		name = better_canada.23.a
-		trigger = {
-			NOT = {
-				TAG = CAN
-				TAG = ENG
-				is_in_faction_with = CAN
-			}
-		}
-	}
-	option = {
-		name = better_canada.23.b
-		trigger = { TAG = CAN }
-	}
-	option = {
-		name = better_canada.23.c
-		trigger = { TAG = ENG }
-		
-		effect_tooltip = { # Already done in the previous step, just for tooltip purposes
-			CAN = { 
-				transfer_state = 331
-				transfer_state = 332
-			}
-			
-			ENG = {
-				create_wargoal = {
-					type = take_state_focus
-					target = CAN
-					generator = { 331 332 }
-				}
-			}
-		}
-	}
-	option = {
-		name = better_canada.23.f
-		trigger = {
-			NOT = {
-				TAG = CAN
-				TAG = ENG
-			}
-			is_in_faction_with = CAN
-		}
-	}
-}
-
-country_event = {
 	id = better_canada.7
 	title = better_canada.7.t
 	desc = better_canada.7.d
@@ -226,8 +116,9 @@ country_event = {
 		set_party_name = { ideology = fascism long_name = CAN_national_unity_party_long name = CAN_national_unity_party }
 		add_popularity = {
 			ideology = fascism
-			popularity = 0.05
+			popularity = 0.04
 		}
+		add_political_power = -25
 	}
 }
 
@@ -1029,40 +920,8 @@ country_event = { # Imperial Oil discovery Leduc No. 1
 	desc = better_canada.49.d
 	picture = GFX_report_event_oil_field
 	
-	major = yes
-	
-	fire_only_once = yes
-	
-	trigger = {
-		NOT = { has_global_flag = albertan_oil_discovered }
-		OR = {
-			AND = {
-				has_global_flag = albertan_oil
-				date > 1938.1.1
-			}
-			AND = {
-				NOT = { has_global_flag = albertan_oil }
-				date > 1941.1.1
-			}
-		}
-		owns_state = 470
-	}
-	
-	mean_time_to_happen = {
-		days = 1825 # 5 years
-		
-		modifier = {
-			factor = 0.4
-			
-			has_global_flag = albertan_oil
-		}
-		
-		modifier = {
-			factor = 0.8
-			
-			date > 1943.1.1
-		}
-	}
+	#alberta oil
+	is_triggered_only = yes
 	
 	immediate = {
 		set_global_flag = albertan_oil_discovered
@@ -1136,24 +995,7 @@ country_event = { # Red Rose Tungsten discovery
 	desc = better_canada.51.d
 	picture = GFX_report_event_mine
 	
-	major = yes
-	
-	fire_only_once = yes
-	
-	trigger = {
-		NOT = { has_global_flag = red_rose_tungsten_discovered }
-		owns_state = 471
-		has_war = yes
-		has_completed_focus = CAN_mine_the_shield
-	}
-	
-	mean_time_to_happen = {
-		days = 730 # 2 years
-	}
-	
-	immediate = {
-		set_global_flag = red_rose_tungsten_discovered
-	}
+	is_triggered_only = yes
 	
 	option = {
 		name = better_canada.51.a
@@ -1166,59 +1008,6 @@ country_event = { # Red Rose Tungsten discovery
 	}
 }
 
-country_event = { # Synth Rubber
-	id = better_canada.52
-	title = better_canada.52.t
-	desc = better_canada.52.d
-	picture = GFX_report_event_synth_rubber
-	
-	major = yes
-	
-	fire_only_once = yes
-	
-	trigger = {
-		NOT = { has_global_flag = sarnian_rubber_end }
-		has_global_flag = sarnian_rubber_start
-		has_war = yes
-		owns_state = 276
-	}
-	
-	mean_time_to_happen = {
-		days = 365 # 1 year
-	}
-	
-	immediate = {
-		set_global_flag = sarnian_rubber_end
-	}
-	
-	option = {
-		name = better_canada.52.a
-		
-		276 = {
-			add_extra_state_shared_building_slots = 1
-
-			add_building_construction = {
-				type = synthetic_rubber_refinery
-				level = 1
-				instant_build = yes
-			}
-		}
-		add_resource = {
-			type = rubber
-			amount = 6
-			state = 276
-		}
-		if = {
-			limit = { NOT = { has_tech = synth_oil_experiments } }
-			add_tech_bonus = {
-				name = synth_resources
-				bonus = 1.00
-				uses = 1
-				category = industry
-			}
-		}
-	}
-}
 
 country_event = { # Quebec decides its fate
 	id = better_canada.53
@@ -1270,29 +1059,7 @@ country_event = {
 	desc = better_canada.54.d
 	picture = GFX_report_event_canadian_soldiers
 	
-	fire_only_once = yes
-
-	mean_time_to_happen = {
-		days = 1460 # 4 years
-		
-		modifier = {
-			factor = 0.1
-			
-			date > 1943.1.1
-		}
-		
-		modifier = {
-			factor = 0.5
-			
-			date > 1941.1.1
-		}
-		
-		modifier = {
-			factor = 0.75
-			
-			date > 1939.1.1
-		}
-	}	
+	is_triggered_only = yes	
 	
 	trigger = {
 		OR = {
