@@ -1,5 +1,99 @@
 FIN_sovwar = {
 
+	FIN_grain = {
+	    allowed = {
+			always = yes
+			#added through on_action
+		}
+			
+		visible = {
+			original_tag = FIN
+			has_completed_focus = FIN_statecontrol
+		}
+
+		available = {
+			original_tag = FIN
+			has_completed_focus = FIN_statecontrol
+			NOT = { has_global_flag = winterwar }
+			or = {
+				has_idea = FIN_russia
+				has_idea = FIN_russia2
+			}
+		}
+		
+		cost = 30
+
+		ai_will_do = {
+			factor = 200
+		}
+		
+		fire_only_once = yes
+
+		complete_effect = {
+			if = { 
+				limit = { has_idea = FIN_russia }
+				swap_ideas = {
+					add_idea = FIN_russia2
+					remove_idea = FIN_russia
+				}
+			}
+			else_if = {
+				limit = { has_idea = FIN_russia2 }
+				swap_ideas = {
+					add_idea = FIN_russia3
+					remove_idea = FIN_russia2
+				}
+			}
+		}
+	}
+	
+	FIN_grain2 = {
+	    allowed = {
+			always = yes
+			#added through on_action
+		}
+			
+		visible = {
+			original_tag = FIN
+			has_completed_focus = FIN_statecontrol
+		}
+
+		available = {
+			original_tag = FIN
+			has_completed_focus = FIN_statecontrol
+			NOT = { has_global_flag = winterwar }
+			or = {
+				has_idea = FIN_russia2
+				has_idea = FIN_russia3
+			}
+		}
+		
+		cost = 30
+
+		ai_will_do = {
+			factor = 0
+		}
+		
+		fire_only_once = yes
+
+		complete_effect = {
+			if = {
+				limit = { has_idea = FIN_russia2 }
+				swap_ideas = {
+					add_idea = FIN_russia
+					remove_idea = FIN_russia2
+				}
+			}
+			else_if = {
+				limit = { has_idea = FIN_russia3 }
+				swap_ideas = {
+					add_idea = FIN_russia2
+					remove_idea = FIN_russia3
+				}
+			}
+		}
+	}
+
 	FIN_winterwar3 = {
 	    allowed = {
 			always = yes
@@ -51,17 +145,28 @@ FIN_sovwar = {
 			
 		visible = {
 			original_tag = FIN
-			has_offensive_war_with = SOV
+			or = {
+				has_offensive_war_with = SOV
+				date > 1940.1.1
+				has_completed_focus = FIN_preparerevenge
+			}
 		}
 
 		available = {
 			original_tag = FIN
-			has_offensive_war_with = SOV
-			is_in_faction_with = GER
+			or = {
+				is_in_faction_with = GER
+				GER = { has_offensive_war_with = SOV }
+			}
+			has_completed_focus = FIN_preparerevenge
 		}
 
 		ai_will_do = {
 			factor = 200
+			modifier = {
+				factor = 0
+				NOT = { GER = { has_war_with = SOV } }
+			}
 		}
 		
 		fire_only_once = yes
@@ -96,129 +201,23 @@ FIN_sovwar = {
 					}
 				}
 			}
+			if = {
+				limit = { 
+					NOT = { is_in_faction_with = SOV } 
+					SOV = { exists = yes }
+					NOT = { has_war_with = SOV }
+				}
+				FIN = {
+					country_event = {
+						id = twevents.74
+						days = 1
+					}
+				}
+			}
 			hidden_effect = {
 				news_event = {
 					id = news.1306
 					days = 1
-				}
-			}
-		}
-	}
-	
-	FIN_relyongermany = {
-	    allowed = {
-			always = yes
-			#added through on_action
-		}
-			
-		visible = {
-			original_tag = FIN
-			has_offensive_war_with = SOV
-		}
-
-		available = {
-			original_tag = FIN
-			has_offensive_war_with = SOV
-			is_in_faction_with = GER
-		}
-
-		ai_will_do = {
-			factor = 200
-		}
-		
-		fire_only_once = yes
-		
-		cost = 50
-
-		complete_effect = {
-			add_command_power = -10
-			if = {
-				limit = { is_ai = no }
-				FIN = {
-					add_timed_idea = {
-						idea = FIN_perkele3
-						days = 180
-					}
-				}
-			}
-			else = {
-				FIN = {
-					add_timed_idea = {
-						idea = FIN_perkele_AI3
-						days = 365
-					}
-				}
-			}
-		}
-	}
-	
-	FIN_mobilisation = {
-		allowed = {
-			always = yes
-		}
-			
-		visible = {
-			original_tag = FIN
-			date > 1940.1.1
-		}
-
-		available = {
-			original_tag = FIN
-			date > 1940.8.1
-		}
-
-		ai_will_do = {
-			factor = 200
-		}
-		
-		fire_only_once = yes
-		
-		cost = 150
-
-		complete_effect = {
-			if = {
-				limit = { is_ai = no }
-				FIN = {
-					add_timed_idea = {
-						idea = FIN_perkele4
-						days = 60
-					}
-				}
-			}
-			else = {
-				FIN = {
-					add_timed_idea = {
-						idea = FIN_perkele4
-						days = 90
-					}
-				}
-			}
-			hidden_effect = {
-				add_ai_strategy = { 
-					type = conquer
-					id = SOV			
-					value = 200
-				}
-				add_ai_strategy = { 
-					type = antagonize
-					id = SOV			
-					value = 200
-				}
-				add_ai_strategy = { 
-					type = dont_defend_ally_borders
-					id = GER			
-					value = 200
-				}
-				if = {
-					limit = { is_ai = yes }
-					add_timed_idea = {
-						idea = FIN_AIdiv
-						days = 365
-					}
-					add_ai_strategy = {
-						type = force_build_armies
-						value = 100
-					}
 				}
 			}
 		}
@@ -231,13 +230,17 @@ FIN_sovwar = {
 			
 		visible = {
 			original_tag = FIN
-			date > 1941.1.1
+			or = {
+				date > 1941.1.1
+				has_completed_focus = FIN_preparerevenge
+			}
 		}
 
 		available = {
 			original_tag = FIN
 			has_war = no
 			date > 1941.2.1
+			has_completed_focus = FIN_preparerevenge
 		}
 
 		ai_will_do = {

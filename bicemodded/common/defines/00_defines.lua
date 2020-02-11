@@ -1954,7 +1954,7 @@ NAI = {
 	
 	LAND_COMBAT_INTERCEPT_PER_PLANE = 0.4,			-- Amount of interception planes requested per enemy plane
 	
-	XP_RATIO_REQUIRED_TO_RESEARCH_WITH_XP = 200.0,		-- AI will at least need this amount of xp compared to cost of a tech to reserch it with XP			
+	XP_RATIO_REQUIRED_TO_RESEARCH_WITH_XP = 2.0,		-- AI will at least need this amount of xp compared to cost of a tech to reserch it with XP			
 	RESEARCH_WITH_XP_AI_WEIGHT_MULT = 1.2, 				-- AI will bump score of a research with this mult if it can use XP
 	
 	STR_BOMB_AIR_SUPERIORITY_IMPORTANCE = 0.05,			-- Strategic importance of air superiority ( amount of enemy planes in area )
