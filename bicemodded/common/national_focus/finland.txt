@@ -79,32 +79,6 @@ focus_tree = {
 	}
 	
 	focus = {
-		id = FIN_nickel
-		icon = GFX_Goal_FIN_mines
-		prerequisite = { focus = FIN_agrarianreform }
-		relative_position_id = FIN_agrarianreform
-		available = {
-			controls_state = 722
-			has_global_flag = winterwar
-		}
-		x = 1
-		y = 1
-		cost = 4
-		completion_reward = {
-			add_resource = {
-				type = chromium
-				amount = 8
-				state = 722
-			}
-			custom_effect_tooltip = FIN_petsamo_crisis
-			country_event = {
-				id = finland.13
-				days = 1
-			}
-		}
-	}
-	
-	focus = {
 		id = FIN_selfsufficiency
 		icon = GFX_generic_farmer
 		prerequisite = { focus = FIN_agrarianreform }
@@ -327,13 +301,12 @@ focus_tree = {
 		relative_position_id = FIN_line
 		available = {
 			has_global_flag = winterwar
-			has_idea = FIN_refuge
 		}
 		x = 2
 		y = 1
-		cost = 4.7
+		cost = 1
 		completion_reward = {
-			remove_ideas = FIN_refuge
+			add_political_power = 25
 		}
 	}
 	
@@ -380,7 +353,7 @@ focus_tree = {
 	focus = {
 		id = FIN_tariff
 		icon = GFX_goal_FIN_tarifprot
-		prerequisite = { focus = FIN_industrialise focus = FIN_domestic }
+		prerequisite = { focus = FIN_domestic }
 		relative_position_id = FIN_industrialise
 		available = {
 			or = {
@@ -388,7 +361,7 @@ focus_tree = {
 				has_idea = FIN_russia3
 			}
 		}
-		x = 0
+		x = 1
 		y = 2
 		cost = 6.8
 		completion_reward = {
@@ -413,12 +386,12 @@ focus_tree = {
 	focus = {
 		id = FIN_2yearplan
 		icon = GFX_focus_generic_self_management
-		prerequisite = { focus = FIN_winterwar focus = FIN_decentralise }
+		prerequisite = { focus = FIN_winterwar }
 		relative_position_id = FIN_winterwar
 		available = {
 			controls_state = 111
 		}
-		x = -2
+		x = -1
 		y = 1
 		cost = 8.9
 		completion_reward = {
@@ -434,18 +407,73 @@ focus_tree = {
 				idea = FIN_2year
 				days = 725
 			}
+			hidden_effect = {
+				if = { 
+					limit = { has_idea = FIN_loans }
+					swap_ideas = {
+						add_idea = FIN_loans2
+						remove_idea = FIN_loans
+					}
+				}
+				else_if = {
+					limit = { has_idea = FIN_loans2 }
+					swap_ideas = {
+						add_idea = FIN_loans3
+						remove_idea = FIN_loans2
+					}
+				}
+				else_if = {
+					limit = { has_idea = FIN_loans3 }
+					swap_ideas = {
+						add_idea = FIN_loans4
+						remove_idea = FIN_loans3
+					}
+				}
+				else_if = {
+					limit = { has_idea = FIN_loans4 }
+					swap_ideas = {
+						add_idea = FIN_loans5
+						remove_idea = FIN_loans4
+					}
+				}
+			}
+			custom_effect_tooltip = FIN_loanincrease
+		}
+	}
+	
+	focus = {
+		id = FIN_nickel
+		icon = GFX_Goal_FIN_mines
+		prerequisite = { focus = FIN_2yearplan }
+		relative_position_id = FIN_2yearplan
+		available = {
+			controls_state = 722
+		}
+		x = 0
+		y = 2
+		cost = 4
+		completion_reward = {
+			add_resource = {
+				type = chromium
+				amount = 17
+				state = 722
+			}
+			custom_effect_tooltip = FIN_petsamo_crisis
+			country_event = {
+				id = finland.13
+				days = 1
+			}
 		}
 	}
 	
 	focus = {
 		id = FIN_wood
 		icon = GFX_goal_generic_construct_civilian
-		prerequisite = { focus = FIN_selfsufficiency }
-		prerequisite = { focus = FIN_decentralise }
-		prerequisite = { focus = FIN_domestic }
+		prerequisite = { focus = FIN_tariff }
 		relative_position_id = FIN_selfsufficiency
 		available = {
 			controls_state = 149
+			has_tech = heavy_industry
 		}
 		x = 0
 		y = 3
@@ -454,10 +482,15 @@ focus_tree = {
 			149 = {
 				add_building_construction = {
 					type = industrial_complex
-					level = 4
+					level = 3
 					instant_build = yes
 				}
-				add_extra_state_shared_building_slots = 4
+				add_building_construction = {
+					type = steel_refinery
+					level = 2
+					instant_build = yes
+				}
+				add_extra_state_shared_building_slots = 5
 			}
 		}
 	}
@@ -466,11 +499,12 @@ focus_tree = {
 		id = FIN_supportrural
 		icon = GFX_goal_FIN_rural
 		prerequisite = { focus = FIN_2yearplan }
+		prerequisite = { focus = FIN_rapid }
 		relative_position_id = FIN_2yearplan
 		available = {
 			has_country_flag = FIN_election1936
 		}
-		x = 0
+		x = -1
 		y = 1
 		cost = 4.9
 		completion_reward = {
@@ -498,8 +532,7 @@ focus_tree = {
 	focus = {
 		id = FIN_line2
 		icon = GFX_goal_generic_fortify_city
-		prerequisite = { focus = FIN_winterwar }
-		prerequisite = { focus = FIN_2yearplan }
+		prerequisite = { focus = FIN_2yearplan focus = FIN_preparerevenge }
 		relative_position_id = FIN_winterwar
 		available = {
 			controls_state = 150
@@ -667,6 +700,111 @@ focus_tree = {
 	}
 	
 	focus = {
+		id = FIN_prohibition
+		icon = GFX_goal_FIN_alcohol
+		prerequisite = { focus = FIN_liberallaw }
+		relative_position_id = FIN_liberallaw
+		bypass = {
+		}
+		available = {
+		}
+		x = 0
+		y = 1
+		cost = 7.2
+		completion_reward = {
+			add_stability = 0.07
+			add_political_power = 130
+		}
+	}
+	
+	focus = {
+		id = FIN_privatization
+		icon = GFX_goal_generic_construct_civ_factory
+		prerequisite = { focus = FIN_tariff }
+		relative_position_id = FIN_tariff
+		bypass = {
+		}
+		available = {
+			has_tech = heavy_industry
+		}
+		x = -1
+		y = 1
+		cost = 10.3
+		completion_reward = {
+			random_owned_controlled_state = {
+				prioritize = { 111 }
+				add_building_construction = {
+					type = industrial_complex
+					level = 6
+					instant_build = yes
+				}
+				add_extra_state_shared_building_slots = 6
+			}
+			random_owned_controlled_state = {
+				prioritize = { 145 }
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+				add_extra_state_shared_building_slots = 2
+			}
+		}
+	}
+	
+	focus = {
+		id = FIN_newfarms
+		icon = GFX_generic_farmer
+		prerequisite = { focus = FIN_wood }
+		prerequisite = { focus = FIN_privatization }
+		relative_position_id = FIN_wood
+		bypass = {
+		}
+		available = {
+		}
+		x = -1
+		y = 1
+		cost = 7.9
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+				add_extra_state_shared_building_slots = 2
+			}
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+				add_extra_state_shared_building_slots = 2
+			}
+		}
+	}
+	
+	focus = {
+		id = FIN_rapid
+		icon = GFX_Goal_FIN_refuge
+		prerequisite = { focus = FIN_winterwar }
+		relative_position_id = FIN_winterwar
+		bypass = {
+		}
+		available = {
+			has_completed_focus = FIN_decentralise
+			has_idea = FIN_refuge
+		}
+		x = -3
+		y = 1
+		cost = 6
+		completion_reward = {
+			remove_ideas = FIN_refuge
+		}
+	}
+	
+	focus = {
 		id = FIN_blockexports
 		icon = GFX_SOV_colect
 		prerequisite = { focus = FIN_winterwar }
@@ -674,7 +812,11 @@ focus_tree = {
 		bypass = {
 		}
 		available = {
-			has_global_flag = winterwar
+			or = {
+				has_idea = FIN_russia
+				has_idea = FIN_russia2
+				has_idea = FIN_russia3
+			}
 		}
 		x = 1
 		y = 1
@@ -751,23 +893,23 @@ focus_tree = {
 				}
 			}
 			hidden_effect = {
-				add_ai_strategy = { 
-					type = conquer
-					id = SOV			
-					value = 200
-				}
-				add_ai_strategy = { 
-					type = antagonize
-					id = SOV			
-					value = 200
-				}
-				add_ai_strategy = { 
-					type = dont_defend_ally_borders
-					id = GER			
-					value = 200
-				}
 				if = {
 					limit = { is_ai = yes }
+					add_ai_strategy = { 
+						type = conquer
+						id = SOV			
+						value = 200
+					}
+					add_ai_strategy = { 
+						type = antagonize
+						id = SOV			
+						value = 200
+					}
+					add_ai_strategy = { 
+						type = dont_defend_ally_borders
+						id = GER			
+						value = 200
+					}
 					add_timed_idea = {
 						idea = FIN_AIdiv
 						days = 365
@@ -777,7 +919,196 @@ focus_tree = {
 						value = 100
 					}
 				}
+				if = { 
+					limit = { has_idea = FIN_loans }
+					swap_ideas = {
+						add_idea = FIN_loans2
+						remove_idea = FIN_loans
+					}
+				}
+				else_if = {
+					limit = { has_idea = FIN_loans2 }
+					swap_ideas = {
+						add_idea = FIN_loans3
+						remove_idea = FIN_loans2
+					}
+				}
+				else_if = {
+					limit = { has_idea = FIN_loans3 }
+					swap_ideas = {
+						add_idea = FIN_loans4
+						remove_idea = FIN_loans3
+					}
+				}
+				else_if = {
+					limit = { has_idea = FIN_loans4 }
+					swap_ideas = {
+						add_idea = FIN_loans5
+						remove_idea = FIN_loans4
+					}
+				}
 			}
+			custom_effect_tooltip = FIN_loanincrease
+			
+			
+		}
+	}
+	
+	focus = {
+		id = FIN_program
+		icon = GFX_arms_artillery_grenades
+		prerequisite = { focus = FIN_preparerevenge }
+		relative_position_id = FIN_preparerevenge
+		available = {
+			NOT = { has_war_with = SOV }
+			NOT = { has_war_with = GER }
+		}
+		x = 3
+		y = 1
+		cost = 6
+		completion_reward = {
+			add_ideas = FIN_program1940
+			hidden_effect = {
+				if = { 
+					limit = { has_idea = FIN_loans }
+					swap_ideas = {
+						add_idea = FIN_loans2
+						remove_idea = FIN_loans
+					}
+				}
+				else_if = {
+					limit = { has_idea = FIN_loans2 }
+					swap_ideas = {
+						add_idea = FIN_loans3
+						remove_idea = FIN_loans2
+					}
+				}
+				else_if = {
+					limit = { has_idea = FIN_loans3 }
+					swap_ideas = {
+						add_idea = FIN_loans4
+						remove_idea = FIN_loans3
+					}
+				}
+				else_if = {
+					limit = { has_idea = FIN_loans4 }
+					swap_ideas = {
+						add_idea = FIN_loans5
+						remove_idea = FIN_loans4
+					}
+				}
+			}
+			custom_effect_tooltip = FIN_loanincrease
+		}
+	}
+	
+	focus = {
+		id = FIN_airdev
+		icon = GFX_goal_luftwaffe
+		prerequisite = { focus = FIN_program }
+		relative_position_id = FIN_program
+		available = {
+		}
+		x = -1
+		y = 1
+		cost = 8.5
+		completion_reward = {
+			add_tech_bonus = {
+				category = light_fighter
+				uses = 2
+				bonus = 0.5
+			}
+			air_experience = 15
+		}
+	}
+	
+	focus = {
+		id = FIN_landdev
+		icon = GFX_goal_FIN_simo
+		prerequisite = { focus = FIN_program }
+		relative_position_id = FIN_program
+		available = {
+		}
+		x = 1
+		y = 1
+		cost = 9.6
+		completion_reward = {
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 2000
+				producer = GER
+			}
+			add_equipment_to_stockpile = {
+				type = support_equipment
+				amount = 200
+				producer = GER
+			}
+			add_equipment_to_stockpile = {
+				type = HQ_equipment_0
+				amount = 200
+				producer = GER
+			}
+			add_tech_bonus = {
+				category = infantry_weapons
+				uses = 1
+				bonus = 0.3
+			}
+			add_tech_bonus = {
+				category = land_doctrine
+				uses = 1
+				bonus = 0.5
+			}
+			hidden_effect = {
+				if = { 
+					limit = { has_idea = FIN_loans }
+					swap_ideas = {
+						add_idea = FIN_loans2
+						remove_idea = FIN_loans
+					}
+				}
+				else_if = {
+					limit = { has_idea = FIN_loans2 }
+					swap_ideas = {
+						add_idea = FIN_loans3
+						remove_idea = FIN_loans2
+					}
+				}
+				else_if = {
+					limit = { has_idea = FIN_loans3 }
+					swap_ideas = {
+						add_idea = FIN_loans4
+						remove_idea = FIN_loans3
+					}
+				}
+				else_if = {
+					limit = { has_idea = FIN_loans4 }
+					swap_ideas = {
+						add_idea = FIN_loans5
+						remove_idea = FIN_loans4
+					}
+				}
+			}
+			custom_effect_tooltip = FIN_loanincrease
+		}
+	}
+	
+	focus = {
+		id = FIN_salestax
+		icon = GFX_goal_generic_news
+		prerequisite = { focus = FIN_landdev }
+		prerequisite = { focus = FIN_airdev }
+		relative_position_id = FIN_landdev
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = maxloan_fin		
+				has_idea = FIN_loans5
+			}
+		}
+		x = -1
+		y = 1
+		cost = 4
+		completion_reward = {
+			unlock_decision_tooltip = FIN_sales1
 		}
 	}
 	
