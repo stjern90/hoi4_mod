@@ -838,14 +838,14 @@ NMilitary = {
 	UNIT_LEADER_INITIAL_TRAIT_SLOT = { 				-- trait slot for 0 level leader
 		1.0, -- field marshal
 		0.0, -- corps commander
-		1.0  -- navy general
+		1.0, -- navy general
 		0.0, -- operative
 	}, 
 	
 	UNIT_LEADER_TRAIT_SLOT_PER_LEVEL = { 			-- num extra traits on each level
 		0.5, -- field marshal
 		0.5, -- corps commander
-		0.5  -- navy general
+		0.5, -- navy general
 		0.0, -- operative
 	}, 
 	
@@ -2394,8 +2394,7 @@ NFocus = {
 	FOCUS_PROGRESS_PEACE = 1,					-- Progress during peace
 	FOCUS_PROGRESS_WAR = 1,					-- Progress during war
 	MAX_SAVED_FOCUS_PROGRESS = 20,				-- This much progress can be saved while not having a focus selected
-	},
-}
+},
 
 NOperatives = {
 	AGENCY_CREATION_DAYS = 30,						-- Number of days needed to create an intelligence agency
@@ -2969,6 +2968,7 @@ NIntel = {
 	AIR_MIN_INTEL_TO_SHOW_EQUIPMENT_DESIGN_DETAILS = 0.8,
 	
 	-- ~intel ledger defines
+}
 }
 
 
