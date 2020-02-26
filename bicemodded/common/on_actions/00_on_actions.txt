@@ -20,6 +20,7 @@ on_actions = {
 		}
 		random_events = {
 			100 = spain.9
+			100 = lar_spain.1
 		}
 		random_events = {
 			100 = romania.11
@@ -71,11 +72,24 @@ on_actions = {
 		}
 	}
 
+	# our ace is killed by no name
 	# country, FROM = ace
 	on_ace_killed = {
 		random_events = {
 			100 = ace_died.1
 		}
+	}
+	
+	# our ace died in accident
+	# country, FROM = ace
+	on_ace_killed_on_accident = {
+	
+	}
+	
+	# enemy ace is killed by our non name
+	# country, FROM = enemy ace
+	on_non_ace_killed_other_ace = {
+	
 	}
 
 	# During justifying wargoals
@@ -225,7 +239,7 @@ on_actions = {
 						NOT = { has_dlc = "Together for Victory" }
 					}
 				}
-				drop_cosmetic_tag = yes
+				abandon_colony_tag = yes
 			}
 			FROM = {
 				add_opinion_modifier = {
@@ -341,6 +355,28 @@ on_actions = {
 	on_declare_war = {
 		effect = {
 		#set flag for warred with jap
+		    #make sure Dominions lose the dominion tag
+			if = {
+				limit = {
+					OR = {
+						original_tag = CAN
+						original_tag = RAJ
+						original_tag = MAL
+						original_tag = INS
+					}
+				}
+				if = {
+					limit = {
+						ROOT = {
+							original_tag = FROM
+						}
+					}
+					abandon_colony_tag = yes
+					FROM = {
+						abandon_colony_tag = yes
+					}
+				}
+			}
 		    if = {
 				limit = {
 					OR = {
@@ -950,7 +986,6 @@ country_event = { id = operation.70 } }
 					}
 				}
 			}
-
 			if = {
 				limit = {
 					FROM = {
@@ -964,9 +999,12 @@ country_event = { id = operation.70 } }
 				random_country = {
 					limit = {
 						original_tag = FRA
-						has_completed_focus = FRA_far_right_leagues
+						OR = {
+							has_completed_focus = FRA_right_wing_rhetoric
+							has_completed_focus = FRA_utilize_the_leagues
+						}
 					}
-					country_event = { id = france.320 }
+					country_event = { id = france.32 }
 				}
 			}
 		}
@@ -1067,9 +1105,30 @@ if = {
 					NOT = { original_tag = GER }
 					NOT = { has_government = fascism }
 					NOT = { has_civil_war = yes }
+					NOT = {
+						AND = {
+							FROM = {
+								original_tag = SPR
+							}
+							original_tag = SPR
+						}
+					}
 				}
+				news_event = { id = country_capitulated.0 days = 0 }
 			}
-			news_event = { id = country_capitulated.0 days = 0 }
+			
+			if = {
+				limit = { tag = FRA }
+				set_global_flag = FRA_already_surrendered
+				set_variable = { global.FRA_capitulation_days = global.num_days }
+			}
+			if = {
+				limit = {
+					FROM = { tag = JAP }
+					ROOT = { tag = CHI }
+				}
+				JAP = { JAP_intervene_in_china_remove = yes }
+			}
 			if =  {
                 limit = {
                     ROOT = { tag = BEL is_in_faction = yes }
@@ -1113,6 +1172,17 @@ if = {
 					original_tag = DEN
 				}
 				country_event = { id = wtt_denmark.1 days = 1 }
+			}
+			if = {
+				limit = {
+					original_tag = FRA
+					has_government = democratic
+					NOT = { has_global_flag = achievement_france_surrender } #might as well use the achievement flag to check if france.10 fired
+					is_subject = no
+					is_in_faction_with = ENG
+					has_war_with = GER
+				}
+				country_event = france.10
 			}
 		}
 	}
@@ -1268,6 +1338,7 @@ if = {
 					original_tag = ROOT
 				}
 				set_politics = {
+				    ruling_party = democratic
 					elections_allowed = yes
 				}
 			}
@@ -1281,6 +1352,7 @@ if = {
 			#End of SCW
 			if = {
 				limit = {
+				    NOT = { has_dlc = "La Resistance" }
 					FROM = {
 						original_tag = SPR
 					}
@@ -1319,6 +1391,7 @@ if = {
 				}
 				set_politics = {
 					elections_allowed = yes
+					ruling_party = democratic
 				}
 			}
 			#End of German Civil War
@@ -1344,7 +1417,7 @@ if = {
 						has_government = fascism
 					}
 				}
-				news_event = { id = mtg_news.7 days = 4 random = 5 }
+				news_event = { id = mtg_news.7 days = 4 random_days = 5 }
 			}
 			#End of ideology Civil War
 			if = {
@@ -1531,7 +1604,7 @@ if = {
 					NOT = { has_global_flag = fall_of_berlin_civil_war }
 				}
 				set_global_flag = fall_of_berlin_civil_war
-				country_event = { id = wtt_germany.50 days = 1 random = 3 }
+				country_event = { id = wtt_germany.50 days = 1 random_hours = 3 }
 			}
 			if = {
 				limit = {
@@ -1633,5 +1706,39 @@ if = {
 
 	# Scope is the country owner of the PotF, FROM is the country of the killer
 	on_pride_of_the_fleet_sunk = {
+	}
+	# root country that invades
+	# scope state that is invaded
+	# from scope state that the invasion started
+	# on_naval_invasion = {
+	# 	effect = {
+	# 	}
+	# }
+	
+	
+	# root country that paradrops
+	# scope state that is paradroped into
+	# from scope state that the paradrop started
+	#on_paradrop = {
+	#    effect = {
+	#	}
+	#}
+	on_ruling_party_change = { 
+		effect = {
+			every_owned_state = {
+				limit = {
+					is_controlled_by = ROOT
+					NOT = {
+						is_core_of = ROOT
+					}
+				}
+
+				set_temp_variable = { comp_change = random }
+				multiply_temp_variable = { comp_change = -15 }
+				add_to_temp_variable = { comp_change = -10 }
+
+				add_compliance = comp_change
+			}
+		}
 	}
 }
