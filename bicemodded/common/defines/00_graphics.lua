@@ -1092,6 +1092,7 @@ NInterface = {
 	OPERATIVE_MISSION_EFFICIENCY_ANIMATION_TIME_MAX = 2.0,			-- the maximum duration of a loop in seconds
 
 	OPERATIVE_COUNTER_INTELLIGENCE_DEFENSE_TO_EFFICIENCY_FACTOR = 33.0,	-- Factor multiplied to the defense provided by the operative while on counter intelligence mission to get a score in the range [0,100] that is then used to scale the animation speed
+	OPERATIVE_PROPAGANDA_DRIFT_TO_EFFICIENCY_FACTOR = 100000.0,		-- Factor multiplied to the war support and stability drift to obtain the efficiency score (expected to be in range [0,100])
 	OPERATIVE_NETWORK_STRENGTH_GAIN_TO_EFFICIENCY_FACTOR = 12.0,		-- Factor multiplied to the network strength the operative provides while on build network mission to get a score in the range [0,100] that is then used to scale the animation speed
 	OPERATIVE_BOOST_IDEOLOGY_DRIFT_TO_EFFICIENCY_FACTOR = 500.0,		-- Factor multiplied to the ideology drift caused by the operative in order to get a score in the range [0,100] used to determine the speed of the animation
 	OPERATIVE_ROOT_OUT_RESISTANCE_EFFICIENCY_TO_EFFICIENCY_FACTOR = 75.0,	-- Factor multiplied to the operative's efficiency at the RootOutResistance mission to determine the animation speed
@@ -1120,6 +1121,7 @@ NInterface = {
 	},
 	
 	GARRISON_STRENGTH_TO_SHOW_RED = 0.25,	-- If the garrison strength is lower than that, we color the number of divisions in red.
+	MAX_DECISIONS_IN_DECISION_ALERT_TOOLTIP = 5,				-- Max number of available decisions we show in the alert tooltip
 },
 
 

@@ -19,6 +19,7 @@ NGame = {
 	FUEL_RESOURCE = "oil",							-- resource that will give country fuel
 	MAX_EFFECT_ITERATION = 1000,					-- maximum allowed iteration for loop effects
 	MAX_SCRIPTED_LOC_RECURSION = 30,				-- max recursion for scripted localizations
+	HANDS_OFF_START_TAG = "URG",					-- tag for player country for -hands_off runs. use an existing tag that is less likely to affect the game
 },
 
 NDiplomacy = {
@@ -280,6 +281,14 @@ NCountry = {
 	CONVOYS_BEING_RAIDED_WEEKLY_WAR_SUPPORT_PENALTY_DECAY = 0.003,	-- Weekly decay of trade convoy raided war support penalty
 	MAX_CONVOYS_BEING_RAIDED_WAR_SUPPORT_IMPACT = -0.35,				-- Max total penalty from trade convoy raided
 	
+	FEMALE_UNIT_LEADER_BASE_CHANCE = { 
+		-- applies as a factor to female unit leader randomization
+		-- the values needs to be zero if you don't actually have random portraits
+		0.0, -- navy leaders
+		0.0, -- army leaders
+		1.0, -- operatives
+	},
+	COUNTRY_LEADER_FEMALE_CHANCE = 0.0, -- chance for new country leaders to be female. should be set > 0 only if there are portraits/names for that country
 	
 	CONVOYS_SUNK_MULTIPLIER_FOR_WAR_SUPPORT = 0.2,	-- once a trade convoy ship sunk, you will get a larger negative impact on your war support
 	CONVOYS_BEING_RAIDED_DAILY_WAR_SUPPORT_IMPACT_FROM_OVERSEA_STATES = 0.2,	-- resource transfer convoys convoys from our states being raided will give a daily war support penalty depending on how important that resource is and how inefficent convoys are
@@ -354,6 +363,9 @@ NCountry = {
 
 	WILL_LEAD_TO_WAR_FOCUS_PERSISTENCE = 60, -- taken focuses that has lead to war will still make ai prep for war for this many days after being taken
 	WILL_LEAD_TO_WAR_DECISION_PERSISTENCE = 30, -- the decision thats lead to war will sitll make ai prep for war for this many days after being taken/cooldown/timeout
+	
+	ARMY_COUNT_DAILY_LERP_FOR_TRAINING_XP = 0.002, -- number of armies that is used in training xp calculates daily lerps to actual number (if real number is lower)
+	ARMY_COUNT_DAILY_DECREASE_FOR_TRAINING_XP = -0.1, -- number of armies that is used in training xp calculates daily linearly approaches this number (if real number is lower)
 },
 
 NResistance = {
@@ -443,7 +455,7 @@ NResistance = {
 	FOREIGN_MANPOWER_MIN_THRESHOLD = 5000,		 -- The minimum number of Manpower that AI will accept to give at once, in order to avoid many weird little transfer.
 	MANPOWER_BUFFER_TO_NOT_GIVE_MINOR = 0.3, -- To determine how much AI can give as foreign manpower, we calculate how much manpower we use, and add this buffer. The result is what we want to keep, for minor countries. So higher this number is, lower we will give Manpower.
 	MANPOWER_BUFFER_TO_NOT_GIVE_MAJOR = 0.6, -- To determine how much AI can give as foreign manpower, we calculate how much manpower we use, and add this buffer. The result is what we want to keep, for major countries. So higher this number is, lower we will give Manpower.
-	MAX_GARRISON_PERCENT_WE_AGREE_TO_SUPPORT = -1,	-- The part of the manpower needed by the foreign garrison, that AI will agree to support with our manpower. If negative number, AI will not take into consideration the need, and just calculate how much they can give.
+	MAX_GARRISON_PERCENT_WE_AGREE_TO_SUPPORT = 3,	-- The part of the manpower needed by the foreign garrison, that AI will agree to support with our manpower. If negative number, AI will not take into consideration the need, and just calculate how much they can give.
 	FOREIGN_MANPOWER_AI_COOLDOWN_DAYS = 30,		 -- Number of days after an AI give us manpower before the AI accept to give more.
 
 	INITIAL_HISTORY_RESISTANCE = 0.0,			-- resistance value for initial colony states
@@ -1795,6 +1807,8 @@ NAI = {
 	
 	SUPPLY_CRISIS_LIMIT = 0.9,					-- If a unit is standing in an area with 
 	
+	MAX_STRIKE_FORCE_ASSIGN_RANGE = 5,
+	
 	MAX_ALLOWED_NAVAL_DANGER = 20,				-- #Was 80.... AI will ignore naval paths that has danger value of above this threshold while assigning units
 	TRANSFER_DANGER_HOSTILE_SHIPS = 50, 		-- max danger from complete enemy naval supriority over ai in an area
 
@@ -2498,7 +2512,8 @@ NOperatives = {
 	OPERATIVE_MAX_DAYS_HARMED = 120,						-- Maximum number of days an operative can be harmed. Applied after modifiers. Is ignored if negative
 	OPERATIVE_MIN_DAYS_FORCED_INTO_HIDING = 7,				-- Minimum number of days an operative can be forced into hiding. Applied after modifiers. Can be zero.
 	OPERATIVE_MAX_DAYS_FORCED_INTO_HIDING = 120,				-- Maximum number of days an operative can be forced into hiding. Applied after modifiers. Is ignored if negative
-	OPERATIVE_MAX_DAYS_TO_AUTO_RESUME_MISSION = 30,				-- Maximum number of days an operative has to be disabled before its mission is not automatically resumed once he is available again
+	OPERATIVE_MAX_DAYS_TO_AUTO_RESUME_MISSION = 30,				-- Maximum number of days an operative has to be disabled before its mission is not automatically resumed once he is available again	
+	MAX_RECRUITED_OPERATIVES = 10,
 	
 	CRYPTO_BASE_CRYPTO_LEVEL = 12000,						-- base crypto strength for a country
 	CRYPTO_CRYPTO_LEVEL_PER_CRYPTO_UPGRADE = 4250,			-- crypto strength per crypto upgrade
@@ -2796,7 +2811,7 @@ NIntel = {
 	
 	INTEL_TO_SHOW_IDEAS = { 0.0, 0.0, 0.0, 0.0 },
 	
-	ARMY_ARMY_COUNT_RANGE_INTEL_MIN = 0.1,
+	ARMY_ARMY_COUNT_RANGE_INTEL_MIN = 0.05,
 	ARMY_ARMY_COUNT_RANGE_INTEL_MAX = 0.7,
 	ARMY_ARMY_COUNT_RANGE_INTEL_RANGE_AT_LOWEST_INTEL = 0.8,
 	
@@ -2849,7 +2864,7 @@ NIntel = {
 	NAVY_SHIP_TYPE_COUNT_INTEL_RANGE_AT_LOWEST_INTEL = 0.5,
 	
 	NAVY_MIN_INTEL_TO_SHOW_SHIP_CLASSES = 0.5, --this unclocks the display of a given variant
-	NAVY_DEPLOYED_MANPOWER_COUNT_RANGE_INTEL_MIN = 0.1,
+	NAVY_DEPLOYED_MANPOWER_COUNT_RANGE_INTEL_MIN = 0.05,
 	NAVY_DEPLOYED_MANPOWER_COUNT_RANGE_INTEL_MAX = 0.7,
 	NAVY_DEPLOYED_MANPOWER_COUNT_RANGE_INTEL_RANGE_AT_LOWEST_INTEL = 0.5,
 	
