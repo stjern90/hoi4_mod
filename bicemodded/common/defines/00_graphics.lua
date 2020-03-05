@@ -1088,7 +1088,7 @@ NInterface = {
 	MISSION_CONVOY_ESCORT_SOFT_REQ_THRESHOLD_DEPTH_CHARGES_SUM = 8,	-- Sum of the stat Depth Charges in the task force
 	MISSION_NAVAL_INVASION_SUPPORT_SOFT_REQ_THRESHOLD_SHORE_BOMBARDMENT = 3,	-- Same, for naval invasion. Sum of the stat Shore Bombardment in the task force
 	
-	OPERATIVE_MISSION_EFFICIENCY_ANIMATION_TIME_MIN = 0.1,			-- the minimum duration of a loop in seconds
+	OPERATIVE_MISSION_EFFICIENCY_ANIMATION_TIME_MIN = 0.17,			-- the minimum duration of a loop in seconds
 	OPERATIVE_MISSION_EFFICIENCY_ANIMATION_TIME_MAX = 2.0,			-- the maximum duration of a loop in seconds
 
 	OPERATIVE_COUNTER_INTELLIGENCE_DEFENSE_TO_EFFICIENCY_FACTOR = 33.0,	-- Factor multiplied to the defense provided by the operative while on counter intelligence mission to get a score in the range [0,100] that is then used to scale the animation speed
