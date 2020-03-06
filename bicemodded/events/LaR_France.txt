@@ -2646,6 +2646,12 @@ country_event = {
 		ai_chance = {
 			factor = 80
 		}
+		if = { 
+			limit = {
+				is_guaranteed_by = SOV
+			}
+			set_country_flag = Franco_soviet_guaarantee 
+		}
 		ITA = {
 			transfer_state = 268
 		}
@@ -2679,6 +2685,13 @@ country_event = {
 				}
 			}
 			give_guarantee = AUS
+		}
+		if = {
+			limit = {
+				has_country_flag = Franco_soviet_guaarantee
+			}
+			give_guarantee = SOV
+			SOV = { give_guarantee = ROOT }
 		}
 	}
 
@@ -2848,6 +2861,7 @@ country_event = {
 		}
 		give_guarantee = FROM
 		FROM = { give_guarantee = ROOT }
+		
 	}
 }
 #response event for France - soviets refuse
@@ -4072,6 +4086,142 @@ country_event = {
 		name = generic.4.a	
 		ai_chance = {
 			factor = 100
+		}
+	}
+}
+
+add_namespace = lar_fra_join_the_ententes
+
+ ###  ##  ### #  #     ### #  # ###     ### #  # ### ### #  # ### ###  ## 
+   # #  #  #  ## #      #  #  # #       #   ## #  #  #   ## #  #  #   #   
+   # #  #  #  # ##      #  #### ##      ##  # ##  #  ##  # ##  #  ##   #  
+#  # #  #  #  #  #      #  #  # #       #   #  #  #  #   #  #  #  #     # 
+ ##   ##  ### #  #      #  #  # ###     ### #  #  #  ### #  #  #  ### ##  
+
+#first event - join the French faction?
+country_event = {
+	id = lar_fra_join_the_ententes.1
+	title = lar_fra_join_the_ententes.1.t
+	desc = lar_fra_join_the_ententes.1.desc
+	picture = GFX_report_event_generic_read_write
+
+	is_triggered_only = yes
+	
+	option = { #accept
+		name = lar_fra_join_the_ententes.1.a
+		ai_chance = {
+			factor = 100
+		}
+		FROM = { country_event = lar_fra_join_the_ententes.2 }
+	}
+
+	option = { #refuse
+		name = lar_fra_join_the_ententes.1.b
+		ai_chance = {
+			factor = 0
+		}
+		FROM = { country_event = lar_fra_join_the_ententes.3 }
+	}
+}
+
+#second event - Britain joins French faction, move them and all their subjects, fire event to independent nations in their faction
+country_event = {
+	id = lar_fra_join_the_ententes.2
+	title = lar_fra_join_the_ententes.2.t
+	desc = lar_fra_join_the_ententes.2.desc
+	picture = GFX_report_event_generic_read_write
+
+	is_triggered_only = yes
+	
+
+	option = { #accept
+		name = lar_fra_join_the_ententes.2.a
+		ai_chance = {
+			factor = 100
+		}
+		every_other_country = {
+			limit = {
+				is_in_faction_with = FROM
+				NOT = { tag = FROM } #countries are in a faction with themselves
+				is_subject = no
+			}
+			country_event = lar_fra_join_the_ententes.4
+		}
+		add_to_faction = FROM
+		every_other_country = {
+			limit = {
+				is_subject_of = FROM
+			}
+			ROOT = { add_to_faction = PREV }
+		}
+	}
+}
+
+#second event - country refuses
+country_event = {
+	id = lar_fra_join_the_ententes.3
+	title = lar_fra_join_the_ententes.3.t
+	desc = lar_fra_join_the_ententes.3.desc
+	picture = GFX_report_event_generic_read_write
+
+	is_triggered_only = yes
+	
+
+	option = { #accept
+		name = lar_fra_join_the_ententes.3.a
+		ai_chance = {
+			factor = 100
+		}
+	}
+}
+
+# event for independent countries in British faction - join france?
+country_event = {
+	id = lar_fra_join_the_ententes.4
+	title = lar_fra_join_the_ententes.1.t
+	desc = lar_fra_join_the_ententes.1.desc
+	picture = GFX_report_event_generic_read_write
+
+	is_triggered_only = yes
+	
+
+	option = { #accept
+		name = lar_fra_join_the_ententes.1.a
+		ai_chance = {
+			factor = 100
+		}
+		FROM = { country_event = lar_fra_join_the_ententes.5 }
+	}
+
+	option = { #refuse
+		name = lar_fra_join_the_ententes.1.b
+		ai_chance = {
+			factor = 0
+		}
+		FROM = { country_event = lar_fra_join_the_ententes.3 }
+	}
+}
+
+# event for france - non-british sovereign nation wants to join
+country_event = {
+	id = lar_fra_join_the_ententes.5
+	title = lar_fra_join_the_ententes.2.t
+	desc = lar_fra_join_the_ententes.2.desc
+	picture = GFX_report_event_generic_read_write
+
+	is_triggered_only = yes
+	
+	option = { #accept
+		name = lar_fra_join_the_ententes.2.a
+		ai_chance = {
+			factor = 100
+		}
+		add_to_faction = FROM
+		every_other_country = {
+			limit = {
+				is_subject_of = FROM
+			}
+			ROOT = { add_to_faction = PREV }
 		}
 	}
 }
