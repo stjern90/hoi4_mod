@@ -109,6 +109,7 @@ focus_tree = {
 		id = POL_expansion_of_industry3
 		icon = GFX_goal_POL_nationaldefense
 		prerequisite = { focus = POL_the_four_year_plan }
+		prerequisite = { focus = POL_prepare_for_the_next_war }
 		
 		relative_position_id = POL_the_four_year_plan
 		x = 1
@@ -183,7 +184,7 @@ focus_tree = {
 		
 	focus = { # Plan West
 		id = POL_plan_west
-		icon = GFX_Goal_POL_planwest
+		icon = GFX_Goal_poland_defense
 		prerequisite = { focus = POL_expansion_of_industry3 }
 		
 		relative_position_id = POL_expansion_of_industry3
@@ -226,6 +227,24 @@ focus_tree = {
 			}
 			}
 			unlock_decision_tooltip = POL_ww2plan
+			custom_effect_tooltip = POL_decisiongive
+			if = {
+				limit = { is_ai = yes }
+				effect_tooltip = {
+					add_timed_idea = {
+						idea = POL_determination
+						days = 185
+					}
+				}
+			}
+			else = { 
+				effect_tooltip = {
+					add_timed_idea = {
+						idea = POL_determination
+						days = 185
+					}
+				}
+			}
 			hidden_effect = {
 				
 				add_ai_strategy = {
@@ -239,13 +258,13 @@ focus_tree = {
 	
 	focus = {
 		id = POL_organized_command
-		icon = GFX_Goal_POL_organized
+		icon = GFX_goal_POL_organized
 		prerequisite = { focus = POL_plan_west }
 		prerequisite = { focus = POL_husaria }
 		relative_position_id = POL_plan_west
 		x = 1
 		y = 1
-		cost = 13
+		cost = 8.7
 		
 		available = {
 			custom_trigger_tooltip = {
@@ -270,6 +289,7 @@ focus_tree = {
 		
 		completion_reward = {
 			add_ideas = POL_command
+			army_experience = 17
 		}
 	}
 	
@@ -298,6 +318,15 @@ focus_tree = {
 			}
 			random_owned_controlled_state = {
 				prioritize = { 88 }
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex 
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 87 }
 				add_extra_state_shared_building_slots = 2
 				add_building_construction = {
 					type = industrial_complex 
@@ -383,6 +412,15 @@ focus_tree = {
 					}
 				}
 			}
+			if = { limit = { 10 = { is_controlled_by = POL } }
+				10 = {
+					add_building_construction = {
+						type = infrastructure
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
 			if = { limit = { 87 = { is_controlled_by = POL } }
 				87 = {
 					add_building_construction = {
@@ -421,7 +459,7 @@ focus_tree = {
 		relative_position_id = POL_expansion_of_industry3
 		x = 1
 		y = 2
-		cost = 10
+		cost = 9.3
 		
 		ai_will_do = {
 			factor = 12
@@ -779,6 +817,10 @@ focus_tree = {
 					id = poland.53
 					days = 1
 				}
+				custom_effect_tooltip = needs_approval
+			}
+			POL = {
+				add_political_power = 150
 			}
 		}
 	}
@@ -1400,7 +1442,7 @@ focus_tree = {
 		
 		x = 9
 		y = 0
-		cost = 10
+		cost = 2.9
 
 		ai_will_do = {
 			factor = 5
@@ -1412,6 +1454,143 @@ focus_tree = {
 				bonus = 0.2
 				uses = 1
 				category = land_doctrine
+			}
+		}
+	}
+	focus = {
+		id = POL_FB_industry
+		icon = GFX_goal_POL_FB
+		prerequisite = { focus = POL_army_reform }
+		prerequisite = { focus = POL_prepare_for_the_next_war }
+		relative_position_id = POL_army_reform
+		
+		x = 1
+		y = 1
+		cost = 7.6
+		
+		bypass = {
+			NOT = {
+				98 = { is_controlled_by = POL }
+				86 = { is_controlled_by = POL }
+			}
+		}
+
+		ai_will_do = {
+			factor = 5
+		}
+		completion_reward = {
+			if = { limit = { 98 = { is_controlled_by = POL } }
+				98 = {
+					add_building_construction = {
+						type = arms_factory
+						level = 2
+						instant_build = yes
+					}
+					add_extra_state_shared_building_slots = 2
+				}
+				
+			}
+			if = { limit = { 86 = { is_controlled_by = POL } }
+				86 = {
+					add_building_construction = {
+						type = arms_factory
+						level = 2
+						instant_build = yes
+					}
+					add_extra_state_shared_building_slots = 2
+				}
+				
+			}
+		}
+	}
+	focus = {
+		id = POL_army_buildup
+		icon = GFX_goal_POL_mobi
+		prerequisite = { focus = POL_FB_industry }
+		relative_position_id = POL_FB_industry
+		
+		x = 0
+		y = 1
+		cost = 8.7
+		
+		bypass = {
+			NOT = {
+				10 = { is_controlled_by = POL }
+			}
+		}
+
+		ai_will_do = {
+			factor = 5
+		}
+		completion_reward = {
+			if = { limit = { 10 = { is_controlled_by = POL } }
+				10 = {
+					add_building_construction = {
+						type = arms_factory
+						level = 3
+						instant_build = yes
+					}
+					add_extra_state_shared_building_slots = 3
+				}	
+				10 = {
+					add_building_construction = {
+						type = bunker
+						level = 2
+						province = 13263
+						instant_build = yes
+					}
+					add_building_construction = {
+						type = bunker
+						level = 2
+						province = 13264
+						instant_build = yes
+					}
+					add_building_construction = {
+						type = bunker
+						level = 2
+						province = 13266
+						instant_build = yes
+					}
+				}
+				
+			}
+			add_tech_bonus = {
+				uses = 2
+				category = cat_grand_battle_plan
+				bonus = 1
+			}
+			
+		}
+	}
+	focus = {
+		id = POL_romania1
+		icon = GFX_goal_POL_reaffirm
+		prerequisite = { focus = POL_husaria }
+		prerequisite = { focus = POL_army_buildup }
+		relative_position_id = POL_army_buildup
+		
+		x = -1
+		y = 1
+		cost = 3.7
+		
+		available = {
+			ROM = { exists = yes }
+			NOT = { has_war_with = ROM }
+		}
+		
+		bypass = {
+			has_war_with = ROM
+		}
+
+		ai_will_do = {
+			factor = 5
+		}
+		completion_reward = {
+			POL = {
+				country_event = {
+					id = poland.65
+					days = 1
+				}
 			}
 		}
 	}
@@ -1463,6 +1642,7 @@ focus_tree = {
 		id = POL_romanian_bridgehead_strategy
 		icon = GFX_focus_rom_preserve_romania
 		prerequisite = { focus = POL_organized_command }
+		prerequisite = { focus = POL_romania1 }
 		relative_position_id = POL_organized_command
 		x = 1
 		y = 1
@@ -1473,6 +1653,7 @@ focus_tree = {
 		}
 		completion_reward = {
 			add_ideas = POL_romanian2
+			army_experience = 20
 			add_tech_bonus = {
 				bonus = 2.0
 				uses = 1
@@ -1485,7 +1666,7 @@ focus_tree = {
 		id = POL_strengthen_the_polish_state
 		icon = GFX_goal_POL_april
 		
-		x = 28
+		x = 35
 		y = 0
 		cost = 10
 
@@ -1502,7 +1683,7 @@ focus_tree = {
 	
 	focus = {
 		id = POL_defensive_focus
-		icon = GFX_Goal_poland_defense
+		icon = GFX_goal_POL_defense
 		prerequisite = { focus = POL_strengthen_the_polish_state }
 		prerequisite = { focus = POL_the_four_year_plan }
 		relative_position_id = POL_strengthen_the_polish_state
@@ -1641,7 +1822,7 @@ focus_tree = {
 		icon = GFX_goal_POL_air
 		prerequisite = { focus = POL_prepare_for_the_next_war }
 		relative_position_id = POL_prepare_for_the_next_war
-		x = 6
+		x = 9
 		y = 1
 		cost = 5.5
 		
@@ -1680,7 +1861,7 @@ focus_tree = {
 		icon = GFX_goal_POL_france
 		prerequisite = { focus = POL_army_reform }
 		relative_position_id = POL_prepare_for_the_next_war
-		x = 4
+		x = 7
 		y = 1
 		cost = 6
 		
@@ -1864,7 +2045,7 @@ focus_tree = {
 		id = POL_air_base_expansion
 		icon = GFX_goal_POL_mielec
 		
-		x = 16
+		x = 21
 		y = 0
 		cost = 6
 
@@ -1908,8 +2089,8 @@ focus_tree = {
 		id = POL_fighter_modernisation
 		icon = GFX_goal_generic_air_fighter
 		prerequisite = { focus = POL_air_base_expansion }
-		
-		x = 17
+		relative_position_id = POL_air_base_expansion
+		x = 1
 		y = 1
 		cost = 10
 
@@ -1932,8 +2113,9 @@ focus_tree = {
 		id = POL_air_innovations
 		icon = GFX_goal_POL_air2
 		prerequisite = { focus = POL_air_base_expansion }
+		relative_position_id = POL_air_base_expansion
 		
-		x = 15
+		x = -1
 		y = 1
 		cost = 7.2
 
@@ -1962,9 +2144,9 @@ focus_tree = {
 		id = POL_heavy_fighter_concept
 		icon = GFX_goal_generic_air_fighter2
 		prerequisite = { focus = POL_air_innovations focus = POL_fighter_modernisation }
-		
-		x = 16
-		y = 2
+		relative_position_id = POL_air_innovations
+		x = 1
+		y = 1
 		cost = 10
 
 		ai_will_do = {
@@ -1985,9 +2167,9 @@ focus_tree = {
 		id = POL_naval_bomber_experiments
 		icon = GFX_goal_generic_air_naval_bomber
 		prerequisite = { focus = POL_air_innovations }
-		
-		x = 14
-		y = 2
+		relative_position_id = POL_air_innovations
+		x = -1
+		y = 1
 		cost = 10
 
 		ai_will_do = {
@@ -2009,9 +2191,9 @@ focus_tree = {
 		icon = GFX_goal_generic_occupy_start_war
 		prerequisite = { focus = POL_heavy_fighter_concept focus = POL_air_innovations }
 		mutually_exclusive = { focus = POL_light_bomber_focus }
-		
-		x = 15
-		y = 3
+		relative_position_id = POL_heavy_fighter_concept
+		x = -1
+		y = 1
 		cost = 10
 
 		ai_will_do = {
@@ -2033,9 +2215,9 @@ focus_tree = {
 		icon = GFX_goal_generic_CAS
 		prerequisite = { focus = POL_heavy_fighter_concept focus = POL_fighter_modernisation }
 		mutually_exclusive = { focus = POL_medium_bomber_focus }
-		
-		x = 17
-		y = 3
+		relative_position_id = POL_heavy_fighter_concept
+		x = 1
+		y = 1
 		cost = 10
 
 		ai_will_do = {
@@ -2056,9 +2238,9 @@ focus_tree = {
 		id = POL_air_modernisations_programme
 		icon = GFX_goal_generic_air_doctrine
 		prerequisite = { focus = POL_light_bomber_focus focus = POL_medium_bomber_focus }
-		
-		x = 16
-		y = 4
+		relative_position_id = POL_light_bomber_focus
+		x = -1
+		y = 1
 		cost = 10
 
 		ai_will_do = {
@@ -2080,9 +2262,9 @@ focus_tree = {
 		id = POL_rocket_development
 		icon = GFX_focus_rocketry
 		prerequisite = { focus = POL_air_modernisations_programme }
-		
-		x = 16
-		y = 5
+		relative_position_id = POL_air_modernisations_programme
+		x = 0
+		y = 1
 		cost = 10
 
 		ai_will_do = {
@@ -2109,7 +2291,7 @@ focus_tree = {
 		id = POL_mdf
 		icon = GFX_goal_POL_navalfund
 		
-		x = 5
+		x = 6
 		y = 0
 		relative_position_id = POL_air_base_expansion
 		cost = 5
@@ -2652,7 +2834,7 @@ focus_tree = {
 	
 	focus = {
 		id = POL_plan_east
-		icon = GFX_Goal_POL_planwest
+		icon = GFX_Goal_poland_defense
 		prerequisite = { focus = POL_hostility focus = POL_poland_first }
 		relative_position_id = POL_hostility
 		x = -1
@@ -2685,6 +2867,24 @@ focus_tree = {
 				}
 			}
 			unlock_decision_tooltip = POL_ww2plan2
+			custom_effect_tooltip = POL_decisiongive
+			if = {
+				limit = { is_ai = yes }
+				effect_tooltip = {
+					add_timed_idea = {
+						idea = POL_soviet
+						days = 180
+					}
+				}
+			}
+			else = {
+				effect_tooltip = {
+					add_timed_idea = {
+						idea = POL_soviet
+						days = 180
+					}
+				}
+			}
 			hidden_effect = {
 				set_country_flag = POL_eastplan
 			}
