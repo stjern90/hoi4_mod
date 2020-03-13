@@ -424,7 +424,7 @@ NResistance = {
 	COMPLIANCE_GROWTH_IS_AT_PEACE = 10, -- compliance growth buff at peace
 	COMPLIANCE_GROWTH_HAS_CLAIM = 5, -- compliance growth buff if state has a claim
 	
-	COMPLIANCE_DECAY_AT_MAX_COMPLIANCE = -0.1, -- as compliance increases, it gets a decay rate depending on its value. compliance should stabilize at some value until its growth changes
+	COMPLIANCE_DECAY_AT_MAX_COMPLIANCE = -0.08, -- as compliance increases, it gets a decay rate depending on its value. compliance should stabilize at some value until its growth changes
 	COMPLIANCE_DECAY_PER_EXILE_LEGITIMACY = -0.015, -- higher legitimacy will give higher decay to compliance
 	
 	RESISTANCE_RATIO_DIFF_TO_SPREAD = 0.5, -- resistance diff between two neighbour states will spread by this ratio ( from highest resistance states to lower ones and it will only spread once to a state)
@@ -1668,7 +1668,7 @@ NAI = {
 	DIPLOMACY_LEND_LEASE_MONTHS_TO_CANCEL = 1,	-- AI will not cancel a lend lease offer until this time has passed
 	DIPLOMACY_CALL_ALLY_VALIDITY_DURATION = 1,	-- Overwrite above value for CallAlly and JoinAlly diplo action. This is however fixed, and is not subject to randomness. Also, this is the time the AI will keep the action in its incoming queue without declining it.
 	DIPLOMACY_SEND_MAX_FACTION = 0.75,			-- Country should not send away more units than this as expeditionaries
-	DIPLOMACY_ACCEPT_VOLUNTEERS_BASE = 30,		-- Base value of volunteer acceptance (help is welcome)
+	DIPLOMACY_ACCEPT_VOLUNTEERS_BASE = 50,		-- Base value of volunteer acceptance (help is welcome)
 	DIPLOMACY_ACCEPT_ATTACHE_BASE = 40,			-- Base value of attache acceptance (help is welcome)
 	DIPLOMACY_ACCEPT_ATTACHE_OPINION_TRASHHOLD = 20, -- Value of opinion that will remove accepting penalty for receiveing the attache
 	DIPLOMACY_ACCEPT_ATTACHE_OPINION_PENALTY = -100, -- Value of acceptance penalty if the opinion too low 
