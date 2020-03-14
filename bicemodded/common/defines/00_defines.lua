@@ -299,7 +299,7 @@ NCountry = {
 	MAX_PROPAGANDA_WAR_SUPPORT_IMPACT = -0.2,		-- Max total penalty from operative performing the propaganda mission in a country
 	PROPAGANDA_STABILITY_DAILY_DECAY = 0.001,		-- Amount of stability recovered daily from propaganda effort
 	PROPAGANDA_WAR_SUPPORT_DAILY_DECAY = 0.001,		-- Amount of war support recovered daily from war support effort
-	
+	MIN_NATIONAL_COVERAGE_FOR_PROPAGANDA = 0.01,			-- Minimum network coverage required to start the mission (the code ensures that a network exists at all)
 	NUM_DAYS_TO_FULLY_DELETE_STOCKPILED_EQUIPMENT = 90,	 -- time in days to fully delete equipments from stockpile. when you delete an equipment, they go to a temporary hidden pool which still can be seized 
 	AIR_SUPPLY_CONVERSION_SCALE = 0.05,				-- Conversion scale for planes to air supply
 	AIR_SUPPLY_DROP_EXPIRATION_HOURS = 168,			-- Air drop length after being dropped
@@ -1816,6 +1816,8 @@ NAI = {
 	
 	MIN_FUEL_RATIO_TO_NOT_IGNORE_STRIKE_FORCE_COST = 0.0, -- ai will still assign strike forces unless fuel ratio drops below this one
 	MIN_FUEL_RATIO_TO_NOT_IGNORE_INVASION_SUPPORT_COST = 0.0, -- ai will still naval invasion support forces unless fuel ratio drops below this one
+	
+	ENEMY_HOME_AREA_RATIO_TO_DISABLE_INVASIONS = 0.3, -- if we are fighting against an enemy home area from our home area and if the enemy area is larger than this ratio, non strategy invasions are disabled
 
 	FASCISTS_BEFRIEND_FASCISTS = 15,
 	FASCISTS_BEFRIEND_DEMOCRACIES = -25,
@@ -2455,7 +2457,7 @@ NOperatives = {
 
 	INTEL_NETWORK_INTELLIGENCE_AGENCY_DEFENSE_TO_DETECTION_FACTOR = 2.0,	-- multiplied to the intelligence agency defense of the target of the intel network
 	INTEL_NETWORK_INTELLIGENCE_AGENCY_DEFENSE_DETECTION_SCALE_FACTOR = 0.0,	-- factor multiplied to the intelligence agency defense of the target of the intel network before being factored to the detection chance
-	INTEL_NETWORK_MAX_INTELLIGENCE_AGENCY_DEFENSE_DETECTION_SCALE_FACTOR = 0.0,	-- clamp the value from the multiplication of the above factor
+	INTEL_NETWORK_MAX_INTELLIGENCE_AGENCY_DEFENSE_DETECTION_SCALE_FACTOR = 1.0,	-- clamp the value from the multiplication of the above factor
 	INTEL_NETWORK_NATIONAL_COVERAGE_TO_DETECTION_CHANCE_FACTOR = 1.0,	-- multiplied to the national coverage (a value in range [0, 1]
 	INTEL_NETWORK_SUB_NETWORK_STRENGTH_TO_DETECTION_CHANCE_FACTOR = 0.1,	-- multiplied to the network strength (a value in range [0, 100]
 	INTEL_NETWORK_SUB_NETWORK_NATIONAL_COVERAGE_TO_DETECTION_CHANCE_FACTOR = 3.0,	-- multiplied to the contribution to the national coverage of the sub network (a value in range [0, 1])
