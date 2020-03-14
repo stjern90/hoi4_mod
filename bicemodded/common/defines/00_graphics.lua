@@ -1088,18 +1088,18 @@ NInterface = {
 	MISSION_CONVOY_ESCORT_SOFT_REQ_THRESHOLD_DEPTH_CHARGES_SUM = 8,	-- Sum of the stat Depth Charges in the task force
 	MISSION_NAVAL_INVASION_SUPPORT_SOFT_REQ_THRESHOLD_SHORE_BOMBARDMENT = 3,	-- Same, for naval invasion. Sum of the stat Shore Bombardment in the task force
 	
-	OPERATIVE_MISSION_EFFICIENCY_ANIMATION_TIME_MIN = 0.17,			-- the minimum duration of a loop in seconds
-	OPERATIVE_MISSION_EFFICIENCY_ANIMATION_TIME_MAX = 2.0,			-- the maximum duration of a loop in seconds
+	OPERATIVE_MISSION_EFFICIENCY_ANIMATION_TIME_MIN = 0.2,			-- the minimum duration of a loop in seconds
+	OPERATIVE_MISSION_EFFICIENCY_ANIMATION_TIME_MAX = 3.0,			-- the maximum duration of a loop in seconds
 
-	OPERATIVE_COUNTER_INTELLIGENCE_DEFENSE_TO_EFFICIENCY_FACTOR = 33.0,	-- Factor multiplied to the defense provided by the operative while on counter intelligence mission to get a score in the range [0,100] that is then used to scale the animation speed
-	OPERATIVE_PROPAGANDA_DRIFT_TO_EFFICIENCY_FACTOR = 100000.0,		-- Factor multiplied to the war support and stability drift to obtain the efficiency score (expected to be in range [0,100])
+	OPERATIVE_COUNTER_INTELLIGENCE_DEFENSE_TO_EFFICIENCY_FACTOR = 40.0,	-- Factor multiplied to the defense provided by the operative while on counter intelligence mission to get a score in the range [0,100] that is then used to scale the animation speed
 	OPERATIVE_NETWORK_STRENGTH_GAIN_TO_EFFICIENCY_FACTOR = 12.0,		-- Factor multiplied to the network strength the operative provides while on build network mission to get a score in the range [0,100] that is then used to scale the animation speed
+	OPERATIVE_PROPAGANDA_DRIFT_TO_EFFICIENCY_FACTOR = 130000.0,		-- Factor multiplied to the war support and stability drift to obtain the efficiency score (expected to be in range [0,100])
 	OPERATIVE_BOOST_IDEOLOGY_DRIFT_TO_EFFICIENCY_FACTOR = 500.0,		-- Factor multiplied to the ideology drift caused by the operative in order to get a score in the range [0,100] used to determine the speed of the animation
-	OPERATIVE_ROOT_OUT_RESISTANCE_EFFICIENCY_TO_EFFICIENCY_FACTOR = 75.0,	-- Factor multiplied to the operative's efficiency at the RootOutResistance mission to determine the animation speed
-	OPERATIVE_TRADE_INFLUENCE_DRIFT_TO_EFFICIENCY_FACTOR = 0.75,		-- Factor multiplied to the operative's trade influence drift to determine the animation speed
-	OPERATIVE_OPINION_DRIFT_TO_EFFICIENCY_FACTOR = 7500,		-- Factor multiplied to the operative's trade influence drift to determine the animation speed
-	OPERATIVE_TENSION_DRIFT_TO_EFFICIENCY_FACTOR = 7500,		-- Factor multiplied to the operative's trade influence drift to determine the animation speed
-
+	OPERATIVE_ROOT_OUT_RESISTANCE_EFFICIENCY_TO_EFFICIENCY_FACTOR = 80.0,	-- Factor multiplied to the operative's efficiency at the RootOutResistance mission to determine the animation speed
+	OPERATIVE_TRADE_INFLUENCE_DRIFT_TO_EFFICIENCY_FACTOR = 135,		-- Factor multiplied to the operative's trade influence drift to determine the animation speed
+	OPERATIVE_OPINION_DRIFT_TO_EFFICIENCY_FACTOR = 400,		-- Factor multiplied to the operative's trade influence drift to determine the animation speed
+	OPERATIVE_TENSION_DRIFT_TO_EFFICIENCY_FACTOR = 400,		-- Factor multiplied to the operative's trade influence drift to determine the animation speed
+	
 	-- Used to convert the activity level to a color:
 	-- ACTIVITY_LEVEL_THRESHOLD_COLOR[ i ] will be used if
 	-- CurrentActivityLevel < ACTIVITY_LEVEL_THRESHOLD_VALUES[ i ]
