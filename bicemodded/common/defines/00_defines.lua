@@ -378,7 +378,7 @@ NResistance = {
 	
 	RESISTANCE_TARGET_MODIFIER_HAS_CLAIM = -5.0,			-- resistance target modifier in % for states we have claim
 
-	RESISTANCE_TARGET_MODIFIER_PER_STABILITY_LOSS = 0.2,	-- resistance target modifier per stability below 100%
+	RESISTANCE_TARGET_MODIFIER_PER_STABILITY_LOSS = 0.15,	-- resistance target modifier per stability below 100%
 	RESISTANCE_TARGET_MODIFIER_PER_COMPLIANCE = -0.5,		-- resistance target modifier per compliance %
 	
 	RESISTANCE_TARGET_MODIFIER_IS_AT_PEACE = -10.0,			-- resistance target modifier when we are at peace
@@ -390,10 +390,10 @@ NResistance = {
 		50,  20.0, -- 50 - ...
 	},
 
-	RESISTANCE_TARGET_MODIFIER_OCCUPIED_CAPITULATED = 10.0, -- resistance target modifier when the enemy is capitulated
+	RESISTANCE_TARGET_MODIFIER_OCCUPIED_CAPITULATED = 5.0, -- resistance target modifier when the enemy is capitulated
 	
-	RESISTANCE_TARGET_MODIFIER_OCCUPIED_IS_EXILE_MIN = 2.0,   -- min & max resistance target modifier resistance target modifier for exile countries. interpolated using legitimacy
-	RESISTANCE_TARGET_MODIFIER_OCCUPIED_IS_EXILE_MAX = 20.0,
+	RESISTANCE_TARGET_MODIFIER_OCCUPIED_IS_EXILE_MIN = 1.0,   -- min & max resistance target modifier resistance target modifier for exile countries. interpolated using legitimacy
+	RESISTANCE_TARGET_MODIFIER_OCCUPIED_IS_EXILE_MAX = 15.0,
 
 	RESISTANCE_TARGET_MODIFIER_POP_LOW = -20.0,			-- how much we reduce the resistance target
 	RESISTANCE_TARGET_MODIFIER_POP_VERY_LOW = -50.0,			-- resistance target modifier in % for states we have claim
@@ -427,7 +427,7 @@ NResistance = {
 	COMPLIANCE_DECAY_AT_MAX_COMPLIANCE = -0.08, -- as compliance increases, it gets a decay rate depending on its value. compliance should stabilize at some value until its growth changes
 	COMPLIANCE_DECAY_PER_EXILE_LEGITIMACY = -0.015, -- higher legitimacy will give higher decay to compliance
 	
-	RESISTANCE_RATIO_DIFF_TO_SPREAD = 0.5, -- resistance diff between two neighbour states will spread by this ratio ( from highest resistance states to lower ones and it will only spread once to a state)
+	RESISTANCE_RATIO_DIFF_TO_SPREAD = 0.25, -- resistance diff between two neighbour states will spread by this ratio ( from highest resistance states to lower ones and it will only spread once to a state)
 	
 	RESISTANCE_ACTIVITY_CHANCE_AT_MAX_RESISTANCE = 0.312,
 	RESISTANCE_ACTIVITY_MIN_GARRISON_PENETRATE_CHANCE = 0.02,
@@ -456,7 +456,7 @@ NResistance = {
 	MANPOWER_BUFFER_TO_NOT_GIVE_MINOR = 0.3, -- To determine how much AI can give as foreign manpower, we calculate how much manpower we use, and add this buffer. The result is what we want to keep, for minor countries. So higher this number is, lower we will give Manpower.
 	MANPOWER_BUFFER_TO_NOT_GIVE_MAJOR = 0.6, -- To determine how much AI can give as foreign manpower, we calculate how much manpower we use, and add this buffer. The result is what we want to keep, for major countries. So higher this number is, lower we will give Manpower.
 	MAX_GARRISON_PERCENT_WE_AGREE_TO_SUPPORT = 3,	-- The part of the manpower needed by the foreign garrison, that AI will agree to support with our manpower. If negative number, AI will not take into consideration the need, and just calculate how much they can give.
-	FOREIGN_MANPOWER_AI_COOLDOWN_DAYS = 30,		 -- Number of days after an AI give us manpower before the AI accept to give more.
+	FOREIGN_MANPOWER_AI_COOLDOWN_DAYS = 45,		 -- Number of days after an AI give us manpower before the AI accept to give more.
 
 	INITIAL_HISTORY_RESISTANCE = 10.0,			-- resistance value for initial colony states
 	INITIAL_HISTORY_COMPLIANCE = 70.0,			-- compliance value for initial colony states
