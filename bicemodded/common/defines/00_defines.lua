@@ -456,6 +456,7 @@ NResistance = {
 	MANPOWER_BUFFER_TO_NOT_GIVE_MINOR = 0.3, -- To determine how much AI can give as foreign manpower, we calculate how much manpower we use, and add this buffer. The result is what we want to keep, for minor countries. So higher this number is, lower we will give Manpower.
 	MANPOWER_BUFFER_TO_NOT_GIVE_MAJOR = 0.6, -- To determine how much AI can give as foreign manpower, we calculate how much manpower we use, and add this buffer. The result is what we want to keep, for major countries. So higher this number is, lower we will give Manpower.
 	MAX_GARRISON_PERCENT_WE_AGREE_TO_SUPPORT = 3,	-- The part of the manpower needed by the foreign garrison, that AI will agree to support with our manpower. If negative number, AI will not take into consideration the need, and just calculate how much they can give.
+	MAX_GARRISON_RATIO_WE_AGREE_TO_SUPPORT = 3.0,	-- The part of the manpower needed by the foreign garrison, that AI will agree to support with our manpower. If negative number, AI will not take into consideration the need, and just calculate how much they can give.
 	FOREIGN_MANPOWER_AI_COOLDOWN_DAYS = 45,		 -- Number of days after an AI give us manpower before the AI accept to give more.
 
 	INITIAL_HISTORY_RESISTANCE = 10.0,			-- resistance value for initial colony states
@@ -1731,7 +1732,15 @@ NAI = {
 	LENDLEASE_FRACTION_OF_STOCKPILE = 0.25,		-- Base fraction AI would send as lendlease
 	MINIMUM_EQUIPMENT_TO_ASK_LEND_LEASE = -100,	-- AI will accept to lend lease this equipment only if our stockpile is less than that.
 	MINIMUM_CONVOY_TO_ASK_LEND_LEASE = 30,		-- AI will accept to lend lease convoys only if our stockpile is less than that (special case because convoy stockpile can't be negative).
+	
 	POLITICAL_IDEA_MIN_SCORE = 0.1,				-- Only replace or add an idea if score is above this score.
+	
+	-- for positive values of following defines, ai weights will take over of hardcoded ai scoring system
+	MIN_AI_SCORE_TO_MOBILIZATION_LAW_OVERRIDE_HARD_CODED_SCORE = 0.0,
+	MIN_AI_SCORE_TO_ECONOMY_LAW_OVERRIDE_HARD_CODED_SCORE = 0.0,
+	MIN_AI_SCORE_TO_TRADE_LAW_OVERRIDE_HARD_CODED_SCORE = 1000.0,
+	MIN_AI_SCORE_TO_ALL_LAWS_OVERRIDE_HARD_CODED_SCORE = 0.0,
+	
 	AT_WAR_THREAT_FACTOR = 2.0,					-- How much increase in threat does AI feel for being in war against osmeone
 	NEIGHBOUR_WAR_THREAT_FACTOR = 1.0, 		-- How much increase in threat does AI feel against neighbours who are at war
 	POTENTIAL_ALLY_JOIN_WAR_FACTOR = 100, 		-- How much increase in threat does AI feel against neighbours who are allied against one of our enemies
@@ -2427,6 +2436,7 @@ NOperatives = {
 	AGENCY_AI_BASE_NUM_FACTORIES = 25.0,				-- Used by AI to pace the upgrades. Formula : if( AGENCY_AI_BASE_NUM_FACTORIES <= num_civ_factories - num_upgrades * AGENCY_AI_PER_UPGRADE_FACTORIES )
 	AGENCY_AI_PER_UPGRADE_FACTORIES = 6.0,			-- Used by AI to pace the upgrades. Formula : if( AGENCY_AI_BASE_NUM_FACTORIES <= num_civ_factories - num_upgrades * AGENCY_AI_PER_UPGRADE_FACTORIES )
 	AGENCY_UPGRADE_PER_OPERATIVE_SLOT = 5,			-- Number of upgrade needed to unlock an additional operative slot
+	MAX_OPERATIVE_SLOT_FROM_AGENCY_UPGRADES = 1,	-- max operative slots gained from upgrades
 	AGENCY_OPERATIVE_RECRUITMENT_TIME = 30,			-- Number of days to wait to have operative to recruit when an operative slot first becomes available
 	BECOME_SPYMASTER_PP_COST = 50,					-- Number of political power used to become Spy Master
 	BECOME_SPYMASTER_MIN_UPGRADES = 3,				-- Number of agency upgrades you need before becoming Spy Master
@@ -2476,6 +2486,18 @@ NOperatives = {
 		0.1, -- DiplomaticPressure
 		3.0, -- Propaganda
 	},
+	
+	
+	-- used for calculating how many operatives will a spy master gain from its faction members
+	-- first number in every now is number of operatives gained
+	-- second number is total factory needed (mil and civ) for giving previous ratio
+	OPERATIVE_SLOTS_FROM_FACTION_MEMBERS_FOR_SPY_MASTER = {
+		0.0, 	0.0, -- 0 operative for [0, 10)
+		0.25,  	10.0, -- 0.25 operative for [10, 50)
+		0.5, 	50.0, -- 0.5 operative for >= 50
+	},
+	
+	
 	INTEL_NETWORK_STATE_MODIFIER_STRENGTH_THRESHOLD = 10,			-- Minimum amount of strength required in a state for the intel network related modifiers to start being applied
 
 	INTEL_NETWORK_MIN_DEFAULT_FOR_SHOWING = 25,              -- default min level for networks used to filter operation requirements if not overriden
@@ -2518,6 +2540,7 @@ NOperatives = {
 	DIPLOMATIC_PRESSURE_TENSION_REQUIREMENTS_DECAY = 0.001,			--
 	DIPLOMATIC_PRESSURE_DAILY_XP_GAIN = 0.137,
 	MIN_NATIONAL_COVERAGE_FOR_BOOST_IDEOLOGY = 0.01,			-- Minimum network coverage required to start the mission (the code ensures that a network exists at all)
+	MIN_NATIONAL_COVERAGE_FOR_PROPAGANDA = 0.01,			-- Minimum network coverage required to start the mission (the code ensures that a network exists at all)
 	OPERATIVE_MIN_DAYS_HARMED = 30,						-- Minimum number of days an operative can be harmed. Applied after modifiers. Can be zero.
 	OPERATIVE_MAX_DAYS_HARMED = 120,						-- Maximum number of days an operative can be harmed. Applied after modifiers. Is ignored if negative
 	OPERATIVE_MIN_DAYS_FORCED_INTO_HIDING = 7,				-- Minimum number of days an operative can be forced into hiding. Applied after modifiers. Can be zero.

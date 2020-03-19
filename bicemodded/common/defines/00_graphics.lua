@@ -1155,11 +1155,10 @@ NFrontend = {
 	MP_OPTIONS_LOOK_Y = 0.0,	
 	MP_OPTIONS_LOOK_Z = 1519.0,
 	
+	NEW_GAME_BUTTON_DISABLE_DELAY_ON_INVALID_MAP_DATA = 10.0, -- amount of seconds to disable buttons leading to a game start for
+	
 	SOCIALVIEW_CONTEXT_MENU_BUTTON_OFFSET = 10,
 	SOCIALVIEW_CONTEXT_MENU_MARGIN = 2,
-	
-	
-	
 },	
 
 NSound = {
