@@ -51,6 +51,7 @@ country_event = {
 					country_event = { id = lar_spain.4 } # Nationalists working against the government
 					country_event = { id = lar_spain.5 }
 					activate_mission = SPR_military_plot_republicans
+					add_ideas = SPR_government_power_struggle
 				}
 			}
 			if = {
@@ -97,6 +98,7 @@ country_event = {
 			ideology = communism
 			popularity = 0.1
 		}
+		add_political_power = 5
 		if = {
 			limit = {
 				NOT = {
@@ -118,6 +120,7 @@ country_event = {
 				}
 			}
 		}
+		effect_tooltip = { add_ideas = SPR_government_power_struggle }
 		custom_effect_tooltip = SPR_republican_garrison_control_decisions_tt
 	}
 
@@ -5606,7 +5609,7 @@ country_event = {
 					limit = {
 						owns_state = 172
 					}
-					set_capital = PREV
+					set_capital = 172
 				}
 				else = {
 					random_owned_state = {
@@ -6026,7 +6029,7 @@ country_event = {
 					limit = {
 						owns_state = 172
 					}
-					set_capital = PREV
+					set_capital = 172
 				}
 				else = {
 					random_owned_state = {
@@ -6968,6 +6971,14 @@ country_event = {
 					    popularity = 1
 					}
 				}
+				set_rule = {
+				    can_puppet = no
+				    can_create_factions = no
+				    can_join_factions = no
+				    can_boost_own_ideology = no
+					can_generate_female_aces = yes
+					can_create_collaboration_government = no
+				}
 			}
 			if = {
 				limit = {
@@ -7004,15 +7015,9 @@ country_event = {
 					    popularity = 1
 					}
 				}
+				set_rule = { can_generate_female_aces = yes	}
 			}
-			set_rule = {
-			    can_puppet = no
-			    can_create_factions = no
-			    can_join_factions = no
-			    can_boost_own_ideology = no
-				can_generate_female_aces = yes
-				can_create_collaboration_government = no
-			}
+
 			remove_ideas = SPR_the_maximum_concession
 			add_ideas = closed_economy
 			SPC = {
@@ -8858,6 +8863,7 @@ country_event = {
 				transfer_state = 459
 				transfer_state = 460
 				transfer_state = 513
+				transfer_state = 514
 				transfer_state = 458
 				transfer_state = 665
 			}
@@ -8909,12 +8915,13 @@ country_event = {
 				add_state_claim = 459
 				add_state_claim = 460
 				add_state_claim = 513
+				add_state_claim = 514
 				add_state_claim = 458
 				add_state_claim = 665
 				create_wargoal = {
 					type = take_state_focus
 					target = ROOT
-					generator = { 461 462 459 460 513 458 665 }
+					generator = { 461 462 459 460 513 514 458 665 }
 					expire = 0
 				}
 			}
@@ -8943,6 +8950,7 @@ country_event = {
 		transfer_state = 459
 		transfer_state = 460
 		transfer_state = 513
+		transfer_state = 514
 		transfer_state = 458
 		transfer_state = 665
 	}
@@ -8964,12 +8972,13 @@ country_event = {
 		add_state_claim = 459
 		add_state_claim = 460
 		add_state_claim = 513
+		add_state_claim = 514
 		add_state_claim = 458
 		add_state_claim = 665
 		create_wargoal = {
 			type = take_state_focus
 			target = FROM
-			generator = { 461 462 459 460 513 458 665 }
+			generator = { 461 462 459 460 513 514 458 665 }
 			expire = 0
 		}
 	}
@@ -10619,6 +10628,66 @@ country_event = {
 		name = lar_spain.82.a
 		effect_tooltip = {
 			SOV = { puppet = SPD }
+		}
+	}
+}
+
+# Event for Spain that the president is dismissed
+country_event = {
+	id = lar_spain.90
+	title = lar_spain.90.t
+	desc = lar_spain.90.desc
+	picture = GFX_report_event_generic_parliament
+
+	trigger = {
+		tag = SPR
+		date > 1936.4.20
+		NOT = { has_global_flag = spanish_civil_war }
+	}
+
+	mean_time_to_happen = {
+		days = 2
+	}
+
+	fire_only_once = yes
+
+	option = { # Ok
+		name = lar_spain.90.a
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+			}
+			if = {
+				limit = {
+					has_completed_focus = SPR_the_popular_front
+				}
+				remove_ideas = SPR_government_power_struggle
+				add_political_power = 10
+			}
+			retire_country_leader = yes
+			create_country_leader = {
+				name = "Manuel Azaña"
+				desc = "POLITICS_MANUEL_AZANA_DESC"
+				picture = "Portrait_Spain_Manuel_Azana.dds"
+				expire = "1965.1.1"
+				ideology = conservatism
+				traits = {
+					figurehead_president
+				}
+			}
+		}
+		else = {
+			retire_country_leader = yes
+			create_country_leader = {
+				name = "Manuel Azaña"
+				desc = "POLITICS_MANUEL_AZANA_DESC"
+				picture = "Portrait_Spain_Manuel_Azana.dds"
+				expire = "1965.1.1"
+				ideology = conservatism
+				traits = {
+		
+				}
+			}
 		}
 	}
 }
