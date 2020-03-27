@@ -338,6 +338,7 @@ country_event = {
 		}
 		not = { has_idea = FRA_political_violence }
 		has_stability < 0.5
+		has_capitulated = no
 	}
 
 	immediate = {
@@ -2657,7 +2658,19 @@ country_event = {
 		}
 		if = {
 			limit = { is_in_faction = yes }
-			add_to_faction = ITA
+			if = {
+				limit = { is_faction_leader = yes }
+				add_to_faction = ITA
+				else = {
+					random_other_country = {
+						limit = { 
+							is_faction_leader = yes
+							is_in_faction_with = ROOT
+						}
+						add_to_faction = ITA
+					}
+				}
+			}
 		}
 		else = {
 			create_faction = FRA_stresa_front
@@ -2745,27 +2758,37 @@ country_event = {
 			transfer_state = 269
 		}
 		set_global_flag = LaR_Britain_Stresa_Concessions
-		every_other_country = {
+		if = {
 			limit = {
-				is_in_faction_with = ROOT
-				is_subject_of = ROOT
-			}
-			FRA = {
-				add_to_faction = PREV #merge british colonies into new faction
-			}
-		}
-		every_other_country = {
-			limit = {
-				is_in_faction_with = ROOT
-				NOT = { is_subject_of = ROOT }
-			}
-			FRA = {
-				PREV = {
-					country_event = generic.5
+				FRA = { 
+					is_faction_leader = yes 
+					NOT = {
+						is_in_faction_with = ROOT
+					}
 				}
 			}
+			every_other_country = {
+				limit = {
+					is_in_faction_with = ROOT
+					is_subject_of = ROOT
+				}
+				FRA = {
+					add_to_faction = PREV #merge british colonies into new faction
+				}
+			}
+			every_other_country = {
+				limit = {
+					is_in_faction_with = ROOT
+					NOT = { is_subject_of = ROOT }
+				}
+				FRA = {
+					PREV = {
+						country_event = generic.5
+					}
+				}
+			}
+			FRA = { add_to_faction = ROOT }
 		}
-		FRA = { add_to_faction = ROOT }
 		if = {
 			limit = {
 				country_exists = AUS
@@ -3171,6 +3194,9 @@ country_event = {
 		}
 		has_stability < 0.25
 		has_completed_focus = FRA_form_the_popular_front
+		NOT = {
+			has_completed_focus = FRA_destroy_the_counter_revolution
+		}
 	}
 	mean_time_to_happen = { days = 180 }
 	fire_only_once = yes

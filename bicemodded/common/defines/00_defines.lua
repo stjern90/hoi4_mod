@@ -371,7 +371,7 @@ NCountry = {
 NResistance = {
 	INITIAL_STATE_RESISTANCE = 1.0,							-- initial resistance percentage of a state once it is captured
 	INITIAL_STATE_COMPLIANCE = 0.0,							-- initial compliance percentage of a state once it is captured
-	COMPLIANCE_FACTOR_ON_STATE_CONTROLLER_CHANGE = -0.1,	-- compliance factor that applies when the state controller changes (in between allies, compliance is zeroed if it is taken by original country)
+	COMPLIANCE_FACTOR_ON_STATE_CONTROLLER_CHANGE = -0.3,	-- compliance factor that applies when the state controller changes (in between allies, compliance is zeroed if it is taken by original country)
 	RESISTANCE_COOLDOWN_WHEN_DISABLED = -0.25,				-- resistance cooldown when the state is taken back by its original owner (compliance is zeroed in that case)
 	
 	RESISTANCE_TARGET_BASE = 35.0,							-- base resistance target percentage
@@ -424,7 +424,7 @@ NResistance = {
 	COMPLIANCE_GROWTH_IS_AT_PEACE = 10, -- compliance growth buff at peace
 	COMPLIANCE_GROWTH_HAS_CLAIM = 5, -- compliance growth buff if state has a claim
 	
-	COMPLIANCE_DECAY_AT_MAX_COMPLIANCE = -0.08, -- as compliance increases, it gets a decay rate depending on its value. compliance should stabilize at some value until its growth changes
+	COMPLIANCE_DECAY_AT_MAX_COMPLIANCE = -0.089, -- as compliance increases, it gets a decay rate depending on its value. compliance should stabilize at some value until its growth changes
 	COMPLIANCE_DECAY_PER_EXILE_LEGITIMACY = -0.015, -- higher legitimacy will give higher decay to compliance
 	
 	RESISTANCE_RATIO_DIFF_TO_SPREAD = 0.25, -- resistance diff between two neighbour states will spread by this ratio ( from highest resistance states to lower ones and it will only spread once to a state)
@@ -448,14 +448,13 @@ NResistance = {
 	SUPPRESSION_NEEDED_LOWER_CAP = 10.0,	-- if resistance is lower than this value then we always act as though it is at the define for the purpose of suppresion requirements
 	SUPPRESSION_NEEDED_UPPER_CAP = 50.0, -- if resistance is greater than this value then we always act as though it is at the define for the purpose of suppresion requirements
 	
-	GARRISON_MANPOWER_LOST_BY_ATTACK = 0.03, 	-- Ratio of manpower lost by garrison at each attack on garrison (this number will be reduced by the hardness of garrison template)
+	GARRISON_MANPOWER_LOST_BY_ATTACK = 0.015, 	-- Ratio of manpower lost by garrison at each attack on garrison (this number will be reduced by the hardness of garrison template)
 	GARRISON_EQUIPMENT_LOST_BY_ATTACK = 0.02, 	-- Ratio of equipment lost by garrison at each attack on garrison (this number will be reduced by the hardness of garrison template)
 	MAXIMUM_GARRISON_HARDNESS_WHEN_ATTACKED = 0.90,   -- Cap to be sure that garrison will suffer lost in attack, even with a almost 100% hardness
 	
 	FOREIGN_MANPOWER_MIN_THRESHOLD = 5000,		 -- The minimum number of Manpower that AI will accept to give at once, in order to avoid many weird little transfer.
 	MANPOWER_BUFFER_TO_NOT_GIVE_MINOR = 0.3, -- To determine how much AI can give as foreign manpower, we calculate how much manpower we use, and add this buffer. The result is what we want to keep, for minor countries. So higher this number is, lower we will give Manpower.
 	MANPOWER_BUFFER_TO_NOT_GIVE_MAJOR = 0.6, -- To determine how much AI can give as foreign manpower, we calculate how much manpower we use, and add this buffer. The result is what we want to keep, for major countries. So higher this number is, lower we will give Manpower.
-	MAX_GARRISON_PERCENT_WE_AGREE_TO_SUPPORT = 3,	-- The part of the manpower needed by the foreign garrison, that AI will agree to support with our manpower. If negative number, AI will not take into consideration the need, and just calculate how much they can give.
 	MAX_GARRISON_RATIO_WE_AGREE_TO_SUPPORT = 3.0,	-- The part of the manpower needed by the foreign garrison, that AI will agree to support with our manpower. If negative number, AI will not take into consideration the need, and just calculate how much they can give.
 	FOREIGN_MANPOWER_AI_COOLDOWN_DAYS = 45,		 -- Number of days after an AI give us manpower before the AI accept to give more.
 
@@ -1693,8 +1692,8 @@ NAI = {
 	NAVAL_TRANSPORTS_FASEA_PATH_LENGTH_SCORE_BASE = -30,           -- scoring reduction from naval paths for AI when picking trade partners
 	MINIMUM_GOOD_TRADE_RATIO_PER_CIV = 0.005,   -- for each civ factory we have mul with this we are allowed to trade under % of resource on a trade
 	NAVAL_DOCKYARDS_SHIP_FACTOR = 2,			-- The extent to which number of dockyards play into amount of sips a nation wants
-	PRODUCTION_EQUIPMENT_SURPLUS_FACTOR = 0.05,	-- Base value for how much of currently used equipment the AI will at least strive to have in stock
-	PRODUCTION_EQUIPMENT_SURPLUS_FACTOR_GARRISON = 0.01,	-- Base value for how much of currently used equipment the AI will at least strive to have in stock for garrison forces
+	PRODUCTION_EQUIPMENT_SURPLUS_FACTOR = 0.15,	-- Base value for how much of currently used equipment the AI will at least strive to have in stock
+	PRODUCTION_EQUIPMENT_SURPLUS_FACTOR_GARRISON = 0.05,	-- Base value for how much of currently used equipment the AI will at least strive to have in stock for garrison forces
 	AIR_SUPERIORITY_FACTOR = 2.5,				-- Factor for air superiority score
 	ROCKET_MIN_ASSIGN_SCORE = 10,				-- Minimum total score for region to be considered for rocket air missions
 	ROCKET_MIN_PRIO_ASSIGN_SCORE = 50,			-- Minimum total score for region to be considered for critical rocket air missions
@@ -1713,7 +1712,7 @@ NAI = {
 	DIVISION_UPGRADE_MIN_XP = 1000,				-- Minimum XP before attempting to upgrade a division template.
 	DIVISION_CREATE_MIN_XP = 1000,				-- Minimum XP before attempting to create a fresh new division template.
 	VARIANT_UPGRADE_MIN_XP = 180,				-- Minimum XP before attempting to create a new variant.
-	UPGRADE_XP_RUSH_UPDATE = 400,				-- If XP is above this on the daily tick the AI will attempt to spend it
+	UPGRADE_XP_RUSH_UPDATE = 250,				-- If XP is above this on the daily tick the AI will attempt to spend it
 	FOCUS_TREE_CONTINUE_FACTOR = 1.5,			-- Factor for score of how likely the AI is to keep going down a focus tree rather than starting a new path.
 	PLAN_VALUE_TO_EXECUTE = 0.2,				-- AI will typically avoid carrying out a plan it below this value (0.0 is considered balanced).
 	DECLARE_WAR_NOT_NEIGHBOR_FACTOR = 0.25,		-- Multiplier applied before force factor if country is not neighbor with the one it is considering going to war
@@ -1984,7 +1983,7 @@ NAI = {
 	EQUIPMENT_DESIGN_MAX_FAILED_DAYS = 60,					-- max days we keep track of since failure of an equipment design update
 
 	UPGRADE_DIVISION_RELUCTANCE = 1.0,					-- How often to consider upgrading to new templates for units in the field
-	UPGRADE_PERCENTAGE_OF_FORCES = 0.02,					-- How big part of the army that should be considered for upgrading
+	UPGRADE_PERCENTAGE_OF_FORCES = 0.01,					-- How big part of the army that should be considered for upgrading
 
 	REFIT_SHIP_RELUCTANCE = 28,							-- How often to consider refitting to new equipment variants for ships in the field
 	REFIT_SHIP_PERCENTAGE_OF_FORCES = 0.1,				-- How big part of the navy that should be considered for refitting
@@ -2195,7 +2194,7 @@ NAI = {
 	MAX_AVAILABLE_MANPOWER_RATIO_TO_BUFFER_PEACETIME = 0.2,		-- deployment will try to buffer a ratio of manpower (for reinforcements) during peace time
 	
 	MANPOWER_RATIO_REQUIRED_TO_PRIO_MOBILIZATION_LAW = 0.4,		-- percentage of manpower in field is desired to be buffered for AI when it has upcoming wars or already at war. if it has less manpower, it will prio manpower laws
-	UPGRADES_DEFICIT_LIMIT_DAYS = 9550,                           -- Ai will avoid upgrading units in the field to new templates if it takes longer than this to fullfill their equipment need
+	UPGRADES_DEFICIT_LIMIT_DAYS = 500,                           -- Ai will avoid upgrading units in the field to new templates if it takes longer than this to fullfill their equipment need
 
 	GIE_EXILE_AIR_MANPOWER_USAGE_RATIO = 0.2, -- AI will not deploy new exile wings when this percentage of available exile manpower is already used for wing recruitment.
 
@@ -2558,6 +2557,12 @@ NOperatives = {
 	OPERATION_COMPLETION_XP = 18,
 
 	OPERATIVE_CAPTURE_DURATION_IN_DAYS = 9*30,
+	
+	-- operation cost & time are increased by default this ratios for each 
+	-- instance of operation that were already executed against same target. 
+	-- can be overridden using time_multiplier & cost_multiplier in operation.
+	DEFAULT_OPERATION_COST_MULTIPLIER = 0.15,
+	DEFAULT_OPERATION_TIME_MULTIPLIER = 0.0, 
 
 	-- The following defines are multiplied to the number of operatives operating in the target country the activity level is computed for
 	BUILD_INTEL_NETWORK_MISSION_ACTIVITY_INDICATOR_FACTOR = 10,
@@ -2594,6 +2599,9 @@ NOperatives = {
 	RISK_LEVELS_LABELS = { "RISK_LOW", "RISK_MID", "RISK_HIGH" },
 	OUTCOME_LEVELS = { 0.0, 0.2, 0.3 },    -- outcome levels are shown if risk is below its first entry instead
 	OUTCOME_LEVELS_LABELS = { "OUTCOME_BASE", "OUTCOME_GOOD", "OUTCOME_VGOOD" },
+	
+	TECH_STEAL_EQUIPMENT_FACTOR = 2,
+	TECH_STEAL_YEAR_FACTOR = 4,
 },
 
 NIntel = {
