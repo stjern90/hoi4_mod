@@ -119,6 +119,7 @@ focus_tree = {
 					SPA_garrison_control_cost_calculation = yes
 				}
 			}
+			add_political_power = 15
 		}
 	}
 
@@ -231,6 +232,8 @@ focus_tree = {
 						OR = {
 							state = 171
 							state = 174
+							state = 788
+							state = 791
 							state = 176
 							state = 166
 							state = 172
@@ -248,6 +251,8 @@ focus_tree = {
 						OR = {
 							state = 171
 							state = 174
+							state = 788
+							state = 791
 							state = 176
 							state = 166
 							state = 172
@@ -265,6 +270,8 @@ focus_tree = {
 						OR = {
 							state = 171
 							state = 174
+							state = 788
+							state = 791
 							state = 176
 							state = 166
 							state = 172
@@ -552,6 +559,7 @@ focus_tree = {
 		completion_reward = {
 			army_experience = 5
 			custom_effect_tooltip = SPR_enlarge_the_weapon_caches_tt
+			add_political_power = 25
 		}
 	}
 
@@ -577,6 +585,7 @@ focus_tree = {
 			    ideology = neutrality
 			    popularity = 0.05
 			}
+			add_political_power = 50
 			add_to_variable = { var = spr_civil_war_divisions_counter_var value = 10 }
 			custom_effect_tooltip = SPR_distribute_arms_to_the_people_tt
 			custom_effect_tooltip = SPR_remove_after_civil_war_tt
@@ -1411,8 +1420,10 @@ focus_tree = {
 	focus = {
 		id = SPA_prepare_the_pyrenees_defenses
 		available = {
+			has_full_control_of_state = 792
 			has_full_control_of_state = 172
 			has_full_control_of_state = 166
+			has_full_control_of_state = 794
 			has_full_control_of_state = 165
 		}
 		bypass = {
@@ -1430,13 +1441,22 @@ focus_tree = {
 		completion_reward = {
 			custom_effect_tooltip = SPA_prepare_the_pyrenees_defenses_tt
 			hidden_effect = {
+				792 = {
+					add_building_construction = {
+						type = bunker
+						province = {
+							id = 6756
+						}
+						level = 2
+						instant_build = yes
+					}
+				}
 				172 = {
 					add_building_construction = {
 						type = bunker
 						province = {
 							id = 3737
 							id = 3931
-							id = 6756
 						}
 						level = 2
 						instant_build = yes
@@ -1447,6 +1467,15 @@ focus_tree = {
 						type = bunker
 						province = {
 							id = 11838
+						}
+						level = 2
+						instant_build = yes
+					}
+				}
+				794 = {
+					add_building_construction = {
+						type = bunker
+						province = {
 							id = 915
 							id = 899
 						}
@@ -1701,6 +1730,7 @@ focus_tree = {
 					OR = {
 						state = 165
 						state = 171
+						state = 792
 					}
 				}
 				remove_dynamic_modifier = { modifier = autonomous_state }
@@ -2776,8 +2806,11 @@ focus_tree = {
 	focus = {
 		id = SPA_facilitate_pyrenees_freight_transports
 		available = {
+			has_full_control_of_state = 793
+			has_full_control_of_state = 794
 			has_full_control_of_state = 165
 			has_full_control_of_state = 176
+			has_full_control_of_state = 792
 			has_full_control_of_state = 41
 			any_country = {
 				is_in_faction_with = ROOT
@@ -2800,13 +2833,34 @@ focus_tree = {
 		completion_reward = {
 			custom_effect_tooltip = SPA_facilitate_pyrenees_freight_transports_tt
 			hidden_effect = {
+				793 = {
+					if = {
+						limit = { is_controlled_by = ROOT }
+						add_building_construction = {
+							type = infrastructure
+							level = 2
+							instant_build = yes
+						}
+					}
+				}
+				794 = {
+					if = {
+						limit = { is_controlled_by = ROOT }
+
+						add_building_construction = {
+							type = infrastructure
+							level = 2
+							instant_build = yes
+						}
+					}
+				}
 				165 = {
 					if = {
 						limit = { is_controlled_by = ROOT }
 
 						add_building_construction = {
 							type = infrastructure
-							level = 9
+							level = 2
 							instant_build = yes
 						}
 					}
@@ -2817,7 +2871,18 @@ focus_tree = {
 
 						add_building_construction = {
 							type = infrastructure
-							level = 9
+							level = 2
+							instant_build = yes
+						}
+					}
+				}
+				792 = {
+					if = {
+						limit = { is_controlled_by = ROOT }
+
+						add_building_construction = {
+							type = infrastructure
+							level = 2
 							instant_build = yes
 						}
 					}
@@ -2827,7 +2892,7 @@ focus_tree = {
 						limit = { is_controlled_by = ROOT }
 						add_building_construction = {
 							type = infrastructure
-							level = 9
+							level = 2
 							instant_build = yes
 						}
 					}
@@ -2863,8 +2928,11 @@ focus_tree = {
 					is_controlled_by = ROOT
 					is_core_of = ROOT
 					NOT = {
+						state = 793
+						state = 794
 						state = 165
 						state = 176
+						state = 792
 						state = 41
 					}
 				}
@@ -3542,6 +3610,8 @@ focus_tree = {
 			controls_state = 166
 			controls_state = 172
 			controls_state = 176
+			controls_state = 792
+			controls_state = 790
 		}
 		bypass = {
 			has_global_flag = scw_over
@@ -3614,14 +3684,51 @@ focus_tree = {
 					}
 				}
 			}
-			if = {
+			792 = {
+				if = {
+					limit = {
+						792 = {
+							free_building_slots = {
+								building = arms_factory
+								size > 0
+								include_locked = yes
+							}
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = arms_factory
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			790 = {
+				if = {
+					limit = {
+						790 = {
+							free_building_slots = {
+								building = arms_factory
+								size > 0
+								include_locked = yes
+							}
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = arms_factory
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+            if = {
 				limit = { is_ai = no }
 				add_days_mission_timeout = {
 				mission = SPA_carlist_uprising_mission
 				days = 70
 			}
-				}
-			
+		}
 		}
 	}
 
@@ -4168,7 +4275,7 @@ focus_tree = {
 					instant_build = yes
 				}							
 			}
-			174 = { #Asturias
+			790 = { #Asturias
 				add_building_construction = {
 					type = naval_base
 					level = 1
@@ -4176,7 +4283,7 @@ focus_tree = {
 					instant_build = yes
 				}							
 			}
-			172 = { #Basque
+			792 = { #Basque
 				add_building_construction = {
 					type = air_base
 					level = 1
@@ -4277,7 +4384,7 @@ focus_tree = {
 				add_building_construction = {
 					type = naval_base
 					level = 1
-					province = 9802
+					province = 9793
 					instant_build = yes
 				}
 				add_building_construction = {
@@ -4653,6 +4760,7 @@ focus_tree = {
 					OR = {
 						state = 165
 						state = 171
+						state = 792
 					}
 				}
 				remove_dynamic_modifier = { modifier = autonomous_state }
@@ -5165,6 +5273,13 @@ focus_tree = {
 					instant_build = yes
 				}						
 			}
+			792 = { #Basque
+				add_building_construction = {
+					type = air_base
+					level = 1
+					instant_build = yes
+				}						
+			}
 			41 = { #Madrid
 				add_building_construction = {
 					type = air_base
@@ -5545,24 +5660,31 @@ focus_tree = {
 				limit = {
 					NOT = {
 						has_decision = SPA_galicia_offensive
+						has_decision = SPA_asturias_offensive
 						has_decision = SPA_leon_offensive
+						has_decision = SPA_valladolid_offensive
 						has_decision = SPA_burgos_offensive
+						has_decision = SPA_pais_vasco_offensive
 						has_decision = SPA_navarra_offensive
 						has_decision = SPA_western_aragon_offensive
+						has_decision = SPA_eastern_aragon_offensive
 						has_decision = SPA_catalunya_offensive
+						has_decision = SPA_salamanca_offensive
 						has_decision = SPA_madrid_offensive
+						has_decision = SPA_guadalajara_offensive
 						has_decision = SPA_valencia_offensive
 						has_decision = SPA_extremadura_offensive
 						has_decision = SPA_ciudad_real_offensive
 						has_decision = SPA_murcia_offensive
 						has_decision = SPA_sevilla_offensive
+						has_decision = SPA_cordoba_offensive
 						has_decision = SPA_granada_offensive
 					}
 					has_country_flag = SPR_preparing_offensive_in_progress_flag
 				}
 				clr_country_flag = SPR_preparing_offensive_in_progress_flag
 			}
-			174 = {
+			790 = {
 				clr_state_flag = SPR_unplanned_offensive_flag
 				remove_province_modifier = {
 					static_modifiers = { unplanned_offensive }
@@ -5571,7 +5693,7 @@ focus_tree = {
 					}
 				}
 			}
-			172 = {
+			792 = {
 				clr_state_flag = SPR_unplanned_offensive_flag
 				remove_province_modifier = {
 					static_modifiers = { unplanned_offensive }
@@ -6086,6 +6208,7 @@ focus_tree = {
 					OR = {
 						state = 165
 						state = 171
+						state = 792
 					}
 				}
 				remove_dynamic_modifier = { modifier = autonomous_state }
@@ -6217,10 +6340,11 @@ focus_tree = {
 					}
 					is_core_of = ROOT
 					OR = {
-
+						state = 792
 						state = 166
 						state = 173
-
+						state = 788
+						state = 791
 						state = 171
 						state = 170
 						state = 41
@@ -6242,10 +6366,11 @@ focus_tree = {
 					is_core_of = ROOT
 					NOT = { has_state_flag = SPA_encourage_local_mining_1inf }
 					OR = {
-
+						state = 792
 						state = 166
 						state = 173
-
+						state = 788
+						state = 791
 						state = 171
 						state = 170
 						state = 41
@@ -7807,6 +7932,7 @@ focus_tree = {
 					OR = {
 						state = 165
 						state = 171
+						state = 792
 					}
 				}
 				remove_dynamic_modifier = { modifier = autonomous_state }
@@ -7850,7 +7976,7 @@ focus_tree = {
 			owns_state = 181
 			owns_state = 112
 			owns_state = 179
-
+			owns_state = 795
 		}
 
 		will_lead_to_war_with = POR
@@ -7895,6 +8021,7 @@ focus_tree = {
 			owns_state = 181
 			owns_state = 112
 			owns_state = 179
+			owns_state = 795
 		}
 		bypass = {
 		}
@@ -8155,8 +8282,10 @@ focus_tree = {
 	focus = {
 		id = SPR_fortify_the_pyrenees
 		available = {
+			has_full_control_of_state = 792
 			has_full_control_of_state = 172
 			has_full_control_of_state = 166
+			has_full_control_of_state = 794
 			has_full_control_of_state = 165
 		}
 		bypass = {
@@ -8174,15 +8303,24 @@ focus_tree = {
 		completion_reward = {
 			custom_effect_tooltip = SPR_fortify_the_pyrenees_tt
 			hidden_effect = {
+				792 = {
+					add_building_construction = {
+						type = bunker
+						province = {
+							id = 6756
+						}
+						level = 2
+						instant_build = yes
+					}
+				}
 				172 = {
 					add_building_construction = {
 						type = bunker
 						province = {
 							id = 3737
 							id = 3931
-							id = 6756
 						}
-						level = 3
+						level = 2
 						instant_build = yes
 					}
 				}
@@ -8191,10 +8329,19 @@ focus_tree = {
 						type = bunker
 						province = {
 							id = 11838
+						}
+						level = 2
+						instant_build = yes
+					}
+				}
+				794 = {
+					add_building_construction = {
+						type = bunker
+						province = {
 							id = 915
 							id = 899
 						}
-						level = 3
+						level = 2
 						instant_build = yes
 					}
 				}
@@ -8207,7 +8354,7 @@ focus_tree = {
 							id = 11779
 							id = 9824
 						}
-						level = 3
+						level = 2
 						instant_build = yes
 					}
 				}
@@ -8300,7 +8447,7 @@ focus_tree = {
 						instant_build = yes
 					}
 				}
-				172 = {
+				790 = {
 					add_building_construction = {
 						type = coastal_bunker
 						province = {
@@ -8311,7 +8458,7 @@ focus_tree = {
 						instant_build = yes
 					}
 				}
-				174 = {
+				792 = {
 					add_building_construction = {
 						type = coastal_bunker
 						province = {
@@ -8672,7 +8819,7 @@ focus_tree = {
 	focus = {
 		id = SPR_strengthen_the_euzko_gudarostea
 		available = {
-			has_full_control_of_state = 172
+			has_full_control_of_state = 792
 			NOT = { has_global_flag = scw_over }
 		}
 		bypass = {
@@ -8701,7 +8848,7 @@ focus_tree = {
 					}
 				}
 				# Basque
-				172 = {
+				792 = {
 					create_unit = {
 						division = "division_template = \"Euzko Gudarosteko Eskuadroia\" start_experience_factor = 0.1" 
 						owner = ROOT
@@ -8734,7 +8881,7 @@ focus_tree = {
 	focus = {
 		id = SPR_fortify_the_iron_ring
 		available = {
-			has_full_control_of_state = 172
+			has_full_control_of_state = 792
 			NOT = { has_global_flag = scw_over }
 		}
 		bypass = {
@@ -8751,7 +8898,7 @@ focus_tree = {
 
 		completion_reward = {
 			add_timed_idea = { idea = SPR_fortify_the_iron_ring days = 730 }
-			172 = {
+			792 = {
 				add_building_construction = {
 					type = bunker
 					province = {
@@ -9152,6 +9299,7 @@ focus_tree = {
 					OR = {
 						state = 165
 						state = 171
+						state = 792
 					}
 				}
 				remove_dynamic_modifier = { modifier = autonomous_state }
@@ -9548,6 +9696,7 @@ focus_tree = {
 					OR = {
 						state = 165
 						state = 171
+						state = 792
 					}
 				}
 				remove_dynamic_modifier = { modifier = autonomous_state }
@@ -10053,6 +10202,7 @@ focus_tree = {
 					OR = {
 						state = 165
 						state = 171
+						state = 792
 					}
 				}
 				remove_dynamic_modifier = { modifier = semi_autonomous_state }
@@ -10551,7 +10701,7 @@ focus_tree = {
 			SOV = { has_government = communism }
 			has_full_control_of_state = 172
 			has_full_control_of_state = 166
-			has_full_control_of_state = 165
+			has_full_control_of_state = 794
 			NOT = {
 				any_state = {
 					is_core_of = ROOT
@@ -10579,13 +10729,22 @@ focus_tree = {
 			custom_effect_tooltip = SPR_recovering_from_civil_war_focus_tt
 			custom_effect_tooltip = SPA_prepare_the_pyrenees_defenses_tt
 			hidden_effect = {
+				792 = {
+					add_building_construction = {
+						type = bunker
+						province = {
+							id = 6756
+						}
+						level = 2
+						instant_build = yes
+					}
+				}
 				172 = {
 					add_building_construction = {
 						type = bunker
 						province = {
 							id = 3737
 							id = 3931
-							id = 6756
 						}
 						level = 2
 						instant_build = yes
@@ -10596,6 +10755,15 @@ focus_tree = {
 						type = bunker
 						province = {
 							id = 11838
+						}
+						level = 2
+						instant_build = yes
+					}
+				}
+				794 = {
+					add_building_construction = {
+						type = bunker
+						province = {
 							id = 915
 							id = 899
 						}
@@ -10652,6 +10820,7 @@ focus_tree = {
 					OR = {
 						state = 165
 						state = 171
+						state = 792
 					}
 				}
 				remove_dynamic_modifier = { modifier = semi_autonomous_state }
