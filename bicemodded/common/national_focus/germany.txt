@@ -4127,16 +4127,34 @@ focus_tree = {
 		
 		cost = 10
 		
-		available = {
-			SPR = { has_civil_war = no }
-			any_other_country = {
-				original_tag = SPR
-				has_government = fascism
-				is_puppet = no
-				is_in_faction = no
-				NOT = { has_war_with = GER }
-				NOT = { has_idea = SPA_recovering_from_civil_war }
-				NOT = { has_idea = SPA_recovering_from_civil_war_2 }
+		available = {		
+			if = {
+				limit = {
+					NOT = { has_dlc = "La Resistance" }
+				}
+				SPR = { has_civil_war = no }
+				any_other_country = {
+					original_tag = SPR
+					has_government = fascism
+					NOT = { has_war_with = GER }
+					NOT = { is_in_faction_with = GER }
+					NOT = { has_idea = SPA_recovering_from_civil_war }
+		    		NOT = { has_idea = SPA_recovering_from_civil_war_2 }
+				}
+			}
+			if = {
+				limit = {
+					has_dlc = "La Resistance"
+				}
+				SPA = {
+					exists = yes
+					has_civil_war = no
+					NOT = { has_war_with = GER }
+					NOT = { is_in_faction_with = GER }
+					NOT = { has_completed_focus = SPA_join_the_allies }
+					NOT = { has_idea = SPA_recovering_from_civil_war }
+		    		NOT = { has_idea = SPA_recovering_from_civil_war_2 }
+				}
 			}
 			FRA = {
 				OR = {
@@ -4160,30 +4178,45 @@ focus_tree = {
          # todo: move to event and add Francos demands
 		completion_reward = {
 		
-		     if = {
-                limit = { any_other_country = { tag = D01 original_tag = SPR has_government = fascism has_civil_war = no is_puppet = no is_in_faction = no } }
-				if = {
-					limit = { has_idea = neutrality_idea }
-					remove_ideas = neutrality_idea
+		
+		    if = {
+				limit = {
+					OR = { 
+						AND = {
+							NOT = { has_dlc = "La Resistance" }
+							NOT = { country_exists = SPR }
+							SPR = { NOT = { has_government = fascism } }
+						}
+						AND = {
+							has_dlc = "La Resistance"
+							NOT = { country_exists = SPA }
+						}
+					}
 				}
-				GER = { add_to_faction = D01 } # REVISIT Might be a better way to handle this
-            }
+				custom_effect_tooltip = GER_nationalist_spain_ally_tt
+			}
 			if = {
-                limit = { any_other_country = { tag = D02 original_tag = SPR has_government = fascism has_civil_war = no is_puppet = no is_in_faction = no } }
-				if = {
-					limit = { has_idea = neutrality_idea }
-					remove_ideas = neutrality_idea
+				limit = {
+					NOT = { has_dlc = "La Resistance" }
 				}
-				GER = { add_to_faction = D02 } # REVISIT Might be a better way to handle this
-            }
+				random_other_country = {
+					limit = {
+						original_tag = SPR
+						has_government = fascism
+					}
+					remove_ideas = SPA_recovering_from_civil_war
+					add_opinion_modifier = { target = GER modifier = ger_spa_alliance_focus }
+				}
+			}
 			if = {
-                limit = { any_other_country = { tag = D03 original_tag = SPR has_government = fascism has_civil_war = no is_puppet = no is_in_faction = no } }
-				if = {
-					limit = { has_idea = neutrality_idea }
-					remove_ideas = neutrality_idea
+				limit = {
+					has_dlc = "La Resistance"
 				}
-				GER = { add_to_faction = D03 } # REVISIT Might be a better way to handle this
-            }
+				SPA = {
+					remove_ideas = SPA_recovering_from_civil_war
+					add_opinion_modifier = { target = GER modifier = ger_spa_alliance_focus }
+				}
+			}
 		}
 	}
 	focus = { 
