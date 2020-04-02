@@ -413,6 +413,8 @@ NResistance = {
 		20, -25, -- below 20% it has a -25% modifier on decay
 	},
 	
+	MIN_DAMAGE_TO_GARRISONS_MODIFIER = 0.1, -- modifier that applies to losses from resistance attack to garrisons at most can be reduced to this amount
+	
 	RESISTANCE_GROWTH_BASE = 0.2, -- base resistance grow
 	RESISTANCE_GROWTH_MIN = 0.01, -- min resistance grow
 	RESISTANCE_GROWTH_MAX = 100.0, -- max resistance grow

@@ -99,8 +99,7 @@ FRA_vichy_france = {
 	}
 	FRA_demand_unification_with_vichy = {
 		available = {
-			any_other_country = {
-				tag = VIC #tag alias, does not work as proper scope? TODO_GABRIEL recheck
+			VIC = {
 				exists = yes
 				NOT = {
 					has_war_with = ROOT
@@ -132,20 +131,21 @@ FRA_vichy_france = {
 	FRA_failsafe_join_axis = {
 		available = {
 			tag = VIC
-			any_state = {
-				NOT = { #algeria
-					state = 459
-					state = 460
-					state = 513
-				}
-				is_core_of = FRA
-				is_controlled_by = FRA #Free France has taken back some territory on the mainland
-			}
 			NOT = {
 				has_war_with = GER
 				is_in_faction_with = GER
 			}
 			date > 1942.6.1
+			FRA = {
+				any_controlled_state = {
+					NOT = { #algeria
+						state = 459
+						state = 460
+						state = 513
+					}
+					is_core_of = FRA
+				}
+			}
 		}
 		visible = {
 			is_ai = yes #if you are not a member of the dev team - avert thy eyes, traveller, for thou hath gazed upon my shame
@@ -501,11 +501,9 @@ FRA_spanish_intervention_category = {
 		target_trigger = {
 			FROM = {
 				exists = yes
-				not = { 
-					OR = {
-						has_country_flag = FRA_non_intervention_agreed 
-						has_country_flag = FRA_non_intervention_refused
-					}
+				NOT = { 
+					has_country_flag = FRA_non_intervention_agreed 
+					has_country_flag = FRA_non_intervention_refused
 				}
 				capital_scope = {
 					is_on_continent = europe
@@ -513,12 +511,13 @@ FRA_spanish_intervention_category = {
 			}
 		}
 		visible = {
-			has_country_flag = FRA_non_intervention	
+			has_country_flag = FRA_non_intervention
 		}
 		target_root_trigger = {
 			has_country_flag = FRA_non_intervention	
 		}
 		cost = 25
+		fire_only_once = yes
 		ai_will_do = {
 			factor = 1
 			modifier = {
@@ -598,6 +597,7 @@ FRA_spanish_intervention_category = {
 		}
 
 		visible = { has_country_flag = FRA_non_military_aid_allowed }
+		target_root_trigger = { has_country_flag = FRA_non_military_aid_allowed }
 
 		targets = { SPA SPR SPB SPC SPD }
 
@@ -996,6 +996,7 @@ economy_decisions = {
 		}
 		days_remove = 120
 		cost = 50
+		fire_only_once = yes
 		ai_will_do = {
 			factor = 5
 		}
@@ -1031,6 +1032,7 @@ economy_decisions = {
 		}
 		days_remove = 120
 		cost = 50
+		fire_only_once = yes
 		ai_will_do = {
 			factor = 5
 		}
@@ -1067,6 +1069,7 @@ economy_decisions = {
 		}
 		days_remove = 120
 		cost = 50
+		fire_only_once = yes
 		ai_will_do = {
 			factor = 5
 		}
@@ -1102,6 +1105,7 @@ economy_decisions = {
 		}
 		days_remove = 120
 		cost = 50
+		fire_only_once = yes
 		ai_will_do = {
 			factor = 5
 		}
@@ -1137,6 +1141,7 @@ economy_decisions = {
 		}
 		days_remove = 120
 		cost = 50
+		fire_only_once = yes
 		ai_will_do = {
 			factor = 5
 		}
@@ -1348,6 +1353,7 @@ FRA_intervention_in_overseas_territories = {
 			custom_effect_tooltip = FRA_promise_independence_tt
 			random_list = {
 				20 = {
+					VIC = { country_event = LaR_france_vichy_notification_events.5 }
 					FRA_transfer_north_africa_effect = yes
 					every_owned_state = {
 						limit = {
@@ -1421,6 +1427,7 @@ FRA_intervention_in_overseas_territories = {
 			custom_effect_tooltip = FRA_promise_independence_tt
 			random_list = {
 				30 = {
+					VIC = { country_event = LaR_france_vichy_notification_events.1 }
 					FRA_transfer_syria_effect = yes
 					every_owned_state = {
 						limit = {
@@ -1483,6 +1490,11 @@ FRA_intervention_in_overseas_territories = {
 					state = 554
 					state = 553
 				}
+				CONTROLLER = {
+					NOT = {
+						has_war_with = ROOT
+					}
+				}
 				any_neighbor_state = {
 					CONTROLLER = {
 						OR = {
@@ -1496,8 +1508,6 @@ FRA_intervention_in_overseas_territories = {
 
 		visible = { has_completed_focus = FRA_intervention_in_syria }
 
-		
-
 		complete_effect = { 
 			random_state = { #find a neighbouring state of Syria that is controlled by an ally or ourselves
 				limit = {
@@ -1508,6 +1518,9 @@ FRA_intervention_in_overseas_territories = {
 						state = 553
 					}
 					not = { is_controlled_by = ROOT }
+					CONTROLLER = {
+						NOT = { has_war_with = ROOT }
+					}
 					any_neighbor_state = {
 						CONTROLLER = {
 							OR = {
@@ -1664,6 +1677,7 @@ FRA_intervention_in_overseas_territories = {
 			custom_effect_tooltip = FRA_promise_independence_tt
 			random_list = {
 				20 = {
+					VIC = { country_event = LaR_france_vichy_notification_events.2 }
 					FRA_transfer_indochina_effect = yes
 					every_owned_state = {
 						limit = {
@@ -1721,6 +1735,11 @@ FRA_intervention_in_overseas_territories = {
 					state = 286
 					state = 741
 				}
+				CONTROLLER = {
+					NOT = {
+						has_war_with = ROOT
+					}
+				}
 				any_neighbor_state = {
 					CONTROLLER = {
 						OR = {
@@ -1744,6 +1763,9 @@ FRA_intervention_in_overseas_territories = {
 						state = 741
 					}
 					not = { is_controlled_by = ROOT }
+					CONTROLLER = {
+						NOT = { has_war_with = ROOT }
+					}
 					any_neighbor_state = {
 						CONTROLLER = {
 							OR = {
@@ -1899,6 +1921,7 @@ FRA_intervention_in_overseas_territories = {
 			custom_effect_tooltip = FRA_promise_independence_tt
 			random_list = {
 				25 = {
+					VIC = { country_event = LaR_france_vichy_notification_events.3 }
 					FRA_transfer_central_africa_effect = yes
 					every_owned_state = {
 						limit = {
@@ -1960,6 +1983,9 @@ FRA_intervention_in_overseas_territories = {
 					state = 660
 					state = 774
 				}
+				CONTROLLER = {
+					NOT = { has_war_with = ROOT }
+				}
 				any_neighbor_state = {
 					CONTROLLER = {
 						OR = {
@@ -1984,6 +2010,9 @@ FRA_intervention_in_overseas_territories = {
 						state = 774
 					}
 					not = { is_controlled_by = ROOT }
+					CONTROLLER = {
+						NOT = { has_war_with = ROOT }
+					}
 					any_neighbor_state = {
 						CONTROLLER = {
 							OR = {
@@ -2146,6 +2175,7 @@ FRA_intervention_in_overseas_territories = {
 			custom_effect_tooltip = FRA_promise_independence_tt
 			random_list = {
 				25 = {
+					VIC = { country_event = LaR_france_vichy_notification_events.4 }
 					FRA_transfer_western_africa_effect = yes
 					every_owned_state = {
 						limit = {
@@ -2212,6 +2242,9 @@ FRA_intervention_in_overseas_territories = {
 						state = 781
 						state = 776
 				}
+				CONTROLLER = {
+					NOT = { has_war_with = ROOT }
+				}
 				any_neighbor_state = {
 					CONTROLLER = {
 						OR = {
@@ -2239,6 +2272,9 @@ FRA_intervention_in_overseas_territories = {
 						state = 776
 					}
 					not = { is_controlled_by = ROOT }
+					CONTROLLER = {
+						NOT = { has_war_with = ROOT }
+					}
 					any_neighbor_state = {
 						CONTROLLER = {
 							OR = {
@@ -2407,6 +2443,7 @@ FRA_intervention_in_overseas_territories = {
 			custom_effect_tooltip = FRA_promise_independence_tt
 			random_list = {
 				30 = {
+					VIC = { country_event = LaR_france_vichy_notification_events.6 }
 					transfer_state = 543
 					543 = {
 						add_compliance = 5
