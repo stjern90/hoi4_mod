@@ -2477,7 +2477,7 @@ country_event = {
 	option = {
 		name = germany.42.a
 		trigger = {
-			is_puppet = no
+			is_subject = no
 		}
 		ai_chance = {
 			factor = 90
@@ -2491,13 +2491,13 @@ country_event = {
 				is_in_faction = yes
 				NOT = { is_in_faction_with = ENG }
 				NOT = { is_in_faction_with = CZE }
+				NOT = { has_guaranteed = CZE }
 			}
-			remove_from_faction = FRA
+			give_guarantee = CZE
 		}
 		if = {
 			limit = { 
-				NOT = { is_in_faction_with = ENG } 
-				NOT = { is_in_faction_with = CZE }
+				is_in_faction = no
 			}
 			ENG = { add_to_faction = FRA }
 			add_ai_strategy = {
@@ -2514,6 +2514,10 @@ country_event = {
 				NOT = { is_in_faction_with = ENG }
 			}
 			add_to_faction = ENG #Britain joins the little entente
+			every_other_country = {
+				limit = { is_subject_of = ENG }
+				ROOT = { add_to_faction = PREV }
+			}
 		}
 		add_opinion_modifier = { target = GER modifier = condemn_aggression }
 		CZE = { 
@@ -2688,9 +2692,17 @@ country_event = {
 				is_faction_leader = yes
 			}
 			modifier = {
-				factor = 0.05 #if you are in a faction, maybe fight
+				factor = 0.5 #if you are in a faction, maybe fight
 				is_faction_leader = no
 				is_in_faction = yes
+			}
+			modifier = {
+				factor = 0.05 #if you are in a faction with a major, probably fight
+				is_faction_leader = no
+				is_in_faction = yes
+				any_allied_country = {
+					is_major = yes
+				}
 			}
 			modifier = {
 				factor = 0
