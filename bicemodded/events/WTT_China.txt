@@ -171,16 +171,15 @@ country_event = {
 
 	trigger = {
 		tag = event_target:WTT_current_china_leader
-		any_country = {
+		any_other_country = {
 			has_completed_focus = PRC_infiltration
 			has_government = communism
 		}
 	}
 	
 	immediate = {
-		every_state = { 
+		every_controlled_state = { 
 			limit = {
-				is_controlled_by = ROOT
 				has_any_PRC_infiltration_flag = yes
 				NOT = { has_state_flag = discovered_infiltration }
 			}
@@ -231,6 +230,18 @@ country_event = {
 					}
 
 					set_global_flag = new_infiltration_detected
+					if = {
+						limit = { 
+							ROOT = { NOT = { has_country_flag = CHI_first_infiltration_discovered } }
+						}
+						ROOT = { set_country_flag = CHI_first_infiltration_discovered }
+					}
+					if = {
+						limit = {
+							ROOT = { has_country_flag = CHI_clean_sweep }
+						}
+						ROOT = { clr_country_flag = CHI_clean_sweep }
+					}
 				}
 				90 = {
 					#Nothing happens
@@ -245,7 +256,11 @@ country_event = {
 			if = {
 				limit = { ROOT_any_state_infiltration_detected = yes }
 				country_event = wtt_infiltration.3
-				else = {
+				else_if = {
+					limit = { 
+						has_country_flag = CHI_first_infiltration_discovered 
+						NOT = { has_country_flag = CHI_clean_sweep }
+					}
 					#No infiltrations discovered
 					country_event = wtt_infiltration.4
 				}
@@ -428,6 +443,12 @@ country_event = {
 	picture = GFX_report_event_chinese_soldiers
 
 	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = CHI_clean_sweep
+		}
+	}
 	
 	option = {
 		name = wtt_infiltration.4.a
@@ -570,6 +591,20 @@ country_event = {
 						}
 					}
 					set_global_flag = new_infiltration_detected
+					if = {
+						limit = { 
+							ROOT = { 
+								NOT = { has_country_flag = PRC_anti_japanese_first_detection } 
+							} 
+						}
+						ROOT = { set_country_flag = PRC_anti_japanese_first_detection }
+					}
+					if = {
+						limit = { 
+							ROOT = { has_country_flag = PRC_anti_japanese_clean_sweep }
+						}
+						ROOT = { clr_country_flag = PRC_anti_japanese_clean_sweep }
+					}
 				}
 				0 = {
 					#Nothing happens
@@ -584,7 +619,11 @@ country_event = {
 			if = {
 				limit = { ROOT_any_anti_JAP_state_infiltration_detected = yes }
 				country_event = wtt_infiltration.23
-				else = {
+				else_if = {
+					limit = { 
+						has_country_flag = PRC_anti_japanese_first_detection
+						NOT = { has_country_flag = PRC_anti_japanese_clean_sweep }
+					}
 					#No infiltrations discovered
 					country_event = wtt_infiltration.24
 				}
@@ -616,7 +655,16 @@ country_event = {
 	picture = GFX_report_event_manchukuo_army_2
 
 	is_triggered_only = yes
-	
+	immediate = {
+		hidden_effect = {
+			if = {
+				limit = {
+					NOT = { has_country_flag = PRC_anti_japanese_clean_sweep }
+				}
+				set_country_flag = PRC_anti_japanese_clean_sweep
+			}
+		}
+	}
 	option = {
 		name = wtt_infiltration.24.a
 	}
