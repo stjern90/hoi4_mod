@@ -461,7 +461,7 @@ NResistance = {
 	FOREIGN_MANPOWER_AI_COOLDOWN_DAYS = 45,		 -- Number of days after an AI give us manpower before the AI accept to give more.
 
 	INITIAL_HISTORY_RESISTANCE = 10.0,			-- resistance value for initial colony states
-	INITIAL_HISTORY_COMPLIANCE = 70.0,			-- compliance value for initial colony states
+	INITIAL_HISTORY_COMPLIANCE = 60.0,			-- compliance value for initial colony states
 	INITIAL_GARRISON_STRENGTH = 1,				-- garrison value for initial colony states
 	
 	STATE_COMPLIANCE_DECAY_FOR_LOST_STATES = 0.05, -- daily compliance decay for the states you lost control of
