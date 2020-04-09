@@ -6159,26 +6159,33 @@ country_event = {
 			}
 
 			## SPA triggers Carlist Uprising ##
-			# If POR has already joined SCW, it will join the war against SPB as well
-			if = { #POR supporting SPD
+			# If any country has already joined SCW, it will join the war against SPB as well
+			if = { #Country supporting SPD
 				limit = {
-					POR = { has_country_flag = POR_supports_SPD_flag }
+					any_country = { has_country_flag = supports_SPD_flag }
 				}
-				POR = {
+				every_country = {
+					limit = { has_country_flag = supports_SPD_flag }
 					add_to_war = { targeted_alliance = SPD enemy = SPB hostility_reason = asked_to_join }
 				}
-				random_country = { #Portuguese Non-aligned tag (spawned via Workers of Iberia, Unite! focus) will join war
+				if = {
 					limit = {
-						has_country_flag = POR_non_aligned_portugal_supports_SPA_flag
+						any_country = { has_country_flag = POR_non_aligned_portugal_supports_SPA_flag }
 					}
-					add_to_war = { targeted_alliance = SPA enemy = SPB hostility_reason = asked_to_join }
+					random_country = { #Portuguese Non-aligned tag (spawned via Workers of Iberia, Unite! focus) will join war
+						limit = {
+							has_country_flag = POR_non_aligned_portugal_supports_SPA_flag
+						}
+						add_to_war = { targeted_alliance = SPA enemy = SPB hostility_reason = asked_to_join }
+					}
 				}
 			}
-			else_if = { #POR supporting SPA
+			if = { #Country supporting SPA
 				limit = {
-					POR = { has_country_flag = POR_supports_SPA_flag }
+					any_country = { has_country_flag = supports_SPA_flag }
 				}
-				POR = {
+				every_country = {
+					limit = { has_country_flag = supports_SPA_flag }
 					add_to_war = { targeted_alliance = SPA enemy = SPB hostility_reason = asked_to_join }
 				}
 			}
@@ -6551,8 +6558,8 @@ country_event = {
 			}
 
 			## SPB triggers Carlist Uprising ##
-			### All Portuguese Aid goes to SPA ###
-			#Op. modifier goes to SPA
+			### All foreign Aid goes to SPA ###
+			#Portuguese Op. modifier goes to SPA
 			if = {
 				limit = {
 					has_opinion_modifier = POR_helped_in_civil_war
@@ -6568,37 +6575,39 @@ country_event = {
 					}
 				}
 			}
-			if = { #POR supporting SPA
-				limit = {
-					POR = { has_country_flag = POR_supports_SPA_flag }
+			if = {#Country supporting SPA
+				limit = { 
+					any_country = { has_country_flag = supports_SPA_flag }
 				}
-				SPA = {
-					diplomatic_relation = {
-						country = POR
-						relation = military_access
-						active = yes
+				every_country = {
+					limit = {
+						 has_country_flag = supports_SPA_flag
 					}
-				}
-				POR = {
 					diplomatic_relation = {
 						country = SPA
 						relation = military_access
 						active = yes
 					}
+					SPA = {
+						diplomatic_relation = {
+							country = PREV
+							relation = military_access
+							active = yes
+						}
+					}
 					#Join war against all SPA enemies
-					if = {
-						limit = { country_exists = SPD }
-						add_to_war = { targeted_alliance = SPA enemy = SPD hostility_reason = asked_to_join }
-					}
-					if = {
-						limit = { country_exists = SPC }
-						add_to_war = { targeted_alliance = SPA enemy = SPC hostility_reason = asked_to_join }
-					}
-					if = {
-						limit = { country_exists = SPB }
-						add_to_war = { targeted_alliance = SPA enemy = SPB hostility_reason = asked_to_join }
+					every_country = {
+						limit = { has_war_with = SPA }
+						PREV = {
+							add_to_war = {
+								targeted_alliance = SPA
+								enemy = PREV
+								hostility_reason = asked_to_join
+							}
+						}
 					}
 				}
+			
 				#Transfer troops in territory belonging to SPA allies back home
 				every_state = {
 					limit = {
@@ -6615,19 +6624,27 @@ country_event = {
 					}
 				}
 			}
-			else_if = {	#POR supporting SPD
+			if = {	#Country supporting SPD
 				limit = {
-					POR = { has_country_flag = POR_supports_SPD_flag }
+					any_country = { has_country_flag = supports_SPD_flag }
 				}
-				POR = {
-					# POR joins war against SPA
+				every_country = {
+					limit = {
+						has_country_flag = supports_SPD_flag
+					}
+					# Country joins war against SPA
 					add_to_war = { targeted_alliance = SPD enemy = SPA hostility_reason = asked_to_join }
 				}
-				random_country = { #Portuguese Non-aligned tag (spawned via Workers of Iberia, Unite! focus) will join war
+				if = {
 					limit = {
-						has_country_flag = POR_non_aligned_portugal_supports_SPA_flag
+						any_country = { has_country_flag = POR_non_aligned_portugal_supports_SPA_flag }
 					}
-					add_to_war = { targeted_alliance = SPA enemy = SPB hostility_reason = asked_to_join }
+					random_country = { #Portuguese Non-aligned tag (spawned via Workers of Iberia, Unite! focus) will join war
+						limit = {
+							has_country_flag = POR_non_aligned_portugal_supports_SPA_flag
+						}
+						add_to_war = { targeted_alliance = SPA enemy = SPB hostility_reason = asked_to_join }
+					}
 				}
 			}
 			every_state = {
@@ -6635,6 +6652,7 @@ country_event = {
 					has_state_flag = SPR_core_of_spain_flag
 				}
 				add_core_of = SPB
+				add_core_of = SPA
 			}
 			news_event = { id = lar_news.10 days = 1 }
 		}
@@ -7155,34 +7173,42 @@ country_event = {
 			}
 
 			## SPD triggers Anarchist Uprising ##
-			# If POR has already joined SCW, it will join the war against SPC as well
-			if = { #POR supporting SPD
+			# If any country has already joined SCW, it will join the war against SPC as well
+			if = { #Country supporting SPD
 				limit = {
-					POR = { has_country_flag = POR_supports_SPD_flag }
+					any_country = { has_country_flag = supports_SPD_flag }
 				}
-				POR = {
+				every_country = {
+					limit = { has_country_flag = supports_SPD_flag }
 					add_to_war = { targeted_alliance = SPD enemy = SPC hostility_reason = asked_to_join }
 				}
-				random_country = { #Portuguese Non-aligned tag (spawned via Workers of Iberia, Unite! focus) will join war
+				if = { #Portuguese Non-aligned tag (spawned via Workers of Iberia, Unite! focus) will join war
 					limit = {
-						has_country_flag = POR_non_aligned_portugal_supports_SPA_flag
+						any_country = { has_country_flag = POR_non_aligned_portugal_supports_SPA_flag }
 					}
+					random_country = {
+						limit = {
+							has_country_flag = POR_non_aligned_portugal_supports_SPA_flag
+						}
+						add_to_war = { targeted_alliance = SPA enemy = SPC hostility_reason = asked_to_join }
+					}
+				}
+			}
+			if = { #Country supporting SPA
+				limit = {
+					any_country = { has_country_flag = supports_SPA_flag }
+				}
+				every_country = {
+					limit = { has_country_flag = supports_SPA_flag }
 					add_to_war = { targeted_alliance = SPA enemy = SPC hostility_reason = asked_to_join }
 				}
 			}
-			else_if = { #POR supporting SPA
+			if = { #Country supporting SPB
 				limit = {
-					POR = { has_country_flag = POR_supports_SPA_flag }
+					any_country = { has_country_flag = supports_SPB_flag }
 				}
-				POR = {
-					add_to_war = { targeted_alliance = SPA enemy = SPC hostility_reason = asked_to_join }
-				}
-			}
-			else_if = { #POR supporting SPB
-				limit = {
-					POR = { has_country_flag = POR_supports_SPB_flag }
-				}
-				POR = {
+				every_country = {
+					limit = { has_country_flag = supports_SPB_flag }
 					add_to_war = { targeted_alliance = SPB enemy = SPC hostility_reason = asked_to_join }
 				}
 			}
@@ -7919,7 +7945,7 @@ country_event = {
 			}
 
 			## SPC triggers Anarchist Uprising ##
-			### Portuguese Aid goes to SPD ###
+			### Foreign aid goes to SPD ###
 			#Op. modifier goes to SPD.
 			if = {
 				limit = {
@@ -7936,35 +7962,36 @@ country_event = {
 					}
 				}
 			}
-			if = { #POR supporting SPD
+			if = { #Country supporting SPD
 				limit = {
-					POR = { has_country_flag = POR_supports_SPD_flag }
+					any_country = { has_country_flag = supports_SPD_flag }
 				}
-				SPD = {
-					diplomatic_relation = {
-						country = POR
-						relation = military_access
-						active = yes
+				every_country = {
+					limit = {
+						 has_country_flag = supports_SPD_flag
 					}
-				}			
-				POR = {
 					diplomatic_relation = {
 						country = SPD
 						relation = military_access
 						active = yes
 					}
+					SPD = {
+						diplomatic_relation = {
+							country = PREV
+							relation = military_access
+							active = yes
+						}
+					}
 					#Join war against all SPD enemies
-					if = {
-						limit = { country_exists = SPA }
-						add_to_war = { targeted_alliance = SPD enemy = SPA hostility_reason = asked_to_join }
-					}
-					if = {
-						limit = { country_exists = SPC }
-						add_to_war = { targeted_alliance = SPD enemy = SPC hostility_reason = asked_to_join }
-					}
-					if = {
-						limit = { country_exists = SPB }
-						add_to_war = { targeted_alliance = SPD enemy = SPB hostility_reason = asked_to_join }
+					every_country = {
+						limit = { has_war_with = SPD }
+						PREV = {
+							add_to_war = {
+								targeted_alliance = SPD
+								enemy = PREV
+								hostility_reason = asked_to_join
+							}
+						}
 					}
 				}
 				#Transfer troops in territory belonging to SPD allies back home
@@ -7982,28 +8009,33 @@ country_event = {
 						to_state_array = owned_controlled_states
 					}
 				}
-				random_country = { #Portuguese Non-aligned tag (spawned via Workers of Iberia, Unite! focus) will join war
+				if = { #Portuguese Non-aligned tag (spawned via Workers of Iberia, Unite! focus) will join war
 					limit = {
-						has_country_flag = POR_non_aligned_portugal_supports_SPA_flag
+						any_country = { has_country_flag = POR_non_aligned_portugal_supports_SPA_flag }
 					}
+					random_country = {
+						limit = {
+							has_country_flag = POR_non_aligned_portugal_supports_SPA_flag
+						}
+						add_to_war = { targeted_alliance = SPA enemy = SPD hostility_reason = asked_to_join }
+					}
+				}
+			}
+			if = {	#Country supporting SPA
+				limit = {
+					any_country = { has_country_flag = supports_SPA_flag }
+				}
+				every_country = {# Country joins war against SPD
+					limit = { has_country_flag = supports_SPA_flag }
 					add_to_war = { targeted_alliance = SPA enemy = SPD hostility_reason = asked_to_join }
 				}
 			}
-			else_if = {	#POR supporting SPA
+			if = {	#Country supporting SPB
 				limit = {
-					POR = { has_country_flag = POR_supports_SPA_flag }
+					any_country = { has_country_flag = supports_SPB_flag }
 				}
-				POR = {
-					# POR joins war against SPC
-					add_to_war = { targeted_alliance = SPA enemy = SPD hostility_reason = asked_to_join }
-				}
-			}
-			else_if = {	#POR supporting SPB
-				limit = {
-					POR = { has_country_flag = POR_supports_SPB_flag }
-				}
-				POR = {
-					# POR joins war against SPC
+				every_country = {# Country joins war against SPD
+					limit = { has_country_flag = supports_SPB_flag }
 					add_to_war = { targeted_alliance = SPB enemy = SPD hostility_reason = asked_to_join }
 				}
 			}
@@ -8071,6 +8103,7 @@ country_event = {
 					has_state_flag = SPR_core_of_spain_flag
 				}
 				add_core_of = SPC
+				add_core_of = SPD
 			}
 			news_event = { id = lar_news.11 days = 1 }
 		}
@@ -9746,6 +9779,9 @@ country_event = {
 			    ideology = neutrality
 			    popularity = 100
 			}
+		}
+		POR ={
+			set_rule = { can_join_factions = no	}
 		}
 	}
 }
