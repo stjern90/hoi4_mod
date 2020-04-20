@@ -5449,7 +5449,7 @@ focus_tree = {
 		mutually_exclusive = { focus = ITA_birthplace_fascism }
 		x = -1
 		y = 1
-		cost = 6
+		cost = 5
 		ai_will_do = {
 			factor = 8
 		}	
@@ -5466,12 +5466,32 @@ focus_tree = {
 		relative_position_id = ITA_modernization
 		x = 1
 		y = 1
-		cost = 4.8
+		cost = 6
 		ai_will_do = {
 			factor = 8
 		}	
 		completion_reward = {
-			add_popularity = { ideology = fascism popularity = 0.05 }			
+			every_country = {
+		    	limit = { 
+				    OR = {
+		            capital_scope = {
+					    OR = {
+						is_on_continent = europe
+						is_on_continent = south_america
+						is_on_continent = north_america
+						}
+					}
+					tag = AST
+						tag = NZL
+						tag = SAF
+						}
+						
+		    	}
+				add_popularity = {
+					ideology = fascism
+					popularity = 0.02
+				}
+			}			
 		}
 	}
 	focus = {
@@ -5535,8 +5555,80 @@ focus_tree = {
 		ai_will_do = {
 			factor = 8
 		}	
+		
+		available = {
+			if = {
+				limit = {
+					NOT = { has_dlc = "La Resistance" }
+				}
+				any_other_country = {
+					original_tag = SPR
+					has_government = fascism
+					has_volunteers_amount_from = {
+						tag = ITA
+						count > 0
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_dlc = "La Resistance"
+				}
+				SPA = {
+					has_volunteers_amount_from = {
+						tag = ITA
+						count > 0
+					}
+				}
+			}
+		}
+		cancel = {
+			if = {
+				limit = {
+					NOT = { has_dlc = "La Resistance" }
+				}
+				SPR = {
+					has_civil_war = no
+				}
+			}
+			if = {
+				limit = {
+					has_dlc = "La Resistance"
+				}
+				SPA = { has_civil_war = no }
+			}
+		}
+		bypass = { 
+		OR = {
+		has_global_flag = scw_over
+		has_global_flag = scw_early_end
+		}
+		}
+		
+		
 		completion_reward = {
-			#add_popularity = { ideology = fascism popularity = 0.06 }				
+		    custom_effect_tooltip = ITA_support_spain_2_divisions_tt
+			hidden_effect = {
+    		    country_event = italy.43
+			}
+			if = {
+				limit = {
+					NOT = { has_dlc = "La Resistance" }
+				}
+				random_other_country = {
+					limit = {
+						original_tag = SPR
+						has_government = fascism
+					}
+					 effect_tooltip = { add_war_support = 0.05 }
+				}
+			}
+			if = {
+				limit = {
+					has_dlc = "La Resistance"
+				}
+				SPA = {  effect_tooltip = { add_war_support = 0.05 } }
+			}
 		}
 	}
 	
