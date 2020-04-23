@@ -1492,7 +1492,7 @@ country_event = {
 	id = italy.43
 	title = italy.43.t
 	desc = italy.43.d
-	picture = GFX_report_event_guernica
+	picture = GFX_report_event_ITA_blackshirts
 	
 	is_triggered_only = yes	
 	
@@ -1529,7 +1529,7 @@ country_event = {
 	id = italy.44
 	title = italy.44.t
 	desc = italy.44.d
-	picture = GFX_report_event_mussolini_flag
+	picture = GFX_report_event_ethiopian_imperial_guard
 	
 	is_triggered_only = yes	
 		
@@ -1544,38 +1544,53 @@ country_event = {
 }
 
 country_event = {
-	id = italy.45
+	id = italy.45   # Haile Selassie Man of The Year
 	title = italy.45.t
 	desc = italy.45.d
-	picture = GFX_report_event_mussolini_flag
+	picture = GFX_report_event_ethiopian_imperial_guard
 	
 	is_triggered_only = yes	
 		
 	option = {
 		name = italy.45.a							
-		add_war_support = -0.12
-		add_popularity = {
-			ideology = fascism
-			popularity = -0.04
+		add_war_support = -0.03
+		every_state = {
+				limit = {
+					not = { is_core_of = ROOT }
+					is_core_of = ETH
+				}
+				add_compliance = -5
+				add_resistance = 5
+			}
+			
+			
+		hidden_effect= {
+		     country_event = { id = italy.46 days = 78 }
 		}
 	}
 }
 
 country_event = {
-	id = italy.46
+	id = italy.46  # Haile Selassie adressing The League of Nations
 	title = italy.46.t
 	desc = italy.46.d
-	picture = GFX_report_event_mussolini_flag
+	picture = GFX_report_event_journalists_speech
 	
-	is_triggered_only = yes	
+	is_triggered_only = yes
+immediate = { activate_mission = ITA_abyssinia_campaign }	
 		
 	option = {
 		name = italy.46.a							
-		add_war_support = -0.12
-		add_popularity = {
-			ideology = fascism
-			popularity = -0.04
-		}
+		add_stability = -0.02
+		FRA = { add_opinion_modifier = { target = ITA modifier = condemn_aggression } }
+		ENG = { add_opinion_modifier = { target = ITA modifier = condemn_aggression } }
+		SOV = { add_opinion_modifier = { target = ITA modifier = condemn_aggression } }
+		
+		effect_tooltip = { activate_mision = ITA_abyssinia_campaign }
+		
+		#if = { limit = { has_war_with = ETH }
+		#     country_event = { id = italy.53 days = 30 }
+		#}
 	}
 }
 
@@ -1597,18 +1612,18 @@ country_event = {
 					template_counter = 6
 					division_names_group = SPR_INF_02
 					regiments = {
-						militia = { x = 0 y = 0 }
-		militia = { x = 0 y = 1 }
-		militia = { x = 0 y = 2 }
+						light_infantry = { x = 0 y = 0 }
+		light_infantry = { x = 0 y = 1 }
+		light_infantry = { x = 0 y = 2 }
 
 		
-		militia = { x = 1 y = 0 }
-		militia = { x = 1 y = 1 }
-		militia = { x = 1 y = 2 }
+		light_infantry = { x = 1 y = 0 }
+		light_infantry = { x = 1 y = 1 }
+		light_infantry = { x = 1 y = 2 }
 		
-		militia = { x = 2 y = 0 }
-		militia = { x = 2 y = 1 }
-		militia = { x = 2 y = 2 }
+		light_infantry = { x = 2 y = 0 }
+		light_infantry = { x = 2 y = 1 }
+		light_infantry = { x = 2 y = 2 }
 
 		artillery_brigade = { x = 3 y = 0 }
 		artillery_brigade = { x = 3 y = 1 }
@@ -1663,6 +1678,90 @@ country_event = {
 	}
 }
 
+country_event = {
+	id = italy.49  # bombing of guernica
+	title = italy.49.t
+	desc = italy.49.d
+	picture = GFX_report_event_mussolini_flag
+	
+	is_triggered_only = yes	
+	
+	option = {
+		name = italy.49.a 
+		
+	}
+}
+
+country_event = {   # stresa front breaks down
+	id = italy.50  
+	title = italy.50.t
+	desc = italy.50.d
+	picture = GFX_report_event_guernica
+	
+	is_triggered_only = yes	
+	trigger = { has_war_with = ETH }
+	
+	option = {
+		name = italy.50.a 
+		remove_opinion_modifier = { target = FRA modifier = stresa_front }
+        remove_opinion_modifier = { target = ENG modifier = stresa_front }
+		ENG = { remove_opinion_modifier = { target = ITA modifier = stresa_front } hidden_effect= { country_event = { id = italy.51 days = 1 } } }
+		FRA = { remove_opinion_modifier = { target = ITA modifier = stresa_front } hidden_effect= { country_event = { id = italy.51 days = 1 } } }
+		stability = -0.02
+		
+		hidden_effect= {
+		     country_event = { id = italy.45 days = 11 }
+		}
+	}
+	
+	option = {
+		name = italy.50.b 
+		every_country = { limit = { has_war_with = ETH 
+             OR = {
+			 original_tag = ITA
+             is_in_faction_with = ITA 
+			 }
+             }
+				
+				white_peace = ETH
+    	}
+		
+		ENG = { hidden_effect= { country_event = { id = italy.51 days = 1 } } }
+		FRA = { hidden_effect= { country_event = { id = italy.51 days = 1 } } }
+	}
+}
+
+country_event = {   # stresa front breaks down
+	id = italy.51  
+	title = italy.51.t
+	desc = italy.51.d
+	picture = GFX_report_event_guernica
+	
+	is_triggered_only = yes	
+	
+	option = {
+		name = italy.51.a 
+		effect_tooltip = {
+		ITA = { remove_opinion_modifier = { target = FRA modifier = stresa_front } }
+        ITA = { remove_opinion_modifier = { target = ENG modifier = stresa_front } }
+		ENG = { remove_opinion_modifier = { target = ITA modifier = stresa_front } }
+		FRA = { remove_opinion_modifier = { target = ITA modifier = stresa_front } }
+		}
+	}
+}
+
+country_event = {   # stresa front saved
+	id = italy.52  
+	title = italy.52.t
+	desc = italy.52.d
+	picture = GFX_report_event_guernica
+	
+	is_triggered_only = yes	
+	
+	option = {
+		name = italy.52.a 
+	}
+}
 
 
 # Italy tANKS, wow so cool  - P26 medium tank
