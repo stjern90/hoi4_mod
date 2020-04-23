@@ -9,7 +9,7 @@ focus_tree = {
 			original_tag = ITA
 		}
 	}
-	continuous_focus_position = { x = 1 y = 1400 }
+	continuous_focus_position = { x = 1 y = 1460 }
 	default = no
 
 	focus = {
@@ -76,8 +76,8 @@ focus_tree = {
 		icon = GFX_goal_generic_air_naval_bomber
 		prerequisite = { focus = ITA_portaerei }
 		prerequisite = { focus = ITA_Modern_naval_bomber_effort }
-		relative_position_id = ITA_Regia_Marina
-		x = 3
+		relative_position_id = ITA_regia_marina
+		x = 2
 		y = 4
 
 		cost = 6
@@ -137,56 +137,32 @@ focus_tree = {
 		available_if_capitulated = yes
 
 		completion_reward = {
-			162 = {				
-
-					add_extra_state_shared_building_slots = 1
-
-					add_building_construction = {
-
-						type = dockyard
-
-						level = 1
-
-						instant_build = yes
-
-					}
-
-			}
 
 			add_tech_bonus = {
 
 				name = ITA_ships_bonus
 
-				bonus = 0.4
+				bonus = 0.5
 
 				uses = 1
 				
-				category = ss_tech				
+				category = naval_equipment			
 
 			}
 			add_tech_bonus = {
 
 				name = ITA_ships_bonus_2
 
-				bonus = 0.4
+				bonus = 0.5
+				
+			    ahead_reduction = 0.5
 
-				uses = 1				
+				uses = 2				
 				
 				category = cl_tech	
+				category = ca_tech
 
 			}
-				add_tech_bonus = {
-
-				name = naval_doctrine_bonus
-
-				bonus = 0.4
-
-				uses = 1
-
-				category = naval_doctrine
-
-			}
-
 		}
 
 	}
@@ -198,7 +174,7 @@ focus_tree = {
 	    mutually_exclusive = { focus = ITA_steady }
 		relative_position_id = ITA_regia_marina
 		x = -2
-		y = 5
+		y = 7
 
 		cost = 5
 
@@ -231,7 +207,7 @@ focus_tree = {
 		prerequisite = { focus = ITA_innovazione }
 		relative_position_id = ITA_regia_marina
 		x = -2
-		y = 6
+		y = 8
 
 		cost = 7
 
@@ -271,7 +247,7 @@ focus_tree = {
 	    mutually_exclusive = { focus = ITA_innovazione }
 		relative_position_id = ITA_regia_marina
 		x = 0
-		y = 5
+		y = 7
 
 		cost = 5
 
@@ -295,7 +271,7 @@ focus_tree = {
         prerequisite = { focus = ITA_steady }
 		relative_position_id = ITA_regia_marina
 		x = 0
-		y = 6
+		y = 8
 
 		cost = 4
 
@@ -333,6 +309,12 @@ focus_tree = {
 		completion_reward = {
 			custom_effect_tooltip = available_chief_of_navy
 			show_ideas_tooltip = domenico_cavagnari
+			add_tech_bonus = {
+				name = naval_doctrine_bonus
+				bonus = 0.5
+				uses = 1
+				category = naval_doctrine
+			}
 		}
 		
 		ai_will_do = {
@@ -355,6 +337,13 @@ focus_tree = {
 		completion_reward = {
 			custom_effect_tooltip = available_chief_of_navy
 			show_ideas_tooltip = inigo_campioni
+			
+			add_tech_bonus = {
+				name = naval_doctrine_bonus
+				bonus = 0.5
+				uses = 1
+				category = naval_doctrine
+			}
 		}
 		
 		ai_will_do = {
@@ -363,14 +352,21 @@ focus_tree = {
 	}
 
 	focus = {
-		id = ITA_Escape_the_cage
+		id = ITA_Escape_the_cage 
 		icon = GFX_goal_generic_large_fleet
 		prerequisite = { focus = ITA_battleship_focus focus = ITA_portaerei }
 		relative_position_id = ITA_regia_marina
 		x = 0
-		y = 4
+		y = 6
 
 		cost = 6
+		available = {
+		     custom_trigger_tooltip = {
+					tooltip = ita_navy_reformed_tt
+					has_country_flag = ita_navy_reformed
+				}
+		     
+		}
 
 		ai_will_do = {
 			factor = 7
@@ -402,7 +398,7 @@ focus_tree = {
 		
 		relative_position_id = ITA_regia_marina
 		x = 2
-		y = 5
+		y = 7
 		cost = 7.5
 
 		ai_will_do = {
@@ -441,7 +437,7 @@ focus_tree = {
 			factor = 5
 
 		}
-
+        search_filters = { FOCUS_FILTER_RESEARCH }
 		available_if_capitulated = yes
 
 
@@ -472,6 +468,7 @@ focus_tree = {
 		ai_will_do = {
 			factor = 1
 		}	
+		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
 			add_tech_bonus = {
 				name = bb_bonus
@@ -483,11 +480,100 @@ focus_tree = {
 	}
 	
 	focus = {
+		id = ITA_battleship_focus_2
+		icon = GFX_Italia_Battleship 
+
+		prerequisite = {  focus = ITA_battleship_focus }
+		relative_position_id = ITA_regia_marina
+		x = -1
+		y = 5
+		cost = 2.5
+		ai_will_do = {
+			factor = 1
+		}	
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		available = {
+		    has_tech = improved_ship_hull_heavy
+			has_tech = basic_heavy_armor_scheme
+		}
+		completion_reward = {
+			if = { limit = { has_tech = improved_heavy_battery }
+		   create_equipment_variant = {
+					name = "Roma Class"
+					type 	= ship_hull_heavy_3
+					name_group = ITA_BB_HISTORICAL
+					parent_version = 0
+					modules = {
+						fixed_ship_battery_slot = ship_heavy_battery_3
+				fixed_ship_anti_air_slot = ship_anti_air_1
+				fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+				fixed_ship_radar_slot = empty
+				fixed_ship_engine_slot = heavy_ship_engine_2
+				fixed_ship_secondaries_slot = ship_secondaries_2
+				fixed_ship_armor_slot = ship_armor_bb_2
+				front_1_custom_slot = ship_anti_air_1
+				mid_1_custom_slot = ship_secondaries_2
+				mid_2_custom_slot = ship_airplane_launcher_1
+				rear_1_custom_slot = ship_heavy_battery_3
+					}
+				}
+				}
+				if = { limit = { NOT = { has_tech = improved_heavy_battery } }
+				create_equipment_variant = {
+					name = "Roma Class"
+					type = ship_hull_heavy_3
+					name_group = ITA_BB_HISTORICAL
+					parent_version = 0
+					modules = {
+						
+						fixed_ship_battery_slot = ship_heavy_battery_2
+				fixed_ship_anti_air_slot = ship_anti_air_1
+				fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+				fixed_ship_radar_slot = empty
+				fixed_ship_engine_slot = heavy_ship_engine_2
+				fixed_ship_secondaries_slot = ship_secondaries_2
+				fixed_ship_armor_slot = ship_armor_bb_2
+				front_1_custom_slot = ship_anti_air_1
+				mid_1_custom_slot = ship_secondaries_2
+				mid_2_custom_slot = ship_airplane_launcher_1
+				rear_1_custom_slot = ship_heavy_battery_2
+					}
+				}
+				}
+				custom_effect_tooltip = ITA_roma_tt
+				hidden_effect = {
+					add_equipment_production = {
+						equipment = {
+							type = ship_hull_heavy_3
+							creator = "ITA" 
+							version_name = "Roma Class"
+						}
+						name = "Roma" 
+						requested_factories = 1
+						progress = 0.2
+						amount = 1
+					}
+					add_equipment_production = {
+						equipment = {
+							type = ship_hull_heavy_3
+							creator = "ITA" 
+							version_name = "Roma Class"
+						}
+						name = "Impero" 
+						requested_factories = 1
+						progress = 0.1
+						amount = 1
+					}
+				}
+		}
+	}
+	
+	focus = {
 		id = ITA_cruiser_effort
 		icon = GFX_goal_generic_cruiser2
 		relative_position_id = ITA_regia_marina
 		x = 1
-		y = 7
+		y = 9
 		prerequisite = { focus = ITA_sea_warfare focus = ITA_ciclone focus = ITA_landing_craft_focus }
 
 		
@@ -496,7 +582,7 @@ focus_tree = {
 		ai_will_do = {
 			factor = 1
 		}
-
+        search_filters = { FOCUS_FILTER_RESEARCH }
 		available_if_capitulated = yes
 
 		completion_reward = {
@@ -535,6 +621,191 @@ focus_tree = {
 				uses = 2
 				category = cv_tech
 			}
+		}
+	}
+	
+	focus = {
+		id = ITA_aquila
+		icon = GFX_goal_generic_navy_carrier
+		prerequisite = { focus = ITA_portaerei }
+		relative_position_id = ITA_regia_marina
+		x = 1
+		y = 5
+
+		cost = 2
+		ai_will_do = {
+			factor = 7
+		}
+
+		available_if_capitulated = yes
+        available = { has_tech = early_ship_hull_carrier }
+
+		completion_reward = {
+		
+		create_equipment_variant = {
+		name = "Aquila Class"
+		type = ship_hull_carrier_conversion_bb
+		name_group = ITA_CV_HISTORICAL
+		parent_version = 0
+		modules = {
+			fixed_ship_deck_slot_1 = ship_deck_space
+			fixed_ship_deck_slot_2 = ship_deck_space
+			fixed_ship_anti_air_slot = ship_anti_air_1
+			fixed_ship_radar_slot = empty
+			fixed_ship_engine_slot = heavy_ship_engine_1
+			fixed_ship_secondaries_slot = empty
+			mid_1_custom_slot = empty
+		}
+		}
+		
+		create_equipment_variant = {
+		name = "Sparviero Class"
+		type = ship_hull_carrier_conversion_ca
+		name_group = ITA_CV_HISTORICAL
+		parent_version = 0
+		modules = {
+			fixed_ship_deck_slot_1 = ship_deck_space
+			fixed_ship_deck_slot_2 = ship_deck_space
+			fixed_ship_anti_air_slot = ship_anti_air_1
+			fixed_ship_radar_slot = empty
+			fixed_ship_engine_slot = heavy_ship_engine_1
+			fixed_ship_secondaries_slot = empty
+			mid_1_custom_slot = empty
+		}
+		}
+		
+		custom_effect_tooltip = ITA_aquila_tt
+				hidden_effect = {
+					add_equipment_production = {
+						equipment = {
+							type = ship_hull_carrier_conversion_bb
+							creator = "ITA" 
+							version_name = "Aquila Class"
+						}
+						name = "Aquila" 
+						requested_factories = 1
+						progress = 0.2 
+						amount = 1
+					}
+					add_equipment_production = {
+						equipment = {
+							type = ship_hull_carrier_conversion_ca
+							creator = "ITA" 
+							version_name = "Sparviero Class"
+						}
+						name = "Sparviero" 
+						requested_factories = 1
+						progress = 0.1
+						amount = 1
+					}
+				}
+	
+		}
+	}
+	
+	focus = {
+		id = ITA_real_carrier
+		icon = GFX_goal_generic_navy_carrier
+		prerequisite = { focus = ITA_aquila }
+		prerequisite = { focus = ITA_Navy_Airforce_Coordination }
+		relative_position_id = ITA_regia_marina
+		x = 3
+		y = 6 
+
+		cost = 4.2
+		ai_will_do = {
+			factor = 7
+		}
+        available = { has_tech = basic_ship_hull_carrier }
+		available_if_capitulated = yes
+
+
+		completion_reward = {
+	if = { limit = { has_tech = improved_ship_hull_carrier }
+		   create_equipment_variant = {
+					name = "Impero Class"
+		type = ship_hull_carrier_2
+		name_group = ITA_CV_HISTORICAL
+		parent_version = 0
+		modules = {
+			fixed_ship_deck_slot_1 = ship_deck_space
+			fixed_ship_deck_slot_2 = ship_deck_space
+			fixed_ship_anti_air_slot = ship_anti_air_1
+			fixed_ship_radar_slot = empty
+			fixed_ship_engine_slot = carrier_ship_engine_2 
+			fixed_ship_secondaries_slot = ship_secondaries_2
+			front_1_custom_slot = ship_deck_space
+		}
+				}
+				custom_effect_tooltip = ITA_impero_tt
+				hidden_effect = {
+					add_equipment_production = {
+						equipment = {
+							type = ship_hull_carrier_2
+							creator = "ITA" 
+							version_name = "Impero Class"
+						}
+						name = "Apula" 
+						requested_factories = 1
+						progress = 0.2
+						amount = 1
+					}
+					add_equipment_production = {
+						equipment = {
+							type = ship_hull_carrier_2
+							creator = "ITA" 
+							version_name = "Impero Class"
+						}
+						name = "Etna" 
+						requested_factories = 1
+						progress = 0.1
+						amount = 1
+					}
+				}
+				}
+				if = { limit = { NOT = { has_tech = improved_ship_hull_carrier } }
+				create_equipment_variant = {
+					name = "Impero Class"
+		type = ship_hull_carrier_1
+		name_group = ITA_CV_HISTORICAL
+		parent_version = 0
+		modules = {
+			fixed_ship_deck_slot_1 = ship_deck_space
+			fixed_ship_deck_slot_2 = ship_deck_space
+			fixed_ship_anti_air_slot = ship_anti_air_1
+			fixed_ship_radar_slot = empty
+			fixed_ship_engine_slot = carrier_ship_engine_2
+			fixed_ship_secondaries_slot = ship_secondaries_2
+			front_1_custom_slot = ship_deck_space
+		}
+				}
+				custom_effect_tooltip = ITA_impero_tt
+				hidden_effect = {
+					add_equipment_production = {
+						equipment = {
+							type = ship_hull_carrier_1
+							creator = "ITA" 
+							version_name = "Impero Class"
+						}
+						name = "Apula" 
+						requested_factories = 1
+						progress = 0.2
+						amount = 1
+					}
+					add_equipment_production = {
+						equipment = {
+							type = ship_hull_carrier_1
+							creator = "ITA" 
+							version_name = "Impero Class"
+						}
+						name = "Etna" 
+						requested_factories = 1
+						progress = 0.1
+						amount = 1
+					}
+				}
+		}
+		
 		}
 	}
 	
@@ -598,6 +869,95 @@ focus_tree = {
 			}
 		}
 	}
+	
+	focus = {
+		id = ITA_zara
+		icon = GFX_goal_generic_cruiser2
+
+		prerequisite = {  focus = ITA_battleship_focus }
+		prerequisite = {  focus = ITA_nemo }
+		
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		available = {
+		    has_tech = improved_ship_hull_heavy_cruiser
+		}
+				
+		relative_position_id = ITA_regia_marina
+		x = -3
+		y = 5
+		cost = 3
+		ai_will_do = {
+			factor = 1
+		}	
+		completion_reward = {
+			if = { limit = { has_tech = improved_medium_battery }
+		   create_equipment_variant = {
+					name = "Zara Class"
+					type 	= ship_hull_heavy_cruiser_3
+					name_group = ITA_CA_HISTORICAL
+					parent_version = 0
+					modules = {
+						fixed_ship_battery_slot = ship_medium_battery_3
+			fixed_ship_anti_air_slot = ship_anti_air_1
+			fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+			fixed_ship_radar_slot = empty
+			fixed_ship_engine_slot = cruiser_ship_engine_2
+			fixed_ship_armor_slot = ship_armor_cruiser_3
+			fixed_ship_secondaries_slot = empty
+			mid_1_custom_slot = ship_medium_battery_2
+			mid_2_custom_slot = ship_airplane_launcher_1
+			rear_1_custom_slot = ship_anti_air_1
+					}
+				}
+				}
+				if = { limit = { NOT = { has_tech = improved_medium_battery } }
+				create_equipment_variant = {
+					name = "Zara II Class"
+					type = ship_hull_heavy_cruiser_3
+					name_group = ITA_CA_HISTORICAL
+					parent_version = 0
+					modules = {
+						
+						fixed_ship_battery_slot = ship_medium_battery_2
+			fixed_ship_anti_air_slot = ship_anti_air_1
+			fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+			fixed_ship_radar_slot = empty
+			fixed_ship_engine_slot = cruiser_ship_engine_2
+			fixed_ship_armor_slot = ship_armor_cruiser_3
+			fixed_ship_secondaries_slot = empty
+			mid_1_custom_slot = ship_medium_battery_2
+			mid_2_custom_slot = ship_airplane_launcher_1
+			rear_1_custom_slot = ship_anti_air_1
+					}
+				}
+				}
+				custom_effect_tooltip = ITA_zara_tt
+				hidden_effect = {
+					add_equipment_production = {
+						equipment = {
+							type = ship_hull_heavy_cruiser_3
+							creator = "ITA" 
+							version_name = "Zara II Class"
+						}
+						name = "Genoa" 
+						requested_factories = 1
+						progress = 0.25
+						amount = 1
+					}
+					add_equipment_production = {
+						equipment = {
+							type = ship_hull_heavy_cruiser_3
+							creator = "ITA" 
+							version_name = "Zara II Class"
+						}
+						name = "Calabria" 
+						requested_factories = 1
+						progress = 0.25
+						amount = 1
+					}
+				}
+		}
+	}
 
 	focus = {
 		id = ITA_landing_craft_focus
@@ -605,7 +965,7 @@ focus_tree = {
 		prerequisite = { focus = ITA_maiali }
 		relative_position_id = ITA_regia_marina
 		x = 2
-		y = 6
+		y = 8
 		cost = 5
 		ai_will_do = {
 			factor = 5
@@ -638,7 +998,7 @@ focus_tree = {
 		icon = GFX_goal_generic_navy_anti_submarine
 		relative_position_id = ITA_regia_marina
 		x = -1
-		y = 7
+		y = 9
 		prerequisite = { focus = ITA_sea_warfare focus = ITA_ciclone focus = ITA_landing_craft_focus }
 		ai_will_do = {
 			factor = 5
@@ -664,8 +1024,8 @@ focus_tree = {
 		prerequisite = { focus = ITA_aws focus = ITA_cruiser_effort  }
 		
 		relative_position_id = ITA_regia_marina
-		x = -1
-		y = 9
+		x = 0
+		y = 10
 
 		cost = 7
 
@@ -3767,32 +4127,7 @@ focus_tree = {
 		}
 	}
 	
-	focus = { 
-		id = ITA_industrial_war_effort
-		icon = GFX_focus_secret_rearmament		
-		prerequisite = { focus = ITA_Expand_Northern_Italy_weapons_manifactures focus = ITA_Dockyards_effort }
-		relative_position_id = ITA_The_industrial_triangle
-		x = 3
-		y = 4
-		cost = 7
-
-		ai_will_do = {
-			factor = 10
-		}
-		available = { }		
-
-		completion_reward = { 
-			random_owned_controlled_state = {
-				prioritize = { 161 }
-					add_extra_state_shared_building_slots = 3
-						add_building_construction = {
-							type = arms_factory
-							level = 3
-							instant_build = yes
-						}
-			}
-		}
-	}
+	
 	focus = {
 		id = ITA_faccetta_nera
 		prerequisite = { focus = ITA_eth_forts focus = ITA_colonial_border_war }
@@ -4547,7 +4882,7 @@ focus_tree = {
 		x = 0
 		y = 3
 
-		cost = 10
+		cost = 9
 
 		ai_will_do = {
 			factor = 12
@@ -5325,7 +5660,7 @@ focus_tree = {
 		x = 4
 		y = 2
 
-		cost = 8
+		cost = 5
 
 		ai_will_do = {
 
