@@ -404,7 +404,7 @@ operation_capture_cipher = { ### 3 1/55
 	priority = 3
 
 	days = 120
-	network_strength = 50
+	network_strength = 40
 	operatives = 2
 
 	visible = {
@@ -428,7 +428,7 @@ operation_capture_cipher = { ### 3 1/55
 		ROOT = {
 			add_decryption = {
 				target = FROM
-				ratio = 0.1
+				ratio = 0.3
 			}
 		}
 	}
@@ -438,7 +438,7 @@ operation_capture_cipher = { ### 3 1/55
 				ROOT = {
 					add_decryption = {
 						target = FROM
-						ratio = 0.2
+						ratio = 0.5
 					}
 					random_list = {
 						25 = {
@@ -472,7 +472,7 @@ operation_capture_cipher = { ### 3 1/55
 				ROOT = {
 					add_decryption = {
 						target = FROM
-						ratio = 0.2
+						ratio = 0.5
 					}
 				}
 			}
@@ -483,7 +483,7 @@ operation_capture_cipher = { ### 3 1/55
 		ROOT = {
 			add_decryption = {
 				target = FROM
-				ratio = 0.1
+				ratio = 0.3
 			}
 		}
 	}
@@ -1579,6 +1579,117 @@ operation_make_resistance_contacts = { ### 9 2/40
 	}
 }
 
+
+operation_coordinated_strike = { ### 11 2/70
+	icon = GFX_operations_coordinated_strike
+	map_icon = GFX_operations_coordinated_strike_map
+	name = operation_coordinated_strike
+	desc = operation_coordinated_strike_desc
+	priority = 11
+
+	days = 3
+	network_strength = 70
+	operatives = 2
+
+	visible = {
+		network_strength = {
+			target = FROM
+			value > 35
+		}
+		NOT = {
+			has_war_with = FROM
+		}
+	}
+
+	equipment = {
+		civilian_factories = {
+			amount = 15
+			days = 5
+		}
+	}
+
+	available = {
+		NOT = {
+			has_war_with = FROM
+		}
+		has_wargoal_against = FROM
+		can_declare_war_on = FROM
+	}
+
+	target_type = strategic_region
+
+	selection_target = {
+		targets = { FROM }
+	}
+
+	# Coordinated Strike will lead to a war with the target
+	will_lead_to_war_with = yes
+	risk_chance = 0.3
+	experience = 2
+	outcome_execute = { # SCOPE_OPERATION
+		ROOT = {
+			declare_war_on = { target = FROM type = annex_everything }
+		}
+		
+		execute_operation_coordinated_strike = {
+			# Amount determines how often the mission simulation is run
+			amount = 12 #1 attack per 6 hours --> 12 attacks = 3 days
+		}
+	}
+
+	outcome_potential = {
+		custom_effect_tooltip = coordinated_strike_tt
+	}
+
+	phases = { #infiltration
+		infiltration_border = { base = 25 }
+		infiltration_submarine = { base = 25 }
+		infiltration_paradrop = { 
+			base = 25 
+			modifier = {
+				ROOT = { 
+					has_equipment = {
+						transport_plane_equipment < 1
+					}
+				}
+				factor = 0.1 #less likely if we have no transports
+			}
+		}
+		infiltration_diplomatic = {
+			base = 25
+			modifier = {
+				factor = 20
+				ROOT = { has_war = no }
+				FROM = {
+					has_war = no
+				}
+			}
+		}
+	}
+	phases = { #preparing
+		coordinated_strike_scout_target = { base = 50 }
+		coordinate_strike_mark_targets = { base = 50 }
+	}
+
+	phases = { #execution
+		coordinated_strike_sabotage_communications = { base = 34 }
+		coordinated_strike_direct_units = { base = 34 }
+		coordinated_strike_occupy_bridges = { 
+			base = 34 
+			modifier = {
+				NOT = {
+					FROM = {
+						any_neighbor_country = {
+							tag = ROOT #no land connection between FROM and ROOT
+						}
+					}
+				}
+				factor = 0
+			}
+		}
+	}
+}
+
 operation_steal_tech_civilian = { ### 12 3/35
 	icon = GFX_operations_steal_blueprints
 	map_icon = GFX_operations_steal_blueprints_map
@@ -1589,6 +1700,7 @@ operation_steal_tech_civilian = { ### 12 3/35
 	days = 120
 	network_strength = 35
 	operatives = 3
+	cost_multiplier = 0.05
 
 	visible = {
 		num_of_operatives > 0
@@ -1660,7 +1772,7 @@ operation_steal_tech_civilian = { ### 12 3/35
 						folder = industry_folder
 
 						bonus = 3.0
-						ahead_reduction = 2
+						ahead_reduction = 1
 						dynamic = yes
 						instant = yes
 						name = operation_steal_tech_civilian
@@ -1798,7 +1910,7 @@ operation_targeted_sabotage_industry = { ### 13 3/35
 		FROM.FROM = {
 			add_to_variable = {
 				var = targeted_sabotage_industry
-				value = 2
+				value = 5
 			}
 			custom_effect_tooltip = targeted_sabotage_industry_2_tt
 		}
@@ -1810,26 +1922,14 @@ operation_targeted_sabotage_industry = { ### 13 3/35
 		}
 	}
 	outcome_extra_execute = { # SCOPE_OPERATION
-		random_list = {
-			33 = {
-				FROM.FROM = {
-					add_to_variable = {
-						var = targeted_sabotage_industry
-						value = 3
-					}
-					custom_effect_tooltip = targeted_sabotage_industry_3_tt
-				}
+		
+		FROM.FROM = {
+			add_to_variable = {
+				var = targeted_sabotage_industry
+				value = 8
 			}
-			67 = {
-				FROM.FROM = {
-					add_to_variable = {
-						var = targeted_sabotage_industry
-						value = 2
-					}
-					custom_effect_tooltip = targeted_sabotage_industry_2_tt
-				}
-			}
-		}	
+			custom_effect_tooltip = targeted_sabotage_industry_3_tt
+		}		
 	}
 
 	outcome_potential = {
@@ -1944,7 +2044,7 @@ operation_targeted_sabotage_infrastructure = { ### 14 3/35
 		FROM.FROM = {
 			add_to_variable = {
 				var = targeted_sabotage_infrastructure
-				value = 2
+				value = 5
 			}
 			custom_effect_tooltip = targeted_sabotage_infrastructure_2_tt
 		}
@@ -1956,25 +2056,12 @@ operation_targeted_sabotage_infrastructure = { ### 14 3/35
 		}
 	}
 	outcome_extra_execute = { # SCOPE_OPERATION
-		random_list = {
-			33 = {
-				FROM.FROM = {
-					add_to_variable = {
-						var = targeted_sabotage_infrastructure
-						value = 3
-					}
-					custom_effect_tooltip = targeted_sabotage_infrastructure_3_tt
-				}
+		FROM.FROM = {
+			add_to_variable = {
+				var = targeted_sabotage_infrastructure
+				value = 8
 			}
-			67 = {
-				FROM.FROM = {
-					add_to_variable = {
-						var = targeted_sabotage_infrastructure
-						value = 2
-					}
-					custom_effect_tooltip = targeted_sabotage_infrastructure_2_tt
-				}
-			}
+			custom_effect_tooltip = targeted_sabotage_infrastructure_3_tt
 		}
 	}
 	outcome_potential = {
@@ -2090,7 +2177,7 @@ operation_targeted_sabotage_resources = { ### 15 3/35
 		FROM.FROM = {
 			add_to_variable = {
 				var = targeted_sabotage_resources
-				value = 2
+				value = 5
 			}
 			custom_effect_tooltip = targeted_sabotage_resources_2_tt
 		}
@@ -2102,25 +2189,13 @@ operation_targeted_sabotage_resources = { ### 15 3/35
 		}
 	}
 	outcome_extra_execute = { # SCOPE_OPERATION
-		random_list = {
-			33 = {
-				FROM.FROM = {
-					add_to_variable = {
-						var = targeted_sabotage_resources
-						value = 3
-					}
-					custom_effect_tooltip = targeted_sabotage_resources_3_tt
-				}
+		
+		FROM.FROM = {
+			add_to_variable = {
+				var = targeted_sabotage_resources
+				value = 8
 			}
-			67 = {
-				FROM.FROM = {
-					add_to_variable = {
-						var = targeted_sabotage_resources
-						value = 2
-					}
-					custom_effect_tooltip = targeted_sabotage_resources_2_tt
-				}
-			}
+			custom_effect_tooltip = targeted_sabotage_resources_2_tt
 		}
 	}
 	outcome_potential = {
@@ -2190,6 +2265,7 @@ operation_steal_tech_army = { ### 16 3/55
 	days = 120
 	network_strength = 50
 	operatives = 3
+	cost_multiplier = 0.05
 
 	visible = {
 		num_of_operatives > 1
@@ -2359,6 +2435,7 @@ operation_steal_tech_navy = { ### 17 3/55
 	days = 120
 	network_strength = 50
 	operatives = 3
+	cost_multiplier = 0.05
 
 	visible = {
 		num_of_operatives > 1
@@ -2577,10 +2654,10 @@ operation_steal_tech_airforce = { ### 18 3/55
 	desc = operation_steal_tech_airforce_desc
 	priority = 18
 
-
 	days = 120
 	network_strength = 50
 	operatives = 3
+	cost_multiplier = 0.05
 
 	visible = {
 		num_of_operatives > 1

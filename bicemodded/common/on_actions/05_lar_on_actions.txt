@@ -157,19 +157,19 @@ on_actions = {
 	on_operative_detected_during_operation = {
 		effect = {
 			random_list = {
-				40 = {
+				45 = {
 					force_operative_leader_into_hiding = 45
 					operative_leader_event = {
 						id = lar_operative_event.2
 						set_from_from = FROM
 					}
 				}
-				35 = {
+				25 = {
 					capture_operative = {
 						captured_by = FROM
 					}
 				}
-				20 = {
+				25 = {
 					harm_operative_leader = 90
 					operative_leader_event = {
 						id = lar_operative_event.4
@@ -326,6 +326,17 @@ on_actions = {
 						}
 						remove_core_of = SPA
 						start_resistance = yes
+					}
+				}
+			}
+			
+			if = {
+				limit = {
+					has_dlc = "La Resistance"
+				}
+				every_country = {
+					capital_scope = {
+						set_variable = { historical_capital_for_country = PREV }
 					}
 				}
 			}
@@ -1347,6 +1358,54 @@ on_actions = {
 				FROM.FROM = {
 					remove_dynamic_modifier = { modifier = autonomous_state }
 					add_dynamic_modifier = { modifier = semi_autonomous_state }
+				}
+			}
+			
+			if = { # AI Spanish factions surrender if they do not control any state in the Iberian Peninsula, but own other territories outside of it (preventing forcing the player to execute naval invasions to win the SCW)
+				limit = {
+					SPR_scw_in_progress = yes
+					original_tag = SPR
+					FROM = {
+						original_tag = SPR
+						is_ai = yes
+						NOT = {
+							any_controlled_state = {
+								OR = {
+									AND = {
+										has_state_flag = SPR_original_core
+										NOT = {
+											state = 177
+											state = 178
+										}
+									}
+									state = 118
+								}
+							}
+						}
+						any_controlled_state = {
+							OR = {
+								state = 177
+								state = 178
+								NOT = { is_on_continent = europe }
+							}
+						}
+					}
+				}
+				FROM = {
+					if = {
+						limit = {
+							has_idea = SPA_death_before_surrender
+						}
+						remove_ideas = SPA_death_before_surrender
+						add_ideas = SPA_death_before_surrender_capitulation
+					}
+					else_if = {
+						limit = {
+							has_idea = SPR_death_before_surrender
+						}
+						remove_ideas = SPR_death_before_surrender
+						add_ideas = SPR_death_before_surrender_capitulation
+					}
 				}
 			}
 		}
