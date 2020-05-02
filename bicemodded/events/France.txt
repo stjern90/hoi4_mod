@@ -242,6 +242,7 @@ country_event = {
 
 	immediate = {
 		set_global_flag = achievement_france_surrender
+    	ENG = { country_event = { id = britain.24 days = 6 } }
 	}
 	
 	option = { # Become Vichy
@@ -252,6 +253,7 @@ country_event = {
 		set_global_flag = fall_of_france
 		GER = { country_event = france.14 }
 		custom_effect_tooltip = france.10.a_tt
+		hidden_effect = { GER = { country_event = { id = germany.236 days = 8 } } }
 		# Switches to Vichy if GER accepts
 	}
 	option = { # Become Free French
@@ -261,13 +263,24 @@ country_event = {
 		}
 		set_global_flag = fall_of_france
 		save_global_event_target_as = free_france
+        hidden_effect = { GER = { country_event = { id = germany.236 days = 8 } } }
 		GER = { country_event = france.14 }
 		custom_effect_tooltip = france.10.b_tt
 	}
 	option = { # Ask for British Union
+	trigger= {
+		NOT = {
+		has_game_rule = {
+				rule = must_vichy
+				option = block
+
+			}
+			}
+                       ENG = { has_war_with = GER }
+			}
 		name = france.10.c
 		ai_chance = {
-			factor = 15
+			factor = 0
 			modifier = {
 				factor = 0
 				is_historical_focus_on = yes
@@ -290,7 +303,13 @@ country_event = {
 				is_historical_focus_on = yes
 			}
 		}
-		trigger = { has_war_support > 0.7 }
+		trigger = { has_war_support > 0.7  NOT = {
+		has_game_rule = {
+				rule = must_vichy
+				option = block
+
+			}
+			} }
 		add_stability = -0.05
 	}
 }
@@ -429,6 +448,22 @@ country_event = {
 		#Set same cosmetic tag they would get on capitulation
 		FRA = {
 			set_cosmetic_tag = FRA_FREE
+			delete_unit_template_and_units = { division_template = "Division d'Infanterie" }
+			delete_unit_template_and_units = { division_template = "Infantry Division 39 at b" }
+			delete_unit_template_and_units = { division_template = "Brigade de Chars de Combat" }
+			delete_unit_template_and_units = { division_template = "Armored Division d" }
+			delete_unit_template_and_units = { division_template = "Brigade Coloniale" }
+			delete_unit_template_and_units = { division_template = "Motorized Division 1940 j" }
+			send_equipment = {
+					target = ENG
+					type = convoy
+					amount = 150
+			}
+			send_equipment = {
+					target = USA
+					type = convoy
+					amount = 150
+			}
 		}
 		# German Occupation Zone
 		if = {
@@ -691,22 +726,70 @@ country_event = {
 		random_other_country = {
 			limit = { original_tag = FRA has_government = fascism }
 			ROOT = { puppet = PREV }
+			
+			add_timed_idea = { idea = recently_setup days = 60 }
+
+			16 = {  CONTROLLER = { country_event = france.63  } }
+	    	retire_country_leader = yes
+		create_country_leader = {
+			name = "Philippe Pétain"
+			desc = "POLITICS_PHILIPPE_PÉTAIN_DESC"
+			picture = "Portrait_France_Philippe_Petain.dds"
+			expire = "1965.1.1"
+			ideology = fascism_ideology
+			traits = {
+			    war_hero
+			}
+		}
 			set_capital = 26
+			
 			set_politics = {
 				ruling_party = fascism
 				elections_allowed = no
 			}
 			set_popularities = {
-				democratic = 22
-				fascism = 76
-				communism = 2
-			}
+    democratic = 22
+	fascism = 66
+	communism = 6
+	neutrality = 6
+}
 			every_unit_leader = {
 				limit = {
 					has_id = 101
 				}
 				set_nationality = FRA
 			}
+			remove_unit_leader = 102
+			remove_unit_leader = 103
+			remove_unit_leader = 104
+			remove_unit_leader = 105
+			remove_unit_leader = 106
+			remove_unit_leader = 107
+			remove_unit_leader = 108
+			remove_unit_leader = 109
+			remove_unit_leader = 110
+			create_corps_commander = {
+						name = "Henri Dentz"
+						picture = "Portrait_France_Generic_land_3.dds"
+						traits = { career_officer }
+						skill = 3
+						attack_skill = 3
+						defense_skill = 3
+						planning_skill = 3
+						logistics_skill = 3
+					}
+					create_navy_leader = {
+	name = "Decoux, Jean"
+	portrait_path = "gfx/leaders/FRA/Portrait_France_Generic_navy_2.dds"
+	traits = { seawolf }
+	skill = 2
+	attack_skill = 2
+	defense_skill = 2
+	maneuvering_skill = 3
+	coordination_skill = 1
+}
+			set_stability = 0.3
+			set_war_support = 0
 			# FRA Player Switches to Vichy
 			if = {
 				limit = { FRA = { has_country_flag = become_vichy } }
@@ -717,6 +800,7 @@ country_event = {
 		country_event = { hours = 6 id = news.34 }
 		hidden_effect =  {
 			FRA = { news_event = { id = france.20 days = 1 } }
+			GER = { country_event = { id = germany.408 days = 5 } }
 		}
 	}
 
@@ -989,6 +1073,9 @@ country_event = {
 			limit = { original_tag = FRA has_government = neutrality }
 			ROOT = { puppet = PREV }
 			set_capital = 26
+			add_timed_idea = { idea = recently_setup days = 60 }
+
+			16 = {  CONTROLLER = { country_event = france.63  } }
 			set_politics = {
 				ruling_party = neutrality
 				elections_allowed = no
@@ -1009,6 +1096,7 @@ country_event = {
 		country_event = { hours = 6 id = news.34 }
 		hidden_effect =  {
 			FRA = { news_event = { id = france.20 days = 1 } }
+			GER = { country_event = { id = germany.408 days = 5 } }
 		}
 	}
 	option = { # Agree - Fascism - LaR
@@ -1121,6 +1209,30 @@ country_event = {
 					}
 					
 				}
+				if = { 
+					every_owned_state = {
+						limit = {
+							is_on_continent = europe
+							is_core_of = FRA
+							NOT = {
+							OR = {
+							state = 735
+							state = 21
+							state = 32
+							state = 20
+							state = 26
+							state = 22
+							state = 31
+							state = 25
+							state = 33
+							state = 1
+				    		}
+				     		}
+							NOT = { has_state_flag = vichy_italian_conquest }
+						}
+						GER = { transfer_state = PREV }
+					}			
+				}
 				set_rule = { 
 					can_join_factions = no 
 					can_create_factions = no
@@ -1137,6 +1249,8 @@ country_event = {
 					neutrality = 30
 					communism = 2
 				}
+                add_timed_idea = { idea = recently_setup days = 60 }
+                16 = {  CONTROLLER = { country_event = france.63  } }
 				set_cosmetic_tag = FRA_VICHY
 				create_country_leader = {
 					name = "Philippe Pétain"
@@ -1145,9 +1259,30 @@ country_event = {
 					expire = "1965.1.1"
 					ideology = fascism_ideology
 					traits = {
-						
+						war_hero
 					}
 				}
+
+			create_corps_commander = {
+						name = "Henri Dentz"
+						picture = "Portrait_France_Generic_land_3.dds"
+						traits = { career_officer }
+						skill = 3
+						attack_skill = 3
+						defense_skill = 3
+						planning_skill = 3
+						logistics_skill = 3
+					}
+					create_navy_leader = {
+	name = "Decoux, Jean"
+	portrait_path = "gfx/leaders/FRA/Portrait_France_Generic_navy_2.dds"
+	traits = { seawolf }
+	skill = 2
+	attack_skill = 2
+	defense_skill = 2
+	maneuvering_skill = 3
+	coordination_skill = 1
+}
 				add_ideas = FRA_occupation_costs_4
 				load_focus_tree = vichy_french_focus
 				FRA = {
@@ -1175,7 +1310,15 @@ country_event = {
 			}
 			every_unit_leader = {
 				limit = {
+                    OR = {
 					has_id = 101 #de Gaulle
+
+
+			has_id = 107
+			has_id = 108
+			has_id = 109
+			has_id = 110
+}
 				}
 				set_nationality = FRA
 			}
@@ -1191,6 +1334,7 @@ country_event = {
 						OR = {
 							has_trait = old_guard
 							has_trait = old_guard_navy
+                            
 						}
 					}
 					set_nationality = PREV.PREV
@@ -1206,6 +1350,15 @@ country_event = {
 	}
 	option = { # Conquer everything!
 		name = france.14.b
+        trigger= {
+		NOT = {
+		has_game_rule = {
+				rule = must_vichy
+				option = block
+
+			    }
+			}
+        }
 		ai_chance = { 
 			factor = 50 
 			modifier = {
@@ -2169,7 +2322,6 @@ country_event = {
     desc = france.63.d
     picture = GFX_report_event_german_parade_paris
  
-	fire_only_once = yes
 	is_triggered_only = yes
 
 	option = {
@@ -2291,7 +2443,7 @@ country_event = {
 		}
 		hidden_effect = {
 		295 = {
-		    add_extra_state_shared_building_slots = 4
+		    add_extra_state_shared_building_slots = 7
 		    add_building_construction = {
 				type = dockyard
 				level = 2
