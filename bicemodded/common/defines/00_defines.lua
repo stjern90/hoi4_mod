@@ -639,7 +639,7 @@ NMilitary = {
 	BASE_CHANCE_TO_AVOID_HIT = 86,                 -- Base chance to avoid hit if defences left.
 	CHANCE_TO_AVOID_HIT_AT_NO_DEF = 69,	           -- chance to avoid hit if no defences left.
 	COMBAT_MOVEMENT_SPEED = 0.27,	               -- speed reduction base modifier in combat
-	TACTIC_SWAP_FREQUENCEY = 24,                   -- hours between tactic swaps
+	TACTIC_SWAP_FREQUENCEY = 12,                   -- hours between tactic swaps
 	INITIATIVE_PICK_COUNTER_ADVANTAGE_FACTOR  = 0.35, -- advantage per leader level for picking a counter
 	BASE_COMBAT_WIDTH = 120,                       -- DNM, original 80 -- base combat width
 	ADDITIONAL_COMBAT_WIDTH = 60,                  -- DNM, original 40 -- more opened up by support attack
@@ -2887,7 +2887,7 @@ NIntel = {
 	ARMY_INTEL_COMBAT_BONUS_MIN_INTEL_FOR_BONUS = 5, -- min intel needed to start applying ARMY_INTEL_COMBAT_BONUS_MAX_BONUS
 	ARMY_INTEL_COMBAT_BONUS_MAX_INTEL_FOR_BONUS = 50, -- intel needed to fully apply ARMY_INTEL_COMBAT_BONUS_MAX_BONUS
 
-	NAVAL_SUPREMACY_INTEL_LOW = 0.3,								-- we need more intel than this to get any supremacy
+	NAVAL_SUPREMACY_INTEL_LOW = 0.1,								-- we need more intel than this to get any supremacy
 
 	NAVY_FLEET_COUNT_INTEL_MIN = 0.1,
 	NAVY_FLEET_COUNT_INTEL_MAX = 0.3,
