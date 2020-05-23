@@ -4773,7 +4773,7 @@ focus_tree = {
 		icon = GFX_goal_ideology_market_liberal
 		mutually_exclusive = { focus = ITA_syndicalism }
 		x = 40
-		y = 0
+		y = 1
 
 		cost = 10
 
@@ -4797,6 +4797,7 @@ focus_tree = {
 		id = ITA_syndicalism
 		icon = GFX_ITA_nationlize
 		mutually_exclusive = { focus = ITA_capitalism }
+		prerequisite = { focus = ITA_modernization }
 		relative_position_id = ITA_capitalism
         x = 4
 		y = 0
@@ -6020,7 +6021,7 @@ focus_tree = {
 	}
     focus = {
 		id = ITA_modernization
-        #mutually_exclusive = { focus = ITA_tradition }
+        mutually_exclusive = { focus = ITA_revive_the_stresa_front }
 		icon = GFX_goal_government_centralised_icon
 		x = 50
 		y = 0
@@ -6289,9 +6290,245 @@ focus_tree = {
 	}
 	
 	focus = {
+		id = ITA_revive_the_stresa_front
+		icon = GFX_ITA_alliance
+		cost = 5
+		mutually_exclusive = {	focus = ITA_modernization }
+		x = 58
+		y = 0
+		ai_will_do = {
+			factor = 10
+			modifier = {
+			    factor = 0
+				is_historical_focus_on = yes
+				
+			}
+		}
+		available = {
+			NOT = { has_war_with = ETH }
+			NOT = { 271 = {
+				is_controlled_by_ROOT_or_ally = yes
+			}
+			}
+			OR = {
+			AUS = {
+				exists = yes
+				NOT = {
+					is_in_faction_with = GER
+					has_war_with = ITA
+				}
+			}
+			FRA = {
+				exists = yes
+				has_government = democratic
+				NOT = {
+					is_in_faction_with = GER
+					has_war_with = ITA
+				}
+			}
+			ENG = {
+				exists = yes
+				has_government = democratic
+				NOT = {
+					is_in_faction_with = GER
+					has_war_with = ITA
+				}
+			}
+			}
+			#NOT = {
+			#	has_country_flag = ITA_stresa_front_refused_flag
+			#}
+		}
+		select_effect = {
+			ENG = {
+				country_event = {
+					id = italy.57
+					days = 5
+				}
+			}
+		}
+		completion_reward = {
+			custom_effect_tooltip = ITA_revive_the_stresa_front_tt
+			custom_effect_tooltip = needs_approval
+			effect_tooltip = {
+				add_ideas = ITA_stresa_front_idea
+				FRA = {
+					give_guarantee = ENG
+					give_guarantee = ITA
+				}
+				ENG = {
+					give_guarantee = FRA
+					give_guarantee = ITA
+				}
+				ITA = {
+					give_guarantee = ENG
+					give_guarantee = FRA
+				}
+			}
+			hidden_effect = {
+				ITA = {
+					add_ai_strategy = {
+						type = befriend
+						id = GER
+						value = -200
+					}
+					add_ai_strategy = {
+						type = protect
+						id = GER
+						value = -200
+					}
+					add_ai_strategy = {
+						type = send_volunteers_desire
+						id = GER
+						value = -200
+					}
+					add_ai_strategy = {
+						type = support
+						id = GER
+						value = -200
+					}
+					add_ai_strategy = {
+						type = alliance
+						id = GER
+						value = -200
+					}
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = ITA_joint_naval_exercises
+		icon = GFX_goal_generic_navy_battleship
+		cost = 10
+		prerequisite = {	focus = ITA_revive_the_stresa_front }
+		relative_position_id = ITA_revive_the_stresa_front
+		x = -1
+		y = 1
+
+		ai_will_do = {
+			factor = 10
+		}
+		available = {
+			ENG = {
+				exists = yes
+			}
+			NOT = {
+				has_war_with = ENG
+			}
+		}
+		completion_reward = {
+			navy_experience = 25
+			add_tech_bonus = {
+				bonus = 1
+				uses = 2
+				category = naval_doctrine
+			}
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH }
+	}
+	
+	focus = {
+		id = ITA_joint_austrian_gaurantee
+		icon = GFX_goal_italy_alliance_austria
+		cost = 5
+		prerequisite = {	focus = ITA_revive_the_stresa_front }
+		relative_position_id = ITA_revive_the_stresa_front
+		x = 1
+		y = 1
+		ai_will_do = {
+			factor = 80
+		}
+		available = {
+			NOT = {
+				has_war_with = AUS
+			}
+		}
+		bypass = {
+			OR = {
+				is_in_faction_with = AUS
+				AUS = {
+					exists = no
+					is_in_faction_with = GER
+					is_subject_of = ITA
+				}
+			}
+		}
+		completion_reward = {
+			custom_effect_tooltip = ITA_joint_austrian_gaurantee_tt
+			AUS = {
+				set_country_flag = protected_by_the_stresa_front_flag
+			}
+			diplomatic_relation = {
+				country = AUS
+				relation = guarantee
+				active = yes
+			}
+			ENG = {
+				country_event = {
+					id = r56_italy.25
+					days = 1
+				}
+			}
+			FRA = {
+				country_event = {
+					id = r56_italy.25
+					days = 1
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = ITA_tradition
+        
+		icon = GFX_goal_monarchism_black
+		relative_position_id = ITA_revive_the_stresa_front
+		x = 0
+		y = 2
+		cost = 5
+		ai_will_do = {
+			factor = 8
+		}	
+		completion_reward = {
+			add_popularity = { ideology = neutrality popularity = 0.06 }				
+		}
+	}
+	focus = {
+		id = ITA_amend_church_relations
+        prerequisite = { focus = ITA_tradition }
+		icon = GFX_church
+		relative_position_id = ITA_revive_the_stresa_front
+		x = 0
+		y = 3
+		cost = 5
+		ai_will_do = {
+			factor = 8
+		}	
+		completion_reward = {
+			add_popularity = { ideology = neutrality popularity = 0.06 }				
+		}
+	}
+	focus = {
+		id = ITA_reassert_constituton
+        prerequisite = { focus = ITA_amend_church_relations }
+		icon = GFX_goal_constitutional_guarantees
+		relative_position_id = ITA_revive_the_stresa_front
+		x = 0
+		y = 4
+		cost = 5
+		ai_will_do = {
+			factor = 8
+		}	
+		completion_reward = {
+			add_popularity = { ideology = neutrality popularity = 0.06 }				
+		}
+	}
+	
+	focus = {
 		id = ITA_operations_focus
 		icon = GFX_focus_spa_strengthen_the_supreme_reality_of_spain 
-		prerequisite = { focus = ITA_new_fascist_man focus = ITA_birthplace_fascism }
+		prerequisite = { focus = ITA_new_fascist_man focus = ITA_birthplace_fascism focus = ITA_joint_naval_exercises  focus = ITA_joint_austrian_gaurantee  }
 		cost = 4.5
 		relative_position_id = ITA_modernization
 		x = 4
@@ -6602,7 +6839,7 @@ focus_tree = {
 		prerequisite = { focus = ITA_empire focus = ITA_latin_aliance focus = ITA_joint_research }
         relative_position_id = ITA_civilian_focus
 		x = 1
-		y = 9
+		y = 8
 
 		cost = 7.4 
 
