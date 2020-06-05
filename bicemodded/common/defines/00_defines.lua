@@ -221,8 +221,8 @@ NCountry = {
 	MAX_WAR_SUPPORT = 1.0,
 	
 	FRONT_PROVINCE_SCORE = 20,    					-- Max province score of a front. Used for the hostile troop alert
-	MAJOR_IC_RATIO = 3,                         -- difference in total factories needed to be considered major with respect to other nation
-	MAJOR_MIN_FACTORIES = 45,						-- need at least these many factories to become a major
+	MAJOR_IC_RATIO = 0.2,                         -- difference in total factories needed to be considered major with respect to other nation
+	MAJOR_MIN_FACTORIES = 8,						-- need at least these many factories to become a major
 	MAX_INTELLIGENCE_DIFFERENCE = 10.0,				-- (Old Intel) Max difference in intelligence levels between countries
 	INTEL_FROM_ALLIANCE_FACTOR = 0.3,				-- Multiplied to the difference between a country intel and the maximum value in the alliance to compute the amount of intel that flows from the alliance to that country. 0 means no alliance contribution, 1 means a country intel's is the same as the max in the alliance.
 	MAX_INTELLIGENCE_DATA_DEVIATION = 1.0,          -- (Old Intel) Max deviation in estimating default espionage values ( 0.0 - 1.0 )
