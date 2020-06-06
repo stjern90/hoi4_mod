@@ -221,8 +221,8 @@ NCountry = {
 	MAX_WAR_SUPPORT = 1.0,
 	
 	FRONT_PROVINCE_SCORE = 20,    					-- Max province score of a front. Used for the hostile troop alert
-	MAJOR_IC_RATIO = 3,                         -- difference in total factories needed to be considered major with respect to other nation
-	MAJOR_MIN_FACTORIES = 45,						-- need at least these many factories to become a major
+	MAJOR_IC_RATIO = 0.2,                         -- difference in total factories needed to be considered major with respect to other nation
+	MAJOR_MIN_FACTORIES = 8,						-- need at least these many factories to become a major
 	MAX_INTELLIGENCE_DIFFERENCE = 10.0,				-- (Old Intel) Max difference in intelligence levels between countries
 	INTEL_FROM_ALLIANCE_FACTOR = 0.3,				-- Multiplied to the difference between a country intel and the maximum value in the alliance to compute the amount of intel that flows from the alliance to that country. 0 means no alliance contribution, 1 means a country intel's is the same as the max in the alliance.
 	MAX_INTELLIGENCE_DATA_DEVIATION = 1.0,          -- (Old Intel) Max deviation in estimating default espionage values ( 0.0 - 1.0 )
@@ -2015,8 +2015,8 @@ NAI = {
 	REGION_CONVOY_DANGER_DAILY_DECAY = 5,				-- When convoys are sunk it generates threat in the region which the AI uses to prio nalval missions
 
 	PRODUCTION_LINE_SWITCH_SURPLUS_NEEDED_MODIFIER = 0.1,	-- Is modified by efficency modifiers.
-	PLAN_ACTIVATION_MAJOR_WEIGHT_FACTOR = 1,			-- AI countries will hold on activating plans if stronger countries have plans in the same location. Majors count extra (value of 1 will negate this)
-	PLAN_ACTIVATION_PLAYER_WEIGHT_FACTOR = 1,		-- AI countries will hold on activating plans if player controlled countries have plans in the same location. Majors count extra (value of 1 will negate this)
+	PLAN_ACTIVATION_MAJOR_WEIGHT_FACTOR = 0,			-- AI countries will hold on activating plans if stronger countries have plans in the same location. Majors count extra (value of 1 will negate this)
+	PLAN_ACTIVATION_PLAYER_WEIGHT_FACTOR = 0,		-- AI countries will hold on activating plans if player controlled countries have plans in the same location. Majors count extra (value of 1 will negate this)
 	AREA_DEFENSE_BASE_IMPORTANCE = 4,					-- Area defense order base importance value (used for determining order of troop selections)
 	AREA_DEFENSE_CIVIL_WAR_IMPORTANCE = 7,			-- Area defense order importance value when a country is in a civil war as target or revolter.
 
