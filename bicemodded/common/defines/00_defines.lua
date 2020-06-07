@@ -221,8 +221,8 @@ NCountry = {
 	MAX_WAR_SUPPORT = 1.0,
 	
 	FRONT_PROVINCE_SCORE = 20,    					-- Max province score of a front. Used for the hostile troop alert
-	MAJOR_IC_RATIO = 3,                         -- difference in total factories needed to be considered major with respect to other nation
-	MAJOR_MIN_FACTORIES = 45,						-- need at least these many factories to become a major
+	MAJOR_IC_RATIO = 0.2,                         -- difference in total factories needed to be considered major with respect to other nation
+	MAJOR_MIN_FACTORIES = 8,						-- need at least these many factories to become a major
 	MAX_INTELLIGENCE_DIFFERENCE = 10.0,				-- (Old Intel) Max difference in intelligence levels between countries
 	INTEL_FROM_ALLIANCE_FACTOR = 0.3,				-- Multiplied to the difference between a country intel and the maximum value in the alliance to compute the amount of intel that flows from the alliance to that country. 0 means no alliance contribution, 1 means a country intel's is the same as the max in the alliance.
 	MAX_INTELLIGENCE_DATA_DEVIATION = 1.0,          -- (Old Intel) Max deviation in estimating default espionage values ( 0.0 - 1.0 )
@@ -956,7 +956,7 @@ NAir = {
 	AIR_REGION_SUPERIORITY_PIXEL_SCALE = 0.04,           -- air superiority scale = superiority/(pixels*this)
 	COMBAT_MULTIPLANE_CAP = 2.0,						-- How many planes can shoot at each plane on other side ( if there are 100 planes we are atttacking COMBAT_MULTIPLANE_CAP * 100 of our planes can shoot )
 	COMBAT_DAMAGE_SCALE = 0.125,							-- Higher value = more shot down planes
-	COMBAT_DAMAGE_SCALE_CARRIER = 5,                    -- same as above but used inside naval combat for carrier battles
+	COMBAT_DAMAGE_SCALE_CARRIER = 6,                    -- same as above but used inside naval combat for carrier battles
 	DETECT_CHANCE_FROM_OCCUPATION = 0.15, 				-- How much the controlled provinces in area affects the air detection base value.
 	DETECT_CHANCE_FROM_RADARS = 0.5, 					-- How much the radars in area affects detection chance.
 	DETECT_CHANCE_FROM_AIRCRAFTS_EFFECTIVE_COUNT = 3000, -- Max amount of aircrafts in region to give full detection bonus.
@@ -1062,6 +1062,8 @@ NAir = {
 	DISRUPTION_DEFENCE_DEFENCE_FACTOR = 0.5,
 	DISRUPTION_DEFENCE_SPEED_FACTOR = 1.0,
 	DISRUPTION_DEFENCE_ATTACK_FACTOR = 0.5,
+	
+	CARRIER_PLANES_AMOUNT_FOR_POSITIONING = 50,         -- below this amount of planes on a carrier we no longer get max benefit on enemy positioning 
 	
 	CAS_NIGHT_ATTACK_FACTOR = 0.1,                      -- CAS damaged get multiplied by this in land combats at night
 	
@@ -1238,6 +1240,11 @@ NNavy = {
 	NAVY_REPAIR_BASE_SEARCH_SCORE_PER_SHIP_WAITING_EXTRA_SHIP = 5,  -- if a naval base has more ships than it can repair, it will get penalties
 	NAVY_REPAIR_BASE_SEARCH_SCORE_PER_SLOT = 1.0,					-- while searching for a naval base for repairs, the bases gets a bonus to their scores per empty slot they have
 	NAVY_REPAIR_BASE_SEARCH_BOOST_FOR_SAME_COUNTRY = 5,				-- while searching for a naval base for repairs, your own bases gets a bonus
+
+	CONVOY_SPOTTING_COOLDOWN = 0.3,  -- % of travel time 
+	CONVOY_SPOTTING_COOLDOWN_MIN = 36, -- minimum cooldown time
+	CONVOY_SPOTTING_COOLDOWN_MAX = 168, -- maximum cooldown time
+	CONVOY_SPOTTING_COOLDOWN_MIN_FROM_EFFICIENCY = 15, -- clamped min value after screening efficiency has been applied
 	
 	MISSION_FUEL_COSTS = {  -- fuel cost for each mission
 		0.3, -- HOLD (consumes fuel HOLD_MISSION_MOVEMENT_COST fuel while moving)
@@ -1484,6 +1491,9 @@ NNavy = {
 	
 	HIGHER_SHIP_RATIO_POSITIONING_PENALTY_FACTOR					= 1.0, -- if one side has more ships than the other, that side will get this penalty for each +100% ship ratio it has
 	MAX_POSITIONING_PENALTY_FROM_HIGHER_SHIP_RATIO					= 1.35, -- maximum penalty to get from larger fleets
+
+	HIGHER_CARRIER_RATIO_POSITIONING_PENALTY_FACTOR					= 0.2;  -- penalty if other side has stronger carrier air force 
+	MAX_CARRIER_RATIO_POSITIONING_PENALTY_FACTOR 					= 0.2;  -- max penalty from stronger carrier air force
 	
 	POSITIONING_PENALTY_FOR_SHIPS_JOINED_COMBAT_AFTER_IT_STARTS		= 0.04, -- each ship that joins the combat will have this penalty to be added into positioning
 	MAX_POSITIONING_PENALTY_FOR_NEWLY_JOINED_SHIPS 					= 0.4,  -- the accumulated penalty from new ships will be clamped to this value
@@ -1622,6 +1632,12 @@ NNavy = {
 	NAVAL_COMBAT_AIR_SUB_DETECTION_DECAY_RATE = 1.0,					-- Factor to decay the value of sub detection contributed by planes on the last hour. Note: the maximum value between the decayed value and the newly computed one is taken into account. A decay rate of 1 means that nothing is carried over, the previous value is zerod out. A decay rate of 0 means that the previous value is carried over as is.
 	NAVAL_COMBAT_AIR_SUB_DETECTION_FACTOR = 0.0,						-- A global factor that applies after all others, right before the sub detection contributed by plane is added to the global sub detection of a combatant
 
+	NAVAL_COMBAT_AIR_SUB_TARGET_SCORE = 10,                             -- scoring for target picking for planes inside naval combat, one define per ship typ
+	NAVAL_COMBAT_AIR_CAPITAL_TARGET_SCORE = 50,
+	NAVAL_COMBAT_AIR_CARRIER_TARGET_SCORE = 200,
+	NAVAL_COMBAT_AIR_CONVOY_TARGET_SCORE = 1.0,
+	NAVAL_COMBAT_AIR_STRENGTH_TARGET_SCORE = 5,                         -- how much score factor from low health (scales between 0->this number)
+	NAVAL_COMBAT_AIR_LOW_AA_TARGET_SCORE = 5,                           -- how much score factor from low AA guns (scales between 0->this number)
 },
 
 NTrade = {
@@ -1999,8 +2015,8 @@ NAI = {
 	REGION_CONVOY_DANGER_DAILY_DECAY = 5,				-- When convoys are sunk it generates threat in the region which the AI uses to prio nalval missions
 
 	PRODUCTION_LINE_SWITCH_SURPLUS_NEEDED_MODIFIER = 0.1,	-- Is modified by efficency modifiers.
-	PLAN_ACTIVATION_MAJOR_WEIGHT_FACTOR = 1,			-- AI countries will hold on activating plans if stronger countries have plans in the same location. Majors count extra (value of 1 will negate this)
-	PLAN_ACTIVATION_PLAYER_WEIGHT_FACTOR = 1,		-- AI countries will hold on activating plans if player controlled countries have plans in the same location. Majors count extra (value of 1 will negate this)
+	PLAN_ACTIVATION_MAJOR_WEIGHT_FACTOR = 0,			-- AI countries will hold on activating plans if stronger countries have plans in the same location. Majors count extra (value of 1 will negate this)
+	PLAN_ACTIVATION_PLAYER_WEIGHT_FACTOR = 0,		-- AI countries will hold on activating plans if player controlled countries have plans in the same location. Majors count extra (value of 1 will negate this)
 	AREA_DEFENSE_BASE_IMPORTANCE = 4,					-- Area defense order base importance value (used for determining order of troop selections)
 	AREA_DEFENSE_CIVIL_WAR_IMPORTANCE = 7,			-- Area defense order importance value when a country is in a civil war as target or revolter.
 
@@ -2374,7 +2390,7 @@ NAI = {
 	MIN_CONVOY_EFFICIENCY_PER_WAR_SUPPORT_HIT = 0.6,			-- percentage of warsupport hit you get is multiplied by this value and added to min convoy efficiencies
 
 	NAVAL_INVADED_AREA_PRIO_DURATION = 90,								-- after successful invasion, AI will prio the enemy area for this number of days
-	NAVAL_INVADED_AREA_PRIO_MULT = 2.2,									-- fronts that belongs to recent invasions gets more prio
+	NAVAL_INVADED_AREA_PRIO_MULT = 2.0,									-- fronts that belongs to recent invasions gets more prio
 	MIN_NUM_CONQUERED_PROVINCES_TO_DEPRIO_NAVAL_INVADED_FRONTS = 30,	-- if you conquer this amount of provinces after a naval invasion, it will lose its prio status and will act as a regular front
 
 	BUILDING_TARGETS_BUILDING_PRIORITIES = {				-- buildings in order of pirority when considering building targets strategies. First has the greatest priority, omitted has the lowest. NOTE: not all buildings are supported by building targets strategies.
