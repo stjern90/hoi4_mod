@@ -741,6 +741,18 @@ focus_tree = {
 						amount = 10
 				}
 			}
+			if = {
+				limit = { has_tech = heavy_industry }
+				add_tech_bonus = {
+					#name = MAN_develop_aluminum_sources
+					bonus = 1.0
+					uses = 1
+					category = heavy_industry
+				}
+			}
+			else = {
+				set_technology = { heavy_industry = 1 }
+			}
 			unlock_decision_tooltip = MAN_develop_liaotung_iron_ore_deposits
 		}
 	}
@@ -1132,10 +1144,63 @@ focus_tree = {
 
 		completion_reward = {
 			remove_ideas = MAN_permit_opium_trade
-			add_stability = 0.1
+			add_stability = 0.05
 			add_political_power = -100
 		}
 	}
+	
+	focus = {
+		id = MAN_confiscate_opium_trader_property
+		icon = GFX_Goal_Anti_Opium_Trade
+		prerequisite = { focus = MAN_ban_the_opium_trade }
+		x = 0
+		y = 1
+		relative_position_id = MAN_ban_the_opium_trade
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		complete_tooltip = {
+
+		}
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+					free_building_slots = {
+						building = industrial_complex
+						size > 2
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+			add_stability = 0.05
+			add_political_power = -100
+		}
+	}
+	
 	
 	focus = {
 		id = MAN_manchurian_industrial_development_company
@@ -1297,6 +1362,112 @@ focus_tree = {
 				add_idea = MAN_expand_permit_opium_trade
 			}
 			add_stability = -0.05
+		}
+	}
+	
+	focus = {
+		id = MAN_new_opium_fields
+		icon = GFX_Goal_Pro_Opium_Trade
+		prerequisite = { focus = MAN_permit_opium_trade }
+		x = 0
+		y = 1
+		relative_position_id = MAN_permit_opium_trade
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		complete_tooltip = {
+
+		}
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+					free_building_slots = {
+						building = industrial_complex
+						size > 4
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 4
+				add_building_construction = {
+					type = industrial_complex
+					level = 4
+					instant_build = yes
+				}
+			}
+			add_stability = -0.025
+		}
+	}
+	
+	focus = {
+		id = MAN_japanese_opium_profits
+		icon = GFX_Goal_Pro_Opium_Trade
+		prerequisite = { focus = MAN_new_opium_fields }
+		x = 0
+		y = 1
+		relative_position_id = MAN_new_opium_fields
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		complete_tooltip = {
+
+		}
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+					free_building_slots = {
+						building = arms_factory
+						size > 2
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+			add_stability = -0.025
+			JAP = {
+				add_stability = -0.025
+				add_ideas = MAN_opium_profits
+			}
 		}
 	}
 	
@@ -1914,9 +2085,59 @@ focus_tree = {
 		}
 
 		completion_reward = {
+			add_timed_idea = {
+				idea = MAN_cadets_in_japanese_academies
+				days = 730
+			}
+		}
+	}
+	
+	focus = {
+		id = MAN_send_returning_cadets_to_the_fronline
+		icon = GFX_goal_generic_cavalry
+		prerequisite = { focus = MAN_send_cadets_to_learn_in_japan }
+		mutually_exclusive = { focus = MAN_training_division }
+		x = -1
+		y = 1
+		relative_position_id = MAN_send_cadets_to_learn_in_japan
+		
+		cost = 3
+		
+		available = {
+			is_puppet_of = JAP
+			has_war = yes
+			NOT = { has_idea = MAN_cadets_in_japanese_academies }
+		}
+
+		completion_reward = {
+			army_experience = 25
+			add_timed_idea = {
+				idea = MAN_cadets_to_the_frontline
+				days = 730
+			}
+		}
+	}
+	
+	focus = {
+		id = MAN_training_division
+		icon = GFX_goal_generic_cavalry
+		prerequisite = { focus = MAN_send_cadets_to_learn_in_japan }
+		mutually_exclusive = { focus = MAN_send_returning_cadets_to_the_fronline }
+		x = 1
+		y = 1
+		relative_position_id = MAN_send_cadets_to_learn_in_japan
+		
+		cost = 3
+		
+		available = {
+			is_puppet_of = JAP
+			NOT = { has_idea = MAN_cadets_in_japanese_academies }
+		}
+
+		completion_reward = {
 			army_experience = 50
 			add_timed_idea = {
-				idea = MAN_cadets_in_jap_academy
+				idea = MAN_training_division
 				days = 730
 			}
 		}
@@ -1927,7 +2148,7 @@ focus_tree = {
 		icon = GFX_goal_generic_intelligence_exchange
 		prerequisite = { focus = MAN_send_cadets_to_learn_in_japan }
 		x = 0
-		y = 1
+		y = 2
 		relative_position_id = MAN_send_cadets_to_learn_in_japan
 		
 		cost = 7
@@ -1951,6 +2172,7 @@ focus_tree = {
 		id = MAN_expand_military_district
 		icon = GFX_goal_generic_small_arms
 		prerequisite = { focus =  MAN_kwantung_advisor }
+		prerequisite = { focus = MAN_training_division focus = MAN_send_returning_cadets_to_the_fronline }
 		x = 0
 		y = 1
 		relative_position_id = MAN_kwantung_advisor
@@ -2073,13 +2295,67 @@ focus_tree = {
 			add_ideas = MAN_mukden_military_academy
 		}
 	}
+	
+	focus = {
+		id = MAN_joined_against_military_exercises_soviet_union
+		icon = GFX_focus_ger_bulwark_against_bolshevism
+		prerequisite = { focus = MAN_mukden_military_academy }
+		x = 2 
+		y = 1 
+		relative_position_id = MAN_mukden_military_academy
+		
+		cost = 8
+		
+		available = {
+			is_subject_of = JAP
+		}
+		bypass = {
+			has_war_with = SOV
+		}
+
+		completion_reward = {
+			army_experience = 25
+			add_tech_bonus = {
+				name = land_doc_bonus
+				bonus = 1
+				uses = 1
+				category = land_doctrine
+			}
+		}
+	}
+	
+	focus = {
+		id = MAN_recruit_white_russian_advisors
+		icon = GFX_goal_generic_axis_build_infantry
+		prerequisite = { focus = MAN_joined_against_military_exercises_soviet_union }
+		x = 0
+		y = 1
+		relative_position_id = MAN_joined_against_military_exercises_soviet_union
+		
+		ai_will_do = {
+			factor = 4
+		}
+		available = {
+		}
+		bypass = {
+		}
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = yes
+		completion_reward = {
+			add_ideas = MAN_white_russian_advisors
+
+			custom_effect_tooltip = available_foreign_advisor
+			show_ideas_tooltip = genrikh_lyushkov
+		}
+	}
 
 	focus = {
 		id = MAN_mukden_arsenal
 		icon = GFX_goal_generic_construct_mil_factory
 		prerequisite = { focus = MAN_mukden_military_academy }
 		x = 0
-		y = 1
+		y = 3
 		relative_position_id = MAN_mukden_military_academy
 
 		cost = 10
@@ -2307,10 +2583,53 @@ focus_tree = {
 
 	
 	focus = {
-		id = MAN_five_races_under_one_union
-		icon = GFX_goal_generic_national_unity
+		id = MAN_consolidate_concordia_association
+		icon = GFX_focus_generic_self_management
+		cost = 5
 		x = 2
 		y = 0
+
+
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			add_political_power = 150
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.1
+			}
+		}
+	}
+	focus = {
+		id = MAN_poison_zheng_xiaoxu
+		icon = GFX_focus_CZE_german_puppet
+		cost = 8
+		prerequisite = { focus = MAN_consolidate_concordia_association }
+		x = 4
+		y = 1
+		relative_position_id = MAN_consolidate_concordia_association
+		ai_will_do = {
+			factor = 1
+		}
+		available = {
+			is_subject_of = JAP
+		}
+		completion_reward = {
+			add_political_power = 120
+			add_popularity = {
+				ideology = neutrality
+				popularity = -0.1
+			}
+		}
+	}
+	focus = {
+		id = MAN_five_races_under_one_union
+		icon = GFX_goal_generic_national_unity
+		prerequisite = { focus = MAN_consolidate_concordia_association }
+		x = 2
+		y = 1
+		relative_position_id = MAN_consolidate_concordia_association
 		
 		cost = 5
 		
