@@ -1,0 +1,962 @@
+###########################
+# News Events
+###########################
+
+add_namespace = bramja
+
+
+news_event = {
+	id = bramja.14
+	title = bramja.14.t
+	desc = bramja.14.d
+	picture = GFX_news_event_nuke
+
+	major = yes
+
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = {
+			FROM = {
+				FROM = {
+					OR = {
+						state = 529
+						state = 528
+						state = 64
+						state = 126
+						state = 531
+						state = 282
+						state = 361
+						state = 2
+						state = 16 
+						state = 219
+						state = 37
+						state = 141
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = bramja.14.a
+		trigger = {
+			NOT = { FROM = { FROM = { is_owned_by = ROOT } } }
+		}
+	}
+	
+	option = {
+		name = bramja.14.b
+		trigger = {
+			FROM = { FROM = { is_owned_by = ROOT } }
+		}
+	}
+}
+
+
+
+#News events crisis
+#1:draft, 
+#2 Strikes , 
+#3 mutinies
+#4 Civil War
+
+
+
+news_event = {
+	id = bramja.1
+	title = bramja.1.t
+	desc = bramja.1.d
+	picture = GFX_report_event_desertion_poster		
+
+	major = yes
+ 
+	is_triggered_only = yes
+	
+	option = {
+		name = bramja.1.a
+		trigger = {
+			OR = {
+				tag = FROM 
+				is_in_faction_with = FROM
+			}
+		}
+	}
+	
+	option = {
+		name = bramja.1.b
+		trigger = {
+			NOT = {		  
+				tag = FROM 
+				is_in_faction_with = FROM
+			
+			}
+		}
+	}			
+}
+
+
+news_event = {
+	id = bramja.2
+	title = bramja.2.t
+	desc = bramja.2.d
+	picture = GFX_report_event_workers_protests	
+
+	major = yes
+ 
+	is_triggered_only = yes
+	
+	option = {
+		name = bramja.2.a
+		trigger = {
+			OR = {
+				tag = FROM 
+				is_in_faction_with = FROM
+			}
+		}
+	}
+	
+	option = {
+		name = bramja.2.b
+		trigger = {
+			NOT = {
+				OR = {
+				tag = FROM 
+				is_in_faction_with = FROM
+				}
+			}
+		}
+	}			
+}
+
+news_event = {
+	id = bramja.3
+	title = bramja.3.t
+	desc = bramja.3.d
+	picture = GFX_report_event_workers_protests	
+
+	major = yes
+ 
+	is_triggered_only = yes
+	
+	option = {
+		name = bramja.3.a
+		trigger = {
+			OR = {
+				tag = FROM 
+				is_in_faction_with = FROM
+			}
+		}
+	}
+	
+	option = {
+		name = bramja.3.b
+		trigger = {
+			NOT = {
+				OR = {
+				tag = FROM 
+				is_in_faction_with = FROM
+				has_war_with = FROM
+				}
+			}
+		}
+	}
+
+	option = {
+		name = bramja.3.c
+		trigger = {
+				has_war_with = FROM
+		}
+		
+	}				
+}
+
+# MacArthur Coups the gov
+country_event = {
+	id = bramja.6
+	title = bramja.6.t
+	desc = bramja.6.d
+	picture = GFX_report_event_usa_macarthur_speech
+	
+	fire_only_once = yes
+
+	trigger = {
+		tag = USA
+		democratic > 0.4
+		date > 1944.9.1
+		has_war = yes
+		has_war_support > 0.80
+		has_stability < 0.90
+		OR = {
+			surrender_progress > 0.05
+			casualties > 750000
+			OR	= {
+				has_offensive_war_with = JAP
+				has_offensive_war_with = ENG
+				has_offensive_war_with = SOV
+				has_offensive_war_with = GER
+				has_offensive_war_with = USA
+				has_offensive_war_with = ITA
+				has_offensive_war_with = FRA		
+			}
+			AND = {
+				has_global_flag = first_nuke_dropped
+				any_war_score < 20
+			}
+			any_war_score < 10
+		}
+		NOT = {has_country_leader = { ruling_only = yes name = "Douglas MacArthur" }}
+	}
+	mean_time_to_happen = { months = 3 }
+	
+#Civil war, stay with DEM
+	option = {
+		name = bramja.6.a
+		ai_chance = {
+			base = 25
+		}	
+		add_political_power = 100
+		add_stability = -0.1
+		add_war_support = -0.1
+		set_rule = { can_join_factions = no }
+		set_party_name = { ideology = neutrality long_name = USA_neutrality_coup_long name = USA_neutrality_coup_short }
+		retire_ideology_leader = neutrality
+		create_country_leader = {
+			name = "Douglas MacArthur"
+			desc = "POLITICS_DOUGLAS_MACARTHUR_DESC"
+			picture = "Portrait_USA_Douglas_MacArthur.dds"
+			expire = "1965.1.1"
+			ideology = oligarchism
+			traits = {
+				adventurous_daredevil
+				leader
+				Hawk
+			}
+		}
+		start_civil_war = { ideology = neutrality size = 0.40 }
+		news_event = { id = bramja.7 days = 1 }
+	}
+	
+#Go for MacArthur
+	option = { 
+		name = bramja.6.b
+		trigger = {
+			OR = {
+				has_stability > 0.67
+				surrender_progress < 0.25
+			}
+		}
+		ai_chance = {
+			base = 25
+		}
+		add_stability = -0.15
+		add_war_support = 0.10
+		add_political_power = -50
+		set_rule = { can_join_factions = no }
+		remove_ideas = new_deal
+		set_party_name = { ideology = neutrality long_name = USA_neutrality_coup_long name = USA_neutrality_coup_short }
+		retire_country_leader = yes
+		set_politics = {
+			ruling_party = neutrality
+			elections_allowed = no
+		}
+		set_political_party = {
+			ideology = neutrality
+			popularity = 40
+		}
+		create_country_leader = {
+			name = "Douglas MacArthur"
+			desc = "POLITICS_DOUGLAS_MACARTHUR_DESC"
+			picture = "Portrait_USA_Douglas_MacArthur.dds"
+			expire = "1965.1.1"
+			ideology = oligarchism
+			traits = {
+				adventurous_daredevil
+				leader
+				Hawk
+			}
+		}
+		hidden_effect = {
+			if = {
+				limit = {
+					is_in_faction = yes 
+				}
+				country_event = { id = bramja.8 days = 20 }
+			}
+		}
+	}
+}
+
+#General MacArthurs Putch & civil war News
+
+news_event = {
+	id = bramja.7
+	title = bramja.7.t
+	desc = bramja.7.d
+	picture = GFX_report_event_workers_protests	
+
+	major = yes
+ 
+	is_triggered_only = yes
+	
+	option = {
+		name = bramja.7.a
+		trigger = {
+			is_in_faction_with = FROM	
+		}
+		add_war_support = -0.10
+		
+	}
+	option = {
+		name = bramja.7.b
+		trigger = {
+			has_war_with = FROM	
+			NOT = {
+				tag = GER 
+			}
+		}
+		add_war_support = 0.10
+	}
+	option = {
+		name = bramja.7.c
+		trigger = {
+			NOT = {
+				OR = {
+				tag = FROM 
+				is_in_faction_with = FROM
+				has_war_with = FROM
+				}
+			}
+		}
+	}
+	option = {
+		name = bramja.7.d_2
+		trigger = {
+			tag = GER
+		}
+		if = {
+			limit = {
+				has_war_with = FROM
+			}
+			add_war_support = 0.10
+		}
+		hidden_effect = {
+			USA = { create_faction = "American_League" }
+		}
+	}	
+}
+
+
+# MacArthur Coup: stay in faction?
+country_event = {
+	id = bramja.8
+	title = bramja.8.t
+	desc = bramja.8.d
+	picture = GFX_report_event_french_british_officers
+
+	is_triggered_only = yes
+	
+	option = {
+		name = bramja.8.a
+		ai_chance = {
+			base = 25
+			modifier = {
+				factor = 2
+				OR = {
+					has_stability < 0.70
+					has_war_support < 0.70
+				}
+			}
+			modifier = {
+				factor = 1.5
+				is_in_faction_with = ENG
+				ENG = { OR = { has_capitulated = yes exists = no is_puppet = yes } }				
+			}
+			modifier = {
+				factor = 2
+				any_war_score > 20	
+			}
+		}
+		add_stability = 0.05
+		add_war_support = 0.05
+		add_popularity = {
+			ideology = neutrality
+			popularity = 0.05
+		}
+		hidden_effect = {
+			USA = {
+				add_ai_strategy = {
+					type = ignore 
+					id = "ENG"
+					value = 50
+				}
+			}
+			ENG = {
+				add_ai_strategy = {
+					type = ignore 
+					id = "USA"
+					value = 50
+				}
+			}
+			news_event = { id = bramja.9 days = 1 }
+		}
+	}
+	option = {
+		name = bramja.8.b
+		ai_chance = {
+			base = 25
+			modifier = {
+				any_war_score > 05
+				factor = 1.5
+				
+			}
+			modifier = {
+				factor = 2
+				is_in_faction_with = ENG 
+				ENG = { OR = { has_capitulated = no exists = yes is_puppet = no } }
+			}
+		}
+		add_stability = -0.15
+		add_war_support = -0.10
+		hidden_effect = {
+			news_event = { id = bramja.10 days = 1 }
+		}
+	}
+}
+
+#Macarthur leaves Allies News!
+news_event = {
+	id = bramja.9
+	title = bramja.9.t
+	desc = bramja.9.d
+	picture = GFX_report_event_usa_macarthur_speech
+
+	major = yes
+ 
+	is_triggered_only = yes
+
+	option = {
+		name = bramja.9.a
+		trigger = {
+			NOT = {
+				tag = FROM 
+			}
+			is_in_faction_with = FROM	
+		}
+		add_war_support = -0.10
+	}
+	option = {
+		name = bramja.9.b
+		trigger = {
+			has_war_with = FROM	
+			NOT = {
+				tag = GER 
+			}
+		}
+		add_war_support = 0.10
+	}
+	option = {
+		name = bramja.9.c
+		trigger = {
+			NOT = {
+				OR = {
+				tag = FROM 
+				is_in_faction_with = FROM
+				has_war_with = FROM
+				}
+			}
+		}
+	}
+	option = {
+		name = bramja.9.d_2
+		trigger = {
+			tag = GER
+		}
+		if = {
+			limit = {
+				has_war_with = FROM
+			}
+			add_war_support = 0.10
+		}
+		hidden_effect = {
+			USA = { create_faction = "American_League" }
+		}	
+	}	
+}
+
+
+#General MacArthurs stays with allies! News
+news_event = {
+	id = bramja.10
+	title = bramja.10.t
+	desc = bramja.10.d
+	picture = GFX_report_event_workers_protests	
+
+	major = yes
+ 
+	is_triggered_only = yes
+	
+	option = {
+		name = bramja.10.a	
+		trigger = {
+			NOT = {
+				tag = FROM 
+			}
+			is_in_faction_with = FROM	
+		}
+		add_war_support = 0.05
+	}
+	option = {
+		name = bramja.10.b
+		trigger = {
+			has_war_with = FROM	
+		}
+	}
+	option = {
+		name = bramja.10.c
+		trigger = {
+			NOT = {
+				OR = {
+				tag = FROM 
+				is_in_faction_with = FROM
+				has_war_with = FROM
+				}
+			}
+		}
+	}
+}	
+
+# Vichy French insurrection Invasion
+country_event = {
+	id = bramja.11
+	title = bramja.11.t
+	desc = bramja.11.d
+	picture = GFX_report_event_french_resistance_01
+	
+	fire_only_once = yes
+	
+	trigger = {
+		has_cosmetic_tag = FRA_VICHY
+		has_government = fascism
+		owns_state = 16
+		any_state = {
+			is_owned_by = ROOT
+			is_on_continent = europe
+			is_core_of = ROOT
+			NOT = { state = 1 }
+			NOT = { is_controlled_by = ROOT }
+		}
+		is_in_faction_with = GER
+		has_war_with = SOV
+		has_civil_war = no
+	}	
+	
+	mean_time_to_happen = { 
+		days = 180
+		modifier = {
+			factor = 0.5
+			NOT = { controls_state = 16}
+		}
+		modifier = {
+			factor = 0.5
+			surrender_progress > 0.40
+		}
+		modifier = {
+			factor = 0.5
+			OR = {
+				has_war_support > 0.65
+				has_stability > 0.65
+			}
+		}
+	}
+	
+	option = { 
+		name = bramja.11.a
+		start_civil_war = { ideology = communism size = 0.35 }
+		hidden_effect = {
+			news_event = { id = bramja.12 days = 1 }
+		}
+	}
+}
+
+#Worlds news Communists insurrection Vichy
+news_event = {
+	id = bramja.12
+	title = bramja.12.t
+	desc = bramja.12.d
+	picture = GFX_report_event_french_resistance_02
+
+	major = yes
+ 
+	is_triggered_only = yes
+
+	option = {
+		name = bramja.12.a
+		trigger = {
+			NOT = {
+				tag = FROM 
+			}
+			is_in_faction_with = FROM	
+		}
+		add_war_support = -0.02
+	}
+	option = {
+		name = bramja.12.b
+		trigger = {
+			has_war_with = FROM	
+		}
+		add_war_support = 0.02
+	}
+	option = {
+		name = bramja.12.c
+		trigger = {
+			NOT = {
+				OR = {
+				tag = FROM 
+				is_in_faction_with = FROM
+				has_war_with = FROM
+				}
+			}
+		}
+	}
+}
+
+# Japan cannot hold subjects and conquered territory.
+country_event = {
+	id = bramja.13
+	title = bramja.13.t
+	desc = bramja.13.d
+	picture = GFX_report_event_chinese_soldiers_fighting
+
+	fire_only_once = yes
+	
+	trigger = {
+		tag = JAP
+		date > 1942.1.1
+		OR = {
+			any_controlled_state = {
+				NOT = { is_core_of = JAP }
+			}
+			any_country = {
+				is_subject_of = JAP
+			}
+		}
+		has_war = yes
+		OR = {
+			has_government = neutrality
+			has_government = fascism
+		}
+		surrender_progress > 0.09
+		OR = {
+			has_navy_size = { size < 60 }
+			enemies_naval_strength_ratio > 2.0
+		}
+	}
+	
+	mean_time_to_happen = { days = 1 }
+	
+#Sayonara empire option
+	option = {
+		name = bramja.13.a
+		ai_chance = {
+			base = 5
+		}
+		add_stability = -0.10
+		add_war_support = -0.10
+		every_controlled_state = {
+			limit = {
+				NOT = { is_core_of = JAP }
+			}
+			add_resistance = 55	
+		}
+		custom_effect_tooltip = bramja_13a_tt
+		hidden_effect = {
+			every_country = {
+				limit = {
+					is_subject_of = JAP
+				}
+				add_stability = -0.10
+				add_war_support = -0.05
+				add_popularity = {
+					ideology = neutrality
+					popularity = 0.40	
+				}
+				add_popularity = {
+					ideology = communism
+					popularity = 0.30
+				}
+				add_popularity = {
+					ideology = fascism
+					popularity = -0.15
+				}
+				leave_faction = yes
+				every_country = {
+					limit = { has_war_with = PREV }
+					white_peace = PREV
+				}
+				overlord = {
+					set_autonomy = {
+						target = PREV
+						autonomy_state = autonomy_free
+					}
+				}
+			}
+			MAN = { complete_national_focus = MCK_an_alternative }
+			news_event = { id = bramja.16 days = 1 }
+		}
+	}
+	
+#JAP Conquer all or nothing.
+	option = {
+		name = bramja.13.b
+		ai_chance = {
+			base = 1
+			modifier = {
+				has_navy_size = { size > 75 }
+				has_army_size = { size > 60 } 
+				factor = 2
+			}
+		}
+		add_stability = -0.15
+		add_war_support = -0.07
+		add_threat = 3
+		every_controlled_state = {
+			limit = {
+				NOT = { is_core_of = JAP }
+			}
+			add_resistance = 55	
+		}	
+		custom_effect_tooltip = bramja_13b_tt
+		hidden_effect = {
+			every_country = {
+				limit = {
+					is_subject_of = JAP
+				}
+				add_stability = -0.12
+				add_war_support = -0.07
+				add_popularity = {
+					ideology = neutrality
+					popularity = 0.35	
+				}
+				add_popularity = {
+					ideology = communism
+					popularity = 0.25
+				}
+				every_country = {
+					limit = { has_war_with = PREV }
+					white_peace = PREV
+				}
+				leave_faction = yes
+				overlord = {
+					set_autonomy = {
+						target = PREV
+						autonomy_state = autonomy_free
+					}
+				}
+				ROOT = { declare_war_on = { 
+						target = PREV
+						type = puppet_wargoal_focus }	
+				}
+			}
+			MAN = { complete_national_focus = MCK_an_alternative }
+			news_event = { id = bramja.16 days = 1 }
+		}
+	}	
+}
+
+# World news subjects Japan break loose.
+
+news_event = {
+	id = bramja.16
+	title = bramja.16.t
+	desc = bramja.16.d
+	picture = GFX_news_event_enemy_pride_sinking
+
+	major = yes
+	is_triggered_only = yes
+
+	option = {
+		name = bramja.16.a
+		trigger = {
+			is_in_faction_with = FROM
+		}
+	}
+	option = {
+		name = bramja.16.b
+		trigger = {
+			has_war_with = FROM	
+		}
+		add_war_support = 0.05
+	}
+	option = {
+		name = bramja.16.c
+		trigger = {
+			all_country = {
+				NOT = {
+					tag = FROM 
+					is_in_faction_with = FROM
+					has_war_with = FROM
+				}
+			}
+		}
+	}
+}
+
+
+# Part 1:Manchuria breaks from (likely) JAP & reclaims Imperial hegemony
+news_event = {
+	id = bramja.17
+	title = bramja.17.t
+	desc = bramja.17.d
+	picture = GFX_news_event_japanese_soldiers_in_beijing
+
+	major = yes
+ 
+	is_triggered_only = yes
+
+	option = {
+		name = bramja.17.a
+		trigger = {
+			is_ai = yes 
+		}
+	}
+
+	option = {
+		name = bramja.17.b
+		trigger = {
+			is_ai = no 
+		}
+		every_country = {
+				limit = {
+					any_controlled_state = { is_core_of = FROM }
+					NOT = { is_in_faction_with = FROM }
+					exists = yes
+						OR = {
+							tag = CHI
+							tag = CCP
+							tag = TIB
+							tag = BHU
+							tag = SIK
+							tag = TAN
+							tag = CAM
+							tag = VIN
+							tag = LAO
+							tag = KOR
+							tag = MEN
+							tag = MON	
+							tag = YUN
+							tag = SHX
+							tag = PRC
+							tag = GXC
+							tag = XSM
+						}
+				}
+			add_war_support = -0.05	
+			add_stability = -0.05
+		}
+		news_event = { id = bramja.18 hours = 2 }
+	}
+}
+
+# Part 1:Manchuria breaks from (likely) JAP & reclaims Imperial hegemony
+news_event = {
+	id = bramja.18
+	title = bramja.18.t
+	desc = bramja.18.d
+	picture = GFX_goal_manzhou_zhongyangyinhang
+	
+	major = yes
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = bramja.18.a
+		trigger = {
+		}
+	}	
+}	
+
+#TO BE TESTED-->1st ok, but on action instead?: Stabilize Civil war --> zie on_action_branmja
+country_event = {
+	id = bramja.19
+	title = bramja.19.t
+	desc = bramja.19.d	#
+	picture = GFX_					#
+#	hidden = yes
+
+	is_triggered_only = yes
+	
+	option = { 
+		name = bramja.19.a
+			trigger = {
+			tag = FROM 
+			}
+			if = {
+				limit = {
+					has_stability < 0.6
+				}
+				add_stability = 0.10
+			}
+			if = {
+				limit = {
+					has_war_support < 0.6
+				}
+				add_war_support = 0.10
+			}
+			if = {
+				limit = {
+					has_country_flag = crisis_solution_in_progress
+				}
+				clr_country_flag = crisis_solution_in_progress
+			}
+			if = {
+				limit = {
+					has_country_flag = crisis_in_progress
+				}
+				clr_country_flag = crisis_in_progress
+			}
+			if = {
+				limit = {
+					OR = {
+						has_idea = draft_dodging
+						has_idea = draft_dodging_2
+						has_idea = draft_dodging_3
+					}
+				}
+				remove_ideas =  { 
+					draft_dodging 
+					draft_dodging_2
+					draft_dodging_3
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						has_idea = strikes_1 
+						has_idea = strikes_2
+						has_idea = strikes_3
+					}
+				}
+				remove_ideas = { 
+					strikes_1 
+					strikes_2
+					strikes_3
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						has_idea = mutiny_1
+						has_idea = mutiny_2
+						has_idea = mutiny_3
+					}
+				}
+				remove_ideas = { 
+					mutiny_1 
+					mutiny_2
+					mutiny_3
+				}
+			}
+	}
+}
