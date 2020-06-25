@@ -464,6 +464,7 @@ country_event = {
 		factor = 10 
 		modifier = {
 		factor = 0
+		is_historical_focus_on = yes
 		}
 		}
 		JAP = { 
@@ -474,16 +475,6 @@ country_event = {
 					type = puppet_wargoal_focus
 				}
 			}
-		}
-	}
-	option = {
-		name = japan.12.c
-		ai_chance = {
-			factor = 0 #?
-		}
-		JAP = { 
-			country_event = { id = japan.111 }
-			
 		}
 	}
 }
@@ -501,6 +492,22 @@ country_event = {
 		name = japan.13.a
 		puppet = SIA
 		add_stability = 0.03
+		SIA = { set_cosmetic_tag = SIA_JAP }
+		if = { limit = { SIA = { has_country_leader = { name = "Phraya Phahon" ruling_only = yes } } }
+		SIA = {
+		retire_country_leader = yes
+		create_country_leader = {
+	name = "Plaek Phibunsongkhram "
+	desc = "POLITICS_PHIBUN_DESC"
+	picture = "Portrait_Siam_Plaek_Pibulsongkram.dds"
+	expire = "1965.1.1"
+	ideology = despotism
+	traits = {
+		#
+	}
+	}
+}
+		}
 	}
 }
 
@@ -521,69 +528,7 @@ country_event = {
 		}
 	}
 }
-######################################
-country_event = {
-	id = japan.111
-	title = japan.111.t
-	desc = japan.111.d
-	picture = GFX_report_event_japanese_officers
 
-	is_triggered_only = yes
-
-	option = {  # check this johan
-		name = japan.111.a
-				
-			JAP = { 
-				annex_country = { target = SIA transfer_troops = yes }				
-			}
-		
-		724 = {
-			if = {
-				limit = { is_owned_by = SIA }
-				#add_core_of = JAP
-			}
-		}
-		289 = {
-			if = {
-				limit = { is_owned_by = SIA }
-				#add_core_of = JAP
-			}
-		}
-		
-		ai_chance = { factor = 100 }
-		
-	}
-	
-	option = {
-		name = japan.111.b
-		ai_chance = { factor = 0 }
-	}
-}
-country_event = {
-	id = japan.112
-	title = japan.112.t
-	desc = japan.112.d
-	picture = GFX_report_event_japanese_officers
-
-	trigger = {	
-		tag = JAP # check this johan
-		NOT = { has_completed_focus = siamese_puppet_focus }
-		is_puppet = no
-		country_exists = SIA
-		is_ai = yes
-		has_global_flag = jap_got_indo_china
-	}
-	fire_only_once = yes
-				
-	option = {
-		name = japan.112.a
-		unlock_national_focus = siamese_puppet_focus
-		JAP = { country_event = {id = japan.11} }
-		ai_chance = { factor = 100 }
-		
-	}
-	
-}
 ################################################
 # Indian national army 
 country_event = {
@@ -921,7 +866,6 @@ country_event = {
 	picture = GFX_report_event_japan_ships
 	
 	is_triggered_only = yes
-	fire_only_once = yes
 	
 	trigger = {
 		has_naval_treaty_trigger = yes
@@ -2572,8 +2516,8 @@ country_event = { #Sino-Japanese War ends in a Japanese victory
 	fire_only_once = yes
 	
 	trigger = {	
-		CHI = { OR = { has_capitulated = yes exists = no is_puppet = yes } }
-		OR = { tag = JAP tag = MAN tag = MEN }
+	    OR = { tag = JAP tag = MAN tag = MEN } # TODO: move to on_capitulation or on_after_peace
+		CHI = { OR = { has_capitulated = yes exists = no is_puppet = yes } }		
 	}
 	
 	immediate = {
