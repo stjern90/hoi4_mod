@@ -441,7 +441,7 @@ focus_tree = {
 		id = POL_strengthen_the_polish_state
 		icon = GFX_goal_POL_april
 		
-		x = 38
+		x = 35
 		y = 0
 		cost = 10
 
@@ -2195,21 +2195,8 @@ focus_tree = {
 			add_ideas = POL_exile_air
 			hidden_effect = {
 				load_oob = POL_raf_exile
-				if = { 
-					limit = {
-						NOT = { has_tech = fighter1 }
-					}
-					set_technology = {
-						fighter1 = 1
-					}
-				}
-				if = { 
-					limit = {
-						NOT = { has_tech = fighter2 }
-					}
-					set_technology = {
-						fighter2 = 1 
-					}
+				set_technology = {
+					fighter2 = 1
 				}
 			}
 			add_offsite_building = { type = arms_factory level = 2 }
@@ -2247,36 +2234,31 @@ focus_tree = {
 			add_offsite_building = { type = arms_factory level = 1 }
 			add_ideas = POL_exile
 			hidden_effect = {
-				if = { 
-					limit = { 
-						POL = { is_ai = yes } 
-					}
-					FRA = { load_oob = POL_france }
-					else = {
-						load_oob = POL_france
-					}
-				}
+				load_oob = POL_france
 			}
 		}
 	}
 	
 	focus = {
-		id = POL_fallfrance
-		icon = GFX_goal_FRA_vichy
+		id = POL_armyafrica
+		icon = GFX_Goal_POL_planwest
 		prerequisite = { focus = POL_airforce focus = POL_armyfrance }
 		relative_position_id = POL_armyfrance
 		x = 1
 		y = 1
-		cost = 6
+		cost = 7
 		
 		bypass = {
-			
+			EGY = { has_capitulated = yes }
 		}
 		
 		available = {
 			has_capitulated = yes
-			FRA = { has_capitulated = yes }
 			is_in_faction_with = ENG
+			ENG = { has_capitulated = no }
+			EGY = { has_capitulated = no }
+			446 = { OR = { is_controlled_by = ENG is_controlled_by = EGY } }
+			date > 1944.6.1 # TODO FIX THIS
 		}
 
 		ai_will_do = {
@@ -2286,56 +2268,9 @@ focus_tree = {
 		available_if_capitulated = yes
 		
 		completion_reward = {
-			add_stability = -0.04
-			add_war_support = -0.04
-			add_equipment_to_stockpile = {
-				type = convoy
-				amount = 400
-				producer = POL
-			}
-		}
-	}
-	
-	focus = {
-		id = POL_carpathian
-		icon = GFX_goal_POL_carpt
-		prerequisite = { focus = POL_fallfrance }
-		relative_position_id = POL_fallfrance
-		x = 2
-		y = 1
-		cost = 7.8
-		
-		bypass = {
-			or = {
-				EGY = { has_capitulated = yes }
-				NOT = { is_in_faction_with = ENG }
-			}
-		}
-		
-		available = {
-			has_capitulated = yes
-			is_in_faction_with = ENG
-			446 = { is_controlled_by_ROOT_or_ally = yes }
-		}
-
-		ai_will_do = {
-			factor = 100
-		}
-		
-		available_if_capitulated = yes
-		
-		completion_reward = {
-			custom_effect_tooltip = POL_carp1
+			custom_effect_tooltip = POL_load
 			hidden_effect = {
-				if = { 
-					limit = { 
-						POL = { is_ai = yes } 
-					}
-					ENG = { load_oob = POL_carp2 }
-					else = {
-						load_oob = POL_carp2
-					}
-				}
+				load_oob = POL_anders
 			}
 		}
 	}
@@ -2343,9 +2278,9 @@ focus_tree = {
 	focus = {
 		id = POL_armysoviet
 		icon = GFX_polish_army
-		prerequisite = { focus = POL_fallfrance }
-		relative_position_id = POL_fallfrance
-		x = -1
+		prerequisite = { focus = POL_armyafrica }
+		relative_position_id = POL_armyafrica
+		x = 2
 		y = 1
 		cost = 6
 		
@@ -2378,64 +2313,7 @@ focus_tree = {
 			}
 			SOV = { give_military_access = POL }
 			hidden_effect = {
-				if = { 
-					limit = { 
-						POL = { is_ai = yes } 
-					}
-					SOV = { load_oob = POL_soviet }
-					else = {
-						load_oob = POL_soviet
-					}
-				}
-			}
-		}
-	}
-	
-	focus = {
-		id = POL_armyafrica
-		icon = GFX_Goal_POL_planwest
-		prerequisite = { focus = POL_armysoviet }
-		prerequisite = { focus = POL_carpathian }
-		relative_position_id = POL_armysoviet
-		x = 1
-		y = 1
-		cost = 7
-		
-		bypass = {
-			NOT = { is_in_faction_with = ENG }
-		}
-		
-		available = {
-			has_capitulated = yes
-			is_in_faction_with = ENG
-			413 = { is_controlled_by_ROOT_or_ally = yes }
-			date > 1942.1.1
-		}
-
-		ai_will_do = {
-			factor = 100
-		}
-		
-		available_if_capitulated = yes
-		
-		completion_reward = {
-			custom_effect_tooltip = POL_load
-			hidden_effect = {
-				if = { 
-					limit = { 
-						POL = { is_ai = yes } 
-					}
-					ENG = { load_oob = POL_anders }
-					else = {
-						load_oob = POL_anders
-					}
-				}
-				create_corps_commander = {
-					name = "Wojtek (Bear)"
-					portrait_path = "gfx/leaders/POL/Portrait_POL_Voytek.dds"
-					traits = { bearer_of_artillery }
-					skill = 1
-				}
+				load_oob = POL_soviet
 			}
 		}
 	}
@@ -2443,9 +2321,9 @@ focus_tree = {
 	focus = {
 		id = POL_blackdevils
 		icon = GFX_goal_POL_devils
-		prerequisite = { focus = POL_carpathian focus = POL_armysoviet }
-		relative_position_id = POL_carpathian
-		x = 1
+		prerequisite = { focus = POL_armyafrica }
+		relative_position_id = POL_armyafrica
+		x = 0
 		y = 1
 		cost = 9.2
 		
@@ -2471,15 +2349,7 @@ focus_tree = {
 		completion_reward = {
 			custom_effect_tooltip = POL_load2
 			hidden_effect = {
-				if = { 
-					limit = { 
-						POL = { is_ai = yes } 
-					}
-					ENG = { load_oob = POL_blackdevil }
-					else = {
-						load_oob = POL_blackdevil
-					}
-				}
+				load_oob = POL_blackdevil
 			}
 		}
 	}
@@ -2517,7 +2387,7 @@ focus_tree = {
 		icon = GFX_USA_tanks
 		prerequisite = { focus = POL_resist2 }
 		relative_position_id = POL_resist2
-		x = -2
+		x = -1
 		y = 1
 		cost = 12
 		
@@ -2644,9 +2514,9 @@ focus_tree = {
 	focus = {
 		id = POL_industry
 		icon = GFX_ENG_war_propaganda
-		prerequisite = { focus = POL_uprisings focus = POL_fallfrance }
+		prerequisite = { focus = POL_uprisings }
 		relative_position_id = POL_uprisings
-		x = -1
+		x = 0
 		y = 2
 		cost = 11.2
 		
@@ -2709,7 +2579,7 @@ focus_tree = {
 		id = POL_air_base_expansion
 		icon = GFX_goal_POL_mielec
 		
-		x = 27
+		x = 24
 		y = 0
 		cost = 6
 
