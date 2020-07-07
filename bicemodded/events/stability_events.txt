@@ -22,6 +22,13 @@ country_event = {
 		OR = {
 			has_stability < 0.45
 			has_war_support < 0.45
+            AND = {	
+				has_global_flag = first_nuke_dropped
+				OR = {
+					has_stability < 0.59
+					has_war_support < 0.59
+				} 
+			}
 		}
 		NOT = {
 			AND = {
@@ -35,6 +42,8 @@ country_event = {
 			has_country_flag = crisis_in_progress
 		}
 		NOT = { has_completed_focus = SPR_all_must_bear_the_torch }
+		NOT = { has_idea = SPA_awaiting_the_rebellion }
+		NOT = { has_idea = SPA_recovering_from_civil_war }
 	}
 
 	mean_time_to_happen = { 
@@ -67,11 +76,19 @@ country_event = {
 					has_country_flag = draft_dodging_resolved
 				}
 				modifier = {
-			factor = 0.1
-				
-				has_war_support > 0.45
-	         	}
+					factor = 1.8 
+					has_war_support < 0.62
+				}
+				if = {
+					limit = {
+					has_war_support < 0.52
+					}
+					add_ideas = draft_dodging_2
+					news_event = { id = bramja.1 days = 1 }
+				}
+				else = {
 				add_ideas = draft_dodging 
+				}
 				country_event = stability.21
 			} #draft dodging
 			20 = { 
@@ -80,10 +97,19 @@ country_event = {
 					has_country_flag = strikes_resolved
 				}
 				modifier = {
-					factor = 0.1
-					has_stability > 0.45
+					factor = 1.8
+					has_stability < 0.60
 				}
+				if = {
+					limit = {
+					has_stability < 0.52
+					}
+					add_ideas = strikes_2 
+					news_event = { id = bramja.2 days = 1 }
+				}
+				else = {
 				add_ideas = strikes_1 
+				}
 				country_event = stability.22
 			} #strikes
 			20 = { 
@@ -92,11 +118,38 @@ country_event = {
 					has_country_flag = mutiny_resolved
 				}
 				modifier = {
-			factor = 0.1
-				
-				has_war_support > 0.45
+					factor = 1.5
+					AND = {
+						has_war_support < 0.52
+						has_war = yes
+					}
 	         	}
+				modifier = {
+					factor = 1.5
+					has_war_support < 0.52
+					OR = {
+						has_offensive_war_with = JAP
+						has_offensive_war_with = ENG
+						has_offensive_war_with = SOV
+						has_offensive_war_with = GER
+						has_offensive_war_with = USA
+						has_offensive_war_with = ITA
+						AND = { 
+							has_offensive_war_with = FRA
+							FRA = { controls_state = 16 }
+						}	
+					}
+	         	}
+				if = {
+					limit = {
+					has_war_support < 0.48
+					}
+					add_ideas = mutiny_2 
+					news_event = { id = bramja.3 days = 1 }
+				}
+				else = {
 				add_ideas = mutiny_1 
+				}
 				country_event = stability.23
 			} #mutinies
 		}
