@@ -1514,7 +1514,7 @@ NNavy = {
 	CHANCE_TO_DAMAGE_PART_ON_CRITICAL_HIT							= 0.1,	-- the game will roll between 0-1 and will damage a random part if below this val on naval critical hits
 	CHANCE_TO_DAMAGE_PART_ON_CRITICAL_HIT_FROM_AIR					= 0.1,	-- the game will roll between 0-1 and will damage a random part if below this val on air critical hits
 	
-	SCREEN_RATIO_FOR_FULL_SCREENING_FOR_CAPITALS 					= 4.0,	-- this screen ratio to num capital/carriers is needed for full screening beyond screen line
+	SCREEN_RATIO_FOR_FULL_SCREENING_FOR_CAPITALS 					= 3.0,	-- this screen ratio to num capital/carriers is needed for full screening beyond screen line
 	CAPITAL_RATIO_FOR_FULL_SCREENING_FOR_CARRIERS 					= 1.0,  -- this capital ratio to num carriers is needed for full screening beyond screen line
 	
 	TASK_FORCE_ROLE_TO_INSIGNIA = {								-- define the index of the insignia to use for a task force designed for a specific role
