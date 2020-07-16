@@ -1328,7 +1328,7 @@ NNavy = {
 	ORG_COST_WHILE_MOVING = { -- org cost while the ships are moving
 		0.3, -- HOLD
 		0.2, -- PATROL		
-		0.25, -- STRIKE FORCE 
+		0.2, -- STRIKE FORCE 
 		0.2, -- CONVOY RAIDING
 		0.2, -- CONVOY ESCORT
 		0.2, -- MINES PLANTING	
@@ -1507,7 +1507,7 @@ NNavy = {
 	SHIP_TO_FLEET_ANTI_AIR_RATIO									= 0.2,	-- total sum of fleet's anti air will be multiplied with this ratio and added to calculations anti-air of individual ships while air damage reduction
 	
 	ANTI_AIR_POW_ON_INCOMING_AIR_DAMAGE								= 0.2,	-- received air damage is calculated using following: 1 - ( (ship_anti_air + fleet_anti_air * SHIP_TO_FLEET_ANTI_AIR_RATIO )^ANTI_AIR_POW_ON_INCOMING_AIR_DAMAGE ) * ANTI_AIR_MULT_ON_INCOMING_AIR_DAMAGE
-	ANTI_AIR_MULT_ON_INCOMING_AIR_DAMAGE							= 0.15,
+	ANTI_AIR_MULT_ON_INCOMING_AIR_DAMAGE							= 0.2,
 	
 	MAX_ANTI_AIR_REDUCTION_EFFECT_ON_INCOMING_AIR_DAMAGE 			= 0.75,	-- damage reduction for incoming air attacks is clamped to this value at maximum.
 	
