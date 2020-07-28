@@ -628,8 +628,8 @@ NMilitary = {
 	LAND_AIR_COMBAT_MAX_PLANES_PER_ENEMY_WIDTH = 3, -- how many CAS/TAC can enter a combat depending on enemy width there
 	LAND_COMBAT_STR_ARMOR_ON_SOFT_DICE_SIZE = 4,   -- extra damage dice if our armor outclasses enemy
 	LAND_COMBAT_ORG_ARMOR_ON_SOFT_DICE_SIZE = 4,   -- extra damage dice if our armor outclasses enemy
-	LAND_COMBAT_STR_ARMOR_DEFLECTION_FACTOR = 0.6, -- damage reduction if armor outclassing enemy
-	LAND_COMBAT_ORG_ARMOR_DEFLECTION_FACTOR = 0.6, -- damage reduction if armor outclassing enemy
+	LAND_COMBAT_STR_ARMOR_DEFLECTION_FACTOR = 0.75, -- damage reduction if armor outclassing enemy
+	LAND_COMBAT_ORG_ARMOR_DEFLECTION_FACTOR = 0.75, -- damage reduction if armor outclassing enemy
 	LAND_COMBAT_COLLATERAL_FACTOR = 0.0013,		   -- Factor to scale collateral damage to infra and forts with.
 	LAND_COMBAT_FORT_DAMAGE_CHANCE = 2,		-- chance to get a hit to damage on forts. (out of 100)
 	ATTRITION_DAMAGE_ORG = 0.09,					   -- damage from attrition to Organisation
@@ -1446,8 +1446,8 @@ NNavy = {
 	SPEED_TO_ESCAPE_SPEED = 0.75,									-- ratio to converstion from ship speed to escape speed (divided by hundred)
 	ESCAPE_SPEED_PER_COMBAT_DAY = 0.02,								-- daily increase in escape speed during combat duration
 	MAX_ESCAPE_SPEED_FROM_COMBAT_DURATION = 0.15,					-- max escape speed that will be gained from combat duration
-	ESCAPE_SPEED_SUB_BASE = 0.08,									-- subs get faster escape speed. gets replaced by hidden version below if hidden
-	ESCAPE_SPEED_HIDDEN_SUB = 0.25,									-- hidden subs get faster escape speed
+	ESCAPE_SPEED_SUB_BASE = 0.1,									-- subs get faster escape speed. gets replaced by hidden version below if hidden
+	ESCAPE_SPEED_HIDDEN_SUB = 0.3,									-- hidden subs get faster escape speed
 
 	SUB_DETECTION_CHANCE_BASE = 5,									-- to start spotting a submarine, a dice is rolled and checked if it succeeds this percentage. if not, that enemy sub force won't be spotted on this tick
 	SUB_DETECTION_CHANCE_BASE_SPOTTING_EFFECT = 0.5,				-- effect of base spotting for initial spotting of pure submarine forces. this along with next value is added together and rolled against a random to start spotting
@@ -1504,10 +1504,10 @@ NNavy = {
 	AA_EFFICIENCY_PENALTY_ON_MINIMUM_POSITIONING					= 0.25,  -- AA penalty at 0% positioning
 	SUBMARINE_REVEAL_ON_MINIMUM_POSITIONING                         = 2.0,  -- submarine reveal change on 0% positioning 
 	
-	SHIP_TO_FLEET_ANTI_AIR_RATIO									= 0.2,	-- total sum of fleet's anti air will be multiplied with this ratio and added to calculations anti-air of individual ships while air damage reduction
+	SHIP_TO_FLEET_ANTI_AIR_RATIO									= 0.25,	-- total sum of fleet's anti air will be multiplied with this ratio and added to calculations anti-air of individual ships while air damage reduction
 	
 	ANTI_AIR_POW_ON_INCOMING_AIR_DAMAGE								= 0.2,	-- received air damage is calculated using following: 1 - ( (ship_anti_air + fleet_anti_air * SHIP_TO_FLEET_ANTI_AIR_RATIO )^ANTI_AIR_POW_ON_INCOMING_AIR_DAMAGE ) * ANTI_AIR_MULT_ON_INCOMING_AIR_DAMAGE
-	ANTI_AIR_MULT_ON_INCOMING_AIR_DAMAGE							= 0.2,
+	ANTI_AIR_MULT_ON_INCOMING_AIR_DAMAGE							= 0.25,
 	
 	MAX_ANTI_AIR_REDUCTION_EFFECT_ON_INCOMING_AIR_DAMAGE 			= 0.75,	-- damage reduction for incoming air attacks is clamped to this value at maximum.
 	
@@ -1532,7 +1532,7 @@ NNavy = {
 	MIN_SHIP_COUNT_FOR_TASK_FORCE_ROLE_ASSIGNMENT = 4,					-- define the minimum number of ship that should be in a task force for it to be considered a patrol or an escort task force (used to the insignia assignment, see TASK_FORCE_ROLE_TO_INSIGNIA)
 	SURFACE_DETECTION_STAT_FOR_SHIP_TO_BE_PATROL = 16,					-- amount of surface detection required for a ship to be considered as part of a patrol task force
 	DEPTH_CHARGE_STAT_FOR_SHIP_TO_BE_SUB_HUNTER = 15,					-- amount of depth charge required for a ship to be considred a sub hunter and so good for convoy escort
-	SUB_DETECTION_STAT_FOR_SHIP_TO_BE_SUB_HUNTER = 2,					-- amount of sub detection required for a ship to be considered a sub hunter
+	SUB_DETECTION_STAT_FOR_SHIP_TO_BE_SUB_HUNTER = 4,					-- amount of sub detection required for a ship to be considered a sub hunter
 	
 	HEAVY_GUN_ATTACK_TO_SHORE_BOMBARDMENT							= 0.1,  -- heavy gun attack value is divided by this value * 100 and added to shore bombardment modifier 
 	LIGHT_GUN_ATTACK_TO_SHORE_BOMBARDMENT							= 0.05, -- light gun attack value is divided by this value * 100 and added to shore bombardment modifier 
@@ -1548,7 +1548,7 @@ NNavy = {
 	DEPTH_CHARGES_HIT_PROFILE 										= 110.0,	-- hit profile for depth charges
 	
 	
-	CONVOY_HIT_PROFILE												= 120.0,  	-- convoys has this contant hit profile
+	CONVOY_HIT_PROFILE												= 90.0,  	-- convoys has this contant hit profile
 	HIT_PROFILE_MULT 												= 100.0,  	-- multiplies hit profile of every ship
 	
 	CONVOY_RAID_MAX_REGION_TO_TASKFORCE_RATIO						= 1.5,		-- each taskforce in convoy raid mission can at most cover this many regions without losing efficiency
