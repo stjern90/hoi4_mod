@@ -2003,8 +2003,8 @@ NAI = {
 	UPGRADE_DIVISION_RELUCTANCE = 1.0,					-- How often to consider upgrading to new templates for units in the field
 	UPGRADE_PERCENTAGE_OF_FORCES = 0.01,					-- How big part of the army that should be considered for upgrading
 
-	REFIT_SHIP_RELUCTANCE = 28,							-- How often to consider refitting to new equipment variants for ships in the field
-	REFIT_SHIP_PERCENTAGE_OF_FORCES = 0.1,				-- How big part of the navy that should be considered for refitting
+	REFIT_SHIP_RELUCTANCE = 228,							-- How often to consider refitting to new equipment variants for ships in the field
+	REFIT_SHIP_PERCENTAGE_OF_FORCES = 0.001,				-- How big part of the navy that should be considered for refitting
 	NAVY_PREFERED_MAX_SIZE = 55,						-- AI will generally attempt to merge fleets into this size, but as a soft limit.
 	INVASION_COASTAL_PROVS_PER_ORDER = 28,				-- AI will consider one extra invasion per number of provinces stated here (num orders = total coast / this)
 
