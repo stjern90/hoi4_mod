@@ -1709,7 +1709,9 @@ NAI = {
 	SEA_PATH_LENGTH_SCORE_BASE = -30,           -- scoring reduction from naval paths for AI when picking trade partners
 	NAVAL_TRANSPORTS_FASEA_PATH_LENGTH_SCORE_BASE = -30,           -- scoring reduction from naval paths for AI when picking trade partners
 	MINIMUM_GOOD_TRADE_RATIO_PER_CIV = 0.005,   -- for each civ factory we have mul with this we are allowed to trade under % of resource on a trade
-	NAVAL_DOCKYARDS_SHIP_FACTOR = 2,			-- The extent to which number of dockyards play into amount of sips a nation wants
+	NAVAL_DOCKYARDS_SHIP_FACTOR = 1000,			-- The extent to which number of dockyards play into amount of sips a nation wants
+	NAVAL_BASES_SHIP_FACTOR = 1000,		    	-- The extent to which number of naval bases play into amount of sips a nation wants
+	NAVAL_STATES_SHIP_FACTOR = 1000,			-- The extent to which number of states play into amount of sips a nation wants
 	PRODUCTION_EQUIPMENT_SURPLUS_FACTOR = 0.15,	-- Base value for how much of currently used equipment the AI will at least strive to have in stock
 	PRODUCTION_EQUIPMENT_SURPLUS_FACTOR_GARRISON = 0.05,	-- Base value for how much of currently used equipment the AI will at least strive to have in stock for garrison forces
 	AIR_SUPERIORITY_FACTOR = 2.5,				-- Factor for air superiority score
@@ -1883,8 +1885,8 @@ NAI = {
 	DIPLOMACY_AT_WAR_WITH_ALLY_RELUCTANCE = -1000,
 	DIPLOMACY_FACTION_JOIN_COUP_INITIATOR_BONUS = 70,	-- If a country initiated coup on an another country, civil war revolter is more likely to join initiator's faction
 
-	SHIPS_PRODUCTION_BASE_COST = 10000,					-- Used by the AI to normalize IC values when picking what ship to build.
-	NEEDED_NAVAL_FACTORIES_EXPENSIVE_SHIP_BONUS = 16,   -- Amount of naval yards you need to get a bonus to building really expensive ships
+	SHIPS_PRODUCTION_BASE_COST = 1,					-- Used by the AI to normalize IC values when picking what ship to build.
+	NEEDED_NAVAL_FACTORIES_EXPENSIVE_SHIP_BONUS = 1000,   -- Amount of naval yards you need to get a bonus to building really expensive ships
 
 	AIR_WING_REINFORCEMENT_LIMIT = 200,
 	AIR_WING_SCOUT_REINFORCEMENT_LIMIT = 50,
@@ -2003,9 +2005,9 @@ NAI = {
 	UPGRADE_DIVISION_RELUCTANCE = 1.0,					-- How often to consider upgrading to new templates for units in the field
 	UPGRADE_PERCENTAGE_OF_FORCES = 0.01,					-- How big part of the army that should be considered for upgrading
 
-	REFIT_SHIP_RELUCTANCE = 228,							-- How often to consider refitting to new equipment variants for ships in the field
-	REFIT_SHIP_PERCENTAGE_OF_FORCES = 0.001,				-- How big part of the navy that should be considered for refitting
-	NAVY_PREFERED_MAX_SIZE = 55,						-- AI will generally attempt to merge fleets into this size, but as a soft limit.
+	REFIT_SHIP_RELUCTANCE = 500,							-- How often to consider refitting to new equipment variants for ships in the field
+	REFIT_SHIP_PERCENTAGE_OF_FORCES = 0.0,				-- How big part of the navy that should be considered for refitting
+	NAVY_PREFERED_MAX_SIZE = 50,						-- AI will generally attempt to merge fleets into this size, but as a soft limit.
 	INVASION_COASTAL_PROVS_PER_ORDER = 28,				-- AI will consider one extra invasion per number of provinces stated here (num orders = total coast / this)
 
 	CONVOY_NEED_SAFETY_BUFFER = 1.00,					-- AI will try and keep 15% more convoys than what it needs.
@@ -2022,14 +2024,14 @@ NAI = {
 
 	COMBINED_ARMS_LEVEL = 1,							-- 0 = Never, 1 = Infantry/Artillery, 2 = Go wild
 	MAX_DISTANCE_NALAV_INVASION = 350.0,				-- AI is extremely unwilling to plan naval invasions above this naval distance limit.
-	ENEMY_NAVY_STRENGTH_DONT_BOTHER = 1.9,				-- If the enemy has a navy at least these many times stronger that the own, don't bother invading
+	ENEMY_NAVY_STRENGTH_DONT_BOTHER = 10.0,				-- If the enemy has a navy at least these many times stronger that the own, don't bother invading
 	MIN_SUPPLY_USE_SANITY_CAP = 100,					-- Ignore supply cap if below this value when deciding on how many divisions to produce.
 	MAX_SUPPLY_DIVISOR = 1.9,							-- To make sure the AI does not overdeploy divisions. Higher number means more supply per unit.
 	MISSING_CONVOYS_BOOST_FACTOR = 18.0,					-- The more convoys a country is missing, the more resources it diverts to cover this.
 	TRANSPORTS_PER_PARATROOPER = 20,					-- Air transports only duty is to drop paratroopers.
 	MAX_MICRO_ATTACKS_PER_ORDER = 3,					-- AI goes through its orders and checks if there are situations to take advantage of
 	FALLBACK_LOSING_FACTOR = 1.0,						-- The lower this number, the longer the AI will hold the line before sending them to the fallback line
-	PRODUCTION_MAX_PROGRESS_TO_SWITCH_NAVAL = 0.3,		-- AI will not replace ships being built by newer types if progress is above this
+	PRODUCTION_MAX_PROGRESS_TO_SWITCH_NAVAL = 0.01,		-- AI will not replace ships being built by newer types if progress is above this
 	STATE_CONTROL_FOR_AREA_DEFENSE = 0.4,				-- To avoid AI sending area defense to area with very little foothold
 	FORCE_FACTOR_AGAINST_EXTRA_MINOR = 0.15,			-- AI considers generating wargoals against minors below this % of force compared to themselves to get at a bigger enemy.
 	MAX_EXTRA_WARGOAL_GENERATION = 2,					-- AI may want to generate wargoals against weak minors to get at larger enemy, but never more that this at any given time.
@@ -2189,7 +2191,7 @@ NAI = {
 	
 	IMPORTANT_VICTORY_POINT = 15,						-- during occupation ai will only care so much to ask for extra garrisons if VP amount is at least this 
 	
-	DOCKYARDS_PER_NAVAL_DESIRE_EFFECT = -20.0,			-- Effects how much AI wants to build dockyards based on how navally focused they are in general. Recommended range -100.0 to 100.0.
+	DOCKYARDS_PER_NAVAL_DESIRE_EFFECT = -25.0,			-- Effects how much AI wants to build dockyards based on how navally focused they are in general. Recommended range -100.0 to 100.0.
 
 	DECISION_PRIORITY_RANDOMIZER = 0.1,					-- random factor that is used while picking decisions. ai is able to pick a lower priority decision earler than a higher one if it is within this threshold
 	
