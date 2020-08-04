@@ -2007,7 +2007,7 @@ NAI = {
 
 	REFIT_SHIP_RELUCTANCE = 500,							-- How often to consider refitting to new equipment variants for ships in the field
 	REFIT_SHIP_PERCENTAGE_OF_FORCES = 0.0,				-- How big part of the navy that should be considered for refitting
-	NAVY_PREFERED_MAX_SIZE = 50,						-- AI will generally attempt to merge fleets into this size, but as a soft limit.
+	NAVY_PREFERED_MAX_SIZE = 46,						-- AI will generally attempt to merge fleets into this size, but as a soft limit.
 	INVASION_COASTAL_PROVS_PER_ORDER = 28,				-- AI will consider one extra invasion per number of provinces stated here (num orders = total coast / this)
 
 	CONVOY_NEED_SAFETY_BUFFER = 1.00,					-- AI will try and keep 15% more convoys than what it needs.
@@ -2037,7 +2037,7 @@ NAI = {
 	MAX_EXTRA_WARGOAL_GENERATION = 2,					-- AI may want to generate wargoals against weak minors to get at larger enemy, but never more that this at any given time.
 	NAVAL_MISSION_DISTANCE_BASE = 3500,					-- Base value when AI is evaluating distance score to places
 	NAVAL_MISSION_INVASION_BASE = 1000,					-- Base score for region with naval invasion (modified dynamically by prioritizing orders)
-	NAVAL_MISSION_AGGRESSIVE_PATROL_DIVISOR = 2,		-- Divides patrol score when not defending
+	NAVAL_MISSION_AGGRESSIVE_PATROL_DIVISOR = 1,		-- Divides patrol score when not defending
 	NAVAL_MISSION_AGGRESSIVE_ESCORT_DIVISOR = 2,		-- Divides escort score when not defending
 	NAVAL_MISSION_PATROL_NEAR_OWNED = 500,			-- Extra patrol mission score near owned provinces
 	NAVAL_MISSION_ESCORT_NEAR_OWNED = 300,			-- Extra escort mission score near owned provinces
@@ -2225,7 +2225,7 @@ NAI = {
 	
 	MIN_CAPITALS_FOR_CARRIER_TASKFORCE = 2,			-- carrier fleets will at least have this amount of capitals
 	CAPITALS_TO_CARRIER_RATIO = 1.5,				-- capital to carrier count in carrier taskfoces
-	SCREENS_TO_CAPITAL_RATIO = 4.0,					-- screens to capital/carrier count in carrier & capital taskforces
+	SCREENS_TO_CAPITAL_RATIO = 3.5,					-- screens to capital/carrier count in carrier & capital taskforces
 	
 	MISSION_FLEET_ICONS = {
 		4, -- HOLD 
@@ -2281,10 +2281,10 @@ NAI = {
 	
 	-- all-screen taskforces will be shared between convoy defense, mine missions and patrols (in this prio) 
 	-- and these ratios limits the maximum ratio of these taskforces to allocate on type
-	MAX_SCREEN_TASKFORCES_FOR_CONVOY_DEFENSE_MIN = 0.30, -- maximum ratio of all screen-ships forces to be used in convoy defense (increases up to max as AI loses convoys).
+	MAX_SCREEN_TASKFORCES_FOR_CONVOY_DEFENSE_MIN = 0.25, -- maximum ratio of all screen-ships forces to be used in convoy defense (increases up to max as AI loses convoys).
 	MAX_SCREEN_TASKFORCES_FOR_CONVOY_DEFENSE_MAX = 0.60, -- maximum ratio of all screen-ships forces to be used in convoy defense (increases up to max as AI loses convoys).
 	MAX_SCREEN_TASKFORCES_FOR_CONVOY_DEFENSE_MIN_CONVOY_THREAT = 100, -- AI will increase screen assignment for escort missions as threate increases
-	MAX_SCREEN_TASKFORCES_FOR_CONVOY_DEFENSE_MAX_CONVOY_THREAT = 1500,-- AI will increase screen assignment for escort missions as threate increases
+	MAX_SCREEN_TASKFORCES_FOR_CONVOY_DEFENSE_MAX_CONVOY_THREAT = 2500,-- AI will increase screen assignment for escort missions as threate increases
 	
 	
 	MAX_SCREEN_TASKFORCES_FOR_MINE_SWEEPING = 0.05, -- maximum ratio of screens forces to be used in mine sweeping
@@ -2362,8 +2362,8 @@ NAI = {
 	AGGRESSIVENESS_CHECK_PARTLY_FORTIFIED_WEAK_POINTS = 0.75,	-- if front strength balance is at or above this value versus a party fortified enemy, we rush attack weak points; below this value, we are careful
 	AGGRESSIVENESS_CHECK_FULLY_FORTIFIED = 10,					-- if front strength balance is at or above this value versus a fully fortified enemy with no weak points, we do a balanced attack instead being careful
 	AGGRESSIVENESS_CHECK_FULLY_FORTIFIED_POCKET = 6,			-- if front strength balance is at or above this value versus a fully fortified enemy in a pocket, we do a balanced attack instead being careful
-	FRONT_EVAL_UNIT_ACCURACY = 0.7,								-- scale how stupid ai will act on fronts. 0 is potato
-	FRONT_EVAL_UNIT_SUPPLY_AND_ORG_LACK_IMPACT = 0.0,			-- scale how painful the AI thinks a combined lack of supply and organization is for units
+	FRONT_EVAL_UNIT_ACCURACY = 0.8,								-- scale how stupid ai will act on fronts. 0 is potato
+	FRONT_EVAL_UNIT_SUPPLY_AND_ORG_LACK_IMPACT = 0.2,			-- scale how painful the AI thinks a combined lack of supply and organization is for units
 
 	PRODUCTION_CARRIER_PLANE_BUFFER_RATIO = 3,				-- in additiona to total deck size of carriers, we want at list this ratio to buffer it
 	PRODUCTION_CARRIER_PLANE_PRODUCTION_BOOST_TO_BUFFER = 4.0,  -- production of carrier planes will go up by this ratio if we lack buffers
@@ -2400,7 +2400,7 @@ NAI = {
 	},
 
 	MIN_INVASION_PLAN_VALUE_TO_EXECUTE = 0.2,				-- ai will only activate invasions if it is above this
-	MAX_INVASION_SIZE = 24,									-- max invasion group size
+	MAX_INVASION_SIZE = 28,									-- max invasion group size
 	
 	MAX_PORT_STRIKE_HISTORY_TO_REMEMBER = 5000,				-- maximum port strike history to keep track (will be used to disable ports
 	PORT_STRIKE_HISTORY_DECAY_MIN = 10,						-- minimum decay for port strike history (<7 days since last port strike)
