@@ -307,7 +307,7 @@ dont_invade = {
 torch_invasion = {
 enable = {
 OR = { is_in_faction_with = ENG tag = ENG }
-NOT = { has_global_flag = SUEZ_CANAL_BLOCKED }
+
 NOT = { any_state = { OR = { region = 126 region = 128 region = 139 region = 17 region = 182 } controller = { has_war_with = ENG } } }
 has_army_manpower = { size > 200000 }
 
@@ -324,7 +324,6 @@ AND = { date > 1942.2.1 alliance_strength_ratio > 1.4 }
 abort = {
 	OR = {     any_state = { OR = { region = 126 region = 128 region = 139 region = 17 region = 182 } controller = { has_war_with = ENG } }
 alliance_strength_ratio < 0.65 
-has_global_flag = SUEZ_CANAL_BLOCKED
 }
 	}
 ai_strategy = { type = invade id = "ITA" value = 6000 }
@@ -357,6 +356,14 @@ alliance_strength_ratio > 0.75
 GER = { has_war_with = SOV }
 date > 1945.2.1
 }
+
+AND ={
+alliance_strength_ratio > 0.9
+alliance_naval_strength_ratio > 1.5
+GER = { has_war_with = SOV }
+SOV = { surrender_progress > 0.15 }
+date > 1943.11.1
+}
 }
 
 
@@ -368,7 +375,7 @@ surrender_progress < 0.05
 }
 
 abort = {
-	OR = {     any_state = { OR = { region = 126 region = 128 region = 139 region = 17 region = 182 } controller = { has_war_with = ENG } }
+	OR = {     any_state = { OR = { state = 115 region = 126 region = 128 region = 139 region = 17 region = 182 } controller = { has_war_with = ENG } }
 alliance_strength_ratio < 0.65 }
 	}
 	
@@ -444,47 +451,84 @@ alliance_strength_ratio < 0.9
 j_invasion_2 = {
 allowed = { tag = USA }
 enable = {
-#NOT = { any_state = { OR = { region = 126 region = 128 region = 139 region = 17 region = 182 } controller = { has_war_with = USA } } }
+has_war_with = JAP
+date > 1942.11.15
+NOT = { 
+633 = { is_controlled_by_ROOT_or_ally = yes }
+684 = { is_controlled_by_ROOT_or_ally = yes }
+648 = { is_controlled_by_ROOT_or_ally = yes }
+}
 has_army_manpower = { size > 200000 }
 alliance_strength_ratio > 1.0
 surrender_progress < 0.05
 USA = { surrender_progress < 0.05 }
-has_war_with = JAP
-date > 1942.11.15
-date < 1943.2.30
+
 }
 
 abort = {
-	    #any_state = { OR = { region = 126 region = 128 region = 139 region = 17 region = 182 } controller = { has_war_with = GER } }
+	    
 OR = { alliance_strength_ratio < 0.9
-date > 1943.2.30
+AND = {
+633 = { is_controlled_by_ROOT_or_ally = yes }
+684 = { is_controlled_by_ROOT_or_ally = yes }
+648 = { is_controlled_by_ROOT_or_ally = yes }
+}
 }
 	}
 	
 ai_strategy = { type = invade id = "JAP" value = 2100 }
 ai_strategy = { type = invade id = "INS" value = 2100 }
 ai_strategy = { type = invade id = "SIA" value = 2100 }
-    
+
+ai_strategy = {
+		type = front_control
+		state = 633
+		state = 684
+		state = 648
+		
+		priority = 1000
+		ordertype = invasion
+		execute_order = yes
+	}  
 
 }
 
 j_invasion_3 = {
 allowed = { tag = USA }
 enable = {
-#NOT = { any_state = { OR = { region = 126 region = 128 region = 139 region = 17 region = 182 } controller = { has_war_with = USA } } }
+has_war_with = JAP
+date > 1943.6.15
+633 = { is_controlled_by_ROOT_or_ally = yes }
+684 = { is_controlled_by_ROOT_or_ally = yes }
+648 = { is_controlled_by_ROOT_or_ally = yes }
+
+NOT = { 
+645 = { is_controlled_by_ROOT_or_ally = yes }
+647 = { is_controlled_by_ROOT_or_ally = yes }
+627 = { is_controlled_by_ROOT_or_ally = yes }
+}
+
 has_army_manpower = { size > 200000 }
 alliance_strength_ratio > 1.0
 surrender_progress < 0.05
 USA = { surrender_progress < 0.05 }
-has_war_with = JAP
-date > 1943.11.15
-date < 1944.2.30
+
 }
 
 abort = {
 	    #any_state = { OR = { region = 126 region = 128 region = 139 region = 17 region = 182 } controller = { has_war_with = GER } }
 OR = { alliance_strength_ratio < 0.9
-date > 1944.2.30
+NOT = { 
+633 = { is_controlled_by_ROOT_or_ally = yes }
+684 = { is_controlled_by_ROOT_or_ally = yes }
+648 = { is_controlled_by_ROOT_or_ally = yes }
+}
+
+AND = {
+645 = { is_controlled_by_ROOT_or_ally = yes }
+647 = { is_controlled_by_ROOT_or_ally = yes }
+627 = { is_controlled_by_ROOT_or_ally = yes }
+}
 }
 	}
 	
@@ -492,18 +536,39 @@ ai_strategy = { type = invade id = "JAP" value = 3000 }
     ai_strategy = { type = invade id = "INS" value = 2200 }
 ai_strategy = { type = invade id = "SIA" value = 2200 }
 
+ai_strategy = {
+		type = front_control
+		state = 645
+		state = 647
+		state = 627
+		
+		priority = 1000
+		ordertype = invasion
+		execute_order = yes
+	}
+
 }
 
 j_invasion_4 = {
 allowed = { tag = USA }
 enable = {
-#NOT = { any_state = { OR = { region = 126 region = 128 region = 139 region = 17 region = 182 } controller = { has_war_with = USA } } }
+has_war_with = JAP
+date > 1945.2.15
+633 = { is_controlled_by_ROOT_or_ally = yes }
+684 = { is_controlled_by_ROOT_or_ally = yes }
+648 = { is_controlled_by_ROOT_or_ally = yes }
+
+
+645 = { is_controlled_by_ROOT_or_ally = yes }
+647 = { is_controlled_by_ROOT_or_ally = yes }
+627 = { is_controlled_by_ROOT_or_ally = yes }
+
 has_army_manpower = { size > 200000 }
 alliance_strength_ratio > 1.0
 surrender_progress < 0.05
 USA = { surrender_progress < 0.05 }
-has_war_with = JAP
-date > 1945.3.15
+
+
 }
 
 abort = {
