@@ -165,6 +165,54 @@ USA_ask_ENG_FRA_for_access_before_war = {
 	}
 }
 
+USA_unit_buffer_for_pacific = {
+	allowed = {
+		original_tag = USA
+	}
+	enable = {
+		date > 1940.1.1
+	}
+	
+	abort_when_not_enabled = yes
+	
+	ai_strategy = {
+		type = put_unit_buffers
+		ratio = 0.06
+		states = { 
+			642
+			726
+			727 
+			630
+            629			
+		}
+		subtract_invasions_from_need = no # need to always guard here!
+	}
+}
+
+USA_unit_buffer_for_AST = {
+	allowed = {
+		original_tag = USA
+	}
+	enable = {
+		date > 1940.1.1
+	}
+	
+	abort_when_not_enabled = yes
+	
+	ai_strategy = {
+		type = put_unit_buffers
+		ratio = 0.06
+		states = { 
+			642
+			726
+			727 
+			630
+            629			
+		}
+		subtract_invasions_from_need = no # need to always guard here!
+	}
+}
+
 
 # USA should put some buffer units in africa and ENG to help with invasions
 USA_unit_buffer_for_europe = {
@@ -326,49 +374,36 @@ USA_unit_buffer_for_pacific = {
 		original_tag = USA
 	}
 	enable = {
-	    OR = {
-		AND = { date > 1941.1.1 date < 1942.2.1 }
 		has_war_with = JAP
+		OR = {
+		336 = { CONTROLLER = { has_war_with = USA } }
+		327 = { CONTROLLER = { has_war_with = USA } }
 		}
 	}
 	
 	abort = {
-		date > 1942.2.1
+	    OR  = {
 		NOT = { has_war_with = JAP }
+		NOT = {
+		336 = { CONTROLLER = { has_war_with = USA } }
+		327 = { CONTROLLER = { has_war_with = USA } }
+		}
+		}
 	}
 	
 	ai_strategy = {
 		type = put_unit_buffers
-		ratio = 0.15
+		ratio = 0.08
 		states = { 
 
 			### ast
 			520
 			521
-			522
-			517
-			285
+			737
+			523
+			634
 		}
-		subtract_invasions_from_need = no
-		subtract_fronts_from_need = no
-	}
-	
-	ai_strategy = {
-		type = put_unit_buffers
-		ratio = 0.15
-		states = { 
-			### phi
-			623
-			327
-			624
-			625
-			627
-		}
-		subtract_invasions_from_need = no
-		subtract_fronts_from_need = no
-	}
-	
-	
+	}	
 }
 
 USA_gang_up_GER_with_ENG = {
@@ -1012,5 +1047,52 @@ save_eng = {
 	ai_strategy = { type = area_priority id = europe 			value = 150 }
 	ai_strategy = { type = area_priority id = north_america 	value = -70 }
 	ai_strategy = { type = area_priority id = south_america 	value = -40 }
+}
+
+border_garrison_eng_usa = {
+	allowed = {
+		OR = { 
+			tag = ENG
+			tag = USA
+		}
+	}
+	enable = {
+		is_historical_focus_on = yes
+		has_war = yes
+	}
+
+	abort_when_not_enabled = yes
+
+	ai_strategy = {
+		type = front_unit_request
+
+		country_trigger = {
+
+			is_neighbor_of = FROM
+
+			NOT = { 
+				has_war_with = FROM
+
+				is_justifying_wargoal_against = FROM
+				FROM = { is_justifying_wargoal_against = PREV }
+
+				has_wargoal_against = FROM
+				FROM = { has_wargoal_against = PREV }
+			}
+
+			OR = {
+				has_non_aggression_pact_with = FROM
+
+				AND = { 
+					strength_ratio = { tag = FROM ratio < 0.2 } 
+					is_in_faction = no 
+				}
+				
+				is_guaranteed_by = FROM
+			}
+		}
+
+		value = -200
+	}
 }
 
