@@ -1134,7 +1134,7 @@ NNavy = {
 	DETECTION_CHANCE_MULT_AIR_SUPERIORITY_BONUS = 0.15,			-- bonus from air superiority.
 
 	MAX_CAPITALS_PER_AUTO_TASK_FORCE = 5,							-- maximum number of capital ships the auto-task force creation will put together when designing SurfaceActionGroup
-	MAX_SUBMARINES_PER_AUTO_TASK_FORCE = 30,						-- maximum number of submarines the auto-task force creation will put together when designing wolfpack
+	MAX_SUBMARINES_PER_AUTO_TASK_FORCE = 10,						-- maximum number of submarines the auto-task force creation will put together when designing wolfpack
 	BEST_CAPITALS_TO_CARRIER_RATIO = 1,							-- capitals / carriers ratio used when auto-task force creation designs CarrierTaskForce
 	BEST_CAPITALS_TO_SCREENS_RATIO = 0.3, 							-- capitals / screens ratio used for creating FEX groups in naval combat
 	COMBAT_BASE_HIT_CHANCE = 0.1,									-- base chance for hit
@@ -1202,7 +1202,7 @@ NNavy = {
 	AMPHIBIOUS_INVADE_DEFEND_HIGH = 1.0,
 	AMPHIBIOUS_INVADE_LANDING_PENALTY_DECREASE = 3.5, 				-- scale of bonus that decreases "amphibious penalty" during combat, relative to invading transporter tech.
 	BASE_CARRIER_SORTIE_EFFICIENCY = 0.60,							-- factor of planes that can sortie by default from a carrier
-	CONVOY_ATTACK_BASE_FACTOR = 0.13,                               -- base % of convoys that get intercepted
+	CONVOY_ATTACK_BASE_FACTOR = 0.14,                               -- base % of convoys that get intercepted
 	NAVAL_SPEED_MODIFIER = 0.12,	                    				-- basic speed control
 	NAVAL_RANGE_TO_INGAME_DISTANCE = 0.12,							-- Scale the ship stats "naval_range" to the ingame distance
 	NAVAL_INVASION_PREPARE_HOURS = 168,								-- base hours needed to prepare an invasion
@@ -1548,7 +1548,7 @@ NNavy = {
 	DEPTH_CHARGES_HIT_PROFILE 										= 100.0,	-- hit profile for depth charges
 	
 	
-	CONVOY_HIT_PROFILE												= 90.0,  	-- convoys has this contant hit profile
+	CONVOY_HIT_PROFILE												= 100.0,  	-- convoys has this contant hit profile
 	HIT_PROFILE_MULT 												= 100.0,  	-- multiplies hit profile of every ship
 	
 	CONVOY_RAID_MAX_REGION_TO_TASKFORCE_RATIO						= 1.5,		-- each taskforce in convoy raid mission can at most cover this many regions without losing efficiency
@@ -1579,7 +1579,7 @@ NNavy = {
 	SUBMARINE_REVEALED_TIMEOUT 										= 18,		-- Amount of in-game-hours that makes the submarine visible if it is on the defender side.
 	SUBMARINE_REVEAL_BASE_CHANCE 									= 12,		-- Base factor for submarine detection. It's modified by the difference of a spotter's submarines detection vs submarine visibility. Use this variable for game balancing. setting this too low will cause bad spotting issues.
 	SUBMARINE_REVEAL_POW 											= 3.0,		-- A scaling factor that is applied to the reveal chance in order to make large differences in detection vs visibility more pronounced
-	SUBMARINE_BASE_TORPEDO_REVEAL_CHANCE 							= 0.07,		-- Chance of a submarine being revealed when it fires. 1.0 is 100%. this chance is then multiplied with modifier created by comparing firer's visibiility and target's detection
+	SUBMARINE_BASE_TORPEDO_REVEAL_CHANCE 							= 0.08,		-- Chance of a submarine being revealed when it fires. 1.0 is 100%. this chance is then multiplied with modifier created by comparing firer's visibiility and target's detection
 	
 	MAX_NUM_HOURS_TO_WAIT_AT_ALLY_DOCKYARDS_FOR_REPAIRS 			= 48,		-- taskforces will wait at most this amount of hours in ally bases for repairs before switching to another base for repairs
 	
