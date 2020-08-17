@@ -20,18 +20,17 @@ focus_tree = {
            
 		x = 17
 		y = 8
-		cost = 5.9
+		cost = 6
 		available = {
-			OR = {
-				has_war = yes
-				threat > 0.25
-			}
 		}
         continue_if_invalid = yes
 		available_if_capitulated = yes
 
 		completion_reward = {
-			add_political_power = 25
+		    every_country = {
+	    		limit = { is_in_faction_with = ROOT }
+	    		add_political_power = 30               # todo: notification event?
+			}
 		    unlock_decision_tooltip = ENG_civ_develop_burma_and_malaya_decision
 		    unlock_decision_tooltip = ENG_civ_develop_egypt_decision
 		    unlock_decision_tooltip = ENG_civ_develop_yemen_decision
@@ -745,41 +744,9 @@ focus_tree = {
 		completion_reward = {
 			add_political_power = 50
 			unlock_decision_category_tooltip = ENG_commonwealth_industry_develop_decision
-			CAN = {
-				if = {
-					limit = { is_in_faction_with = ENG }
-					add_opinion_modifier = { target = ENG modifier = democratic_leanings_good }
-				}
-			}
-			AST = {
-				if = {
-					limit = { is_in_faction_with = ENG }
-					add_opinion_modifier = { target = ENG modifier = democratic_leanings_good }
-				}
-			}
-			RAJ = {
-				if = {
-					limit = { is_in_faction_with = ENG }
-					add_opinion_modifier = { target = ENG modifier = democratic_leanings_good }
-				}
-			}
-			NZL = {
-				if = {
-					limit = { is_in_faction_with = ENG }
-					add_opinion_modifier = { target = ENG modifier = democratic_leanings_good }
-				}
-			}
-			SAF = {
-				if = {
-					limit = { is_in_faction_with = ENG }
-					add_opinion_modifier = { target = ENG modifier = democratic_leanings_good }
-				}
-			}
-			EGY = {
-				if = {
-					limit = { is_in_faction_with = ENG }
-					add_opinion_modifier = { target = ENG modifier = democratic_leanings_good }
-				}
+			every_country = {
+	    		limit = { is_in_faction_with = ROOT }
+				add_opinion_modifier = { target = ENG modifier = democratic_leanings_good }
 			}
 		}
 	}
@@ -1057,7 +1024,7 @@ add_popularity = {
 		icon = GFX_focus_aristocrats
 		x = 17
 		y = 7
-		cost = 7
+		cost = 6
 
 		available_if_capitulated = yes
 
@@ -1095,6 +1062,7 @@ add_popularity = {
 						instant_build = yes
 					}
 				}
+				add_compliance = 10
 			}
 			701 = {
 				if = {
@@ -1112,6 +1080,7 @@ add_popularity = {
 						instant_build = yes
 					}
 				}
+				add_compliance = 10
 			}
 			545 = {
 				if = {
@@ -1129,6 +1098,7 @@ add_popularity = {
 						instant_build = yes
 					}
 				}
+				add_compliance = 10
 			}
 		}
 
@@ -1143,19 +1113,17 @@ add_popularity = {
 		prerequisite = {
 			focus = ENG_overseas_military
 		}
-		available = { has_completed_focus = ENG_subsaharan_colonies }
+		available = { 
+		has_completed_focus = ENG_subsaharan_colonies
+        558 = { is_owned_and_controlled_by = ROOT }
+		}
 		x = 18
 		y = 10
 		completion_reward = {
 			558 = {
-				if = {
-					limit = {
-						is_owned_and_controlled_by = ROOT
-					}
-					add_resource = {
-						type = oil
-						amount = 15
-					}
+				add_resource = {
+					type = oil
+					amount = 15
 				}
 			}
 		}
@@ -1232,7 +1200,7 @@ add_popularity = {
 		id = ENG_admiralty
 		icon = GFX_GEA_status_of_the_Admirality
 		prerequisite = { focus = ENG_limited_rearmament }
-		x = 2
+		x = 0
 		y = 3
 		cost = 6
 		available = {
@@ -1260,25 +1228,187 @@ add_popularity = {
 		}
 	}
 	
+	
+	focus = {
+		id = ENG_reaffirm_naval
+		icon = GFX_goal_generic_navy_battleship
+		prerequisite = { focus = ENG_admiralty }
+		relative_position_id = ENG_admiralty
+		x = -1
+		y = 1
+		cost = 2.5
+		available = {
+			has_completed_focus = ENG_appeasement
+			has_naval_treaty_trigger = yes
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		bypass = {
+		    has_naval_treaty_trigger_no = yes
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			navy_experience = 30
+			add_stability = 0.04
+		}
+	}
+	focus = {
+		id = ENG_expand_naval_production
+		prerequisite = { focus = ENG_admiralty }
+		icon = GFX_goal_generic_construct_naval_dockyard
+		relative_position_id = ENG_admiralty
+		x = 1
+		y = 1
+		cost = 4
+
+		available = {
+		    has_completed_focus = ENG_containment
+            has_naval_treaty_trigger = yes		
+		}
+		
+		bypass = {
+    		NOT = { has_naval_treaty_trigger = yes }
+		}
+		ai_will_do = {
+			factor = 0.25
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					is_coastal = yes
+					is_core_of = ENG
+					free_building_slots = {
+						building = dockyard
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 3
+				add_building_construction = {
+					type = dockyard
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = ENG_new_battleships
+		prerequisite = { focus = ENG_expand_naval_production }
+		icon = GFX_ENG_battleship
+		relative_position_id = ENG_admiralty
+		x = 1
+		y = 2
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+		
+		available = {
+            has_naval_treaty_trigger = yes		
+		}
+		
+		bypass = {
+    		NOT = { has_naval_treaty_trigger = yes }
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			navy_experience = 35
+			add_tech_bonus = {
+				name = uk_battleship_focus
+				bonus = 1.0
+				uses = 1
+				category = bb_tech
+			}
+			add_tech_bonus = {
+				name = ENG_new_battleships
+				bonus = 1.0
+				uses = 1
+				technology = improved_heavy_battery
+			}
+			
+			effect_tooltip = {
+			FRA = { add_opinion_modifier = { target = ROOT modifier = JAP_broke_the_london_naval_treaty } }
+			USA = { add_opinion_modifier = { target = ROOT modifier = JAP_broke_the_london_naval_treaty } }
+			}		
+            add_stability = -0.05			
+			save_global_event_target_as = broke_london_treaty
+	    	news_event = { id = japan.37 days = 30 }
+		}
+	}
+	focus = {
+		id = ENG_nyon_conference
+		icon = GFX_goal_generic_navy_cruiser
+		prerequisite = { focus = ENG_reaffirm_naval }
+		relative_position_id = ENG_admiralty
+		x = -1
+		y = 2   # todo: negative opinion for franco
+		cost = 3
+		available = {
+		    has_global_flag = spanish_civil_war
+		}
+		bypass = {
+		    date > 1937.8.1
+			OR = {
+			NOT = { has_global_flag = spanish_civil_war }
+			SPR = { has_civil_war = no }
+			}
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			navy_experience = 35
+			add_tech_bonus = {
+				bonus = 0.75
+				uses = 1
+				category = convoy_defense_tree
+			}
+			if = { limit = { SPA = { exists = yes } } 
+			SPA  = {
+				add_opinion_modifier = { target = ENG modifier = protest_action }
+			}
+			}
+		}
+	}
 	focus = {
 		id = ENG_naval_rearmament
-		prerequisite = { focus = ENG_admiralty }
+		prerequisite = { focus = ENG_nyon_conference focus = ENG_new_battleships }
 		icon = GFX_goal_generic_occupy_states_coastal 
 		relative_position_id = ENG_admiralty
-		x = 0
-		y = 1
-		cost = 7
+		x = 1
+		y = 3
+		cost = 10
 		ai_will_do = {
 			factor = 1
 		}
 
 		available_if_capitulated = yes
 
-		bypass = {
-
+		available = {
+            threat > 0.1
 		}
 
 		complete_tooltip = {
+		    add_tech_bonus = {
+				name = heavy_industry_tech_bonus
+				bonus = 0.5
+				uses = 3
+				technology = ship_industry
+				technology = ship_industry2
+				technology = ammo_industry
+				technology = ammo_industry2
+				technology = sub_industry
+				technology = sub_industry2
+			}
 			every_state = {
 				limit = { has_state_flag = ENG_naval_rearmament_focus_1dockyard }
 				add_extra_state_shared_building_slots = 2
@@ -1306,10 +1436,21 @@ add_popularity = {
 					instant_build = yes
 				}
 			}
+			
 		}
 
 		completion_reward = {
-			
+			add_tech_bonus = {
+				name = heavy_industry_tech_bonus
+				bonus = 0.5
+				uses = 3
+				technology = ship_industry
+				technology = ship_industry2
+				technology = ammo_industry
+				technology = ammo_industry2
+				technology = sub_industry
+				technology = sub_industry2
+			}
 			random_owned_controlled_state = {
 			    prioritize = { 133 }
 				limit = {
@@ -1353,134 +1494,12 @@ add_popularity = {
 		}
 	}
 	focus = {
-		id = ENG_reaffirm_naval
-		icon = GFX_goal_generic_navy_battleship
-		prerequisite = { focus = ENG_naval_rearmament }
-		relative_position_id = ENG_naval_rearmament
-		x = -1
-		y = 1
-		cost = 3.2
-		available = {
-			has_completed_focus = ENG_appeasement
-			has_naval_treaty_trigger = yes
-		}
-		ai_will_do = {
-			factor = 1
-		}
-		bypass = {
-		    has_naval_treaty_trigger_no = yes
-		}
-
-		available_if_capitulated = yes
-
-		completion_reward = {
-			navy_experience = 30
-			add_stability = 0.03
-		}
-	}
-	focus = {
-		id = ENG_expand_naval_production
-		prerequisite = { focus = ENG_naval_rearmament }
-		icon = GFX_goal_generic_construct_naval_dockyard
-		relative_position_id = ENG_naval_rearmament
-		x = 1
-		y = 1
-		cost = 4
-		available = {
-			has_completed_focus = ENG_containment
-		}
-		ai_will_do = {
-			factor = 0.25
-		}
-
-		available_if_capitulated = yes
-
-		completion_reward = {
-			random_owned_controlled_state = {
-				limit = {
-					is_coastal = yes
-					is_core_of = ENG
-					free_building_slots = {
-						building = dockyard
-						size > 0
-						include_locked = yes
-					}
-				}
-				add_extra_state_shared_building_slots = 3
-				add_building_construction = {
-					type = dockyard
-					level = 3
-					instant_build = yes
-				}
-			}
-		}
-	}
-	focus = {
-		id = ENG_new_battleships
-		prerequisite = { focus = ENG_expand_naval_production }
-		icon = GFX_ENG_battleship
-		relative_position_id = ENG_naval_rearmament
-		x = 1
-		y = 2
-		cost = 5
-		ai_will_do = {
-			factor = 1
-		}
-
-		available_if_capitulated = yes
-
-		completion_reward = {
-			navy_experience = 35
-			add_tech_bonus = {
-				name = uk_battleship_focus
-				bonus = 0.75
-				uses = 1
-				category = bb_tech
-			}
-		}
-	}
-	focus = {
-		id = ENG_nyon_conference
-		icon = GFX_goal_generic_navy_cruiser
-		prerequisite = { focus = ENG_reaffirm_naval }
-		relative_position_id = ENG_naval_rearmament
-		x = -1
-		y = 2   # todo: negative opinion for franco
-		cost = 3
-		available = {
-		    has_global_flag = spanish_civil_war
-		}
-		bypass = {
-		    date > 1937.8.1
-			OR = {
-			NOT = { has_global_flag = spanish_civil_war }
-			SPR = { has_civil_war = no }
-			}
-		}
-
-		available_if_capitulated = yes
-
-		completion_reward = {
-			navy_experience = 35
-			add_tech_bonus = {
-				bonus = 0.75
-				uses = 1
-				category = convoy_defense_tree
-			}
-			if = { limit = { SPA = { exists = yes } } 
-			SPA  = {
-				add_opinion_modifier = { target = ENG modifier = protest_action }
-			}
-			}
-		}
-	}
-	focus = {
 		id = ENG_rules_the_waves
 		prerequisite = { focus = ENG_nyon_conference focus = ENG_new_battleships }
 		icon = GFX_goal_generic_navy_doctrines_tactics
-		relative_position_id = ENG_naval_rearmament
+		relative_position_id = ENG_admiralty
 		x = -2
-		y = 3
+		y = 4
 		cost = 7
 		ai_will_do = {
 			factor = 1
@@ -1498,15 +1517,101 @@ add_popularity = {
 		}
 	}
 	focus = {
+		id = ENG_expand_the_repair_yards
+		prerequisite = { focus = ENG_nyon_conference focus = ENG_new_battleships }
+		icon = GFX_goal_generic_production
+		relative_position_id = ENG_admiralty
+		x = -1
+		y = 3
+		cost = 4
+		ai_will_do = {
+			factor = 1
+		}
+
+		allow_branch = {
+			has_dlc = "Man the Guns"
+		}
+
+		available_if_capitulated = yes
+
+		complete_tooltip = {
+			every_state = {
+				limit = { has_state_flag = ENG_expand_the_repair_yards_2dockyard }
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = dockyard
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					is_coastal = yes
+					free_building_slots = {
+						building = dockyard
+						size > 1
+						include_locked = yes
+					}
+					is_core_of = ROOT
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = dockyard
+					level = 1
+					instant_build = yes
+				}
+				set_state_flag = ENG_expand_the_repair_yards_2dockyard
+			}
+			add_ideas = ENG_expand_the_repair_yards
+		}
+	}
+	focus = {
+		id = ENG_inchindown_tanks
+		prerequisite = { focus = ENG_nyon_conference focus = ENG_new_battleships }
+		available = { 
+			
+		}
+
+		continue_if_invalid = yes
+
+		icon = GFX_goal_wirtschaftliche_forschungsgesellschaft
+		relative_position_id = ENG_admiralty
+		x = 2
+		y = 4
+		cost = 3.6
+		ai_will_do = {
+			factor = 1
+		}	
+		completion_reward = {
+			120 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = fuel_silo
+					level = 2
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = naval_base
+					level = 1
+					instant_build = yes
+					province = 3159	
+				}
+			}
+		}
+	}
+	focus = {
 		id = ENG_royal_navy
 		
-		prerequisite = { focus = ENG_rules_the_waves focus = ENG_inchindown_tanks focus = ENG_expand_the_repair_yards }
-		relative_position_id = ENG_naval_rearmament
+		prerequisite = { focus = ENG_rules_the_waves focus = ENG_inchindown_tanks focus = ENG_expand_the_repair_yards focus = ENG_naval_rearmament }
+		relative_position_id = ENG_admiralty
 		
 		icon = GFX_Goal_HM_Royal_Navy
 		x = 0 
-		y = 4
-		cost = 9
+		y = 5
+		cost = 8
 		ai_will_do = {
 			factor = 1
 		}
@@ -1535,7 +1640,7 @@ add_popularity = {
 			add_tech_bonus = {
 				name = ships_bonus
 				bonus = 0.5
-				uses = 2
+				uses = 1
 				category = naval_equipment
 			}
 			add_tech_bonus = {
@@ -1545,7 +1650,7 @@ add_popularity = {
 				category = naval_gunry
 			}
 			every_state = {
-				limit = { has_state_flag = ENG_naval_rearmament_focus2_1dockyard }
+				limit = { has_state_flag = ENG_admiralty_focus2_1dockyard }
 				add_extra_state_shared_building_slots = 2
 				add_building_construction = {
 					type = dockyard
@@ -1556,11 +1661,11 @@ add_popularity = {
 		}
 
 		completion_reward = {
-			navy_experience = 40
+			navy_experience = 50
 			add_tech_bonus = {
 				name = ships_bonus
 				bonus = 0.5
-				uses = 2
+				uses = 1
 				category = naval_equipment
 			}
 			add_tech_bonus = {
@@ -1584,7 +1689,7 @@ add_popularity = {
 					level = 2
 					instant_build = yes
 				}
-				set_state_flag = ENG_naval_rearmament_focus2_1dockyard
+				set_state_flag = ENG_admiralty_focus2_1dockyard
 			}
 			random_owned_controlled_state = {
 				limit = {
@@ -1601,7 +1706,7 @@ add_popularity = {
 					level = 2
 					instant_build = yes
 				}
-				set_state_flag = ENG_naval_rearmament_focus2_1dockyard
+				set_state_flag = ENG_admiralty_focus2_1dockyard
 			}
 		}
 	}
@@ -1611,9 +1716,9 @@ add_popularity = {
 		prerequisite = { focus = ENG_royal_navy }
 		mutually_exclusive = { focus = ENG_doc_fleet_in_being }
 		icon = GFX_base_strike_doc
-		relative_position_id = ENG_naval_rearmament
+		relative_position_id = ENG_admiralty
 		x = 1
-		y = 5
+		y = 6
 		cost = 8.4
 		ai_will_do = {
 			factor = 1
@@ -1636,9 +1741,9 @@ add_popularity = {
 		prerequisite = { focus = ENG_royal_navy }
 		mutually_exclusive = { focus = ENG_doc_base_strike }
 		icon = GFX_goal_generic_large_fleet
-		relative_position_id = ENG_naval_rearmament
+		relative_position_id = ENG_admiralty
 		x = -1
-		y = 5
+		y = 6
 		cost = 5.2
 		ai_will_do = {
 			factor = 1
@@ -1660,9 +1765,9 @@ add_popularity = {
 		id = ENG_carrier_funding 
 		prerequisite = { focus = ENG_doc_base_strike }
 		icon = GFX_goal_generic_navy_carrier
-		relative_position_id = ENG_naval_rearmament
+		relative_position_id = ENG_admiralty
 		x = 1
-		y = 6
+		y = 7
 		cost = 7
 		ai_will_do = {
 			factor = 0.25
@@ -1688,9 +1793,9 @@ add_popularity = {
 		id = ENG_naval_drill
 		prerequisite = { focus = ENG_doc_base_strike focus = ENG_doc_fleet_in_being }
 		icon = GFX_goal_generic_navy_doctrines_tactics
-		relative_position_id = ENG_naval_rearmament
+		relative_position_id = ENG_admiralty
 		x = -1
-		y = 6
+		y = 7
 		cost = 3
 		ai_will_do = {
 			factor = 1
@@ -1707,101 +1812,14 @@ add_popularity = {
 			}
 		}
 	}
-	
-	focus = {
-		id = ENG_expand_the_repair_yards
-		prerequisite = { focus = ENG_nyon_conference focus = ENG_new_battleships }
-		icon = GFX_goal_generic_production
-		relative_position_id = ENG_naval_rearmament
-		x = 0
-		y = 3
-		cost = 6.7
-		ai_will_do = {
-			factor = 1
-		}
-
-		allow_branch = {
-			has_dlc = "Man the Guns"
-		}
-
-		available_if_capitulated = yes
-
-		complete_tooltip = {
-			every_state = {
-				limit = { has_state_flag = ENG_expand_the_repair_yards_2dockyard }
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-					type = dockyard
-					level = 2
-					instant_build = yes
-				}
-			}
-		}
-
-		completion_reward = {
-			random_owned_controlled_state = {
-				limit = {
-					is_coastal = yes
-					free_building_slots = {
-						building = dockyard
-						size > 1
-						include_locked = yes
-					}
-					is_core_of = ROOT
-				}
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-					type = dockyard
-					level = 2
-					instant_build = yes
-				}
-				set_state_flag = ENG_expand_the_repair_yards_2dockyard
-			}
-			add_ideas = ENG_expand_the_repair_yards
-		}
-	}
-	focus = {
-		id = ENG_inchindown_tanks
-		prerequisite = { focus = ENG_nyon_conference focus = ENG_new_battleships }
-		available = { 
-			
-		}
-
-		continue_if_invalid = yes
-
-		icon = GFX_goal_wirtschaftliche_forschungsgesellschaft
-		relative_position_id = ENG_naval_rearmament
-		x = 2
-		y = 3
-		cost = 3.8
-		ai_will_do = {
-			factor = 1
-		}	
-		completion_reward = {
-			120 = {
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-					type = fuel_silo
-					level = 2
-					instant_build = yes
-				}
-				add_building_construction = {
-					type = naval_base
-					level = 1
-					instant_build = yes
-					province = 3159	
-				}
-			}
-		}
-	}
 	focus = {
 		id = ENG_improved_screen_ships
 		icon = GFX_goal_generic_navy_cruiser
 	 	prerequisite = { focus = ENG_doc_base_strike focus = ENG_doc_fleet_in_being }
-		relative_position_id = ENG_naval_rearmament
+		relative_position_id = ENG_admiralty
 		x = 0
-		y = 7
-		cost = 5.5
+		y = 8
+		cost = 5.3
 
 		available_if_capitulated = yes
 
@@ -1820,10 +1838,10 @@ add_popularity = {
 	focus = {
 		id = ENG_boat_menace	
 		icon = GFX_goal_generic_navy_anti_submarine
-		relative_position_id = ENG_naval_rearmament
+		relative_position_id = ENG_admiralty
 		prerequisite = { focus = ENG_improved_screen_ships }
 		x = 0
-		y = 8
+		y = 9
 		cost = 5
 		#ai_will_do = {
 		#	factor = 1
@@ -1856,10 +1874,24 @@ add_popularity = {
 		completion_reward = {
 			army_experience = 20
 			add_tech_bonus = {
-				name = ENG_land_doctrine
+				name = ENG_war_office
 				bonus = 0.75
 				uses = 1
 				category = land_doctrine
+			}
+			if = { limit = { is_ai = yes }
+			remove_unit_leader = 998
+			create_field_marshal = {
+	name = "Archibald Wavell " # aristo
+	id = 998
+	picture = "Portrait_Britain_Archibald_Wavell.dds"
+	traits = { career_officer }
+	skill = 3
+	attack_skill = 3
+	defense_skill = 1
+	planning_skill = 2
+	logistics_skill = 3
+}
 			}
 		}
 	}
@@ -2488,79 +2520,31 @@ add_popularity = {
 		completion_reward = {
 			air_experience = 30
 			add_tech_bonus = {
-				name = fighter_command_focus
-				bonus = 0.4
+				name = ENG_air_ministry
+				bonus = 0.5
 				uses = 1
-				category = light_fighter
+				category = air_equipment
 			}
 			add_tech_bonus = {
-				name = ENG_air_doctrine
-				bonus = 0.6 
+				name = air_doc_bonus
+				bonus = 0.75
 				uses = 1
 				category = air_doctrine
 			}
 		}
 	}
 	
-	focus = { 
-		id = ENG_test_fly
-		icon = GFX_goal_ENG_fighter2
-		x = -1
-		y = 3
-		relative_position_id = ENG_air_ministry
-		prerequisite = { focus = ENG_military_aviation }
-		mutually_exclusive = { focus = ENG_hurricane }
-		cost = 5
-		available = {
-			has_tech = tech_UK_fighther_equipment_2_a	
-		}
-		
-		available_if_capitulated = yes
-		
-		completion_reward = {
-			add_tech_bonus = {
-				name = Spirfire
-				bonus = 0.5
-				uses = 2
-			    technology = tech_UK_fighther_equipment_1_c
-	                    technology = tech_UK_fighther_equipment_2_c
-			}
-		}
-	}
-	focus = { 
-		id = ENG_hurricane
-		icon = GFX_goal_ENG_fighter
-		x = 1
-		y = 3
-		relative_position_id = ENG_air_ministry
-		mutually_exclusive = { focus = ENG_test_fly }
-		prerequisite = { focus = ENG_military_aviation }
-		cost = 5		
-		
-		available_if_capitulated = yes
-		ai_will_do = {
-			factor = 0
-		}
-		
-		completion_reward = {					
-			add_tech_bonus = {
-				name = ENG_sunder
-				bonus = 0.7
-				uses = 1
-			    technology = tech_UK_fighther_equipment_3_a
-				technology = tech_UK_fighther_equipment_4_a
-			}
-		}
-	}
+	
 	
 	focus = {
-		id = ENG_air_rearmament
+		id = ENG_air_bases
 		prerequisite = { focus = ENG_air_ministry }
-		icon = GFX_goal_generic_air_production
+		mutually_exclusive = { focus = ENG_air_rearmament }
+		icon = GFX_airport_effort
 		relative_position_id = ENG_air_ministry
-		x = 0
+		x = -1
 		y = 1
-		cost = 7
+		cost = 5
 		ai_will_do = {
 			factor = 1
 		}
@@ -2591,8 +2575,7 @@ add_popularity = {
 		}
 
 		completion_reward = {
-			air_experience = 25
-			random_owned_controlled_state = {
+		    random_owned_controlled_state = {
 				limit = {
 					free_building_slots = {
 						building = air_base
@@ -2761,6 +2744,50 @@ add_popularity = {
 			}
 		}
 	}
+	
+	focus = {
+		id = ENG_air_rearmament
+		prerequisite = { focus = ENG_air_ministry }
+		mutually_exclusive = { focus = ENG_air_bases }
+		icon = GFX_goal_generic_air_production
+		relative_position_id = ENG_air_ministry
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		bypass = {
+			has_tech = Hvaircraft_industry4
+		}
+
+
+		completion_reward = {
+	    	custom_effect_tooltip = level_up_heavy_aicraft_factory_tt
+			if = { limit = { has_tech = Hvaircraft_industry3 } 
+			    set_technology = { 
+				    Hvaircraft_industry4 = 1
+				}
+			}
+			if = { limit = { has_tech = Hvaircraft_industry2 } 
+			    set_technology = { 
+				    Hvaircraft_industry3 = 1
+				}
+			}
+			if = { limit = { has_tech = Hvaircraft_industry } 
+			    set_technology = { 
+				    Hvaircraft_industry2 = 1
+				}
+			}
+			if = { limit = { has_tech = Hvaircraft_industry0 } 
+			    set_technology = { 
+				    Hvaircraft_industry = 1
+				}
+			}
+		}
+
+	}
 	focus = {
 		id = ENG_military_aviation
 		icon = GFX_goal_generic_air_fighter2
@@ -2773,13 +2800,63 @@ add_popularity = {
 		available_if_capitulated = yes
 
 		completion_reward = {
-			air_experience = 50
+			air_experience = 75
 
 			add_tech_bonus = {
 				name = ENG_air_doctrine
 				bonus = 0.5
 				uses = 2
 				category = air_doctrine
+			}
+		}
+	}
+	focus = { 
+		id = ENG_test_fly
+		icon = GFX_goal_ENG_fighter2
+		x = -1
+		y = 3
+		relative_position_id = ENG_air_ministry
+		prerequisite = { focus = ENG_military_aviation }
+		mutually_exclusive = { focus = ENG_hurricane }
+		cost = 5
+		available = {
+			has_tech = tech_UK_fighther_equipment_2_a	
+		}
+		
+		available_if_capitulated = yes
+		
+		completion_reward = {
+			add_tech_bonus = {
+				name = Spirfire
+				bonus = 0.5
+				uses = 2
+			    technology = tech_UK_fighther_equipment_1_c
+	                    technology = tech_UK_fighther_equipment_2_c
+			}
+		}
+	}
+	focus = { 
+		id = ENG_hurricane
+		icon = GFX_goal_ENG_fighter
+		x = 1
+		y = 3
+		relative_position_id = ENG_air_ministry
+		mutually_exclusive = { focus = ENG_test_fly }
+		prerequisite = { focus = ENG_military_aviation }
+		cost = 5		
+		
+		available_if_capitulated = yes
+		ai_will_do = {
+			factor = 0
+		}
+		
+		completion_reward = {					
+			add_tech_bonus = {
+				name = ENG_sunder
+				bonus = 0.7
+				uses = 1
+			    technology = tech_UK_fighther_equipment_3_a
+				technology = tech_UK_fighther_equipment_4_a
 			}
 		}
 	}
@@ -3359,6 +3436,7 @@ add_popularity = {
 		y = 5
 		cost = 8
 		available = {
+    		threat > 0.05
 		} 
 		
 		ai_will_do = {
@@ -3396,6 +3474,7 @@ add_popularity = {
 		}
 		completion_reward = {
 			army_experience = 10
+			add_stability = -0.04
 			random_owned_controlled_state = {
 				limit = {
 					is_in_home_area = yes
@@ -3793,7 +3872,7 @@ add_popularity = {
 						type = steel_refinery
 						level = 2
 						instant_build = yes
-					}
+					}	
 			}
 			add_tech_bonus = {
 				name = heavy_industry_tech_bonus
@@ -3812,7 +3891,7 @@ add_popularity = {
 		relative_position_id = ENG_agarian
 		x = 3
 		y = 6
-		cost = 6.7
+		cost = 6.0
 		ai_will_do = {
 			factor = 1
 		}
