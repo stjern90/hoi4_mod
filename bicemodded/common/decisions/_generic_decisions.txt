@@ -23,17 +23,33 @@ political_actions = {
 		days_remove = 0
 		days_re_enable = 0
 
-		cost = 75
+		cost = 50
 
 		ai_will_do = {
+			base = 50
+			modifier = {
 			factor = 0
+			date < 1938.1.1
+			}
+			modifier = {
+			factor = 4
+			tag = ENG
+			}
 		}
 
 		complete_effect = {
 		    london_naval_treaty_clear_all = yes	
-		    add_stability = -0.05
+		    
 			save_global_event_target_as = broke_london_treaty
-			news_event = { id = japan.38 days = 1 }
+			
+			if = { limit = { has_global_flag = london_treaty_broken_final }
+	    		news_event = { id = japan.3888 days = 1 }
+				add_stability = -0.02
+			}
+			if = { limit = { NOT = { has_global_flag = london_treaty_broken_final } }
+	    		news_event = { id = japan.38 days = 1 }
+				add_stability = -0.05
+			}		
 		}		
 	}
 	
@@ -824,11 +840,10 @@ propaganda_efforts = {
 		icon = generic_prepare_civil_war
 
 		available = {
-			has_war_support < 0.75
-			OR = {
-				threat > 0.2
-				has_war = yes
-			}
+			NOT = { has_country_flag = war_propaganda_campaign_running }
+			threat > 0.5
+			has_war_support < 0.5
+			has_war = yes
 		}
 
 		visible = {
@@ -838,12 +853,13 @@ propaganda_efforts = {
 		fire_only_once = no
 
 		days_remove = 90
-		days_re_enable = 285
+		days_re_enable = 180
 
 		cost = 100
 
 		modifier = {
 			war_support_weekly = 0.01
+			stability_weekly = -0.001
 		}
 
 		complete_effect = {
@@ -857,7 +873,149 @@ propaganda_efforts = {
 			base = 0
 			modifier = {
 				add = 1
-				has_war_support < 0.6
+				has_war_support < 0.4
+				has_war = yes
+			}
+		}
+	}
+
+	#Propaganda campaign against a country in offensive that has caused a lot of tension and started a war
+	war_propaganda_against_warmonger = {
+
+		icon = generic_prepare_civil_war
+
+		available = {
+			NOT = { has_country_flag = war_propaganda_campaign_running }
+			FROM = {
+				OR = {
+					is_justifying_wargoal_against = ROOT
+					AND = {
+						has_war_with = ROOT
+						is_neighbor_of = ROOT
+					}
+					has_offensive_war = yes
+				}
+			}
+			has_war_support < 0.75
+			if = {
+				limit = {
+					tag = SPR
+					has_dlc = "La Resistance"
+				}
+				NOT = {
+					has_idea = SPR_political_violence
+				}
+			}
+			if = {
+				limit = {
+					original_tag = SPR
+					has_dlc = "La Resistance"
+				}
+				has_global_flag = scw_over
+			}
+			
+			# lower the cost for neighbors
+			if = {
+				limit = {
+					FROM = {
+						is_neighbor_of = ROOT
+					}
+					set_temp_variable = { war_propaganda_cost = 50 }
+				}
+			}
+		}
+
+		visible = {
+			FROM = {
+				NOT = { is_in_faction_with = ROOT }
+				OR = {
+					is_justifying_wargoal_against = ROOT
+					AND = {
+						is_neighbor_of = ROOT
+						OR = {
+							has_war_with = ROOT
+							AND = {
+								NOT = { has_government = ROOT }
+								has_offensive_war = yes
+								has_added_tension_amount > 5
+							}
+						}
+					}
+					AND = {
+						NOT = { is_neighbor_of = ROOT }
+						OR = {
+							has_offensive_war_with = ROOT
+							AND = {
+								NOT = { has_government = ROOT }
+								has_offensive_war = yes
+								has_added_tension_amount > 30
+							}
+						}
+					}
+				}
+			}
+		}
+
+		target_trigger = {
+			FROM = {
+				NOT = { is_in_faction_with = ROOT }
+				OR = {
+					is_justifying_wargoal_against = ROOT
+					AND = {
+						is_neighbor_of = ROOT
+						OR = {
+							has_war_with = ROOT
+							AND = {
+								NOT = { has_government = ROOT }
+								has_offensive_war = yes
+								has_added_tension_amount > 5
+							}
+						}
+					}
+					AND = {
+						NOT = { is_neighbor_of = ROOT }
+						OR = {
+							has_offensive_war_with = ROOT
+							AND = {
+								NOT = { has_government = ROOT }
+								has_offensive_war = yes
+								has_added_tension_amount > 30
+							}
+						}
+					}
+				}
+			}
+		}
+
+		days_remove = 90
+		days_re_enable = 180
+
+		fire_only_once = yes
+
+		cost = var:war_propaganda_cost?75
+
+		modifier = {
+			war_support_weekly = 0.01
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision war_propaganda_against_warmonger"
+			set_country_flag = war_propaganda_campaign_running
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove war_propaganda_against_warmonger"
+			clr_country_flag = war_propaganda_campaign_running
+		}
+
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				has_war_support > 0.9
+			}
+			modifier = {
+				factor = 10
+				has_war_support < 0.3
 			}
 		}
 	}
@@ -1816,6 +1974,13 @@ foreign_politics = {
 			#is_ai = no
 		}
 		highlight_state_targets = {
+			any_state = {
+				limit = {
+					CONTROLLER = {
+						has_country_flag = AC_assist_repair_target_by_@ROOT
+					}
+				}
+			}
 		}
 
 		visible = {
