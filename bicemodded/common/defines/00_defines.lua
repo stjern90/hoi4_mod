@@ -578,7 +578,7 @@ NMilitary = {
 	COMBAT_VALUE_STR_IMPORTANCE = 1,		-- Multiplier on TotalStrength when determining the combat value of a division
 	
 	HOURLY_ORG_MOVEMENT_IMPACT = -0.08,		-- how much org is lost every hour while moving an army.
-	ZERO_ORG_MOVEMENT_MODIFIER = -0.35,		-- speed impact at 0 org.
+	ZERO_ORG_MOVEMENT_MODIFIER = -0.3,		-- speed impact at 0 org.
 	INFRA_ORG_IMPACT = 0.5,				-- scale factor of infra on org regain.
 
 	INFRASTRUCTURE_MOVEMENT_SPEED_IMPACT = -0.035,	-- speed penalty per infrastucture below maximum.
@@ -718,8 +718,8 @@ NMilitary = {
 	MAX_OUT_OF_SUPPLY_DAYS = 30, 				   -- how many days of shitty supply until max penalty achieved
 	OUT_OF_SUPPLY_ATTRITION = 0.3,                 -- max attrition when out of supply
 	OUT_OF_SUPPLY_SPEED = -0.25,                    -- max speed reduction from supply
-	NON_CORE_SUPPLY_SPEED = 0,				   -- we are not running on our own VP supply so need to steal stuff along the way
-	NON_CORE_SUPPLY_AIR_SPEED = 0,			   -- we are not running on our own VP supply so need to steal stuff along the way, a bit less due to air supply
+	NON_CORE_SUPPLY_SPEED = -0.25,				   -- we are not running on our own VP supply so need to steal stuff along the way
+	NON_CORE_SUPPLY_AIR_SPEED = -0.15,			   -- we are not running on our own VP supply so need to steal stuff along the way, a bit less due to air supply
 	OUT_OF_SUPPLY_MORALE = -0.4,                   -- max org regain reduction from supply
 	TRAINING_ATTRITION = 0.04,		  			   -- amount of extra attrition from being in training
 	TRAINING_MIN_STRENGTH = 0.5,					-- if strength is less than this, the unit will pause training until it's been reinforced
