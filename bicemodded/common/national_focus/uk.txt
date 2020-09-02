@@ -6458,6 +6458,7 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 		prerequisite = { focus = ENG_mediterranean }
 		mutually_exclusive = { focus = ENG_puppet_spain }
 		available = {
+		    has_global_flag = scw_over
 			any_other_country = {
 				original_tag = SPR
 				exists = yes
@@ -6480,16 +6481,30 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 			every_other_country = {
 				limit = {
 					original_tag = SPR
+					exists = yes
 				}
 				add_opinion_modifier = { target = ENG modifier = democratic_leanings_good }
 				add_ideas = democratic_influence
 				country_event = { id = generic.1 }
-				every_other_country = {
+				
+			}
+			if = { limit = { 
+			    any_other_country = {
+				original_tag = SPR
+				exists = yes
+				has_war = no
+				OR = { has_government = fascism has_government = neutrality }
+		    	}
+				}
+			
+		    	every_other_country = {
 					limit = { 
-						NOT = { has_government = democratic }
-						num_of_factories > 30
+						has_government = fascism
+						capital_scope = {
+					    	is_on_continent = europe
+				    	}
 					}
-					add_opinion_modifier = { target = PREV modifier = democratic_leanings_bad }
+					add_opinion_modifier = { target = ENG modifier = democratic_leanings_bad }
 				}
 			}
 			hidden_effect = {
@@ -6504,12 +6519,22 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 		prerequisite = { focus = ENG_mediterranean }
 		mutually_exclusive = { focus = ENG_coerce_spain }
 		available = {
-			any_other_country = {
-				original_tag = SPR
-				exists = yes
-				has_war = no
-				NOT = { is_in_faction_with = ENG }
-				has_government = fascism
+			has_global_flag = scw_over
+			
+			if = {
+		   		limit = {
+					has_dlc = "La Resistance"
+				}
+				country_exists = SPA
+		    }
+			if = {
+				limit = {
+					NOT = { has_dlc = "La Resistance" }
+				}
+				any_other_country = {
+					original_tag = SPR
+					OR = { has_government = fascism has_government = neutrality }
+				}
 			}
 		} 
 		will_lead_to_war_with = SPR 
@@ -6521,34 +6546,31 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 		#	factor = 1
 		#}
 		completion_reward = {
+		    if = {
+				limit = {
+					has_dlc = "La Resistance"
+				}
+			    create_wargoal = {
+                    type = puppet_wargoal_focus
+                    target = SPA
+                }
+			}
+			
 			if = {
-                limit = { any_other_country = { tag = SPR original_tag = SPR has_civil_war = no } }
-                create_wargoal = {
+				limit = {
+					NOT = { has_dlc = "La Resistance" }
+				}
+				random_other_country = {
+					limit = {
+						original_tag = SPR
+						OR = { has_government = fascism has_government = neutrality }
+					}
+					create_wargoal = {
                     type = puppet_wargoal_focus
-                    target = SPR
+                    target = PREV
                 }
-            }
-            if = {
-                limit = { any_other_country = { tag = D01 original_tag = SPR has_government = fascism has_civil_war = no } }
-                create_wargoal = {
-                    type = puppet_wargoal_focus
-                    target = D01
-                }
-            }
-            if = {
-                limit = { any_other_country = { tag = D02 original_tag = SPR has_government = fascism has_civil_war = no } }
-                create_wargoal = {
-                    type = puppet_wargoal_focus
-                    target = D02
-                }
-            }
-            if = {
-                limit = { any_other_country = { tag = D03 original_tag = SPR has_government = fascism has_civil_war = no } }
-                create_wargoal = {
-                    type = puppet_wargoal_focus
-                    target = D03
-                }
-            }
+				}
+			}
 		}
 	}
 	
