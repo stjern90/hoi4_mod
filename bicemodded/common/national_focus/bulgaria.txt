@@ -91,6 +91,24 @@ focus_tree = {
 			}
 		}
 	}
+	
+	focus = {
+		id = BUL_join_balkan_treaty
+		icon = GFX_focus_RAJ_clamp_down_on_corruption
+		prerequisite = { focus = BUL_Monarch_Speech }
+		available = {
+			
+		}
+		x = 3
+		y = 1
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			
+		}
+	}
 
 	focus = {
 		id = BUL_Break_Western_Ties
@@ -98,7 +116,7 @@ focus_tree = {
 		prerequisite = { focus = BUL_Monarch_Speech }
 		available = {
 			BUL {
-					fascism > 0.5
+					fascism > 0.4
 			}
 			OR = {
 				has_government = fascism
@@ -151,7 +169,8 @@ focus_tree = {
 			ROM = {	has_full_control_of_state = 77 }
 			NOT = {	has_war_with = ROM }
 			NOT = { is_in_faction_with = ROM }
-			
+			threat > 0.1
+			has_army_manpower = { size > 240000 }
 		}
 
 
@@ -200,6 +219,7 @@ focus_tree = {
 
 		completion_reward = {
 		    ROM = { country_event = bulgaria.7 }
+			add_named_threat = { threat = 2.5 name = BUL_demand_dobrudja }
 		}
 	}
 	
@@ -230,6 +250,7 @@ focus_tree = {
 
 		completion_reward = {
 		  GRE = { country_event = bulgaria.10 }
+		  add_named_threat = { threat = 2.5 name = BUL_wargoal_greece }
 		}
 	}
 
@@ -500,7 +521,7 @@ focus_tree = {
 
 	focus = {
 		id = BUL_German_Adivsors
-		icon = GFX_goal_generic_improve_relations
+		icon = GFX_Accommodation_with_germany
 		prerequisite = { focus = BUL_Break_Western_Ties }
 		prerequisite = { focus = BUL_Nationalism }
 
@@ -541,7 +562,7 @@ focus_tree = {
 
 	focus = {
 		id = BUL_Highway_Development
-		icon = GFX_goal_generic_construct_infrastructure
+		icon = GFX_autostrada
 		x = 11
 		y = 0
 		cost = 7
@@ -1092,6 +1113,19 @@ focus_tree = {
 			}
 		}
 	}
+	focus = {
+		id = BUL_armed_forces
+		icon = GFX_BUL_army
+		x = 24 
+		y = 1
+		cost = 4.1
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			army_experience = 10
+		}
+	}
 
 	focus = {
 		id = BUL_Infantry_Weapons
@@ -1099,7 +1133,7 @@ focus_tree = {
 		x = 25
 		y = 2
 		cost = 8
-
+        prerequisite = { focus = BUL_armed_forces }
 		available_if_capitulated = yes
 
 		completion_reward = {
@@ -1260,7 +1294,7 @@ create_corps_commander = {
 		x = 2
 		y = 0
 		cost = 11
-
+        prerequisite = { focus = BUL_armed_forces }
 		available_if_capitulated = yes
 
 		completion_reward = {
@@ -1438,8 +1472,8 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 		icon = GFX_goal_generic_special_forces
 		x = 21
 		y = 2
-		cost = 10
-
+		cost = 8
+        prerequisite = { focus = BUL_armed_forces }
 		available_if_capitulated = yes
 
 		completion_reward = {
@@ -1447,12 +1481,9 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 				name = special_forces_bonus
 				bonus = 0.50 
 				uses = 1
-				technology = paratroopers
-				technology = paratroopers2
-				technology = marines
-				technology = marines2
-				technology = tech_mountaineers
-				technology = tech_mountaineers2
+				category = mountaineers_tech
+				category = marine_tech
+				category = para_tech
 			}
 		}
 	}
@@ -1466,7 +1497,7 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 		relative_position_id = BUL_Special_Forces
 		x = -2
 		y = 1
-		cost = 10
+		cost = 7.5
 
 		available_if_capitulated = yes
 
@@ -1476,21 +1507,21 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 				bonus = 0.50 
 				uses = 1
 				technology = marines
-				technology = marines2
+				technology = amphibious_equipment
 			}
 		}
 	}
 
 	focus = {
 		id = BUL_Airborne_Specialization
-		icon = GFX_goal_generic_CAS
+		icon = GFX_focus_generic_paratrooper
 		prerequisite = { focus = BUL_Special_Forces }
 		mutually_exclusive = { focus = BUL_Marine_Specialization }
 		mutually_exclusive = { focus = BUL_Mountain_Specialization }
 		relative_position_id = BUL_Special_Forces
 		x = 0
 		y = 1
-		cost = 10
+		cost = 7.5
 
 		available_if_capitulated = yes
 
@@ -1507,25 +1538,39 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 
 	focus = {
 		id = BUL_Mountain_Specialization
-		icon = GFX_goal_generic_army_doctrines
+		icon = GFX_ITA_armir
 		prerequisite = { focus = BUL_Special_Forces }
 		mutually_exclusive = { focus = BUL_Marine_Specialization }
 		mutually_exclusive = { focus = BUL_Airborne_Specialization }
 		relative_position_id = BUL_Special_Forces
 		x = 2
 		y = 1
-		cost = 10
+		cost = 7.5
 
 		available_if_capitulated = yes
 
-		completion_reward = {
+		completion_reward = { 
 			add_tech_bonus = {
 				name = special_forces_bonus
 				bonus = 0.50 
 				uses = 1
 				technology = tech_mountaineers
 				technology = tech_mountaineers2
+				technology = mountain_equipment
 			}
+			custom_effect_tooltip = BUL_Mountain_Specialization_tt
+			hidden_effect = {
+			create_corps_commander = {
+	name = "Nikola Mihov"
+	portrait_path = "gfx/leaders/BUL/Portrait_Bulgaria_Nikola_Mihov.dds"
+	traits = { ranger swamp_fox winter_specialist }
+	skill = 2
+	attack_skill = 2
+	defense_skill = 3
+	planning_skill = 2
+	logistics_skill = 2
+}
+}
 		}
 	}
 
@@ -1562,11 +1607,11 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 	#--------------------------------------
 	focus = {
 		id = BUL_naval_warfare
-		icon = GFX_goal_generic_build_navy
+		icon = GFX_BUL_navy
 		x = 21
 		y = 6
 
-		cost = 5
+		cost = 6.5
 
 		available = {
 			BUL = {
@@ -1595,6 +1640,19 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 				category = cl_tech
 				category = ca_tech
 			}
+			custom_effect_tooltip = BUL_naval_warfare_tt
+			hidden_effect = {
+			create_navy_leader = {
+	name = "Ivan Variklechkov"
+	portrait_path = "gfx/leaders/BUL/Portrait_Bulgaria_Ivan_Variklechkov.dds"
+	traits = { navy_career_officer superior_tactician }
+	skill = 2
+	attack_skill = 2
+	defense_skill = 1
+	maneuvering_skill = 1
+	coordination_skill = 2
+}
+		}
 		}
 	}
 
@@ -1702,7 +1760,7 @@ search_filters = { FOCUS_FILTER_RESEARCH }
  
 	focus = {
 		id = BUL_modernize_navy
-		icon = GFX_goal_generic_build_navy
+		icon = GFX_goal_continuous_naval_production
 		prerequisite = { focus = BUL_naval_warfare }
 		relative_position_id = BUL_naval_warfare
 		x = 0
@@ -1720,14 +1778,6 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 		}
 
 		completion_reward = {
-			731 = {
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-					type = dockyard
-					level = 2
-					instant_build = yes
-				}
-			}
 			add_tech_bonus = {
 				name = dd_bonus
 				bonus = 0.5
@@ -1746,6 +1796,19 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 				uses = 1
 				category = cl_tech
 			}
+			custom_effect_tooltip = BUL_modernize_navy_tt
+			hidden_effect = {
+			create_navy_leader = {
+	name = "Asen Toshev"
+	portrait_path = "gfx/leaders/BUL/Portrait_Bulgaria_Asen_Toshev.dds"
+	traits = { inshore_fighter gunnery_expert navy_media_personality }
+	skill = 2
+	attack_skill = 2
+	defense_skill = 2
+	maneuvering_skill = 2 
+	coordination_skill = 1
+}
+		}
 		}
 	}
 
@@ -1775,13 +1838,14 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 				uses = 1
 				category = bb_tech
 				category = cv_tech
+				category = ca_tech
 			}
 		}
 	}
 	
 	focus = {
 		id = BUL_rearm_airforce
-		icon = GFX_goal_generic_build_airforce
+		icon = GFX_BUL_air
 		x = 33
 		y = 1
 		cost = 6.5
@@ -1853,7 +1917,7 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 
 	focus = {
 		id = BUL_anti_air_defence_of_sofia
-		icon = GFX_goal_generic_construction
+		icon = GFX_goal_CZE_aaguns
 		prerequisite = { focus = BUL_vrazhdebna_airfield }
 		relative_position_id = BUL_vrazhdebna_airfield
 		x = -3
