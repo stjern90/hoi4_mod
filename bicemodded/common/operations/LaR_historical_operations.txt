@@ -1,17 +1,93 @@
+pol_zow = {
+	icon = GFX_POL_armiakrajowa
+	map_icon = GFX_operations_boost_resistance_map
+	name = zow_operation
+	desc = zow_operation_desc
+	days = 90
+
+	allowed = {
+		original_tag = POL
+	}
+	available = {
+		has_capitulated = yes
+		date > 1940.6.1
+	}
+	visible = {
+		FROM = {
+			original_tag = GER
+		}
+		network_national_coverage = {
+			target = GER
+			value > 0
+		}
+		GER = {
+			762 = {
+				is_controlled_by_ROOT_or_ally = yes
+			}
+		}
+	}
+
+	operatives = 2
+
+	# Integer [0-100] - Every operation has a hard requirement of network strength in the target country
+	network_strength = 70
+
+	equipment = {
+		infantry_equipment = 250
+		support_equipment = 50
+	}
+
+	on_start = {  # SCOPE_OPERATION
+		
+	}
+
+	outcome_modifiers = { operation_outcome }
+	cost_modifiers = { operation_cost }
+	risk_modifiers = { operation_risk }
+
+	outcome_potential = {
+		custom_effect_tooltip = pol_report_operation
+	}
+	risk_chance = 0.3
+	experience = 2
+	outcome_extra_chance = 0.75
+	# outcome is an effect that runs when the operation has completed
+	outcome_execute = { # SCOPE_OPERATION
+		FROM = { country_event = poland.76 }
+		ROOT = { country_event = poland.77 }
+	}
+	outcome_extra_execute = {
+		FROM = { country_event = poland.78 }
+		ROOT = { country_event = poland.79 }
+	}
+	
+	# This is where all the separate phases are defined
+	# Each phase for an operation may have a single actual phase assigned to it, which is determined here
+	phases = { #infiltration 
+		pol_zow_infiltration = { base = 100 }
+	}
+	phases = { 
+		pol_zow_attack = { base = 100 }
+	}
+	phases = { 
+		pol_zow_exfiltration = { base = 100 }
+	}
+}
+
+
 heavy_water_raid = { ### 1/50
 	icon = GFX_historical_heavy_water
 	map_icon = GFX_historical_heavy_water_small
 	name = heavy_water_raid
 	desc = heavy_water_raid_desc
-	days = 90
+	days = 70
 
 	allowed = {
 		NOT = { original_tag = GER }
 	}
-	available = { 
+	available = {
 		has_global_flag = GER_heavy_water_production_underway
 		has_war_with = GER
-		110 = { resistance > 50 }
 		network_strength = {
 			target = GER
 			state = 110
@@ -29,7 +105,7 @@ heavy_water_raid = { ### 1/50
 		}
 	}
 
-	operatives = 1
+	operatives = 2
 
 	# Integer [0-100] - Every operation has a hard requirement of network strength in the target country
 	network_strength = 50
@@ -76,7 +152,7 @@ bruneval_raid = { ### 1/50
 	map_icon = GFX_historical_bruneval_raid_small
 	name = bruneval_raid
 	desc = bruneval_raid_desc
-	days = 180
+	days = 90
 
 	allowed = {
 		NOT = { original_tag = GER }
@@ -103,7 +179,7 @@ bruneval_raid = { ### 1/50
 			value > 0
 		}
 	}
-	operatives = 1
+	operatives = 2
 	experience = 5
 
 	# Integer [0-100] - Every operation has a hard requirement of network strength in the target country
@@ -125,7 +201,7 @@ bruneval_raid = { ### 1/50
 	outcome_potential = {
 		custom_effect_tooltip = bruneval_raid_outcome_tt
 	}
-	risk_chance = 0.2
+	risk_chance = 0.3
 	# outcome is an effect that runs when the operation has completed
 	outcome_execute = { # SCOPE_OPERATION
 		FROM = { country_event = lar_bruneval_raid.1 }
@@ -150,41 +226,51 @@ capture_tito = { ### 1/50
 	map_icon = GFX_historical_capture_tito_small
 	name = capture_tito
 	desc = capture_tito_desc
-	days = 90
+	days = 70
 
 	allowed = {
 		original_tag = GER
 	}
-	available = { 
-		any_controlled_state = {
+	available = {
+		any_state = {
 			is_core_of = YUG
-			resistance > 50
+			is_controlled_by_ROOT_or_ally = yes
+			resistance > 35
 		}
+		#any_controlled_state = {
+		#	is_core_of = YUG
+		#	resistance > 30
+		#}
 	}
 
-	visible = { 
+	visible = {
 		FROM = {
 			tag = YUG
 		}
-		any_controlled_state = {
+		any_state = {
 			is_core_of = YUG
-			resistance > 10
+			is_controlled_by_ROOT_or_ally = yes
+			resistance > 15
 		}
-		network_national_coverage = {
-			target = YUG
-			value > 0
-		}
+		#any_controlled_state = {
+		#	is_core_of = YUG
+		#	resistance > 10
+		#}
+		#network_national_coverage = {
+		#	target = YUG
+		#	value > 0
+		#}
 		NOT = { has_global_flag = Tito_killed }
 	}
 
-	operatives = 1
+	operatives = 2
 	experience = 5
 	outcome_modifiers = { operation_outcome }
 	cost_modifiers = { operation_cost }
 	risk_modifiers = { operation_risk }
 
 	# Integer [0-100] - Every operation has a hard requirement of network strength in the target country
-	network_strength = 50
+	network_strength = 30
 
 	equipment = {
 		infantry_equipment = 2000
@@ -199,10 +285,10 @@ capture_tito = { ### 1/50
 	risk_chance = 0.4
 	# outcome is an effect that runs when the operation has completed
 	outcome_execute = { # SCOPE_OPERATION
-		ROOT = { 
+		ROOT = {
 			random_list = {
-				75 = { country_event = lar_capture_tito.1 } #raid fails
-				25 = { country_event = lar_capture_tito.2 } #raid succeeds
+				70 = { country_event = lar_capture_tito.1 } #raid fails
+				30 = { country_event = lar_capture_tito.2 } #raid succeeds
 			}
 		}
 	}
@@ -225,44 +311,60 @@ rescue_mussolini = { ### 1/35
 	map_icon = GFX_historical_mussolini_rescue_small
 	name = rescue_mussolini
 	desc = rescue_mussolini_desc
-	days = 90
+	days = 70
 
 	allowed = {
 		original_tag = GER
 	}
-	available = { 
+	available = {
 		has_government = fascism
-		has_war_with = ITA
-		ITA = {
-			not = {
-				has_government = fascism
-			}
+		surrender_progress < 0.2
+		any_state = {
+			is_core_of = ITA
+			is_controlled_by_ROOT_or_ally = yes
 		}
-	}
-	visible = {
-		# TODO is this really enough of a check?
-		has_government = fascism
 		FROM = {
 			original_tag = ITA
-			not = {
-				has_government = fascism
+			OR = {
+				AND = {
+					NOT = { has_government = fascism }
+					has_war_with = GER
+				}
+				AND = {
+					is_subject_of = ROOT
+					has_cosmetic_tag = ITA_GER
+				}
+			}
+		}
+		NOT = { has_global_flag = mussolini_rescued_flag }
+	}
+	visible = {
+		has_government = fascism
+		has_war = yes
+		FROM = {
+			original_tag = ITA
+			OR = {
+				AND = {
+					NOT = { has_government = fascism }
+					has_war_with = GER
+				}
+				AND = {
+					is_subject_of = ROOT
+					has_cosmetic_tag = ITA_GER
+				}
 			}
 		}
 		not = { has_global_flag = mussolini_rescued_flag }
-		network_national_coverage = {
-			target = ITA
-			value > 0
-		}
 	}
 
-	operatives = 1
+	operatives = 2
 	experience = 5
 	outcome_modifiers = { operation_outcome }
 	cost_modifiers = { operation_cost }
 	risk_modifiers = { operation_risk }
 
 	# Integer [0-100] - Every operation has a hard requirement of network strength in the target country
-	network_strength = 35
+	network_strength = 5
 
 	equipment = {
 		infantry_equipment = 2000
@@ -277,7 +379,7 @@ rescue_mussolini = { ### 1/35
 	risk_chance = 0.3
 	# outcome is an effect that runs when the operation has completed
 	outcome_execute = { # SCOPE_OPERATION
-		ROOT = { 
+		ROOT = {
 			random_list = {
 				25 = { country_event = lar_rescue_mussolini.1 } #raid fails
 				75 = { country_event = lar_rescue_mussolini.2 } #raid succeeds
@@ -290,10 +392,10 @@ rescue_mussolini = { ### 1/35
 	phases = { #infiltration 
 		rescue_mussolini_infiltration = { base = 100 }
 	}
-	phases = { 
+	phases = {
 		rescue_mussolini_attack = { base = 100 }
 	}
-	phases = { 
+	phases = {
 		rescue_mussolini_exfiltration = { base = 100 }
 	}
 }
