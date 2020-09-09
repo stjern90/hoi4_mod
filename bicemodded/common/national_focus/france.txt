@@ -944,7 +944,7 @@
 	focus = {
 		id = FRA_begin_rearmament
 		icon = GFX_goal_generic_construct_mil_factory
-		x = 16
+		x = 18
 		y = 0
 		offset = {
 			x = 0
@@ -1001,7 +1001,7 @@
 		id = FRA_giraud_plan
 		icon = GFX_focus_FRA_Girauds_Defensive_Approach
 		mutually_exclusive = { focus = FRA_de_gaulle_strategy }
-		x = -1
+		x = -3
 		y = 1
 		cost = 8.5
 		prerequisite = { focus = FRA_begin_rearmament }
@@ -1104,10 +1104,47 @@
 		}
 	}
 	focus = {
+		id = FRA_replenish_maginot
+		icon = GFX_goal_generic_construct_military
+		prerequisite = { focus = FRA_fortification_focus }
+		x = 1
+		y = 1
+		relative_position_id = FRA_fortification_focus
+		cost = 8.5
+
+		available = {
+			28 = { is_controlled_by = ROOT }
+			has_tech = pre_fab2
+		}
+
+		completion_reward = {
+			28 = {
+			    add_province_modifier = {
+					static_modifiers = { underground_aa }
+					province = {
+						all_provinces = yes
+					}
+				}
+				add_building_construction = {
+					type = anti_air_building
+					level = 2 
+					instant_build = yes
+				}
+				set_building_level = {
+						type = bunker
+						level = 11
+						province = {
+							all_provinces = yes
+						}
+					}
+			}
+		}
+	}
+	focus = {
 		id = FRA_alpine_forts
 		icon = GFX_goal_generic_construct_military
 		prerequisite = { focus = FRA_fortification_focus }
-		x = 0
+		x = -1
 		y = 1
 		relative_position_id = FRA_fortification_focus
 		cost = 8.5
@@ -1129,8 +1166,8 @@
 	focus = {
 		id = FRA_extend_the_maginot_line
 		icon = GFX_goal_generic_fortify_city
-		prerequisite = { focus = FRA_alpine_forts }
-		x = 0
+		prerequisite = { focus = FRA_alpine_forts focus = FRA_replenish_maginot }
+		x = 1
 		y = 1
 		relative_position_id = FRA_alpine_forts
 		cost = 8.5
@@ -1289,13 +1326,13 @@
 	focus = {
 		id = FRA_infantry_tanks
 		icon = GFX_focus_generic_combined_arms
-		x = 2
+		x = 7
 		y = 1
 		offset = {
 			x = 0
 			y = 0
 		}
-		prerequisite = { focus = FRA_firepower_kills focus = FRA_methodical_battle }
+		prerequisite = { focus = FRA_firepower_kills focus = FRA_methodical_battle focus = FRA_battle_of_maneuver }
 		mutually_exclusive = { }
 		relative_position_id = FRA_firepower_kills
 		cost = 8.5
@@ -1400,7 +1437,7 @@
 		id = FRA_de_gaulle_strategy
 		icon = GFX_focus_FRA_De_Gaulles_Offensive_Approach
 		mutually_exclusive = { focus = FRA_giraud_plan }
-		x = 1
+		x = 3
 		y = 1
 		cost = 8.5
 		relative_position_id = FRA_begin_rearmament
@@ -1470,7 +1507,7 @@
 		id = FRA_mechanized_focus
 		icon = GFX_goal_generic_build_tank
 		prerequisite = { focus = FRA_motorized_focus }
-		x = 0
+		x = -1
 		y = 1
 		relative_position_id = FRA_motorized_focus
 		cost = 8.5
@@ -1484,12 +1521,13 @@
 			}
 		}
 	}
+	
 	focus = {
 		id = FRA_light_medium_armor
 		icon = GFX_goal_generic_army_tanks
-		prerequisite = { focus = FRA_mechanized_focus }
-		x = 0
-		y = 1
+		prerequisite = { focus = FRA_motorized_focus }
+		x = 2
+		y = 0
 		relative_position_id = FRA_mechanized_focus
 		cost = 8.5
 
@@ -1507,9 +1545,63 @@
 		}
 	}
 	focus = {
+		id = FRA_light_medium_armor
+		icon = GFX_goal_generic_army_tanks
+		prerequisite = { focus = FRA_motorized_focus }
+		x = 2
+		y = 0
+		relative_position_id = FRA_mechanized_focus
+		cost = 8.5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			army_experience = 5
+			add_tech_bonus = {
+				name = FRA_light_medium_armor
+				bonus = 0.5
+				uses = 1
+				category = cat_light_armor
+			}
+			add_tech_bonus = {
+				name = FRA_light_medium_armor
+				bonus = 0.5
+				uses = 1
+				category = cat_medium_armor
+			}
+		}
+	}
+	focus = {
+		id = FRA_tank_radio
+		icon = GFX_goal_generic_army_tanks
+		prerequisite = { focus = FRA_light_medium_armor focus = FRA_mechanized_focus }
+		x = 1
+		y = 1
+		relative_position_id = FRA_mechanized_focus
+		cost = 8.5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			army_experience = 5
+			add_tech_bonus = {
+				name = FRA_light_medium_armor
+				bonus = 0.5
+				uses = 1
+				category = cat_light_armor
+			}
+			add_tech_bonus = {
+				name = FRA_light_medium_armor
+				bonus = 0.5
+				uses = 1
+				category = cat_medium_armor
+			}
+		}
+	}
+	focus = {
 		id = FRA_air_dominance
 		icon = GFX_goal_generic_air_fighter2
-		x = 2
+		x = 3
 		y = 1
 		offset = {
 			x = 0
@@ -1639,13 +1731,13 @@
 		id = FRA_army_reform
 		icon = GFX_goal_generic_army_doctrines
 		prerequisite = { 
-			focus = FRA_light_medium_armor 
+			focus = FRA_tank_radio
 			focus = FRA_heavy_armor_focus 
 			focus = FRA_extend_the_maginot_line
 			focus = FRA_flying_artillery
 		}
-		x = -1
-		y = 1
+		x = -4
+		y = 2
 		relative_position_id = FRA_light_medium_armor
 		cost = 8.5
 
@@ -1674,7 +1766,7 @@
 	focus = {
 		id = FRA_form_the_popular_front
 		icon = GFX_goal_generic_intelligence_exchange
-		x = 26
+		x = 31
 		y = 0
 		offset = {
 			x = 0
