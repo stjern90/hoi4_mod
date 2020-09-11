@@ -200,7 +200,10 @@ SOV_great_patriotic_war = {
 		available = {
 			SOV = { has_war_with = GER }
 			has_army_experience > 75
-            casualties > 1000000
+			AND  = {
+		    	surrender_progress > 0.08
+                casualties > 1000000
+			}
             custom_trigger_tooltip = { tooltip = barba_1
 				check_variable = {
 						var = global.ostfront_year_4
@@ -310,7 +313,7 @@ SOV_great_patriotic_war = {
 		available = {
 			SOV = { has_war_with = GER }
 			has_army_experience > 75
-			OR  = {
+			AND  = {
 		    	surrender_progress > 0.15
                 casualties > 1600000
 			}
@@ -423,7 +426,7 @@ SOV_great_patriotic_war = {
 	available = {
 			SOV = { has_war_with = GER }
 			has_army_experience > 75
-			OR = {
+			AND = {
 		    	surrender_progress > 0.2
                 casualties > 2750000
 			}
@@ -1114,9 +1117,8 @@ allowed = {
 		
 
 		complete_effect ={
-		    set_capital = 219
+		    set_capital = 653
 	    	set_country_flag = SOV_capital_moved
-			add_war_support = -0.05
 			add_stability = -0.05
 		}
 		ai_will_do = {
@@ -1147,8 +1149,9 @@ allowed = {
 
 		complete_effect ={
 		    set_capital = 219
-			add_war_support = 0.05
-			add_stability = 0.05
+	    	set_country_flag = SOV_capital_moved
+			add_war_support = -0.05
+			add_stability = -0.05
 		}
 		ai_will_do = {
 			factor = 100
@@ -3284,26 +3287,28 @@ SOV_global_revolution = {
 
 		available = {
 			has_equipment = { infantry_equipment > 1999 }
-			any_country = {
-				original_tag = SPR
-				OR = {
-					has_government = democratic
-					has_government = communism
+
+            if = {
+				limit = {
+					has_dlc = "La Resistance"
 				}
-				has_civil_war = yes
-			}
+				SPD = {
+					exists = yes
+					has_civil_war = yes	
+                }
+            }				
+            if = {
+				limit = {
+					NOT = { has_dlc = "La Resistance" }
+				}
+				always = no	
+            }			
 		}
 
 		visible = {
-			any_country = {
-				original_tag = SPR
-				OR = {
-					has_government = democratic
-					has_government = communism
-				}
-				has_civil_war = yes
-			}
+		    has_dlc = "La Resistance"		
 		}
+
 		cost = 5
 		ai_will_do = {
 			factor = 50
@@ -3313,31 +3318,16 @@ SOV_global_revolution = {
 
 		days_re_enable = 180
 
-		complete_effect = {
-			if = {
-				limit = {
-					original_tag = SPR
-					has_government = communism 
-				}
-				send_equipment = {
-					target = PREV
-					type = infantry_equipment
-					amount = 2000
-					old_prioritised = yes
-				}
+		complete_effect = {	
+
+
+            send_equipment = {
+			target = SPD 
+			type = infantry_equipment
+			amount = 2000
+			old_prioritised = yes
 			}
-			else_if = {
-				limit = {
-					original_tag = SPR
-					has_government = democratic
-				}
-				send_equipment = {
-				target = PREV
-				type = infantry_equipment
-				amount = 2000
-				old_prioritised = yes
-				}
-			}
+				
 		}
 	}
 
@@ -3351,11 +3341,9 @@ SOV_global_revolution = {
 
 		available = {
 			has_completed_focus = SOV_support_spain
-			any_country = {
-				original_tag = SPR
-				OR = {
-					has_government = democratic
-					has_government = communism
+			num_of_civilian_factories_available_for_projects > 3	
+			if = {
+				limit = {
 					has_dlc = "La Resistance"
 				}
 				SPD = {
@@ -3372,14 +3360,7 @@ SOV_global_revolution = {
 		}
 
 		visible = {
-			any_country = {
-				original_tag = SPR
-				OR = {
-					has_government = democratic
-					has_government = communism
-				}
-				has_civil_war = yes
-			}
+		    has_dlc = "La Resistance"
 		}
 		ai_will_do = {
 			factor = 50
@@ -3395,36 +3376,21 @@ SOV_global_revolution = {
 		days_remove = 180
 
 		complete_effect = {
-			if = {
-				limit = {
-					original_tag = SPR
-					has_government = communism 
-				}
+			SPD = {
 				add_offsite_building = { type = arms_factory level = 5 }
-				set_country_flag = SOV_support_spain_with_factories
-			}
-			else_if = {
-				limit = {
-					original_tag = SPR
-					has_government = democratic
-				}
-				add_offsite_building = { type = arms_factory level = 5 }
-				set_country_flag = SOV_support_spain_with_factories
 			}
 		}
 
 		remove_effect = {
-			add_war_support = 0.05
-			random_country = {
-				limit = {
-					original_tag = SPR 
-					has_country_flag = SOV_support_spain_with_factories
+		    if = { 
+			    limit = { SPD = { NOT = { has_country_flag = SOV_support_spain_with_factories } } }
+		    	SPD = { 
+				    add_war_support = 0.05 
+					set_country_flag = SOV_support_spain_with_factories 
 				}
-#				if = {
-#					limit = {
-#						NOT = { any_other_country = { has_country_flag = SOV_support_spain_with_factories } }
-#					}
-#				}
+			}
+			
+			SPD = {			    
 				add_offsite_building = { type = arms_factory level = -5 }
 			}
 		}
