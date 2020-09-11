@@ -14,7 +14,7 @@
 	
 	default = no
 
-	continuous_focus_position = { x = 50 y = 1800 }
+	continuous_focus_position = { x = 1150 y = 1500 }
 
 #	focus = {
 #		id = ROM_
@@ -64,7 +64,7 @@
 	focus = {
 		id = ROM_preserve_greater_romania
 		icon = GFX_focus_rom_preserve_romania
-		mutually_exclusive = { focus = ROM_balkans_dominance }
+		
 		x = 3
 		y = 0
 
@@ -245,6 +245,7 @@
 		id = ROM_join_comintern
 		icon = GFX_focus_generic_join_comintern
 		prerequisite = { focus = ROM_basing_rights_for_soviet_union }
+		mutually_exclusive = { focus = ROM_balkans_dominance focus = ROM_join_axis }
 		x = 0
 		y = 4
 		relative_position_id = ROM_a_deal_with_the_devil
@@ -417,6 +418,7 @@
 		id = ROM_join_axis
 		icon = GFX_goal_support_fascism
 		prerequisite = { focus = ROM_invite_german_advisors }
+		mutually_exclusive = { focus = ROM_balkans_dominance focus = ROM_join_comintern }
 		x = 0
 		y = 4
 		relative_position_id = ROM_trade_treaty_with_germany
@@ -550,18 +552,18 @@
 	focus = {
 		id = ROM_demand_transnistria
 		icon = GFX_goal_generic_occupy_states_ongoing_war
-		prerequisite = { focus = ROM_join_axis }
+		prerequisite = { focus = ROM_demand_bessarabia_2 }
 		x = 1
-		y = 5
+		y = 6
 		relative_position_id = ROM_trade_treaty_with_germany
 
-		cost = 10
+		cost = 7.5
 
 		ai_will_do = {
 			factor = 1
 			modifier = {
 				factor = 0
-				strength_ratio = { tag = YUG ratio < 1}
+				strength_ratio = { tag = SOV ratio < 1}
 			    has_army_manpower = { size < 750000 }
 			}
 		}
@@ -578,7 +580,7 @@
 		}
 
 		bypass = {
-
+           has_war_with = SOV
 		}
 
 		cancel_if_invalid = yes
@@ -598,13 +600,13 @@
 	focus = {
 		id = ROM_demand_bessarabia_2
 		icon = GFX_goal_generic_occupy_states_ongoing_war
-		prerequisite = { focus = ROM_join_axis }
-		relative_position_id = ROM_join_axis
-		x = -3
-		y = 1
+		prerequisite = { focus = ROM_join_axis focus = ROM_balkans_dominance }
+		x = 1
+		y = 5
+		relative_position_id = ROM_trade_treaty_with_germany
 		
 
-		cost = 2
+		cost = 3.5
 
 		ai_will_do = {
 			factor = 5
@@ -612,7 +614,7 @@
 		}
 
 		available = {
-			has_war_with = SOV
+			threat > 0.4
 		}
 
 		bypass = {
@@ -629,6 +631,8 @@
 
 		completion_reward = {
 			add_war_support = 0.05
+			192 = { add_claim_by = ROM }
+			198 = { add_claim_by = ROM }
 		}
 	}
 
@@ -677,7 +681,7 @@
 		id = ROM_the_cordon_sanitaire
 		icon = GFX_goal_generic_alliance
 		prerequisite = { focus = ROM_renew_the_romanian_polish_alliance }
-		x = 1
+		x = 0
 		y = 1
 		relative_position_id = ROM_renew_the_romanian_polish_alliance
 
@@ -751,7 +755,7 @@
 		id = ROM_demand_a_western_guarantee
 		icon = GFX_goal_generic_defence
 		prerequisite = { focus = ROM_renew_the_romanian_polish_alliance }
-		x = 0
+		x = 1
 		y = 2
 		relative_position_id = ROM_renew_the_romanian_polish_alliance
 
@@ -863,103 +867,7 @@
 		}
 	}
 
-	focus = {
-		id = ROM_join_allies
-		icon = GFX_goal_support_democracy
-		prerequisite = { focus = ROM_demand_a_western_guarantee }
-		x = 0
-		y = 4
-		relative_position_id = ROM_renew_the_romanian_polish_alliance
-
-		cost = 5
-
-		ai_will_do = {
-			factor = 1
-			modifier = {
-				factor = 0
-				OR = {
-					ENG = {
-						has_capitulated = yes
-					}
-					FRA = {
-						has_capitulated = yes
-					}
-				}
-			}
-		}
-
-		available = {
-			ENG = {
-				is_faction_leader = yes
-				has_government = democratic
-			}
-			is_in_faction = no
-			NOT = { has_war_with = ENG }
-			is_subject = no
-			NOT = {
-				any_other_country = {
-					is_in_faction_with = ENG
-					has_war_with = ROM
-				}
-			}
-		}
-
-		bypass = {
-			is_in_faction_with = ENG
-		}
-
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = yes
-
-
-		completion_reward = {
-			ENG = {
-				country_event = generic.2
-			}
-		}
-	}
-
-	focus = {
-		id = ROM_joint_allied_staff_college
-		icon = GFX_goal_generic_allies_build_infantry
-		prerequisite = { focus = ROM_join_allies }
-		prerequisite = { focus = ROM_military_modernization }
-		x = 1
-		y = 5
-		relative_position_id = ROM_renew_the_romanian_polish_alliance
-
-		cost = 10
-
-		ai_will_do = {
-			factor = 1
-		}
-
-		available = {
-			is_in_faction_with = ENG
-			ENG = { is_faction_leader = yes }
-		}
-
-		bypass = {
-
-		}
-
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = yes
-		search_filters = { FOCUS_FILTER_RESEARCH }
-
-		completion_reward = {
-			add_to_tech_sharing_group = ROM_joint_allied_staff_college_tech_group
-			ENG = { add_to_tech_sharing_group = ROM_joint_allied_staff_college_tech_group }
-			if = {
-				limit = {
-					FRA = { is_in_faction_with = ENG }
-				}
-				FRA = { add_to_tech_sharing_group = ROM_joint_allied_staff_college_tech_group }
-			}
-		}
-	}
+	
 
 	############################
 	##### INDUSTRY BRANCH ######
@@ -968,7 +876,7 @@
 	focus = {
 		id = ROM_agri
 		icon = GFX_goal_ROM_agriculture
-		x = 12
+		x = 14
 		y = 0
 
 		cost = 7.5
@@ -2006,10 +1914,11 @@
 	focus = {
 		id = ROM_communist
 		icon = GFX_goal_ROM_russia
+		prerequisite = { focus = ROM_join_comintern  focus = ROM_king_michaels_coup }
 		mutually_exclusive = { focus = ROM_5yearplan } 
-		x = 1
-		y = 2
-		relative_position_id = ROM_literacy
+		x = 0
+		y = 4
+		relative_position_id = ROM_join_comintern
 
 		cost = 7.5
 
@@ -2041,9 +1950,9 @@
 		id = ROM_5yearplan
 		icon = GFX_goal_ROM_eco5
 		mutually_exclusive = { focus = ROM_communist }
-		x = -1
-		y = 2
-		relative_position_id = ROM_literacy
+		x = 4
+		y = 4
+		relative_position_id = ROM_join_comintern
 
 		cost = 5
 
@@ -2188,8 +2097,8 @@
 	focus = {
 		id = ROM_mechanized
 		icon = GFX_goal_FIN_agri
-		x = -3
-		y = 2
+		x = -7
+		y = 3
 		relative_position_id = ROM_literacy
 
 		cost = 6
@@ -2467,10 +2376,10 @@
 	focus = {
 		id = ROM_balkans_dominance
 		icon = GFX_goal_demand_sudetenland
-		mutually_exclusive = { focus = ROM_preserve_greater_romania }
-		allow_branch = { always = no }
-		x = 15
-		y = 0
+		prerequisite = { focus = ROM_the_cordon_sanitaire }
+		mutually_exclusive = { focus = ROM_join_axis focus = ROM_join_comintern focus = ROM_the_cordon_sanitaire }
+		x = 5
+		y = 5
 
 		cost = 10
 
@@ -2493,59 +2402,7 @@
 		completion_reward = {
 			add_ideas = ROM_balkans_dominance
 			set_rule = { can_create_factions = yes }
-		}
-	}
-
-	focus = {
-		id = ROM_puppet_bulgaria
-		icon = GFX_goal_generic_demand_territory
-		prerequisite = { focus = ROM_balkans_dominance }
-		x = -2
-		y = 1
-		relative_position_id = ROM_balkans_dominance
-		will_lead_to_war_with = BUL
-		cost = 10
-
-		ai_will_do = {
-			factor = 5
-		}
-
-		available = {
-			is_subject = no
-			BUL = {
-				exists = yes
-				NOT = { has_war_with = ROM }
-			}
-			strength_ratio = { tag = BUL ratio > 1.5 }
-			has_army_manpower = { size > 550000 }
-		}
-
-	    search_filters = { FOCUS_FILTER_ANNEXATION }
-
-		bypass = {
-			BUL = {
-				OR = {
-					is_puppet_of = ROM
-					exists = no 
-					AND = {
-						has_war_with = ROM
-						has_capitulated = yes
-						ROM = {
-							controls_state = 48
-							controls_state = 212
-							controls_state = 211
-						}
-					}
-				}
-			}
-		}
-
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-
-		completion_reward = {
-			BUL = { country_event = DOD_romania.40 }
+			remove_ideas = entente_balkanique
 		}
 	}
 
@@ -2553,7 +2410,7 @@
 		id = ROM_align_hungary
 		icon = GFX_goal_generic_political_pressure
 		prerequisite = { focus = ROM_balkans_dominance }
-		x = 1
+		x = 2
 		y = 1
 		relative_position_id = ROM_balkans_dominance
 		will_lead_to_war_with = HUN
@@ -2598,59 +2455,12 @@
 	}
 
 	focus = {
-		id = ROM_secure_greece
-		icon = GFX_goal_generic_occupy_states_ongoing_war
-		prerequisite = { focus = ROM_puppet_bulgaria }
-		x = -1
-		y = 1
-		relative_position_id = ROM_puppet_bulgaria
-		will_lead_to_war_with = GRE
-		cost = 10
-
-		ai_will_do = {
-			factor = 1
-		}
-	    search_filters = { FOCUS_FILTER_ANNEXATION }
-		available = {
-			is_subject = no
-			GRE = {
-				exists = yes
-				NOT = {
-					is_in_faction_with = ROM
-				}
-			}
-			strength_ratio = { tag = GRE ratio > 1 }
-			has_army_manpower = { size > 600000 }
-		}
- 
-		bypass = {
-			GRE = {
-				OR = {
-					is_puppet_of = ROM
-					exists = no 
-				}
-			}
-		}
-
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-
-		completion_reward = {
-			create_wargoal = {
-				type = puppet_wargoal_focus
-				target = GRE
-			}
-		}
-	}
-
-	focus = {
 		id = ROM_divide_yugoslavia
 		icon = GFX_goal_generic_political_pressure
-		prerequisite = { focus = ROM_puppet_bulgaria }
-		x = 1
+		prerequisite = { focus = ROM_align_hungary }
+		x = -1
 		y = 1
-		relative_position_id = ROM_puppet_bulgaria
+		relative_position_id = ROM_align_hungary
 		will_lead_to_war_with = YUG
 		cost = 10
 
@@ -2706,7 +2516,7 @@
 		id = ROM_split_czechoslovakia
 		icon = GFX_goal_generic_territory_or_war
 		prerequisite = { focus = ROM_align_hungary }
-		x = 0
+		x = 1
 		y = 1
 		relative_position_id = ROM_align_hungary
 		will_lead_to_war_with = CZE
@@ -2744,10 +2554,10 @@
 	focus = {
 		id = ROM_secure_the_bosporus
 		icon = GFX_goal_generic_occupy_states_ongoing_war
-		prerequisite = { focus = ROM_secure_greece }
-		x = -1
-		y = 2
-		relative_position_id = ROM_puppet_bulgaria
+		prerequisite = { focus = ROM_split_czechoslovakia focus = ROM_divide_yugoslavia }
+		x = 1
+		y = 1
+		relative_position_id = ROM_divide_yugoslavia
 
 		cost = 10
 
@@ -2791,7 +2601,7 @@
 	focus = {
 		id = ROM_divide_and_conquer
 		icon = GFX_focus_rom_royal_dictatorship
-		x = 21
+		x = 23
 		y = 0
 
 		cost = 4
@@ -3975,13 +3785,109 @@
 			}
 		}
 	}
+	
+	focus = {
+		id = ROM_join_allies
+		icon = GFX_goal_support_democracy
+		prerequisite = { focus = ROM_limited_monarch focus = ROM_cooperate_with_liberals }
+		x = 0
+		y = 1
+		relative_position_id = ROM_limited_monarch
+		cost = 5
+
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				OR = {
+					ENG = {
+						has_capitulated = yes
+					}
+					FRA = {
+						has_capitulated = yes
+					}
+				}
+			}
+		}
+
+		available = {
+			ENG = {
+				is_faction_leader = yes
+				has_government = democratic
+			}
+			is_in_faction = no
+			NOT = { has_war_with = ENG }
+			is_subject = no
+			NOT = {
+				any_other_country = {
+					is_in_faction_with = ENG
+					has_war_with = ROM
+				}
+			}
+		}
+
+		bypass = {
+			is_in_faction_with = ENG
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = yes
+
+
+		completion_reward = {
+			ENG = {
+				country_event = generic.2
+			}
+		}
+	}
+
+	focus = {
+		id = ROM_joint_allied_staff_college
+		icon = GFX_goal_generic_allies_build_infantry
+		prerequisite = { focus = ROM_join_allies }
+		x = 0
+		y = 2
+		relative_position_id = ROM_limited_monarch
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			is_in_faction_with = ENG
+			ENG = { is_faction_leader = yes }
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_RESEARCH }
+
+		completion_reward = {
+			add_to_tech_sharing_group = ROM_joint_allied_staff_college_tech_group
+			ENG = { add_to_tech_sharing_group = ROM_joint_allied_staff_college_tech_group }
+			if = {
+				limit = {
+					FRA = { is_in_faction_with = ENG }
+				}
+				FRA = { add_to_tech_sharing_group = ROM_joint_allied_staff_college_tech_group }
+			}
+		}
+	}
 
 	focus = {
 		id = ROM_king_michaels_coup
 		icon = GFX_focus_rom_coup
-		x = 3
-		y = 0
-		relative_position_id = ROM_divide_and_conquer
+		x = -1
+		y = 2
+		relative_position_id = ROM_join_comintern
 
 		cost = 4
 
@@ -4081,7 +3987,7 @@
 	focus = {
 		id = ROM_expand_the_air_force
 		icon = GFX_goal_generic_build_airforce
-		x = 31
+		x = 33
 		y = 0
 
 		cost = 10
@@ -4642,7 +4548,7 @@
 	focus = {
 		id = ROM_army_maneuvers
 		icon = GFX_goal_generic_army_doctrines
-		x = 39
+		x = 41
 		y = 0
 
 		cost = 10
@@ -5449,7 +5355,7 @@ create_corps_commander = {
 	focus = {
 		id = ROM_expand_the_galati_shipyards
 		icon = GFX_goal_generic_construct_naval_dockyard
-		x = 46
+		x = 48
 		y = 0
 
 		cost = 10
