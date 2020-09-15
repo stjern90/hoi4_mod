@@ -802,7 +802,7 @@ NMilitary = {
 	COMBAT_STACKING_PENALTY = -0.03,                -- how much stackign penalty per division
 	COMBAT_OVER_WIDTH_PENALTY = -2,					-- over combat width penalty per %.
 	COMBAT_OVER_WIDTH_PENALTY_MAX = -0.33,			-- over combat width max (when you cant join no more).
-	RETREAT_SPEED_FACTOR = 0.45,                    -- speed bonus when retreating
+	RETREAT_SPEED_FACTOR = 0.6,                    -- speed bonus when retreating
 	WITHDRAWING_SPEED_FACTOR = 0.3,				-- speed bonus when withdrawing
 	STRATEGIC_SPEED_BASE = 5,                 	-- Speed of strategic redeployment
 	STRATEGIC_INFRA_SPEED = 14.0,                   -- Max of additional speed gained trouh=gh level for strategic redeployment per infra
