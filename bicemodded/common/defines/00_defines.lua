@@ -45,7 +45,7 @@ NDiplomacy = {
 	BASE_IMPROVE_RELATION_COST = 10,                -- Political power cost to initiate relation improvement
 	BASE_IMPROVE_RELATION_SAME_IDEOLOGY_GROUP_MAINTAIN_COST = 0.2, -- Political power cost each update when boosting relations with nation of same ideology
 	BASE_IMPROVE_RELATION_DIFFERENT_IDEOLOGY_GROUP_MAINTAIN_COST = 0.4,    -- Political power cost each update when boosting relations with nation of different ideology
-	BASE_SEND_ATTACHE_COST = 50,					-- Political power cost to send attache
+	BASE_SEND_ATTACHE_COST = 100,					-- Political power cost to send attache
 	BASE_SEND_ATTACHE_CP_COST = 10.0,				-- Command Power sent attache usage cost
 	BASE_GENERATE_WARGOAL_DAILY_PP = 0.8,	-- Daily pp cost for generation of wargoals # was 0.2
 	WARGOAL_VERSUS_MAJOR_AT_WAR_REDUCTION = -0.4, 	-- reduction of pp cost for wargoal vs major at war. # was -0.75
@@ -176,11 +176,7 @@ NCountry = {
 	SUPPLY_PATH_MAX_DISTANCE = 10,					-- When supply route reach more than X nodes, the manpower+equipment delivery speed reach 100% penalty.
 	POPULATION_YEARLY_GROWTH_BASE = 0.015,			-- basic population growth per year, used for monthly manpower gain
 	RESISTANCE_STRENGTH_FROM_VP = 0.0025,			-- How much strength ticking speed gives each VP score.
-<<<<<<< HEAD
-	RESISTANCE_STRENGTH_FROM_NEIGHBORS = 0.035, 		-- Multiplies how much resistance can spread from one state to its neighbors, a state will spread whatever is highest of its victorypoints resistance increase or half of any of its neighbors spread, multiplied by this
-=======
-	RESISTANCE_STRENGTH_FROM_NEIGHBORS = 0.015, 		-- Multiplies how much resistance can spread from one state to its neighbors, a state will spread whatever is highest of its victorypoints resistance increase or half of any of its neighbors spread, multiplied by this
->>>>>>> 054862ac24e99ff0815eea8a54551ce593f08066
+	RESISTANCE_STRENGTH_FROM_NEIGHBORS = 0.02, 		-- Multiplies how much resistance can spread from one state to its neighbors, a state will spread whatever is highest of its victorypoints resistance increase or half of any of its neighbors spread, multiplied by this
 	RESISTANCE_DECAY_WHEN_NO_GROWTH = 0.004,		-- Resistance will fall by this much each day if there is nothing increasing it ( no VPs and no spread from neighbors )
 	REINFORCEMENT_DIVISION_PRIORITY_COUNT = 3, 		-- How many priority stages we have in division template? 0)Reserves, 1)Normal, 2)Elite.
 	REINFORCEMENT_DIVISION_PRIORITY_DEFAULT = 1, 	-- Each template by default is 1)Normal
@@ -209,7 +205,7 @@ NCountry = {
 	CONVOY_RANGE_FACTOR = 0.8,                        -- how much range affects convoy need
 	LOCAL_MANPOWER_ACCESSIBLE_NON_CORE_FACTOR = 0.08,  -- accessible recruitable factor base
 	MAX_NON_CORE_MANPOWER_FACTOR = 1.0,				-- max clamp for recruitable local non core manpower factor for states
-	DEFAULT_STABILITY = 0.48,						-- Default stability if not scripted otherwise.
+	DEFAULT_STABILITY = 0.45,						-- Default stability if not scripted otherwise.
 	DEFAULT_WAR_SUPPORT = 0.3,						-- Default war support if not scripted otherwise.
 	BASE_STABILITY_WAR_FACTOR = -0.15,				-- Default stability war factor
 	BASE_STABILITY_PARTY_POPULARITY_FACTOR = 0.15,	-- Default stability rulling party popularity factor
@@ -217,11 +213,7 @@ NCountry = {
 	MAX_COUP_STABILITY_FACTOR = 2.0,				-- Max value of coup factor in stability
 	MIN_COUP_SUCCESS_STABILITY = 0.8,				-- Max stability when coup will happen
 	WAR_SUPPORT_OFFNSIVE_WAR = -0.15,				-- Impact of being in offensive war
-<<<<<<< HEAD
-	WAR_SUPPORT_DEFENSIVE_WAR = 0.06,				-- Impact of being in defensive war
-=======
 	WAR_SUPPORT_DEFENSIVE_WAR = 0.1,				-- Impact of being in defensive war
->>>>>>> 054862ac24e99ff0815eea8a54551ce593f08066
 	WAR_SUPPORT_TENSION_IMPACT = 0.15,				-- Total impact of world tension
 	MIN_STABILITY = 0.0,
 	MAX_STABILITY = 1.0,
@@ -272,27 +264,19 @@ NCountry = {
 	BASE_MOBILIZATION_SPEED = 0.01,				-- Base speed of manpower mobilization  #in 1/1000 of 1 %
 	
 	INTERCEPTION_WAR_SUPPORT_SCALE = 0.00002,		-- Scaling of interceptions to war support impact
-<<<<<<< HEAD
-	INTERCEPTION_BOMBING_WAR_SUPPORT_IMPACT = 0.05,	-- Max impact of interceptions on the war support
-=======
 	INTERCEPTION_BOMBING_WAR_SUPPORT_IMPACT = 0.15,	-- Max impact of interceptions on the war support
->>>>>>> 054862ac24e99ff0815eea8a54551ce593f08066
 
 	BOMBING_WAR_SUPPORT_PENALTY_SCALE = -0.0001, 			-- Scaling of bomber damage to war support impact, will be added weekly as a war support penalty
 	MAX_BOMBING_WEEKLY_WAR_SUPPORT_PENALTY = -0.005,			-- Max penalty that will gained per week from bomber's damage
 	BOMBING_WEEKLY_WAR_SUPPORT_PENALTY_DECAY = 0.002,		-- Weekly decay of bomber damage war support penalty
-<<<<<<< HEAD
-	MAX_BOMBING_WAR_SUPPORT_IMPACT = -0.25,					-- Max total penalty from bomber's damage
-=======
 	MAX_BOMBING_WAR_SUPPORT_IMPACT = -0.3,					-- Max total penalty from bomber's damage
->>>>>>> 054862ac24e99ff0815eea8a54551ce593f08066
 	
 	HEROES_BEING_KILLED_WAR_SUPPORT_PENALTY_SCALE = -0.05,			-- Scaling of war heroes manpower lost to war support impact, will be added weekly as a war support penalty
 	MAX_HEROES_BEING_KILLED_WEEKLY_WAR_SUPPORT_PENALTY = -0.04,		-- Max penalty that will gained per week from war heroes manpower lost
 	HEROES_BEING_KILLED_WEEKLY_WAR_SUPPORT_PENALTY_DECAY = 0.0001,	-- Weekly decay of war heroes manpower lost war support penalty
 	MAX_HEROES_BEING_KILLED_WAR_SUPPORT_IMPACT = -0.3,				-- Max total penalty from war heroes manpower lost
 	
-	CONVOYS_BEING_RAIDED_WAR_SUPPORT_PENALTY_SCALE = -0.03,			-- Scaling of trade convoy raided to war support impact, will be added weekly as a war support penalty
+	CONVOYS_BEING_RAIDED_WAR_SUPPORT_PENALTY_SCALE = -0.03,		-- Scaling of trade convoy raided to war support impact, will be added weekly as a war support penalty
 	MAX_CONVOYS_BEING_RAIDED_WEEKLY_WAR_SUPPORT_PENALTY = -0.015,	-- Max penalty that will gained per week from trade convoy raided
 	CONVOYS_BEING_RAIDED_WEEKLY_WAR_SUPPORT_PENALTY_DECAY = 0.002,	-- Weekly decay of trade convoy raided war support penalty
 	MAX_CONVOYS_BEING_RAIDED_WAR_SUPPORT_IMPACT = -0.35,				-- Max total penalty from trade convoy raided
@@ -385,20 +369,7 @@ NCountry = {
 },
 
 NResistance = {
-<<<<<<< HEAD
 	INITIAL_STATE_RESISTANCE = 10.0,							-- initial resistance percentage of a state once it is captured
-	INITIAL_STATE_COMPLIANCE = 05.0,							-- initial compliance percentage of a state once it is captured
-	COMPLIANCE_FACTOR_ON_STATE_CONTROLLER_CHANGE = -0.2,	-- compliance factor that applies when the state controller changes (in between allies, compliance is zeroed if it is taken by original country)
-	RESISTANCE_COOLDOWN_WHEN_DISABLED = -0.25,				-- resistance cooldown when the state is taken back by its original owner (compliance is zeroed in that case)
-	
-	RESISTANCE_TARGET_BASE = 45.0,							-- base resistance target percentage
-	
-	RESISTANCE_TARGET_MODIFIER_HAS_CLAIM = -7.0,			-- resistance target modifier in % for states we have claim
-
-	RESISTANCE_TARGET_MODIFIER_PER_STABILITY_LOSS = 0.2,	-- resistance target modifier per stability below 100%
-	RESISTANCE_TARGET_MODIFIER_PER_COMPLIANCE = -0.5,		-- resistance target modifier per compliance %
-=======
-	INITIAL_STATE_RESISTANCE = 1.0,							-- initial resistance percentage of a state once it is captured
 	INITIAL_STATE_COMPLIANCE = 0.0,							-- initial compliance percentage of a state once it is captured
 	COMPLIANCE_FACTOR_ON_STATE_CONTROLLER_CHANGE = -0.5,	-- compliance factor that applies when the state controller changes (in between allies, compliance is zeroed if it is taken by original country)
 	RESISTANCE_COOLDOWN_WHEN_DISABLED = -0.25,				-- resistance cooldown when the state is taken back by its original owner (compliance is zeroed in that case)
@@ -409,9 +380,8 @@ NResistance = {
 
 	RESISTANCE_TARGET_MODIFIER_PER_STABILITY_LOSS = 0.2,	-- resistance target modifier per stability below 100%
 	RESISTANCE_TARGET_MODIFIER_PER_COMPLIANCE = -0.4,		-- resistance target modifier per compliance %
->>>>>>> 054862ac24e99ff0815eea8a54551ce593f08066
 	
-	RESISTANCE_TARGET_MODIFIER_IS_AT_PEACE = -07.0,			-- resistance target modifier when we are at peace
+	RESISTANCE_TARGET_MODIFIER_IS_AT_PEACE = -10.0,			-- resistance target modifier when we are at peace
 	
 	RESISTANCE_TARGET_MODIFIER_STATE_VP = {					-- resistance target modifier pairs for vp. first entry is total vp in state and second entry is amount of target modifier that applies for that threshold
 		0,   0.0, -- 0 - 5
@@ -422,18 +392,13 @@ NResistance = {
 
 	RESISTANCE_TARGET_MODIFIER_OCCUPIED_CAPITULATED = 5.0, -- resistance target modifier when the enemy is capitulated
 	
-<<<<<<< HEAD
-	RESISTANCE_TARGET_MODIFIER_OCCUPIED_IS_EXILE_MIN = 2.0,   -- min & max resistance target modifier resistance target modifier for exile countries. interpolated using legitimacy
-	RESISTANCE_TARGET_MODIFIER_OCCUPIED_IS_EXILE_MAX = 10.0,
-=======
 	RESISTANCE_TARGET_MODIFIER_OCCUPIED_IS_EXILE_MIN = 1.0,   -- min & max resistance target modifier resistance target modifier for exile countries. interpolated using legitimacy
 	RESISTANCE_TARGET_MODIFIER_OCCUPIED_IS_EXILE_MAX = 12.5,
->>>>>>> 054862ac24e99ff0815eea8a54551ce593f08066
 
 	RESISTANCE_TARGET_MODIFIER_POP_LOW = -20.0,			-- how much we reduce the resistance target
 	RESISTANCE_TARGET_MODIFIER_POP_VERY_LOW = -50.0,			-- resistance target modifier in % for states we have claim
 	
-	RESISTANCE_POP_LOW_CUTOFF = 50000,
+	RESISTANCE_POP_LOW_CUTOFF = 100000,
 	RESISTANCE_POP_VERY_LOW_CUTOFF = 1000,
 
 	RESISTANCE_TARGET_MIN_CAP_FOR_NON_COMPLIANCE = 10, -- min resistance target will be capped to this percentage for non-compliance sources
@@ -454,17 +419,6 @@ NResistance = {
 	RESISTANCE_GROWTH_MIN = 0.01, -- min resistance grow
 	RESISTANCE_GROWTH_MAX = 100.0, -- max resistance grow
 	
-<<<<<<< HEAD
-	COMPLIANCE_GROWTH_BASE = 0.070, -- base compliance grow
-	COMPLIANCE_GROWTH_MIN = -100.0, -- min compliance grow
-	COMPLIANCE_GROWTH_MAX = 100.0, -- max compliance grow
-	
-	COMPLIANCE_GROWTH_IS_AT_PEACE = 10, -- compliance growth buff at peace
-	COMPLIANCE_GROWTH_HAS_CLAIM = 7, -- compliance growth buff if state has a claim
-	
-	COMPLIANCE_DECAY_AT_MAX_COMPLIANCE = -0.086, -- as compliance increases, it gets a decay rate depending on its value. compliance should stabilize at some value until its growth changes
-	COMPLIANCE_DECAY_PER_EXILE_LEGITIMACY = -0.0125, -- higher legitimacy will give higher decay to compliance
-=======
 	COMPLIANCE_GROWTH_BASE = 0.071, -- base compliance grow
 	COMPLIANCE_GROWTH_MIN = -100.0, -- min compliance grow
 	COMPLIANCE_GROWTH_MAX = 100.0, -- max compliance grow
@@ -474,7 +428,6 @@ NResistance = {
 	
 	COMPLIANCE_DECAY_AT_MAX_COMPLIANCE = -0.086, -- as compliance increases, it gets a decay rate depending on its value. compliance should stabilize at some value until its growth changes
 	COMPLIANCE_DECAY_PER_EXILE_LEGITIMACY = -0.010, -- higher legitimacy will give higher decay to compliance
->>>>>>> 054862ac24e99ff0815eea8a54551ce593f08066
 	
 	RESISTANCE_RATIO_DIFF_TO_SPREAD = 0.35, -- resistance diff between two neighbour states will spread by this ratio ( from highest resistance states to lower ones and it will only spread once to a state)
 	
@@ -507,13 +460,8 @@ NResistance = {
 	MAX_GARRISON_RATIO_WE_AGREE_TO_SUPPORT = 3.0,	-- The part of the manpower needed by the foreign garrison, that AI will agree to support with our manpower. If negative number, AI will not take into consideration the need, and just calculate how much they can give.
 	FOREIGN_MANPOWER_AI_COOLDOWN_DAYS = 45,		 -- Number of days after an AI give us manpower before the AI accept to give more.
 
-<<<<<<< HEAD
-	INITIAL_HISTORY_RESISTANCE = 03.0,			-- resistance value for initial colony states
-	INITIAL_HISTORY_COMPLIANCE = 70.0,			-- compliance value for initial colony states
-=======
 	INITIAL_HISTORY_RESISTANCE = 10.0,			-- resistance value for initial colony states
 	INITIAL_HISTORY_COMPLIANCE = 65.0,			-- compliance value for initial colony states
->>>>>>> 054862ac24e99ff0815eea8a54551ce593f08066
 	INITIAL_GARRISON_STRENGTH = 1,				-- garrison value for initial colony states
 	
 	STATE_COMPLIANCE_DECAY_FOR_LOST_STATES = 0.05, -- daily compliance decay for the states you lost control of
@@ -530,7 +478,7 @@ NProduction = {
 	EFFICIENCY_LOSS_PER_UNUSED_DAY = 0.45,		-- Daily loss of efficiency for unused factory slots ( efficiency is tracked per factory slot in the production line )
 	RESOURCE_PENALTY_WARNING_CRITICAL_RATIO = 0.75, -- Switch to red progress bar if penalty is over threshold 
 	BASE_FACTORY_SPEED = 2.9, 				-- Base factory speed multiplier (how much hoi3 style IC each factory gives).
-	BASE_FACTORY_SPEED_MIL = 3.7, 				-- Base factory speed multiplier (how much hoi3 style IC each factory gives).
+	BASE_FACTORY_SPEED_MIL = 3.33, 				-- Base factory speed multiplier (how much hoi3 style IC each factory gives).
 	BASE_FACTORY_SPEED_NAV = 2.6, 				-- Base factory speed multiplier (how much hoi3 style IC each factory gives).
 	BASE_FACTORY_START_EFFICIENCY_FACTOR = 25,	-- Base start efficiency for factories expressed in %.
 	BASE_FACTORY_MAX_EFFICIENCY_FACTOR = 60,	-- Base max efficiency for factories expressed in %.
@@ -554,7 +502,7 @@ NProduction = {
 	PRODUCTION_RESOURCE_LACK_PENALTY = -0.04,			-- Penalty decrease while lack of resource per factory
 	MIN_LICENSE_ACTIVE_DAYS = 30,						-- Min days for license to be active
 	BASE_LICENSE_IC_COST = 1,							-- Base IC cost for lended license
-	LICENSE_IC_COST_YEAR_INCREASE = 1,					-- IC cost equipment for every year of equipment after 1936
+	LICENSE_IC_COST_YEAR_INCREASE = 0.5,					-- IC cost equipment for every year of equipment after 1936
 	LICENSE_EQUIPMENT_BASE_SPEED = -0.3,				-- base MIC speed modifier for licensed equipment
 	LICENSE_EQUIPMENT_TECH_SPEED_PER_YEAR = -0.05,		-- MIC speed modifier for licensed equipment for each year of difference between actual and latest equipment
 	LICENSE_EQUIPMENT_TECH_SPEED_MAX_YEARS = 4,			-- Maximum years for MIC speed modifier
@@ -1903,28 +1851,28 @@ NAI = {
 	FASCISTS_BEFRIEND_DEMOCRACIES = -25,
 	FASCISTS_BEFRIEND_COMMUNISTS = -25,
 	FASCISTS_ALLY_FASCISTS = -20,
-	FASCISTS_ALLY_DEMOCRACIES = -70,
+	FASCISTS_ALLY_DEMOCRACIES = -90,
 	FASCISTS_ALLY_COMMUNISTS = -90,
 	FASCISTS_ANTAGONIZE_FASCISTS = -35,
-	FASCISTS_ANTAGONIZE_DEMOCRACIES = 70,
-	FASCISTS_ANTAGONIZE_COMMUNISTS = 80,
-	DEMOCRACIES_BEFRIEND_FASCISTS = -15,
-	DEMOCRACIES_BEFRIEND_DEMOCRACIES = 10,
+	FASCISTS_ANTAGONIZE_DEMOCRACIES = 90,
+	FASCISTS_ANTAGONIZE_COMMUNISTS = 90,
+	DEMOCRACIES_BEFRIEND_FASCISTS = -25,
+	DEMOCRACIES_BEFRIEND_DEMOCRACIES = 0,
 	DEMOCRACIES_BEFRIEND_COMMUNISTS = -25,
-	DEMOCRACIES_ALLY_FASCISTS = -30,
+	DEMOCRACIES_ALLY_FASCISTS = -50,
 	DEMOCRACIES_ALLY_DEMOCRACIES = 0,
 	DEMOCRACIES_ALLY_COMMUNISTS = -50,
 	DEMOCRACIES_ANTAGONIZE_FASCISTS = 5,
 	DEMOCRACIES_ANTAGONIZE_DEMOCRACIES = -45,
-	DEMOCRACIES_ANTAGONIZE_COMMUNISTS = 15,
+	DEMOCRACIES_ANTAGONIZE_COMMUNISTS = -10,
 	COMMUNISTS_BEFRIEND_FASCISTS = -35,
-	COMMUNISTS_BEFRIEND_DEMOCRACIES = -35,
+	COMMUNISTS_BEFRIEND_DEMOCRACIES = -25,
 	COMMUNISTS_BEFRIEND_COMMUNISTS = 25,
-	COMMUNISTS_ALLY_FASCISTS = -70,
+	COMMUNISTS_ALLY_FASCISTS = -90,
 	COMMUNISTS_ALLY_DEMOCRACIES = -65,
 	COMMUNISTS_ALLY_COMMUNISTS = 0,
 	COMMUNISTS_ANTAGONIZE_FASCISTS = 70,
-	COMMUNISTS_ANTAGONIZE_DEMOCRACIES = 50,
+	COMMUNISTS_ANTAGONIZE_DEMOCRACIES = 0,
 	COMMUNISTS_ANTAGONIZE_COMMUNISTS = -20,
 	
 	TENSION_MIN_FOR_GUARANTEE_VS_MINOR = 5, -- for non faction people AI will not consider you worth guaranteeing below this
@@ -2243,7 +2191,7 @@ NAI = {
 	
 	IMPORTANT_VICTORY_POINT = 15,						-- during occupation ai will only care so much to ask for extra garrisons if VP amount is at least this 
 	
-	DOCKYARDS_PER_NAVAL_DESIRE_EFFECT = -20.0,			-- Effects how much AI wants to build dockyards based on how navally focused they are in general. Recommended range -100.0 to 100.0.
+	DOCKYARDS_PER_NAVAL_DESIRE_EFFECT = -25.0,			-- Effects how much AI wants to build dockyards based on how navally focused they are in general. Recommended range -100.0 to 100.0.
 
 	DECISION_PRIORITY_RANDOMIZER = 0.1,					-- random factor that is used while picking decisions. ai is able to pick a lower priority decision earler than a higher one if it is within this threshold
 	
@@ -2266,11 +2214,7 @@ NAI = {
 	MAX_AVAILABLE_MANPOWER_RATIO_TO_BUFFER_PEACETIME = 0.2,		-- deployment will try to buffer a ratio of manpower (for reinforcements) during peace time
 	
 	MANPOWER_RATIO_REQUIRED_TO_PRIO_MOBILIZATION_LAW = 0.35,		-- percentage of manpower in field is desired to be buffered for AI when it has upcoming wars or already at war. if it has less manpower, it will prio manpower laws
-<<<<<<< HEAD
-	UPGRADES_DEFICIT_LIMIT_DAYS = 500,                           -- Ai will avoid upgrading units in the field to new templates if it takes longer than this to fullfill their equipment need
-=======
 	UPGRADES_DEFICIT_LIMIT_DAYS = 700,                           -- Ai will avoid upgrading units in the field to new templates if it takes longer than this to fullfill their equipment need
->>>>>>> 054862ac24e99ff0815eea8a54551ce593f08066
 
 	GIE_EXILE_AIR_MANPOWER_USAGE_RATIO = 0.2, -- AI will not deploy new exile wings when this percentage of available exile manpower is already used for wing recruitment.
 
@@ -2511,24 +2455,14 @@ NOperatives = {
 	AGENCY_AI_BASE_NUM_FACTORIES = 25.0,				-- Used by AI to pace the upgrades. Formula : if( AGENCY_AI_BASE_NUM_FACTORIES <= num_civ_factories - num_upgrades * AGENCY_AI_PER_UPGRADE_FACTORIES )
 	AGENCY_AI_PER_UPGRADE_FACTORIES = 6.0,			-- Used by AI to pace the upgrades. Formula : if( AGENCY_AI_BASE_NUM_FACTORIES <= num_civ_factories - num_upgrades * AGENCY_AI_PER_UPGRADE_FACTORIES )
 	AGENCY_UPGRADE_PER_OPERATIVE_SLOT = 5,			-- Number of upgrade needed to unlock an additional operative slot
-<<<<<<< HEAD
-	MAX_OPERATIVE_SLOT_FROM_AGENCY_UPGRADES = 4,	-- max operative slots gained from upgrades
-=======
 	MAX_OPERATIVE_SLOT_FROM_AGENCY_UPGRADES = 3,	-- max operative slots gained from upgrades
->>>>>>> 054862ac24e99ff0815eea8a54551ce593f08066
 	AGENCY_OPERATIVE_RECRUITMENT_TIME = 30,			-- Number of days to wait to have operative to recruit when an operative slot first becomes available
 	BECOME_SPYMASTER_PP_COST = 50,					-- Number of political power used to become Spy Master
 	BECOME_SPYMASTER_MIN_UPGRADES = 3,				-- Number of agency upgrades you need before becoming Spy Master
 	BASE_COUNTER_INTELLIGENCE_RATING = 1.0,					-- Base national counter intelligence rating for all countries
-<<<<<<< HEAD
-	AGENCY_DEFENSE_EFFECT_ON_HOSTILE_ACTION_COST = 0.12,			-- Defense factor that is responsible for multiplying the cost hostile actions against our country by its level and this value
-	INTEL_NETWORK_GAIN_RATE_ON_WRONG_CONTROLLER = -10.0,			-- Amount of network strength lost in a state when it does not have the right controller anymore
-	INTEL_NETWORK_GAIN_RATE_ON_OUT_OF_RANGE = -0.8,				-- Amount of network strength lost in a state that has the right controller but is out of range of any operative
-=======
 	AGENCY_DEFENSE_EFFECT_ON_HOSTILE_ACTION_COST = 0.15,			-- Defense factor that is responsible for multiplying the cost hostile actions against our country by its level and this value
 	INTEL_NETWORK_GAIN_RATE_ON_WRONG_CONTROLLER = -10.0,			-- Amount of network strength lost in a state when it does not have the right controller anymore
 	INTEL_NETWORK_GAIN_RATE_ON_OUT_OF_RANGE = -0.9,				-- Amount of network strength lost in a state that has the right controller but is out of range of any operative
->>>>>>> 054862ac24e99ff0815eea8a54551ce593f08066
 	INTEL_NETWORK_GAIN_FROM_ADJACENCY_FACTOR = 0.5,				-- Factor multiplied to the sum of the positive difference between a state's strength and its neighbors'. In other words, how strongly neighbors impact the strength gained in a state. Values greater or equal to 1 are discouraged.
 	INTEL_NETWORK_GAIN_DECAY_PER_STEP_FACTOR = 0.5,				-- Factor multiplied to the gain of the previous node in the netowrk initially contributed by the agent. In other words, before adjacency, the strength gain in a state would be GainFromOperative * ( INTEL_NETWORK_GAIN_DECAY_PER_STEP_FACTOR ^ NodeDepth ) where NodeDepth is the distance between the state and the operative's location.
 	INTEL_NETWORK_STRENGTH_TARGET_OFFSET_PER_OPERATIVE = 15.0,		-- The amount of strength each operative on build intel network mission in a sub network add to the base target network strength
@@ -2598,11 +2532,7 @@ NOperatives = {
 	BOOST_IDEOLOGY_MAX_DRIFT_BY_OPERATIVE = 0.25,				-- the maximum drift an operative can cause, a negative value means no maximum
 	BOOST_IDEOLOGY_DRIFT_STACKING_FACTOR = 0.5,				-- multiplied to the drift of an operative for each operative after the first one, with the greatest drift. So if we have the following drift values [ 0.1, 0.3, 0.2 ], the factor is applied twice for the lowest value and once for the 2nd lowest one as such : [ 0.3, 0.2 * D, 0.1 * D * D ] and then the result is summed up to give the final drift value.
 	BOOST_IDEOLOGY_DEFENSE_FACTOR = 0.2,					-- multiplied to the target's defense to get the amount of drift to remove from each operative's drift
-<<<<<<< HEAD
-	BOOST_IDEOLOGY_DAILY_XP_GAIN = 0.474,
-=======
 	BOOST_IDEOLOGY_DAILY_XP_GAIN = 0.374,
->>>>>>> 054862ac24e99ff0815eea8a54551ce593f08066
 	OPERATIVE_BASE_INTEL_AGENCY_DEFENSE = 0.80,				-- Base amount of intel agency defense contributed by an operative on counter_intelligence mission
 	OPERATIVE_BASE_BOOST_IDEOLOGY = 0.10,					-- Base amount of daily ideology drift provoked by an operative
 	OPERATIVE_BASE_PROPAGANDA_POWER = 0.00075,					-- Base amount of daily war support and stability change when an operative is assigned to propaganda
@@ -2610,11 +2540,7 @@ NOperatives = {
 	PROPAGANDA_DEFENSE_FACTOR = 0.01,					-- Multiplied to the target's defense before being subtracted from the Stability/WarSupport drift caused by an operative
 	PROPAGANDA_OPERATIVE_STACKING_FACTOR = 0.5,				-- Multiplied to the Stability/WarSupport drift values of each operative after the one with the greatest values. The process is done separatly for Stability and WarSupport
 	PROPAGANDA_COUNTRY_STACKING_FACTOR = 0.5,				-- Multiplied to the Stability/WarSupport drift values of each country after the one with the greatest values. The process is done separatly for Stability and WarSupport
-<<<<<<< HEAD
-	PROPAGANDA_DAILY_XP_GAIN = 0.550,
-=======
 	PROPAGANDA_DAILY_XP_GAIN = 0.450,
->>>>>>> 054862ac24e99ff0815eea8a54551ce593f08066
 	OPERATIVE_BASE_ROOT_OUT_RESISTANCE_EFFICIENCY = 1.0,			-- The base efficiency of an operative at the RootOutResistance mission (this is a percentage, 1.0 == 100%)
 	ROOT_OUT_RESISTANCE_STACKING_FACTOR = 0.5,				-- Multiplied to each operative efficiency after the first one
 	ROOT_OUT_RESISTANCE_RANGE_STEP_FACTOR = 0.5,				-- Multiplied to the summed up efficiency from all operative operating in a same state to determine the efficiency in neighboring states
@@ -2631,11 +2557,7 @@ NOperatives = {
 	DIPLOMATIC_PRESSURE_OPERATIVE_STACKING_FACTOR = 0.5,		-- The diminishing return factor to apply to operative working for the same faction after the first one. Operatives operating for a same faction are ranked by their efficiency and their opinion and tension drift are individually applyied a stacking factor like so: DRIFT * STACKING_FACTOR^RANK where RANK is a value from 0 to the number of operative -1 where the opperative with the highest drift value has rank 0
 	DIPLOMATIC_PRESSURE_AI_ACCEPTANCE_SCORE_DECAY = 0.4,			-- daily decay when the mission is not active
 	DIPLOMATIC_PRESSURE_TENSION_REQUIREMENTS_DECAY = 0.001,			--
-<<<<<<< HEAD
-	DIPLOMATIC_PRESSURE_DAILY_XP_GAIN = 0.337,
-=======
 	DIPLOMATIC_PRESSURE_DAILY_XP_GAIN = 0.237,
->>>>>>> 054862ac24e99ff0815eea8a54551ce593f08066
 	MIN_NATIONAL_COVERAGE_FOR_BOOST_IDEOLOGY = 0.03,			-- Minimum network coverage required to start the mission (the code ensures that a network exists at all)
 	MIN_NATIONAL_COVERAGE_FOR_PROPAGANDA = 0.03,			-- Minimum network coverage required to start the mission (the code ensures that a network exists at all)
 	OPERATIVE_MIN_DAYS_HARMED = 30,						-- Minimum number of days an operative can be harmed. Applied after modifiers. Can be zero.

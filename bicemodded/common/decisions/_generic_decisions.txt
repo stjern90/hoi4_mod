@@ -31,10 +31,18 @@ political_actions = {
 
 		complete_effect = {
 		    london_naval_treaty_clear_all = yes	
-		    add_stability = -0.05
+		    
 			save_global_event_target_as = broke_london_treaty
-			news_event = { id = japan.38 days = 1 }
-		}
+			
+			if = { limit = { has_global_flag = london_treaty_broken_final }
+	    		news_event = { id = japan.3888 days = 1 }
+				add_stability = -0.02
+			}
+			if = { limit = { NOT = { has_global_flag = london_treaty_broken_final } }
+	    		news_event = { id = japan.38 days = 1 }
+				add_stability = -0.05
+			}		
+		}		
 	}
 	
 	targeted_race_for_the_bomb = {
@@ -97,39 +105,31 @@ political_actions = {
 		icon = generic_industry
 
 		available = {
-			OR = {
-				has_war = yes
-				NOT = { has_idea = SPA_recovering_from_civil_war }
-			}
-			OR = {
-				num_of_factories > 50
-				num_of_civilian_factories > 25
-				has_idea = civilian_economy
-				has_idea = undisturbed_isolation
-				has_idea = isolation
-				has_idea = low_economic_mobilisation
-			}
+			if = {
+				limit = {
+					tag = SPR
+				}
+				NOT = {
+					has_idea = SPR_political_violence
+				}
+                NOT = { has_idea = SPA_recovering_from_civil_war }
+			}			
 			NOT = { has_idea = tot_economic_mobilisation }
 		}
 
 		visible = {
-			has_stability < 0.9
-			NOT = {
-					has_idea = SPR_political_violence
-			}
-			NOT = { has_completed_focus = SPR_all_must_bear_the_torch }
-			NOT = { has_idea = SPA_awaiting_the_rebellion }
+			always = yes
 		}
 
 		fire_only_once = no
 
 		modifier = {
-			stability_weekly = 0.006
-			consumer_goods_factor = 0.08
+			stability_weekly = 0.004
+			consumer_goods_factor = 0.05
 		}
 
-		days_remove = 90
-		days_re_enable = 270
+		days_remove = 180
+		days_re_enable = 360
 
 		cost = 75
 
@@ -140,36 +140,20 @@ political_actions = {
 		ai_will_do = {
 			base = 0
 			modifier = {
-				add = 0.5
-				has_stability < 0.68
-				has_war_support < 0.6
-				OR = {
-					threat > 0.6
-					has_war = yes
-				}
+				add = 1
+				has_stability < 0.65
 			}
 			modifier = {
-				add = 1
+				add = 2
 				has_stability < 0.5
 				date > 1937.6.1
 			}
 			modifier = {
-				add = 0.5
-				OR = {
-					AND = {
-						has_stability < 0.86
-						has_political_power > 250
-						has_war = yes
-					}
-					AND = {
-						has_stability < 0.78
-						has_political_power > 150
-						date > 1938.1.1
-					}
-				}
+				add = 2
+				has_stability < 0.4
 			}
-			modifier = {
-			    add = 0.5
+			modifier = { 
+			        add = 2
 				has_stability < 0.6
 				OR = { tag = GER tag = FRA }
 				date > 1937.6.1
@@ -202,14 +186,7 @@ political_actions = {
 		}
 
 		visible = {
-			has_capitulated = no
-			NOT = { has_idea = tot_economic_mobilisation }
-			NOT = { has_idea = war_economy }
-			NOT = {
-				has_idea = SPR_political_violence
-			}
-			NOT = { has_completed_focus = SPR_all_must_bear_the_torch }
-			NOT = { has_idea = SPA_awaiting_the_rebellion }
+			always = yes
 		}
 
 		fire_only_once = no
@@ -220,12 +197,10 @@ political_actions = {
 			industrial_capacity_dockyard = -0.2
 			production_speed_arms_factory_factor = -0.05
 			production_speed_dockyard_factor = -0.05
-			production_speed_infrastructure_factor = 0.03
-			production_speed_industrial_complex_factor = 0.03
 		}
 
-		days_remove = 90
-		days_re_enable = 270
+		days_remove = 180
+		days_re_enable = 360
 
 		cost = 75
 
@@ -470,10 +445,10 @@ economy_decisions = {
 		fire_only_once = no
 
 		modifier = {
-			production_factory_efficiency_gain_factor = 0.13
+			production_factory_efficiency_gain_factor = 0.1
 			production_factory_max_efficiency_factor = 0.05
-			consumer_goods_factor = 0.05 
-			political_power_gain = -0.2
+			consumer_goods_factor = 0.03 
+			political_power_gain = -0.1
 		}
 		
 		complete_effect = {
@@ -523,10 +498,10 @@ economy_decisions = {
 		fire_only_once = no
 
 		modifier = {
-			production_factory_efficiency_gain_factor = -0.12
+			production_factory_efficiency_gain_factor = -0.1
 			production_factory_max_efficiency_factor = -0.05
-			consumer_goods_factor = -0.05
-			political_power_gain = 0.25
+			consumer_goods_factor = -0.03
+			political_power_gain = 0.3
 		}
 
 		days_remove = 120
@@ -542,123 +517,17 @@ economy_decisions = {
 			base = 0
 			modifier = {
 				add = 1
-				NOT = {
-					any_country = {
-						is_justifying_wargoal_against = ROOT
-					}
-				}
-				has_war = no
-				OR = {
-					has_political_power < 0
-					political_power_growth < 0.5
-				}
-			}
-			modifier = {
-				add = 1
-				num_of_controlled_states > 4
-				num_of_military_factories < 30
-				num_of_civilian_factories > 20
-				has_war = no
-				NOT = {
-					any_country = {
-						is_justifying_wargoal_against = ROOT
-					}
-				}
+				political_power_growth < 0.5
 			}
 			modifier = {
 				factor = 0
-<<<<<<< HEAD
-				OR = {
-					has_government = fascism 
-					OR = {
-						enemies_strength_ratio > 1
-						surrender_progress > 0.25
-					}
-				}
-			}	
-=======
 				has_war = yes
 			}
->>>>>>> 054862ac24e99ff0815eea8a54551ce593f08066
 		}
 	}
 
 
-	dismantle_maginot = {
-
-		icon = generic_construction
-
-		allowed = {
-			NOT = { OR = { tag = GER tag = FRA } }
-		}
-
-		cost = 50
-		fire_only_once = yes
-
-		days_remove = 200
-
-		available = {
-			controls_state = 28
-			if = {
-				limit = {
-					FRA = { has_completed_focus = FRA_extend_the_maginot_line }
-				}
-				controls_state = 18
-				controls_state = 29
-			}
-		}
-
-		visible = {
-			FRA = {
-				any_owned_state = {
-					is_controlled_by = ROOT
-				}
-			}
-			NOT = { is_in_faction_with = FRA }
-		}
-
-		modifier = {
-			civilian_factory_use = 5
-		}
-
-		complete_effect = {
-			28 = {
-				set_building_level = {
-					type = bunker
-					level = 2
-					province = {
-						all_provinces = yes
-						level > 2
-					}
-				}
-			}
-			if = {
-				limit = {
-					FRA = { has_completed_focus = FRA_extend_the_maginot_line }
-				}
-				18 = {
-					set_building_level = {
-						type = bunker
-						level = 2
-						province = {
-							all_provinces = yes
-							level > 2
-						}
-					}
-				}
-				29 = {
-					set_building_level = {
-						type = bunker
-						level = 2
-						province = {
-							all_provinces = yes
-							level > 2
-						}
-					}
-				}
-			}
-		}
-	}
+	#dismantle_maginot # no, this is duplicate with event france.63
 	
 	dismantle_mannerheim = {
 
@@ -739,8 +608,7 @@ icon = generic_industry
 			base = 100
 			
 		}
-    }
-
+        }
 
 MEX_remove_lesser_incompetent_industry  = {
 
@@ -756,6 +624,7 @@ icon = generic_industry
 		allowed = {
 			original_tag = MEX
 		}
+		fire_only_once = yes
         cost = 100
 		visible = {
 			OR = { has_idea = incompetent_heavy_industry_2 }
@@ -768,8 +637,9 @@ icon = generic_industry
 		}
 		ai_will_do = {
 			base = 100
+			
 		}
-}
+}	
 
 MEX_remove_illiteracy  = {
 
@@ -800,7 +670,11 @@ icon = generic_industry
 			base = 100
 			
 		}
-	}
+}			
+
+	#infrastructure_building_slot # not needed in TW
+
+    #war_building_slot # not needed in TW
 }
 
 propaganda_efforts = {
@@ -812,9 +686,9 @@ propaganda_efforts = {
 		available = {
 			NOT = { has_country_flag = war_propaganda_campaign_running }
 			AND = {
-				has_war_support < 0.75
-				has_stability > 0.45
-				threat > 0.4
+				has_war_support < 0.55
+				has_stability > 0.4
+				threat > 0.5
 				OR = {
 					NOT = { has_government = democratic }
 	  				has_war = yes
@@ -823,7 +697,7 @@ propaganda_efforts = {
 		}
 
 		visible = {
-			num_of_military_factories > 20
+			num_of_military_factories > 15
 		}
 
 		fire_only_once = no
@@ -846,36 +720,14 @@ propaganda_efforts = {
 		}
 
 		ai_will_do = {
-			base = 0
+			base = 1
 			modifier = {
-				add = 0.5
-				has_war_support < 0.48
-				OR = {
-					has_war = yes
-					any_country = {
-						is_justifying_wargoal_against = ROOT
-					}
-				}
-				has_stability > 0.65
-			}
-			modifier = {
-				add = 0.5
-				has_war_support < 0.62
-				OR = {
-					has_war = yes
-					any_country = {
-						is_justifying_wargoal_against = ROOT
-					}
-				}
-				has_political_power > 130
-				has_stability > 0.75
-			}
-			modifier = {
-				add = 0.5
+				add = 1
 				has_war_support < 0.4
-				has_political_power > 150
-				has_stability > 0.6
-				date > 1937.6.1
+			}
+			modifier = {
+				add = 1
+				has_war = yes
 			}
 		}
 	}
@@ -884,6 +736,28 @@ propaganda_efforts = {
 	war_propaganda_against_warmonger = {
 
 		icon = generic_prepare_civil_war
+		
+		allowed = {
+		   OR = {
+		   original_tag = FRA
+		   original_tag = ENG
+		   original_tag = CAN
+		   original_tag = SAF
+		   original_tag = AST
+		   original_tag = RAJ
+		   original_tag = NZL
+		   original_tag = JAP
+		   original_tag = MAN
+		   original_tag = FIN
+		   original_tag = SPR
+		   original_tag = HUN
+		   original_tag = ROM
+		   original_tag = BUL
+		   original_tag = ITA
+		   original_tag = SOV
+		   original_tag = GER
+		   }
+		}
 
 		available = {
 			NOT = { has_country_flag = war_propaganda_campaign_running }
@@ -895,10 +769,9 @@ propaganda_efforts = {
 						is_neighbor_of = ROOT
 					}
 					has_offensive_war = yes
-					
 				}
 			}
-			has_war_support < 0.8
+			has_war_support < 0.75
 			if = {
 				limit = {
 					tag = SPR
@@ -928,7 +801,6 @@ propaganda_efforts = {
 		}
 
 		visible = {
-			num_of_military_factories > 25
 			FROM = {
 				NOT = { is_in_faction_with = ROOT }
 				OR = {
@@ -971,7 +843,7 @@ propaganda_efforts = {
 							AND = {
 								NOT = { has_government = ROOT }
 								has_offensive_war = yes
-								has_added_tension_amount > 10
+								has_added_tension_amount > 5
 							}
 						}
 					}
@@ -982,7 +854,7 @@ propaganda_efforts = {
 							AND = {
 								NOT = { has_government = ROOT }
 								has_offensive_war = yes
-								has_added_tension_amount > 35
+								has_added_tension_amount > 30
 							}
 						}
 					}
@@ -990,8 +862,8 @@ propaganda_efforts = {
 			}
 		}
 
-		days_remove = 70
-		days_re_enable = 250
+		days_remove = 90
+		days_re_enable = 180
 
 		fire_only_once = yes
 
@@ -1011,26 +883,14 @@ propaganda_efforts = {
 		}
 
 		ai_will_do = {
-			factor = 1
+			factor = 2
 			modifier = {
-				factor = 0
-				OR = {
-					has_war_support > 0.88
-					AND = {
-						has_war_support > 0.8
-						has_political_power < 120
-					}
-				}
+				factor = 5
+				has_war_support < 0.5
 			}
 			modifier = {
-				add = 2
-				has_war_support < 0.55
-				OR = {
-					has_war = yes
-					any_country = {
-						is_justifying_wargoal_against = ROOT
-					}
-				}
+				factor = 25
+				has_war_support < 0.35
 			}
 		}
 	}
@@ -1423,11 +1283,11 @@ war_measures = {
 		icon = generic_prepare_civil_war
 
 		available = {
-			surrender_progress > 0.35
+			surrender_progress > 0.45
 		}
 
 		visible = {
-			surrender_progress > 0.05
+			surrender_progress > 0.25
 			NOT = { has_tech = Desperate_for_men_tech }
 		}
 
@@ -1437,7 +1297,7 @@ war_measures = {
 		cost = 10
 
 		ai_will_do = {
-			factor = 1
+			factor = 0
 		}
 
 		modifier = {
@@ -1673,6 +1533,11 @@ war_measures = {
 	}
 
 
+
+	#emergency_factory_conversion_defensive # not needed in tw?
+
+	#emergency_factory_conversion_offensive #not needed in tw?
+
 	desperate_defense = { #most fascist countries need desperate defence early since they occupy colony states 
 
 		icon = generic_prepare_civil_war
@@ -1803,10 +1668,10 @@ war_measures = {
 				limit = {
 					has_government = fascism
 				}
-				add_popularity = { ideology = fascism popularity = -0.08 }
+				add_popularity = { ideology = fascism popularity = -0.05 }
 			}
         }
-	}
+   }
 
     war_bonds = {
 
@@ -1840,6 +1705,14 @@ war_measures = {
                     has_stability > 0.7
                 }
             }
+			if = {
+				limit = {
+					tag = USA
+				}
+				NOT = {
+					has_completed_focus = USA_issue_war_bonds
+				}
+			}	
         }
         visible = {
        		has_war = yes
@@ -1848,26 +1721,16 @@ war_measures = {
 
         fire_only_once = no
 
-		days_remove = 120
-		days_re_enable = 270
+		days_remove = 180
 
 		cost = GER_war_bonds_var?50
 
 		modifier = {
-			consumer_goods_factor = -0.05
+			consumer_goods_factor = -0.04
 		}
 
 		ai_will_do = {
 			factor = 0
-			modifier = {
-				add = 1
-				OR = {
-					enemies_strength_ratio > 0.6
-					casualties > 100000
-				}
-				has_political_power > 150
-				num_of_civilian_factories > 25
-			}
 		}
 
 		remove_effect = {
@@ -2024,7 +1887,7 @@ foreign_politics = {
 
 		modifier = {
 			political_power_gain = -0.25
-				civilian_factory_use = 16
+                        civilian_factory_use = 16
 		}
 
 		cost = 0
@@ -2080,11 +1943,11 @@ foreign_support = {
 
 		allowed = {
 			OR = {
-				original_tag = RAJ
-				original_tag = ENG
-				original_tag = USA
-				original_tag = JAP
-				original_tag = MAN
+			original_tag = RAJ
+			original_tag = ENG
+			original_tag = USA
+			original_tag = JAP
+			original_tag = MAN
 			}
 		}
 
@@ -2187,11 +2050,11 @@ foreign_support = {
 
 		allowed = {
 			OR = {
-				original_tag = RAJ
-				original_tag = ENG
-				original_tag = USA
-				original_tag = CHI
-			}		
+			original_tag = RAJ
+			original_tag = ENG
+			original_tag = USA
+			original_tag = CHI
+			}
 		}
 
 		available = {
@@ -2316,11 +2179,11 @@ foreign_support = {
 
 		allowed = {
 			OR = {
-				original_tag = RAJ
-				original_tag = ENG
-				original_tag = USA
-				original_tag = JAP
-				original_tag = MAN
+			original_tag = RAJ
+			original_tag = ENG
+			original_tag = USA
+			original_tag = JAP
+			original_tag = MAN
 			}
 		}
 
@@ -2423,10 +2286,10 @@ foreign_support = {
 
 		allowed = {
 			OR = {
-				original_tag = RAJ
-				original_tag = ENG
-				original_tag = USA
-				original_tag = CHI
+			original_tag = RAJ
+			original_tag = ENG
+			original_tag = USA
+			original_tag = CHI
 			}
 		}
 
@@ -2552,13 +2415,13 @@ foreign_support = {
 
  		allowed = {
  			OR = {
-				original_tag = RAJ
-				original_tag = ENG
-				original_tag = USA
-				original_tag = JAP
-				original_tag = MAN
+			original_tag = RAJ
+			original_tag = ENG
+			original_tag = USA
+			original_tag = JAP
+			original_tag = MAN
 			}
-		}
+ 		}
 
  		available = {
  			any_state = {
@@ -2659,11 +2522,11 @@ foreign_support = {
  	CHI_reopen_the_hump = {
 
  		allowed = {
-			OR = {
-				original_tag = RAJ
-				original_tag = ENG
-				original_tag = USA
-				original_tag = CHI
+ 			OR = {
+			original_tag = RAJ
+			original_tag = ENG
+			original_tag = USA
+			original_tag = CHI
 			}
  		}
 
@@ -2789,11 +2652,11 @@ foreign_support = {
 
 		allowed = {
 			OR = {
-				original_tag = RAJ
-				original_tag = ENG
-				original_tag = USA
-				original_tag = JAP
-				original_tag = MAN
+			original_tag = RAJ
+			original_tag = ENG
+			original_tag = USA
+			original_tag = JAP
+			original_tag = MAN
 			}
 		}
 
