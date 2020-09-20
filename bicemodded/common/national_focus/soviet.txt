@@ -627,27 +627,14 @@ focus_tree = {
 		}
 		completion_reward = {
 			remove_ideas = SOV_The_Great_Soviet_Famine
-			193 = {
-				if = {
-					limit = { is_controlled_by = ROOT }
-					add_building_construction = {
-						type = industrial_complex
-						level = 1
-						instant_build = yes
-					}
-					add_extra_state_shared_building_slots = 1
+			
+			every_owned_state = {
+				limit = {
+					not = { is_core_of = ROOT }
+					is_core_of = UKR
 				}
-			}
-			192 = {
-				if = {
-					limit = { is_controlled_by = ROOT }
-					add_building_construction = {
-						type = industrial_complex
-						level = 1
-						instant_build = yes
-					}
-					add_extra_state_shared_building_slots = 1
-				}
+				add_compliance = 10
+				add_resistance = -5
 			}
 }
 	}
@@ -3238,9 +3225,15 @@ focus_tree = {
 		id = SOV_annex_tannu_tuva
 		icon = GFX_Goal_annex_tanu_tuva
 		prerequisite = { focus = SOV_operation_zet }
-		available = { is_puppet = no }
+		available = { 
+			is_puppet = no 
+			TAN = {
+				is_puppet_of = SOV
+			}
+		}
 		bypass = {
 			NOT = { country_exists = TAN }
+			NOT = { TAN = { is_puppet_of = SOV } }
 		}
 		x = 10
 		y = 6
@@ -3967,12 +3960,11 @@ focus_tree = {
 		}
 		x = 1
 		y = 10
-		cost = 5
+		cost = 3.1
 		ai_will_do = {
 			factor = 100
 		}	
 		completion_reward = {
-			army_experience = 25
 			219 = {
 				custom_effect_tooltip = SOV_defense_of_moscow_forts
 				hidden_effect = {
@@ -4249,6 +4241,7 @@ focus_tree = {
 		completion_reward = {
 			add_state_claim = 78
 			add_state_claim = 80
+			add_state_claim = 198
 			add_named_threat = { threat = 1 name = SOV_claim_bessarabia }
 			random_other_country = {
 				limit = { owns_state = 78 }
@@ -4282,6 +4275,7 @@ focus_tree = {
 			country_exists = GER			
 			has_global_flag = sov_yes_pact
 			NOT = { has_idea = SOV_molotov_ribbentrop_pact }
+			NOT = { has_global_flag = eastern_front_peace }
 		}
 		bypass = {
 			has_war_with = GER
@@ -4324,6 +4318,7 @@ focus_tree = {
 				NOT = { has_idea = officers_purged_9 }			
 				NOT = { has_idea = officers_purged_10 }			
 			}
+			NOT = { has_global_flag = eastern_front_peace }
 		}
 		bypass = {
 			has_war_with = GER
@@ -7222,5 +7217,736 @@ focus_tree = {
 			}
 		}
 	}
+	
+	focus = {
+		id = SOV_lostnation
+		icon = GFX_Goal_Attack_Soviets
+		x = 53
+		y = 0
+		
+		available = {
+			has_global_flag = eastern_front_peace
+		}
+		
+		ai_will_do = {
+			factor = 1
+		}
+		
+		cost = 5
+		
+		completion_reward = {
+			swap_ideas = {
+				add_idea = SOV_lost2
+				remove_idea = SOV_lost
+			}
+		}
+	}
+	
+	focus = {
+		id = SOV_infrasiberia
+		icon = GFX_goal_IRQ_infra
+		prerequisite = { focus = SOV_lostnation }
+		relative_position_id = SOV_lostnation
+		x = -1
+		y = 1
+		
+		available = {
+		}
+		
+		ai_will_do = {
+			factor = 1
+		}
+		
+		cost = 6.2
+		
+		completion_reward = {
+			569 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			570 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			571 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			590 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = SOV_ecoreco
+		icon = GFX_goal_SOV_economy
+		prerequisite = { focus = SOV_lostnation }
+		relative_position_id = SOV_lostnation
+		x = 1
+		y = 1
+		
+		available = {
+		}
+		
+		ai_will_do = {
+			factor = 1
+		}
+		
+		cost = 7.2
+		
+		completion_reward = {
+			add_timed_idea = {
+				idea = SOV_industry
+				days = 365
+			}
+		}
+	}
+	
+	focus = {
+		id = SOV_attackburyatia
+		icon = GFX_sov_plans
+		prerequisite = { focus = SOV_infrasiberia focus = SOV_ecoreco }
+		relative_position_id = SOV_infrasiberia
+		x = 1
+		y = 1
+		
+		available = {
+		}
+		
+		ai_will_do = {
+			factor = 1
+		}
+		
+		cost = 2
+		
+		will_lead_to_war_with = TAN
+		
+		completion_reward = {
+			create_wargoal = {
+				target = TAN
+				type = annex_everything
+			}
+		}
+	}
+	
+	focus = {
+		id = SOV_morecontrol
+		icon = GFX_goal_IRQ_37eco
+		prerequisite = { focus = SOV_ecoreco }
+		relative_position_id = SOV_ecoreco
+		x = 1
+		y = 1
+		
+		available = {
+		}
+		
+		ai_will_do = {
+			factor = 1
+		}
+		
+		cost = 5
+		
+		completion_reward = {
+			swap_ideas = {
+				add_idea = SOV_lost3
+				remove_idea = SOV_lost2
+			}
+		}
+	}
+	
+	focus = {
+		id = SOV_giveforcontrol
+		icon = GFX_goal_SOV_doncossacks
+		prerequisite = { focus = SOV_infrasiberia }
+		relative_position_id = SOV_infrasiberia
+		x = -1
+		y = 1
+		
+		available = {
+		}
+		
+		ai_will_do = {
+			factor = 1
+		}
+		
+		cost = 7
+		
+		completion_reward = {
+			add_stability = 0.2
+			custom_effect_tooltip = doncossacks
+			hidden_effect = {
+				news_event = {
+					id = worldnews.25
+					days = 1
+				}
+				DON = {
+					transfer_state = 407
+					transfer_state = 406
+					add_state_core = 407
+					add_state_core = 406
+					407 = {
+						add_building_construction = {
+							instant_build = yes
+							type = industrial_complex
+							level = 6
+						}
+						add_extra_state_shared_building_slots = 6
+					}
+					406 = {
+						add_building_construction = {
+							instant_build = yes
+							type = arms_factory
+							level = 6
+						}
+						add_extra_state_shared_building_slots = 6
+					}
+					set_technology = {
+						################# infantry ###############
+						infantry_uniforms = 1
+						infantry_weapons = 1
+						infantry_weapons1 = 1
+						hmg = 1
+						mortars = 1
+						semi_motorised_infantry = 2
+						tech_Garrison = 1
+						tech_Headquarters = 1
+						################## support ##################
+						tech_recon = 1
+						subtech_recon_cav_1 = 1
+						tech_engineers = 1
+						tech_support = 1
+						################## artillery ###############
+						gw_artillery = 2
+						#interwar_artillery = 2
+						################## armor ##############
+						generic_armor = 1
+						tech_Gun_Carriers = 1
+						################## aircraft ##############
+						early_fighter = 1
+						CAS0 = 1
+						generic_fighter = 1
+						generic_bomber = 1
+						############### economy ############
+						construction0 = 1
+						basic_industry = 2
+						defence_works0 = 1
+						infra_works0 = 1
+						concentrated_industry = 2
+						tech_Garrison_2 = 1
+					}
+					set_politics = {
+						ruling_party = neutrality
+					}
+					set_popularities = {
+						democratic = 11
+						neutrality = 63
+						fascism = 25
+						communism = 1
+					}
+					set_stability = 0.35
+					set_war_support = 0.6
+					add_manpower = 10000
+					army_experience = 12
+					load_oob = DON_cav
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = SOV_union
+		icon = GFX_goal_SOV_newregime
+		prerequisite = { focus = SOV_morecontrol }
+		prerequisite = { focus = SOV_attackburyatia }
+		prerequisite = { focus = SOV_giveforcontrol }
+		relative_position_id = SOV_attackburyatia
+		x = 0
+		y = 1
+		
+		available = {
+		}
+		
+		ai_will_do = {
+			factor = 1
+		}
+		
+		cost = 6.2
+		
+		completion_reward = {
+			add_war_support = 0.12
+			swap_ideas = {
+				add_idea = SOV_lost4
+				remove_idea = SOV_lost3
+			}
+		}
+	}
+	
+	focus = {
+		id = SOV_reform_nkvd
+		icon = GFX_goal_SOV_nkvd2
+		prerequisite = { focus = SOV_union }
+		relative_position_id = SOV_union
+		x = -1
+		y = 1
+		
+		available = {
+			or = {
+				has_idea = nkvd_idea
+				has_idea = nkvd_idea_2
+				has_idea = nkvd_idea_3
+			}
+		}
+		
+		ai_will_do = {
+			factor = 1
+		}
+		
+		cost = 6
+		
+		completion_reward = {
+			add_stability = 0.05
+			214 = {
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+				add_extra_state_shared_building_slots = 2
+			}
+		}
+	}
+	
+	focus = {
+		id = SOV_union2
+		icon = GFX_goal_SOV_sav
+		prerequisite = { focus = SOV_union }
+		relative_position_id = SOV_union
+		x = 1
+		y = 1
+		
+		available = {
+		}
+		
+		ai_will_do = {
+			factor = 1
+		}
+		
+		cost = 4
+		
+		completion_reward = {
+			remove_ideas = SOV_lost4
+		}
+	}
+	
+	focus = {
+		id = SOV_rifle2
+		icon = GFX_goal_SOV_rifle
+		prerequisite = { focus = SOV_giveforcontrol }
+		relative_position_id = SOV_giveforcontrol
+		x = -1
+		y = 1
+		
+		available = {
+		}
+		
+		ai_will_do = {
+			factor = 1
+		}
+		
+		cost = 7.5
+		
+		completion_reward = {
+			add_tech_bonus = {
+				uses = 1
+				category = infantry_weapons
+				bonus = 0.75
+			}
+		}
+	}
+	
+	focus = {
+		id = SOV_popular2
+		icon = GFX_goal_SOV_popular
+		prerequisite = { focus = SOV_union }
+		relative_position_id = SOV_union
+		x = -3
+		y = 1
+		
+		available = {
+		}
+		
+		ai_will_do = {
+			factor = 1
+		}
+		
+		cost = 5.5
+		
+		completion_reward = {
+			add_ideas = SOV_look
+		}
+	}
+	
+	focus = {
+		id = SOV_civilian
+		icon = GFX_goal_SOV_hat
+		prerequisite = { focus = SOV_morecontrol }
+		relative_position_id = SOV_morecontrol
+		x = 1
+		y = 1
+		
+		available = {
+		}
+		
+		ai_will_do = {
+			factor = 1
+		}
+		
+		cost = 10.5
+		
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = industrial_complex
+					level = 3
+					instant_build = yes
+				}
+				add_extra_state_shared_building_slots = 3
+			}
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = industrial_complex
+					level = 3
+					instant_build = yes
+				}
+				add_extra_state_shared_building_slots = 3
+			}
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = industrial_complex
+					level = 3
+					instant_build = yes
+				}
+				add_extra_state_shared_building_slots = 3
+			}
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = industrial_complex
+					level = 3
+					instant_build = yes
+				}
+				add_extra_state_shared_building_slots = 3
+			}
+		}
+	}
+	
+	focus = {
+		id = SOV_civilian2
+		icon = GFX_sov_heavy_industry
+		prerequisite = { focus = SOV_civilian focus = SOV_union }
+		relative_position_id = SOV_civilian
+		x = 0
+		y = 1
+		
+		available = {
+		}
+		
+		ai_will_do = {
+			factor = 1
+		}
+		
+		cost = 9.2
+		
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = industrial_complex
+					level = 3
+					instant_build = yes
+				}
+				add_extra_state_shared_building_slots = 3
+			}
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = industrial_complex
+					level = 3
+					instant_build = yes
+				}
+				add_extra_state_shared_building_slots = 3
+			}
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = arms_factory
+					level = 3
+					instant_build = yes
+				}
+				add_extra_state_shared_building_slots = 3
+			}
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = arms_factory
+					level = 3
+					instant_build = yes
+				}
+				add_extra_state_shared_building_slots = 3
+			}
+		}
+	}
+	
+	focus = {
+		id = SOV_reform_nkvd2
+		icon = GFX_goal_SOV_kgb
+		prerequisite = { focus = SOV_union2 focus = SOV_reform_nkvd }
+		relative_position_id = SOV_union2
+		x = -1
+		y = 1
+		
+		available = {
+		}
+		
+		ai_will_do = {
+			factor = 1
+		}
+		
+		cost = 5.2
+		
+		completion_reward = {
+			if = {
+				limit = {
+					has_idea = nkvd_idea
+				}
+				remove_ideas = nkvd_idea
+			}
+			if = {
+				limit = {
+					has_idea = nkvd_idea_2
+				}
+				remove_ideas = nkvd_idea_2
+			}
+			if = {
+				limit = {
+					has_idea = nkvd_idea_3
+				}
+				remove_ideas = nkvd_idea_3
+			}
+			add_ideas = kgb_soviet
+		}
+	}
+	
+	focus = {
+		id = SOV_attackger
+		icon = GFX_Goal_Attack_Germany
+		prerequisite = { focus = SOV_reform_nkvd2 }
+		relative_position_id = SOV_reform_nkvd2
+		x = 0
+		y = 1
+		
+		cancel_if_invalid = no
+		continue_if_invalid = yes
+		
+		available = {
+			custom_trigger_tooltip = {
+			tooltip = allies_fra
+			or = {
+				ENG = {
+					or = {
+					divisions_in_state = {
+						type = infantry
+						size > 3
+						state = 15
+					}
+					divisions_in_state = {
+						type = infantry
+						size > 3
+						state = 16
+					}
+					divisions_in_state = {
+						type = infantry
+						size > 3
+						state = 27
+					}
+					divisions_in_state = {
+						type = infantry
+						size > 3
+						state = 20
+					}
+					divisions_in_state = {
+						type = infantry
+						size > 3
+						state = 21
+					}
+					divisions_in_state = {
+						type = infantry
+						size > 3
+						state = 19
+					}
+					divisions_in_state = {
+						type = infantry
+						size > 3
+						state = 23
+					}
+					divisions_in_state = {
+						type = infantry
+						size > 3
+						state = 30
+					}
+					divisions_in_state = {
+						type = infantry
+						size > 3
+						state = 14
+					}
+					}
+				}
+				FRA = {
+					or = {
+					divisions_in_state = {
+						type = infantry
+						size > 3
+						state = 15
+					}
+					divisions_in_state = {
+						type = infantry
+						size > 3
+						state = 16
+					}
+					divisions_in_state = {
+						type = infantry
+						size > 3
+						state = 27
+					}
+					divisions_in_state = {
+						type = infantry
+						size > 3
+						state = 20
+					}
+					divisions_in_state = {
+						type = infantry
+						size > 3
+						state = 21
+					}
+					divisions_in_state = {
+						type = infantry
+						size > 3
+						state = 19
+					}
+					divisions_in_state = {
+						type = infantry
+						size > 3
+						state = 23
+					}
+					divisions_in_state = {
+						type = infantry
+						size > 3
+						state = 30
+					}
+					divisions_in_state = {
+						type = infantry
+						size > 3
+						state = 14
+					}
+					}
+				}
+				USA = {
+					or = {
+					divisions_in_state = {
+						type = infantry
+						size > 3
+						state = 15
+					}
+					divisions_in_state = {
+						type = infantry
+						size > 3
+						state = 16
+					}
+					divisions_in_state = {
+						type = infantry
+						size > 3
+						state = 27
+					}
+					divisions_in_state = {
+						type = infantry
+						size > 3
+						state = 20
+					}
+					divisions_in_state = {
+						type = infantry
+						size > 3
+						state = 21
+					}
+					divisions_in_state = {
+						type = infantry
+						size > 3
+						state = 19
+					}
+					divisions_in_state = {
+						type = infantry
+						size > 3
+						state = 23
+					}
+					divisions_in_state = {
+						type = infantry
+						size > 3
+						state = 30
+					}
+					divisions_in_state = {
+						type = infantry
+						size > 3
+						state = 14
+					}
+					}
+				}
+			}
+			}
+		}
+		
+		ai_will_do = {
+			factor = 0
+			modifier = {
+				NOT = { has_war_with = SIB }
+				NOT = { has_war_with = JAP }
+				add = 5000
+			}	
+		}
+		
+		cost = 5
+		
+		will_lead_to_war_with = GER
+		
+		select_effect = {
+			SOV = {
+				add_ai_strategy = {
+					type = prepare_for_war
+					id = GER
+					value = 100
+				}
+				add_ai_strategy = {
+					type = conquer
+					id = GER
+					value = 100
+				}
+			}
+		}
+		
+		completion_reward = {
+			declare_war_on = {
+				target = GER
+				type = annex_everything
+			}
+		}
+	}
+	
 }
 #######################################################
