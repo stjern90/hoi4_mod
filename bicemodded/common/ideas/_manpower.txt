@@ -97,12 +97,18 @@ ideas = {
 					has_government = communism
 					AND = {
 					    has_government = neutrality
-						has_war = yes
+						OR = {
+							threat > 0.5
+							has_war = yes
+						}
 					}
 					AND = {
 					    has_government = democratic
-						has_war = yes
-						or = { surrender_progress > 0.05 date > 1941.1.1 }
+						or = {
+							has_war = yes
+							surrender_progress > 0.05
+							date > 1941.1.1 
+						}
 					}				
 				}			
 			}
@@ -126,12 +132,19 @@ ideas = {
 					factor = 20
 					manpower_per_military_factory <  800
 				}
+				#Bramja: not if more than 700000 avaliable already
+				modifier = {
+					#Block has plenty manpower
+					factor = 0
+					NOT = { tag = CHI }
+					has_manpower > 700000
+				}
 
 				modifier = { # china relies a lot on throwing bodies at the enemy
 					factor = 3
 
 					tag = CHI
-					has_manpower < 200000
+					has_manpower < 850000
 				}
 			}
 			
@@ -149,14 +162,19 @@ ideas = {
 					has_government = communism
 					AND = {
 					    has_government = neutrality
-						has_war = yes
-						enemies_strength_ratio > 0.5
+						OR = {
+							num_of_factories > 70
+							has_war = yes
+						}
 					}
 					AND = {
 					    has_government = democratic
 						has_war = yes
-						enemies_strength_ratio > 0.5
-						or = { surrender_progress > 0.05 date > 1942.1.1 }
+						or = {
+							surrender_progress > 0.05 
+							date > 1942.1.1 
+							enemies_strength_ratio > 0.75
+						}
 					}
 				}			
 			}
@@ -191,12 +209,19 @@ ideas = {
 					NOT = { tag = CHI }
 					manpower_per_military_factory >  3000
 				}
+				#Bramja: not if more than 500000 avaliable already
+				modifier = {
+					#Block has plenty manpower
+					factor = 0
+					NOT = { tag = CHI }
+					has_manpower > 500000
+				}
 
 				modifier = { # china relies a lot on throwing bodies at the enemy
 					factor = 3
 
 					tag = CHI
-					has_manpower < 200000
+					has_manpower < 800000
 				}
 			}
 			
@@ -211,12 +236,25 @@ ideas = {
 				has_war_support > 0.7
 				has_war = yes
 				enemies_strength_ratio > 0.6
-				OR = { 
+				OR = {
 				    has_government = fascism
 				    has_government = communism
-				    AND = { has_government = democratic OR = { surrender_progress > 0.15 date > 1944.1.1 } }
-					AND = { has_government = neutrality surrender_progress > 0.1 }
+				    AND = {
+						has_government = democratic 
+						OR = {
+							surrender_progress > 0.15
+							enemies_strength_ratio > 1.1
+						}
+					}
+					AND = {
+						has_government = neutrality
+						OR = {
+							surrender_progress > 0.1
+							enemies_strength_ratio > 0.9
+						}
+					}
 				}
+				
 				#any_enemy_country = {
 				#	strength_ratio = {
 				#		tag = ROOT 
@@ -256,26 +294,40 @@ ideas = {
 					NOT = { tag = CHI }
 					manpower_per_military_factory >  5000
 				}
+				#Bramja: not if more than 350000 avaliable already 
+				modifier = {
+					#Block has plenty manpower
+					factor = 0
+					NOT = { tag = CHI }
+					has_manpower > 350000
+				}
 
 				modifier = { # china relies a lot on throwing bodies at the enemy
 					factor = 3
 
 					tag = CHI
-					has_manpower < 200000
+					has_manpower < 500000
 				}
 			}
 			cancel_if_invalid = no
 		}
+
 		scraping_the_barrel = {
 			
 			available = {
 				#has_manpower_for_recruit_change_to =  { value = 0.25 group = mobilization_laws }
 				has_war_support > 0.75
 				has_war = yes
-				or = { has_government = fascism
-				has_government = communism }
+				or = {
+					has_government = fascism
+					has_government = communism 
+				}
+				is_subject = no
 				date > 1942.1.1
-				OR = { enemies_strength_ratio > 1 surrender_progress > 0.1 }
+				OR = {
+					enemies_strength_ratio > 1
+					surrender_progress > 0.2
+				}
 				#any_enemy_country = {
 				#	strength_ratio = {
 				#		tag = ROOT 
@@ -312,6 +364,13 @@ ideas = {
 					#Block has plenty manpower
 					factor = 0
 					manpower_per_military_factory >  5000
+				}
+				#Bramja: not if more than 250000 avaliable already 
+				modifier = { 
+					#Block has plenty manpower
+					factor = 0
+					NOT = { tag = CHI }
+					has_manpower > 250000
 				}
 			}
 			cancel_if_invalid = no
