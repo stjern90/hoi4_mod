@@ -1291,9 +1291,11 @@ focus_tree = {
 		prerequisite = { focus = FIN_politic }
 		relative_position_id = FIN_politic
 		bypass = {
+			has_global_flag = FIN_fascism_election
 		}
 		available = {
 			has_idea = FIN_vaino_tanner
+			has_global_flag = FIN_democratic_win
 		}
 		x = 0
 		y = 1
@@ -1314,6 +1316,7 @@ focus_tree = {
 		prerequisite = { focus = FIN_redsoil }
 		relative_position_id = FIN_redsoil
 		bypass = {
+			has_global_flag = FIN_fascism_election
 		}
 		available = {
 		}
@@ -1338,6 +1341,7 @@ focus_tree = {
 		prerequisite = { focus = FIN_redsoil }
 		relative_position_id = FIN_redsoil
 		bypass = {
+			has_global_flag = FIN_fascism_election
 		}
 		available = {
 		}
@@ -1792,9 +1796,23 @@ focus_tree = {
 		y = 1
 		cost = 9
 		completion_reward = {
-			swap_ideas = {
-				add_idea = sisu2
-				remove_idea = sisu
+			if = {
+				limit = {
+					has_idea = sisu
+				}
+				swap_ideas = {
+					add_idea = sisu2
+					remove_idea = sisu
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = sisu3
+				}
+				swap_ideas = {
+					add_idea = sisu4
+					remove_idea = sisu3
+				}
 			}
 		}
 	}
@@ -2089,6 +2107,7 @@ focus_tree = {
 	focus = {
 		id = FIN_baltic
 		icon = GFX_Goal_FIN_invest
+		prerequisite = { focus = FIN_democraticwin }
 		bypass = {
 			and = {
 				EST = { exists = no }
@@ -2099,7 +2118,7 @@ focus_tree = {
 		available = {
 		}
 		x = 32
-		y = 0
+		y = 1
 		cost = 6.2
 		completion_reward = {
 			custom_effect_tooltip = FIN_baltic_tt
@@ -2521,34 +2540,9 @@ focus_tree = {
 	}
 	
 	focus = {
-		id = FIN_protectestonia
-		icon = GFX_Goal_FIN_estonia
-		prerequisite = { focus = FIN_mechanical focus = FIN_populatenorth }
-		relative_position_id = FIN_mechanical
-		bypass = {
-		}
-		available = {
-			NOT = { has_country_flag = winterwar }
-			has_government = fascism
-			EST = { exists = yes }
-		}
-		ai_will_do = {
-			factor = 0
-		}
-		x = 3
-		y = 1
-		cost = 6.8
-		completion_reward = {
-			create_wargoal = {
-				target = EST
-				type = annex_everything
-			}
-		}
-	}
-	
-	focus = {
 		id = FIN_sweden
 		icon = GFX_goal_FIN_unity
+		prerequisite = { focus = FIN_democraticwin }
 		mutually_exclusive = { focus = FIN_aland }
 		bypass = {
 			SWE = { exists = no }
@@ -2557,7 +2551,7 @@ focus_tree = {
 			SWE = { exists = yes }
 		}
 		x = 36
-		y = 0
+		y = 1
 		cost = 8.1
 		completion_reward = {
 			FIN_language_decrease = yes
@@ -2588,6 +2582,7 @@ focus_tree = {
 		id = FIN_aland
 		icon = GFX_goal_FIN_aland
 		mutually_exclusive = { focus = FIN_sweden }
+		prerequisite = { focus = FIN_revivelapua }
 		bypass = {
 			SWE = { exists = no }
 		}
@@ -2595,7 +2590,7 @@ focus_tree = {
 			SWE = { exists = yes }
 		}
 		x = 38
-		y = 0
+		y = 1
 		cost = 6.7
 		
 		ai_will_do = {
@@ -2678,12 +2673,428 @@ focus_tree = {
 		}
 		available = {
 		}
-		x = 1
-		y = 1
+		x = 0
+		y = 2
 		cost = 8.7
 		
 		completion_reward = {
 			remove_ideas = FIN_language
+		}
+	}
+	
+	focus = {
+		id = FIN_revivelapua
+		icon = GFX_goal_FIN_nowinter
+		relative_position_id = FIN_aland
+		bypass = {
+		}
+		available = {
+			SOV = { has_completed_focus = SOV_afganistan }
+			has_global_flag = FIN_fascism_election
+		}
+		x = 1
+		y = -1
+		cost = 5
+		
+		completion_reward = {
+			remove_ideas = FIN_lowfascist
+		}
+	}
+	
+	focus = {
+		id = FIN_removeswedish
+		icon = GFX_goal_FIN_sweden2
+		prerequisite = { focus = FIN_aland }
+		relative_position_id = FIN_aland
+		bypass = {
+		}
+		available = {
+		}
+		x = 0
+		y = 2
+		cost = 8.7
+		
+		completion_reward = {
+			remove_ideas = FIN_language
+		}
+	}
+	
+	focus = {
+		id = FIN_protectornorth
+		icon = GFX_goal_FIN_nowinter
+		relative_position_id = FIN_aland
+		bypass = {
+		}
+		available = {
+			or = {
+				and = {
+					SOV = { has_completed_focus = SOV_afganistan }
+					has_global_flag = FIN_fascism_election
+				}
+				and = {
+					has_global_flag = FIN_fascism_election
+					has_global_flag = winterwar_won
+				}
+				and = {
+					has_global_flag = FIN_fascism_election
+					not = { has_global_flag = winterwar_won }
+					has_war_with = SOV
+				}
+				and = {
+					has_global_flag = FIN_fascism_election
+					has_global_flag = eastern_front_peace
+				}
+			}	
+		}
+		x = 1
+		y = -1
+		cost = 1
+		
+		completion_reward = {
+			add_political_power = 15
+		}
+	}
+	
+	focus = {
+		id = FIN_karelia
+		icon = GFX_goal_FIN_karelia
+		relative_position_id = FIN_protectornorth
+		prerequisite = { focus = FIN_protectornorth }
+		bypass = {
+		}
+		available = {
+			controls_state = 146
+		}
+		x = 1
+		y = 1
+		cost = 6
+		
+		completion_reward = {
+			146 = {
+				add_building_construction = {
+					instant_build = yes
+					level = 2
+					province = 9176
+					type = bunker
+				}
+				add_building_construction = {
+					instant_build = yes
+					level = 2
+					province = 6153
+					type = bunker
+				}
+				add_building_construction = {
+					instant_build = yes
+					level = 2
+					province = 11156
+					type = bunker
+				}
+				add_building_construction = {
+					instant_build = yes
+					level = 2
+					type = anti_air_building
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = FIN_protectestonia
+		icon = GFX_Goal_FIN_estonia
+		prerequisite = { focus = FIN_aland }
+		prerequisite = { focus = FIN_karelia }
+		relative_position_id = FIN_karelia
+		bypass = {
+		}
+		available = {
+			NOT = { has_country_flag = winterwar }
+			has_government = fascism
+			EST = { exists = yes }
+		}
+		ai_will_do = {
+			factor = 0
+		}
+		x = -1
+		y = 1
+		cost = 6.8
+		completion_reward = {
+			create_wargoal = {
+				target = EST
+				type = annex_everything
+			}
+		}
+	}
+	
+	focus = {
+		id = FIN_spirit
+		icon = GFX_goal_FIN_suurvaakuna
+		prerequisite = { focus = FIN_protectornorth }
+		relative_position_id = FIN_protectornorth
+		bypass = {
+		}
+		available = {
+		}
+		ai_will_do = {
+			factor = 0
+		}
+		x = 3
+		y = 1
+		cost = 5
+		completion_reward = {
+			add_ideas = FIN_spirit2
+		}
+	}
+	
+	focus = {
+		id = FIN_markdestiny
+		icon = GFX_goal_FIN_culture
+		prerequisite = { focus = FIN_spirit }
+		relative_position_id = FIN_spirit
+		bypass = {
+		}
+		available = {
+		}
+		ai_will_do = {
+			factor = 0
+		}
+		x = -1
+		y = 1
+		cost = 11
+		completion_reward = {
+			add_research_slot = 1
+			add_tech_bonus = {
+				technology = schools_work
+				technology = schools_work2
+				technology = schools_work3
+				technology = schools_work4
+				bonus = 0.5
+				uses = 2
+			}
+		}
+	}
+	
+	focus = {
+		id = FIN_winter2
+		icon = GFX_goal_FIN_winter
+		prerequisite = { focus = FIN_spirit }
+		relative_position_id = FIN_spirit
+		bypass = {
+		}
+		available = {
+		}
+		ai_will_do = {
+			factor = 0
+		}
+		x = 1
+		y = 1
+		cost = 4
+		completion_reward = {
+			army_experience = 65
+			air_experience = 25
+			navy_experience = 25
+		}
+	}
+	
+	focus = {
+		id = FIN_aagun
+		icon = GFX_goal_FIN_antiair
+		prerequisite = { focus = FIN_markdestiny }
+		prerequisite = { focus = FIN_winter2 }
+		relative_position_id = FIN_markdestiny
+		bypass = {
+		}
+		available = {
+		}
+		ai_will_do = {
+			factor = 0
+		}
+		x = 1
+		y = 1
+		cost = 6.5
+		completion_reward = {
+			add_war_support = 0.05
+			111 = {
+				add_building_construction = {
+					instant_build = yes
+					type = anti_air_building
+					level = 3
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = FIN_populate3
+		icon = GFX_goal_FIN_populate2
+		prerequisite = { focus = FIN_protectestonia focus = FIN_markdestiny }
+		prerequisite = { focus = FIN_removeswedish }
+		relative_position_id = FIN_markdestiny
+		bypass = {
+		}
+		available = {
+		}
+		ai_will_do = {
+			factor = 0
+		}
+		x = -1
+		y = 2
+		cost = 5.8
+		completion_reward = {
+			if = {
+				limit = {
+					has_idea = sisu
+				}
+				swap_ideas = {
+					add_idea = sisu3
+					remove_idea = sisu
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = sisu2
+				}
+				swap_ideas = {
+					add_idea = sisu4
+					remove_idea = sisu2
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = FIN_agri
+		icon = GFX_goal_FIN_agriculture2
+		prerequisite = { focus = FIN_populate3}
+		mutually_exclusive = { focus = FIN_industry2 }
+		relative_position_id = FIN_populate3
+		bypass = {
+		}
+		available = {
+		}
+		ai_will_do = {
+			factor = 0
+		}
+		x = -1
+		y = 1
+		cost = 4.5
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					NOT = { 
+						state = 147
+						state = 722
+					}
+				}
+				add_building_construction = {
+					instant_build = yes
+					level = 2
+					type = industrial_complex
+				}
+				add_extra_state_shared_building_slots = 2
+			}
+		}
+	}
+	
+	focus = {
+		id = FIN_family
+		icon = GFX_goal_FIN_perfectman
+		prerequisite = { focus = FIN_aagun }
+		relative_position_id = FIN_aagun
+		bypass = {
+		}
+		available = {
+		}
+		ai_will_do = {
+			factor = 0
+		}
+		x = 0
+		y = 1
+		cost = 9.2
+		completion_reward = {
+			random_owned_controlled_state = { # this path doesnt have access to baltic investment path 
+				add_building_construction = {
+					level = 1
+					type = arms_factory
+					instant_build = yes
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					level = 1
+					type = industrial_complex
+					instant_build = yes
+				}
+				add_extra_state_shared_building_slots = 1
+			}
+			add_stability = 0.05
+		}
+	}
+	
+	focus = {
+		id = FIN_industry2
+		icon = GFX_goal_FIN_heavyindust2
+		prerequisite = { focus = FIN_family focus = FIN_populate3 }
+		mutually_exclusive = { focus = FIN_agri }
+		relative_position_id = FIN_family
+		bypass = {
+		}
+		available = {
+			controls_state = 146
+		}
+		ai_will_do = {
+			factor = 0
+		}
+		x = -1
+		y = 1
+		cost = 10
+		completion_reward = {
+			add_tech_bonus = {
+				category = heavy_industry
+				bonus = 0.5
+				uses = 1
+			}
+			146 = {
+				add_resource = {
+					type = steel
+					amount = 12
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = FIN_lapua2
+		icon = GFX_goal_FIN_lapua
+		prerequisite = { focus = FIN_industry2 focus = FIN_agri }
+		relative_position_id = FIN_industry2
+		bypass = {
+		}
+		available = {
+		}
+		ai_will_do = {
+			factor = 0
+		}
+		x = -1
+		y = 1
+		cost = 2
+		completion_reward = {
+			remove_ideas = FIN_lowfascist2
+		}
+	}
+	
+	focus = {
+		id = FIN_democraticwin
+		icon = GFX_goal_FIN_election
+		bypass = {
+		}
+		available = {
+			has_global_flag = FIN_democratic_win
+		}
+		x = 34
+		y = 0
+		cost = 1
+		
+		completion_reward = {
+			add_political_power = 15
 		}
 	}
 	
