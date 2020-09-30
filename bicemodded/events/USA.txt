@@ -161,27 +161,27 @@ country_event = {
 		USA = {
 			if = { limit = { 696 = { is_controlled_by_ROOT_or_ally = yes } }
 				transfer_state = 696
-				PREV = { add_compliance = 25 }
+				696 = { add_compliance = 25 }
 			}
 			if = { limit = { 331 = { is_controlled_by_ROOT_or_ally = yes } }
 				transfer_state = 331
-				PREV = { add_compliance = 25 }
+				331 = { add_compliance = 25 }
 			}
 			if = { limit = { 308 = { is_controlled_by_ROOT_or_ally = yes } } 
 				transfer_state = 308
-				PREV = { add_compliance = 25 }
+				308 = { add_compliance = 25 }
 			}
 			if = { limit = { 693 = { is_controlled_by_ROOT_or_ally = yes } } 
 				transfer_state = 693
-				PREV = { add_compliance = 25 }
+				693 = { add_compliance = 25 }
 			}
 			if = { limit = { 689 = { is_controlled_by_ROOT_or_ally = yes } } 
 				transfer_state = 689
-				PREV = { add_compliance = 25 }
+				689 = { add_compliance = 25 }
 			}
 			if = { limit = { 691 = { is_controlled_by_ROOT_or_ally = yes } } 
 				transfer_state = 691
-				PREV = { add_compliance = 25 }
+				691 = { add_compliance = 25 }
 			}
 			add_opinion_modifier = {
 				target = ROOT
@@ -1178,7 +1178,27 @@ country_event = {
 	picture = GFX_report_event_usa_british_sailors_destroyers
 
 	is_triggered_only = yes
-
+	immediate = {
+		#set_variable = { var = USA.US_mils value = num_of_military_factories } #Number of US military factories
+		set_variable = { var = US_mils_production value = 60 } #3.3 * 0.05 *180 = 29.7, rounded up (base factory output * factory output penalty * days penalty is applied), this is how much factory output is siphoned off to the Soviet Union per factory
+		multiply_variable = { var = US_mils_production value = USA.US_mils } #Multiply the number of milfacs with the above number
+		#Rifles
+		set_variable = { var = US_mils_production_rifles value = US_mils_production } #This is how much of that production goes to rifles
+		multiply_variable = { var = US_mils_production_rifles value = 0.35 } #We want 50% of our lost production to become rifles
+		divide_variable = { var = US_mils_production_rifles value = 2.14 } #Divided by 2.14 because that is the estimated cost of Garands, to give us the number of rifles sent
+		#Uniforms
+		set_variable = { var = US_mils_production_uniforms value = US_mils_production }
+		multiply_variable = { var = US_mils_production_uniforms value = 0.15 }
+		divide_variable = { var = US_mils_production_uniforms value = 1.64 }
+		#Trucks
+		set_variable = { var = US_mils_production_trucks value = US_mils_production }
+		multiply_variable = { var = US_mils_production_trucks value = 0.4 }
+		divide_variable = { var = US_mils_production_trucks value = 2.36 }
+		#Cars
+		set_variable = { var = US_mils_production_cars value = US_mils_production }
+		multiply_variable = { var = US_mils_production_cars value = 0.1 }
+		divide_variable = { var = US_mils_production_cars value = 0.97 }
+	}
 	
 	option = {   ## Accept lend lease from the imperialists
 		name = usa.53.a
@@ -1201,57 +1221,27 @@ country_event = {
 				add_opinion_modifier = { target = JAP modifier = embargo }
 			}
         }
-		
 		USA = {
-			send_equipment = {
-				target = SOV
-				type = infantry_equipment_1
-				amount = 4000
-			}
-			send_equipment = {
-				target = SOV
-				type = support_equipment_1
-				amount = 1000
-			}
-			send_equipment = {
-				target = SOV
-				type = artillery_equipment_2
-				amount = 1000
-			}
-			send_equipment = {
-				target = SOV
-				type = motorized_equipment_2
-				amount = 8000
-			}
-			send_equipment = {
-				target = SOV
-				type = HQ_equipment_0
-				amount = 1500
-			}
-			send_equipment = {
-				target = SOV
-				type = motorized_lia_equipment_01
-				amount = 5000
-			}
-			send_equipment = {
-				target = SOV
-				type = horse_equipment_0
-				amount = 4000
-			}
+			add_timed_idea = { idea = USA_lend_lease_cost days = 180 }
 		}
+		add_equipment_to_stockpile = { type = infantry_equipment_1 amount = var:US_mils_production_rifles producer = USA }
+		add_equipment_to_stockpile = { type = infantry_uniforms amount = var:US_mils_production_uniforms producer = USA }
+		add_equipment_to_stockpile = { type = motorized_equipment_2 amount = var:US_mils_production_trucks producer = USA }
+		add_equipment_to_stockpile = { type = motorized_lia_equipment_01 amount = var:US_mils_production_cars producer = USA }
+
+
+
 		hidden_effect = {
 			news_event = { id = news.3148 days = 1 }
 		}
 	    set_country_flag = lend_lease_act
-		
-	}
+	}	
 	
 	option = {
 		name = usa.53.b
 		ai_chance = { factor = 0 }
 		
 	}
-
 }
 
 
@@ -1374,7 +1364,32 @@ country_event = {
 	picture = GFX_report_event_usa_british_sailors_destroyers
 
 	is_triggered_only = yes
-
+	
+	immediate = {
+		#set_variable = { var = USA.US_mils value = num_of_military_factories } #Number of US military factories
+		set_variable = { var = US_mils_production value = 60 } #3.3 * 0.05 *180 = 29.7, rounded up (base factory output * factory output penalty * days penalty is applied), this is how much factory output is siphoned off to the Soviet Union per factory
+		multiply_variable = { var = US_mils_production value = USA.US_mils } #Multiply the number of milfacs with the above number
+		#P-39 Airacobra
+		set_variable = { var = US_mils_production_P39 value = US_mils_production } #This is how much of that production goes to P-39 Airacobras
+		multiply_variable = { var = US_mils_production_P39 value = 1 } #We want 100% of our lost production to become P-39s
+		divide_variable = { var = US_mils_production_P39 value = 15.5 } #Divided by 15.5 because that is the estimated cost of P-39s, to give us the number of rifles sent
+		#P-40 Warhawk
+		set_variable = { var = US_mils_production_P40 value = US_mils_production }
+		multiply_variable = { var = US_mils_production_P40 value = 0.5 }
+		divide_variable = { var = US_mils_production_P40 value = 15.87 }
+		#P-51 Mustang
+		set_variable = { var = US_mils_production_P51 value = US_mils_production }
+		multiply_variable = { var = US_mils_production_P51 value = 0.5 }
+		divide_variable = { var = US_mils_production_P51 value = 16.8 }
+		#P-47 Thunderbolt
+		set_variable = { var = US_mils_production_P47 value = US_mils_production }
+		multiply_variable = { var = US_mils_production_P47 value = 0.5 }
+		divide_variable = { var = US_mils_production_P47 value = 17.22 }
+		#P-43 Lancer
+		set_variable = { var = US_mils_production_P43 value = US_mils_production }
+		multiply_variable = { var = US_mils_production_P43 value = 0.5 }
+		divide_variable = { var = US_mils_production_P47 value = 15.5 }
+	}
 	
 	option = {   ## Accept lend lease from the imperialists
 		name = usa.55.a
@@ -1393,74 +1408,29 @@ country_event = {
 				add_opinion_modifier = { target = JAP modifier = embargo }
 			}
         }
-		
 		USA = {
-			send_equipment = {
-				target = SOV
-				type = infantry_equipment_1
-				amount = 2000
+			add_timed_idea = { idea = USA_lend_lease_cost_2 days = 180 }
+		}	
+		if = {
+			limit = {
+				USA = { has_tech = tech_USA_fighter_equipment_4_a }
 			}
-			send_equipment = {
-				target = SOV
-				type = support_equipment_1
-				amount = 500
+			add_equipment_to_stockpile = { type = us_fighter_equipment_3_a amount = var:US_mils_production_P40 producer = USA }
+			add_equipment_to_stockpile = { type = us_fighter_equipment_4_a amount = var:US_mils_production_P51 producer = USA }
+		}
+		else_if = {
+			limit = {
+				USA = { has_tech = tech_USA_fighter_equipment_2_b }
 			}
-			send_equipment = {
-				target = SOV
-				type = artillery_equipment_2
-				amount = 500
+			add_equipment_to_stockpile = { type = us_fighter_equipment_2_b amount = var:US_mils_production_P39 producer = USA }
+		}	
+		else_if = {
+			limit = {
+				USA = { has_tech = tech_USA_fighter_equipment_4_c }
 			}
-			send_equipment = {
-				target = SOV
-				type = motorized_equipment_2
-				amount = 6000
-			}
-			send_equipment = {
-				target = SOV
-				type = HQ_equipment_0
-				amount = 1000
-			}
-			send_equipment = {
-				target = SOV
-				type = motorized_lia_equipment_01
-				amount = 4000
-			}
-			send_equipment = {
-				target = SOV
-				type = horse_equipment_0
-				amount = 3000
-			}
-			send_equipment = {
-				target = SOV
-				type = us_fighter_equipment_1_b
-				amount = 800
-			}
-			send_equipment = {
-				target = SOV
-				type = us_fighter_equipment_2_b
-				amount = 800
-			}
-			send_equipment = {
-				target = SOV
-				type = us_fighter_equipment_3_a
-				amount = 800
-			}
-			send_equipment = {
-				target = SOV
-				type = us_fighter_equipment_4_a
-				amount = 800
-			}
-			send_equipment = {
-				target = SOV
-				type = us_fighter_equipment_3_c
-				amount = 800
-			}
-			send_equipment = {
-				target = SOV
-				type = us_fighter_equipment_4_c
-				amount = 800
-			}
-		}		
+			add_equipment_to_stockpile = { type = us_fighter_equipment_4_c amount = var:US_mils_production_P47 producer = USA }
+			add_equipment_to_stockpile = { type = us_fighter_equipment_3_c amount = var:US_mils_production_P43 producer = USA }
+		}			
 	}
 	
 	option = {
@@ -2915,8 +2885,8 @@ country_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		tag = PHI
 		has_war = yes
+		PHI = { is_puppet = no }
 	}
 	
 	option = {
@@ -2936,8 +2906,8 @@ country_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		tag = USA
 		has_war = yes
+		PHI = { is_puppet = no }
 	}
 	
 	option = {

@@ -181,7 +181,7 @@ country_event = {
 		tag = FRA
 		has_war_with = GER
 		surrender_progress > 0.6
-		has_government = democratic
+		OR = { has_government = democratic has_government = neutrality }
 		OR = {
 		16 = { is_controlled_by = GER }
 		14 = { is_controlled_by = GER }
@@ -238,7 +238,10 @@ country_event = {
 	}
 	mean_time_to_happen = { days = 2 }
 	immediate = {
-		country_event = france.10
+        if = { limit = { has_government = neutrality }
+             GER = { set_country_flag = neutral_france }
+        }
+        country_event = france.10	
 	}
 }
 # The Battle is Lost
@@ -281,6 +284,7 @@ country_event = {
 	}
 	option = { # Ask for British Union
 	trigger= {
+        NOT = { has_government = neutrality }
 		NOT = {
 		has_game_rule = {
 				rule = must_vichy
@@ -441,7 +445,8 @@ country_event = {
 
 # France wants Armistice (Germany)
 country_event = {
-	id = france.14
+	#id = bramja.22   todo script
+    id = france.14
 	title = france.14.t
 	desc = france.14.d
 	picture = GFX_report_event_german_parade_paris
@@ -449,7 +454,8 @@ country_event = {
 	is_triggered_only = yes
 	
 	option = { # Agree
-		name = france.14.a
+		#name = bramja.22.a todo script
+        name = france.14.a
 		ai_chance = {
 			factor = 50
 		}
@@ -888,16 +894,16 @@ country_event = {
 
 			16 = {  CONTROLLER = { country_event = france.63  } }
 	    	retire_country_leader = yes
-		create_country_leader = {
-			name = "Philippe Pétain"
-			desc = "POLITICS_PHILIPPE_PÉTAIN_DESC"
-			picture = "Portrait_France_Philippe_Petain.dds"
-			expire = "1965.1.1"
-			ideology = fascism_ideology
-			traits = {
-			    war_hero
+			create_country_leader = {
+				name = "Philippe Pétain"
+				desc = "POLITICS_PHILIPPE_PÉTAIN_DESC"
+				picture = "Portrait_France_Philippe_Petain.dds"
+				expire = "1965.1.1"
+				ideology = fascism_ideology
+				traits = {
+					war_hero
+				}
 			}
-		}
 			set_capital = 26
 			
 			set_politics = {
@@ -905,17 +911,20 @@ country_event = {
 				elections_allowed = no
 			}
 			set_popularities = {
-    democratic = 22
-	fascism = 66
-	communism = 6
-	neutrality = 6
-}
+				democratic = 22
+				fascism = 66
+				communism = 6
+				neutrality = 6
+			}
 			every_unit_leader = {
 				limit = {
 					has_id = 101
 				}
 				set_nationality = FRA
 			}
+            if = { limit = { has_country_flag = neutral_france }
+		    	remove_unit_leader = 102
+            }
 			remove_unit_leader = 103
 			remove_unit_leader = 104
 			remove_unit_leader = 105
@@ -925,25 +934,25 @@ country_event = {
 			remove_unit_leader = 109
 			remove_unit_leader = 110
 			create_corps_commander = {
-						name = "Henri Dentz"
-						picture = "Portrait_France_Generic_land_3.dds"
-						traits = { career_officer }
-						skill = 3
-						attack_skill = 3
-						defense_skill = 3
-						planning_skill = 3
-						logistics_skill = 3
-					}
-					create_navy_leader = {
-	name = "Decoux, Jean"
-	portrait_path = "gfx/leaders/FRA/Portrait_France_Generic_navy_2.dds"
-	traits = { seawolf }
-	skill = 2
-	attack_skill = 2
-	defense_skill = 2
-	maneuvering_skill = 3
-	coordination_skill = 1
-}
+				name = "Henri Dentz"
+				picture = "Portrait_France_Generic_land_3.dds"
+				traits = { career_officer }
+				skill = 3
+				attack_skill = 3
+				defense_skill = 3
+				planning_skill = 3
+				logistics_skill = 3
+			}
+			create_navy_leader = {
+				name = "Decoux, Jean"
+				portrait_path = "gfx/leaders/FRA/Portrait_France_Generic_navy_2.dds"
+				traits = { seawolf }
+				skill = 2
+				attack_skill = 2
+				defense_skill = 2
+				maneuvering_skill = 3
+				coordination_skill = 1
+			}
 			set_stability = 0.3
 			set_war_support = 0
 			# FRA Player Switches to Vichy
@@ -953,15 +962,23 @@ country_event = {
 			}
 			save_global_event_target_as = vichy_france
 		}
-		country_event = { hours = 6 id = news.34 }
+        if = { limit = { has_country_flag = neutral_france }
+		     country_event = { hours = 6 id = bramja.23 }
+        }
+        if = { limit = { NOT = { has_country_flag = neutral_france } }
+            country_event = { hours = 6 id = news.34 }
+        }
 		hidden_effect =  {
-			FRA = { news_event = { id = france.20 days = 1 } }
+           if = { limit = { NOT = { has_country_flag = neutral_france } }
+	        	FRA = { news_event = { id = france.20 days = 1 } }
+           }
 			GER = { country_event = { id = germany.408 days = 5 } }
 		}
 	}
 
 	option = { # Agree - Neutrality
-		name = france.14.c
+		#name = bramja.22.c   script todo
+        name = france.14.c
 		ai_chance = {
 			factor = 50
 		}
@@ -1250,14 +1267,23 @@ country_event = {
 			}
 			save_global_event_target_as = vichy_france
 		}
-		country_event = { hours = 6 id = news.34 }
+		if = { limit = { has_country_flag = neutral_france }
+		     country_event = { hours = 6 id = bramja.23 }
+        }
+        if = { limit = { NOT = { has_country_flag = neutral_france } }
+            country_event = { hours = 6 id = news.34 }
+        }
 		hidden_effect =  {
-			FRA = { news_event = { id = france.20 days = 1 } }
+		   if = { limit = { NOT = { has_country_flag = neutral_france } }
+	        	FRA = { news_event = { id = france.20 days = 1 } }
+           }
 			GER = { country_event = { id = germany.408 days = 5 } }
 		}
 	}
+	
 	option = { # Agree - Fascism - LaR
-		name = france.14.a
+		#name = bramja.22.a  todo script
+        name = france.14.a
 		ai_chance = { 
 			factor = 50 
 		}
@@ -1265,6 +1291,7 @@ country_event = {
 			has_government = fascism
 			has_dlc = "La Resistance"
 		}
+		
 		FRA = { 
 			set_cosmetic_tag = FRA_FREE 
 			add_ideas = FRA_defeatism
@@ -1282,7 +1309,9 @@ country_event = {
 				}
 				set_capital = 635
 			}
-			country_event = france.20
+			if = { limit = { NOT = { has_country_flag = neutral_france } }
+	        	FRA = { news_event = { id = france.20 days = 1 } }
+           }
 			every_owned_state = {
 				limit = { 
 					is_controlled_by = ITA 
@@ -1401,18 +1430,18 @@ country_event = {
 							is_on_continent = europe
 							is_core_of = FRA
 							NOT = {
-							OR = {
-							state = 735
-							state = 21
-							state = 32
-							state = 20
-							state = 26
-							state = 22
-							state = 31
-							state = 25
-							state = 33
-							state = 1
-				    		}
+								OR = {
+									state = 735
+									state = 21
+									state = 32
+									state = 20
+									state = 26
+									state = 22
+									state = 31
+									state = 25
+									state = 33
+									state = 1
+								}
 				     		}
 							NOT = { has_state_flag = vichy_italian_conquest }
 						}
@@ -1449,7 +1478,7 @@ country_event = {
 					}
 				}
 
-			create_corps_commander = {
+				create_corps_commander = {
 						name = "Henri Dentz"
 						picture = "Portrait_France_Generic_land_3.dds"
 						traits = { career_officer }
@@ -1460,15 +1489,15 @@ country_event = {
 						logistics_skill = 3
 					}
 					create_navy_leader = {
-	name = "Decoux, Jean"
-	portrait_path = "gfx/leaders/FRA/Portrait_France_Generic_navy_2.dds"
-	traits = { seawolf }
-	skill = 2
-	attack_skill = 2
-	defense_skill = 2
-	maneuvering_skill = 3
-	coordination_skill = 1
-}
+						name = "Decoux, Jean"
+						portrait_path = "gfx/leaders/FRA/Portrait_France_Generic_navy_2.dds"
+						traits = { seawolf }
+						skill = 2
+						attack_skill = 2
+						defense_skill = 2
+						maneuvering_skill = 3
+						coordination_skill = 1
+					}
 				add_ideas = FRA_occupation_costs_4
 				load_focus_tree = vichy_french_focus
 				FRA = {
@@ -1640,14 +1669,12 @@ country_event = {
 			every_unit_leader = {
 				limit = {
                     OR = {
-					has_id = 101 #de Gaulle
-
-
-			has_id = 107
-			has_id = 108
-			has_id = 109
-			has_id = 110
-}
+						has_id = 101 #de Gaulle
+						has_id = 107
+						has_id = 108
+						has_id = 109
+						has_id = 110
+					}
 				}
 				set_nationality = FRA
 			}
@@ -1680,6 +1707,7 @@ country_event = {
 	option = { # Conquer everything!
 		name = france.14.b
         trigger= {
+        NOT = { has_country_flag = neutral_france }
 		NOT = {
 		has_game_rule = {
 				rule = must_vichy

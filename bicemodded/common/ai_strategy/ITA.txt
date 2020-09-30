@@ -67,7 +67,42 @@ ITA_garrison = {
 		id = "HUN"
 		value = 90
 	}
+}
+
+keep_libya_route_ita = {
+    allowed = { original_tag = ITA }
+	enable = { 
+		has_war_with = ENG 
+		OR = {
+		448 = { is_controlled_by = ITA }
+		449 = { is_controlled_by = ITA }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = naval_avoid_region id = 29 value = -500 }
+	ai_strategy = { type = naval_avoid_region id = 169 value = -250 }
+	ai_strategy = { type = naval_avoid_region id = 168 value = -75 }
 	
+	ai_strategy = { type = naval_avoid_region id = 69 value = 90 }
+}
+
+dnt_get_trapped = {
+    allowed = { original_tag = ITA }
+	enable = {  
+		OR = {
+		446 = { is_controlled_by = ENG }
+		446 = { is_controlled_by = EGY }	
+		}	
+		OR = {
+		118 = { is_controlled_by = ENG }
+		118 = { is_controlled_by = EGY }	
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = naval_avoid_region id = 100 value = 300 }
+	ai_strategy = { type = naval_avoid_region id = 102 value = 300 }
 }
 
 dontproduceshit_ITA_1 = {
@@ -148,15 +183,15 @@ greece_war_goal = {
 		original_tag = ITA
 	}
 	enable = {
+	    GRE = { has_capitulated = no }
 		focus_progress = {
 			focus = ITA_greece_war_goal
 			progress > 0.05
 		}
+		date > 1940.8.1
 	}	
 	abort = {
-		NOT = {
-			country_exists = GRE
-		}
+		GRE = { has_capitulated = yes }
 	}
 	
 	ai_strategy = {
@@ -175,7 +210,7 @@ greece_war_goal = {
 		
 		state = 44
 
-		value = 50
+		value = 70
 	}
 }
 
@@ -184,15 +219,14 @@ yugoslavia_war_goal = {
 		original_tag = ITA
 	}
 	enable = {
+	    YUG = { has_capitulated = no }
 		focus_progress = {
 			focus = ITA_yugoslavia_war_goal
 			progress > 0.05
 		}
 	}	
 	abort = {
-		NOT = {
-			country_exists = YUG
-		}
+		YUG = { has_capitulated = yes }
 	}
 		
 	ai_strategy = {
@@ -210,8 +244,10 @@ yugoslavia_war_goal = {
 		type = front_unit_request
 		
 		state = 44
+		state = 736
+		state = 163
 
-		value = 50
+		value = 30
 	}
 }
 
@@ -232,7 +268,7 @@ anti_uk_war_goals = {
 	ai_strategy = {
 		type = antagonize
 		id = "ENG"			
-		value = 300
+		value = 100
 	}		
 }
 
@@ -587,15 +623,15 @@ dont_join_war_yet = {
 		
 		NOT = { GER = { has_completed_focus = GER_stahlpakt } }
 		
-		OR = { date < 1940.5.28
+		OR = { date < 1940.6.2
 		    NOT = { FRA = {		
-			    surrender_progress > 0.3
+			    surrender_progress > 0.5
 		    } }
 		}
 	}
 	
 	abort = {
-        OR = { date > 1940.5.28  GER = { has_completed_focus = GER_stahlpakt } FRA = { surrender_progress > 0.5 } }
+        OR = { date > 1940.6.2  GER = { has_completed_focus = GER_stahlpakt } FRA = { surrender_progress > 0.5 } }
 	}
 	
 	ai_strategy = {
@@ -634,16 +670,16 @@ dont_invite_war_yet = {
 		}
 	enable = {
 		country_exists = ITA
-		#ENG = { has_war_with = GER }
-		OR = { date < 1940.5.28
+		FRA = { has_capitulated = no  }	
+		OR = { date < 1940.6.2
 		    NOT = { FRA = {		
-			    surrender_progress > 0.5
+			    surrender_progress > 0.6
 		    } }
 		}
 	}
 	
 	abort = {
-        OR = { date > 1940.5.28 FRA = { surrender_progress > 0.5 } }
+        OR = { date > 1940.6.4 FRA = { surrender_progress > 0.6 } FRA = { has_capitulated = yes  }	 }
 		
 	}
 	
@@ -738,14 +774,15 @@ make_sure_we_stay_put_before_we_let_hitler_read_newspapers = {
 	abort = {
 		OR = {
 			BEL = { has_capitulated = yes }
-			18 = { 
+			16 = { 
 				is_controlled_by = GER
 			}
-			date > 1940.5.22
+			date > 1940.6.2
 		}
 		OR = {
 		has_war_with = GRE
 		has_war_with = YUG
+		FRA = { has_capitulated = yes  }	
 		}
 	}
 
