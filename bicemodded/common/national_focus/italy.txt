@@ -2831,7 +2831,7 @@ search_filters = { FOCUS_FILTER_POLITICAL }
 
 		completion_reward = {
 		     
-		     swap_ideas = { 
+		    swap_ideas = { 
 				remove_idea = italian_leadership_proud
 				add_idea = italian_leadership_improved
 			}
@@ -8019,9 +8019,9 @@ search_filters = { FOCUS_FILTER_POLITICAL }
 
 		id = ITA_ARMIR
 		icon = GFX_goal_generic_special_forces
-		prerequisite = { focus = ITA_7_million focus = ITA_reform_old_guard }
+		prerequisite = { focus = ITA_reformed_military focus= ITA_three_branches}
 		x = 20
-		y = 9
+		y = 11
 
 		cost = 6
 
@@ -8045,13 +8045,12 @@ search_filters = { FOCUS_FILTER_POLITICAL }
 
 		army_experience = 30
 
-		add_ideas = ARMIR
+		swap_ideas = {
+	    		remove_idea = ARMIR_1
+		    	add_idea = ARMIR_2
+			}
+			add_war_support = -0.04
 
-		ITA = {
-
-		add_equipment_to_stockpile = { type = mount_equipment_0  amount = 600 producer = ITA } 
-
-		}
 
 		}
 
@@ -8104,7 +8103,7 @@ search_filters = { FOCUS_FILTER_POLITICAL }
 	focus = {
 		id = ITA_german_millitary_cooperation
 		icon = GFX_doctrine_tank_warfare
-		prerequisite = { focus = ITA_ARMIR }	
+			
 		prerequisite = { focus = ITA_Learn_from_the_Wehrmacht }	
 		available = {
 			is_in_faction_with = GER
@@ -8118,25 +8117,6 @@ search_filters = { FOCUS_FILTER_POLITICAL }
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_RESEARCH }
 		completion_reward = {
 			add_ideas = ITA_german_millitary_cooperation_focus		
-		}
-	}
-    focus = {
-		id = ITA_eastern_front
-		icon = GFX_goal_prepare_to_invade_union
-		prerequisite = { focus = ITA_german_millitary_cooperation }
-		prerequisite = { focus = ITA_reformed_military }
-		available = {
-		      has_war_with = SOV
-		}
-		x = 22
-		y = 11
-		cost = 11.6
-		ai_will_do = {
-			factor = 18
-		}	
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_RESEARCH }
-		completion_reward = {
-		custom_effect_tooltip = ITA_eastern_front_tt
 		}
 	}
 	focus = {
@@ -10118,13 +10098,6 @@ search_filters = { FOCUS_FILTER_POLITICAL }
 		available = {
 		}
 
-		bypass = {
-	
-		}
-        allow_branch = {
-			always = NO
-		}
-
 		cost = 6
 
 		ai_will_do = {
@@ -10136,6 +10109,52 @@ search_filters = { FOCUS_FILTER_POLITICAL }
 		}	
 		completion_reward = {
 		    
+		}
+	}
+	
+	focus = {
+		id = ITA_german_mediteranean_basing
+		icon = GFX_goal_Naval_Restrictions
+
+
+		prerequisite = { focus = ITA_like_napoleon }
+        relative_position_id = ITA_joint_research
+        x = -2
+		y = 3
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		available = {
+		    OR = {
+		    163 = { is_controlled_by_ROOT_or_ally = yes }
+			105 = { is_controlled_by_ROOT_or_ally = yes }
+			}
+		}
+
+		cost = 4.1
+
+		ai_will_do = {
+			factor = 7
+			modifier = {
+			factor = 0
+			is_historical_focus_on = yes
+			}
+		}	
+		completion_reward = {
+	    	if = { limit = { 163 = { is_controlled_by_ROOT_or_ally = yes } }
+		        GER = { transfer_state = 163 }
+			}
+			
+			if = { limit = { 105 = { is_controlled_by_ROOT_or_ally = yes } }
+	    	    GER = { transfer_state = 105 }
+		    	105 = {
+	    		add_building_construction = {
+					type = naval_base
+					level = 1
+					instant_build = yes
+				}
+		    	}
+			}
+			
 		}
 	}
 	
@@ -10153,14 +10172,7 @@ search_filters = { FOCUS_FILTER_POLITICAL }
 		available = {
 		}
 
-		bypass = {
-	
-		}
-        allow_branch = {
-			always = NO
-		}
-
-		cost = 5
+		cost = 6.3
 
 		ai_will_do = {
 			factor = 7
@@ -10170,7 +10182,44 @@ search_filters = { FOCUS_FILTER_POLITICAL }
 			}
 		}	
 		completion_reward = {
-		    
+		    39 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			153 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = ITA_eastern_front
+		icon = GFX_goal_prepare_to_invade_union
+		prerequisite = { focus = ITA_like_napoleon }
+		prerequisite = { focus = ITA_lessons_of_war focus = ITA_combined_arms }
+		prerequisite = { focus = ITA_ARMIR }
+		available = {
+		      has_war_with = SOV
+		}
+		relative_position_id = ITA_joint_research
+        x = -4
+		y = 3
+		cost = 10
+		ai_will_do = {
+			factor = 18
+		}	
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+		custom_effect_tooltip = ITA_eastern_front_tt
+		
+		
 		}
 	}
 	
@@ -10179,22 +10228,14 @@ search_filters = { FOCUS_FILTER_POLITICAL }
 		icon = GFX_focus_chi_army_reform
 
 
-		prerequisite = { focus = ITA_like_napoleon }
 		prerequisite = { focus = ITA_eastern_front }
-		prerequisite = { focus = ITA_lessons_of_war focus = ITA_combined_arms }
+		prerequisite = { focus = ITA_alpino_tunels focus = ITA_german_mediteranean_basing }
         relative_position_id = ITA_joint_research
         x = -2
-		y = 3
+		y = 4
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 
 		available = {
-		}
-
-		bypass = {
-	
-		}
-        allow_branch = {
-			always = NO
 		}
 
 		cost = 7.8
@@ -10207,7 +10248,11 @@ search_filters = { FOCUS_FILTER_POLITICAL }
 			}
 		}	
 		completion_reward = {
-		    
+		    swap_ideas = {
+	    		remove_idea = ARMIR_2
+		    	add_idea = ARMIR_3
+			}
+			add_war_support = -0.03
 		}
 	}
 	
