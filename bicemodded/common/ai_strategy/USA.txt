@@ -177,37 +177,14 @@ USA_unit_buffer_for_pacific = {
 	
 	ai_strategy = {
 		type = put_unit_buffers
-		ratio = 0.06
+		ratio = 0.1
 		states = { 
 			642
 			726
 			727 
 			630
             629			
-		}
-		subtract_invasions_from_need = no # need to always guard here!
-	}
-}
-
-USA_unit_buffer_for_AST = {
-	allowed = {
-		original_tag = USA
-	}
-	enable = {
-		date > 1940.1.1
-	}
-	
-	abort_when_not_enabled = yes
-	
-	ai_strategy = {
-		type = put_unit_buffers
-		ratio = 0.06
-		states = { 
-			642
-			726
-			727 
-			630
-            629			
+			631
 		}
 		subtract_invasions_from_need = no # need to always guard here!
 	}
@@ -243,28 +220,6 @@ USA_unit_buffer_for_europe = {
 			130
 			132 
 		}
-		subtract_invasions_from_need = no
-		subtract_fronts_from_need = no
-	}
-	
-	ai_strategy = {
-		type = put_unit_buffers
-		
-		# spain
-		states = { 
-			171
-			180
-			112
-			179
-			795
-			169
-			173
-			167
-		}
-		
-		ratio = 0.1
-		area = europe
-		
 		subtract_invasions_from_need = no
 		subtract_fronts_from_need = no
 	}
@@ -411,36 +366,6 @@ africa_campaign_allies_north = {
 }
 
 
-USA_unit_buffer_for_pacific_1 = {
-	allowed = {
-		original_tag = USA
-	}
-	enable = {
-	    OR = { 
-		date < 1946.2.1
-		has_war_with = JAP
-		}
-	}
-	
-	abort = {
-		NOT = { has_war_with = JAP }
-		date > 1942.6.1
-	}
-	
-	ai_strategy = {
-		type = put_unit_buffers
-		ratio = 0.06
-		states = { 
-			
-			630
-			727
-			631
-			642
-			629
-		}
-	}	
-}
-
 USA_unit_buffer_for_pacific_2 = {
 	allowed = {
 		original_tag = USA
@@ -465,12 +390,15 @@ USA_unit_buffer_for_pacific_2 = {
 	
 	ai_strategy = {
 		type = put_unit_buffers
-		ratio = 0.07
+		ratio = 0.15
 		states = { 
 
 			### ast
+			285			
+			517			
 			520
 			521
+			522			
 			737
 			523
 			634
@@ -943,6 +871,35 @@ USA_trying_to_save_is_deathtrap = {
 	}
 }
 
+
+USA_ENG_sync_invasions_on_europe = {
+	allowed = {
+		OR = {
+			tag = USA
+			tag = ENG
+		}
+	}
+	
+	# only allow invasion on europe on every third month
+	
+	enable = {
+		set_temp_variable = { days = global.num_days }
+		modulo_temp_variable = { days = 90 }
+		check_variable = { days < 60 }
+	}
+	
+	abort_when_not_enabled = yes
+	
+	ai_strategy = {
+		type = front_control
+
+		area = europe
+		
+		ordertype = invasion
+		execute_order = no
+	}
+}
+
 USA_gogo_jap = {
     allowed = { tag = USA }
 	enable = {
@@ -997,7 +954,7 @@ get_the_japs = {
 		id = "CCP"
 		value = -100
 	}
-	ai_strategy = { type = naval_avoid_region id = 75 value = -1000 }
+	ai_strategy = { type = naval_avoid_region id = 75 value = -3000 }
 	ai_strategy = { type = naval_avoid_region id = 80 value = -1000 }
 	ai_strategy = { type = naval_avoid_region id = 72 value = -1000 }
 	ai_strategy = { type = naval_avoid_region id = 78 value = -1000 }
@@ -1126,6 +1083,7 @@ border_garrison_eng_usa = {
 		OR = { 
 			tag = ENG
 			tag = USA
+			tag = CAN
 		}
 	}
 	enable = {
@@ -1165,6 +1123,40 @@ border_garrison_eng_usa = {
 		}
 
 		value = -200
+	}
+}
+
+USA_dont_invade_Japan_mainland = {
+	allowed = { tag = USA }
+	enable = {
+		is_historical_focus_on = yes
+	}
+	abort = {
+		date > 1944.1.1		
+	}
+	ai_strategy = {
+		type = invasion_unit_request
+		strategic_region = 154
+		value = -999999
+	}
+
+	ai_strategy = {
+		type = front_control
+		strategic_region = 154
+		ordertype = invasion
+		execute_order = no
+	}
+	ai_strategy = {
+		type = invasion_unit_request
+		strategic_region = 217
+		value = -999999
+	}
+
+	ai_strategy = {
+		type = front_control
+		strategic_region = 217
+		ordertype = invasion
+		execute_order = no
 	}
 }
 
