@@ -598,6 +598,20 @@ focus_tree = {
 			add_state_claim = 104
 			add_state_claim = 45
 			add_state_claim = 163
+			if = {
+				limit = {
+					OR = {
+						103 = { is_controlled_by = YUG }
+						103 = { controller = { is_subject_of = YUG } }
+						103 = { controller = { is_in_faction_with = YUG } }
+					}
+				}
+				add_ai_strategy = {
+					type = conquer
+  					id = YUG
+  					value = 200
+				}
+			}
 		}
 	}
         focus = {
@@ -2211,46 +2225,85 @@ focus_tree = {
 		}
 
 		available = {
-			strength_ratio = { tag = YUG ratio > 0.55 }
-			has_army_manpower = { size > 260000 }
+			strength_ratio = { tag = YUG ratio > 0.6 }
+			has_army_manpower = { size > 250000 }
 		}
 
 		bypass = {
-			45 = { is_core_of = HUN }
+			OR = {
+				YUG = {
+					exists = no
+				}
+				owns_state = 45
+				45 = {
+					OWNER = {
+						is_in_faction_with = ROOT
+					}
+				}
+				45 = {
+					OWNER = {
+						has_war_with = ROOT
+					}
+				}
+			}
 		}
 
 		cancel_if_invalid = yes
 		continue_if_invalid = no
 		available_if_capitulated = no
 
-		complete_tooltip = {
-		}
 
+		search_filters = { FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
 			custom_effect_tooltip = HUN_demands_tt
 			if = {
 				limit = {
-					45 = { is_owned_by = HUN }
-				}
-				HUN = {
-					add_state_claim = 45
-					45 = { add_compliance = 20 }
-				}
-				add_political_power = 75
-			}
-			else_if = {
-				limit = {
-					45 = {
-						OR = {
-							owner = { has_war_with = HUN }
-							AND = {
-								NOT = { is_owned_by = YUG }
-								NOT { owner = { is_in_faction_with = HUN } }
+					OR = {
+						has_war_with = YUG
+						45 = {
+							NOT = {
+								is_owned_by = YUG
+								owner = { is_subject_of = YUG }
 							}
 						}
 					}
 				}
-				HUN = { add_state_claim = 45 }
+				HUN = {
+					add_state_claim = 45
+					45 = { add_compliance = 25 }
+				}
+				add_political_power = 75
+				else = {
+					if = {
+						limit = {
+							YUG = { 
+								is_subject = yes 
+								owns_state = 45
+							}
+						}
+						create_wargoal = {
+							type = take_state_focus
+							target = YUG
+							expire = 0
+							generator = { 45 }
+						}
+						else = {
+							if = {
+								limit = {
+									OR = {
+										45 = { is_owned_by = YUG }
+										45 = { owner = { is_subject_of = YUG } }
+									}
+								}
+                                HUN = { add_state_claim = 45 }
+								YUG = { country_event = DOD_hungary.90 }
+							}
+						}
+					}
+				}
+			}
+			hidden_effect = {
+				news_event = { id = news.306 }
 			}
 		}
 	}
