@@ -1911,7 +1911,7 @@
 		prerequisite = { focus = ROM_join_comintern  focus = ROM_king_michaels_coup }
 		mutually_exclusive = { focus = ROM_5yearplan } 
 		x = 0
-		y = 4
+		y = 5
 		relative_position_id = ROM_join_comintern
 
 		cost = 7.5
@@ -1945,7 +1945,7 @@
 		icon = GFX_goal_ROM_eco5
 		mutually_exclusive = { focus = ROM_communist }
 		x = 4
-		y = 4
+		y = 5
 		relative_position_id = ROM_join_comintern
 
 		cost = 5
@@ -2092,7 +2092,7 @@
 		id = ROM_mechanized
 		icon = GFX_goal_FIN_agri
 		x = -7
-		y = 3
+		y = 4
 		relative_position_id = ROM_literacy
 
 		cost = 6
@@ -2396,7 +2396,7 @@
 		completion_reward = {
 			add_ideas = ROM_balkans_dominance
 			set_rule = { can_create_factions = yes }
-			remove_ideas = entente_balkanique
+			#remove_ideas = entente_balkanique
 			
 			if = {
 				limit = { 
@@ -2621,14 +2621,113 @@
 			GER = { country_event = DOD_romania.110 }
 		}
 	}
+	
+	focus = {
+		id = ROM_puppet_bulgaria
+		icon = GFX_goal_generic_demand_territory
+		prerequisite = { focus = ROM_split_czechoslovakia focus = ROM_divide_yugoslavia }
+		x = -1
+		y = 2
+		relative_position_id = ROM_align_hungary
+		will_lead_to_war_with = BUL
+		cost = 10
+
+		ai_will_do = {
+			factor = 5
+		}
+
+		available = {
+			is_subject = no
+			BUL = {
+				exists = yes
+				NOT = { has_war_with = ROM }
+				NOT =  { is_in_faction_with = ROM }
+			}
+			strength_ratio = { tag = BUL ratio > 1.5 }
+			has_army_manpower = { size > 600000 }
+		}
+
+		bypass = {
+			BUL = {
+				OR = {
+					is_puppet_of = ROM
+					exists = no 
+					AND = {
+						has_war_with = ROM
+						has_capitulated = yes
+						ROM = {
+							controls_state = 48
+							controls_state = 212
+							controls_state = 211
+						}
+					}
+				}
+			}
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			BUL = { country_event = DOD_romania.40 }
+		}
+	}	
+	
+	focus = {
+		id = ROM_secure_greece
+		icon = GFX_goal_generic_occupy_states_ongoing_war
+		prerequisite = { focus = ROM_split_czechoslovakia focus = ROM_divide_yugoslavia }
+		x = 1
+		y = 2
+		relative_position_id = ROM_align_hungary
+		will_lead_to_war_with = GRE
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			is_subject = no
+			GRE = {
+				exists = yes
+				NOT = {
+					is_in_faction_with = ROM
+				}
+			}
+			strength_ratio = { tag = GRE ratio > 1 }
+			has_army_manpower = { size > 600000 }
+		}
+ 
+		bypass = {
+			GRE = {
+				OR = {
+					is_puppet_of = ROM
+					exists = no 
+				}
+			}
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = GRE
+			}
+		}
+	}	
 
 	focus = {
 		id = ROM_secure_the_bosporus
 		icon = GFX_goal_generic_occupy_states_ongoing_war
-		prerequisite = { focus = ROM_split_czechoslovakia focus = ROM_divide_yugoslavia }
-		x = 1
-		y = 1
-		relative_position_id = ROM_divide_yugoslavia
+		prerequisite = { focus = ROM_secure_greece focus = ROM_puppet_bulgaria }
+		x = 0
+		y = 3
+		relative_position_id = ROM_align_hungary
 
 		cost = 10
 
