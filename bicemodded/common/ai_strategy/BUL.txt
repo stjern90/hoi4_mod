@@ -1,0 +1,165 @@
+# befriend
+# conquer
+# antagonize
+# build_ship
+# build_army
+# unit_ratio
+# build_building
+# research_tech
+# garrison
+# protect
+# influence
+# send_volunteers_desire
+
+
+BUL_occupying_instead_of_dieing = {
+	allowed = {
+		original_tag = BUL
+		has_dlc = "Battle for the Bosporus"
+	}
+	enable = {
+		is_historical_focus_on = yes
+		country_exists = GER
+	}
+	abort = {
+		OR = {
+			NOT = { country_exists = GER }
+			date > 1942.01.01
+		}
+	}
+
+	ai_strategy = {
+		type = diplo_action_desire
+		id = GER
+		target = join_allies
+		value = -1000
+	}
+
+	ai_strategy = {
+		type = diplo_action_acceptance
+		id = GER
+		target = call_allies
+		value = -1000
+	}
+
+	ai_strategy = {
+		type = garrison
+		value = 50
+	}
+}
+
+BUL_dont_pressure_bulgarians_yet = {
+	allowed = {
+		has_dlc = "Battle for the Bosporus"
+	}
+	enable = {
+		is_in_faction_with = BUL
+		OR = {
+			tag = GER
+			is_in_faction_with = GER
+			tag = ITA
+			is_in_faction_with = ITA
+		}
+		BUL = {
+			OR = {
+				has_government = neutrality
+				has_government = fascism
+			}
+		}
+		has_war = yes
+	}
+	abort = {
+		OR = {
+			BUL = {
+				OR = {
+					has_war = yes
+					has_government = communism
+					has_government = democratic
+				}
+			}
+			NOT = { is_in_faction_with = BUL }
+			date > 1942.01.01
+		}
+	}
+
+	ai_strategy = {
+		type = diplo_action_desire
+		id = BUL
+		target = call_allies
+		value = -999999
+	}
+}
+
+BUL_reject_bulgarian_aggressive_ai = {
+	allowed = {
+		has_dlc = "Battle for the Bosporus"
+	}
+	enable = {
+		is_in_faction_with = BUL
+		BUL = {
+			is_ai = yes
+			OR = {
+				has_government = neutrality
+				has_government = fascism
+			}
+		}
+		OR = {
+			tag = GER
+			is_in_faction_with = GER
+			tag = ITA
+			is_in_faction_with = ITA
+		}
+		has_war = yes
+	}
+	abort = {
+		OR = {
+			BUL = {
+				OR = {
+					is_ai = no
+					has_war = yes
+					has_government = communism
+					has_government = democratic
+				}
+			}
+			date > 1942.01.01
+		}
+	}
+
+	ai_strategy = {
+		type = diplo_action_acceptance
+		id = BUL
+		target = join_allies
+		value = -999999
+	}
+}
+
+BUL_address_internal_affairs_first = {
+	allowed = {
+		original_tag = BUL
+		has_dlc = "Battle for the Bosporus"
+	}
+	enable = {
+		OR = {
+			has_completed_focus = BUL_power_to_the_tsar
+			has_completed_focus = BUL_oppose_the_royal_dictatorship
+		}
+	}
+	abort = {
+		OR = {
+			has_war = yes
+			date > 1940.1.1
+		}
+	}
+
+	ai_strategy = { 
+		type = pp_spend_priority
+		id = decision
+		value = 100
+	}
+
+	ai_strategy = { 
+		type = pp_spend_priority
+		id = relation
+		value = 10
+	}
+}
