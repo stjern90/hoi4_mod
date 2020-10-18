@@ -247,7 +247,7 @@ NCountry = {
 	MIN_MAJOR_COUNTRIES	= 25,						-- MIN_MAJOR_COUNTRIES countries with most factories will be considered as major countries
 	ADDITIONAL_MAJOR_COUNTRIES_IC_RATIO = 0.7,		-- Countries will also be considered major when having more factories that the average of top MIN_MAJOR_COUNTRIES countries' factories times ADDITIONAL_MAJOR_COUNTRIES_IC_RATIO
 	BASE_TENSION_MAJOR_COUNTRY_INDEX = 1,			-- Which major country should be considered the base country when scaling generated world tension. 0 is the country with the most factories, 1 is the second most-factories country etc. This number has to be lower than MIN_MAJOR_COUNTRIES
-	MIN_NAVAL_SUPPLY_EFFICIENCY = 0.15,				-- Min ratio when supplies will be considered delivered from the capital by naval path
+	MIN_NAVAL_SUPPLY_EFFICIENCY = 0.1,				-- Min ratio when supplies will be considered delivered from the capital by naval path
 	PARADROP_AIR_SUPERIORITY_RATIO = 0.7,			-- Min ratio of air superiority for paradropping
 	STATE_VALUE_BUILDING_SLOTS_MULT = 4.0,			-- The Value of each building slot in a state ( Value is used to determine costs in peace conference and PP cost to occupy )
 	STATE_OCCUPATION_COST_MULTIPLIER = 0.01,		-- Multiplier for state value to PP cost for occupation
@@ -711,7 +711,7 @@ NMilitary = {
 	EXILE_ORG = 0.2,							   -- Amount of org to keep
 	EXPERIENCE_LOSS_FACTOR = 0.91,                 -- percentage of experienced solders who die when manpower is removed	Was 1.0 *** 
 	EQUIPMENT_COMBAT_LOSS_FACTOR = 0.39,	 	       -- was 0.6--% of equipment lost to strength ratio in combat, so some % is returned if below 1
-	SUPPLY_USE_FACTOR_MOVING = 1.6,                -- supply use when moving/fighting vs inactive
+	SUPPLY_USE_FACTOR_MOVING = 1.5,                -- supply use when moving/fighting vs inactive
 	SUPPLY_USE_FACTOR_INACTIVE = 0.9,
 	SUPPLY_GRACE = 120,		-- troops always carry 4 days of food and supply
 	SUPPLY_GRACE_MAX_REDUCE_PER_HOUR = 2,          -- supply grace is not decreased instantly when it is buffed temporarily and buff is removed
@@ -918,12 +918,12 @@ NMilitary = {
 	
 	ARMY_MAX_FUEL_FLOW_MULT = 2,					-- max fuel ratio that an army can get per hour, multiplied by supply situation
 	
-	ARMY_FUEL_COST_MULT = 0.38,						-- fuel cost multiplier for all army related stuff
+	ARMY_FUEL_COST_MULT = 0.4,						-- fuel cost multiplier for all army related stuff
 	ARMY_COMBAT_FUEL_MULT =   1.0,					-- fuel consumption ratio in combat (plus ARMY_MOVEMENT_FUEL_MULT if you are also moving. ie offensive combat)
 	ARMY_TRAINING_FUEL_MULT = 1.0,					-- fuel consumption ratio while training
 	ARMY_MOVEMENT_FUEL_MULT = 1.0,					-- fuel consumption ratio while moving
-	ARMY_NAVAL_TRANSFER_FUEL_MULT = 0.33,			-- fuel consumption ratio while naval transferring
-	ARMY_STRATEGIC_DEPLOYMENT_FUEL_MULT = 0.33,		-- fuel consumption ratio while doing strategic deployment
+	ARMY_NAVAL_TRANSFER_FUEL_MULT = 0.5,			-- fuel consumption ratio while naval transferring
+	ARMY_STRATEGIC_DEPLOYMENT_FUEL_MULT = 0.5,		-- fuel consumption ratio while doing strategic deployment
 	ARMY_IDLE_FUEL_MULT = 0.33,						-- fuel consumption ratio while just existing
 	FUEL_EFFICIENCY_RAID_MULTIPLIER = 1.0,			-- convoy raid multiplier for fuel sunk
 	
@@ -1102,7 +1102,7 @@ NAir = {
 	},
 	MAX_FUEL_FLOW_MULT = 1.0, -- max fuel flow ratio for planes, which will be multiplied by supply
 	
-	FUEL_COST_MULT = 0.27, -- fuel multiplier for all air missions
+	FUEL_COST_MULT = 0.285, -- fuel multiplier for all air missions
 	
 	MISSION_EFFICIENCY_MULT_AT_LACK_OF_FUEL = 0.28, 				-- multiplier for mission efficiency when a base lacks fuel
 	
@@ -1260,7 +1260,7 @@ NNavy = {
 	},
 	
 	HOLD_MISSION_MOVEMENT_COST = 1.0,								-- ships on hold cost this much fuel while moving
-	ON_BASE_FUEL_COST = 0.36,										-- ships that waits at naval bases cost this ratio
+	ON_BASE_FUEL_COST = 0.38,										-- ships that waits at naval bases cost this ratio
 	IN_COMBAT_FUEL_COST = 1.8,										-- ships in combat will get this ratio for fuel cost
 	TRAINING_FUEL_COST_FOR_ESCORT_SHIPS = 0.15,						-- ships that are on training mission but not training (ie they are at max xp and training will cancel at max xp) will consume this ratio of fuel
 	
@@ -1442,8 +1442,8 @@ NNavy = {
 	INTEL_LEVEL_LOW_STRENGTH_ESTIMATE_HALF_RANGE_PERCENTAGE = 20,					-- Integer representing the maximum offset of the estimated enemy strength to the original, in percentage (divided by 100 in code). For spotting level "low".
 	INTEL_LEVEL_MEDIUM_STRENGTH_ESTIMATE_HALF_RANGE_PERCENTAGE = 10,					-- Same as above for spotting level "medium"
 	BASE_SPOTTING_SPEED = 0.0,										-- daily base spotting speed
-	BASE_ESCAPE_SPEED = 0.12,										-- daily base escape speed (gained as percentagE)
-	SPEED_TO_ESCAPE_SPEED = 0.75,									-- ratio to converstion from ship speed to escape speed (divided by hundred)
+	BASE_ESCAPE_SPEED = 0.13,										-- daily base escape speed (gained as percentagE)
+	SPEED_TO_ESCAPE_SPEED = 0.8,									-- ratio to converstion from ship speed to escape speed (divided by hundred)
 	ESCAPE_SPEED_PER_COMBAT_DAY = 0.02,								-- daily increase in escape speed during combat duration
 	MAX_ESCAPE_SPEED_FROM_COMBAT_DURATION = 0.15,					-- max escape speed that will be gained from combat duration
 	ESCAPE_SPEED_SUB_BASE = 0.1,									-- subs get faster escape speed. gets replaced by hidden version below if hidden
