@@ -5573,7 +5573,7 @@ country_event = {
 		set_state_controller = 109
 		set_state_controller = 804
 		activate_decision = GER_reichskommissariat_croatie
-		if = { limit = { ITA = { exists = yes NOT = { has_capitulated = yes }  } }
+		if = { limit = { ITA = { exists = yes NOT = { has_capitulated = yes } NOT = { has_war_with = ROOT}  } }
 			country_event = germany.982
 			else = { country_event = germany.983 }
 		}
@@ -5681,7 +5681,7 @@ country_event = {
 			transfer_state = 105
 			set_state_controller = 802
 		}
-		if = { limit = { BUL = { exists = yes NOT = { has_capitulated = yes }  } }
+		if = { limit = { BUL = { exists = yes NOT = { has_capitulated = yes } NOT = { has_war_with = ROOT} NOT = { is_in_faction_with = ENG }  } }
 		country_event = germany.983
 		else = { country_event = germany.984 }
 		}
@@ -5692,8 +5692,11 @@ country_event = {
 		ai_chance = { 
 			factor = 15
 		}
-		ITA = {
+		ITA = {   
 			transfer_state = 105
+			if = { limit = { ITA = { has_war = no } }
+				transfer_state = 802
+			}
 			set_state_controller = 802
 		}
 		if = { limit = {  102 = { is_controlled_by = ITA } }
@@ -5728,7 +5731,7 @@ country_event = {
 		
 		if = { limit = {  45 = { is_controlled_by = ITA } }
 		GER = {	set_state_controller = 45 } }
-		if = { limit = { BUL = { exists = yes NOT = { has_capitulated = yes }  } }
+		if = { limit = { BUL = { exists = yes NOT = { has_capitulated = yes } NOT = { has_war_with = ROOT} NOT = { is_in_faction_with = ENG }  } }
 		country_event = germany.983
 		else = { country_event = germany.984 }
 		}
@@ -5781,7 +5784,7 @@ country_event = {
 		
 		if = { limit = {  802 = { is_controlled_by = ITA } }
 		GER = {	set_state_controller = 802 } }
-		if = { limit = { BUL = { exists = yes NOT = { has_capitulated = yes }  } }
+		if = { limit = { BUL = { exists = yes NOT = { has_capitulated = yes } NOT = { has_war_with = ROOT} NOT = { is_in_faction_with = ENG } } }
 		country_event = germany.983
 		else = { country_event = germany.984 }
 		}
@@ -5864,15 +5867,19 @@ country_event = {
 			transfer_state = 106
 			transfer_state = 803
 		}
-		if = { limit = { HUN = { exists = yes NOT = { has_capitulated = yes }  } }
+		if = { limit = { HUN = { exists = yes NOT = { has_capitulated = yes } NOT = { has_war_with = ROOT} NOT = { is_in_faction_with = ENG }  } }
 		country_event = germany.985
 		}
-		BUL = { country_event = germany.9830 }
+		BUL = { country_event = germany.9830 } # TODO: inform greece about this injustice and maybe negative effect for them? opinion and/or stability?
 	}
 	option = {
 		name = germany.983.b   # give minimum demands
 		trigger = { BUL = { exists = yes NOT = { has_capitulated = yes }  }}
 		BUL = {
+		    if = { limit = { BUL = { has_war = no } }
+			    transfer_state = 106 
+				transfer_state = 803
+			}
 			set_state_controller = 106
 			set_state_controller = 803
 		}
@@ -5905,9 +5912,13 @@ country_event = {
 		
 		if = { limit = {  802 = { is_controlled_by = BUL } }
 		GER = {	set_state_controller = 802 } }
-		if = { limit = { HUN = { exists = yes NOT = { has_capitulated = yes }  } }
-		country_event = germany.985
+		
+		if = { limit = { GRE = { exists = yes NOT = { has_capitulated = yes } NOT = { has_war_with = ROOT} NOT = { is_in_faction_with = ENG }  } }
+	    	country_event = germany.984
 		}
+		else_if = { limit = { HUN = { exists = yes NOT = { has_capitulated = yes } NOT = { has_war_with = ROOT} NOT = { is_in_faction_with = ENG }  } } 
+	    	country_event = germany.985
+   		}
 		BUL = { country_event = germany.9831 }
 	}
 	option = {
@@ -5957,10 +5968,13 @@ country_event = {
 		
 		if = { limit = {  802 = { is_controlled_by = BUL } }
 		GER = {	set_state_controller = 802 } }
-		if = { limit = { GRE = { exists = yes NOT = { has_capitulated = yes }  } }
-		country_event = germany.984
-		else = {  country_event = germany.985 }
+		
+		if = { limit = { GRE = { exists = yes NOT = { has_capitulated = yes } NOT = { has_war_with = ROOT} NOT = { is_in_faction_with = ENG }  } }
+	    	country_event = germany.984
 		}
+		else_if = { limit = { HUN = { exists = yes NOT = { has_capitulated = yes } NOT = { has_war_with = ROOT} NOT = { is_in_faction_with = ENG }  } } 
+	    	country_event = germany.985
+   		}
 		BUL = { country_event = germany.9832 }
 	}
 }
@@ -6030,7 +6044,7 @@ country_event = {
 	trigger = {  }
 	
 	option = {
-		name = germany.984.a   # honor GREgarian demands
+		name = germany.984.a   # honor Greek demands
 		ai_chance = { 
 			factor = 25
 			modifier =  { # historical mod, speeding up germany
@@ -6038,12 +6052,12 @@ country_event = {
 				is_historical_focus_on = yes
 			}
 		}
-		trigger = { GRE = { exists = yes NOT = { has_capitulated = yes }  }}
+		trigger = { GRE = { exists = yes NOT = { has_capitulated = yes } } }
 		GRE = {
 			transfer_state = 106
 		}
-		if = { limit = { HUN = { exists = yes NOT = { has_capitulated = yes }  } }
-		country_event = germany.984
+		if = { limit = { HUN = { exists = yes NOT = { has_capitulated = yes } NOT = { has_war_with = ROOT} NOT = { is_in_faction_with = ENG } } }
+		country_event = germany.988
 		else = {  }
 		}
 		GRE = { country_event = germany.9840 }
@@ -6062,9 +6076,12 @@ country_event = {
 			}
 			
 		}
-		trigger = { GRE = { exists = yes NOT = { has_capitulated = yes }  }}
+		trigger = { GRE = { exists = yes NOT = { has_capitulated = yes } }}
 		GRE = {
-			set_state_controller = 106
+		    if = { limit = { GRE = { has_war = no } }
+			    transfer_state = 106 
+			}
+			set_state_controller = 106		
 		}
 		if = { limit = {  102 = { is_controlled_by = GRE } }
 		GER = {	set_state_controller = 102 } }
@@ -6099,7 +6116,7 @@ country_event = {
 		if = { limit = {  804 = { is_controlled_by = GRE } }
 		GER = {	set_state_controller = 804 } }
 		
-		if = { limit = { GRE = { exists = yes NOT = { has_capitulated = yes }  } }
+		if = { limit = { HUN = { exists = yes NOT = { has_capitulated = yes } NOT = { has_war_with = ROOT} NOT = { is_in_faction_with = ENG } } }
 		country_event = germany.985
 		else = { }
 		}
@@ -6147,7 +6164,7 @@ country_event = {
 		if = { limit = {  804 = { is_controlled_by = GRE } }
 		GER = {	set_state_controller = 804 } }
 		
-		if = { limit = { HUN = { exists = yes NOT = { has_capitulated = yes }  } }
+		if = { limit = { HUN = { exists = yes NOT = { has_capitulated = yes } NOT = { has_war_with = ROOT} NOT = { is_in_faction_with = ENG } } }
 		country_event = germany.985
 		else = {  }
 		}
