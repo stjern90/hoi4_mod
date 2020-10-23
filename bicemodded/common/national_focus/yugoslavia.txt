@@ -317,7 +317,7 @@ focus_tree = {
 	focus = {
 		id = YUG_limited_self_government
 		icon = GFX_goal_anschluss
-		prerequisite = { focus = YUG_attract_allied_capital }
+		prerequisite = { focus = YUG_attract_allied_capital focus = YUG_attract_axis_capital }
 		mutually_exclusive = { focus = YUG_evolution }
 		x = 0
 		y = 1
@@ -1495,7 +1495,7 @@ focus_tree = {
 	focus = {
 		id = YUG_evolution
 		icon = GFX_goal_anschluss
-		prerequisite = { focus = YUG_attract_axis_capital }
+		prerequisite = { focus = YUG_attract_allied_capital focus = YUG_attract_axis_capital }
 		mutually_exclusive = { focus = YUG_limited_self_government }
 		x = 0
 		y = 1
@@ -1912,21 +1912,47 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL }
 
 		completion_reward = {
-			if = {
-				limit = {
-					GER = {
-						exists = yes
-						has_capitulated = no
-						has_government = fascism
-						is_faction_leader = yes
+			hidden_effect = {
+				if = {
+					limit = {
+						GER = {
+							exists = yes
+							has_capitulated = no
+							has_government = fascism
+							is_faction_leader = yes
+						}
+					}
+					GER = { country_event = DOD_yugoslavia.70 }
+				}
+				else = {
+					get_best_alliance_match_fascism_effect = yes
+					var:best_leader = {
+						country_event = DOD_yugoslavia.70
 					}
 				}
-				GER = { country_event = DOD_yugoslavia.70 }
+											   
 			}
-			else = {
-				get_best_alliance_match_fascism_effect = yes
-				var:best_leader = {
-					country_event = DOD_yugoslavia.70
+			effect_tooltip = {
+				if = {
+					limit = {
+						GER = {
+							exists = yes
+							has_capitulated = no
+							has_government = fascism
+							is_faction_leader = yes
+						}
+					}
+					GER = {
+						add_opinion_modifier = { target = YUG modifier = tripartite_pact_opinion }
+						reverse_add_opinion_modifier = { target = YUG modifier = tripartite_pact_opinion }
+					}
+				}
+				else = {
+					get_best_alliance_match_fascism_effect = yes
+					var:best_leader = {
+						add_opinion_modifier = { target = YUG modifier = tripartite_pact_opinion }
+						reverse_add_opinion_modifier = { target = YUG modifier = tripartite_pact_opinion }
+					}
 				}
 			}
 			create_country_leader = {
