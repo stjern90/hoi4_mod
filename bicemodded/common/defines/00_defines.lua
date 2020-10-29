@@ -379,7 +379,7 @@ NResistance = {
 	RESISTANCE_TARGET_MODIFIER_HAS_CLAIM = -8.0,			-- resistance target modifier in % for states we have claim
 
 	RESISTANCE_TARGET_MODIFIER_PER_STABILITY_LOSS = 0.2,	-- resistance target modifier per stability below 100%
-	RESISTANCE_TARGET_MODIFIER_PER_COMPLIANCE = -0.4,		-- resistance target modifier per compliance %
+	RESISTANCE_TARGET_MODIFIER_PER_COMPLIANCE = -0.3,		-- resistance target modifier per compliance %
 	
 	RESISTANCE_TARGET_MODIFIER_IS_AT_PEACE = -10.0,			-- resistance target modifier when we are at peace
 	
@@ -1712,7 +1712,7 @@ NAI = {
 	NAVAL_DOCKYARDS_SHIP_FACTOR = 1000,			-- The extent to which number of dockyards play into amount of sips a nation wants
 	NAVAL_BASES_SHIP_FACTOR = 1000,		    	-- The extent to which number of naval bases play into amount of sips a nation wants
 	NAVAL_STATES_SHIP_FACTOR = 1000,			-- The extent to which number of states play into amount of sips a nation wants
-	PRODUCTION_EQUIPMENT_SURPLUS_FACTOR = 0.15,	-- Base value for how much of currently used equipment the AI will at least strive to have in stock
+	PRODUCTION_EQUIPMENT_SURPLUS_FACTOR = 0.1,	-- Base value for how much of currently used equipment the AI will at least strive to have in stock
 	PRODUCTION_EQUIPMENT_SURPLUS_FACTOR_GARRISON = 0.05,	-- Base value for how much of currently used equipment the AI will at least strive to have in stock for garrison forces
 	AIR_SUPERIORITY_FACTOR = 2.5,				-- Factor for air superiority score
 	ROCKET_MIN_ASSIGN_SCORE = 10,				-- Minimum total score for region to be considered for rocket air missions
@@ -2012,7 +2012,7 @@ NAI = {
 
 	CONVOY_NEED_SAFETY_BUFFER = 1.00,					-- AI will try and keep 15% more convoys than what it needs.
 	REGION_THREAT_PER_SUNK_CONVOY = 50,					-- Threat value per convoy sunk in a region. Decays over time.
-	REGION_THREAT_LEVEL_TO_AVOID_REGION = 250,		-- How much threat must be generated in region ( by REGION_THREAT_PER_SUNK_CONVOY ) so the AI will decide to mark the region as avoid
+	REGION_THREAT_LEVEL_TO_AVOID_REGION = 300,		-- How much threat must be generated in region ( by REGION_THREAT_PER_SUNK_CONVOY ) so the AI will decide to mark the region as avoid
 	REGION_THREAT_LEVEL_TO_BLOCK_REGION = 2500,		-- How much threat must be generated in region ( by REGION_THREAT_PER_SUNK_CONVOY ) so the AI will decide to mark the region as avoid
 	REGION_CONVOY_DANGER_DAILY_DECAY = 5,				-- When convoys are sunk it generates threat in the region which the AI uses to prio nalval missions
 
