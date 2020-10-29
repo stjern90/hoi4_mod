@@ -277,6 +277,90 @@ GER_mefo_bills_mission = {
 
 GER_offensives = {
 	
+	GER_terrorbomb1 = {
+		icon = generic_scorched_earth
+		
+		available = {
+			has_global_flag = eastern_front_peace
+			NOT = { SOV = { is_in_faction_with = GER } }
+			NOT = { has_war_with = SOV }
+		}
+		
+		visible = {
+			NOT = { has_country_flag = GER_terror2 }
+		}
+		
+		cost = 50
+		
+		ai_will_do = {
+			factor = 1000
+			modifier = {
+				factor = 0 
+				fuel_ratio < 0.1
+			}
+		}
+		
+		days_remove = 10
+		
+		complete_effect = {
+			SOV = {
+				add_ideas = SOV_terror
+			}
+			GER = {
+				add_ideas = SOV_terror_ger
+			}
+			
+		}
+		
+		remove_effect = {
+			hidden_effect = {
+				set_country_flag = GER_terror2
+			}
+		}
+		
+	}
+	
+	GER_terrorbomb2 = {
+		icon = generic_scorched_earth
+		
+		available = {
+			has_global_flag = eastern_front_peace
+			NOT = { has_war_with = SOV }
+		}
+		
+		visible = {
+			has_country_flag = GER_terror2
+		}
+		
+		days_remove = 10
+		
+		cost = 50
+		
+		ai_will_do = {
+			factor = 0
+			modifier = {
+				add = 1000
+				fuel_ratio < 0.1
+			}
+		}
+		
+		complete_effect = {
+			SOV = {
+				remove_ideas = SOV_terror
+			}
+			GER = {
+				remove_ideas = SOV_terror_ger
+			}
+		}
+		
+		remove_effect = {
+			hidden_effect = {
+				clr_country_flag = GER_terror2
+			}
+		}
+		
+	}
+	
 	GER_waronpoland = {
 		icon = ger_pol_war
 		
@@ -541,6 +625,7 @@ GER_offensives = {
 		
 		available = {
 			has_completed_focus = GER_prepare_the_navy_to_be_at_war_with_uk
+			has_war_with = ENG
 			is_puppet = no
 			date > 1940.07.1
 			date < 1940.10.1
@@ -578,9 +663,10 @@ GER_offensives = {
 		
 		available = {
 			has_completed_focus = GER_prepare_the_navy_to_be_at_war_with_uk
+			has_war_with = USA
 			is_puppet = no
-			date > 1941.01.1
-			date < 1941.08.1
+			date > 1941.11.1
+			date < 1942.08.1
 			
 		}
 		
@@ -618,8 +704,15 @@ GER_offensives = {
 		
 		available = {
 			has_completed_focus = GER_ussr_war_goal
-			
+			is_subject = no
 			NOT = { is_in_faction_with = SOV }
+                         custom_trigger_tooltip = { tooltip = barba_less_than_1
+                        check_variable = {
+				var = global.ostfront_year_4
+				value = 1
+				compare = less_than_or_equals
+			}
+                        }
 		}
 		
 		cost = 0
@@ -648,6 +741,11 @@ GER_offensives = {
 			or = {
 				date > 1940.5.1
 				has_completed_focus = GER_ussr_war_goal
+			}
+                        check_variable = {
+				var = global.ostfront_year_4
+				value = 1
+				compare = less_than_or_equals
 			}
 		}
 		
@@ -1253,29 +1351,29 @@ operations = {
 			has_war = yes
 			is_in_faction_with = ITA
 			ITA = {
-			has_war = yes 
 			OR = {
-			surrender_progress > 0.12
-			casualties > 1000000 
-			has_idea = colonial_empire_lost 
+			surrender_progress > 0.04
+			has_idea = ITA_duce_prison
 			}
 			}
 
 		}
+		
 		available = {
-			ITA = { has_idea = colonial_empire_lost }
-		    OR = {
-			115 = {
-				NOT = { is_controlled_by_ROOT_or_ally = yes }
-			}
-			ITA = { surrender_progress > 0.18 } 
-			}
+			ITA = { has_idea = ITA_duce_prison }
 		}
 		cost = 15
 		ai_will_do = {
 			factor = 500
 		}
 		complete_effect = {
+		    effect_tooltip = {
+			remove_ideas = ITA_duce_prison
+			add_popularity = { ideology = fascism popularity = 0.07 }
+			add_stability = 0.1	
+            add_war_support = 0.1			
+			add_ideas = FRA_occupation_costs_4
+			}
 			ITA = { country_event = italy.36 }
 		}
 	}
@@ -1461,7 +1559,7 @@ GER_reichskommissariats = {
 		icon = ger_reichskommissariats
 
 		available = {
-			has_war = no
+			has_completed_focus = GER_form_the_reichskommissariats
 			has_government = fascism
 			110 = { is_fully_controlled_by = GER }
 			142 = { is_fully_controlled_by = GER }
@@ -1479,7 +1577,7 @@ GER_reichskommissariats = {
 		}
 
 		visible = {
-			has_war = no
+			has_completed_focus = GER_form_the_reichskommissariats
 			has_government = fascism
 		}
 
@@ -1567,7 +1665,7 @@ GER_reichskommissariats = {
 			}
 
 		visible = {
-			has_war = no
+			has_completed_focus = GER_form_the_reichskommissariats
 			has_government = fascism
 			NOT = {
 				any_neighbor_country = {
@@ -1745,7 +1843,7 @@ GER_reichskommissariats = {
 	}
 
 	visible = {
-		has_war = no
+		has_completed_focus = GER_form_the_reichskommissariats
 		has_government = fascism
 		any_neighbor_country = {
 			is_puppet_of = GER
@@ -1791,7 +1889,7 @@ GER_reichskommissariats = {
 		icon = ger_reichskommissariats
 
 		available = {
-			has_war = no
+			has_completed_focus = GER_form_the_reichskommissariats
 			has_government = fascism
 			7 = { is_fully_controlled_by = GER }
 			35 = { is_fully_controlled_by = GER }
@@ -1809,7 +1907,7 @@ GER_reichskommissariats = {
 		}
 
 		visible = {
-			has_war = no
+			has_completed_focus = GER_form_the_reichskommissariats
 			has_government = fascism
 		}
 
@@ -1896,7 +1994,7 @@ GER_reichskommissariats = {
 		}
 
 		visible = {
-			has_war = no
+			has_completed_focus = GER_form_the_reichskommissariats
 			has_government = fascism
 		}
 
@@ -1966,7 +2064,7 @@ GER_reichskommissariats = {
 		icon = ger_reichskommissariats
 
 		available = {
-			has_war = no
+			has_completed_focus = GER_form_the_reichskommissariats
 			has_government = fascism
 			6 = { is_fully_controlled_by = GER }
 			29 = { is_fully_controlled_by = GER }
@@ -1984,7 +2082,7 @@ GER_reichskommissariats = {
 		}
 
 		visible = {
-			has_war = no
+			has_completed_focus = GER_form_the_reichskommissariats
 			has_government = fascism
 		}
 
@@ -2062,7 +2160,7 @@ GER_reichskommissariats = {
 		icon = ger_reichskommissariats
 
 		available = {
-			has_war = no
+			has_completed_focus = GER_form_the_reichskommissariats
 			has_government = fascism
 			
 			123 = { is_fully_controlled_by = GER }
@@ -2087,7 +2185,7 @@ GER_reichskommissariats = {
 		}
 		
 		visible = {
-			has_war = no
+			has_completed_focus = GER_form_the_reichskommissariats
 			has_government = fascism
 		}
 
@@ -2222,7 +2320,7 @@ GER_reichskommissariats = {
 		icon = ger_reichskommissariats
 
 		available = {
-			has_war = no
+			has_completed_focus = GER_form_the_reichskommissariats
 			has_government = fascism
 			95 = { is_fully_controlled_by = GER }
 			96 = { is_fully_controlled_by = GER }
@@ -2248,7 +2346,7 @@ GER_reichskommissariats = {
 		}
 
 		visible = {
-			has_war = no
+			has_completed_focus = GER_form_the_reichskommissariats
 			has_government = fascism
 			NOT = {
 				LAT = {
@@ -2395,7 +2493,7 @@ GER_reichskommissariats = {
 		icon = ger_reichskommissariats
 
 		available = {
-			has_war = no
+			has_completed_focus = GER_form_the_reichskommissariats
 			has_government = fascism
 			93  = { is_fully_controlled_by = GER }
 			199 = { is_fully_controlled_by = GER }
@@ -2422,7 +2520,7 @@ GER_reichskommissariats = {
 		}
 
 		visible = {
-			has_war = no
+			has_completed_focus = GER_form_the_reichskommissariats
 			has_government = fascism
 			NOT = {
 				UKR = {
@@ -2506,7 +2604,7 @@ GER_reichskommissariats = {
 					set_stability = 0.3
 					set_war_support = 0.3
 
-					add_ideas = { RK_Harsh_conditions RK_Partisans }
+					add_ideas = { RK_Harsh_conditions RK_Partisans UKR_nationalism }
 							
 					create_country_leader = {
 						name = "Erich Koch"
@@ -2598,7 +2696,7 @@ GER_reichskommissariats = {
 		icon = ger_reichskommissariats
 
 		available = {
-			has_war = no
+			has_completed_focus = GER_form_the_reichskommissariats
 			has_government = fascism
 			407 = { is_fully_controlled_by = GER }
 			406 = { is_fully_controlled_by = GER }
@@ -2629,7 +2727,7 @@ GER_reichskommissariats = {
 		}
 		
 		visible = {
-			has_war = no
+			has_completed_focus = GER_form_the_reichskommissariats
 			has_government = fascism
 		}
 		
@@ -2709,7 +2807,7 @@ GER_reichskommissariats = {
 		icon = ger_reichskommissariats
 
 		available = {
-			has_war = no
+			has_completed_focus = GER_form_the_reichskommissariats
 			has_government = fascism
 			231 = { is_fully_controlled_by = GER }
 			797 = { is_fully_controlled_by = GER }
@@ -2736,7 +2834,7 @@ GER_reichskommissariats = {
 		}
 		
 		visible = {
-			has_war = no
+			has_completed_focus = GER_form_the_reichskommissariats
 			has_government = fascism
 		}
 		
@@ -2823,7 +2921,7 @@ GER_reichskommissariats = {
 		icon = ger_reichskommissariats
 
 		available = {
-			has_war = no
+			has_completed_focus = GER_form_the_reichskommissariats
 			has_government = fascism
 			138 = { is_fully_controlled_by = GER }
 			139 = { is_fully_controlled_by = GER }
@@ -2844,7 +2942,7 @@ GER_reichskommissariats = {
 		}
 
 		visible = {
-			has_war = no
+			has_completed_focus = GER_form_the_reichskommissariats
 			has_government = fascism
 		}
 
@@ -2907,7 +3005,7 @@ GER_reichskommissariats = {
 		icon = ger_reichskommissariats
 
 		available = {
-			has_war = no
+			has_completed_focus = GER_form_the_reichskommissariats
 			has_government = fascism
 			100 = { is_fully_controlled_by = GER }
 			101 = { is_fully_controlled_by = GER }
@@ -2923,7 +3021,7 @@ GER_reichskommissariats = {
 		}
 
 		visible = {
-			has_war = no
+			has_completed_focus = GER_form_the_reichskommissariats
 			has_government = fascism
 		}
 
@@ -2971,7 +3069,7 @@ GER_reichskommissariats = {
 		icon = ger_reichskommissariats
 
 		available = {
-			has_war = no
+			has_completed_focus = GER_form_the_reichskommissariats
 			has_government = fascism
 			99 = { is_fully_controlled_by = GER }
 			37 = { is_fully_controlled_by = GER }
@@ -2987,7 +3085,7 @@ GER_reichskommissariats = {
 		}
 
 		visible = {
-			has_war = no
+			has_completed_focus = GER_form_the_reichskommissariats
 			has_government = fascism
 		}
 
@@ -3035,7 +3133,7 @@ GER_reichskommissariats = {
 		icon = ger_reichskommissariats
 
 		available = {
-			has_war = no
+			has_completed_focus = GER_form_the_reichskommissariats
 			has_government = fascism
 			150 = { is_fully_controlled_by = GER }
 			148 = { is_fully_controlled_by = GER }
@@ -3057,7 +3155,7 @@ GER_reichskommissariats = {
 		}
 
 		visible = {
-			has_war = no
+			has_completed_focus = GER_form_the_reichskommissariats
 			has_government = fascism
 		}
 
@@ -3147,7 +3245,7 @@ GER_reichskommissariats = {
 		fire_only_once = yes
 		
 		available = {
-			has_war = no
+			has_completed_focus = GER_form_the_reichskommissariats
 			has_government = fascism
 			}
 		
@@ -3402,7 +3500,7 @@ political_actions = {
 		}
 
 		available = {
-			#has_war = no
+			#has_completed_focus = GER_form_the_reichskommissariats
 			has_government = fascism
 			controls_state = 86
 			date > 1940.2.1

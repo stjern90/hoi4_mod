@@ -39,6 +39,7 @@ JAP_vs_CHI_2 = {
 		date > 1937.11.1
 		is_historical_focus_on = yes
 		JAP = { is_ai = yes }
+		NOT = { has_idea = CHI_winter }
 	}
 	abort_when_not_enabled = yes
 
@@ -58,11 +59,39 @@ JAP_vs_CHI_2 = {
 	}
 }
 
+JAP_vs_CHI_3 = { #when we have the 1939 Winter Offensive idea, we should attack
+	allowed = { 
+		tag = CHI 
+	}
+	enable = {
+		has_war_with = JAP
+		has_idea = CHI_winter
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = {
+		type = front_control
+		priority = 999
+		country_trigger = {
+			OR = {
+				tag = JAP
+				is_in_faction_with = JAP
+			}
+		}
+
+		execution_type = rush
+		execute_order = yes
+		manual_attack = yes
+	}
+}
+
 
 
 befriend_tibet = {
+        allowed = { 
+		tag = CHI 
+	}
 	enable = {
-		tag = CHI
 		has_completed_focus = CHI_integrate_tibet
 	}
 	abort = {
@@ -86,11 +115,14 @@ befriend_tibet = {
 }
 
 ignore_the_western_border = {
-	enable = {
+        allowed = { 
 		OR = {
 			tag = CHI
 			tag = CCP
 		}
+	}
+	enable = {
+	
 		NOT = { 
 			OR = {
 				has_war_with = TIB
@@ -140,6 +172,9 @@ ignore_the_western_border = {
 
 
 dont_send_troops_in_sea = {
+        allowed = { 
+		OR = { original_tag = CHI original_tag = GXC original_tag = SHX original_tag = CCP }
+	}
 	enable = {
 		is_literally_china = yes
 		has_war_with = JAP
@@ -163,9 +198,20 @@ dont_send_troops_in_sea = {
 		id = 75 
 		value = 600
 	}
+        ai_strategy = {
+		type = front_unit_request
+		country_trigger = {
+			or = {
+				tag = JAP
+				is_in_faction_with = JAP
+			}
+		}
+			
+		value = 100
+	}	
 }
 dont_invite_bra = {
-	enable = {
+	allowed = {
 		OR = { 	tag = CHI
 				tag = CCP
 				tag = SHX
@@ -173,8 +219,8 @@ dont_invite_bra = {
 				tag = YUN
 				}
 	}
-	abort = {
-	   NOT = { country_exists = BRA }
+	enable = {
+	   always = yes
 	}
 	
 	ai_strategy = {
@@ -230,8 +276,10 @@ dont_invite_bra = {
 }
 
 ger_ally_cool = {
+        allowed = { 
+		tag = CHI 
+	}
 	enable = {
-		tag = CHI
 		GER = { 
 		has_completed_focus = GER_turkey_friend 
 		NOT = { is_in_faction_with = JAP }
@@ -403,41 +451,14 @@ ger_actually_love_china = {
 
 
 
-zxl_to_jap = {
+defied_sov_order = { 
+        allowed = { tag = SOV }
 	enable = {
-		tag = CCP
-		has_government = fascism
-		NOT = {
-			has_country_flag = befriend
-		}
-	}
-	
-	abort = {
-		tag = CCP
-		has_country_flag = befriend_JAP
-	}
-	
-	ai_strategy = {
-		type = befriend
-		id = "JAP"
-		value = -250
-	}
-	
-	ai_strategy = {
-		type = alliance
-		id = "JAP"
-		value = -250
-	}
-}
-
-defied_sov_order = {
-	enable = {
-		tag = SOV
 		has_global_flag = CCP_defy_sov_order
 	}
 	
 	abort = {
-		tag = SOV
+		
 		NOT = {
 			has_global_flag = CCP_defy_sov_order
 		}
@@ -457,8 +478,9 @@ defied_sov_order = {
 }
 
 dont_justify = {
+        allowed = { OR = { tag = CHI tag = CCP } }
 	enable = {
-		OR = { tag = CHI tag = CCP }
+	
 		date < 1937.3.15
 	}
 
@@ -486,8 +508,9 @@ dont_justify = {
 }
 
 CHI_defend_against_JAP = {
+        allowed = { OR = { tag = CHI tag = SHX } }
 	enable = {
-		OR = { tag = CHI tag = SHX }
+		#OR = { tag = CHI tag = SHX }
 		NOT = {has_government = fascism }
 		date > 1936.10.1
 	}
@@ -588,8 +611,8 @@ west_exp_2 = {
 }
 
 east_exp_2 = {
+        allowed ={tag = SHX}
 	enable = {
-		tag = SHX
 		CCP = { has_completed_focus = PRC_approach_the_front }
 		country_exists = CCP
 	}
@@ -611,5 +634,31 @@ east_exp_2 = {
 	}	
 }
 
+CCP_fewer_garrisons = {
+	allowed = { original_tag = CCP }
+	enable = {
+		has_war_with = JAP
+	}
+	abort_when_not_enabled = yes
+	
+	
+	ai_strategy = {
+		type = garrison
+		value = -40
+	}
+}
+CHI_avoid_CCP = {
+	allowed = { original_tag = CHI }
+	enable = { 
+		has_war_with = JAP 
+		is_in_faction_with = CCP
+	}
+	abort_when_not_enabled = yes
+	ai_strategy = {
+		type = dont_defend_ally_borders
+		id = "CCP"
+		value = 200
+	}
+}
 
 

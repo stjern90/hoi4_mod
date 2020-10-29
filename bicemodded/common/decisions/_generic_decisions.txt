@@ -23,18 +23,10 @@ political_actions = {
 		days_remove = 0
 		days_re_enable = 0
 
-		cost = 50
+		cost = 75
 
 		ai_will_do = {
-			base = 50
-			modifier = {
 			factor = 0
-			date < 1938.1.1
-			}
-			modifier = {
-			factor = 4
-			tag = ENG
-			}
 		}
 
 		complete_effect = {
@@ -120,7 +112,9 @@ political_actions = {
 				NOT = {
 					has_idea = SPR_political_violence
 				}
+                NOT = { has_idea = SPA_recovering_from_civil_war }
 			}			
+			NOT = { has_idea = tot_economic_mobilisation }
 		}
 
 		visible = {
@@ -152,6 +146,7 @@ political_actions = {
 			modifier = {
 				add = 2
 				has_stability < 0.5
+				date > 1937.6.1
 			}
 			modifier = {
 				add = 2
@@ -161,6 +156,7 @@ political_actions = {
 			        add = 2
 				has_stability < 0.6
 				OR = { tag = GER tag = FRA }
+				date > 1937.6.1
 			}
 		}
 	}
@@ -170,9 +166,27 @@ political_actions = {
 		icon = generic_industry
 
 		available = {
+
+			num_of_military_factories > 20
+			OR = {
+				date > 1944.1.1
+				AND = {
+					has_stability < 0.8
+					has_war_support < 0.75
+				}
+				AND = {
+					has_war = no
+					NOT = {
+						any_country = {
+							is_justifying_wargoal_against = ROOT
+						}
+					}
+				}
+			}
 			if = {
 				limit = {
 					tag = SPR
+					has_dlc = "La Resistance"
 				}
 				NOT = {
 					has_idea = SPR_political_violence
@@ -188,7 +202,10 @@ political_actions = {
 
 		modifier = {
 			stability_weekly = 0.004
-			industrial_capacity_factory = -0.25
+			industrial_capacity_factory = -0.2
+			industrial_capacity_dockyard = -0.2
+			production_speed_arms_factory_factor = -0.05
+			production_speed_dockyard_factor = -0.05
 		}
 
 		days_remove = 180
@@ -203,24 +220,45 @@ political_actions = {
 		ai_will_do = {
 			base = 0
 			modifier = {
+				factor = 0
+				has_government = fascism
+				surrender_progress > 0.35
+				has_political_power < 125
+			}
+			modifier = {
 				add = 1
 				OR = {
 					has_idea = draft_dodging_2
 					has_idea = strikes_2
 					has_idea = mutiny_2
+					has_idea = draft_dodging_3
+					has_idea = strikes_3
+					has_idea = mutiny_3
+				}
+				surrender_progress < 0.02
+			}
+			modifier = {
+				add = 0.5
+				has_stability < 0.55
+				has_war = no
+				NOT = {
+					any_country = {
+						is_justifying_wargoal_against = ROOT
+					}
+				}
+				OR = {
+					threat < 0.4
+					date > 1941.1.1
 				}
 			}
 			modifier = {
-				add = 1
-				has_stability < 0.25
-			}
-			modifier = {
-				add = 2
-				has_stability < 0.13
-			}
-			modifier = {
-				add = 3
-				has_stability < 0.05
+				add = 0.5
+				has_stability < 0.45
+				OR = {
+					surrender_progress < 0.05
+					has_war = no
+				}
+				date > 1937.1.1
 			}
 		}
 	}
@@ -231,15 +269,22 @@ political_actions = {
 
 		available = {
 			has_war = no
-			has_war_support > 0.2
+			threat > 0.3
+			has_war_support > 0.3
+			NOT = {
+				any_country = {
+					is_justifying_wargoal_against = ROOT
+				}
+			}
 			if = {
 				limit = {
 					tag = SPR
+					has_dlc = "La Resistance"
 				}
 				NOT = {
 					has_idea = SPR_political_violence
 				}
-			}
+			}			
 		}
 
 		visible = {
@@ -248,21 +293,24 @@ political_actions = {
 
 		remove_trigger = {
 			has_war = yes
-			has_war_support < 0.05
+			AND = { 
+				threat > 0.7
+				has_war_support < 0.3
+			}
 		}
 
 		fire_only_once = no
 
 		modifier = {
-			stability_weekly = 0.005
-			war_support_weekly = -0.01
-			political_power_gain = -0.5
+			stability_weekly = 0.006
+			war_support_weekly = -0.008
+			political_power_gain = -0.3
 		}
+		
+		days_remove = 70
+		days_re_enable = 250
 
-		days_remove = 90
-		days_re_enable = 360
-
-		cost = 25
+		cost = 30
 
 		complete_effect = {
 
@@ -271,8 +319,9 @@ political_actions = {
 		ai_will_do = {
 			base = 0
 			modifier = {
-				add = 2
-				has_stability < 0.15
+				add = 0.5
+				has_stability < 0.59
+				has_war_support > 0.68
 			}
 			modifier = {
 				add = 1
@@ -280,40 +329,47 @@ political_actions = {
 					has_idea = draft_dodging_2
 					has_idea = strikes_2
 					has_idea = mutiny_2
+					has_idea = draft_dodging_3
+					has_idea = strikes_3
+					has_idea = mutiny_3
 				}
+			}
+			modifier = {
+				factor = 2
+				OR = {
+					has_government = neutrality
+					is_in_faction = no
+				}
+			}
+			modifier = {
+				factor = 0
+				has_government = fascism 
 			}
 		}
 	}
 }
 
+#TODO : flags to not do opposite...
 economy_decisions = {
 
-        economy_inflation = {
+	economy_inflation = {
 
 		icon = generic_break_treaty
 
 		available = {
-			has_stability > 0.2
-			if = {
-				limit = {
-					tag = SPR
-				}
-				NOT = {
-					has_idea = SPR_political_violence
-				}
-			}
+			has_stability > 0.65
 		}
 
 		visible = {
 			has_government = democratic
-            has_stability > 0.75
-        }
+            has_stability > 0.6
+		}
 
 		fire_only_once = no
 
 		modifier = {
 			min_export = 0.1
-			political_power_gain = 0.1
+			political_power_gain = 0.2
 			stability_weekly = -0.001
 			trade_opinion_factor = -0.2
 		}
@@ -331,7 +387,11 @@ economy_decisions = {
 			base = 0
 			modifier = {
 				add = 1
-				has_stability < 0.4
+				OR = {
+					political_power_growth < 0.5
+					has_political_power < 0
+				}
+				has_war = no
 			}
 		}
 	}
@@ -341,20 +401,12 @@ economy_decisions = {
 		icon = ger_mefo_bills
 
 		available = {
-			has_stability > 0.2
-			if = {
-				limit = {
-					tag = SPR
-				}
-				NOT = {
-					has_idea = SPR_political_violence
-				}
-			}
+			has_stability > 0.65
 		}
 
 		visible = {
 			has_government = democratic
-            has_stability > 0.75
+            has_stability > 0.6
         }
 
 		fire_only_once = no
@@ -378,7 +430,10 @@ economy_decisions = {
 			base = 0
 			modifier = {
 				add = 1
-				has_stability < 0.4
+				has_stability > 0.75 
+				political_power_growth < 0.5
+				has_political_power < 0
+				has_war = no
 			}
 		}
 	}
@@ -391,14 +446,23 @@ economy_decisions = {
 
 		available = {
 			has_stability > 0.2
+			NOT = {
+			has_country_flag = crisis_in_progress
+			}
+			OR = {
+				has_idea = tot_economic_mobilisation
+				has_idea = war_economy
+				num_of_military_factories > 20
+			}
 			if = {
 				limit = {
 					tag = SPR
+					has_dlc = "La Resistance"
 				}
 				NOT = {
 					has_idea = SPR_political_violence
 				}
-			}
+			}		
 		}
 
 		visible = {
@@ -411,7 +475,7 @@ economy_decisions = {
 			production_factory_efficiency_gain_factor = 0.1
 			production_factory_max_efficiency_factor = 0.05
 			consumer_goods_factor = 0.03 
-			political_power_gain = -0.15
+			political_power_gain = -0.1
 		}
 		
 		complete_effect = {
@@ -426,7 +490,17 @@ economy_decisions = {
 			base = 0
 			modifier = {
 				add = 1
-				has_stability < 0.4
+				OR = {
+					AND = {
+						has_war = no
+						threat > 35
+					}
+					has_war = yes
+				}
+				OR = {
+					has_political_power > 80
+					political_power_growth > 0.7
+				}
 			}
 		}
 	}
@@ -437,18 +511,24 @@ economy_decisions = {
 
 		available = {
 			has_stability > 0.2
+			OR = {
+				has_idea = partial_economic_mobilisation
+				has_idea = war_economy
+				num_of_military_factories > 20
+			}
 			if = {
 				limit = {
 					tag = SPR
+					has_dlc = "La Resistance"
 				}
 				NOT = {
 					has_idea = SPR_political_violence
 				}
-			}
+			}			
 		}
 
 		visible = {
-			always = yes
+			NOT = { has_idea = tot_economic_mobilisation }
 		}
 
 		fire_only_once = no
@@ -457,7 +537,7 @@ economy_decisions = {
 			production_factory_efficiency_gain_factor = -0.1
 			production_factory_max_efficiency_factor = -0.05
 			consumer_goods_factor = -0.03
-			political_power_gain = 0.1
+			political_power_gain = 0.3
 		}
 
 		days_remove = 120
@@ -473,7 +553,11 @@ economy_decisions = {
 			base = 0
 			modifier = {
 				add = 1
-				has_stability < 0.4
+				political_power_growth < 0.5
+			}
+			modifier = {
+				factor = 0
+				has_war = yes
 			}
 		}
 	}
@@ -637,25 +721,31 @@ propaganda_efforts = {
 
 		available = {
 			NOT = { has_country_flag = war_propaganda_campaign_running }
-			threat > 0.5
-			has_war_support < 0.5
-			has_war = yes
+			AND = {
+				has_war_support < 0.8
+				has_stability > 0.4
+				threat > 0.35
+				OR = {
+					NOT = { has_government = democratic }
+	  				has_war = yes
+	  			}
+			}
 		}
 
 		visible = {
-			
+			num_of_military_factories > 15
 		}
 
 		fire_only_once = no
 
-		days_remove = 90
+		days_remove = 70
 		days_re_enable = 180
 
-		cost = 100
+		cost = 85
 
 		modifier = {
 			war_support_weekly = 0.01
-			stability_weekly = -0.001
+			stability_weekly = -0.003
 		}
 
 		complete_effect = {
@@ -666,177 +756,19 @@ propaganda_efforts = {
 		}
 
 		ai_will_do = {
-			base = 0
+			base = 1
 			modifier = {
 				add = 1
 				has_war_support < 0.4
+			}
+			modifier = {
+				add = 1
 				has_war = yes
 			}
 		}
 	}
 
-	#Propaganda campaign against a country in offensive that has caused a lot of tension and started a war
-	war_propaganda_against_warmonger = {
-
-		icon = generic_prepare_civil_war
-		
-		allowed = {
-		   OR = {
-		   has_game_rule = { rule = FORCED_HISTROICAL option = DEFAULT } 
-		   original_tag = FRA
-		   original_tag = ENG
-		   original_tag = CAN
-		   original_tag = SAF
-		   original_tag = AST
-		   original_tag = RAJ
-		   original_tag = NZL
-		   original_tag = JAP
-		   original_tag = FIN
-		   original_tag = SPR
-		   original_tag = HUN
-		   original_tag = ROM
-		   original_tag = BUL
-		   original_tag = ITA
-		   original_tag = SOV
-		   original_tag = GER
-		   }
-		}
-
-		available = {
-			NOT = { has_country_flag = war_propaganda_campaign_running }
-			FROM = {
-				OR = {
-					is_justifying_wargoal_against = ROOT
-					AND = {
-						has_war_with = ROOT
-						is_neighbor_of = ROOT
-					}
-					has_offensive_war = yes
-				}
-			}
-			has_war_support < 0.75
-			if = {
-				limit = {
-					tag = SPR
-					has_dlc = "La Resistance"
-				}
-				NOT = {
-					has_idea = SPR_political_violence
-				}
-			}
-			if = {
-				limit = {
-					original_tag = SPR
-					has_dlc = "La Resistance"
-				}
-				has_global_flag = scw_over
-			}
-			
-			# lower the cost for neighbors
-			if = {
-				limit = {
-					FROM = {
-						is_neighbor_of = ROOT
-					}
-					set_temp_variable = { war_propaganda_cost = 50 }
-				}
-			}
-		}
-
-		visible = {
-			FROM = {
-				NOT = { is_in_faction_with = ROOT }
-				OR = {
-					is_justifying_wargoal_against = ROOT
-					AND = {
-						is_neighbor_of = ROOT
-						OR = {
-							has_war_with = ROOT
-							AND = {
-								NOT = { has_government = ROOT }
-								has_offensive_war = yes
-								has_added_tension_amount > 5
-							}
-						}
-					}
-					AND = {
-						NOT = { is_neighbor_of = ROOT }
-						OR = {
-							has_offensive_war_with = ROOT
-							AND = {
-								NOT = { has_government = ROOT }
-								has_offensive_war = yes
-								has_added_tension_amount > 30
-							}
-						}
-					}
-				}
-			}
-		}
-
-		target_trigger = {
-			FROM = {
-				NOT = { is_in_faction_with = ROOT }
-				OR = {
-					is_justifying_wargoal_against = ROOT
-					AND = {
-						is_neighbor_of = ROOT
-						OR = {
-							has_war_with = ROOT
-							AND = {
-								NOT = { has_government = ROOT }
-								has_offensive_war = yes
-								has_added_tension_amount > 5
-							}
-						}
-					}
-					AND = {
-						NOT = { is_neighbor_of = ROOT }
-						OR = {
-							has_offensive_war_with = ROOT
-							AND = {
-								NOT = { has_government = ROOT }
-								has_offensive_war = yes
-								has_added_tension_amount > 30
-							}
-						}
-					}
-				}
-			}
-		}
-
-		days_remove = 90
-		days_re_enable = 180
-
-		fire_only_once = yes
-
-		cost = var:war_propaganda_cost?75
-
-		modifier = {
-			war_support_weekly = 0.01
-		}
-
-		complete_effect = {
-			log = "[GetDateText]: [Root.GetName]: Decision war_propaganda_against_warmonger"
-			set_country_flag = war_propaganda_campaign_running
-		}
-		remove_effect = {
-			log = "[GetDateText]: [Root.GetName]: Decision remove war_propaganda_against_warmonger"
-			clr_country_flag = war_propaganda_campaign_running
-		}
-
-		ai_will_do = {
-			factor = 1
-			modifier = {
-				factor = 0
-				has_war_support > 0.9
-			}
-			modifier = {
-				factor = 10
-				has_war_support < 0.3
-			}
-		}
-	}
+	
 }
 
 operations = {
@@ -1226,11 +1158,11 @@ war_measures = {
 		icon = generic_prepare_civil_war
 
 		available = {
-			surrender_progress > 0.65
+			surrender_progress > 0.45
 		}
 
 		visible = {
-			surrender_progress > 0.40
+			surrender_progress > 0.25
 			NOT = { has_tech = Desperate_for_men_tech }
 		}
 
@@ -1252,7 +1184,68 @@ war_measures = {
 			hidden_effect = { set_technology = { Desperate_for_men_tech = 1 } }
 		}
 	}
+	CHI_evacuate_nanjing = {
 
+		icon = generic_army_support
+
+		available = {
+			tag = CHI
+			has_war = yes
+			has_civil_war = no
+			OR = {
+			    surrender_progress > 0.3 
+				749 = { CONTROLLER = { has_war_with = CHI } }
+				606 = { CONTROLLER = { has_war_with = CHI } }
+				598 = { CONTROLLER = { has_war_with = CHI } }
+				596 = { CONTROLLER = { has_war_with = CHI } }
+			}
+		}
+
+		cost = 10
+		fire_only_once = yes
+		visible = {
+			tag = CHI
+			has_war = yes
+			surrender_progress > 0.1 
+		}
+		
+
+		complete_effect ={
+		    set_capital = 605
+	    	set_country_flag = CHI_capital_moved
+		}
+		ai_will_do = {
+			factor = 100
+		}
+	}
+	
+	CHI_reinstate_nanjing = {
+
+		icon = generic_army_support
+
+		available = {
+			tag = CHI
+			surrender_progress < 0.2 
+		    613 = { is_fully_controlled_by = CHI }
+			has_country_flag = CHI_capital_moved
+		}
+
+		cost = 10
+		fire_only_once = yes
+		visible = {
+			tag = CHI
+			has_war = yes
+			surrender_progress > 0.1 
+		}
+		
+
+		complete_effect ={
+		    set_capital = 613
+		}
+		ai_will_do = {
+			factor = 100
+		}
+	}
 
 
 	scrap_iron_form_everywhere = {
@@ -1495,7 +1488,7 @@ war_measures = {
                 }
                 AND = {
                     has_government = communism
-                    has_war_support > 0.79
+                    has_war_support > 0.75
                 }
 				AND = {
                     has_government = fascism
@@ -1523,6 +1516,21 @@ war_measures = {
         }
         ai_will_do = {
 			factor = 0
+			modifier = {
+				add = 1
+				date > 1942.8.1
+				any_war_score < 15
+				OR = {
+					has_idea = all_adults_serve
+					has_idea = scraping_the_barrel
+				}
+				has_manpower < 100000
+				enemies_strength_ratio > 1
+				OR = {
+					num_of_factories > 100
+					num_divisions > 50
+				}
+			}
 		}
 		complete_effect = {
 			if = {
@@ -1535,7 +1543,7 @@ war_measures = {
 				limit = {
 					has_government = fascism
 				}
-				add_popularity = { ideology = fascism popularity = -0.04 }
+				add_popularity = { ideology = fascism popularity = -0.05 }
 			}
         }
    }
@@ -1562,7 +1570,7 @@ war_measures = {
                 AND = {
                     has_government = fascism
                     OR = {
-                        has_war_support > 0.89
+                        has_war_support > 0.85
                         surrender_progress > 0
                     }
                 }
@@ -1582,7 +1590,8 @@ war_measures = {
 			}	
         }
         visible = {
-            has_war = yes
+       		has_war = yes
+			has_capitulated = no
         }
 
         fire_only_once = no

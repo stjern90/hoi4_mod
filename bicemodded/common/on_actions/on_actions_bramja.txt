@@ -1,7 +1,47 @@
+
+#!!TO DO!!
+# on_puppet = 
+#3.1# Add effects to X Forces & certain industries from pupetted majors ( Treaty restrictions a la Versaille)
+#-3.2# add option to allow remilitarize by master + allow decision subject to negotiate away
+#has_claimed_state_in_peace_conference
+#--> Poland West/ [loose cores GER?] / Hungary?
+
+
 #stabilize puppet & civil war.
 on_actions = {
 	on_puppet = {
 		effect = {
+			if = {
+				limit = {
+					date > 1945.1.1
+				}
+				add_ideas = disarmed_nation
+			}
+			else_if = {
+				limit = {
+					OR = {
+						has_idea = service_by_requirement
+						has_idea = all_adults_serve
+						has_idea = scraping_the_barrel
+					}
+				}
+				add_ideas = extensive_conscription
+			}
+			if = {
+				limit = {
+					date > 1945.1.1
+				}
+				add_ideas = low_economic_mobilisation
+			}
+			else_if = {
+				limit = {
+					OR = {
+						has_idea = war_economy
+						has_idea = tot_economic_mobilisation
+					}
+				}
+				add_ideas = partial_economic_mobilisation
+			}
 			if = {
 				limit = {
 					date > 1941.1.1
@@ -12,9 +52,23 @@ on_actions = {
 			if = {
 				limit = {
 					date > 1941.1.1
+					has_stability > 0.8
+				}
+				set_stability = 0.7
+			}
+			if = {
+				limit = {
+					date > 1941.1.1
 					has_war_support < 0.6
 				}
 				set_war_support = 0.55
+			}
+			if = {
+				limit = {
+					date > 1941.1.1
+					has_war_support > 0.75
+				}
+				set_war_support = 0.65
 			}
 			if = {
 				limit = {
@@ -50,7 +104,7 @@ on_actions = {
 						has_idea = strikes_3
 					}
 				}
-				remove_ideas =  { 
+				remove_ideas =  {
 					strikes_1 
 					strikes_2
 					strikes_3
@@ -75,6 +129,25 @@ on_actions = {
 
 	on_liberate = {
 		effect = {
+			if = {
+				limit = {
+					OR = {
+						has_idea = service_by_requirement
+						has_idea = all_adults_serve
+						has_idea = scraping_the_barrel
+					}
+				}
+				add_ideas = extensive_conscription
+			}
+			if = {
+				limit = {
+					OR = {
+						has_idea = war_economy
+						has_idea = tot_economic_mobilisation
+					}
+				}
+				add_ideas = partial_economic_mobilisation
+			}
 			if = {
 				limit = {
 					date > 1941.1.1
@@ -150,6 +223,25 @@ on_actions = {
 		effect = {
 			if = {
 				limit = {
+					OR = {
+						has_idea = service_by_requirement
+						has_idea = all_adults_serve
+						has_idea = scraping_the_barrel
+					}
+				}
+				add_ideas = extensive_conscription
+			}
+			if = {
+				limit = {
+					OR = {
+						has_idea = war_economy
+						has_idea = tot_economic_mobilisation
+					}
+				}
+				add_ideas = partial_economic_mobilisation
+			}
+			if = {
+				limit = {
 					date > 1941.1.1
 					has_stability < 0.6
 				}
@@ -223,6 +315,25 @@ on_actions = {
 		effect = {
 			if = {
 				limit = {
+					OR = {
+						has_idea = service_by_requirement
+						has_idea = all_adults_serve
+						has_idea = scraping_the_barrel
+					}
+				}
+				add_ideas = extensive_conscription
+			}
+			if = {
+				limit = {
+					OR = {
+						has_idea = war_economy
+						has_idea = tot_economic_mobilisation
+					}
+				}
+				add_ideas = partial_economic_mobilisation
+			}
+			if = {
+				limit = {
 					date > 1941.1.1
 					has_stability < 0.6
 				}
@@ -231,9 +342,23 @@ on_actions = {
 			if = {
 				limit = {
 					date > 1941.1.1
+					has_stability > 0.8
+				}
+				set_stability = 0.7
+			}
+			if = {
+				limit = {
+					date > 1941.1.1
 					has_war_support < 0.6
 				}
 				set_war_support = 0.55
+			}
+			if = {
+				limit = {
+					date > 1941.1.1
+					has_war_support > 0.75
+				}
+				set_war_support = 0.65
 			}
 			if = {
 				limit = {
@@ -255,7 +380,7 @@ on_actions = {
 						has_idea = draft_dodging_3
 					}
 				}
-				remove_ideas =  { 
+				remove_ideas = {
 					draft_dodging 
 					draft_dodging_2
 					draft_dodging_3
@@ -269,7 +394,7 @@ on_actions = {
 						has_idea = strikes_3
 					}
 				}
-				remove_ideas =  { 
+				remove_ideas = { 
 					strikes_1 
 					strikes_2
 					strikes_3
@@ -283,7 +408,7 @@ on_actions = {
 						has_idea = mutiny_3
 					}
 				}
-				remove_ideas =  { 
+				remove_ideas = { 
 					mutiny_1 
 					mutiny_2
 					mutiny_3
@@ -292,4 +417,262 @@ on_actions = {
 		}
 	}
 
-} 
+#to be tested!
+	on_war = {
+		effect = {
+			if = {
+				limit = {
+					date > 1941.1.1
+					has_civil_war = yes	
+				}
+				country_event = { id = bramja.19 }
+				#set_rule = {
+					#can_join_factions =  no
+				#}
+			}
+		}
+	}		
+
+	#!!!Triggers ideas & Events for SOV control Eastern Europe
+#	-->1st 2nd snd (on puppet & release as puppet)
+	
+	
+	#used when puppeting in a peace conference
+	#ROOT = nation being puppeted, FROM = overlord
+	
+	on_puppet = {
+		effect = {
+			if = {
+				limit = {
+					ROOT = {
+						capital_scope = {
+							is_on_continent = europe
+						}
+					}
+					FROM = {
+						original_tag = SOV
+						has_government = communism
+						has_country_leader = { name = "Joseph Stalin" }
+					}
+				}
+				ROOT = {
+					add_stability = -0.22
+					add_war_support = -0.25
+				}
+				ROOT = { #represents communism not so strong/easily pushed by SOV in Europe, will be fixed in later event 
+					add_popularity = {
+						ideology = communism
+						popularity = -0.27
+					}
+				}
+				#ROOT = { add_ideas = partial_economic_mobilisation }
+				#ROOT = { add_ideas = limited_conscription }
+				ROOT = { add_timed_idea = {
+					idea = officers_purged_EE 
+						days = 240
+					}
+				}
+				#FROM = { country_event = { id = bramja.xx days = 30 } } Here choice Stalinism/control
+			}
+			if = {
+				limit = {
+					OR = {
+						tag = DDR
+						tag = WGR
+						original_tag = GER
+					}
+                    FROM = {
+			    		original_tag = SOV
+					}
+				}
+				ROOT = { add_timed_idea = {
+					idea = denazification
+						days = 720
+					}
+				}	
+			}
+			
+			if = {
+				limit = {
+					ROOT = {
+						OR = {
+							tag = GER
+							tag = DDR
+							tag = WGR
+							tag = JAP
+							tag = ITA
+							tag = ENG
+							tag = USA
+							tag = FRA
+							tag = SOV
+						}
+					}
+				}
+				add_ideas = disarmed_nation
+				add_ideas = low_economic_mobilisation
+				add_named_threat = { threat = -20 name = Major_down_threat }
+			}
+		}
+	}
+
+	#!!TO DO!!
+	
+	# on_puppet = {
+	#1.1# Add effects to X Forces & certain industries from pupetted majors ( Treaty restrictionds a la Versaille)
+	#-1.2# add option to allow remilitarize by master + allow decision subject to negotiate away
+	#has_claimed_state_in_peace_conference
+	#--> Poland West/ loose cores GER? / Hungary?
+			
+
+	#Triggers ideas & Events for SOV control Eastern Europe
+	
+	#used when puppeting through the occupied territories menu during peace time (or when releasing from non-core but owned territory, f.e. Britain releasing Egypt)
+	#ROOT = nation being released, FROM = overlord
+	
+	on_release_as_puppet = {
+		effect = {
+			if = {
+				limit = {
+					ROOT = {
+						capital_scope = {
+							is_on_continent = europe
+						}
+					}
+					FROM = {
+						original_tag = SOV
+						has_government = communism
+						has_country_leader = { name = "Joseph Stalin" }
+					}
+				}
+				ROOT = { 
+					add_stability = -0.2
+					add_war_support = -0.25
+				}
+				ROOT = { 
+					add_popularity = {
+						ideology = communism
+						popularity = -0.25
+					}
+				}
+				#ROOT = { add_ideas = partial_economic_mobilisation }
+				#ROOT = { add_ideas = limited_conscription }
+				ROOT = { add_timed_idea = {
+					idea = officers_purged_EE 
+						days = 240
+					}
+				}
+				#FROM = { country_event = { id = bramja.xx days = 30 } } Here choice Stalinism/controll
+			}
+			if = {
+				limit = {
+					OR = {
+						tag = DDR
+						tag = WGR
+						original_tag = GER
+					}
+                    FROM = {
+			    		original_tag = SOV
+					}
+				}
+				ROOT = { add_timed_idea = {
+					idea = denazification
+						days = 720
+					}
+				}
+			}
+		}
+	}
+
+
+# Reduce war support after peace + 
+# Test fire event war recov
+
+	#ROOT is winner #FROM is loser
+	on_peaceconference_ended = {
+		effect = {
+			ROOT = {
+				if = {
+					limit = {
+						has_war = no
+						has_war_support > 0.75
+					}
+					add_war_support = -0.10 
+				}
+				else_if = {
+					limit = {
+						has_war = yes
+						has_war_support > 0.85
+					}
+					add_war_support = -0.5 
+				}
+			}
+			if = {
+				limit = {
+					tag = SOV
+					SOV = { has_completed_focus = SOV_industrial_war_mobilisation }
+					GER = { OR = { has_capitulated = yes exists = no is_puppet = yes } }
+				}
+				SOV = { country_event = { id = bramja.33 days = 30 } }
+			}
+		}
+	}
+	
+	
+	#Trigger for Vojvodina event HUN
+	
+	#FROM is war target
+	on_declare_war = {
+		effect = {
+			if = {
+				limit = {
+					FROM = { tag = YUG } 
+					45 = { is_owned_by = YUG }
+					NOT = { is_in_faction_with = HUN }
+					OR = {
+						has_government = fascism
+						has_government = neutrality
+					}
+				}
+				HUN = { country_event = { id = bramja.29 days = 3 } }
+			}
+		}
+	}
+	
+	###Increases French stability if change gove & not puppet(away from democrat). Up survivability/viability alternative ideologies/gov
+	
+	on_government_change = {
+		effect = {
+			if = {
+				limit = {
+					original_tag = FRA
+					NOT = { has_government = democratic }
+					is_subject = no
+					date < 1940.1.1
+				}
+				add_stability = 0.15
+				add_war_support = 0.15
+			}
+		}
+	}
+	
+	### Add compliance for states GER conquers in early war after capitulation owner
+	
+	# ROOT is capitulated country, FROM is winner
+	on_capitulation = {
+		effect = {
+			if = {
+				limit = {
+					date < 1941.6.1
+					FROM = { tag = GER }
+				}
+				every_state = {
+					limit = {
+						is_core_of = ROOT
+						has_resistance = yes
+					}
+					add_compliance = 20
+				}
+			}
+		}
+	}
+}

@@ -133,6 +133,55 @@ focus_tree = {
 				remove_idea = USA_dust_bowl_1
 				add_idea = USA_dust_bowl_2
 			}
+			
+			
+			hidden_effect = {
+			    if = { limit = { is_ai = yes }
+				create_corps_commander = {
+	name = "Randolph Lucas"
+	portrait_path = "gfx/leaders/Europe/Portrait_Europe_Generic_land_2.dds"
+	traits = { infantry_leader trickster }
+	skill = 3
+	attack_skill = 2
+	defense_skill = 3
+	planning_skill = 3
+	logistics_skill = 2
+}
+
+create_corps_commander = {
+	name = "Bernard Barnes"
+	portrait_path = "gfx/leaders/Europe/Portrait_Europe_Generic_land_12.dds"
+	traits = { infantry_leader hill_fighter }
+	skill = 2
+	attack_skill = 2
+	defense_skill = 2
+	planning_skill = 1
+	logistics_skill = 2
+}
+
+create_field_marshal = {
+	name = "Ed Aguilar"
+	portrait_path = "gfx/leaders/Europe/Portrait_Europe_Generic_land_11.dds"
+	traits = { desert_fox defensive_doctrine }
+	skill = 2
+	attack_skill = 2
+	defense_skill = 1
+	planning_skill = 2
+	logistics_skill = 2
+}
+
+create_field_marshal = {
+	name = "Piers Allen"
+	portrait_path = "gfx/leaders/Europe/Portrait_Europe_Generic_land_13.dds"
+	traits = { inspirational_leader hill_fighter }
+	skill = 3
+	attack_skill = 2
+	defense_skill = 2
+	planning_skill = 2
+	logistics_skill = 3
+}
+				}
+			}
 		}
 	}
 	focus = {
@@ -2226,21 +2275,24 @@ focus_tree = {
 		cost = 6
 		available = {
 			SOV = { or = { has_war_with = GER has_war_with = ITA } }
-			OR = {
-			AND = { 
-			has_equipment = { infantry_equipment > 3999 }
-			has_equipment = { motorized_equipment > 2999 }
-			}
-			is_ai = yes
-			}
+			#OR = {
+			#AND = { 
+			#has_equipment = { infantry_equipment > 3999 }
+			#has_equipment = { motorized_equipment > 2999 }
+			#}
+			#is_ai = yes
+			#}
 		}
 		available_if_capitulated = no
 		completion_reward = {
+			set_variable = { var = US_mils value = num_of_military_factories } #Number of US military factories
 			SOV = {
 				custom_effect_tooltip = needs_approval
 				country_event = { id = usa.53 days = 1 }
 			}
-			
+			effect_tooltip = {
+				add_timed_idea = { idea = USA_lend_lease_cost days = 180 }
+			}			
 		}
 	}
 	focus = {
@@ -2253,16 +2305,25 @@ focus_tree = {
 		available = {
 			GER = { has_government = fascism }
 			SOV = { or = { has_war_with = GER has_war_with = ITA } surrender_progress > 0.2 }
-			has_equipment = { motorized_equipment > 2999 }
-			has_equipment = { fighter_equipment > 1999 }
+			#has_equipment = { motorized_equipment > 2999 }
+			#has_equipment = { fighter_equipment > 1999 }
 			SOV = { has_country_flag = lend_lease_act }
+			OR = {
+				has_tech = tech_USA_fighter_equipment_4_a
+				has_tech = tech_USA_fighter_equipment_2_b
+				has_tech = tech_USA_fighter_equipment_4_c
+			}
 		}
 		available_if_capitulated = no
 		completion_reward = {
+			set_variable = { var = US_mils value = num_of_military_factories } #Number of US military factories		
 			SOV = {
 				custom_effect_tooltip = needs_approval
 				country_event = { id = usa.55 days = 1 }
 			}
+			effect_tooltip = {
+				add_timed_idea = { idea = USA_lend_lease_cost_2 days = 180 }
+			}	
 			
 		}
 	}
@@ -3087,7 +3148,7 @@ focus_tree = {
 				AND = {
 					CHI = { OR = { has_capitulated = yes is_in_faction_with = JAP } }
 					GER = { has_war_with = SOV }
-					date > 1941.11.1
+					date > 1942.1.1
 				}
 				AND = {
 					date > 1941.6.1
@@ -3098,14 +3159,12 @@ focus_tree = {
 		}
 		available_if_capitulated = no 
 		completion_reward = { 
-			hidden_effect = {
-				set_rule = { can_join_factions = yes }
-				set_rule = { can_create_factions = yes }
-			}
+			
 			custom_effect_tooltip = USA_join_the_allies_tt 
 			ENG = {
 				country_event = { id = generic.2 days = 1 }
 			}
+			hidden_effect = { country_event = { id = usa.103 days = 20 } }
 		}
 	}
 	
@@ -3314,7 +3373,9 @@ focus_tree = {
 
 			JAP = {
 				exists = yes
-				has_government = ROOT
+				NOT = {
+					has_government = ROOT
+				}
 			}
 			date > 1942.1.1
 		}

@@ -2441,10 +2441,10 @@ country_event = {
 	
 	immediate = {
 	    if = { 
-			limit = {
-				CHI = { is_ai = no }
-				JAP = { is_ai = no }
-			}
+			#limit = {
+			#	CHI = { is_ai = no }
+			#	JAP = { is_ai = no }
+			#}
 		hidden_effect = {
 			JAP = { add_ideas = JAP_stalemate_XP }
 			MAN = { add_ideas = JAP_stalemate_XP }
@@ -2457,10 +2457,10 @@ country_event = {
     option = {
 	    name = japan.54.a
 		if = { 
-			limit = {
-				CHI = { is_ai = no }
-				JAP = { is_ai = no }
-			}
+			#limit = {
+			#	CHI = { is_ai = no }
+			#	JAP = { is_ai = no }
+			#}
 		effect_tooltip = {
 		JAP = { add_ideas = JAP_stalemate_XP }
 		MAN = { add_ideas = JAP_stalemate_XP }
@@ -2482,12 +2482,6 @@ country_event = {
 						state = 744
 						state = 750
 						state = 602
-						state = 599
-						state = 749
-						state = 596
-						state = 595
-						state = 593
-						state = 592
 						state = 600
 						state = 620
 						state = 325
@@ -2507,6 +2501,72 @@ country_event = {
 				}
 				add_province_modifier = {
 					static_modifiers = { unplanned_offensive_2 }
+					province = {
+						all_provinces = yes
+					}
+				}
+				set_state_flag = chi_jap_war
+			}
+			every_state = {
+				limit = {
+					OR = {
+						state = 621 #States that Japan will probably try and defend from
+						state = 615
+						state = 607
+						state = 606
+
+						state = 599			
+						state = 595	
+						
+						state = 749						
+					}
+					#NOT = {
+					#	OR = {
+					#		is_fully_controlled_by = JAP
+					#		is_fully_controlled_by = MEN
+					#		is_fully_controlled_by = MAN
+					#	}
+					#}
+					NOT = {
+						has_state_flag = chi_jap_war
+					}	
+				}
+				add_province_modifier = {
+					static_modifiers = { unplanned_offensive_3 }
+					province = {
+						all_provinces = yes
+					}
+				}
+				set_state_flag = chi_jap_war
+			}
+			every_state = {
+				limit = {
+					OR = {
+						state = 608 #States that Japan really should be able to take
+						state = 614
+						state = 597
+						state = 743	
+						state = 594
+						state = 591
+						state = 613
+						state = 596	
+						state = 598
+						state = 593
+						state = 592
+					}
+					#NOT = {
+					#	OR = {
+					#		is_fully_controlled_by = JAP
+					#		is_fully_controlled_by = MEN
+					#		is_fully_controlled_by = MAN
+					#	}
+					#}
+					NOT = {
+						has_state_flag = chi_jap_war
+					}	
+				}
+				add_province_modifier = {
+					static_modifiers = { unplanned_offensive_4 }
 					province = {
 						all_provinces = yes
 					}
@@ -2557,45 +2617,30 @@ country_event = { #Sino-Japanese War ends in a Japanese victory
 	
 	fire_only_once = yes
 	
-	trigger = {	
-				CHI = { is_ai = no }
-				JAP = { is_ai = no }
-	    OR = { tag = JAP tag = MAN tag = MEN } # TODO: move to on_capitulation or on_after_peace
-		CHI = { OR = { has_capitulated = yes exists = no is_puppet = yes } }		
-	}
+	is_triggered_only = yes
 	
 	immediate = {
 		hidden_effect = {
 			every_state = {
 				limit = {
 					OR = {
-						state = 603 #Nationalist China states
-						state = 748
-						state = 605
-						state = 751
-						state = 752
-						state = 601
-						state = 747
-						state = 325
-						state = 744
-						state = 750
-						state = 602
-						state = 599
-						state = 749
-						state = 596
-						state = 595
-						state = 593
-						state = 592
-						state = 594
-						state = 600
-						state = 620
-						state = 325
-						state = 604
-						state = 753
+						is_core_of = CHI
 					}
 				}
 				remove_province_modifier = {
 					static_modifiers = { unplanned_offensive_2 }
+					province = {
+						all_provinces = yes
+					}
+				}
+				remove_province_modifier = {
+					static_modifiers = { unplanned_offensive_3 }
+					province = {
+						all_provinces = yes
+					}
+				}
+				remove_province_modifier = {
+					static_modifiers = { unplanned_offensive_4 }
 					province = {
 						all_provinces = yes
 					}
@@ -2605,17 +2650,23 @@ country_event = { #Sino-Japanese War ends in a Japanese victory
 			every_state = {
 				limit = {
 					OR = {
-						state = 746 #Communist China states, northern China
-						state = 622
-						state = 283
-						state = 754
-						state = 616
-						state = 755
-						state = 756	
+						is_core_of = CCP
 					}
 				}
 				remove_province_modifier = {
 					static_modifiers = { unplanned_offensive_2 }
+					province = {
+						all_provinces = yes
+					}
+				}
+				remove_province_modifier = {
+					static_modifiers = { unplanned_offensive_3 }
+					province = {
+						all_provinces = yes
+					}
+				}
+				remove_province_modifier = {
+					static_modifiers = { unplanned_offensive_4 }
 					province = {
 						all_provinces = yes
 					}
@@ -2646,3 +2697,100 @@ country_event = { #Sino-Japanese War ends in a Japanese victory
 	}	
 }
 
+country_event = {
+	id = japan.56
+	title = japan.56.t
+	desc = japan.56.d
+	picture = GFX_news_event_038
+	
+	mean_time_to_happen = {
+		days = 20
+	}
+	
+	trigger = {
+	    tag = JAP
+		has_war_with = ENG
+		NOT = { has_country_flag = stop_sia_state_autotransfer }
+		is_in_faction_with = SIA
+		OR = { 
+			SIA = { controls_state = 336 }
+			SIA = { controls_state = 288 }
+			SIA = { controls_state = 640 }
+			SIA = { controls_state = 434 }
+			SIA = { controls_state = 432 }	
+			SIA = { controls_state = 431 }
+			SIA = { controls_state = 430 }	
+			SIA = { controls_state = 324 }				
+		}
+	}
+
+	option = {
+		name = japan.56.a
+		ai_chance = {
+			factor = 10
+		}
+		336 = {
+			if = {
+				limit = { is_fully_controlled_by = SIA }
+				JAP = { set_state_controller = 336 }
+			}
+		}
+		288 = {
+			if = {
+				limit = { is_fully_controlled_by = SIA }
+				JAP = { set_state_controller = 288 }
+			}
+		}
+		640 = {
+			if = {
+				limit = { is_fully_controlled_by = SIA }
+				JAP = { set_state_controller = 640 }
+			}
+		}		
+		434 = {
+			if = {
+				limit = { is_fully_controlled_by = SIA }
+				JAP = { set_state_controller = 434 }
+			}
+		}	
+		432 = {
+			if = {
+				limit = { is_fully_controlled_by = SIA }
+				JAP = { set_state_controller = 432 }
+			}
+		}	
+		431 = {
+			if = {
+				limit = { is_fully_controlled_by = SIA }
+				JAP = { set_state_controller = 431 }
+			}
+		}	
+		430 = {
+			if = {
+				limit = { is_fully_controlled_by = SIA }
+				JAP = { set_state_controller = 430 }
+			}
+		}
+		324 = {
+			if = {
+				limit = { is_fully_controlled_by = SIA }
+				JAP = { set_state_controller = 324 }
+			}
+		}
+	}
+	
+	option = {
+		name = japan.56.b
+		ai_chance = {
+			factor = 0
+		}
+	}
+	
+	option = {
+		name = japan.56.c
+		ai_chance = {
+			factor = 0
+		}
+		set_country_flag = stop_sia_state_autotransfer
+	}
+}

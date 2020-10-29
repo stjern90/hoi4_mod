@@ -98,13 +98,20 @@ crisis = {
 			}
 		}
 
-		cost = 5
+		cost = 15
 		ai_will_do = {
 			factor = 1
+			modifier = {
+				has_idea = draft_dodging_3
+				factor = 500
+			}
 		}
 
 		visible = {
-			has_country_flag = crisis_in_progress
+			OR = {
+				has_civil_war = yes
+				has_country_flag = crisis_in_progress
+			}
 			NOT = {
 				has_country_flag = crisis_solution_in_progress
 			}
@@ -113,7 +120,6 @@ crisis = {
 				has_idea = draft_dodging_2
 				has_idea = draft_dodging_3
 			}
-									
 		}
 
 		complete_effect = {
@@ -144,13 +150,19 @@ crisis = {
 			}
 		}
 
-		cost = 5
+		cost = 15
 		ai_will_do = {
 			factor = 1
+			modifier = {
+				has_idea = strikes_3
+				factor = 500
+			}
 		}
-
 		visible = {
-			has_country_flag = crisis_in_progress
+			OR = {
+				has_civil_war = yes
+				has_country_flag = crisis_in_progress
+			}
 			NOT = {
 				has_country_flag = crisis_solution_in_progress
 			}
@@ -204,53 +216,52 @@ crisis = {
 			if = {
 				limit = {
 					has_idea = draft_dodging_3
-					has_stability < 0.21
+					has_stability < 0.34
 					NOT = {
-						has_government = communism
+						has_government = neutrality
 					}
 				}
 				start_civil_war = {
-					ideology = communism
+					ideology = neutrality
 				}
 			}
-			if = {
+			else_if = {
 				limit = {
 					has_idea = draft_dodging_3
-					has_stability < 0.21
-					has_government = communism
+					has_stability < 0.34
+					has_government = neutrality
 					
 				}
 				start_civil_war = {
 					ideology = democratic
 				}
 			}
-			if = {
+			else_if = {
 				limit = {
 					has_idea = draft_dodging_3
-					has_stability < 0.41
+					has_stability < 0.45
 					NOT = {
-						has_government = communism
+						has_government = neutrality
 					}
 				}
-				add_popularity = { ideology = communism popularity = 0.1}
+				add_popularity = { ideology = neutrality popularity = 0.1}
 			}
-			if = {
+			else_if = {
 				limit = {
 					has_idea = draft_dodging_3
-					has_stability < 0.41
-					has_government = communism
-					
+					has_stability < 0.45
+					has_government = neutrality
 				}
 				add_popularity = { ideology = democratic popularity = 0.1}
 			}
-			if = {
+			else_if = {
 				limit = {
 					has_idea = draft_dodging_3
-					has_stability > 0.4
+					has_stability > 0.45
 				}
-				add_stability = -0.1
+				add_stability = -0.05
 			}
-			if = {
+			else_if = {
 				limit = { 
 					has_idea = draft_dodging_2
 				}
@@ -259,8 +270,8 @@ crisis = {
 					add_idea = draft_dodging_3
 				}
 			}
-			if = {
-				limit = { 
+			else_if = {
+				limit = {
 					has_idea = draft_dodging
 				}
 				swap_ideas = {
@@ -268,7 +279,7 @@ crisis = {
 					add_idea = draft_dodging_2
 				}
 				news_event = { id = bramja.1 days = 1 }
-			}	
+			}
 		}
 	}
 	strikes_mission = {
@@ -317,7 +328,7 @@ crisis = {
 			if = {
 				limit = {
 					has_idea = strikes_3
-					has_stability < 0.21
+					has_stability < 0.34
 					NOT = {
 						has_government = communism
 					}
@@ -326,10 +337,10 @@ crisis = {
 					ideology = communism
 				}
 			}
-			if = {
+			else_if = {
 				limit = {
 					has_idea = strikes_3
-					has_stability < 0.21
+					has_stability < 0.34
 					has_government = communism
 					
 				}
@@ -337,34 +348,34 @@ crisis = {
 					ideology = democratic
 				}
 			}
-			if = {
+			else_if = {
 				limit = {
 					has_idea = strikes_3
-					has_stability < 0.41
+					has_stability < 0.4
 					NOT = {
 						has_government = communism
 					}
 				}
 				add_popularity = { ideology = communism popularity = 0.1}
 			}
-			if = {
+			else_if = {
 				limit = {
 					has_idea = strikes_3
-					has_stability < 0.41
+					has_stability < 0.4
 					has_government = communism
 					
 				}
 				add_popularity = { ideology = democratic popularity = 0.1}
 			}
-			if = {
+			else_if = {
 				limit = {
 					has_idea = strikes_3
 					has_stability > 0.4
 				}
-				add_stability = -0.1
+				add_stability = -0.05
 			}
-			if = {
-				limit = { 
+			else_if = {
+				limit = {
 					has_idea = strikes_2
 				}
 				swap_ideas = {
@@ -372,8 +383,8 @@ crisis = {
 					add_idea = strikes_3
 				}
 			}
-			if = {
-				limit = { 
+			else_if = {
+				limit = {
 					has_idea = strikes_1
 				}
 				swap_ideas = {
@@ -381,7 +392,7 @@ crisis = {
 					add_idea = strikes_2
 				}
 				news_event = { id = bramja.2 days = 1 }
-			}	
+			}
 		}
 	}
 	mutiny_1 = {
@@ -393,7 +404,10 @@ crisis = {
 		}
 
 		available = {
-			has_country_flag = crisis_in_progress
+			OR = {
+				has_country_flag = crisis_in_progress #needed to avoid doubling up with demob strikes
+				has_civil_war = yes
+			}
 			OR = {
 				has_idea = mutiny_1
 				has_idea = mutiny_2
@@ -401,15 +415,19 @@ crisis = {
 			}
 		}
 
-		cost = 5
+		cost = 25
 		ai_will_do = {
 			factor = 1
+			modifier = {
+				has_idea = mutiny_3
+				factor = 500
+			}
 		}
 
 		visible = {
-			has_country_flag = crisis_in_progress
-			NOT = {
-				has_country_flag = crisis_solution_in_progress
+			OR = {
+				has_country_flag = crisis_in_progress #needed to avoid doubling up with demob strikes
+				has_civil_war = yes
 			}
 			OR = {
 				has_idea = mutiny_1
@@ -445,7 +463,10 @@ crisis = {
 				has_idea = mutiny_2
 				has_idea = mutiny_3
 			}
-			has_country_flag = crisis_in_progress 
+			OR = {
+				has_country_flag = crisis_in_progress #needed to avoid doubling up with demob strikes
+				has_civil_war = yes
+			}
 		}
 		visible = {
 			OR = {
@@ -453,7 +474,10 @@ crisis = {
 				has_idea = mutiny_2
 				has_idea = mutiny_3	
 			}
-			has_country_flag = crisis_in_progress
+			OR = {
+				has_country_flag = crisis_in_progress #needed to avoid doubling up with demob strikes
+				has_civil_war = yes
+			}
 		}
 		complete_effect = {
 			
@@ -462,7 +486,7 @@ crisis = {
 			if = {
 				limit = {
 					has_idea = mutiny_3
-					has_stability < 0.21
+					has_stability < 0.35
 					NOT = {
 						has_government = communism
 					}
@@ -471,10 +495,10 @@ crisis = {
 					ideology = communism
 				}
 			}
-			if = {
+			else_if = {
 				limit = {
 					has_idea = mutiny_3
-					has_stability < 0.21
+					has_stability < 0.35
 					has_government = communism
 					
 				}
@@ -482,34 +506,33 @@ crisis = {
 					ideology = democratic
 				}
 			}
-			if = {
+			else_if = {
 				limit = {
 					has_idea = mutiny_3
-					has_stability < 0.41
+					has_stability < 0.45
 					NOT = {
 						has_government = communism
 					}
 				}
 				add_popularity = { ideology = communism popularity = 0.1}
 			}
-			if = {
+			else_if = {
 				limit = {
 					has_idea = mutiny_3
-					has_stability < 0.41
+					has_stability < 0.40
 					has_government = communism
-					
 				}
 				add_popularity = { ideology = democratic popularity = 0.1}
 			}
-			if = {
+			else_if = {
 				limit = {
 					has_idea = mutiny_3
-					has_stability > 0.4
+					has_stability > 0.40
 				}
-				add_stability = -0.1
+				add_stability = -0.05
 			}
-			if = {
-				limit = { 
+			else_if = {
+				limit = {
 					has_idea = mutiny_2
 				}
 				swap_ideas = {
@@ -517,8 +540,8 @@ crisis = {
 					add_idea = mutiny_3
 				}
 			}
-			if = {
-				limit = { 
+			else_if = {
+				limit = {
 					has_idea = mutiny_1
 				}
 				swap_ideas = {
@@ -526,10 +549,11 @@ crisis = {
 					add_idea = mutiny_2
 				}
 				news_event = { id = bramja.3 days = 1 }
-			}	
+			}
 		}
 	}
 }
+
 demobilization = {
 	demobilization_economic = {
 
@@ -599,8 +623,8 @@ demobilization = {
 		ai_will_do = {
 			factor = 500 #should really get on this
 		}
-		
 	}
+
 	demob_economic_mission = {
 		available = {
 			OR = {
@@ -638,10 +662,17 @@ demobilization = {
 		}
 		timeout_effect = {
 			activate_mission = demob_economic_mission
+
 			if = {
 				limit = {
+					is_subject = yes
+				}
+				add_ideas = partial_economic_mobilisation
+			}
+			else_if = {
+				limit = {
 					has_idea = strikes_3
-					has_stability < 0.21
+					has_stability < 0.32
 					NOT = {
 						has_government = communism
 					}
@@ -650,45 +681,43 @@ demobilization = {
 					ideology = communism
 				}
 			}
-			if = {
+			else_if = {
 				limit = {
 					has_idea = strikes_3
-					has_stability < 0.21
+					has_stability < 0.28
 					has_government = communism
-					
 				}
 				start_civil_war = {
 					ideology = democratic
 				}
 			}
-			if = {
+			else_if = {
 				limit = {
 					has_idea = strikes_3
-					has_stability < 0.41
+					has_stability < 0.45
 					NOT = {
 						has_government = communism
 					}
 				}
 				add_popularity = { ideology = communism popularity = 0.1}
 			}
-			if = {
+			else_if = {
 				limit = {
 					has_idea = strikes_3
-					has_stability < 0.41
+					has_stability < 0.45
 					has_government = communism
-					
 				}
 				add_popularity = { ideology = democratic popularity = 0.1}
 			}
-			if = {
+			else_if = {
 				limit = {
 					has_idea = strikes_3
-					has_stability > 0.4
+					has_stability > 0.45
 				}
-				add_stability = -0.1
+				add_stability = -0.05
 			}
-			if = {
-				limit = { 
+			else_if = {
+				limit = {
 					has_idea = strikes_2
 				}
 				swap_ideas = {
@@ -696,27 +725,19 @@ demobilization = {
 					add_idea = strikes_3
 				}
 			}
-			if = {
-				limit = { 
+			else_if = {
+				limit = {
 					has_idea = strikes_1
 				}
 				swap_ideas = {
 					remove_idea = strikes_1
 					add_idea = strikes_2
 				}
+				news_event = { id = bramja.2 days = 1 }
 			}
-			if = {
-				limit = { 
-					NOT = { 
-						OR = {
-							has_idea = strikes_1
-							has_idea = strikes_2
-							has_idea = strikes_3
-						}
-					}
-				}
+			else = {
 				add_ideas = strikes_1
-			}	
+			}
 		}
 	}
 	demobilization_manpower = {
@@ -748,15 +769,21 @@ demobilization = {
 		complete_effect = {
 			if = {
 				limit = {
-					has_war_support < 0.1
+				    OR = {
+						AND = {
+							has_government = democratic
+							has_war_support < 0.22
+						}
+						has_war_support < 0.17
+					}
 				}
 				add_ideas = volunteer_only
 			}
 			else_if = {
 				limit = {
-					has_war_support < 0.38
+					has_war_support < 0.3
 					NOT = { has_government = communism }
-		        	NOT = { has_government = fascism }
+	        		NOT = { has_government = fascism }
 				}
 				add_ideas = limited_conscription
 			}
@@ -771,7 +798,7 @@ demobilization = {
 			else_if = {
 				limit = {
 				    OR = {
-					has_war_support < 0.7
+					has_war_support < 0.72
 					has_war = no
 					}
 				}
@@ -781,10 +808,8 @@ demobilization = {
 				add_ideas = all_adults_serve
 			}
 		}
-
-		
-
 	}
+
 	demob_manpower_mission = {
 
 		icon = revolt
@@ -799,45 +824,110 @@ demobilization = {
 		activation = {
 			has_unsupported_manpower_law = yes
 			has_war = no
-			is_ai = no
+			#is_ai = no
 		}
 		timeout_effect = {
 
 			if = {
 				limit = {
-					has_government = communism
-					has_stability < 0.2
+					is_subject = yes
 				}
-				start_civil_war = {
-					ideology = democratic
+				add_ideas = extensive_conscription
+			}
+			else_if = {
+				limit = {
+					has_idea = mutiny_3
+					OR = {
+						has_government = fascism
+						has_government = communism
+					}
+					has_stability < 0.28
+				}
+				random_list = {
+					10 = {
+						start_civil_war = {
+							ideology = democratic
+						}
+					}
+					10 = {
+						start_civil_war = {
+							ideology = neutrality
+						}
+					}
 				}
 			}
-			if = {
+			else_if = {
 				limit = {
-					NOT = { has_government = communism }
-					has_stability < 0.3
+					has_idea = mutiny_3
+					OR = {
+						NOT = { has_government = communism }
+						NOT = { has_government = fascism }
+					}
+					has_stability < 0.34
 				}
-				start_civil_war = {
-					ideology = communism
+				random_list = {
+					10 = {
+						modifier = {
+							factor = 0
+							has_government = democratic
+						}
+						start_civil_war = {
+							ideology = democratic
+						}
+					}
+					10 = {
+						modifier = {
+							factor = 0
+							has_government = neutrality
+						}
+						start_civil_war = {
+							ideology = neutrality
+						}
+					}
 				}
 			}
-			if = {
+			else_if = {
 				limit = {
-					has_stability > 0.2
+					has_idea = mutiny_3
+					has_stability > 0.35
 				}
-				add_stability = -0.1
+				add_stability = -0.05
 			}
-			if = {
+			else_if = {
 				limit = {
+					has_idea = mutiny_3
 					has_government = communism
 				}
 				add_popularity = { ideology = democratic popularity = 0.1 }
 			}
-			if = {
+			else_if = {
 				limit = {
+					has_idea = mutiny_3
 					NOT = { has_government = communism }
 				}
 				add_popularity = { ideology = communism popularity = 0.1 }
+			}
+			else_if = {
+				limit = {
+					has_idea = mutiny_2
+				}
+				swap_ideas = {
+					remove_idea = mutiny_2
+					add_idea = mutiny_3
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = mutiny_1
+				}
+				swap_ideas = {
+					remove_idea = mutiny_1
+					add_idea = mutiny_2
+				}
+				news_event = { id = bramja.3 days = 1 }
+			}
+			else = {
+				add_ideas = mutiny_1
 			}
 		}
 	}

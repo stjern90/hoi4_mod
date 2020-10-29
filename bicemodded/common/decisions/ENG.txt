@@ -5,9 +5,9 @@ ENG_operations = {
 		
 		available = {
 			is_puppet = no
-			date > 1939.11.1
-			date < 1940.01.1
-			
+			date > 1940.10.1
+			date < 1941.01.1
+			has_completed_focus = ENG_rules_the_waves
 		}
 		
 		cost = 0
@@ -20,8 +20,8 @@ ENG_operations = {
 		
 		visible = {
 			original_tag = ENG
-			date > 1939.11.1
-			date < 1940.01.1
+			OR = { date > 1939.1.1 has_completed_focus = ENG_rules_the_waves }
+			date < 1941.01.1
 		}
 		
 		complete_effect = {
@@ -41,9 +41,9 @@ ENG_operations = {
 		
 		available = {
 			is_puppet = no
-			date > 1941.10.1
-			date < 1942.02.1
-			
+			date > 1942.11.1
+			date < 1943.05.1
+			has_completed_focus = ENG_rules_the_waves
 		}
 		
 		cost = 0
@@ -56,7 +56,7 @@ ENG_operations = {
 		
 		visible = {
 			original_tag = ENG
-			date > 1941.10.1
+			OR = { date > 1941.1.1 has_completed_focus = ENG_rules_the_waves }
 			date < 1942.02.1
 		}
 		
@@ -98,6 +98,7 @@ ENG_operations = {
 			has_war_with = ITA
 			OR = { AND = { date > 1937.10.22 date < 1938.2.11 } AND = { date > 1938.10.22 date < 1939.2.11 } AND = { date > 1939.10.22 date < 1940.2.11 } AND = { date > 1940.10.22 date < 1941.2.11 } }	
 			ITA = { controls_state = 448 }
+			has_completed_focus = ENG_war_cabinet 
 		}
 		
 		ai_will_do = {
@@ -149,10 +150,6 @@ ENG_operations = {
 		}
 
 		complete_effect = {
-			declare_war_on = {
-				target = SYR
-				type = annex_everything
-			}
 			hidden_effect = {
 				if = {
 					limit = {
@@ -161,10 +158,6 @@ ENG_operations = {
 						}
 					}
 					SYR = {
-						add_timed_idea = {
-							idea = SYR_no_join
-							days = 180
-						}
 						release = SYR
 					}
 				}
@@ -178,7 +171,11 @@ ENG_operations = {
 						add_to_faction = SYR
 					}
 				}	
-			}			
+			}
+			declare_war_on = {
+				target = SYR
+				type = annex_everything
+			}
 		}		
 	}
 	IRQ_war3 = {
@@ -239,14 +236,15 @@ ENG_operations = {
 
 		visible = {
 			tag = ENG
-			AND = { date > 1941.8.1 date < 1942.2.12 }
+			AND = { date > 1941.6.1 date < 1942.2.12 }
 		}
 
 		available = {
 			tag = ENG
 			has_war_with = ITA
 			OR = { AND = { date > 1941.10.22 date < 1942.2.11 } }
-			ITA = { controls_state = 448 }			
+			ITA = { controls_state = 448 }	
+            has_completed_focus = ENG_western_desert_force			
 		}
 		
 		ai_will_do = {
@@ -257,10 +255,19 @@ ENG_operations = {
 			hidden_effect = {
 				play_song = "The Washing on the Siegfried Line"
 			}
+			if = { limit = { is_ai = yes }
+			add_timed_idea = {
+				idea = ENG_crusader
+				days = 105
+			}
+			}
+			if = { limit = { is_ai = no }
 			add_timed_idea = {
 				idea = ENG_crusader
 				days = 90
 			}
+			}
+			
 			news_event = {
 				id = worldnews.13
 				days = 1
@@ -281,7 +288,7 @@ ENG_operations = {
 
 		visible = {
 			tag = ENG
-			AND = { date > 1942.8.1 date < 1944.2.12 }
+			AND = { date > 1942.6.1 date < 1944.2.12 }
 		}
 
 		available = {
@@ -289,6 +296,7 @@ ENG_operations = {
 			has_war_with = ITA
 			OR = { AND = { date > 1942.10.22 date < 1943.2.11 } AND = { date > 1943.10.22 date < 1944.2.11 } }	
 			ITA = { controls_state = 448 }
+			has_completed_focus = ENG_western_desert_force 
 		}
 		
 		ai_will_do = {
@@ -296,13 +304,110 @@ ENG_operations = {
 		}
 
 		complete_effect = {
+			if = { limit = { is_ai = yes }
+			add_timed_idea = {
+				idea = ENG_supercharge
+				days = 120
+			}
+			}
+			if = { limit = { is_ai = no }
 			add_timed_idea = {
 				idea = ENG_supercharge
 				days = 90
 			}
+			}
 			news_event = {
 				id = worldnews.14
 				days = 1
+			}
+		}		
+	}
+	
+	operation_overlord = {
+
+		icon = generic_ignite_civil_war
+
+		allowed = { always = no } #Activated from effect
+
+		available = {
+			hidden_trigger = { always = no }
+		}
+		days_mission_timeout = 45
+
+		fire_only_once = yes
+		#highlight_state_targets = { state = 713 }
+
+		is_good = yes
+		
+		visible = {
+			OR = { 
+	    		original_tag = ENG
+				is_in_faction_with = ENG
+			}
+			has_war_with = GER		
+		}
+
+		cancel_if_not_visible = yes
+
+		timeout_effect = {
+			remove_ideas = dday_invasion_prepare
+		    add_timed_idea = {
+				idea = dday_invasion
+				days = 75
+			}
+			
+		}
+	}
+	
+	operation_judgement = {
+
+		icon = generic_scorched_earth
+
+		fire_only_once = yes
+		
+		allowed = {
+			tag = ENG
+		}
+		
+		cost = 0
+
+		visible = {
+			has_war_with = ITA
+		}
+
+		available = {
+			ITA = { controls_state = 156 }
+		}
+		
+		ai_will_do = {
+			factor = 0
+		}
+	
+        days_remove = 25
+
+		complete_effect = {
+			156 = {
+		    	add_province_modifier = {
+					static_modifiers = { torpedo_operation }
+					province = {
+						all_provinces = yes
+					}
+				}
+			}
+			#news_event = {
+			#	id = worldnews.14
+			#	days = 1
+			#}
+		}
+
+		remove_effect = {
+			156 = {
+		    	remove_province_modifier = {
+					static_modifiers = { torpedo_operation }
+					province = {
+						all_provinces = yes
+					}
+				}
 			}
 		}		
 	}
@@ -492,7 +597,7 @@ political_actions = {
 		}
 
 		ai_will_do = {
-			factor = 100 #Gotta allow the Americans to help
+			factor = 10000 #Gotta allow the Americans to help
 		}
 	}
 
@@ -535,7 +640,7 @@ political_actions = {
 		}
 
 		ai_will_do = {
-			factor = 100 #Gotta allow the Americans to help
+			factor = 10000 #Gotta allow the Americans to help
 		}
 	}
 
@@ -1525,9 +1630,8 @@ ENG_commonwealth_military_develop_decision = {
 		engineer = { x = 0 y = 1 }
 		recon_cav = { x = 0 y = 2 }
 		desert_support = { x = 1 y = 0 }
-		logistics_company = { x = 1 y = 1 }
-		logistics_company_extra = { x = 1 y = 2 }
-		field_hospital = { x = 1 y = 3 }
+		logistics_company_extra = { x = 1 y = 1 }
+		field_hospital = { x = 1 y = 2 }
 	}
 					}
 			}
@@ -1630,9 +1734,8 @@ ENG_commonwealth_military_develop_decision = {
 		recon_cav = { x = 0 y = 2 }
 		commandos = { x = 0 y = 3 }
 		desert_support = { x = 1 y = 0 }
-		logistics_company = { x = 1 y = 1 }
-		logistics_company_extra = { x = 1 y = 2 }
-		field_hospital = { x = 1 y = 3 }
+		logistics_company_extra = { x = 1 y = 1 }
+		field_hospital = { x = 1 y = 2 }
 	}
 					}
 					

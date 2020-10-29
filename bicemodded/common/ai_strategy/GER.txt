@@ -885,9 +885,8 @@ prepare_invasion_yugo = {
 		original_tag = GER
 	}
 	enable = {
-		YUG = { has_idea = anti_german_military }
+		YUG = { has_idea = anti_german_military is_in_faction = no }
         date > 1939.1.1		
-        YUG = { is_in_faction = no }
 		FRA = { has_capitulated = yes }
 	}
 	abort = {
@@ -965,6 +964,18 @@ defend_border_fra = {
 		id = "FRA"
 		value = -300
 	}
+	
+	ai_strategy = {
+		type = front_control
+		state_trigger = {
+			state = 28
+		}
+		
+		ordertype = front
+		execution_type = careful
+		execute_order = no
+		manual_attack = no
+	}
 }
 
 play_nice_with_benelux = {
@@ -1037,15 +1048,24 @@ greece_war_join_ger = {  # Why should Italy have all the fun
 		original_tag = GER
 	}
 	enable = {
-		ITA = { has_completed_focus = ITA_greece_war_goal has_war_with = GRE }
-		country_exists = GRE
+	    FRA = { has_capitulated = yes }
+    	GRE = { has_capitulated = no }
+		ITA = { OR = { has_completed_focus = ITA_greece_war_goal has_war_with = GRE } }
+		date < 1941.4.20
 		NOT = { has_war_with = SOV }
 	}
 	abort = {
-		OR = { NOT = {
-			country_exists = GRE
+		OR = { 
+		GRE = { has_capitulated = yes }
+		date > 1941.4.20
+		has_war_with = SOV 
 		}
-		has_war_with = SOV }
+	}
+	
+	ai_strategy = {
+		type = prepare_for_war
+		id = "GRE"
+		value = 300
 	}
 	
 	ai_strategy = { type = antagonize id = "GRE"  value = 200 }	
@@ -1333,7 +1353,7 @@ make_sure_we_blitz_into_soft_targets_without_italy_help = {
 		GER = { has_war_with = FRA }
 		POL = { has_capitulated = yes }
 		date > 1939.12.1
-		date < 1940.5.22
+		date < 1940.5.27
 	}
 	abort = {
 		OR = {
@@ -1341,7 +1361,7 @@ make_sure_we_blitz_into_soft_targets_without_italy_help = {
 			18 = { 
 				is_controlled_by = GER
 			}
-			date > 1940.5.22
+			date > 1940.5.27
 		}
 	}
 
