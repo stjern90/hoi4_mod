@@ -376,7 +376,7 @@ NResistance = {
 	
 	RESISTANCE_TARGET_BASE = 50.0,							-- base resistance target percentage
 	
-	RESISTANCE_TARGET_MODIFIER_HAS_CLAIM = -8.0,			-- resistance target modifier in % for states we have claim
+	RESISTANCE_TARGET_MODIFIER_HAS_CLAIM = -10.0,			-- resistance target modifier in % for states we have claim
 
 	RESISTANCE_TARGET_MODIFIER_PER_STABILITY_LOSS = 0.2,	-- resistance target modifier per stability below 100%
 	RESISTANCE_TARGET_MODIFIER_PER_COMPLIANCE = -0.3,		-- resistance target modifier per compliance %
@@ -431,7 +431,7 @@ NResistance = {
 	
 	RESISTANCE_RATIO_DIFF_TO_SPREAD = 0.35, -- resistance diff between two neighbour states will spread by this ratio ( from highest resistance states to lower ones and it will only spread once to a state)
 	
-	RESISTANCE_ACTIVITY_CHANCE_AT_MAX_RESISTANCE = 0.2,
+	RESISTANCE_ACTIVITY_CHANCE_AT_MAX_RESISTANCE = 0.15,
 	RESISTANCE_ACTIVITY_MIN_GARRISON_PENETRATE_CHANCE = 0.02,
 	
 	RESISTANCE_TARGET_TO_REENABLE_RESISTANCE = 10, -- resistance will be disabled once it reaches zero and will not be reenabled until resistance target reaches above this value
