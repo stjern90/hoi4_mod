@@ -374,7 +374,7 @@ NResistance = {
 	COMPLIANCE_FACTOR_ON_STATE_CONTROLLER_CHANGE = -0.5,	-- compliance factor that applies when the state controller changes (in between allies, compliance is zeroed if it is taken by original country)
 	RESISTANCE_COOLDOWN_WHEN_DISABLED = -0.25,				-- resistance cooldown when the state is taken back by its original owner (compliance is zeroed in that case)
 	
-	RESISTANCE_TARGET_BASE = 50.0,							-- base resistance target percentage
+	RESISTANCE_TARGET_BASE = 42.0,							-- base resistance target percentage
 	
 	RESISTANCE_TARGET_MODIFIER_HAS_CLAIM = -10.0,			-- resistance target modifier in % for states we have claim
 
@@ -390,10 +390,10 @@ NResistance = {
 		50,  20.0, -- 50 - ...
 	},
 
-	RESISTANCE_TARGET_MODIFIER_OCCUPIED_CAPITULATED = 2.0, -- resistance target modifier when the enemy is capitulated
+	RESISTANCE_TARGET_MODIFIER_OCCUPIED_CAPITULATED = 5.0, -- resistance target modifier when the enemy is capitulated
 	
 	RESISTANCE_TARGET_MODIFIER_OCCUPIED_IS_EXILE_MIN = 1.0,   -- min & max resistance target modifier resistance target modifier for exile countries. interpolated using legitimacy
-	RESISTANCE_TARGET_MODIFIER_OCCUPIED_IS_EXILE_MAX = 10.0,
+	RESISTANCE_TARGET_MODIFIER_OCCUPIED_IS_EXILE_MAX = 12.5,
 
 	RESISTANCE_TARGET_MODIFIER_POP_LOW = -20.0,			-- how much we reduce the resistance target
 	RESISTANCE_TARGET_MODIFIER_POP_VERY_LOW = -50.0,			-- resistance target modifier in % for states we have claim
