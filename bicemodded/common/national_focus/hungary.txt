@@ -14,7 +14,7 @@ focus_tree = {
 	
 	default = no
 
-	continuous_focus_position = { x = 50 y = 1600 }
+	continuous_focus_position = { x = 2950 y = 1600 }
 
 #	focus = {
 #		id = HUN_
@@ -175,7 +175,7 @@ focus_tree = {
 		prerequisite = { focus = HUN_elect_a_king }
 		mutually_exclusive = { focus =  HUN_elect_a_democratic_king }
 		mutually_exclusive = { focus =  HUN_elect_a_fascist_king }
-		x = 0
+		x = -2
 		y = 1
 		relative_position_id = HUN_elect_a_king
 
@@ -245,8 +245,8 @@ focus_tree = {
 		}
 
 		available = {
-			strength_ratio = { tag = AUS ratio > 1.7 }
-			has_army_manpower = { size > 200000 }
+			strength_ratio = { tag = AUS ratio > 1.75 }
+			has_army_manpower = { size > 180000 }
 			NOT = { has_war_with = AUS }
 			is_subject = no
 			AUS = {
@@ -279,58 +279,6 @@ focus_tree = {
 			}
 		}
 	}
-	
-	focus = {
-		id = HUN_anchluss
-		icon = GFX_goal_generic_forceful_treaty
-		prerequisite = { focus = HUN_demand_a_referendum }
-		mutually_exclusive = { focus = HUN_proclaim_the_restoration_of_austria_hungary }
-		x = 1
-		y = 2
-		relative_position_id = HUN_invite_the_habsburg_prince
-
-		cost = 6
-
-		ai_will_do = {
-			factor = 30
-		}
-
-		available = {
-			strength_ratio = { tag = AUS ratio > 2 }
-			NOT = { has_war_with = AUS }
-			NOT = { has_war_with = GER }
-			is_subject = no
-			AUS = {
-				OR = {
-					exists = yes
-					is_subject = no
-				}
-			}
-		}
-
-		bypass = {
-			owns_state = 4
-			owns_state = 153
-			owns_state = 152
-		}
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-
-		complete_tooltip = {
-            if = { limit = { is_in_faction = yes }
-	    	dismantle_faction = yes
-		}
-		add_stability = -0.07
-		add_popularity = { ideology = fascism popularity = 0.15 }
-		annex_country = { target = AUS transfer_troops = yes }
-			GER = { add_to_faction = HUN }
-		}
-		completion_reward = {
-		        # ask to become Austrian Empire
-			GER = { country_event = { id = DOD_hungary.201 } }
-		}
-	}
 
 	focus = {
 		id = HUN_take_austria_by_force
@@ -353,8 +301,8 @@ focus_tree = {
 		}
 
 		available = {
-			strength_ratio = { tag = AUS ratio > 1.8 }
-			has_army_manpower = { size > 200000 }
+			strength_ratio = { tag = AUS ratio > 1.75 }
+			has_army_manpower = { size > 180000 }
 			4 = {
 				is_controlled_by = OWNER
 			}
@@ -399,7 +347,7 @@ focus_tree = {
 		icon = GFX_focus_proclaim_the_restauration_of_Austria_Hungary
 		prerequisite = { focus = HUN_demand_a_referendum focus = HUN_take_austria_by_force }
 		mutually_exclusive = { focus = HUN_anchluss }
-		x = -1
+		x = 0
 		y = 2
 		relative_position_id = HUN_invite_the_habsburg_prince
 
@@ -434,31 +382,52 @@ focus_tree = {
 			152 = { add_core_of = ROOT }
 			153 = { add_core_of = ROOT }
 			4 = { add_core_of = ROOT }
-			69 = { add_core_of = ROOT }
-			9 = { add_core_of = ROOT }
-			75 = { add_core_of = ROOT }
-			74 = { add_core_of = ROOT }
-			72 = { add_core_of = ROOT }
+			add_state_claim = 9
+			add_state_claim = 69
+			add_state_claim = 75
 			70 = { add_core_of = ROOT }
-			664 = { add_core_of = ROOT }
-			71 = { add_core_of = ROOT }
 			73 = { add_core_of = ROOT }
+			add_state_claim = 71
+			
 			hidden_effect = {
 				news_event = { id = news.295 }
 			}
 			set_global_flag = form_austria_hungary_flag
+			
+			add_named_threat = { threat = 4 name = HUN_proclaim_the_restoration_of_austria_hungary }
+			if = {
+				limit = { 
+					FRA = { 
+						has_completed_focus = FRA_strengthen_the_little_entente 
+						exists = yes
+						is_subject = no
+					} 
+
+				}
+				FRA = { country_event = { id = DOD_hungary.40 } }
+			}
+			if = {
+				limit = { 
+					OR = {
+						NOT = { FRA = { has_completed_focus = FRA_strengthen_the_little_entente } } 
+						FRA = { exists = no }
+						FRA = { is_subject = yes }
+					}
+				} #Romania gets the event if France not engaged in Balkans
+				ROM = { country_event = { id = DOD_hungary.40 } }	 
+			}
 		}
 	}
 
 	focus = {
 		id = HUN_protect_czechoslovakia
 		icon = GFX_Goal_protect_czech
-		prerequisite = { focus = HUN_proclaim_the_restoration_of_austria_hungary focus = HUN_anchluss }
-		x = 0
-		y = 4
+		prerequisite = { focus = HUN_proclaim_the_restoration_of_austria_hungary }
+		x = -1
+		y = 3
 		relative_position_id = HUN_invite_the_habsburg_prince
 
-		cost = 10
+		cost = 7
 
 		ai_will_do = {
 			factor = 60
@@ -491,7 +460,57 @@ focus_tree = {
 		}
 	}
 
-	
+	focus = {
+		id = HUN_integrate_economies
+		icon = GFX_goal_generic_construct_civilian
+		prerequisite = { focus = HUN_proclaim_the_restoration_of_austria_hungary }
+		x = 1
+		y = 3
+		relative_position_id = HUN_invite_the_habsburg_prince
+
+		cost = 6.5
+
+		ai_will_do = {
+			factor = 70
+		}
+
+		available = {
+		    4 = { is_controlled_by = HUN }
+			152 = { is_controlled_by = HUN }
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			4 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			152 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			155 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
 
 	focus = {
 		id = HUN_claim_transylvania
@@ -621,7 +640,7 @@ focus_tree = {
 		#mutually_exclusive = { focus = HUN_italy_ally }
 		
 		relative_position_id = HUN_invite_the_habsburg_prince
-		x = 0
+		x = -4
 		y = 7
 		cost = 8
 		available = {
@@ -703,7 +722,7 @@ focus_tree = {
 		icon = GFX_focus_generic_strike_at_democracy1
 		prerequisite = { focus = HUN_protect_czechoslovakia focus = HUN_proclaim_greater_hungary }
 		x = 0
-		y = 6
+		y = 7
 		relative_position_id = HUN_invite_the_habsburg_prince
 
 		cost = 10
@@ -744,8 +763,8 @@ focus_tree = {
 	focus = {
 		id = HUN_fortify_empire
 		icon = GFX_goal_generic_fortify_city
-		prerequisite = { focus = HUN_protect_czechoslovakia focus = HUN_proclaim_greater_hungary }
-		x = 2
+		prerequisite = { focus = HUN_remilitarize_austria focus = HUN_proclaim_greater_hungary }
+		x = 3
 		y = 6
 		relative_position_id = HUN_invite_the_habsburg_prince
 
@@ -821,7 +840,7 @@ focus_tree = {
 		icon = GFX_focus_generic_strike_at_democracy2
 		prerequisite = { focus = HUN_claim_galicia }
 		x = 2
-		y = 7
+		y = 8
 		relative_position_id = HUN_invite_the_habsburg_prince
 
 		cost = 10
@@ -859,7 +878,8 @@ focus_tree = {
 		icon = GFX_goal_generic_occupy_states_ongoing_war
 		prerequisite = { focus = HUN_reclaim_venetia }
 		prerequisite = { focus = HUN_claim_the_bucovina }
-		x = 0
+		prerequisite = { focus = HUN_integrate_economies }
+		x = -2
 		y = 8
 		relative_position_id = HUN_invite_the_habsburg_prince
 
@@ -919,7 +939,7 @@ focus_tree = {
 		prerequisite = { focus = HUN_elect_a_king }
 		mutually_exclusive = { focus =  HUN_elect_a_fascist_king }
 		mutually_exclusive = { focus =  HUN_invite_the_habsburg_prince }
-		x = -3
+		x = -7
 		y = 1
 		relative_position_id = HUN_elect_a_king
 
@@ -1513,8 +1533,18 @@ focus_tree = {
 		}
 
 		completion_reward = {
-		add_war_support = 0.2
-			add_named_threat = { threat = 1 name = HUN_renounce_the_treaty_of_trianon }
+		add_war_support = 0.15
+		create_field_marshal = {
+	name = "Ferenc Feketehalmy-Czeydner"
+	gfx = GFX_Portrait_hungary_ferenc_feketehalmy_czeydner
+	traits = { politically_connected }
+	skill = 2
+	attack_skill = 2
+	defense_skill = 1
+	planning_skill = 2
+	logistics_skill = 2
+}
+			add_named_threat = { threat = 1.5 name = HUN_renounce_the_treaty_of_trianon }
 			if = {
 				limit = { 
 					FRA = { 
@@ -2428,13 +2458,14 @@ focus_tree = {
 
 	focus = {
 		id = HUN_proclaim_greater_hungary
-		icon = GFX_focus_proclaim_the_restauration_of_Austria_Hungary
+		icon = GFX_HUN_greater_hungary
 		prerequisite = { focus = HUN_demand_the_vojvodina }
+		mutually_exclusive = { focus = HUN_remilitarize_austria }
 		x = 0
 		y = 3
 		relative_position_id = HUN_reaffirm_territorial_claims
 
-		cost = 16
+		cost = 14
 
 		ai_will_do = {
 			factor = 80
@@ -2474,9 +2505,8 @@ focus_tree = {
 				news_event = { id = news.299 }
 				}
 			remove_state_claim = 45
-			remove_state_claim = 73
 			add_state_core = 45
-			add_state_core = 73
+			add_state_claim = 73		
 			add_political_power = -250
 			
 		}
@@ -3688,68 +3718,15 @@ focus_tree = {
 			}
 		}
 	}
-
-
-    focus = {
-		id = HUN_integrate_economies
-		icon = GFX_goal_generic_construct_civilian
-		x = 14
-		y = 9
-		
-		allow_branch = { always = no }		
-
-		cost = 6.5
-
-		ai_will_do = {
-			factor = 70
-		}
-
-		available = {
-		    4 = { is_controlled_by = HUN }
-			152 = { is_controlled_by = HUN }
-		}
-
-		bypass = {
-
-		}
-
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-
-		completion_reward = {
-			4 = {
-				add_building_construction = {
-					type = infrastructure
-					level = 1
-					instant_build = yes
-				}
-			}
-			152 = {
-				add_building_construction = {
-					type = infrastructure
-					level = 1
-					instant_build = yes
-				}
-			}
-			155 = {
-				add_building_construction = {
-					type = infrastructure
-					level = 1
-					instant_build = yes
-				}
-			}
-		}
-	}
 	
 	focus = {
 		id = HUN_remilitarize_austria
 		prerequisite = { focus = HUN_integrate_economies }
 		icon = GFX_goal_austrian_gov
-		x = 14
-		y = 10
-		
-		allow_branch = { always = no }
+		x = 1
+		y = 5
+		relative_position_id = HUN_invite_the_habsburg_prince
+		mutually_exclusive = { focus = HUN_proclaim_greater_hungary }
 
 		cost = 11
 
@@ -3760,10 +3737,7 @@ focus_tree = {
 		available = {
 		    4 = { is_controlled_by = HUN }
 			152 = { is_controlled_by = HUN }
-		}
-
-		bypass = {
-
+			threat > 0.15
 		}
 
 		cancel_if_invalid = yes
@@ -3843,6 +3817,21 @@ focus_tree = {
 				set_state_flag = HUN_domestic_arms_industry_AF6
 			}
 		}
+		
+		
+		every_unit_leader = {
+				limit = {
+					has_id = 66
+				}
+				set_nationality = HUN
+			}
+			
+		every_unit_leader = {
+				limit = {
+					has_id = 66
+				}
+				set_nationality = HUN
+			}
 	}
 
 
@@ -3852,10 +3841,8 @@ focus_tree = {
 		#prerequisite = { focus = HUN_expand_the_technical_university_of_budapest }
 		prerequisite = { focus = HUN_remilitarize_austria }
 		x = 0
-		y = 1
+		y = 4
 		relative_position_id = HUN_remilitarize_austria
-		
-		allow_branch = { always = no }
 
 		cost = 10
 
@@ -3890,10 +3877,8 @@ focus_tree = {
 		prerequisite = { focus = HUN_university_of_vienna }
 		prerequisite = { focus = HUN_reclaim_venetia focus = HUN_claim_the_bucovina }
 		x = 0
-		y = 1
+		y = 5
 		relative_position_id = HUN_remilitarize_austria
-		
-		allow_branch = { always = no }
 
 		cost = 6.5
 
@@ -3918,10 +3903,8 @@ focus_tree = {
 		icon = GFX_goal_austrian_gov
 		prerequisite = { focus = HUN_realize_austro_hungary }
 		x = -2
-		y = 2
+		y = 6
 		relative_position_id = HUN_remilitarize_austria
-
-		allow_branch = { always = no }
 
 		cost = 6.5
 
@@ -3946,10 +3929,8 @@ focus_tree = {
 		icon = GFX_AUS_HUN_army
 		prerequisite = { focus = HUN_realize_austro_hungary }
 		x = 0
-		y = 2
+		y = 6
 		relative_position_id = HUN_remilitarize_austria
-		
-		allow_branch = { always = no }
 
 		cost = 6.5
 
@@ -3974,10 +3955,8 @@ focus_tree = {
 		icon = GFX_AUS_HUN_navy
 		prerequisite = { focus = HUN_realize_austro_hungary }
 		x = 2
-		y = 2
+		y = 6
 		relative_position_id = HUN_remilitarize_austria
-		
-		allow_branch = { always = no }
 
 		cost = 6.5
 
@@ -4126,7 +4105,7 @@ focus_tree = {
 		id = HUN_war_games
 		icon = GFX_goal_poland_goal
 		prerequisite = { focus = HUN_secret_rearmament }
-		x = -1
+		x = 1
 		y = 1
 		relative_position_id = HUN_secret_rearmament
 
@@ -4160,20 +4139,14 @@ focus_tree = {
 	focus = {
 		id = HUN_hussars
 		icon = GFX_goal_generic_cavalry
-		prerequisite = { focus = HUN_bled_agreement }
+		prerequisite = { focus = HUN_war_games }
 		x = 2
-		y = 1
-		relative_position_id = HUN_bled_agreement
+		y = 2
+		relative_position_id = HUN_secret_rearmament
 
-		cost = 8
+		cost = 7
 		ai_will_do = {
 			factor = 3
-		}
-		available = {
-
-		}
-		bypass = {
-
 		}
 
 		cancel_if_invalid = yes
@@ -4189,6 +4162,17 @@ focus_tree = {
 			hidden_effect = {
 			load_oob = "HUN_cavalry"
 			}
+			
+			create_field_marshal = {
+	            name = "Elemer Gorondy-Novak"
+				gfx = GFX_Portrait_hungary_gorondy_elemer
+               	traits = { old_guard cavalry_officer }
+            	skill = 2
+            	attack_skill = 3
+	        	defense_skill = 2
+	        	planning_skill = 2
+	        	logistics_skill = 1
+        	}
 		}
 	}
 
@@ -4196,7 +4180,7 @@ focus_tree = {
 		id = HUN_theoretical_air_efforts
 		icon = GFX_goal_generic_air_doctrine
 		prerequisite = { focus = HUN_secret_rearmament }
-		x = 1
+		x = -1
 		y = 1
 		relative_position_id = HUN_secret_rearmament
 
