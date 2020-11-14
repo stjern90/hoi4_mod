@@ -190,10 +190,6 @@ focus_tree = {
 			has_game_rule = { rule = FORCED_HISTROICAL option = DEFAULT }
 		}
 
-		bypass = {
-
-		}
-
 		cancel_if_invalid = yes
 		continue_if_invalid = no
 		available_if_capitulated = yes
@@ -364,29 +360,23 @@ focus_tree = {
 			is_subject = no
 		}
 
-		bypass = {
-
-		}
-
 		cancel_if_invalid = yes
 		continue_if_invalid = no
 		available_if_capitulated = no
 
-		complete_tooltip = {
-
-		}
-
 		completion_reward = {
 			set_cosmetic_tag = HUN_EMPIRE
 			hidden_effect = { AUS = { set_cosmetic_tag = AUS_NOT_WHITE } }
-			152 = { add_core_of = ROOT }
-			153 = { add_core_of = ROOT }
+			
+			add_state_claim = 152
+			add_state_claim = 153
 			4 = { add_core_of = ROOT }
 			add_state_claim = 9
 			add_state_claim = 69
 			add_state_claim = 75
-			70 = { add_core_of = ROOT }
-			73 = { add_core_of = ROOT }
+			add_state_claim = 70
+			#70 = { add_core_of = ROOT }
+			
 			add_state_claim = 71
 			
 			hidden_effect = {
@@ -416,6 +406,7 @@ focus_tree = {
 				} #Romania gets the event if France not engaged in Balkans
 				ROM = { country_event = { id = DOD_hungary.40 } }	 
 			}
+			add_ideas = HUN_divided_economies
 		}
 	}
 
@@ -479,10 +470,6 @@ focus_tree = {
 			152 = { is_controlled_by = HUN }
 		}
 
-		bypass = {
-
-		}
-
 		cancel_if_invalid = yes
 		continue_if_invalid = no
 		available_if_capitulated = no
@@ -509,18 +496,91 @@ focus_tree = {
 					instant_build = yes
 				}
 			}
+			remove_ideas = HUN_divided_economies
+			add_timed_idea = { idea = HUN_divided_economies days = 365 }
+		}
+	}
+	
+	focus = {
+		id = HUN_austrian_power
+		icon = GFX_austrian_crown
+		prerequisite = { focus = HUN_integrate_economies }
+		x = 0
+		y = 4
+		relative_position_id = HUN_invite_the_habsburg_prince
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 70
+		}
+
+		available = {
+		    153 = { is_controlled_by = HUN }
+			152 = { is_controlled_by = HUN }
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+		43 = { remove_building = {
+				type = industrial_complex
+				level = 2
+		    	}
+			}
+			152 = { 
+			add_core_of = ROOT 
+			add_extra_state_shared_building_slots = 2
+						add_building_construction = {
+							type = industrial_complex
+							level = 2
+							instant_build = yes
+						}
+			
+			}
+			153 = { add_core_of = ROOT }
+		}
+	}
+	
+	focus = {
+		id = HUN_eastern_weight
+		icon = GFX_austrian_crown
+		prerequisite = { focus = HUN_integrate_economies }
+		x = 2
+		y = 4
+		relative_position_id = HUN_invite_the_habsburg_prince
+
+		cost = 2
+
+		ai_will_do = {
+			factor = 70
+		}
+
+		available = {
+		    153 = { is_controlled_by = HUN }
+			152 = { is_controlled_by = HUN }
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			
 		}
 	}
 
 	focus = {
 		id = HUN_claim_transylvania
 		icon = GFX_Goal_attack_romania
-		prerequisite = { focus = HUN_protect_czechoslovakia }
+		prerequisite = { focus = HUN_remilitarize_austria }
 		x = -1
-		y = 5
+		y = 6
 		relative_position_id = HUN_invite_the_habsburg_prince
 
-		cost = 10
+		cost = 8
 
 		ai_will_do = {
 			factor = 20
@@ -570,12 +630,66 @@ focus_tree = {
 			}	
 		}
 	}
+	
+	focus = {
+		id = HUN_claim_ruthenia
+		icon = GFX_Goal_attack_romania
+		prerequisite = { focus = HUN_remilitarize_austria }
+		x = 1
+		y = 6
+		relative_position_id = HUN_invite_the_habsburg_prince
+
+		cost = 8
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		available = {
+			has_army_manpower = { size > 320000 }
+			is_subject = no
+		}
+
+		bypass = {
+			73 = { is_controlled_by_ROOT_or_ally = yes }
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		complete_tooltip = {
+
+		}
+
+		completion_reward = {
+			73 = { add_core_of = ROOT }
+			if = {
+				limit = {
+					NOT = {
+						has_war_with = ROM
+					}
+					threat < 0.5
+					ROM = {
+						OR = {
+							owns_state = 76
+							owns_state = 83
+							owns_state = 84
+							owns_state = 82
+						}
+					}
+				}
+				ROM = { country_event = DOD_hungary.50 }
+			}	
+		}
+	}
+
 
 	focus = {
 		id = HUN_march_to_the_shore
 		icon = GFX_focus_generic_strike_at_democracy3
-		prerequisite = { focus = HUN_claim_transylvania }
-		x = -2
+		prerequisite = { focus = HUN_remilitarize_austria }
+		x = -3
 		y = 6
 		relative_position_id = HUN_invite_the_habsburg_prince
 
@@ -720,8 +834,8 @@ focus_tree = {
 	focus = {
 		id = HUN_claim_galicia
 		icon = GFX_focus_generic_strike_at_democracy1
-		prerequisite = { focus = HUN_protect_czechoslovakia focus = HUN_proclaim_greater_hungary }
-		x = 0
+		prerequisite = { focus = HUN_claim_ruthenia focus = HUN_proclaim_greater_hungary }
+		x = 2
 		y = 7
 		relative_position_id = HUN_invite_the_habsburg_prince
 
@@ -764,7 +878,7 @@ focus_tree = {
 		id = HUN_fortify_empire
 		icon = GFX_goal_generic_fortify_city
 		prerequisite = { focus = HUN_remilitarize_austria focus = HUN_proclaim_greater_hungary }
-		x = 3
+		x = 4
 		y = 6
 		relative_position_id = HUN_invite_the_habsburg_prince
 
@@ -878,7 +992,6 @@ focus_tree = {
 		icon = GFX_goal_generic_occupy_states_ongoing_war
 		prerequisite = { focus = HUN_reclaim_venetia }
 		prerequisite = { focus = HUN_claim_the_bucovina }
-		prerequisite = { focus = HUN_integrate_economies }
 		x = -2
 		y = 8
 		relative_position_id = HUN_invite_the_habsburg_prince
@@ -1210,12 +1323,12 @@ focus_tree = {
 	focus = {
 		id = HUN_an_unlikely_alliance
 		icon = GFX_Goal_befriend_Romania
-		prerequisite = { focus = HUN_the_balkan_pact }
-		x = 1
+		prerequisite = { focus = HUN_the_balkan_pact focus = HUN_protect_czechoslovakia }
+		x = 2
 		y = 4
 		relative_position_id = HUN_elect_a_democratic_king
 
-		cost = 10
+		cost = 8
 
 		ai_will_do = {
 			factor = 60
@@ -1228,16 +1341,15 @@ focus_tree = {
 		}
 
 		bypass = {
-
+		    OR = {
+            has_war_with = ROM
+			is_in_faction_with = ROM
+			}
 		}
 
 		cancel_if_invalid = yes
 		continue_if_invalid = no
 		available_if_capitulated = yes
-
-		complete_tooltip = {
-
-		}
 
 		completion_reward = {
 			ROM = { country_event = generic.5 }
@@ -3721,7 +3833,7 @@ focus_tree = {
 	
 	focus = {
 		id = HUN_remilitarize_austria
-		prerequisite = { focus = HUN_integrate_economies }
+		prerequisite = { focus = HUN_austrian_power focus = HUN_eastern_weight }
 		icon = GFX_goal_austrian_gov
 		x = 1
 		y = 5
@@ -3816,22 +3928,13 @@ focus_tree = {
 				}
 				set_state_flag = HUN_domestic_arms_industry_AF6
 			}
+			every_unit_leader = {
+				limit = {
+					has_id = 66
+				}
+				set_nationality = HUN
+			}
 		}
-		
-		
-		every_unit_leader = {
-				limit = {
-					has_id = 66
-				}
-				set_nationality = HUN
-			}
-			
-		every_unit_leader = {
-				limit = {
-					has_id = 66
-				}
-				set_nationality = HUN
-			}
 	}
 
 
@@ -3850,21 +3953,9 @@ focus_tree = {
 			factor = 100
 		}
 
-		available = {
-
-		}
-
-		bypass = {
-
-		}
-
 		cancel_if_invalid = yes
 		continue_if_invalid = no
 		available_if_capitulated = no
-
-		complete_tooltip = {
-
-		}
 
 		completion_reward = {
 			add_research_slot = 1

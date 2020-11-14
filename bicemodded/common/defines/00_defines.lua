@@ -494,7 +494,7 @@ NProduction = {
 	ANNEX_FIELD_EQUIPMENT_RATIO = 0.25,	-- How much equipment from deployed divisions will be transferred on annexation
 	ANNEX_FUEL_RATIO = 0.25,	-- How much fuel will be transferred on annexation
 	ANNEX_CONVOYS_RATIO = 0.2,			-- How many convoys will be transferred on annexation
-	MIN_POSSIBLE_TRAINING_MANPOWER = 40000,	-- How many deployment lines minimum can be training
+	MIN_POSSIBLE_TRAINING_MANPOWER = 80000,	-- How many deployment lines minimum can be training
 	MIN_FIELD_TO_TRAINING_MANPOWER_RATIO = 0.5,	-- Ratio which % of army in field can be trained
 	CAPITULATE_STOCKPILES_RATIO = 0.35, -- How much equipment from deployed divisions will be transferred on capitulation
 	CAPITULATE_FUEL_RATIO = 0.5, -- How much fuel will be transferred on capitulation
@@ -1456,7 +1456,7 @@ NNavy = {
 	
 	BASE_CONVOY_SPOTTING_SPEED = 0.0,								-- daily base spotting speed against convoys
 	BASE_UNIT_TRANSFER_SPOTTING_SPEED = 0.0,						-- daily base spotting speed against unit trans
-	BASE_NAVAL_INVASION_SPOTTING_SPEED = 0.1,						-- daily base spotting speed against unit transfers
+	BASE_NAVAL_INVASION_SPOTTING_SPEED = 0.15,						-- daily base spotting speed against unit transfers
 
 	CONVOY_SPOTTING_SPEED_MULT = 1.0,								-- spotting speed mult against convoys
 	UNIT_TRANSFER_SPOTTING_SPEED_MULT = 2.0,						-- spotting speed mult against unit transfers
