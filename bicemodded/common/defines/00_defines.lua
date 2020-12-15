@@ -514,7 +514,7 @@ NProduction = {
 	EQUIPMENT_MODULE_REPLACE_XP_COST = 5.0,				-- XP cost for replacing one equipment module with an unrelated module when creating an equipment variant.
 	EQUIPMENT_MODULE_CONVERT_XP_COST = 2.5,				-- XP cost for converting one equipment module to a related module when creating an equipment variant.
 	EQUIPMENT_MODULE_REMOVE_XP_COST = 1.0,				-- XP cost for removing an equipment module and leaving the slot empty when creating an equipment variant.
-	MIN_NAVAL_EQUIPMENT_CONVERSION_IC_COST_FACTOR = 0.07,		-- Minimum fraction of an equipment type's base industry capacity cost to use when converting a naval equipment, such as through ship refitting.
+	MIN_NAVAL_EQUIPMENT_CONVERSION_IC_COST_FACTOR = 0.2,		-- Minimum fraction of an equipment type's base industry capacity cost to use when converting a naval equipment, such as through ship refitting.
 	MIN_NAVAL_EQUIPMENT_CONVERSION_RESOURCE_COST_FACTOR = 0.2,	-- Minimum fraction of an equipment type's base strategic resource cost to use when converting a naval equipment, such as through ship refitting.
 	SHIP_REFIT_MAX_PROGRESS_TO_CANCEL = 0.2,			-- Maximum refitting progress % that we still allow to cancel wihtout having to scuttle the ship.
 	SHIP_REFIT_DAMAGE_TO_PROGRESS_FACTOR = 0.5,			-- When a ship is being damaged (for example port strike) while refitting, the damage is transferred to the production line progress instead. This variable is used to balance it.
@@ -929,7 +929,7 @@ NMilitary = {
 	
 	FUEL_FLOW_PENALTY_FOR_SUPPLY_CHUNK_EDGE_RATIO = 0.5, -- supply flow that is limited by control of incoming edge provinces will have lesser effect on fuel flow
 	
-	OUT_OF_FUEL_EQUIPMENT_MULT = 0.7,				-- ratio of the stats that you get from equipments that uses fuel and you lack it
+	OUT_OF_FUEL_EQUIPMENT_MULT = 0.5,				-- ratio of the stats that you get from equipments that uses fuel and you lack it
 	OUT_OF_FUEL_SPEED_MULT = 0.8,					-- speed mult that armies get when out of fuel
 	OUT_OF_FUEL_TRAINING_XP_GAIN_MULT = 0.0,		-- xp gain mult from training when a unit is out of fuel
 	FUEL_CAPACITY_DEFAULT_HOURS = 168             -- default capacity if not specified
@@ -1260,7 +1260,7 @@ NNavy = {
 	},
 	
 	HOLD_MISSION_MOVEMENT_COST = 1.0,								-- ships on hold cost this much fuel while moving
-	ON_BASE_FUEL_COST = 0.38,										-- ships that waits at naval bases cost this ratio
+	ON_BASE_FUEL_COST = 0.3,										-- ships that waits at naval bases cost this ratio
 	IN_COMBAT_FUEL_COST = 1.8,										-- ships in combat will get this ratio for fuel cost
 	TRAINING_FUEL_COST_FOR_ESCORT_SHIPS = 0.15,						-- ships that are on training mission but not training (ie they are at max xp and training will cancel at max xp) will consume this ratio of fuel
 	
@@ -1672,7 +1672,7 @@ NAI = {
 	DIPLOMACY_FACTION_WRONG_IDEOLOGY_PENALTY = 65, -- AI penalty for diplomatic faction acitons between nations of different ideologies
 	DIPLOMACY_FACTION_SAME_IDEOLOGY_MAJOR = 35, -- AI bonus acceptance when being asked about faction is a major of the same ideology
 	DIPLOMACY_FACTION_NEUTRALITY_PENALTY = 50,	-- Neutral nations have a separate penalty, not wanting to get involved at all, rather than caring much about the difference in ideology
-	DIPLOMACY_FACTION_GLOBAL_TENSION_FACTOR = 0.2,-- How much the AI takes global tension into account when considering faction actions
+	DIPLOMACY_FACTION_GLOBAL_TENSION_FACTOR = 0.15,-- How much the AI takes global tension into account when considering faction actions
 	DIPLOMACY_FACTION_WAR_RELUCTANCE = -60,		-- Penalty to desire to enter a faction with a country that we are not fighting wars together with.
 	DIPLOMACY_FACTION_TAKE_OVER_RELUCTANCE_VERSUS_HUMAN = 2.0,	-- Multiplier penalty for how much stronger than a human faction member an AI country must be to choose to assume faction leadership.
 	DIPLOMACY_SCARED_MINOR_EXTRA_RELUCTANCE = -60, -- extra reluctance to join stuff as scared minor
@@ -1690,7 +1690,7 @@ NAI = {
 	DIPLOMACY_ACCEPT_ATTACHE_BASE = 40,			-- Base value of attache acceptance (help is welcome)
 	DIPLOMACY_ACCEPT_ATTACHE_OPINION_TRASHHOLD = 20, -- Value of opinion that will remove accepting penalty for receiveing the attache
 	DIPLOMACY_ACCEPT_ATTACHE_OPINION_PENALTY = -100, -- Value of acceptance penalty if the opinion too low 
-	DIPLOMACY_FACTION_MAJOR_AT_WAR = 500.0,	-- Factor that will be multiplied with the surrender level in the desire to offer to the other ai to join a faction
+	DIPLOMACY_FACTION_MAJOR_AT_WAR = 50.0,	-- Factor that will be multiplied with the surrender level in the desire to offer to the other ai to join a faction
 	DIPLOMACY_FACTION_SURRENDER_LEVEL = 20, 	-- How much the recipient nation losing matters for joining a faction
 	DIPLO_PREFER_OTHER_FACTION = -200,			-- The country has yet to ask some other faction it would prefer to be a part of.
 	RESEARCH_DAYS_BETWEEN_WEIGHT_UPDATE = 20, 	-- Refreshes need scores based on country situation.
