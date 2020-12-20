@@ -67,7 +67,7 @@ news_event = {
 	id = bramja.1
 	title = bramja.1.t
 	desc = bramja.1.d
-	picture = GFX_report_event_desertion_poster		# todo !! change to news event picture
+	picture = GFX_report_event_desertion_poster		
 
 	major = yes
  
@@ -101,7 +101,7 @@ news_event = {
 	id = bramja.2
 	title = bramja.2.t
 	desc = bramja.2.d
-	picture = GFX_news_event_worker_protests
+	picture = GFX_news_event_gathering_protest
 
 	major = yes
  
@@ -134,7 +134,7 @@ news_event = {
 	id = bramja.3
 	title = bramja.3.t
 	desc = bramja.3.d
-	picture = GFX_news_event_worker_protests
+	picture = GFX_news_event_gathering_protest
 
 	major = yes
  
@@ -178,7 +178,7 @@ news_event = {
 	id = bramja.12
 	title = bramja.12.t
 	desc = bramja.12.d
-	picture = GFX_report_event_french_resistance_02 # todo !! change to news event picture
+	picture = GFX_report_event_french_resistance_02
 
 	major = yes
  
@@ -217,7 +217,152 @@ news_event = {
 	}
 }
 
+# Japan cannot hold subjects and conquered territory.
+country_event = {
+	id = bramja.13
+	title = bramja.13.t
+	desc = bramja.13.d
+	picture = GFX_report_event_chinese_soldiers_fighting
 
+	fire_only_once = yes
+	
+	trigger = {
+		tag = JAP
+		date > 1942.1.1
+		OR = {
+			any_controlled_state = {
+				NOT = { is_core_of = JAP }
+			}
+			any_country = {
+				is_subject_of = JAP
+			}
+		}
+		has_war = yes
+		OR = {
+			has_government = neutrality
+			has_government = fascism
+		}
+		surrender_progress > 0.09
+		OR = {
+			has_navy_size = { size < 60 }
+			enemies_naval_strength_ratio > 2.0
+		}
+	}
+	
+	mean_time_to_happen = { days = 1 }
+	
+#Sayonara empire option
+	option = {
+		name = bramja.13.a
+		ai_chance = {
+			base = 5
+		}
+		add_stability = -0.10
+		add_war_support = -0.10
+		every_controlled_state = {
+			limit = {
+				NOT = { is_core_of = JAP }
+			}
+			add_resistance = 60	
+		}
+		custom_effect_tooltip = bramja_13a_tt
+		hidden_effect = {
+			every_country = {
+				limit = {
+					is_subject_of = JAP
+					NOT = { tag = MAN }
+					has_capitulated = no
+				}
+				add_stability = -0.10
+				add_war_support = -0.05
+				add_popularity = {
+					ideology = neutrality
+					popularity = 0.40	
+				}
+				add_popularity = {
+					ideology = communism
+					popularity = 0.30
+				}
+				add_popularity = {
+					ideology = fascism
+					popularity = -0.15
+				}
+				leave_faction = yes
+				every_country = {
+					limit = { has_war_with = PREV }
+					white_peace = PREV
+				}
+				overlord = {
+					set_autonomy = {
+						target = PREV
+						autonomy_state = autonomy_free
+					}
+				}
+			}
+			MAN = { complete_national_focus = MCK_an_alternative }
+			news_event = { id = bramja.16 days = 1 }
+		}
+	}
+	
+#JAP Conquer all or nothing.
+	option = {
+		name = bramja.13.b
+		ai_chance = {
+			base = 1
+			modifier = {
+				has_navy_size = { size > 75 }
+				has_army_size = { size > 60 } 
+				factor = 2
+			}
+		}
+		add_stability = -0.15
+		add_war_support = -0.07
+		add_threat = 3
+		every_controlled_state = {
+			limit = {
+				NOT = { is_core_of = JAP }
+			}
+			add_resistance = 55	
+		}	
+		custom_effect_tooltip = bramja_13b_tt
+		hidden_effect = {
+			every_country = {
+				limit = {
+					is_subject_of = JAP
+					NOT = { tag = MAN }
+					has_capitulated = no
+				}
+				add_stability = -0.12
+				add_war_support = -0.07
+				add_popularity = {
+					ideology = neutrality
+					popularity = 0.35	
+				}
+				add_popularity = {
+					ideology = communism
+					popularity = 0.25
+				}
+				every_country = {
+					limit = { has_war_with = PREV }
+					white_peace = PREV
+				}
+				leave_faction = yes
+				overlord = {
+					set_autonomy = {
+						target = PREV
+						autonomy_state = autonomy_free
+					}
+				}
+				ROOT = { declare_war_on = {
+						target = PREV
+						type = puppet_wargoal_focus }	
+				}
+			}
+			MAN = { complete_national_focus = MCK_an_alternative }
+			news_event = { id = bramja.16 days = 1 }
+		}
+	}	
+}
 
 # World news subjects Japan break loose.
 
@@ -257,6 +402,174 @@ news_event = {
 	}
 }
 
+
+# Part 1: Manchuria breaks from (likely) JAP & reclaims Imperial hegemony
+news_event = {
+	id = bramja.17
+	title = bramja.17.t
+	desc = bramja.17.d
+	picture = GFX_news_event_japanese_soldiers_in_beijing
+
+	major = yes
+ 
+	is_triggered_only = yes
+
+	option = {
+		name = bramja.17.a
+		trigger = {
+			is_ai = yes
+			NOT = { tag = MAN }
+		}
+	}
+
+	option = {
+		name = bramja.17.b
+		trigger = {
+			tag = MAN
+		}
+		every_country = {
+			limit = {
+				any_controlled_state = { is_core_of = FROM }
+				NOT = { is_in_faction_with = FROM }
+				exists = yes
+				OR = {
+					tag = CHI
+					tag = CCP
+					tag = TIB
+					tag = BHU
+					tag = SIK
+					tag = TAN
+					tag = CAM
+					tag = VIN
+					tag = LAO
+					tag = KOR
+					tag = MEN
+					tag = MON	
+					tag = YUN
+					tag = SHX
+					tag = PRC
+					tag = GXC
+					tag = XSM
+				}
+			}
+			add_war_support = -0.05	
+			add_stability = -0.05
+		}
+		news_event = { id = bramja.18 hours = 2 }
+	}
+	option = {
+		name = bramja.17.b
+		trigger = {
+			is_ai = no
+			NOT = { tag = MAN }
+		}
+		news_event = { id = bramja.18 hours = 2 }
+	}
+}
+
+# Part 2: Manchuria breaks from (likely) JAP & reclaims Imperial hegemony
+news_event = {
+	id = bramja.18
+	title = bramja.18.t
+	desc = bramja.18.d
+	picture = GFX_report_goal_manzhou_zhongyangyinhang
+	
+	major = yes
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = bramja.18.a
+	}	
+}	
+
+#TO BE TESTED-->1st ok, but on action instead?: Stabilize Civil war --> zie on_action_branmja
+country_event = {
+	id = bramja.19
+	title = bramja.19.t
+	desc = bramja.19.d	#
+	picture = GFX_report_event_german_parade_paris
+#	hidden = yes
+
+	is_triggered_only = yes
+	
+	option = { 
+		name = bramja.19.a
+			trigger = {
+				tag = FROM 
+			}
+			
+			if = {
+				limit = {
+					has_stability < 0.6
+				}
+				add_stability = 0.10
+			}
+			if = {
+				limit = {
+					has_war_support < 0.6
+				}
+				add_war_support = 0.10
+			}
+			if = {
+				limit = {
+					has_country_flag = crisis_solution_in_progress
+				}
+				clr_country_flag = crisis_solution_in_progress
+			}
+			if = {
+				limit = {
+					has_country_flag = crisis_in_progress
+				}
+				clr_country_flag = crisis_in_progress
+			}
+			if = {
+				limit = {
+					OR = {
+						has_idea = draft_dodging
+						has_idea = draft_dodging_2
+						has_idea = draft_dodging_3
+					}
+				}
+				remove_ideas =  {
+					draft_dodging 
+					draft_dodging_2
+					draft_dodging_3
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						has_idea = strikes_1 
+						has_idea = strikes_2
+						has_idea = strikes_3
+					}
+				}
+				remove_ideas = { 
+					strikes_1 
+					strikes_2
+					strikes_3
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						has_idea = mutiny_1
+						has_idea = mutiny_2
+						has_idea = mutiny_3
+					}
+				}
+				remove_ideas = { 
+					mutiny_1 
+					mutiny_2
+					mutiny_3
+				}
+			}
+	}
+}
+
+
 ### Bramja: The Fall of France for non-aligned ###
 
 
@@ -273,7 +586,19 @@ country_event = {
 		tag = FRA
 		has_war_with = GER
 		has_government = neutrality
-		is_in_faction = no 
+		NOT = { FRA = { is_in_faction_with = ENG } }
+		OR = {
+			is_in_faction = no
+			AND = {
+				is_faction_leader = yes
+				all_allied_country = {
+					OR = {
+						has_capitulated = yes
+						is_puppet = yes 
+					} 
+				}
+			}
+		}
 		OR = {
 			HOL = { OR = { has_capitulated = yes exists = no is_puppet = yes } }	
 			BEL = { OR = { has_capitulated = yes exists = no is_puppet = yes } }
@@ -292,6 +617,7 @@ country_event = {
 	
 	option = { # join Alies
 		name = bramja.25.a
+		FRA = { dismantle_faction = yes }
 		ENG = { country_event = { id = bramja.26 days = 1 } }
 	}
 	
@@ -890,7 +1216,7 @@ news_event = {
 	id = bramja.28
 	title = bramja.28.t
 	desc = bramja.28.d
-	picture = GFX_report_news_event_allied_neg
+	picture = GFX_news_event_french_parade
 	
 	major = yes
 
@@ -1184,3 +1510,587 @@ news_event = {
 #	is_triggered_only = yes
 #	
 #	option = {
+
+
+
+#Event for POR to cease war with Brasil if no hold in SA. Triggered in on action or stab events (?)
+
+country_event = {
+	id = bramja.43
+	title = bramja.43.t
+	desc = bramja.43.d
+	picture = GFX_report_event_generic_riot
+
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		name = bramja.43.a
+		ai_chance = {
+			base = 3
+		}
+		every_country = {
+			limit = { has_war_with = BRA }
+			white_peace = BRA
+		}
+		add_stability = 0.40
+
+		add_timed_idea = {
+			idea = neutrality_idea
+			days = 730
+		}
+		
+		add_popularity = {
+			ideology = fascism
+			popularity = 0.15
+		}
+		add_popularity = {
+			ideology = democratic
+			popularity = 0.15
+		}
+		#Seems event wasnt made, but loc under bramja.44
+		#hidden_effect = {
+		#	news_event = { id = bramja.39 days = 1 }
+		#}
+		if = {
+			limit = {
+				has_country_flag = crisis_solution_in_progress
+			}
+			clr_country_flag = crisis_solution_in_progress
+		}
+		if = {
+			limit = {
+				has_country_flag = crisis_in_progress
+			}
+			clr_country_flag = crisis_in_progress
+		}
+		if = {
+			limit = {
+				OR = {
+					has_idea = draft_dodging
+					has_idea = draft_dodging_2
+					has_idea = draft_dodging_3
+				}
+			}
+			remove_ideas =  { 
+				draft_dodging 
+				draft_dodging_2
+				draft_dodging_3
+			}
+		}
+		if = {
+			limit = {
+				OR = {
+					has_idea = strikes_1 
+					has_idea = strikes_2
+					has_idea = strikes_3
+				}
+			}
+			remove_ideas =  {
+				strikes_1 
+				strikes_2
+				strikes_3
+			}
+		}
+		if = {
+			limit = {
+				OR = {
+					has_idea = mutiny_1
+					has_idea = mutiny_2
+					has_idea = mutiny_3
+				}
+			}
+			remove_ideas =  { 
+				mutiny_1 
+				mutiny_2
+				mutiny_3
+			}
+		}
+	}
+	
+	option = {
+		name = bramja.43.b
+		ai_chance = {
+			base = 0
+		}
+		add_stability = -0.1
+		add_war_support = -0.1
+		random_list = {
+			10 = {
+				start_civil_war = {
+					ideology = democratic
+				}
+			}
+			10 = {
+				start_civil_war = {
+					ideology = communism
+				}
+			}
+		}
+	}
+}
+
+#News events for Persia Diktat by GER, variations depending Reza deposed/countenanced or not
+
+#News Events Diktat 
+news_event = { #Rescue
+	id = bramja.45
+	title = bramja.45.t
+	desc = bramja.45.d
+	picture = GFX_news_event_italian_tank_desert 
+	
+	major = yes
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = bramja.45.a
+		trigger = {
+			NOT = { tag = ROOT }
+		}
+	}
+	option = {
+		name = bramja.45.b
+		trigger = {
+			tag = ROOT
+		}
+	}
+}
+
+news_event = { #chill
+	id = bramja.46
+	title = bramja.46.t
+	desc = bramja.46.d
+	picture = GFX_news_event_italian_tank_desert 
+	
+	major = yes
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = bramja.46.a
+		trigger = {
+			NOT = { tag = ROOT }
+		}
+	}
+	option = {
+		name = bramja.46.b
+		trigger = {
+			tag = ROOT
+		}
+	}
+}
+
+
+# Events for South African ultimatum & Coup/CW when Axis domination Africa, Triggered by decision GER. 
+
+#1st: SAF asked to bend its knee by GER.
+country_event = {
+	id = bramja.47
+	title =  bramja.47.t
+	desc =  bramja.47.d
+	picture = GFX_report_event_german_volunteers
+	
+	is_triggered_only = yes
+	
+	option = { # Resist but face civil war
+		name = bramja.47.a
+		ai_chance = {
+			base = 10
+			modifier = {
+				factor = 0
+				surrender_progress > 0.2
+			}
+			modifier = {
+				factor = 0.5
+				fascism > 0.25
+			}
+		}
+		
+		add_timed_idea = {
+			idea = SAF_greyshirts_no_Smuts 
+				days = 365
+		}
+		add_popularity = {
+			ideology = fascism
+			popularity = 0.2
+		}
+		add_popularity = {
+			ideology = neutrality
+			popularity = 0.15
+		}
+		add_political_power = -100
+		
+		hidden_effect = {  #Randomize slightly the moment
+			country_event = { id = bramja.49 days = 5 random_days = 4}
+		}
+	}
+	
+	option = { # Nationalist Afrikaners win out.
+		name = bramja.47.b
+		ai_chance = {
+			base = 20
+			modifier = {
+				factor = 0
+				has_government = communism
+			}
+			modifier = {
+				factor = 0.5
+				AND = {
+					fascism < 0.15
+					Neutrality < 0.15
+				}
+			}
+		}
+		
+		if = {
+			limit = {
+				SAF = { is_subject = yes }
+			}
+			overlord = {
+				set_autonomy = {
+					target = PREV
+					autonomy_state = autonomy_free
+				}
+			}
+		}
+		
+		leave_faction = yes
+
+		GER = { # Check this ok??
+    		set_autonomy = { target = SAF autonomy_state = autonomy_reichsprotectorate freedom_level = 0.75 }
+    	}
+
+		every_country = {
+			limit = { has_war_with = SAF }
+			white_peace = PREV
+		}
+		
+		add_timed_idea = {
+			idea = SAF_greyshirts_takeover
+			days = 365
+		}
+		add_opinion_modifier = { target = ENG modifier = SAF_anti_british_sentiment }
+		add_ideas = SAF_strong_apartheid
+		
+		hidden_effect = {
+		if = {
+			limit = {
+				NOT = { has_idea = SAF_worker_restrictions }
+			}
+			add_ideas = { SAF_worker_restrictions }
+		}
+
+		if = {
+			limit = {
+				has_idea = SAF_history_of_segregation_2
+			}
+			swap_ideas = {
+				remove_idea = SAF_history_of_segregation_2
+				add_idea = SAF_history_of_segregation
+			}
+		}
+		else_if = {
+			limit = {
+				has_idea = SAF_history_of_segregation_3
+			}
+			swap_ideas = {
+				remove_idea = SAF_history_of_segregation_3
+				add_idea = SAF_history_of_segregation
+			}
+		}
+		else_if = {
+			limit = {
+				has_idea = SAF_rural_volunteers
+			}
+			remove_ideas = SAF_rural_volunteers
+			add_ideas = SAF_history_of_segregation
+		}
+		else_if = {
+			limit = {
+				NOT = { has_idea = SAF_history_of_segregation }
+			}
+			add_ideas = SAF_history_of_segregation
+		}
+
+			set_popularities = {
+			democratic = 25
+			fascism = 55
+			communism = 10
+			neutrality = 10
+			}
+	
+			#load_focus_tree = { tree = south_african_focus keep_completed = no }
+			unlock_national_focus = SAF_abandon_westminster
+			unlock_national_focus = SAF_split_in_the_party
+		
+			create_country_leader = {
+				name = "Oswald Pirow"
+				desc = ""
+				picture = "gfx/leaders/SAF/Portrait_Europe_Generic_new_7.tga"
+				expire = "1965.1.1"
+				ideology = nazism
+				traits = {
+					anti_communist
+				}
+			}
+			set_party_name = { ideology = fascism long_name = SAF_fascism_nop_long name = SAF_fascism_nop }
+			set_cosmetic_tag = SAF_SANP
+
+			random_country = {
+				limit = {
+					original_tag = GER
+					has_government = fascism
+				}
+				set_country_flag = saf_fascist_uprising # Affects GER ai_strategy
+			}
+
+			load_oob = "SAF_F_civil_war"
+
+			division_template = {
+				name = "Greyshirts Militia"
+				priority = 2
+				division_names_group = SAF_GAR_01 
+				regiments = {
+					infantry = { x = 0 y = 0 }
+					infantry = { x = 0 y = 1 }
+					infantry = { x = 0 y = 2 }
+		
+					infantry = { x = 1 y = 0 }
+					infantry = { x = 1 y = 1 }
+					infantry = { x = 1 y = 2 }
+
+					infantry = { x = 2 y = 0 }
+					infantry = { x = 2 y = 1 }
+					infantry = { x = 2 y = 2 }
+					
+					artillery_brigade = { x = 3 y = 0 } 
+					artillery_brigade = { x = 3 y = 1 } 
+				}
+				support = {
+					engineer = { x = 0 y = 0 } 		
+					recon_cav = { x = 0 y = 1 } 		
+					DIV_HQ = { x = 1 y = 0 } 				
+				}
+			}
+
+			541 = {
+				create_unit = {
+					division = "name = \"1st Greyshirts Militia\" division_template = \"Greyshirts Militia\" start_experience_factor = 0.5" 
+					owner = SAF
+				}	
+			}
+			division_template = {
+				name = "Stormjaers Militia"
+				priority = 2
+				division_names_group = SAF_GAR_01 
+				regiments = {
+					infantry = { x = 0 y = 0 }
+					infantry = { x = 0 y = 1 }
+					infantry = { x = 0 y = 2 }
+		
+					infantry = { x = 1 y = 0 }
+					infantry = { x = 1 y = 1 }
+					infantry = { x = 1 y = 2 }
+
+					infantry = { x = 2 y = 0 }
+					infantry = { x = 2 y = 1 }
+					infantry = { x = 2 y = 2 }
+					
+					artillery_brigade = { x = 3 y = 0 } 
+					artillery_brigade = { x = 3 y = 1 } 
+				}
+				support = {
+					engineer = { x = 0 y = 0 } 		
+					recon_cav = { x = 0 y = 1 } 		
+					DIV_HQ = { x = 1 y = 0 } 				
+				}
+			}
+
+			541 = {
+				create_unit = {
+					division = "name = \"1st Stormjaers Militia\" division_template = \"Stormjaers Militia\" start_experience_factor = 0.5" 
+					owner = SAF
+				}	
+			}
+			news_event = { id = bramja.48 }
+		}
+	}
+}
+
+#TO DO: Split news event in 2 due to length
+
+news_event = { #1st News on event if SAFR Acceppts without issue Ger ultimatum
+	id = bramja.48
+	title = bramja.48.t
+	desc = bramja.48.d
+	picture = GFX_news_event_dietsche_rijk
+	
+	major = yes
+	
+	fire_only_once = yes
+	
+	is_triggered_only = yes
+	
+	option = { # Ghastly
+		name = bramja.48.a
+		trigger = {
+			NOT = { tag = GER }
+			NOT = { is_in_faction_with = GER }
+		}
+	}
+	option = { # Thucydides
+		name = bramja.48.b
+		trigger = {
+			OR = {
+				is_in_faction_with = GER
+				tag = GER
+			}
+		}
+		news_event = { id = bramja.52 hours = 2 }
+	}
+}
+
+country_event = { # Event if SAFR stayed with Brits-->CW; spawned SAFR idea add.
+	id = bramja.49
+	hidden = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = bramja.49.a
+		
+		
+		complete_national_focus = SAF_abandon_westminster
+		complete_national_focus = SAF_split_in_the_party
+		complete_national_focus = SAF_support_the_german_coup
+
+		#hidden_effect = {
+			random_country = {
+				limit = {
+					original_tag = SAF
+					has_government = fascism
+				}
+				add_timed_idea = {
+					idea = SAF_greyshirts_takeover
+					days = 365
+				}
+				add_ideas = SAF_strong_apartheid
+				#load_focus_tree = { tree = { south_african_focus keep_completed = no } }
+			}
+		#}
+	}
+}
+
+
+#Operation Zoroaster events: fail / success.-->add pic to operation
+
+#!!!Change Picture here if possible!!!
+country_event = { # Failed ATTEMPT TO FREE THE SHAH
+	id = bramja.50
+	title =  bramja.50.t
+	desc =  bramja.50.d
+	picture = GFX_report_event_german_elite_troops_inspected
+	
+	is_triggered_only = yes
+	
+	option = { # Failed, try again
+		name = bramja.50.a
+		
+		army_experience = 5
+		add_war_support = -0.03
+	}
+}
+
+
+# TO DO: add next stage chain: - Ask support but more control GER; GER choice SS or OKW; resistance removal for PER, add options ENG/allies to counteract if still potential!
+
+news_event = { #Shah Freed
+	id = bramja.51
+	title = bramja.51.t
+	desc = bramja.51.d
+	picture = GFX_news_event_churchill_ruins
+	
+	major = yes
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		hidden_effect = {
+			PER = {
+				retire_country_leader = yes
+				create_country_leader = {
+					name = "Reza Shah Pahlavi"
+					desc = "POLITICS_REZA_SHAH_PAHLAVI_DESC_freed"
+					picture = "Portrait_Iran_Reza_Shah_Pahlavi.dds"
+					expire = "1965.1.1"
+					ideology = despotism
+					traits = {
+						indomitable_perseverance
+						anti_democrat
+					}
+				} # Rescue mission  fixED these traits.
+				add_stability = 0.15
+				add_war_support = 0.05
+				remove_ideas = PER_unstable_monarchy
+			}
+		}
+	}
+
+	option = { # German Humour
+		name = bramja.51.a
+		trigger = {
+			tag = FROM
+			is_in_faction_with = FROM
+		}
+	}
+	option = { # Damn them
+		name = bramja.51.b
+		trigger = {
+			has_war_with = FROM
+		}
+	}
+	option = { # Bravo
+		name = bramja.51.c
+		trigger = {
+			NOT = {
+				OR = {
+					tag = FROM
+					is_in_faction_with = FROM
+					has_war_with = FROM
+				}
+			}
+		}
+	}
+}
+
+news_event = { #2nd News on event if SAFR Acceppts without issue Ger ultimatum
+	id = bramja.52
+	title = bramja.52.t
+	desc = bramja.52.d
+	picture = GFX_news_event_dietsche_rijk
+	
+	major = yes
+	
+	fire_only_once = yes
+	
+	is_triggered_only = yes
+	
+	option = { # Ghastly
+		name = bramja.52.a
+		trigger = {
+			NOT = { tag = GER }
+			NOT = { is_in_faction_with = GER }
+		}
+	}
+	option = { # Thucydides
+		name = bramja.52.b
+		trigger = {
+			OR = {
+				is_in_faction_with = GER
+				tag = GER
+			}
+		}
+	}
+}

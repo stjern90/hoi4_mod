@@ -373,7 +373,7 @@ focus_tree = {
 		relative_position_id = ITA_regia_marina
 		x = 2
 		y = 7
-		cost = 7
+		cost = 6
 
 		ai_will_do = {
 
@@ -404,7 +404,7 @@ focus_tree = {
 		x = -3
 		y = 3
 
-		cost = 5
+		cost = 3
 
 		ai_will_do = {
 
@@ -434,9 +434,9 @@ focus_tree = {
 		relative_position_id = ITA_regia_marina
 		x = -1
 		y = 3
-		cost = 6.3
+		cost = 4.3
 		ai_will_do = {
-			factor = 1
+			factor = 3
 		}	
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
@@ -459,7 +459,7 @@ focus_tree = {
 		y = 5
 		cost = 2.5
 		ai_will_do = {
-			factor = 1
+			factor = 3
 		}	
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		available = {
@@ -548,10 +548,10 @@ focus_tree = {
 		y = 6
 		prerequisite = { focus = ITA_unsinkable_carrier focus = ITA_zara focus = ITA_battleship_focus_2 }
 		
-		cost = 6
+		cost = 3
 		
 		ai_will_do = {
-			factor = 1
+			factor = 3
 		}
 		available_if_capitulated = no
 		
@@ -572,10 +572,10 @@ focus_tree = {
 		prerequisite = { focus = ITA_sea_warfare focus = ITA_ciclone focus = ITA_landing_craft_focus }
 
 		
-		cost = 5
+		cost = 3
 
 		ai_will_do = {
-			factor = 1
+			factor = 3
 		}
         search_filters = { FOCUS_FILTER_RESEARCH }
 		available_if_capitulated = yes
@@ -819,9 +819,9 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 		relative_position_id = ITA_regia_marina
 		x = -2
 		y = 4
-		cost = 6.2
+		cost = 5.2
 		ai_will_do = {
-			factor = 1
+			factor = 3
 		}	
 		completion_reward = {
 			114 = {
@@ -882,7 +882,7 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 		y = 5
 		cost = 3
 		ai_will_do = {
-			factor = 1
+			factor = 3
 		}	
 		completion_reward = {
 			if = { limit = { has_tech = improved_medium_battery }
@@ -975,7 +975,7 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 		relative_position_id = ITA_regia_marina
 		x = 2
 		y = 8
-		cost = 5
+		cost = 3
 		ai_will_do = {
 			factor = 5
 		}
@@ -3335,8 +3335,12 @@ search_filters = { FOCUS_FILTER_POLITICAL }
 		y = 5	
 		search_filters = {FOCUS_FILTER_ANNEXATION}
 
-		available = {			
-			has_government = fascism		
+		available = {
+			is_subject = no
+			OR = {
+				has_government = neutrality
+				has_government = fascism
+			}
 			country_exists = ALB
 			date > 1939.1.1
 			NOT = { has_war_with = ALB }
@@ -3350,7 +3354,7 @@ search_filters = { FOCUS_FILTER_POLITICAL }
 			modifier = {
 				factor = 0
 				date < 1939.1.1
-			}	
+			}
 		}	
 
 		completion_reward = {
@@ -3399,9 +3403,9 @@ search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL }
 				factor = 0
 				date < 1939.5.1
 			}	
-		}	
+		}
 		
-		completion_reward = {	
+		completion_reward = {
             add_popularity = { ideology = fascism popularity = -0.05 }
 			add_war_support = -0.02
 			diplomatic_relation = { country = GER
@@ -3411,7 +3415,7 @@ search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL }
 			}		
 			ITA = {
 				add_opinion_modifier = { target = GER modifier = ger_ita_alliance_focus }				
-			}				
+			}
 			hidden_effect = {
 				news_event = { hours = 6 id = news.184 }
 			}
@@ -3428,7 +3432,7 @@ search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL }
 		}
 	}
 
-	focus = { 
+	focus = {
 		id = ITA_join_the_axis
 		icon = GFX_focus_chi_mission_to_germany
 		prerequisite = { focus = ITA_pact_of_steel }		
@@ -3459,6 +3463,9 @@ search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL }
 
         
 		available  = {
+			is_subject = no
+			is_in_faction = no
+			GER = { is_subject = no }					 
 			OR = {
 				FRA = { has_capitulated = yes }
 				FRA = { surrender_progress > 0.2 }
@@ -3468,6 +3475,12 @@ search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL }
 
 		available_if_capitulated = yes
 
+		bypass = {
+			ITA = {
+				NOT = { is_in_faction_with = GER }
+				is_in_faction = yes
+			}
+		}
 		completion_reward = {
 
 		custom_effect_tooltip = ITA_join_axis_declare_war_tt
@@ -3477,10 +3490,10 @@ search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL }
 				country_event = italy.404
 			}
 
-			swap_ideas = { 
+			swap_ideas = {
 				remove_idea = vittoria_mutilata
 				add_idea = parola_di_ordine_vincere
-			}				
+			}
 		}
 	}
 
@@ -3518,41 +3531,30 @@ search_filters = { FOCUS_FILTER_POLITICAL }
 
 		}			
 
-		
-
 		ai_will_do = {
-
 			factor = 2
-
 			modifier = {
-
 				factor = 0
-
 				OR = {
-
-				is_historical_focus_on = yes
-
-				date < 1940.7.1
-
+					is_historical_focus_on = yes
+					date < 1940.7.1
 				}
-
 			}
-
-		}	
+		}
+		bypass = {
+			ITA = {
+					NOT = { is_in_faction_with = GER }
+					is_in_faction = yes
+			}
+		}
 
 		completion_reward = {
 
-		add_war_support = 0.12
-
-
+			add_war_support = 0.12
 			set_rule = { can_create_factions = yes }
-
 			create_faction = "italy_empire_faction"
 
-
-
 			if = {
-
 				limit = {
 
 					BUL = { 
@@ -3595,10 +3597,8 @@ search_filters = { FOCUS_FILTER_POLITICAL }
 				news_event = { hours = 6 id = news.185 }
 
 			}
-
-		}			
-
-	}	
+		}
+	}
 
 	focus = {
 		id = ITA_romania_friend
@@ -3613,6 +3613,7 @@ search_filters = { FOCUS_FILTER_POLITICAL }
 			factor = 1
 		}
 		available = {
+			is_subject = no	  
 			country_exists = ROM
 			NOT = {
 				has_war_with = ROM
@@ -3646,7 +3647,7 @@ search_filters = { FOCUS_FILTER_POLITICAL }
 			}
 		}		
 	}
-	focus = { 
+	focus = {
 		id = ITA_expand_the_industries
 		icon = GFX_goal_construction_engineering
 		x = 33
@@ -3657,9 +3658,9 @@ search_filters = { FOCUS_FILTER_INDUSTRY }
 			factor = 10
 		}
 
-		available = { }	
+		available = { }
 
-		completion_reward = { 	
+		completion_reward = {
             custom_effect_tooltip = available_political_advisor
 			show_ideas_tooltip = ITA_paolo_thaon_di_revel
             custom_effect_tooltip = available_political_advisor
@@ -3672,6 +3673,7 @@ search_filters = { FOCUS_FILTER_INDUSTRY }
 		icon = GFX_coastal_defense
 		prerequisite = { focus = ITA_expand_the_industries }
 		available = {
+			is_subject = no
 				ITA = {
 				controls_state = 115
 				controls_state = 156
@@ -3759,7 +3761,7 @@ search_filters = { FOCUS_FILTER_INDUSTRY }
 		relative_position_id = ITA_expand_the_industries
 		x = -2
 		y = 2
-		cost = 7.2
+		cost = 5.2
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
 		custom_effect_tooltip = ITA_alpin_defenses_tt
@@ -4395,7 +4397,7 @@ search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL }
 		relative_position_id = ITA_expand_the_industries
 		x = 0
 		y = 5
-		cost = 4
+		cost = 3
 		ai_will_do = {
 			factor = 5
 		}
@@ -4686,7 +4688,7 @@ search_filters = { FOCUS_FILTER_POLITICAL }
 		ai_will_do = {
 			factor = 10
 		}
-		cost = 5
+		cost = 4
 search_filters = { FOCUS_FILTER_POLITICAL }
 		available = { 
 			177 = { is_controlled_by_ROOT_or_ally = yes }		
@@ -4775,7 +4777,7 @@ search_filters = { FOCUS_FILTER_POLITICAL }
 		ai_will_do = {
 			factor = 10
 		}
-		cost = 3.8
+		cost = 2.8
 search_filters = { FOCUS_FILTER_POLITICAL }
 		available = { 
 			116 = { is_controlled_by_ROOT_or_ally = yes }			
@@ -4816,7 +4818,7 @@ search_filters = { FOCUS_FILTER_POLITICAL }
 		ai_will_do = {
 			factor = 10
 		}
-		cost = 5
+		cost = 3
 search_filters = { FOCUS_FILTER_POLITICAL }
 		available = { 
 			182 = { is_controlled_by_ROOT_or_ally = yes }		
@@ -5038,7 +5040,7 @@ search_filters = { FOCUS_FILTER_INDUSTRY }
 						level = 2
 						instant_build = yes
 					}
-			}			
+			}
 			random_owned_controlled_state = {
 				prioritize = { 451 }
 					limit = {
@@ -5060,7 +5062,7 @@ search_filters = { FOCUS_FILTER_INDUSTRY }
 		relative_position_id = ITA_expand_the_industries
 		x = 3
 		y = 3
-		cost = 5
+		cost = 4
 		ai_will_do = {
 			factor = 5
 		}
@@ -6115,14 +6117,14 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 				bonus = 0.5 
 				uses = 1
 				technology = early_medium_tank
-				}
+			}
 
-				add_tech_bonus = {
+			add_tech_bonus = {
 				name = armor_bonus
 				bonus = 0.5 
 				uses = 1
 				category = cat_light_armor
-				}
+			}
 				
 				if = { limit = { is_ai = yes }
 			navy_experience = 150  # can start designing ships again
@@ -7463,7 +7465,7 @@ search_filters = { FOCUS_FILTER_POLITICAL }
         relative_position_id = ITA_empire_lost
 		x = -1
 		y = 1
-		cost = 5
+		cost = 3
 
 		ai_will_do = {
 			factor = 12
