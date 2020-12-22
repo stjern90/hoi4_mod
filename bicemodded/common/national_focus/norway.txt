@@ -145,7 +145,7 @@ focus_tree = {
 					fixed_ship_secondaries_slot = ship_light_battery_1
 					fixed_ship_armor_slot = ship_armor_cruiser_0
 					mid_1_custom_slot = ship_light_battery_1
-					mid_2_custom_slot = ship_light_battery_1
+					mid_2_custom_slot = empty
 					rear_1_custom_slot = ship_mine_layer_1
 				}
 			}
@@ -191,6 +191,7 @@ focus_tree = {
 				}
 				add_extra_state_shared_building_slots = 2
 			}
+			army_experience = 20
 		}
 	}
 	
@@ -367,10 +368,14 @@ focus_tree = {
 		}
 		
 		available = {
+			controls_state = 110
 		}
 	
 		completion_reward = {
-			
+			custom_effect_tooltip = NOR_royal_spawn
+			hidden_effect = {
+				load_oob = NOR_royal
+			}
 		}
 	}
 	
@@ -417,7 +422,7 @@ focus_tree = {
 		prerequisite = { focus = NOR_norwegianarmy }
 		relative_position_id = NOR_norwegianarmy
 		x = 1
-		y = 2
+		y = 1
 		cost = 10.2
 		ai_will_do = {
 			factor = 1
@@ -492,7 +497,7 @@ focus_tree = {
 		prerequisite = { focus = NOR_norwegianarmy }
 		relative_position_id = NOR_norwegianarmy
 		x = -1
-		y = 2
+		y = 1
 		cost = 8.2
 		ai_will_do = {
 			factor = 1
@@ -691,6 +696,32 @@ focus_tree = {
 	}
 	
 	focus = {
+		id = NOR_bardufoss
+		icon = GFX_airport_effort
+		prerequisite = { focus = NOR_transport }
+		relative_position_id = NOR_transport
+		x = -1
+		y = 1
+		cost = 4.2
+		ai_will_do = {
+			factor = 1
+		}
+		
+		available = {
+		}
+	
+		completion_reward = {
+			144 = {
+				add_building_construction = {
+					type = air_base
+					instant_build = yes
+					level = 2
+				}
+			}
+		}
+	}
+	
+	focus = {
 		id = NOR_fighter
 		icon = GFX_goal_FIN_fighter
 		prerequisite = { focus = NOR_aircraft }
@@ -803,7 +834,7 @@ focus_tree = {
 		}
 		
 		available = {
-			date > 1936.8.1
+			date > 1936.7.1
 		}
 	
 		completion_reward = {
@@ -977,12 +1008,128 @@ focus_tree = {
 	}
 	
 	focus = {
-		id = NOR_arctic_oil
-		icon = GFX_sib_camps
-		prerequisite = { focus = NOR_navystaff_byitself focus = NOR_navystaff_merged } 
+		id = NOR_navy_industry
+		icon = GFX_goal_naval_industry
+		prerequisite = { focus = NOR_navystaff_byitself focus = NOR_navystaff_merged }
 		relative_position_id = NOR_navystaff_byitself
 		x = 1
 		y = 1
+		cost = 7.2
+		
+		ai_will_do = {
+			factor = 40
+		}
+		
+		available = {
+			
+		}
+		
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					is_coastal = yes
+				}
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+				add_extra_state_shared_building_slots = 2
+			}
+		}
+	}
+	
+	focus = {
+		id = NOR_naval_tactics
+		icon = GFX_goal_navy_tac
+		prerequisite = { focus = NOR_navy_industry }
+		prerequisite = { focus = NOR_omsettingstax }
+		relative_position_id = NOR_navy_industry
+		x = -1
+		y = 1
+		cost = 9.5
+		
+		ai_will_do = {
+			factor = 40
+		}
+		
+		available = {
+			
+		}
+		
+		completion_reward = {
+			add_tech_bonus = {
+				category = naval_doctrine
+				bonus = 0.5
+				uses = 2
+			}
+		}
+	}
+	
+	focus = {
+		id = NOR_jean_bombeur
+		icon = GFX_goal_nav_bomber
+		prerequisite = { focus = NOR_navy_industry }
+		prerequisite = { focus = NOR_norwegianarmy }
+		relative_position_id = NOR_navy_industry
+		x = 1
+		y = 2
+		cost = 8.2
+		
+		ai_will_do = {
+			factor = 40
+		}
+		
+		available = {
+			
+		}
+		
+		completion_reward = {
+			add_tech_bonus = {
+				category = naval_bomber
+				bonus = 0.6
+				uses = 1
+			}
+		}
+	}
+	
+	focus = {
+		id = NOR_claim_antarctica
+		icon = GFX_goal_FIN_winter
+		prerequisite = { focus = NOR_jean_bombeur }
+		prerequisite = { focus = NOR_biggest_merchant }
+		relative_position_id = NOR_jean_bombeur
+		x = -1
+		y = 1
+		cost = 10
+		
+		ai_will_do = {
+			factor = 40
+		}
+		
+		available = {
+			
+		}
+		
+		completion_reward = {
+			add_political_power = 100
+			add_stability = 0.05
+			add_offsite_building = {
+				type = industrial_complex
+				level = 1
+			}
+		}
+	}
+	
+	focus = {
+		id = NOR_arctic_oil
+		icon = GFX_sib_camps
+		prerequisite = { focus = NOR_claim_antarctica }
+		prerequisite = { focus = NOR_viking_spirit }
+		prerequisite = { focus = NOR_expeditions }
+		relative_position_id = NOR_navystaff_byitself
+		x = 0
+		y = 5
 		cost = 12.2
 		ai_will_do = {
 			factor = 1
@@ -990,14 +1137,15 @@ focus_tree = {
 		
 		available = {
 			controls_state = 144
-			date > 1942.1.1
+			date > 1941.1.1
+			has_global_flag = NOR_exp3
 		}
 	
 		completion_reward = {
 			add_resource = {
 				state = 144
 				type = oil
-				amount = 8
+				amount = 12
 			}
 			add_resource = {
 				state = 144
@@ -1079,7 +1227,7 @@ focus_tree = {
 	}
 	
 	focus = {
-		id = NOR_industry
+		id = NOR_industry10
 		icon = GFX_goal_cold_civ
 		x = 0
 		y = 0
@@ -1107,10 +1255,9 @@ focus_tree = {
 	focus = {
 		id = NOR_annual
 		icon = GFX_goal_CZE_foreign
-		prerequisite = { focus = NOR_industry }
-		prerequisite = { focus = NOR_election }
-		relative_position_id = NOR_industry
-		x = 1
+		prerequisite = { focus = NOR_industry10 }
+		relative_position_id = NOR_industry10
+		x = 0
 		y = 1
 		cost = 5
 		
@@ -1161,8 +1308,9 @@ focus_tree = {
 		id = NOR_publicworks
 		icon = GFX_goal_NOR_arbeit
 		prerequisite = { focus = NOR_annual }
+		prerequisite = { focus = NOR_bank }
 		relative_position_id = NOR_annual
-		x = 0
+		x = 1
 		y = 1
 		cost = 6.2
 		ai_will_do = {
@@ -1176,11 +1324,13 @@ focus_tree = {
 			random_owned_controlled_state = {
 				add_building_construction = {
 					type = industrial_complex
-					level = 2
+					level = 1
 					instant_build = yes
 				}
-				add_extra_state_shared_building_slots = 2
+				add_extra_state_shared_building_slots = 1
 			}
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = NOR_egede
 		}
 	}
 	
@@ -1283,10 +1433,36 @@ focus_tree = {
 		id = NOR_industry5
 		icon = GFX_goal_farming
 		prerequisite = { focus = NOR_railway_network }
+		mutually_exclusive = { focus = NOR_industry6 }
 		relative_position_id = NOR_railway_network
-		x = 0
+		x = -1
 		y = 1
 		cost = 8.3
+		ai_will_do = {
+			factor = 1
+		}
+		
+		available = {
+		}
+	
+		completion_reward = {
+			add_tech_bonus = {
+				category = industry
+				bonus = 0.5
+				uses = 3
+			}
+		}
+	}
+	
+	focus = {
+		id = NOR_industry6
+		icon = GFX_goal_FIN_countryside
+		prerequisite = { focus = NOR_railway_network }
+		mutually_exclusive = { focus = NOR_industry5 }
+		relative_position_id = NOR_railway_network
+		x = 1
+		y = 1
+		cost = 11
 		ai_will_do = {
 			factor = 1
 		}
@@ -1317,14 +1493,133 @@ focus_tree = {
 	}
 	
 	focus = {
+		id = NOR_economicexp
+		icon = GFX_goal_FIN_rural
+		prerequisite = { focus = NOR_industry6 focus = NOR_industry5 }
+		prerequisite = { focus = NOR_rearmament }
+		relative_position_id = NOR_industry6
+		x = 1
+		y = 1
+		cost = 7.5
+		ai_will_do = {
+			factor = 1
+		}
+		
+		available = {
+		}
+	
+		completion_reward = {
+			add_political_power = 100
+			if = {
+				limit = { has_idea = NOR_greatdep }
+					swap_ideas = {
+						add_idea = NOR_greatdep2
+						remove_idea = NOR_greatdep
+					}
+			}
+			else_if = {
+				limit = { has_idea = NOR_greatdep2 }
+				swap_ideas = {
+					add_idea = NOR_greatdep3
+					remove_idea = NOR_greatdep2
+				}
+			}
+			else_if = {
+				limit = { has_idea = NOR_greatdep3 }
+				swap_ideas = {
+					add_idea = NOR_greatdep4
+					remove_idea = NOR_greatdep3
+				}
+			}
+			else_if = {
+				limit = { has_idea = NOR_greatdep4 }
+				swap_ideas = {
+					add_idea = NOR_greatdep5
+					remove_idea = NOR_greatdep4
+				}
+			}
+			else_if = {
+				limit = { has_idea = NOR_greatdep5 }
+				remove_ideas = NOR_greatdep5
+			}
+		}
+	}
+	
+	focus = {
+		id = NOR_biggest_merchant
+		icon = GFX_goal_FIN_convoy
+		prerequisite = { focus = NOR_naval_tactics }
+		relative_position_id = NOR_naval_tactics
+		x = 0
+		y = 1
+		cost = 11.7
+		ai_will_do = {
+			factor = 1
+		}
+		
+		available = {
+			has_equipment = {
+				convoy > 299
+			}
+		}
+	
+		completion_reward = {
+			add_ideas = NOR_biggest
+		}
+	}
+	
+	focus = {
+		id = NOR_expeditions
+		icon = GFX_world_savior
+		prerequisite = { focus = NOR_biggest_merchant }
+		relative_position_id = NOR_biggest_merchant
+		x = -1
+		y = 1
+		cost = 8
+		ai_will_do = {
+			factor = 1
+		}
+		
+		available = {
+		}
+	
+		completion_reward = {
+			unlock_decision_category_tooltip = NOR_war
+		}
+	}
+	
+	focus = {
+		id = NOR_bank
+		icon = GFX_banks
+		prerequisite = { focus = NOR_election }
+		prerequisite = { focus = NOR_industry10 }
+		relative_position_id = NOR_industry10
+		x = 2
+		y = 1
+		cost = 7
+		ai_will_do = {
+			factor = 1
+		}
+		
+		available = {
+		}
+	
+		completion_reward = {
+			add_timed_idea = {
+				idea = NOR_banking
+				days = 280
+			}
+		}
+	}
+	
+	focus = {
 		id = NOR_lang1
 		icon = GFX_goal_NOR_language
-		prerequisite = { focus = NOR_industry5 }
-		prerequisite = { focus = NOR_rearmament }
+		prerequisite = { focus = NOR_industry5 focus = NOR_industry6 }
 		relative_position_id = NOR_industry5
 		x = 1
 		y = 1
-		cost = 5.5
+		cost = 11.5
 		ai_will_do = {
 			factor = 1
 		}
@@ -1337,6 +1632,7 @@ focus_tree = {
 				add_idea = NOR_language5
 				remove_idea = NOR_language4
 			}
+			add_research_slot = 1
 		}
 	}
 	
@@ -1365,12 +1661,70 @@ focus_tree = {
 	
 	focus = {
 		id = NOR_viking_spirit
-		icon = GFX_goal_NOR_norway
+		icon = GFX_goal_NOR_industrial
 		prerequisite = { focus = NOR_lang1 }
+		prerequisite = { focus = NOR_economicexp }
 		relative_position_id = NOR_lang1
-		x = 1
+		x = 2
 		y = 1
-		cost = 2.5
+		cost = 14.5
+		ai_will_do = {
+			factor = 0
+		}
+		
+		available = {
+			date > 1940.5.1
+			has_tech = construction3
+		}
+	
+		completion_reward = {
+			random_owned_controlled_state = {
+				prioritize = { 144 }
+				add_building_construction = {
+					type = industrial_complex
+					level = 3
+					instant_build = yes
+				}
+				add_extra_state_shared_building_slots = 3
+			}
+			random_owned_controlled_state = {
+				prioritize = { 142 }
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+				add_extra_state_shared_building_slots = 2
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_coastal = yes
+				}
+				prioritize = { 143 }
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+				add_extra_state_shared_building_slots = 2
+			}
+			add_tech_bonus = {
+				category = heavy_industry
+				bonus = 0.75
+				uses = 2
+			}
+			add_stability = -0.1
+		}
+	}
+	
+	focus = {
+		id = NOR_abandon
+		icon = GFX_focus_hol_abandon_the_gold_standard
+		prerequisite = { focus = NOR_viking_spirit }
+		relative_position_id = NOR_viking_spirit
+		x = -1
+		y = 1
+		cost = 5
 		ai_will_do = {
 			factor = 1
 		}
@@ -1379,7 +1733,61 @@ focus_tree = {
 		}
 	
 		completion_reward = {
-			add_ideas = NOR_viking
+			if = {
+				limit = { has_idea = NOR_greatdep }
+					swap_ideas = {
+						add_idea = NOR_greatdep2
+						remove_idea = NOR_greatdep
+					}
+			}
+			else_if = {
+				limit = { has_idea = NOR_greatdep2 }
+				swap_ideas = {
+					add_idea = NOR_greatdep3
+					remove_idea = NOR_greatdep2
+				}
+			}
+			else_if = {
+				limit = { has_idea = NOR_greatdep3 }
+				swap_ideas = {
+					add_idea = NOR_greatdep4
+					remove_idea = NOR_greatdep3
+				}
+			}
+			else_if = {
+				limit = { has_idea = NOR_greatdep4 }
+				swap_ideas = {
+					add_idea = NOR_greatdep5
+					remove_idea = NOR_greatdep4
+				}
+			}
+			else_if = {
+				limit = { has_idea = NOR_greatdep5 }
+				remove_ideas = NOR_greatdep5
+			}
+		}
+	}
+	
+	focus = {
+		id = NOR_healthcare
+		icon = GFX_goal_CZE_healthcare
+		prerequisite = { focus = NOR_viking_spirit }
+		relative_position_id = NOR_viking_spirit
+		x = 1
+		y = 1
+		cost = 7
+		ai_will_do = {
+			factor = 1
+		}
+		
+		available = {
+		}
+	
+		completion_reward = {
+			add_timed_idea = {
+				idea = CZE_health2
+				days = 365
+			}
 		}
 	}
 	
@@ -1400,6 +1808,7 @@ focus_tree = {
 		}
 	
 		completion_reward = {
+			unlock_decision_category_tooltip = NOR_purchases
 		}
 	}
 	
