@@ -273,7 +273,19 @@ country_event = {
 		tag = FRA
 		has_war_with = GER
 		has_government = neutrality
-		is_in_faction = no 
+		NOT = { FRA = { is_in_faction_with = ENG } }
+		OR = {
+			is_in_faction = no
+			AND = {
+				is_faction_leader = yes
+				all_allied_country = {
+					OR = {
+						has_capitulated = yes
+						is_puppet = yes 
+					} 
+				}
+			}
+		}
 		OR = {
 			HOL = { OR = { has_capitulated = yes exists = no is_puppet = yes } }	
 			BEL = { OR = { has_capitulated = yes exists = no is_puppet = yes } }
@@ -292,6 +304,7 @@ country_event = {
 	
 	option = { # join Alies
 		name = bramja.25.a
+		FRA = { dismantle_faction = yes }
 		ENG = { country_event = { id = bramja.26 days = 1 } }
 	}
 	
@@ -890,7 +903,7 @@ news_event = {
 	id = bramja.28
 	title = bramja.28.t
 	desc = bramja.28.d
-	picture = GFX_report_news_event_allied_neg
+	picture = GFX_news_event_french_parade
 	
 	major = yes
 
@@ -1184,3 +1197,256 @@ news_event = {
 #	is_triggered_only = yes
 #	
 #	option = {
+
+
+
+#Event for POR to cease war with Brasil if no hold in SA. Triggered in on action or stab events (?)
+
+country_event = {
+	id = bramja.43
+	title = bramja.43.t
+	desc = bramja.43.d
+	picture = GFX_report_event_generic_riot
+
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		name = bramja.43.a
+		ai_chance = {
+			base = 3
+		}
+		every_country = {
+			limit = { has_war_with = BRA }
+			white_peace = BRA
+		}
+		add_stability = 0.25
+
+		add_timed_idea = {
+			idea = neutrality_idea
+			days = 730
+		}
+		
+		add_popularity = {
+			ideology = fascism
+			popularity = 0.15
+		}
+		add_popularity = {
+			ideology = democratic
+			popularity = 0.15
+		}
+		#Seems event wasnt made, but loc under bramja.44
+		#hidden_effect = {
+		#	news_event = { id = bramja.39 days = 1 }
+		#}
+		if = {
+			limit = {
+				has_country_flag = crisis_solution_in_progress
+			}
+			clr_country_flag = crisis_solution_in_progress
+		}
+		if = {
+			limit = {
+				has_country_flag = crisis_in_progress
+			}
+			clr_country_flag = crisis_in_progress
+		}
+		if = {
+			limit = {
+				OR = {
+					has_idea = draft_dodging
+					has_idea = draft_dodging_2
+					has_idea = draft_dodging_3
+				}
+			}
+			remove_ideas =  { 
+				draft_dodging 
+				draft_dodging_2
+				draft_dodging_3
+			}
+		}
+		if = {
+			limit = {
+				OR = {
+					has_idea = strikes_1 
+					has_idea = strikes_2
+					has_idea = strikes_3
+				}
+			}
+			remove_ideas =  {
+				strikes_1 
+				strikes_2
+				strikes_3
+			}
+		}
+		if = {
+			limit = {
+				OR = {
+					has_idea = mutiny_1
+					has_idea = mutiny_2
+					has_idea = mutiny_3
+				}
+			}
+			remove_ideas =  { 
+				mutiny_1 
+				mutiny_2
+				mutiny_3
+			}
+		}
+	}
+	
+	option = {
+		name = bramja.43.b
+		ai_chance = {
+			base = 0
+		}
+		add_stability = -0.1
+		add_war_support = -0.1
+		random_list = {
+			10 = {
+				start_civil_war = {
+					ideology = democratic
+				}
+			}
+			10 = {
+				start_civil_war = {
+					ideology = communism
+				}
+			}
+		}
+	}
+}
+
+#News events for Persia Diktat by GER, variations depending Reza deposed/countenanced or not
+
+#News Events Diktat 
+news_event = { #Rescue
+	id = bramja.45
+	title = bramja.45.t
+	desc = bramja.45.d
+	picture = GFX_news_event_italian_tank_desert 
+	
+	major = yes
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = bramja.45.a
+		trigger = {
+			NOT = { tag = ROOT }
+		}
+	}
+	option = {
+		name = bramja.45.b
+		trigger = {
+			tag = ROOT
+		}
+	}
+}
+
+news_event = { #chill
+	id = bramja.46
+	title = bramja.46.t
+	desc = bramja.46.d
+	picture = GFX_news_event_italian_tank_desert 
+	
+	major = yes
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = bramja.46.a
+		trigger = {
+			NOT = { tag = ROOT }
+		}
+	}
+	option = {
+		name = bramja.46.b
+		trigger = {
+			tag = ROOT
+		}
+	}
+}
+
+
+#Operation Zoroaster events: fail / success.-->add pic to operation
+
+#!!!Change Picture here if possible!!!
+country_event = { # Failed ATTEMPT TO FREE THE SHAH
+	id = bramja.50
+	title =  bramja.50.t
+	desc =  bramja.50.d
+	picture = GFX_report_event_german_elite_troops_inspected
+	
+	is_triggered_only = yes
+	
+	option = { # Failed, try again
+		name = bramja.50.a
+		
+		army_experience = 5
+		add_war_support = -0.03
+	}
+}
+
+
+# TO DO: add next stage chain: - Ask support but more control GER; GER choice SS or OKW; resistance removal for PER, add options ENG/allies to counteract if still potential!
+
+news_event = { #Shah Freed
+	id = bramja.51
+	title = bramja.51.t
+	desc = bramja.51.d
+	picture = GFX_news_event_churchill_ruins
+	
+	major = yes
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		hidden_effect = {
+			PER = {
+				retire_country_leader = yes
+				create_country_leader = {
+					name = "Reza Shah Pahlavi"
+					desc = "POLITICS_REZA_SHAH_PAHLAVI_DESC_freed"
+					picture = "Portrait_Iran_Reza_Shah_Pahlavi.dds"
+					expire = "1965.1.1"
+					ideology = despotism
+					traits = {
+						indomitable_perseverance
+						anti_democrat
+					}
+				} # Rescue mission  fixED these traits.
+				add_stability = 0.15
+				add_war_support = 0.05
+				remove_ideas = PER_unstable_monarchy
+			}
+		}
+	}
+
+	option = { # German Humour
+		name = bramja.51.a
+		trigger = {
+			tag = FROM
+			is_in_faction_with = FROM
+		}
+	}
+	option = { # Damn them
+		name = bramja.51.b
+		trigger = {
+			has_war_with = FROM
+		}
+	}
+	option = { # Bravo
+		name = bramja.51.c
+		trigger = {
+			NOT = {
+				OR = {
+					tag = FROM
+					is_in_faction_with = FROM
+					has_war_with = FROM
+				}
+			}
+		}
+	}
+}

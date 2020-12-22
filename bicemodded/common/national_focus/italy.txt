@@ -436,7 +436,7 @@ focus_tree = {
 		y = 3
 		cost = 6.3
 		ai_will_do = {
-			factor = 1
+			factor = 3
 		}	
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
@@ -459,7 +459,7 @@ focus_tree = {
 		y = 5
 		cost = 2.5
 		ai_will_do = {
-			factor = 1
+			factor = 3
 		}	
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		available = {
@@ -551,7 +551,7 @@ focus_tree = {
 		cost = 6
 		
 		ai_will_do = {
-			factor = 1
+			factor = 3
 		}
 		available_if_capitulated = no
 		
@@ -575,7 +575,7 @@ focus_tree = {
 		cost = 5
 
 		ai_will_do = {
-			factor = 1
+			factor = 3
 		}
         search_filters = { FOCUS_FILTER_RESEARCH }
 		available_if_capitulated = yes
@@ -821,7 +821,7 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 		y = 4
 		cost = 6.2
 		ai_will_do = {
-			factor = 1
+			factor = 3
 		}	
 		completion_reward = {
 			114 = {
@@ -882,7 +882,7 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 		y = 5
 		cost = 3
 		ai_will_do = {
-			factor = 1
+			factor = 3
 		}	
 		completion_reward = {
 			if = { limit = { has_tech = improved_medium_battery }
@@ -3335,8 +3335,12 @@ search_filters = { FOCUS_FILTER_POLITICAL }
 		y = 5	
 		search_filters = {FOCUS_FILTER_ANNEXATION}
 
-		available = {			
-			has_government = fascism		
+		available = {
+			is_subject = no
+			OR = {
+				has_government = neutrality
+				has_government = fascism
+			}
 			country_exists = ALB
 			date > 1939.1.1
 			NOT = { has_war_with = ALB }
@@ -3350,7 +3354,7 @@ search_filters = { FOCUS_FILTER_POLITICAL }
 			modifier = {
 				factor = 0
 				date < 1939.1.1
-			}	
+			}
 		}	
 
 		completion_reward = {
@@ -3459,6 +3463,9 @@ search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL }
 
         
 		available  = {
+			is_subject = no
+			is_in_faction = no
+			GER = { is_subject = no }					 
 			OR = {
 				FRA = { has_capitulated = yes }
 				FRA = { surrender_progress > 0.2 }
@@ -3468,6 +3475,12 @@ search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL }
 
 		available_if_capitulated = yes
 
+		bypass = {
+			ITA = {
+				NOT = { is_in_faction_with = GER }
+				is_in_faction = yes
+			}
+		}
 		completion_reward = {
 
 		custom_effect_tooltip = ITA_join_axis_declare_war_tt
@@ -3518,41 +3531,30 @@ search_filters = { FOCUS_FILTER_POLITICAL }
 
 		}			
 
-		
-
 		ai_will_do = {
-
 			factor = 2
-
 			modifier = {
-
 				factor = 0
-
 				OR = {
-
-				is_historical_focus_on = yes
-
-				date < 1940.7.1
-
+					is_historical_focus_on = yes
+					date < 1940.7.1
 				}
-
 			}
-
-		}	
+		}
+		bypass = {
+			ITA = {
+					NOT = { is_in_faction_with = GER }
+					is_in_faction = yes
+			}
+		}
 
 		completion_reward = {
 
-		add_war_support = 0.12
-
-
+			add_war_support = 0.12
 			set_rule = { can_create_factions = yes }
-
 			create_faction = "italy_empire_faction"
 
-
-
 			if = {
-
 				limit = {
 
 					BUL = { 
@@ -3595,10 +3597,8 @@ search_filters = { FOCUS_FILTER_POLITICAL }
 				news_event = { hours = 6 id = news.185 }
 
 			}
-
-		}			
-
-	}	
+		}
+	}
 
 	focus = {
 		id = ITA_romania_friend
@@ -3613,6 +3613,7 @@ search_filters = { FOCUS_FILTER_POLITICAL }
 			factor = 1
 		}
 		available = {
+			is_subject = no	  
 			country_exists = ROM
 			NOT = {
 				has_war_with = ROM
@@ -3672,6 +3673,7 @@ search_filters = { FOCUS_FILTER_INDUSTRY }
 		icon = GFX_coastal_defense
 		prerequisite = { focus = ITA_expand_the_industries }
 		available = {
+			is_subject = no
 				ITA = {
 				controls_state = 115
 				controls_state = 156
