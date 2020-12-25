@@ -650,16 +650,14 @@ focus_tree = {
 				}
 				add_extra_state_shared_building_slots = 1
 			}
-			
-			hidden_effect = { add_ideas = NOR_poorrail }
 		}
 	}
 	
 	focus = {
 		id = NOR_fascism
-		icon = GFX_NEW_fascism
+		icon = GFX_goal_NOR_fascist2
 		prerequisite = { focus = NOR_rearmament }
-
+		mutually_exclusive = { focus = NOR_constitutional }
 		relative_position_id = NOR_rearmament
 		x = 1
 		y = 1
@@ -707,7 +705,7 @@ focus_tree = {
 	
 	focus = {
 		id = NOR_ban_opposition
-		icon = GFX_Goal_Roma_Berlino
+		icon = GFX_goal_purge_opposition
 		prerequisite = { focus = NOR_join_axis }
 
 		relative_position_id = NOR_join_axis
@@ -723,6 +721,14 @@ focus_tree = {
 		}
 	
 		completion_reward = {
+			add_popularity = {
+				ideology = democratic
+				popularity = -1
+			}
+			add_popularity = {
+				ideology = communism
+				popularity = -1
+			}
 		}
 	}
 	
@@ -756,7 +762,7 @@ focus_tree = {
 	
 	focus = {
 		id = NOR_nation_reborn
-		icon = GFX_Goal_Roma_Berlino
+		icon = GFX_goal_NOR_quisling
 		prerequisite = { focus = NOR_anti_bolshevist_volunteers focus = NOR_ban_opposition }
 
 		relative_position_id = NOR_join_axis
@@ -775,6 +781,8 @@ focus_tree = {
     		if = { limit = { has_country_leader = { ruling_only = yes name = "Josef Terboven" } }
 		    	retire_country_leader = yes 
 		    }
+			add_war_support = 0.05
+			
 		}
 	}
 	
@@ -782,7 +790,7 @@ focus_tree = {
 		id = NOR_constitutional
 		icon = GFX_monarchism
 		prerequisite = { focus = NOR_rearmament }
-
+		mutually_exclusive = { focus = NOR_fascism }
 		relative_position_id = NOR_rearmament
 		x = -1
 		y = 1
@@ -795,6 +803,14 @@ focus_tree = {
 		}
 	
 		completion_reward = {
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.04
+			}
+			add_popularity = {
+				ideology = neutrality
+				popularity = 0.04
+			}
 		}
 	}
 	
@@ -802,7 +818,6 @@ focus_tree = {
 		id = NOR_allies
 		icon = GFX_allies
 		prerequisite = { focus = NOR_constitutional }
-
 		relative_position_id = NOR_rearmament
 		x = -1
 		y = 4
@@ -812,9 +827,16 @@ focus_tree = {
 		}
 		
 		available = {
+			is_in_faction = no
 		}
 	
 		completion_reward = {
+			ENG = {
+				country_event = {
+					id = norway.10
+					hours = 12
+				}
+			}
 		}
 	}
 	
@@ -1447,7 +1469,7 @@ focus_tree = {
 		prerequisite = { focus = NOR_expeditions }
 		relative_position_id = NOR_navystaff_byitself
 		x = 0
-		y = 6
+		y = 7
 		cost = 12.2
 		ai_will_do = {
 			factor = 1
@@ -1810,9 +1832,37 @@ focus_tree = {
 	}
 	
 	focus = {
+		id = NOR_agrarian
+		icon = GFX_goal_FIN_agriculture
+		prerequisite = { focus = NOR_industry6 focus = NOR_industry5 }
+		relative_position_id = NOR_industry6
+		x = -1
+		y = 1
+		cost = 7.5
+		ai_will_do = {
+			factor = 1
+		}
+		
+		available = {
+		}
+	
+		completion_reward = {
+			random_owned_controlled_state = {
+				prioritize = { 110 }
+				add_building_construction = {
+					type = steel_refinery
+					level = 2
+					instant_build = yes
+				}
+				add_extra_state_shared_building_slots = 2
+			}
+		}
+	}
+	
+	focus = {
 		id = NOR_economicexp
 		icon = GFX_goal_FIN_rural
-		prerequisite = { focus = NOR_industry6 focus = NOR_industry5 }
+		prerequisite = { focus = NOR_agrarian }
 		prerequisite = { focus = NOR_rearmament }
 		relative_position_id = NOR_industry6
 		x = 1
@@ -1931,9 +1981,9 @@ focus_tree = {
 	
 	focus = {
 		id = NOR_democratic_principles
-		icon = GFX_banks
+		icon = GFX_goal_NOR_socdem
 		prerequisite = { focus = NOR_nygaardsvold_cabinet }
-
+		mutually_exclusive = { focus = NOR_softer_fatherland_league focus = NOR_swedish_reconsiliation }
 		relative_position_id = NOR_nygaardsvold_cabinet
 		x = -2
 		y = 1
@@ -1954,9 +2004,9 @@ focus_tree = {
 	
 	focus = {
 		id = NOR_swedish_reconsiliation
-		icon = GFX_Goal_Befriend_Sweden
+		icon = GFX_goal_NOR_sweden
 		prerequisite = { focus = NOR_nygaardsvold_cabinet }
-
+		mutually_exclusive = { focus = NOR_democratic_principles focus = NOR_softer_fatherland_league }
 		relative_position_id = NOR_nygaardsvold_cabinet
 		x = 0
 		y = 1
@@ -1976,9 +2026,9 @@ focus_tree = {
 	
 	focus = {
 		id = NOR_softer_fatherland_league
-		icon = GFX_banks
+		icon = GFX_goal_NOR_fascist
 		prerequisite = { focus = NOR_nygaardsvold_cabinet }
-
+		mutually_exclusive = { focus = NOR_democratic_principles focus = NOR_swedish_reconsiliation }
 		relative_position_id = NOR_nygaardsvold_cabinet
 		x = 2
 		y = 1
@@ -2063,7 +2113,7 @@ focus_tree = {
 	focus = {
 		id = NOR_lang1
 		icon = GFX_goal_NOR_language
-		prerequisite = { focus = NOR_industry5 focus = NOR_industry6 }
+		prerequisite = { focus = NOR_agrarian }
 		relative_position_id = NOR_industry5
 		x = 1
 		y = 2
