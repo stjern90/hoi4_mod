@@ -13,31 +13,31 @@ focus_tree = {
 	default = no
 	reset_on_civilwar = no
 
+	
+	
 	focus = {
-		id = NOR_election
-		icon = GFX_goal_NOR_election
-		x = 3
+		id = NOR_nygaardsvold_cabinet
+		icon = GFX_goal_government_icon
+		
+		x = 5
 		y = 0
-		cost = 1
+		cost = 4.3
 		ai_will_do = {
 			factor = 1
 		}
 		
-		available = {
-			has_global_flag = NOR_election_36
-		}
 	
 		completion_reward = {
-			add_political_power = 25
+			add_country_leader_trait = resolute_social_democrat	
 		}
 	}
 	
 	focus = {
 		id = NOR_norwegiannavy
 		icon = GFX_goal_NOR_navy
-		x = 7
+		x = 11
 		y = 0
-		cost = 7.1
+		cost = 7.2
 		ai_will_do = {
 			factor = 1
 		}
@@ -131,13 +131,14 @@ focus_tree = {
 		}
 	
 		completion_reward = {
+		    custom_effect_tooltip = NOR_cruiser_ship_tt
 			create_equipment_variant = {
-				name = "HNoMS Olav Tryggvason"
+				name = "Olav Tryggvason"
 				type = ship_hull_cruiser_2
 				name_group = NOR_CL_HISTORICAL
 				parent_version = 0
-				modules = {
-					fixed_ship_battery_slot = dp_light_battery
+				modules = { 
+					fixed_ship_battery_slot = ship_light_medium_battery_1
 					fixed_ship_anti_air_slot = ship_anti_air_2
 					fixed_ship_fire_control_system_slot = ship_fire_control_system_1
 					fixed_ship_radar_slot = empty
@@ -153,26 +154,27 @@ focus_tree = {
 				add_idea = NOR_outdated_navy2
 				remove_idea = NOR_outdated_navy1
 			}
-			hidden_effect = {
+			hidden_effect = { 
 				add_equipment_production = {
 					equipment = {
-						type = basic_ship_hull_cruiser
+						type = ship_hull_cruiser_2
 						creator = "NOR" 
-						version_name = "HNoMS Olav Tryggvason"
+						version_name = "Olav Tryggvason"
 					}
 					name = "HNoMS Olav Tryggvason" 
 					requested_factories = 1
-					progress = 0.3
+					progress = 0.4
 					amount = 1
 				}
 			}
+			
 		}
 	}
 	
 	focus = {
 		id = NOR_landforces
 		icon = GFX_goal_NOR_coat
-		x = 10
+		x = 14
 		y = 0
 		cost = 7.1
 		ai_will_do = {
@@ -439,6 +441,12 @@ focus_tree = {
 					province = 14
 					instant_build = yes
 				}
+				add_building_construction = {
+					type = coastal_bunker
+					level = 1
+					province = 6115
+					instant_build = yes
+				}
 			}
 			142 = {
 				add_building_construction = {
@@ -559,11 +567,10 @@ focus_tree = {
 	focus = {
 		id = NOR_omsettingstax
 		icon = GFX_goal_POL_nationaldefense
-		prerequisite = { focus = NOR_armedneutrality }
 		prerequisite = { focus = NOR_navystaff_byitself focus = NOR_navystaff_merged }
 		relative_position_id = NOR_merge
 		x = -4
-		y = 2
+		y = 3
 		cost = 6.5
 		ai_will_do = {
 			factor = 1
@@ -586,11 +593,11 @@ focus_tree = {
 	focus = {
 		id = NOR_rearmament
 		icon = GFX_goal_FIN_manner
+		prerequisite = { focus = NOR_homeguard focus = NOR_german_advisors_focus }
 		prerequisite = { focus = NOR_omsettingstax }
-		prerequisite = { focus = NOR_homeguard }
 		relative_position_id = NOR_omsettingstax
-		x = -1
-		y = 1
+		x = -3
+		y = 2
 		cost = 6.5
 		ai_will_do = {
 			factor = 1
@@ -647,9 +654,202 @@ focus_tree = {
 	}
 	
 	focus = {
+		id = NOR_fascism
+		icon = GFX_goal_NOR_fascist2
+		prerequisite = { focus = NOR_rearmament }
+		mutually_exclusive = { focus = NOR_constitutional }
+		relative_position_id = NOR_rearmament
+		x = 1
+		y = 1
+		cost = 6.5
+		ai_will_do = {
+			factor = 1
+		}
+		
+		available = {
+		    fascism > 0.15
+		}
+	
+		completion_reward = {
+		    add_timed_idea = { idea = nationalism days = 365 }
+			add_stability = -0.15
+			
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = generic_fascist_demagogue 
+		}
+	}
+	
+	focus = {
+		id = NOR_join_axis
+		icon = GFX_Goal_Roma_Berlino
+		prerequisite = { focus = NOR_fascism }
+
+		relative_position_id = NOR_rearmament
+		x = 1
+		y = 4
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+		
+		available = {
+		    has_government = fascism
+		}
+	
+		completion_reward = {
+		    GER = {
+				country_event = generic.2
+			}
+		}
+	}
+	
+	focus = {
+		id = NOR_ban_opposition
+		icon = GFX_goal_purge_opposition
+		prerequisite = { focus = NOR_join_axis }
+
+		relative_position_id = NOR_join_axis
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+		
+		available = {
+		    has_government = fascism
+		}
+	
+		completion_reward = { 
+                        add_stability = -0.05
+			add_popularity = {
+				ideology = democratic
+				popularity = -0.15
+			}
+			add_popularity = {
+				ideology = communism
+				popularity = -0.15
+			}
+                        set_politics = {
+	
+	elections_allowed = no
+}
+		}
+	}
+	
+	focus = {
+		id = NOR_anti_bolshevist_volunteers
+		icon = GFX_focus_generic_military_mission
+		prerequisite = { focus = NOR_join_axis }
+
+		relative_position_id = NOR_join_axis
+		x = -1
+		y = 1
+		
+		cost = 7.2
+		ai_will_do = {
+			factor = 1
+		}
+		available = {
+			GER = { has_war_with = SOV }
+		}
+		
+		bypass = {
+
+		}
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		completion_reward = {
+			add_ideas = { FRA_anti_bolshevist_volunteers }
+		}
+	}
+	
+	focus = {
+		id = NOR_nation_reborn
+		icon = GFX_goal_NOR_quisling
+		prerequisite = { focus = NOR_anti_bolshevist_volunteers focus = NOR_ban_opposition }
+
+		relative_position_id = NOR_join_axis
+		x = 0
+		y = 2
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+		
+		available = {
+		    has_government = fascism
+		}
+	
+		completion_reward = {
+    		if = { limit = { has_country_leader = { ruling_only = yes name = "Josef Terboven" } }
+		    	retire_country_leader = yes 
+		    }
+			add_war_support = 0.05
+			
+		}
+	}
+	
+	focus = {
+		id = NOR_constitutional
+		icon = GFX_monarchism
+		prerequisite = { focus = NOR_rearmament }
+		mutually_exclusive = { focus = NOR_fascism }
+		relative_position_id = NOR_rearmament
+		x = -1
+		y = 1
+		cost = 3
+		ai_will_do = {
+			factor = 1
+		}
+		
+		available = {
+		}
+	
+		completion_reward = {
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.04
+			}
+			add_popularity = {
+				ideology = neutrality
+				popularity = 0.04
+			}
+		}
+	}
+	
+	focus = {
+		id = NOR_allies
+		icon = GFX_allies
+		prerequisite = { focus = NOR_constitutional }
+		relative_position_id = NOR_rearmament
+		x = -1
+		y = 4
+		cost = 3
+		ai_will_do = {
+			factor = 1
+		}
+		
+		available = {
+			is_in_faction = no
+			has_completed_focus = NOR_norwegianarmy
+		}
+	
+		completion_reward = {
+			ENG = {
+				country_event = {
+					id = norway.10
+					hours = 12
+				}
+			}
+		}
+	}
+	
+	focus = {
 		id = NOR_aircraft
 		icon = GFX_goal_NOR_airforce
-		x = 15
+		x = 19
 		y = 0
 		cost = 6
 		ai_will_do = {
@@ -663,7 +863,7 @@ focus_tree = {
 			110 = {
 				add_building_construction = {
 					type = air_base
-					level = 3
+					level = 2
 					instant_build = yes
 				}
 			}
@@ -822,11 +1022,33 @@ focus_tree = {
 	}
 	
 	focus = {
+		id = NOR_election
+		icon = GFX_goal_NOR_election
+		
+		prerequisite = { focus = NOR_softer_fatherland_league focus = NOR_democratic_principles focus = NOR_swedish_reconsiliation }
+		x = 5
+		y = 2
+		cost = 1
+		ai_will_do = {
+			factor = 1
+		}
+		
+		available = {
+			has_country_flag = NOR_election_36
+		}
+	
+		completion_reward = {
+			add_political_power = 25
+		}
+	}
+	
+	focus = {
 		id = NOR_school
 		icon = GFX_goal_NOR_open
-		prerequisite = { focus = NOR_election focus = NOR_norwegiannavy }
+		
+		prerequisite = { focus = NOR_election }
 		relative_position_id = NOR_election
-		x = 1
+		x = 0
 		y = 1
 		cost = 7.8
 		ai_will_do = {
@@ -834,7 +1056,6 @@ focus_tree = {
 		}
 		
 		available = {
-			date > 1936.7.1
 		}
 	
 		completion_reward = {
@@ -890,9 +1111,9 @@ focus_tree = {
 	focus = {
 		id = NOR_develophydro
 		icon = GFX_goal_NOR_hydro
-		prerequisite = { focus = NOR_bergen focus = NOR_publicworks }
-		relative_position_id = NOR_bergen
-		x = -1
+		prerequisite = { focus = NOR_school focus = NOR_publicworks }
+		relative_position_id = NOR_publicworks
+		x = 1
 		y = 1
 		cost = 5
 		ai_will_do = {
@@ -905,9 +1126,12 @@ focus_tree = {
 		completion_reward = {
 			add_resource = {
 				type = aluminium
-				amount = 12
+				amount = 10
 				state = 144
 			}
+			
+			custom_effect_tooltip = available_industrial_concern
+			show_ideas_tooltip = NOR_norsk_hydro
 		}
 	}
 	
@@ -990,7 +1214,7 @@ focus_tree = {
 		icon = GFX_goal_NOR_antiair
 		prerequisite = { focus = NOR_armedneutrality }
 		relative_position_id = NOR_armedneutrality
-		x = -1
+		x = 0
 		y = 1
 		cost = 5
 		
@@ -1040,13 +1264,139 @@ focus_tree = {
 	}
 	
 	focus = {
+		id = NOR_heavycruiser_project
+		icon = GFX_goal_generic_cruiser2
+		prerequisite = { focus = NOR_navy_industry }
+		relative_position_id = NOR_navy_industry
+		x = 0
+		y = 1
+		cost = 8.6
+		ai_will_do = {
+			factor = 1
+		}
+		
+		available = {
+			has_tech = basic_ship_hull_heavy_cruiser
+			has_tech = basic_secondary_battery
+			has_tech = basic_light_battery
+		}
+	
+		completion_reward = {
+		    custom_effect_tooltip = NOR_cruiser_ship_2_tt
+			custom_effect_tooltip = NOR_cruiser_ship_2_upg_tt
+			hidden_effect = {
+			if = { limit = { has_tech = basic_medium_battery has_tech = improved_secondary_battery }
+			create_equipment_variant = {
+				name = "Hakkon Class"
+				type = ship_hull_heavy_cruiser_2
+				name_group = NOR_CA_HISTORICAL
+				parent_version = 0
+				modules = { 
+					fixed_ship_battery_slot = ship_medium_battery_2
+					fixed_ship_anti_air_slot = ship_anti_air_2
+					fixed_ship_fire_control_system_slot = ship_fire_control_system_1
+					fixed_ship_radar_slot = empty
+					fixed_ship_engine_slot = cruiser_ship_engine_1
+					fixed_ship_secondaries_slot = ship_secondaries_2
+					fixed_ship_armor_slot = ship_armor_cruiser_1
+					mid_1_custom_slot = ship_torpedo_1
+					mid_2_custom_slot = empty
+					rear_1_custom_slot = ship_light_battery_2
+					rear_2_custom_slot = ship_light_medium_battery_2
+				}
+			}
+			}
+			else_if = { limit = { NOT = { has_tech = basic_medium_battery } has_tech = improved_secondary_battery }
+			
+			create_equipment_variant = {
+				name = "Hakkon Class"
+				type = ship_hull_heavy_cruiser_2
+				name_group = NOR_CA_HISTORICAL
+				parent_version = 0
+				modules = { 
+					fixed_ship_battery_slot = ship_medium_battery_1
+					fixed_ship_anti_air_slot = ship_anti_air_2
+					fixed_ship_fire_control_system_slot = ship_fire_control_system_1
+					fixed_ship_radar_slot = empty
+					fixed_ship_engine_slot = cruiser_ship_engine_1
+					fixed_ship_secondaries_slot = ship_secondaries_1
+					fixed_ship_armor_slot = ship_armor_cruiser_1
+					mid_1_custom_slot = ship_torpedo_1
+					mid_2_custom_slot = empty
+					rear_1_custom_slot = ship_light_battery_2
+					rear_2_custom_slot = ship_light_medium_battery_1
+				}
+			}
+			}
+			else_if = { limit = { has_tech = basic_medium_battery NOT = { has_tech = improved_secondary_battery } }
+			create_equipment_variant = {
+				name = "Hakkon Class"
+				type = ship_hull_heavy_cruiser_2
+				name_group = NOR_CA_HISTORICAL
+				parent_version = 0
+				modules = { 
+					fixed_ship_battery_slot = ship_medium_battery_2
+					fixed_ship_anti_air_slot = ship_anti_air_2
+					fixed_ship_fire_control_system_slot = ship_fire_control_system_1
+					fixed_ship_radar_slot = empty
+					fixed_ship_engine_slot = cruiser_ship_engine_1
+					fixed_ship_secondaries_slot = ship_secondaries_1
+					fixed_ship_armor_slot = ship_armor_cruiser_1
+					mid_1_custom_slot = ship_torpedo_1
+					mid_2_custom_slot = empty
+					rear_1_custom_slot = ship_light_battery_2
+					rear_2_custom_slot = ship_light_medium_battery_2
+				}
+			}
+			}
+			else_if = { limit = { NOT = { has_tech = basic_medium_battery } NOT = { has_tech = improved_secondary_battery } }
+			
+			create_equipment_variant = {
+				name = "Hakkon Class"
+				type = ship_hull_heavy_cruiser_2
+				name_group = NOR_CA_HISTORICAL
+				parent_version = 0
+				modules = { 
+					fixed_ship_battery_slot = ship_medium_battery_1
+					fixed_ship_anti_air_slot = ship_anti_air_2
+					fixed_ship_fire_control_system_slot = ship_fire_control_system_1
+					fixed_ship_radar_slot = empty
+					fixed_ship_engine_slot = cruiser_ship_engine_1
+					fixed_ship_secondaries_slot = ship_secondaries_1
+					fixed_ship_armor_slot = ship_armor_cruiser_1
+					mid_1_custom_slot = ship_torpedo_1
+					mid_2_custom_slot = empty
+					rear_1_custom_slot = ship_light_battery_2
+					rear_2_custom_slot = ship_light_medium_battery_1
+				}
+			}
+			}
+			}
+			hidden_effect = { 
+				add_equipment_production = {
+					equipment = {
+						type = ship_hull_heavy_cruiser_2
+						creator = "NOR" 
+						version_name = "Hakkon Class"
+					}
+					name = "HNoMS Hakkon" 
+					requested_factories = 1
+					progress = 0.4
+					amount = 1
+				}
+			}
+			
+		}
+	}
+	
+	focus = {
 		id = NOR_naval_tactics
 		icon = GFX_goal_navy_tac
 		prerequisite = { focus = NOR_navy_industry }
 		prerequisite = { focus = NOR_omsettingstax }
 		relative_position_id = NOR_navy_industry
 		x = -1
-		y = 1
+		y = 2
 		cost = 9.5
 		
 		ai_will_do = {
@@ -1100,7 +1450,7 @@ focus_tree = {
 		prerequisite = { focus = NOR_biggest_merchant }
 		relative_position_id = NOR_jean_bombeur
 		x = -1
-		y = 1
+		y = 2
 		cost = 10
 		
 		ai_will_do = {
@@ -1125,7 +1475,7 @@ focus_tree = {
 		prerequisite = { focus = NOR_expeditions }
 		relative_position_id = NOR_navystaff_byitself
 		x = 0
-		y = 5
+		y = 7
 		cost = 12.2
 		ai_will_do = {
 			factor = 1
@@ -1135,6 +1485,8 @@ focus_tree = {
 			controls_state = 144
 			date > 1941.1.1
 			has_global_flag = NOR_exp3
+			has_tech = excavation3
+			has_idea = NOR_norsk_hydro
 		}
 	
 		completion_reward = {
@@ -1254,7 +1606,7 @@ focus_tree = {
 		prerequisite = { focus = NOR_industry10 }
 		relative_position_id = NOR_industry10
 		x = 0
-		y = 1
+		y = 2
 		cost = 5
 		
 		ai_will_do = {
@@ -1303,13 +1655,12 @@ focus_tree = {
 	focus = {
 		id = NOR_publicworks
 		icon = GFX_goal_NOR_arbeit
-		prerequisite = { focus = NOR_annual }
-		prerequisite = { focus = NOR_bank }
+		prerequisite = { focus = NOR_annual focus = NOR_bank }
 		relative_position_id = NOR_annual
 		x = 1
 		y = 1
 		cost = 6.2
-		ai_will_do = {
+		ai_will_do = { 
 			factor = 1
 		}
 		
@@ -1317,13 +1668,10 @@ focus_tree = {
 		}
 	
 		completion_reward = {
-			random_owned_controlled_state = {
-				add_building_construction = {
-					type = industrial_complex
-					level = 1
-					instant_build = yes
-				}
-				add_extra_state_shared_building_slots = 1
+			add_tech_bonus = {
+				category = construction_tech
+				bonus = 0.5
+				uses = 2
 			}
 			custom_effect_tooltip = available_political_advisor
 			show_ideas_tooltip = NOR_egede
@@ -1346,6 +1694,7 @@ focus_tree = {
 		}
 	
 		completion_reward = {
+		    custom_effect_tooltip = NOR_bondepartei_tt
 			random_owned_controlled_state = {
 				add_building_construction = {
 					type = industrial_complex
@@ -1489,13 +1838,41 @@ focus_tree = {
 	}
 	
 	focus = {
+		id = NOR_agrarian
+		icon = GFX_goal_FIN_agriculture
+		prerequisite = { focus = NOR_industry6 focus = NOR_industry5 }
+		relative_position_id = NOR_industry6
+		x = -1
+		y = 1
+		cost = 7.5
+		ai_will_do = {
+			factor = 1
+		}
+		
+		available = {
+		}
+	
+		completion_reward = {
+			random_owned_controlled_state = {
+				prioritize = { 110 }
+				add_building_construction = {
+					type = steel_refinery
+					level = 1
+					instant_build = yes
+				}
+				add_extra_state_shared_building_slots = 1
+			}
+		}
+	}
+	
+	focus = {
 		id = NOR_economicexp
 		icon = GFX_goal_FIN_rural
-		prerequisite = { focus = NOR_industry6 focus = NOR_industry5 }
+		prerequisite = { focus = NOR_agrarian }
 		prerequisite = { focus = NOR_rearmament }
 		relative_position_id = NOR_industry6
 		x = 1
-		y = 1
+		y = 2
 		cost = 7.5
 		ai_will_do = {
 			factor = 1
@@ -1587,11 +1964,11 @@ focus_tree = {
 	focus = {
 		id = NOR_bank
 		icon = GFX_banks
-		prerequisite = { focus = NOR_election }
+		prerequisite = { focus = NOR_nygaardsvold_cabinet }
 		prerequisite = { focus = NOR_industry10 }
 		relative_position_id = NOR_industry10
 		x = 2
-		y = 1
+		y = 2
 		cost = 7
 		ai_will_do = {
 			factor = 1
@@ -1610,11 +1987,11 @@ focus_tree = {
 	
 	focus = {
 		id = NOR_democratic_principles
-		icon = GFX_banks
-		prerequisite = { focus = NOR_election }
-
-		relative_position_id = NOR_election
-		x = 20
+		icon = GFX_goal_NOR_socdem
+		prerequisite = { focus = NOR_nygaardsvold_cabinet }
+		mutually_exclusive = { focus = NOR_softer_fatherland_league focus = NOR_swedish_reconsiliation }
+		relative_position_id = NOR_nygaardsvold_cabinet
+		x = -2
 		y = 1
 		cost = 5
 		ai_will_do = {
@@ -1625,17 +2002,19 @@ focus_tree = {
 		}
 	
 		completion_reward = {
-			add_popularity = { ideology = democratic popularity = 0.04 }
+			add_popularity = { ideology = democratic popularity = 0.05 }
+			add_stability = 0.02
+			add_war_support = -0.02
 		}
 	}
 	
 	focus = {
 		id = NOR_swedish_reconsiliation
-		icon = GFX_banks
-		prerequisite = { focus = NOR_election }
-
-		relative_position_id = NOR_election
-		x = 22
+		icon = GFX_goal_NOR_sweden
+		prerequisite = { focus = NOR_nygaardsvold_cabinet }
+		mutually_exclusive = { focus = NOR_democratic_principles focus = NOR_softer_fatherland_league }
+		relative_position_id = NOR_nygaardsvold_cabinet
+		x = 0
 		y = 1
 		cost = 5
 		ai_will_do = {
@@ -1653,11 +2032,11 @@ focus_tree = {
 	
 	focus = {
 		id = NOR_softer_fatherland_league
-		icon = GFX_banks
-		prerequisite = { focus = NOR_election }
-
-		relative_position_id = NOR_election
-		x = 24
+		icon = GFX_goal_NOR_fascist
+		prerequisite = { focus = NOR_nygaardsvold_cabinet }
+		mutually_exclusive = { focus = NOR_democratic_principles focus = NOR_swedish_reconsiliation }
+		relative_position_id = NOR_nygaardsvold_cabinet
+		x = 2
 		y = 1
 		cost = 5
 		ai_will_do = {
@@ -1674,12 +2053,12 @@ focus_tree = {
 	
 	focus = {
 		id = NOR_sign_the_anti_comintern_pact
-		icon = GFX_banks
-		prerequisite = { focus = NOR_softer_fatherland_league }
-
-		relative_position_id = NOR_election
-		x = 24
-		y = 2
+		icon = GFX_goal_anti_comintern_pact
+		prerequisite = { focus = NOR_bergen }
+		prerequisite = { focus = NOR_retraite }
+		relative_position_id = NOR_bergen
+		x = 3
+		y = 1
 		cost = 5
 		ai_will_do = {
 			factor = 1
@@ -1702,12 +2081,48 @@ focus_tree = {
 	}
 	
 	focus = {
+		id = NOR_german_advisors_focus
+		icon = GFX_goal_molotov_ribbentrop_pact
+		prerequisite = { focus = NOR_sign_the_anti_comintern_pact }
+		x = 0
+		y = 1
+		relative_position_id = NOR_sign_the_anti_comintern_pact
+		cost = 10
+
+		ai_will_do = {
+			factor = 25
+		}
+
+		available = {
+			has_government = fascism
+			GER = { has_government = fascism }
+			NOT = { has_war_with = GER }
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = NOR_terboven
+			
+			add_stability = -0.08
+			
+			GER = {
+		    	add_opinion_modifier = { target = NOR modifier = medium_increase }
+	    	}
+			add_opinion_modifier = { target = GER modifier = medium_increase }
+		}
+	}
+	
+	focus = {
 		id = NOR_lang1
 		icon = GFX_goal_NOR_language
-		prerequisite = { focus = NOR_industry5 focus = NOR_industry6 }
+		prerequisite = { focus = NOR_agrarian }
 		relative_position_id = NOR_industry5
 		x = 1
-		y = 1
+		y = 2
 		cost = 11.5
 		ai_will_do = {
 			factor = 1
