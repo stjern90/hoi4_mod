@@ -246,6 +246,14 @@ focus_tree = {
 				add_idea = NOR_outdated_navy3
 				remove_idea = NOR_outdated_navy2
 			}
+			
+			random_unit_leader = {
+				limit = {
+					has_id = 1101
+				}
+				add_defense = 1
+				add_coordination = 1
+			}
 		}
 	}
 	
@@ -270,6 +278,13 @@ focus_tree = {
 			swap_ideas = {
 				add_idea = NOR_outdated_navy4
 				remove_idea = NOR_outdated_navy2
+			}
+			
+			random_unit_leader = {
+				limit = {
+					has_id = 1100
+				}
+				add_unit_leader_trait = naval_liason
 			}
 		}
 	}
@@ -364,7 +379,7 @@ focus_tree = {
 		relative_position_id = NOR_reform_army
 		x = 0
 		y = 1
-		cost = 10.5
+		cost = 10
 		ai_will_do = {
 			factor = 1
 		}
@@ -378,6 +393,51 @@ focus_tree = {
 			hidden_effect = {
 				load_oob = NOR_royal
 			}
+		}
+	}
+	
+	focus = {
+		id = NOR_military_college
+		icon = GFX_focus_generic_military_mission
+		prerequisite = { focus = NOR_guards }
+		relative_position_id = NOR_guards
+		x = 1
+		y = 1
+		cost = 8
+		ai_will_do = {
+			factor = 1
+		}
+		
+		available = {
+			controls_state = 110
+		}
+	
+		completion_reward = {
+		    army_experience = 25
+			hidden_effect = {
+			create_corps_commander = {
+    	name = "Jacob Hvinden Haug"
+	portrait_path = "gfx/leaders/NOR/Portrait_Norway_Jacob_Hvinden_Haug.dds"
+	traits = { cavalry_officer ranger }
+	skill = 3
+	attack_skill = 3
+	defense_skill = 2
+	planning_skill = 2
+	logistics_skill = 2
+}
+
+create_corps_commander = {  
+	name = "Birger Ljungberg"
+	portrait_path = "gfx/leaders/NOR/Portrait_Norway_Birger_Ljungberg.dds"
+	traits = { media_personality motorized_officer }
+	skill = 3
+	attack_skill = 2
+	defense_skill = 3
+	planning_skill = 3
+	logistics_skill = 2
+}
+}
+custom_effect_tooltip = NOR_military_college_tt
 		}
 	}
 	
@@ -847,6 +907,327 @@ focus_tree = {
 	}
 	
 	focus = {
+		id = NOR_allies
+		icon = GFX_allies
+		prerequisite = { focus = NOR_constitutional }
+		relative_position_id = NOR_rearmament
+		x = -1
+		y = 4
+		cost = 1
+		ai_will_do = {
+			factor = 1
+		}
+		
+		available = {
+			is_in_faction = no
+			has_completed_focus = NOR_norwegianarmy
+			OR = {
+			    threat > 0.9
+				NOT = { has_idea = neutrality_idea_nor }
+			}
+		}
+		
+		bypass = {
+		    is_in_faction_with = ENG
+		}
+		
+	
+		completion_reward = {
+		    effect_tooltip = { ENG = { add_to_faction = NOR add_stability = 0.05  custom_effect_tooltip = needs_approval } }
+		    
+		    hidden_effect = {
+			ENG = {
+				country_event = {
+					id = norway.10
+					hours = 12
+				}
+			}
+			}
+		}
+	}
+	 
+	focus = {
+		id = NOR_british_nav_experts
+		icon = GFX_ENG_battleship
+		prerequisite = { focus = NOR_allies }
+		relative_position_id = NOR_allies
+		x = -3
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+		
+		available = {
+			is_in_faction_withf = ENG
+		}
+		
+	
+		completion_reward = {
+		    navy_experience = 30
+		}
+	}
+	
+	focus = {
+		id = NOR_navy_funding
+		icon = GFX_ENG_battleship
+		prerequisite = { focus = NOR_british_nav_experts }
+		x = 0
+		y = 1
+		relative_position_id = NOR_british_nav_experts
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 25
+		}
+
+		available = {
+			if = {
+				limit = {
+					not = { has_dlc = "Man the Guns" }
+				}
+				has_tech = early_light_cruiser
+			}
+			else = {
+				has_tech = early_ship_hull_cruiser
+				has_tech = basic_battery
+			}
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			if = {
+				limit = {
+					not = { has_dlc = "Man the Guns" }
+				}
+				if = {
+					limit = { 
+						has_tech = basic_light_cruiser 
+					}
+					add_equipment_production = {
+						equipment = {
+							type = light_cruiser_2
+						}
+						requested_factories = 1
+						progress = 0.6
+						amount = 1
+					}
+					add_equipment_production = {
+						equipment = {
+							type = light_cruiser_2
+						}
+						requested_factories = 1
+						progress = 0.6
+						amount = 1
+					}
+					else = {
+						set_technology = { basic_light_cruiser = 1 }
+						custom_effect_tooltip = RAJ_navy_funding_effect
+					}
+				}
+			}
+			else = {
+				if = {
+					limit = {
+						has_tech = basic_ship_hull_cruiser
+						has_tech = basic_torpedo
+						has_tech = basic_medium_battery
+					}
+					create_equipment_variant = {
+						name = "North Sea Class"
+						type = ship_hull_cruiser_2
+						name_group = NOR_CL_HISTORICAL
+						parent_version = 0
+						modules = {
+							fixed_ship_battery_slot = ship_light_medium_battery_2
+							fixed_ship_anti_air_slot = ship_anti_air_1
+							fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+							fixed_ship_radar_slot = empty
+							fixed_ship_engine_slot = cruiser_ship_engine_2
+							fixed_ship_armor_slot = ship_armor_cruiser_1
+							fixed_ship_secondaries_slot = ship_light_battery_2
+							front_1_custom_slot = empty
+							mid_1_custom_slot = ship_torpedo_1
+							mid_2_custom_slot = ship_extra_fuel_tank_0
+							rear_1_custom_slot = ship_light_medium_battery_2
+						}
+					}
+					custom_effect_tooltip = RAJ_navy_funding_effect_mtg
+					hidden_effect = {
+						add_equipment_production = {
+							equipment = {
+								type = ship_hull_cruiser_2 
+								creator = "NOR"
+								version_name = "North Sea Class"
+							}
+							requested_factories = 1
+							progress = 0.8
+							amount = 1
+						}
+						add_equipment_production = {
+							equipment = {
+								type = ship_hull_cruiser_2
+								creator = "NOR"
+								version_name = "North Sea Class"
+							}
+							requested_factories = 1
+							progress = 0.8
+							amount = 1
+						}
+					}
+					else = {
+						set_technology = { 
+							basic_ship_hull_cruiser = 1 
+							basic_torpedo = 1
+							basic_medium_battery = 1
+						}
+						navy_experience = 20
+						custom_effect_tooltip = RAJ_navy_funding_effect
+					}
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = NOR_raf_funding
+		icon = GFX_ENG_airplane_deal
+		prerequisite = { focus = NOR_allies }
+		relative_position_id = NOR_allies
+		x = -1
+		y = 1
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 25
+		}
+
+		available = {
+			is_in_faction_withf = ENG
+			has_war = yes
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			if = {
+				limit = { 
+					ENG = { 
+						has_tech = tech_UK_fighther_equipment_1_a
+						NOT = { has_tech = tech_UK_fighther_equipment_2_a }
+					} 
+				}
+				add_equipment_to_stockpile = { type = UK_fighther_equipment_1_a amount = 100 producer = ENG } 
+			}
+			if = {
+				limit = { 
+					ENG = { 
+						OR = {
+						AND = {
+						has_tech = tech_UK_fighther_equipment_2_a
+						NOT = { has_tech = tech_UK_fighther_equipment_1_c }
+						}
+						AND = {
+						has_tech = tech_UK_fighther_equipment_2_a
+						NOT = { has_tech = tech_UK_fighther_equipment_4_a }
+						}
+						}
+					}
+				}
+				add_equipment_to_stockpile = { type = UK_fighther_equipment_0_c amount = 100 producer = ENG } 
+			}
+			if = {
+				limit = { 
+					ENG = { 
+						has_tech = tech_UK_fighther_equipment_1_c
+						NOT = { has_tech = tech_UK_fighther_equipment_2_c }
+					} 
+				}
+				add_equipment_to_stockpile = { type = UK_fighther_equipment_1_c amount = 100 producer = ENG } 
+			}
+			if = {
+				limit = { 
+					ENG = { 
+						OR = {
+						has_tech = tech_UK_fighther_equipment_2_c 
+						has_tech = tech_UK_fighther_equipment_4_a
+						} 
+					}
+				}
+				add_equipment_to_stockpile = { type = UK_fighther_equipment_2_c amount = 100 producer = ENG } 
+			}
+		}
+	}
+	
+	focus = {
+		id = NOR_army_funding 
+		icon = GFX_arms_artillery_grenades
+		prerequisite = { focus = NOR_navy_funding focus = NOR_raf_funding }
+		x = -1
+		y = 2
+		relative_position_id = NOR_raf_funding
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 25
+		}
+
+		available = {
+		   is_in_faction_with = ENG
+		}
+
+		bypass = { 
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+		    add_equipment_to_stockpile = { type = infantry_equipment_0 amount = 1250 producer = ENG } 
+			add_equipment_to_stockpile = { type = artillery_equipment_0 amount = 175 producer = ENG }
+			add_equipment_to_stockpile = { type = horse_equipment_0 amount = 500 producer = ENG }
+		    add_equipment_to_stockpile = { type = infantry_uniforms_0 amount = 500 producer = ENG }
+			add_equipment_to_stockpile = { type = support_equipment_1 amount = 250 producer = ENG }
+			add_equipment_to_stockpile = { type = HQ_equipment_0 amount = 250 producer = ENG }
+			add_equipment_to_stockpile = { type = motorized_lia_equipment_01 amount = 250 producer = ENG }
+			random_owned_controlled_state = {
+				prioritize = { 110 }
+				remove_building = {
+					type = industrial_complex
+					level = 2
+				}
+			}
+			130 = {
+			        add_extra_state_shared_building_slots = 1
+		        	add_building_construction = {
+						type = industrial_complex
+						instant_build = yes
+						level = 1
+					}
+					
+					
+			}
+		}
+	}
+	
+	focus = {
 		id = NOR_aircraft
 		icon = GFX_goal_NOR_airforce
 		x = 19
@@ -867,7 +1248,7 @@ focus_tree = {
 					instant_build = yes
 				}
 			}
-			air_experience = 50
+			air_experience = 25
 		}
 	}
 	
@@ -889,6 +1270,7 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 				technology = tech_transport_plane_equipment_2
+				technology = tech_scout_plane_equipment_1
 				bonus = 1
 				uses = 1
 			}
@@ -966,7 +1348,7 @@ focus_tree = {
 				bonus = 0.5
 				uses = 2
 			}
-			air_experience = 25
+			air_experience = 10
 		}
 	}
 	
@@ -1476,7 +1858,7 @@ focus_tree = {
 		relative_position_id = NOR_navystaff_byitself
 		x = 0
 		y = 7
-		cost = 12.2
+		cost = 10
 		ai_will_do = {
 			factor = 1
 		}
@@ -1492,12 +1874,17 @@ focus_tree = {
 		completion_reward = {
 			add_resource = {
 				state = 144
-				type = oil
-				amount = 12
+				type = tungsten
+				amount = 5
 			}
 			add_resource = {
 				state = 144
 				type = steel
+				amount = 4
+			}
+			add_resource = {
+				state = 144
+				type = chromium
 				amount = 8
 			}
 		}
