@@ -1208,7 +1208,7 @@ country_event = { id = operation.70 } }
 					FROM = { tag = NOR }
 					NOR = { has_idea = neutrality_idea_nor }
 				}
-				NOR = { country_event = { id = norway.4 days = 21 } }
+				NOR = { country_event = { id = norway.13 days = 21 } }
 			}
             if = {
 				limit = {
@@ -1393,7 +1393,46 @@ on_capitulation = {
 					FROM = { tag = SOV }
 				}
 				set_global_flag = winterwar
-			}			
+			}
+			if = {
+				limit = {
+					ROOT = { tag = POL }
+					FROM = {
+						or = {
+							tag = SOV
+							tag = GER
+						}
+					}
+					POL = { is_in_faction = yes }
+					POL = { controls_state = 543 }
+				}
+				MAD = {
+					transfer_state = 543
+					set_politics = {
+						ruling_party = neutrality
+					}
+					set_popularities = {
+						democratic = 12
+						neutrality = 68
+						fascism = 13
+						communism = 7
+					}
+					create_country_leader = {
+						name = "Armand Annet"
+						desc = ""
+						portrait_path = "gfx/leaders/FRA/Portrait_France_Jean_Decoux.dds"
+						expire = "1965.1.1"
+						ideology = despotism
+						traits = {
+		
+						}
+					}
+				}
+				news_event = {
+					id = news.1309
+					days = 1
+				}
+			}
 		    if = {
 				limit = {
 					ROOT = { tag = SHX }
@@ -2106,69 +2145,31 @@ on_capitulation = {
 	#ROOT is new controller #FROM is old controller #FROM.FROM is state ID
 	on_state_control_changed = {
 		effect = {
+
+			
 			if = {
 				limit = {
-					tag = GER
-					divisions_in_state = { state = FROM.FROM size > 0 }
-					FROM = {
-						original_tag = GER
-						has_government = fascism
-						has_civil_war = yes
+					FROM = { tag = SOV }
+					ROOT = { OR = { tag = GER is_in_faction_with = GER }}
+					FROM.FROM = { 
+					    is_core_of = SOV
+                        OR = {
+		                   	region = 231
+	                		region = 144
+		                	state = 755
+		            	}						 
+						NOT = { has_state_flag = rail_gauge } 					 
 					}
 				}
 				FROM.FROM = { 
-					set_state_flag = nazi_state_withdrawn
-					random_list = {
-						20 = {
-							set_state_flag = nazi_state_withdrawn1
-						}
-						20 = {
-							set_state_flag = nazi_state_withdrawn2
-						}
-						20 = {
-							set_state_flag = nazi_state_withdrawn3
-						}
-						20 = {
-							set_state_flag = nazi_state_withdrawn4
-						}
-						20 = {
-							set_state_flag = nazi_state_withdrawn5
-						}
-					}
-					state_event = { id = wtt_germany.49 trigger_for = controller }
+			    	remove_building = {
+			    		type = infrastructure
+				    	level = 1
+				    } 
+					add_resistance = 12
+					set_state_flag = rail_gauge
 				}
-			}
-			if = {
-				limit = {
-					tag = GER
-					64 = { is_controlled_by = GER }
-					any_other_country = {
-						original_tag = GER
-						has_government = fascism
-						has_civil_war = yes
-						owns_state = 64
-					}
-					NOT = { has_global_flag = fall_of_berlin_civil_war }
-				}
-				set_global_flag = fall_of_berlin_civil_war
-				country_event = { id = wtt_germany.50 days = 1 random_hours = 3 }
-			}
-			if = {
-				limit = {
-					tag = GER
-					has_country_flag = germany_war_return_kaiser
-					has_government = neutrality
-					FROM = {
-						original_tag = HOL
-						has_country_flag = netherlands_refused_return_kaiser
-					}
-					OR = {
-						7 = { is_controlled_by = GER }
-						HOL = { is_subject_of = GER }
-					}
-				}
-				country_event = { id = wtt_germany.6 }
-			}
+			 }
 		}
 	}
 	

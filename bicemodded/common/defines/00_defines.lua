@@ -325,7 +325,7 @@ NCountry = {
 	GIE_MAX_LEGITIMACY = 100, 								--Legitimacy max of a GiE
 	GIE_CAPITULATE_MAX_STOCKPILE_TRANSFER = 0.1, 			-- 0-1 Transfers ratio of stockpile. from 0 to this define depending on starting legitimacy on capitulation.
 	GIE_CAPITULATE_MIN_LEGIT_FOR_TRANSFER = 5, -- 0-100 Minimum starting legitimacy to transfer any equipment at all.
-	GIE_CAPITULATION_WARSCORE_LEGITIMACY_FACTOR = 1.0, 	--Multiplies accumulated warscore with this factor for part of starting legitimacy.
+	GIE_CAPITULATION_WARSCORE_LEGITIMACY_FACTOR = 0.5, 	--Multiplies accumulated warscore with this factor for part of starting legitimacy.
 	GIE_WARSCORE_GAIN_LEGITIMACY_FACTOR = 1,		 		--Factor on how much legitimacy is gained from warscore earned by GiE units.
 	GIE_HOST_CIC_FROM_LEGITIMACY_MAX = 5, 					--Host will receive from 0 to this value in CIC.
 	GIE_HOST_MIC_FROM_LEGITIMACY_MAX = 5,					--Host will receive from 0 to this value in MIC.
@@ -347,12 +347,12 @@ NCountry = {
 	GIE_EXILE_ARMY_LEADER_START_LEVEL = 3,	--Starting level for exile leader
 	GIE_ESCAPING_DIVISIONS_TRANSFER_DAYS = 30, -- days to transfer escaping divisions to host nation
 	GIE_ESCAPING_DIVISIONS_XP_BOOST = 0.4, -- Escaping divisions gain a boost to experience. Only the toughest motherbadasses will band together and survive to git me one hundred Nazi scalps ... Or die tryin'...
-	GIE_DIVISION_ATTACK_BONUS_AGAINST_OCCUPIER = 0.1, -- Attack bonus factor against whoever occupies your core territory.
-	GIE_DIVISION_DEFENSE_BONUS_AGAINST_OCCUPIER = 0.1, -- Attack bonus factor against whoever occupies your core territory.
+	GIE_DIVISION_ATTACK_BONUS_AGAINST_OCCUPIER = 0.05, -- Attack bonus factor against whoever occupies your core territory.
+	GIE_DIVISION_DEFENSE_BONUS_AGAINST_OCCUPIER = 0.05, -- Attack bonus factor against whoever occupies your core territory.
 	GIE_DIVISION_ATTACK_BONUS_ON_CORE = 0.1, -- Attack bonus factor when fighting on cores.
 	GIE_DIVISION_DEFENSE_BONUS_ON_CORE = 0.1, -- Defense bonus factor when fighting on cores.
 	GIE_ESCAPING_DIVISIONS_EQUIPMENT_RATIO = 0.4, -- Base equipment ratio on escaped troops.
-	GIE_ESCAPING_DIVISIONS_AMOUNT_RATIO = 0.05, -- Ratio on amount of divisions that escapes. Scales with starting legitimacy
+	GIE_ESCAPING_DIVISIONS_AMOUNT_RATIO = 0.06, -- Ratio on amount of divisions that escapes. Scales with starting legitimacy
 	GIE_LIBERATED_NATION_DAILY_LEGITIMACY_CHANGE = -1.5, --An uncapitulated exile that is fully liberated will have legitimacy changed with this amount daily. Will be automatically reinstated when it reaches 0.
 	GIE_EXILE_TRANSFER_ON_LEADER_CAPITULATION_MANPOWER_FACTOR = 0.1, --Factor on exile manpower kept when a faction leader capitulates and the hosted exiles are transfered.
 	GIE_CONVOY_ON_CREATION = 10, -- Number of convoy a GiE will get on creation.
@@ -565,7 +565,7 @@ NBuildings = {
  	INFRA_TO_SUPPLY_COEFF = 1,
 	MAX_SHARED_SLOTS = 36,				-- Max slots shared by factories
 	OWNER_CHANGE_EXTRA_SHARED_SLOTS_FACTOR = 0.5, --Scale factor of extra shared slots when state owner change.
-	DESTRUCTION_COOLDOWN_IN_WAR = 30,	-- Number of days cooldown between removal of buildings in war times
+	DESTRUCTION_COOLDOWN_IN_WAR = 50,	-- Number of days cooldown between removal of buildings in war times
 	INFRASTRUCTURE_RESOURCE_BONUS = 0.04, -- multiplactive resource bonus for each level of (non damaged) infrastructure
 },
 
@@ -932,7 +932,7 @@ NMilitary = {
 	OUT_OF_FUEL_EQUIPMENT_MULT = 0.5,				-- ratio of the stats that you get from equipments that uses fuel and you lack it
 	OUT_OF_FUEL_SPEED_MULT = 0.8,					-- speed mult that armies get when out of fuel
 	OUT_OF_FUEL_TRAINING_XP_GAIN_MULT = 0.0,		-- xp gain mult from training when a unit is out of fuel
-	FUEL_CAPACITY_DEFAULT_HOURS = 168             -- default capacity if not specified
+	FUEL_CAPACITY_DEFAULT_HOURS = 196             -- default capacity if not specified
 },
 
 
