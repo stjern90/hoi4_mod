@@ -565,7 +565,7 @@ NBuildings = {
  	INFRA_TO_SUPPLY_COEFF = 1,
 	MAX_SHARED_SLOTS = 36,				-- Max slots shared by factories
 	OWNER_CHANGE_EXTRA_SHARED_SLOTS_FACTOR = 0.5, --Scale factor of extra shared slots when state owner change.
-	DESTRUCTION_COOLDOWN_IN_WAR = 30,	-- Number of days cooldown between removal of buildings in war times
+	DESTRUCTION_COOLDOWN_IN_WAR = 50,	-- Number of days cooldown between removal of buildings in war times
 	INFRASTRUCTURE_RESOURCE_BONUS = 0.04, -- multiplactive resource bonus for each level of (non damaged) infrastructure
 },
 
@@ -932,7 +932,7 @@ NMilitary = {
 	OUT_OF_FUEL_EQUIPMENT_MULT = 0.5,				-- ratio of the stats that you get from equipments that uses fuel and you lack it
 	OUT_OF_FUEL_SPEED_MULT = 0.8,					-- speed mult that armies get when out of fuel
 	OUT_OF_FUEL_TRAINING_XP_GAIN_MULT = 0.0,		-- xp gain mult from training when a unit is out of fuel
-	FUEL_CAPACITY_DEFAULT_HOURS = 168             -- default capacity if not specified
+	FUEL_CAPACITY_DEFAULT_HOURS = 196             -- default capacity if not specified
 },
 
 
