@@ -103,20 +103,28 @@ country_event = {
 	hidden = yes
 	
 	immediate = {
-		country_event = { id = tfv_raj.21 days = 300 }
+		country_event = { id = tfv_raj.21 days = 1 }
 	}
 
 	trigger = {
-		#compare_autonomy_state < autonomy_dominion
-		has_capitulated = no
-		NOT = { surrender_progress > 0.5 }
 		original_tag = RAJ
-		has_idea = RAJ_risk_of_famine
+		NOT = { has_idea = RAJ_famine }
+		has_capitulated = no
+		OR = { has_idea = RAJ_risk_of_famine has_idea = RAJ_risk_of_famine_2 }
 		has_war = yes		
 	}
 
-	mean_time_to_happen = { days = 150 }
-
+	mean_time_to_happen = { 
+    	days = 200
+        modifier = {
+			factor = 4
+			has_idea = RAJ_risk_of_famine_2
+		}	
+        modifier = {
+			factor = 2
+			has_war = no
+		}		
+	}
 }
 
 #RAJ gets famine - Actual event
@@ -128,30 +136,24 @@ country_event = {
 	
 	is_triggered_only = yes
 
-	fire_only_once = yes
-
 	immediate = {
 		hidden_effect = {
-			remove_ideas = RAJ_risk_of_famine
-			add_timed_idea = { idea = RAJ_famine days = 365 }
+			add_timed_idea = { idea = RAJ_famine months = 8 }
 			news_event = { id = news.272 }
-			news_event = { id = news.273 days = 365 }
+			news_event = { id = news.273 months = 8 }
 		}
 	}
 			
 	trigger = {
-		#compare_autonomy_state < autonomy_dominion
 		has_capitulated = no
-		NOT = { surrender_progress > 0.5 }
-		original_tag = RAJ
-		has_idea = RAJ_risk_of_famine
+		OR = { has_idea = RAJ_risk_of_famine has_idea = RAJ_risk_of_famine_2 }
+		has_war = yes
 	}
 
 	option = {
 		name = tfv_raj.21.a
 		effect_tooltip = {
-			remove_ideas = RAJ_risk_of_famine
-			add_timed_idea = { idea = RAJ_famine days = 365 }
+			add_timed_idea = { idea = RAJ_famine months = 8 }
 		}
 	}
 }
