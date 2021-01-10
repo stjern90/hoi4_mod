@@ -201,8 +201,8 @@ NCountry = {
 	NUCLEAR_BOMB_DROP_WAR_SUPPORT_EFFECT_MAX_VP = 3,		-- National unity will be scaled down if there's less VP than this in the province
 	WEEKLY_STABILITY_GAIN = 0.0,
 	WEEKLY_WAR_SUPPORT_GAIN = 0.0,
-	SUPPLY_CONVOY_FACTOR = 0.15,					-- How many convoys each supply needs
-	CONVOY_RANGE_FACTOR = 0.8,                        -- how much range affects convoy need
+	SUPPLY_CONVOY_FACTOR = 0.25,					-- How many convoys each supply needs
+	CONVOY_RANGE_FACTOR = 0.5,                        -- how much range affects convoy need
 	LOCAL_MANPOWER_ACCESSIBLE_NON_CORE_FACTOR = 0.08,  -- accessible recruitable factor base
 	MAX_NON_CORE_MANPOWER_FACTOR = 1.0,				-- max clamp for recruitable local non core manpower factor for states
 	DEFAULT_STABILITY = 0.45,						-- Default stability if not scripted otherwise.
@@ -1175,8 +1175,8 @@ NNavy = {
 	EXPERIENCE_LOSS_FACTOR = 1.00,                 					-- percentage of experienced solders who die when manpower is removed
 	NAVY_EXPENSIVE_IC = 5500,										-- How much IC is considering the fleet to be expensive. Those expensive will triger the alert, when are on low STR.
 	MISSION_MAX_REGIONS = 0,										-- Limit of the regions that can be assigned to naval mission. Set to 0 for unlimited.
-	CONVOY_EFFICIENCY_LOSS_MODIFIER = 1.25,							-- How much efficiency drops when losing convoys. If modifier is 0.5, then losing 100% of convoys in short period, the efficiency will drop by 50%.
-	CONVOY_EFFICIENCY_REGAIN_AFTER_DAYS = 7,						-- Convoy starts regaining it's efficiency after X days without any convoys being sink.
+	CONVOY_EFFICIENCY_LOSS_MODIFIER = 1.0,							-- How much efficiency drops when losing convoys. If modifier is 0.5, then losing 100% of convoys in short period, the efficiency will drop by 50%.
+	CONVOY_EFFICIENCY_REGAIN_AFTER_DAYS = 5,						-- Convoy starts regaining it's efficiency after X days without any convoys being sink.
 	CONVOY_EFFICIENCY_REGAIN_BASE_SPEED = 0.04,						-- How much efficiency regains every day.
 	CONVOY_EFFICIENCY_MIN_VALUE = 0.05,								-- To avoid complete 0% efficiency, set the lower limit.
 	CONVOY_ROUTE_SIZE_CONVOY_SCALE = 0.5,                           -- scales impact of convoy route size (0 to turn off)
@@ -1209,8 +1209,8 @@ NNavy = {
 	NAVAL_COMBAT_RESULT_TIMEOUT_YEARS = 2,							-- after that many years, we clear the naval combat results, so they don't get stuck forever in the memory.
 	CONVOY_LOSS_HISTORY_TIMEOUT_MONTHS = 24,						-- after this many months remove the history of lost convoys to not bloat savegames and memory since there is no way to see them anyway
 	NAVAL_TRANSFER_BASE_SPEED = 5,                                  -- base speed of units on water being transported
-	NAVAL_TRANSFER_BASE_NAVAL_DIST_ADD = 100,						-- Extra cost for naval movement ( compared to land movement ) when deciding what ports to use for a naval transfer
-	NAVAL_TRANSFER_BASE_NAVAL_DIST_MULT = 20,						-- Multiplier for the cost of naval movement ( compared to land movement ) when deciding what ports to use for naval transfer
+	NAVAL_TRANSFER_BASE_NAVAL_DIST_ADD = 80,						-- Extra cost for naval movement ( compared to land movement ) when deciding what ports to use for a naval transfer
+	NAVAL_TRANSFER_BASE_NAVAL_DIST_MULT = 15,						-- Multiplier for the cost of naval movement ( compared to land movement ) when deciding what ports to use for naval transfer
 	NAVAL_SUPREMACY_CAN_INVADE = 0.6,								-- required naval supremacy to perform invasions on an area
 	CARRIER_STACK_PENALTY = 4,										-- The most efficient is 4 carriers in combat. 5+ brings the penalty to the amount of wings in battle.
 	CARRIER_STACK_PENALTY_EFFECT = 0.2,								-- Each carrier above the optimal amount decreases the amount of airplanes being able to takeoff by such %.
@@ -1842,8 +1842,8 @@ NAI = {
 
 	OPERATION_EQUIPMENT_NEED_PRODUCTION_MULT = 1.0, -- equipment requests for operations will be added the equipment needs that ai considers while assigning factories to production
 	
-	MIN_FUEL_RATIO_TO_NOT_IGNORE_STRIKE_FORCE_COST = 0.0, -- ai will still assign strike forces unless fuel ratio drops below this one
-	MIN_FUEL_RATIO_TO_NOT_IGNORE_INVASION_SUPPORT_COST = 0.0, -- ai will still naval invasion support forces unless fuel ratio drops below this one
+	MIN_FUEL_RATIO_TO_NOT_IGNORE_STRIKE_FORCE_COST = 0.01, -- ai will still assign strike forces unless fuel ratio drops below this one
+	MIN_FUEL_RATIO_TO_NOT_IGNORE_INVASION_SUPPORT_COST = 0.01, -- ai will still naval invasion support forces unless fuel ratio drops below this one
 	
 	ENEMY_HOME_AREA_RATIO_TO_DISABLE_INVASIONS = 0.3, -- if we are fighting against an enemy home area from our home area and if the enemy area is larger than this ratio, non strategy invasions are disabled
 
@@ -2041,7 +2041,7 @@ NAI = {
 	NAVAL_MISSION_AGGRESSIVE_ESCORT_DIVISOR = 2,		-- Divides escort score when not defending
 	NAVAL_MISSION_PATROL_NEAR_OWNED = 500,			-- Extra patrol mission score near owned provinces
 	NAVAL_MISSION_ESCORT_NEAR_OWNED = 300,			-- Extra escort mission score near owned provinces
-	NAVAL_MISSION_PATROL_NEAR_CONTROLLED = 120,		-- Extra patrol mission score near controlled provinces
+	NAVAL_MISSION_PATROL_NEAR_CONTROLLED = 200,		-- Extra patrol mission score near controlled provinces
 	NAVAL_MISSION_ESCORT_NEAR_CONTROLLED = 250,		-- Extra escort mission score near controlled provinces
 	NAVAL_MISSION_MINES_PLANTING_NEAR_OWNED = 40000,
 	NAVAL_MISSION_MINES_PLANTING_NEAR_CONTROLLED = 30000,
@@ -2219,9 +2219,9 @@ NAI = {
 	GIE_EXILE_AIR_MANPOWER_USAGE_RATIO = 0.2, -- AI will not deploy new exile wings when this percentage of available exile manpower is already used for wing recruitment.
 
 	CARRIER_TASKFORCE_MAX_CARRIER_COUNT = 4, 		-- optimum carrier count for carrier taskforces
-	CAPITAL_TASKFORCE_MAX_CAPITAL_COUNT = 12, 		-- optimum capital count for capital taskforces
-	SCREEN_TASKFORCE_MAX_SHIP_COUNT = 10,			-- optimum screen count for screen taskforces
-	SUB_TASKFORCE_MAX_SHIP_COUNT = 10 ,				-- optimum sub count for sub taskforces
+	CAPITAL_TASKFORCE_MAX_CAPITAL_COUNT = 10, 		-- optimum capital count for capital taskforces
+	SCREEN_TASKFORCE_MAX_SHIP_COUNT = 8,			-- optimum screen count for screen taskforces
+	SUB_TASKFORCE_MAX_SHIP_COUNT = 8 ,				-- optimum sub count for sub taskforces
 	
 	MIN_CAPITALS_FOR_CARRIER_TASKFORCE = 2,			-- carrier fleets will at least have this amount of capitals
 	CAPITALS_TO_CARRIER_RATIO = 1.5,				-- capital to carrier count in carrier taskfoces
@@ -2255,7 +2255,7 @@ NAI = {
 	
 	HIGH_PRIO_NAVAL_MISSION_SCORES = {  -- priorities for regions to get assigned to a mission
 		0, -- HOLD (consumes fuel HOLD_MISSION_MOVEMENT_COST fuel while moving)
-		3800, -- PATROL		
+		2000, -- PATROL		
 	    1000, -- STRIKE FORCE 
 		900, -- CONVOY RAIDING
 		1000, -- CONVOY ESCORT
