@@ -1221,7 +1221,6 @@ country_event = {
 	picture = GFX_report_event_dead_soldiers
 	
 	trigger = {
-		always = no
 		tag = JAP
 		has_global_flag = jap_civil_war_sf
 		has_global_flag = kor_liberated
@@ -1238,14 +1237,20 @@ country_event = {
 	option = {
 		name = sfl.18.a
 		ai_chance = { factor = 100 }
-		CHI = {
-			country_event = { id = sfl.19 }
-		}
+
+		if = { limit = { CHI = { is_faction_leader = yes }  }
+                CHI = { country_event = { id = sfl.19 } }
+            }
+			else = {
+			    CCP = { country_event = { id = sfl.19 } }
+			}
+		add_stability = 0.05
 	}
 	
 	option = {
 		name = sfl.18.b
 		ai_chance = { factor = 0 }
+		add_war_support = -0.2
 	}
 }
 
@@ -1268,7 +1273,7 @@ country_event = {
 		hidden_effect = {
 			every_state = {
 				limit = {
-					is_core_of = ROOT
+					is_core_of = CHI
 					owner = {
 						OR = {
 							tag = JAP
@@ -1279,7 +1284,7 @@ country_event = {
 						NOT = { tag = CCP }
 					}
 				}
-				ROOT = {
+				CHI = {
 					transfer_state = PREV
 				}
 			}
@@ -1301,7 +1306,58 @@ country_event = {
 				}
 			}
 		}
-		white_peace = JAP
+		
+		
+		every_country = { limit = { has_war_with = JAP is_in_faction_with = ROOT }
+
+				add_timed_idea = { idea = JAP_recovering_from_war days = 730 } 
+				
+				white_peace = JAP
+				set_truce = { target = JAP days = 730 }
+				if = { limit = { MAN = { is_in_faction_with = JAP }  }
+                   white_peace = MAN
+				   set_truce = { target = MAN days = 730 }
+                }
+				if = { limit = { MEN = { is_in_faction_with = JAP }  }
+                   white_peace = MEN
+				   set_truce = { target = MEN days = 730 }
+                }
+				if = { limit = { SIA = { is_in_faction_with = JAP }  }
+				   white_peace = SIA
+				   set_truce = { target = SIA days = 730 }
+				}
+				if = { limit = { CAM = { is_in_faction_with = JAP }  }
+                   white_peace = CAM
+				   set_truce = { target = CAM days = 730 }
+                }
+				if = { limit = { INS = { is_in_faction_with = JAP }  }
+                   white_peace = INS
+				   set_truce = { target = INS days = 730 }
+                }
+				if = { limit = { AST = { is_in_faction_with = JAP }  }
+                   white_peace = AST
+				   set_truce = { target = AST days = 730 }
+                }
+				if = { limit = { NZL = { is_in_faction_with = JAP }  }
+                   white_peace = NZL
+				   set_truce = { target = NZL days = 730 }
+                }
+				if = { limit = { RAJ = { is_in_faction_with = JAP }  }
+                   white_peace = RAJ
+				   set_truce = { target = RAJ days = 730 }
+                }
+				if = { limit = { KOR = { is_in_faction_with = JAP }  }
+                   white_peace = KOR
+				   set_truce = { target = KOR days = 730 }
+                }
+				if = { limit = { PHI = { is_in_faction_with = JAP }  }
+                   white_peace = PHI
+				   set_truce = { target = PHI days = 730 }
+                }
+		}
+		
+		
+		
 		if = {
 			limit = {
 				KOR = {
@@ -1326,81 +1382,6 @@ country_event = {
 					transfer_state = PREV
 				}
 			}
-		}
-	}
-	
-	option = {
-		name = sfl.19.b
-		ai_chance = { factor = 0 }
-		JAP = {
-			country_event = { id = sfl.20 }
-		}
-		custom_effect_tooltip = sfl_jap_forfeit_land
-		hidden_effect = {
-			every_state = {
-				limit = {
-					is_core_of = ROOT
-					owner = {
-						OR = {
-							tag = JAP
-							is_subject_of = JAP
-						}
-					}
-					CONTROLLER = {
-						NOT = { tag = CCP }
-					}
-				}
-				ROOT = {
-					transfer_state = PREV
-				}
-			}
-			every_state = {
-				limit = {
-					is_core_of = CCP
-					owner = {
-						OR = {
-							tag = JAP
-							is_subject_of = JAP
-						}
-					}
-					CONTROLLER = {
-						tag = CCP
-					}
-				}
-				CCP = {
-					transfer_state = PREV
-				}
-			}
-		}
-		white_peace = JAP
-		if = {
-			limit = {
-				KOR = {
-					exists = yes
-					OR = {
-						is_puppet_of = ROOT
-						is_in_faction_with = ROOT
-					}
-				}
-			}
-			every_state = {
-				limit = {
-					is_core_of = KOR
-					owner = {
-						OR = {
-							tag = FROM
-							is_subject_of = FROM
-						}
-					}
-				}
-				KOR = {
-					transfer_state = PREV
-				}
-			}
-		}
-		custom_effect_tooltip = sfl_later_war_with_jap
-		hidden_effect = {
-			country_event = { id = sfl.21 days = 30 }
 		}
 	}
 	
@@ -1410,6 +1391,9 @@ country_event = {
 		JAP = {
 			country_event = { id = sfl.22 }
 		}
+		every_country = { limit = { has_war_with = JAP is_in_faction_with = CHI }
+				add_timed_idea = { idea = Overextension days = 500 } 
+			}
 	}
 }
 
