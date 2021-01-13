@@ -1807,6 +1807,7 @@ country_event = {
 		ai_chance = { factor = 2 }
 		 
 		 effect_tooltip = {
+
 		JAP = { add_timed_idea = { idea = JAP_recovering_from_war days = 400 } }
 		every_country = { 
 			limit = { 
@@ -1839,18 +1840,22 @@ country_event = {
 			if = { limit = { RAJ = { is_in_faction_with = JAP }  }
                 white_peace = RAJ
             }
-		}
-		if = { limit = { } # todo, check who controlls the states 
-		}
-		CHI = {
-	    transfer_state = 612
-		transfer_state = 611
-		transfer_state = 609
-		transfer_state = 610
+			if = { limit = { KOR = { is_in_faction_with = JAP }  }
+                white_peace = KOR
+            }
+			if = { limit = { PHI = { is_in_faction_with = JAP }  }
+                white_peace = PHI
+            }
 		}
 		}
 		hidden_effect = {
-			CHI = { country_event = japan.48 }
+		    if = { limit = { CHI = { is_faction_leader = yes }  }
+                CHI = { country_event = japan.48 }
+            }
+			else = {
+			    CCP = { country_event = japan.48 }
+			}
+			
 
 				if = { limit = { JAP = { is_ai = no } CHI = { is_ai = no }  }
                 
@@ -1946,8 +1951,163 @@ country_event = {
 		date > 1942.1.1
 		}
 		}
+		
+		if = {
+			limit = {
+				612 = {
+					OR = {
+						is_controlled_by = CCP
+						any_other_country = {
+							controls_state = 612
+							is_in_faction_with = CCP
+							NOT = { is_in_faction_with = CHI }
+						}
+					}
+				}
+			}
+			CCP = { transfer_state = 612 }
+			
+		}
+		else_if = {
+			limit = {
+				612 = {
+					OR = {
+						is_controlled_by = CHI
+						any_other_country = {
+							controls_state = 612
+							is_in_faction_with = CHI
+						}
+					}
+				}
+			}
+			CHI = { transfer_state = 612 }
+		}
+		if = {
+			limit = {
+				611 = {
+					OR = {
+						is_controlled_by = CCP
+						any_other_country = {
+							controls_state = 611
+							is_in_faction_with = CCP
+							NOT = { is_in_faction_with = CHI }
+						}
+					}
+				}
+			}
+			CCP = { transfer_state = 611 }
+		}
+		else_if = {
+			limit = {
+				611 = {
+					OR = {
+						is_controlled_by = CHI
+						any_other_country = {
+							controls_state = 611
+							is_in_faction_with = CHI
+						}
+					}
+				}
+			}
+			CHI = { transfer_state = 611 }
+		}
+		if = {
+			limit = {
+				609 = {
+					OR = {
+						is_controlled_by = CCP
+						any_other_country = {
+							controls_state = 609
+							is_in_faction_with = CCP
+							NOT = { is_in_faction_with = CHI }
+						}
+					}
+				}
+			}
+			CCP = { transfer_state = 609 }
+		}
+		else_if = {
+			limit = {
+				609 = {
+					OR = {
+						is_controlled_by = CHI
+						any_other_country = {
+							controls_state = 609
+							is_in_faction_with = CHI
+						}
+					}
+				}
+			}
+			CHI = { transfer_state = 609 }
+		}
+		if = {
+			limit = {
+				610 = {
+					OR = {
+						is_controlled_by = CCP
+						any_other_country = {
+							controls_state = 610
+							is_in_faction_with = CCP
+							NOT = { is_in_faction_with = CHI }
+						}
+					}
+				}
+			}
+			CCP = { transfer_state = 610 }
+		}
+		else_if = {
+			limit = {
+				610 = {
+					OR = {
+						is_controlled_by = CHI
+						any_other_country = {
+							controls_state = 610
+							is_in_faction_with = CHI
+						}
+					}
+				}
+			}
+			CHI = { transfer_state = 610 }
+		}
+		
+		CHI = {
+	    	every_owned_state = { limit = { CONTROLLER = { is_in_faction_with = JAP } }
+		        CHI = { transfer_state = PREV }
+	    	}
+		}
+		CCP = {
+	    	every_owned_state = { limit = { CONTROLLER = { is_in_faction_with = JAP } }
+		        CCP = { transfer_state = PREV }
+	    	}
+		}
+		SHX = {
+	    	every_owned_state = { limit = { CONTROLLER = { is_in_faction_with = JAP } }
+		        SHX = { transfer_state = PREV }
+	    	}
+		}
+		GDC = {
+	    	every_owned_state = { limit = { CONTROLLER = { is_in_faction_with = JAP } }
+		        GDC = { transfer_state = PREV }
+	    	}
+		}
+		GXC = {
+	    	every_owned_state = { limit = { CONTROLLER = { is_in_faction_with = JAP } }
+		        GXC = { transfer_state = PREV }
+	    	}
+		}
+		YUN = {
+	    	every_owned_state = { limit = { CONTROLLER = { is_in_faction_with = JAP } }
+		        YUN = { transfer_state = PREV }
+	    	}
+		}
+		XSM = {
+	    	every_owned_state = { limit = { CONTROLLER = { is_in_faction_with = JAP } }
+		        YUN = { transfer_state = PREV }
+	    	}
+		}
+			
 		JAP = { add_timed_idea = { idea = JAP_recovering_from_war days = 400 } }
-		every_country = { limit = { has_war_with = JAP is_in_faction_with = CHI }
+		every_country = { limit = { has_war_with = JAP is_in_faction_with = ROOT }
 
 				add_timed_idea = { idea = JAP_recovering_from_war days = 300 } 
 				
@@ -1985,122 +2145,14 @@ country_event = {
                    white_peace = RAJ
 				   set_truce = { target = RAJ days = 270 }
                 }
-			}
-		if = {
-			limit = {
-				612 = {
-					OR = {
-						is_controlled_by = CCP
-						any_other_country = {
-							controls_state = 612
-							is_in_faction_with = CCP
-							NOT = { is_in_faction_with = CHI }
-						}
-					}
-				}
-			}
-			CCP = { transfer_state = 612 }
-			else = {
-			limit = {
-				612 = {
-					OR = {
-						is_controlled_by = CHI
-						any_other_country = {
-							controls_state = 612
-							is_in_faction_with = CHI
-						}
-					}
-				}
-			}
-			CHI = { transfer_state = 612 }
-			}
-		}
-		if = {
-			limit = {
-				611 = {
-					OR = {
-						is_controlled_by = CCP
-						any_other_country = {
-							controls_state = 611
-							is_in_faction_with = CCP
-							NOT = { is_in_faction_with = CHI }
-						}
-					}
-				}
-			}
-			CCP = { transfer_state = 611 }
-			else = {
-			limit = {
-				611 = {
-					OR = {
-						is_controlled_by = CHI
-						any_other_country = {
-							controls_state = 611
-							is_in_faction_with = CHI
-						}
-					}
-				}
-			}
-			CHI = { transfer_state = 611 }
-			}
-		}
-		if = {
-			limit = {
-				609 = {
-					OR = {
-						is_controlled_by = CCP
-						any_other_country = {
-							controls_state = 609
-							is_in_faction_with = CCP
-							NOT = { is_in_faction_with = CHI }
-						}
-					}
-				}
-			}
-			CCP = { transfer_state = 609 }
-			else = {
-			limit = {
-				609 = {
-					OR = {
-						is_controlled_by = CHI
-						any_other_country = {
-							controls_state = 609
-							is_in_faction_with = CHI
-						}
-					}
-				}
-			}
-			CHI = { transfer_state = 609 }
-			}
-		}
-		if = {
-			limit = {
-				610 = {
-					OR = {
-						is_controlled_by = CCP
-						any_other_country = {
-							controls_state = 610
-							is_in_faction_with = CCP
-							NOT = { is_in_faction_with = CHI }
-						}
-					}
-				}
-			}
-			CCP = { transfer_state = 610 }
-			else = {
-			limit = {
-				610 = {
-					OR = {
-						is_controlled_by = CHI
-						any_other_country = {
-							controls_state = 610
-							is_in_faction_with = CHI
-						}
-					}
-				}
-			}
-			CHI = { transfer_state = 610 }
-			}
+				if = { limit = { KOR = { is_in_faction_with = JAP }  }
+                   white_peace = KOR
+				   set_truce = { target = KOR days = 270 }
+                }
+				if = { limit = { PHI = { is_in_faction_with = JAP }  }
+                   white_peace = PHI
+				   set_truce = { target = PHI days = 270 }
+                }
 		}
 		
 		hidden_effect = {
