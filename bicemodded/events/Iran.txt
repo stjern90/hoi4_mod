@@ -21,7 +21,12 @@ country_event = {
 			add_named_threat = { threat = 2 name = iran_joins_allies }
 			PER = { add_opinion_modifier = { target = ENG modifier = very_large_increase } }
 			ENG = { add_opinion_modifier = { target = PER modifier = very_large_increase } }
+			if = { limit = { SOV = { has_country_flag = operation_countenance_fired_by_soviet } }
+			give_resource_rights = { receiver = SOV state = 411 }
+			}
+			else = {
 			give_resource_rights = { receiver = ENG state = 411 }
+			}
 			set_rule = { 
 					can_join_factions = no 
 					can_create_factions = no
@@ -62,13 +67,16 @@ country_event = {
 				corrupt_kleptocrat
 				}
 			}
-		
 		SOV = {
 			transfer_state = 420
 			transfer_state = 419
 			transfer_state = 416
 		}
+		
 		hidden_effect = {
+		SOV = { country_event = { id = per.2 }}
+		ENG = { country_event = { id = per.4 }}
+		news_event = { id = news.1310 }
 		420 = {
             set_compliance = 15
 	        set_resistance = 25
@@ -90,8 +98,196 @@ country_event = {
 		}
 		name = per.1.b
 			add_named_threat = { threat = 2 name = iran_is_attacked_by_SOV }
-			GER = { add_to_faction = PER}
+	     	SOV = { country_event = { id = per.3 }}
+			effect_tooltip = {  GER = { add_to_faction = PER} }
 			#add_manpower = +400000
+			
+		hidden_effect = {
+		 SOV = { country_event = { id = per.3 }}
+		 
+		 news_event = { id = news.1311 }
+		    ENG = {
+				remove_resource_rights = 412
+				remove_resource_rights = 413
+			}
+		}
 	}
 }
 
+# notification to soviet - The shah has been subdued, north is yours
+country_event = {
+	id = per.2
+	title = per.2.t
+	desc = per.2.d
+	picture = GFX_report_iranian_shah
+	
+	is_triggered_only = yes
+	
+	option = {
+	    name = per.2.a
+    	ai_chance = {
+		    factor = 100
+		}
+		effect_tooltip = {
+		    PER = {
+		        if = { limit = { SOV = { has_country_flag = operation_countenance_fired_by_soviet } }
+			give_resource_rights = { receiver = SOV state = 411 }
+			}
+			else = {
+			give_resource_rights = { receiver = ENG state = 411 }
+			}
+		    	set_rule = { 
+					can_join_factions = no 
+					can_create_factions = no
+					can_not_declare_war = yes
+			    }
+			}
+			transfer_state = 420
+			transfer_state = 419
+			transfer_state = 416
+		}
+	}
+}
+# The shah resists, do we have time for this?
+country_event = {
+	id = per.3
+	title = per.3.t
+	desc = per.3.d
+	picture = GFX_report_iranian_shah
+	
+	is_triggered_only = yes
+	
+	# launch the attack!
+	option = {
+	    name = per.3.a
+    	ai_chance = {
+		    factor = 100
+		}
+		GER = { add_to_faction = PER}
+		create_wargoal = {
+			type = take_state_focus
+			target = PER
+			generator = { 420 }
+		}
+		hidden_effect = { ENG = { country_event = { id = per.5 }} }
+	}
+	# whats in it for us?
+	option = {
+	    name = per.3.a
+    	ai_chance = {
+		    factor = 50
+			modifier = {
+			factor = 0
+			is_historical_focus_on = yes
+			}
+		}
+		GER = { add_to_faction = PER}
+		ENG = {
+	    	create_wargoal = {
+		    	type = take_state_focus
+		    	target = PER
+		    	generator = { 412 }
+	    	}
+			add_stability = -0.03
+			add_opinion_modifier = { target = SOV modifier = unstable_alliance }
+		}
+		every_country = { limit = { is_in_faction_with = ENG OR = { tag = RAJ tag = MAL tag = USA } }
+			add_opinion_modifier = { target = SOV modifier = unstable_alliance 
+			}
+		}
+		hidden_effect = { ENG = { country_event = { id = per.6 }} }
+	}
+}
+
+country_event = {
+	id = per.4
+	title = per.4.t
+	desc = per.4.d
+	picture = GFX_ENG_iran
+	
+	is_triggered_only = yes
+	
+	option = {
+	    name = per.4.a
+    	ai_chance = {
+		    factor = 100
+		}
+		effect_tooltip = {
+		    PER = {
+		        if = { limit = { SOV = { has_country_flag = operation_countenance_fired_by_soviet } }
+			give_resource_rights = { receiver = SOV state = 411 }
+			}
+			else = {
+			give_resource_rights = { receiver = ENG state = 411 }
+			}
+		    	set_rule = { 
+					can_join_factions = no 
+					can_create_factions = no
+					can_not_declare_war = yes
+			    }
+			}
+			SOV = {
+			transfer_state = 420
+			transfer_state = 419
+			transfer_state = 416
+			}
+		}
+	}
+}
+
+country_event = {
+	id = per.5
+	title = per.5.t
+	desc = per.5.d
+	picture = GFX_ENG_iran
+	
+	is_triggered_only = yes
+	
+	option = {
+	    name = per.5.a
+    	ai_chance = {
+		    factor = 100
+		}
+		effect_tooltip = {
+		GER = { add_to_faction = PER}
+		SOV = { create_wargoal = {
+			type = take_state_focus
+			target = PER
+			generator = { 420 }
+		}
+		}
+		}
+	}
+}
+
+country_event = {
+	id = per.6
+	title = per.6.t
+	desc = per.6.d
+	picture = GFX_ENG_iran
+	
+	is_triggered_only = yes
+	
+	option = {
+	    name = per.6.a
+    	ai_chance = {
+		    factor = 100
+		}
+		effect_tooltip = {
+		GER = { add_to_faction = PER}
+		ENG = {
+	    	create_wargoal = {
+		    	type = take_state_focus
+		    	target = PER
+		    	generator = { 412 }
+	    	}
+			add_stability = -0.03
+			add_opinion_modifier = { target = SOV modifier = unstable_alliance }
+		}
+		every_country = { limit = { is_in_faction_with = ENG OR = { tag = RAJ tag = MAL tag = USA } }
+			add_opinion_modifier = { target = SOV modifier = unstable_alliance 
+			}
+		}
+		}
+	}
+}
