@@ -431,7 +431,7 @@ NResistance = {
 	
 	RESISTANCE_RATIO_DIFF_TO_SPREAD = 0.35, -- resistance diff between two neighbour states will spread by this ratio ( from highest resistance states to lower ones and it will only spread once to a state)
 	
-	RESISTANCE_ACTIVITY_CHANCE_AT_MAX_RESISTANCE = 0.15,
+	RESISTANCE_ACTIVITY_CHANCE_AT_MAX_RESISTANCE = 0.1,
 	RESISTANCE_ACTIVITY_MIN_GARRISON_PENETRATE_CHANCE = 0.02,
 	
 	RESISTANCE_TARGET_TO_REENABLE_RESISTANCE = 10, -- resistance will be disabled once it reaches zero and will not be reenabled until resistance target reaches above this value
@@ -857,7 +857,7 @@ NMilitary = {
 	}, 
 	
 	UNIT_LEADER_TRAIT_SLOT_PER_LEVEL = { 			-- num extra traits on each level
-		0.5, -- field marshal
+		0.25, -- field marshal
 		0.5, -- corps commander
 		0.5, -- navy general
 		0.0, -- operative
@@ -970,8 +970,8 @@ NAir = {
 	PORT_STRIKES_DELAY_MULTIPLIER = 4,					-- multplies HOURS_DELAY_AFTER_EACH_COMBAT if port strikes
 	CARRIER_HOURS_DELAY_AFTER_EACH_COMBAT = 3,          -- how often carrier planes do battle inside naval combat
 	NAVAL_STRIKE_TARGETTING_TO_AMOUNT = 0.31,			-- Balancing value to convert the naval_strike_targetting equipment stats to chances of how many airplanes managed to do successfull strike.
-	NAVAL_STRIKE_DAMAGE_TO_STR = 1.26,					-- Balancing value to convert damage ( naval_strike_attack * hits ) to Strength reduction.
-	NAVAL_STRIKE_DAMAGE_TO_ORG = 1.47,					-- Balancing value to convert damage ( naval_strike_attack * hits ) to Organisation reduction.
+	NAVAL_STRIKE_DAMAGE_TO_STR = 1.32,					-- Balancing value to convert damage ( naval_strike_attack * hits ) to Strength reduction.
+	NAVAL_STRIKE_DAMAGE_TO_ORG = 1.53,					-- Balancing value to convert damage ( naval_strike_attack * hits ) to Organisation reduction.
 	NAVAL_STRIKE_CARRIER_MULTIPLIER = 3.5,              -- damage bonus when planes are in naval combat where their carrier is present (and can thus sortie faster and more effectively)
 	FIELD_EXPERIENCE_SCALE = 0.002,
 	FIELD_EXPERIENCE_MAX_PER_DAY = 1.5,					-- Most xp you can gain per day
