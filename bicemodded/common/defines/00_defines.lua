@@ -628,8 +628,8 @@ NMilitary = {
 	LAND_AIR_COMBAT_MAX_PLANES_PER_ENEMY_WIDTH = 3, -- how many CAS/TAC can enter a combat depending on enemy width there
 	LAND_COMBAT_STR_ARMOR_ON_SOFT_DICE_SIZE = 4,   -- extra damage dice if our armor outclasses enemy
 	LAND_COMBAT_ORG_ARMOR_ON_SOFT_DICE_SIZE = 4,   -- extra damage dice if our armor outclasses enemy
-	LAND_COMBAT_STR_ARMOR_DEFLECTION_FACTOR = 0.75, -- damage reduction if armor outclassing enemy
-	LAND_COMBAT_ORG_ARMOR_DEFLECTION_FACTOR = 0.75, -- damage reduction if armor outclassing enemy
+	LAND_COMBAT_STR_ARMOR_DEFLECTION_FACTOR = 0.7, -- damage reduction if armor outclassing enemy
+	LAND_COMBAT_ORG_ARMOR_DEFLECTION_FACTOR = 0.7, -- damage reduction if armor outclassing enemy
 	LAND_COMBAT_COLLATERAL_FACTOR = 0.0012,		   -- Factor to scale collateral damage to infra and forts with.
 	LAND_COMBAT_FORT_DAMAGE_CHANCE = 2,		-- chance to get a hit to damage on forts. (out of 100)
 	ATTRITION_DAMAGE_ORG = 0.09,					   -- damage from attrition to Organisation
@@ -2512,8 +2512,8 @@ NOperatives = {
 	-- second number is total factory needed (mil and civ) for giving previous ratio
 	OPERATIVE_SLOTS_FROM_FACTION_MEMBERS_FOR_SPY_MASTER = {
 		0.0, 	0.0, -- 0 operative for [0, 10)
-		0.25,  	50.0, -- 0.25 operative for [10, 50)
-		0.5, 	125.0, -- 0.5 operative for >= 50
+		0.25,  	10.0, -- 0.25 operative for [10, 50)
+		0.5, 	50.0, -- 0.5 operative for >= 50
 	},
 	
 	
