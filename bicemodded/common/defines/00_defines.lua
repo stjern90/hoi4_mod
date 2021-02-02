@@ -2512,8 +2512,8 @@ NOperatives = {
 	-- second number is total factory needed (mil and civ) for giving previous ratio
 	OPERATIVE_SLOTS_FROM_FACTION_MEMBERS_FOR_SPY_MASTER = {
 		0.0, 	0.0, -- 0 operative for [0, 10)
-		0.25,  	10.0, -- 0.25 operative for [10, 50)
-		0.5, 	50.0, -- 0.5 operative for >= 50
+		0.25,  	50.0, -- 0.25 operative for [10, 50)
+		0.5, 	125.0, -- 0.5 operative for >= 50
 	},
 	
 	
