@@ -760,10 +760,10 @@ NMilitary = {
 	
 	PLAN_PORVINCE_PORT_BASE_IMPORTANCE = 12.0,		-- Added importance for area defense province with a port
 	PLAN_PORVINCE_PORT_LEVEL_FACTOR = 1.5,			-- Bonus factor for port level
-	PLAN_PORVINCE_AIRFIELD_BASE_IMPORTANCE = 2.0,	-- Added importance for area defense province with air field
-	PLAN_PORVINCE_AIRFIELD_POPULATED_FACTOR = 1,	-- Bonus factor when an airfield has planes on it
+	PLAN_PORVINCE_AIRFIELD_BASE_IMPORTANCE = 0.6,	-- Added importance for area defense province with air field
+	PLAN_PORVINCE_AIRFIELD_POPULATED_FACTOR = 0.0,	-- Bonus factor when an airfield has planes on it
 	PLAN_PORVINCE_AIRFIELD_LEVEL_FACTOR = 0.2,		-- Bonus factor for airfield level
-	PLAN_PORVINCE_RESISTANCE_BASE_IMPORTANCE = 10.0, -- Used when calculating the calue of defense area provinces for the battle plan system (factored by resistance level)
+	PLAN_PORVINCE_RESISTANCE_BASE_IMPORTANCE = 0.0, -- Used when calculating the calue of defense area provinces for the battle plan system (factored by resistance level)
 	
 	-- These need to result in province value > 1.0 for it to matter.
 	PLAN_AREA_DEFENSE_ENEMY_CONTROLLER_SCORE = 1.0,-- Score applied to provinces in the defense area order controlled by enemies
