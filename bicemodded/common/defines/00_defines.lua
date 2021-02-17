@@ -621,7 +621,7 @@ NMilitary = {
 	
 	LAND_COMBAT_ORG_DICE_SIZE = 4,                 -- nr of damage dice
 	LAND_COMBAT_STR_DICE_SIZE = 4,                 -- nr of damage dice
-	LAND_COMBAT_STR_DAMAGE_MODIFIER = 0.030,        -- global damage modifier... but some equipment is returned at end of battles see : EQUIPMENT_COMBAT_LOSS_FACTOR
+	LAND_COMBAT_STR_DAMAGE_MODIFIER = 0.031,        -- global damage modifier... but some equipment is returned at end of battles see : EQUIPMENT_COMBAT_LOSS_FACTOR
 	LAND_COMBAT_ORG_DAMAGE_MODIFIER = 0.058,        -- global damage modifier
 	LAND_AIR_COMBAT_STR_DAMAGE_MODIFIER = 0.03,    -- air global damage modifier
 	LAND_AIR_COMBAT_ORG_DAMAGE_MODIFIER = 0.03,    -- global damage modifier
@@ -758,7 +758,7 @@ NMilitary = {
 	
 	PLAN_SHARED_FRONT_PROV_IMPORTANCE_FACTOR = 0.8,	-- If fornt orders share end provinces, they should each have a somewhat reduced prio due to it being shared.
 	
-	PLAN_PORVINCE_PORT_BASE_IMPORTANCE = 12.0,		-- Added importance for area defense province with a port
+	PLAN_PORVINCE_PORT_BASE_IMPORTANCE = 14.0,		-- Added importance for area defense province with a port
 	PLAN_PORVINCE_PORT_LEVEL_FACTOR = 1.5,			-- Bonus factor for port level
 	PLAN_PORVINCE_AIRFIELD_BASE_IMPORTANCE = 0.6,	-- Added importance for area defense province with air field
 	PLAN_PORVINCE_AIRFIELD_POPULATED_FACTOR = 0.0,	-- Bonus factor when an airfield has planes on it
@@ -1178,7 +1178,7 @@ NNavy = {
 	CONVOY_EFFICIENCY_LOSS_MODIFIER = 0.75,							-- How much efficiency drops when losing convoys. If modifier is 0.5, then losing 100% of convoys in short period, the efficiency will drop by 50%.
 	CONVOY_EFFICIENCY_REGAIN_AFTER_DAYS = 3,						-- Convoy starts regaining it's efficiency after X days without any convoys being sink.
 	CONVOY_EFFICIENCY_REGAIN_BASE_SPEED = 0.04,						-- How much efficiency regains every day.
-	CONVOY_EFFICIENCY_MIN_VALUE = 0.1,								-- To avoid complete 0% efficiency, set the lower limit.
+	CONVOY_EFFICIENCY_MIN_VALUE = 0.12,								-- To avoid complete 0% efficiency, set the lower limit.
 	CONVOY_ROUTE_SIZE_CONVOY_SCALE = 0.3,                           -- scales impact of convoy route size (0 to turn off)
 	ANTI_AIR_TARGETTING_TO_CHANCE = 0.18,							-- Balancing value to convert averaged equipment stats (anti_air_targetting and naval_strike_agility) to probability chances of airplane being hit by navies AA.
 	ANTI_AIR_ATTACK_TO_AMOUNT = 0.01,								-- Balancing value to convert equipment stat anti_air_attack to the random % value of airplanes being hit.
