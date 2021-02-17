@@ -186,7 +186,7 @@ NCountry = {
 	REINFORCEMENT_AIRBASE_PRIORITY_COUNT = 3,
 	REINFORCEMENT_AIRBASE_PRIORITY_DEFAULT = 1,
 	REINFORCEMENT_DELIVERY_SPEED_MIN = 0.35,			-- The distance from the supply region to capital should affect the speed only a little bit. Main factor for penalty is overcrowded areas, and not the route length.
-	REINFORCEMENT_EQUIPMENT_DELIVERY_SPEED = 0.18,	-- Modifier for army equipment reinforcement speed
+	REINFORCEMENT_EQUIPMENT_DELIVERY_SPEED = 0.1,	-- Modifier for army equipment reinforcement speed
 	REINFORCEMENT_MANPOWER_DELIVERY_SPEED = 15.0,	-- Modifier for army manpower reinforcement delivery speed (travel time)
 	REINFORCEMENT_MANPOWER_CHUNK = 0.1,				-- Chunk size of manpower reinforcement delivery, in % of total manpower needed by the template.
 	EQUIPMENT_UPGRADE_CHUNK_MAX_SIZE = 10,			-- Maximum chunk size of equipment upgrade distribution per update.
@@ -613,7 +613,7 @@ NMilitary = {
 	MAX_NAVY_EXPERIENCE = 750,			--Max navy experience a country can store
 	MAX_AIR_EXPERIENCE = 750,			--Max air experience a country can store
 	
-	COMBAT_MINIMUM_TIME = 8,			-- Shortest time possible for a combat in hours
+	COMBAT_MINIMUM_TIME = 2,			-- Shortest time possible for a combat in hours
 	SPOTTING_QUALITY_DROP_HOURS = 5, 	-- Each X hours the intel quality drops after unit was spotted.
 	LEADER_GROUP_MAX_SIZE = 1000, 		-- 5 Max slots for leader groups.
 	
