@@ -613,7 +613,7 @@ NMilitary = {
 	MAX_NAVY_EXPERIENCE = 750,			--Max navy experience a country can store
 	MAX_AIR_EXPERIENCE = 750,			--Max air experience a country can store
 	
-	COMBAT_MINIMUM_TIME = 2,			-- Shortest time possible for a combat in hours
+	COMBAT_MINIMUM_TIME = 4,			-- Shortest time possible for a combat in hours
 	SPOTTING_QUALITY_DROP_HOURS = 5, 	-- Each X hours the intel quality drops after unit was spotted.
 	LEADER_GROUP_MAX_SIZE = 1000, 		-- 5 Max slots for leader groups.
 	
