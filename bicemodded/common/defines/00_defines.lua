@@ -809,7 +809,7 @@ NMilitary = {
 	STRATEGIC_REDEPLOY_ORG_RATIO = 0.45,				-- Ratio of max org while strategic redeployment
 	BATALION_NOT_CHANGED_EXPERIENCE_DROP = 0.0,		-- Division experience drop if unit has same batalion
 	BATALION_CHANGED_EXPERIENCE_DROP = 0.4,			-- Division experience drop if unit has different batalion
-	ARMOR_VS_AVERAGE = 0.60,			                -- how to weight in highest armor & pen vs the division average
+	ARMOR_VS_AVERAGE = 0.50,			                -- how to weight in highest armor & pen vs the division average
 	PEN_VS_AVERAGE = 0.50,
 	
 	LAND_EQUIPMENT_BASE_COST = 15,					-- Cost in XP to upgrade a piece of equipment one level is base + ( total levels * ramp )
