@@ -15,15 +15,7 @@ ability = {
 			#is_leading_army_group = no
 			is_border_war = no
 			OWNER = {
-				OR = {
-					AND = {
-						has_tech = mobile_warfare
-						tag = GER 
-						has_completed_focus = GER_advanced_blitzkrieg
-					}
-					has_tech = modern_blitzkrieg
-					has_tech = tactical_control
-				}
+				has_tech = modern_blitzkrieg
 			}
 		}
 		
@@ -31,15 +23,11 @@ ability = {
 		duration = 168
 		cooldown = 168
 		unit_modifiers = {
-
 			army_armor_attack_factor = 0.25
 			mechanized_attack_factor = 0.25
 			motorized_attack_factor = 0.15
-
 			army_fuel_consumption_factor = 0.3
-
-			armor_factor = 0.1
-			
+			armor_factor = 0.1			
 		}
 		
 		one_time_effect = {
@@ -85,13 +73,6 @@ ability = {
 				has_tech = mobile_warfare
 				NOT = { has_tech = modern_blitzkrieg }
 				NOT = { has_completed_focus = GER_advanced_blitzkrieg }
-				
-				if = {
-					limit = {
-						has_dlc = "Waking the Tiger"
-					}
-					NOT = { has_completed_focus = CHI_dare_to_die_corps }
-				}
 			}
 		}
 		
@@ -143,12 +124,54 @@ ability = {
 				combat_breakthrough = 0.15
 
 				days = 7
-				#tooltip = ABILITY_LAST_STAND_TOOLTIP  todo new tooltip
+				#tooltip = ABILITY_FORCE_ATTACK_TOOLTIP
 			}
 		}
 	}
 	
-	
+	force_attack_2 = { 
+		name = ABILITY_SHOCK_ATTACK 
+		desc = ABILITY_SHOCK_ATTACK_DESC
+		
+		sound_effect = command_power_ability_offensive
+		
+		type = army_leader
+		
+		allowed = {
+			is_leading_army_group = no
+			is_border_war = no
+			OWNER = {
+				OR = { has_tech = tactical_control has_tech = armored_operations has_tech = mechanized_wave }
+			}
+		}
+		
+		ai_will_do = {
+			factor = 0
+		}
+		
+		cost = 0.12
+		duration = 168
+		cooldown = 168
+		
+		unit_modifiers = {
+			army_armor_attack_factor = 0.05
+			mechanized_attack_factor = 0.05
+			motorized_attack_factor = 0.05
+			cavalry_attack_factor = 0.05
+			artillery_attack_factor = 0.05
+			army_fuel_consumption_factor = 0.05		
+		}
+		
+		
+		one_time_effect = {
+			add_temporary_buff_to_units = {
+				combat_breakthrough = 0.4
+
+				days = 7
+				#tooltip = ABILITY_LAST_STAND_TOOLTIP  todo new tooltip
+			}
+		}
+	}
 	
 	
 	mass_assault = { 
@@ -320,7 +343,11 @@ ability = {
 				NOT = {
 					has_completed_focus = SPA_cultivate_fanaticism
 				}
+				OR = {
 				has_tech = trench_warfare
+				has_tech = volkssturm
+				has_tech = mobile_defence
+				}
 			}
 		}
 		
@@ -465,18 +492,16 @@ ability = {
 		
 		allowed = {
 			is_border_war = no
-			OWNER = { has_tech = kampfgruppe }
+			OWNER = { OR = { has_tech = kampfgruppe has_tech = large_front_offensive has_tech = forward_observers has_tech = central_planning } }
 		}
 		
 		cost = 0.12
 		duration = 168
+		cooldown = 168
 		
 		unit_modifiers = {
 			planning_speed = 4.0
-			max_planning = 0.05
-		}
-		
-			
+		}			
 		
 		ai_will_do = {
 			factor = -1
@@ -573,7 +598,7 @@ ability = {
 		}
 		cost = 0.1
 		duration = 168
-		
+		cooldown = 168
 		
 		ai_will_do = {
 			factor = -1
@@ -639,6 +664,7 @@ ability = {
 		
 		cost = 0.1
 		duration = 504
+		cooldown = 504
 	}
 	
 	probing_attack = { #Extreme Planned Attack
@@ -652,18 +678,21 @@ ability = {
 			OWNER = { has_tech = assault_breakthrough }
 		}
 		
+		unit_modifiers = {
+			max_planning = 0.05
+			planning_speed = -0.25
+		}	
+		
 		one_time_effect = {
 			add_temporary_buff_to_units = {
-				combat_offense = 0.06
-				org_damage_multiplier = -0.6
-								
-				days = 7
+				org_damage_multiplier = -0.1				
+				days = 14
 			}
 		}
 		
 		cost = 0.12
-		duration = 168
-		cooldown = 56
+		duration = 336
+		cooldown = 1000
 	}
 	
 	artillery_barrage = {
@@ -677,6 +706,7 @@ ability = {
 			OR = {
 				OWNER = { has_tech = regimental_combat_teams }
 				OWNER = { has_tech = overwhelming_firepower }
+				#OWNER = { has_tech = ma_barrage }
 			}
 		}
 		
@@ -692,6 +722,38 @@ ability = {
 		cost = 0.12
 		duration = 168
 		cooldown = 56
+	}
+	
+	air_barrage = { 
+		name = ABILITY_AIR_BARRAGE
+		desc = ABILITY_AIR_BARRAGE_DESC
+		
+		type = army_leader
+		
+		allowed = {
+			is_border_war = no
+			OWNER = { has_tech = assault_breakthrough }
+		}
+		
+		unit_modifiers = {
+			air_cas_present_factor = 0.1
+		}	
+		
+		one_time_effect = {
+			
+			add_temporary_buff_to_units = {
+				combat_offense = -0.25
+				org_damage_multiplier = -0.3
+				str_damage_multiplier = -0.3
+				
+				days = 7
+				#tooltip = ABILITY_FORCE_ATTACK_TOOLTIP
+			}
+		}
+		
+		cost = 0.12
+		duration = 336
+		cooldown = 1000
 	}
 	
 	makeshift_bridges = {
@@ -715,6 +777,7 @@ ability = {
 		
 		cost = 0.1
 		duration = 168
+		cooldown = 56
 		
 		ai_will_do = {
 			factor = -1
@@ -812,8 +875,7 @@ ability = {
 		unit_modifiers = {
 			dont_lose_dig_in_on_attack = 1
 			army_attack_factor = 0.07
-		}
-		
+		}	
 			
 		cost = 0.12
 		duration = 168
