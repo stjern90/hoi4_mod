@@ -96,8 +96,8 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 				name = construction_tech_bonus
-				bonus = 0.3
-				uses = 7
+				bonus = 0.4
+				uses = 6
 				category = construction_tech
 			}
 		}
@@ -252,7 +252,7 @@ create_field_marshal = {
 	}
 	focus = {
 		id = USA_second_new_deal
-		icon = GFX_goal_government_icon
+		icon = GFX_goal_new_deal
 		x = 2 
 		y = 3 
 		cost = 8
@@ -2797,7 +2797,7 @@ create_field_marshal = {
 		icon = GFX_selective_service
 		x = 12
 		y = 3
-		cost = 7
+		cost = 5
 		prerequisite = { focus = USA_support_roosevelt }
 		ai_will_do = {
 			factor = 5
@@ -2816,25 +2816,27 @@ create_field_marshal = {
 			}
 		}
 		
-		bypass = {
-			OR = {
-				has_idea = limited_conscription
-				has_idea = extensive_conscription
-				has_idea = service_by_requirement
-				has_idea = all_adults_serve
-				has_idea = scraping_the_barrel
-			}
-		}
-		
 		completion_reward = {
 			if = {
-			limit = {
-				OR = {
+				limit = {
 					has_idea = disarmed_nation
+				}
+				add_ideas = volunteer_only
+			}
+			else_if = {
+				limit = {
 					has_idea = volunteer_only
 				}
-			}
 				add_ideas = limited_conscription
+			}
+			else = {
+				add_political_power = 125
+			}
+			if = {
+				limit = {
+					has_war_support < 0.1
+				}
+				set_war_support = 0.1
 			}
 			if = {
 				limit = {
@@ -3447,7 +3449,7 @@ create_field_marshal = {
 	focus = {
 		id = USA_defense_department
 		icon = GFX_goal_generic_occupy_states_ongoing_war
-		x = 25
+		x = 24
 		y = 0 
 		cost = 8
 		#ai_will_do = {
@@ -3480,7 +3482,14 @@ create_field_marshal = {
 		prerequisite = { focus = USA_amphibious_operations }
 		x = 25 
 		y = 5
-		cost = 3
+		cost = 2.8
+		
+		available = {
+		    OR = {
+			has_war = yes
+			has_idea = civilian_economy
+			}
+		}
 		available_if_capitulated = no
 		completion_reward = {
 		    custom_effect_tooltip = USA_MC_1_tt
@@ -3489,12 +3498,13 @@ create_field_marshal = {
 			}
 			add_tech_bonus = {
 			    name = marine_bonus
-				bonus = 0.6
-				uses = 1
+				bonus = 0.5
+				uses = 2			
+				technology = amphibious_equipment
+				technology = marines2
 				technology = marines3
-				technology = amphibious_equipment2
 			}
-			add_ideas = USMC
+			
 		}
 	}
 	focus = {	
@@ -3503,7 +3513,7 @@ create_field_marshal = {
 		prerequisite = { focus = USA_marine_corps }
 		x = 25 
 		y = 6 
-		cost = 2
+		cost = 2.8
 		available_if_capitulated = no
 		completion_reward = {
 			army_experience = 10
@@ -3514,16 +3524,15 @@ create_field_marshal = {
 		id = USA_first_special_service_force
 		icon = GFX_goal_generic_special_forces
 		prerequisite = { focus = USA_defense_department }
-		x = 25 
+		relative_position_id = USA_defense_department
+		x = 1
 		y = 1
-		cost = 4.8
-		#ai_will_do = {
-		#	factor = 1
-		#}
+		cost = 5
+
 		available = {
 			OR = {
 			has_war = yes
-			threat > 0.10
+			threat > 0.15
 			}
 		}
 		continue_if_invalid = yes
@@ -3545,6 +3554,100 @@ create_field_marshal = {
 				technology = tech_recon
 				technology = tech_recon2
 				technology = tech_recon3
+			}
+		}
+	}
+	focus = {
+		id = USA_louisiana_maneuvers
+		icon = GFX_goal_generic_cavalry
+		prerequisite = { focus = USA_defense_department }
+		relative_position_id = USA_defense_department
+		x = 3
+		y = 1
+		cost = 5
+
+		available = {
+			OR = {
+			has_war = yes
+			threat > 0.15
+			}
+			has_tech = interwar_antitank
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		search_filters = {FOCUS_FILTER_RESEARCH}
+		completion_reward = {
+			add_tech_bonus = {
+				name = land_doc_bonus
+				bonus = 0.6
+				uses = 1
+				category = land_doctrine
+			}
+			custom_effect_tooltip = UNLOCK_DIVISION_TEMPLATE
+			hidden_effect = {
+				load_oob = "unlock_infantry_usa"
+			}
+		}
+	}
+	focus = {
+		id = USA_selective_training_act
+		icon = GFX_focus_generic_military_mission
+		relative_position_id = USA_defense_department
+		x = 2
+		y = 2
+		prerequisite = { focus = USA_louisiana_maneuvers focus = USA_first_special_service_force }
+		cost = 5
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			if = {
+				limit = {
+					threat < 0.5
+					has_war = no
+				}
+				congress_high_support_trigger = yes
+			}
+			else = {
+				congress_low_support_trigger = yes
+			}
+		}
+
+		cancel_if_invalid = no
+		continue_if_invalid = yes
+		available_if_capitulated = no
+		search_filters = {FOCUS_FILTER_MANPOWER FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_USA_CONGRESS}
+		completion_reward = {
+			if = {
+				limit = {
+					has_idea = disarmed_nation
+				}
+				add_ideas = volunteer_only
+			}
+			else_if = {
+				limit = {
+					has_idea = volunteer_only
+				}
+				add_ideas = limited_conscription
+			}
+			else = {
+				add_political_power = 125
+			}
+			if = {
+				limit = {
+					has_war_support < 0.1
+				}
+				set_war_support = 0.1
+			}
+			if = {
+				limit = {
+					has_war_support < 0.4 
+				}
+				USA_congress_medium_opposition = yes
 			}
 		}
 	}
@@ -3766,7 +3869,7 @@ create_field_marshal = {
 	focus = {
 		id = USA_tri
 		icon = GFX_wartime_industry
-		x = 27 
+		x = 30 
 		y = 0
 		cost = 4.5 
 
@@ -3814,7 +3917,8 @@ create_field_marshal = {
 		id = USA_automotive_industry_focus
 		icon = GFX_auto_invest 
 		prerequisite = { focus = USA_defense_department focus = USA_tri }
-		x = 27
+		relative_position_id = USA_tri
+		x = 0
 		y = 1
 		cost = 6.5
 		#ai_will_do = {
@@ -3840,7 +3944,8 @@ create_field_marshal = {
 		icon = GFX_goal_USA_cars
 		prerequisite = { focus = USA_automotive_industry_focus }
 		mutually_exclusive = { focus = USA_detroit_tank_focus }
-		x = 26
+		relative_position_id = USA_tri
+		x = -1
 		y = 2
 		cost = 8
 		#ai_will_do = {
@@ -3865,7 +3970,8 @@ create_field_marshal = {
 				threat > 0.80
 			}
 		}
-		x = 26
+		relative_position_id = USA_tri
+		x = -1
 		y = 3
 		cost = 8
 		#ai_will_do = {
@@ -3887,7 +3993,8 @@ create_field_marshal = {
 		icon = GFX_goal_USA_armor
 		prerequisite = { focus = USA_automotive_industry_focus }
 		mutually_exclusive = { focus = USA_detroit_vehicle_focus }
-		x = 28
+		relative_position_id = USA_tri
+		x = 1
 		y = 2
 		cost = 8
 		#ai_will_do = {
@@ -3912,7 +4019,8 @@ create_field_marshal = {
 				threat > 0.80
 			}
 		}
-		x = 28
+		relative_position_id = USA_tri
+		x = 1
 		y = 3
 		cost = 8
 		#ai_will_do = {
@@ -4010,7 +4118,7 @@ create_field_marshal = {
 		mutually_exclusive = { focus = USA_tanks }
 		x = 26
 		y = 8
-		cost = 5.7
+		cost = 5.8
 		ai_will_do = {
 			factor = 0
 		}
@@ -4030,7 +4138,7 @@ create_field_marshal = {
 		prerequisite = { focus = USA_tanks focus = USA_mechanization }
 		x = 27
 		y = 9
-		cost = 5.2
+		cost = 5
 		ai_will_do = {
 			factor = 3
 		}
@@ -4050,7 +4158,7 @@ create_field_marshal = {
 		prerequisite = { focus = USA_tanks focus = USA_mechanization }
 		x = 25
 		y = 9
-		cost = 9
+		cost = 7.2
 		ai_will_do = {
 			factor = 2
 		}
@@ -4072,10 +4180,10 @@ create_field_marshal = {
 				}
 			}
 			every_state = {
-				limit = { has_state_flag = USA_military_construction_2CIV }
+				limit = { has_state_flag = USA_military_construction_4MF }
 				add_building_construction = {
-					type = industrial_complex
-					level = 2
+					type = arms_factory
+					level = 4
 					instant_build = yes
 				}
 			}
@@ -4132,23 +4240,23 @@ create_field_marshal = {
 					limit = { 
 					    is_in_home_area = yes
 						free_building_slots = {
-							building = industrial_complex
-							size > 1
+							building = arms_factory
+							size > 3
 						}
 					}
 					add_building_construction = {
-						type = industrial_complex
-						level = 2
+						type = arms_factory
+						level = 4
 						instant_build = yes
 					}
-					set_state_flag = USA_military_construction_2CIV
+					set_state_flag = USA_military_construction_4MF
 				}
 		}
 	}
 	focus = {
 		id = USA_United_States_maritime_commission
 		icon = GFX_goal_generic_positive_trade_relations
-		x = 32
+		x = 34
 		y = 0
 		cost = 6
 		prerequisite = { }
@@ -4167,7 +4275,7 @@ create_field_marshal = {
 	focus = {
 		id = USA_naval_expansion_act
 		icon = GFX_bigboat
-		x = 32
+		x = 34
 		y = 2 
 		cost = 6
 		prerequisite = { focus = USA_United_States_maritime_commission }
@@ -4216,7 +4324,7 @@ create_field_marshal = {
 	focus = {
 		id = USA_navy_department
 		icon = GFX_the_docks
-		x = 32
+		x = 34
 		y = 3
 		cost = 6
 		prerequisite = { focus = USA_naval_expansion_act }
@@ -4296,19 +4404,23 @@ create_field_marshal = {
 		prerequisite = {
 			focus = USA_tanks focus = USA_mechanization
 		}
+		available = {
+		    has_war = yes
+		}
 		x = 29
 		y = 9
 			available_if_capitulated = yes
 			completion_reward = {
+			        add_ideas = USMC
 					add_tech_bonus = {
-							bonus = 0.6
+							bonus = 0.75
 							ahead_reduction = 0.6
 							name = amph_armor_bonus
 							uses = 2
 							category = amp_armor
 					}
 					add_tech_bonus = {
-							bonus = 0.6
+							bonus = 0.75
 							ahead_reduction = 0.6
 							name = amph_mech_bonus
 							uses = 2
