@@ -613,7 +613,7 @@ NMilitary = {
 	MAX_NAVY_EXPERIENCE = 750,			--Max navy experience a country can store
 	MAX_AIR_EXPERIENCE = 750,			--Max air experience a country can store
 	
-	COMBAT_MINIMUM_TIME = 4,			-- Shortest time possible for a combat in hours
+	COMBAT_MINIMUM_TIME = 0,			-- Shortest time possible for a combat in hours
 	SPOTTING_QUALITY_DROP_HOURS = 5, 	-- Each X hours the intel quality drops after unit was spotted.
 	LEADER_GROUP_MAX_SIZE = 1000, 		-- 5 Max slots for leader groups.
 	
@@ -641,8 +641,8 @@ NMilitary = {
 	COMBAT_MOVEMENT_SPEED = 0.27,	               -- speed reduction base modifier in combat
 	TACTIC_SWAP_FREQUENCEY = 12,                   -- hours between tactic swaps
 	INITIATIVE_PICK_COUNTER_ADVANTAGE_FACTOR  = 0.35, -- advantage per leader level for picking a counter
-	BASE_COMBAT_WIDTH = 120,                       -- DNM, original 80 -- base combat width
-	ADDITIONAL_COMBAT_WIDTH = 60,                  -- DNM, original 40 -- more opened up by support attack
+	BASE_COMBAT_WIDTH = 100,                       -- DNM, original 80 -- base combat width
+	ADDITIONAL_COMBAT_WIDTH = 40,                  -- DNM, original 40 -- more opened up by support attack
 	AMPHIBIOUS_INVADE_MOVEMENT_COST = 24.0,        -- total progress cost of movement while amphibious invading
 	LAND_SPEED_MODIFIER = 0.03,                    -- basic speed control
 	RIVER_CROSSING_PENALTY = -0.45,                 -- small river crossing
