@@ -117,6 +117,7 @@ focus_tree = {
 					}
 			}
 			add_tech_bonus = {
+			    name = heavy_industry_tech_bonus
 				bonus = 0.4
 				uses = 2
 				technology = Ltaircraft_industry
@@ -290,7 +291,7 @@ focus_tree = {
 			51 = { set_demilitarized_zone = no }
 			custom_effect_tooltip = GER_rhineland_ultimatum
 			add_political_power = 120
-			army_experience = 5
+			unlock_decision_tooltip = GER_welle1
 			add_named_threat = { threat = 3 name = GER_rhineland }
 			if = {
 				limit = { FRA = { is_puppet = no } }
@@ -855,7 +856,7 @@ focus_tree = {
 		completion_reward = {
 			add_ideas = GER_DEA_idea
 			add_tech_bonus = {
-				name = GER_oil_knowledge
+				name = synth_bonus
 					bonus = 0.6
 					uses = 3
 					category = synth_resources
@@ -1022,7 +1023,7 @@ focus_tree = {
 					}
 			}
 			add_tech_bonus = {
-				name = GER_oil_knowledge
+				name = synth_bonus
 					bonus = 0.5
 					uses = 2
 					category = synth_resources
@@ -1251,6 +1252,9 @@ focus_tree = {
 							instant_build = yes
 						}
 			}
+			
+			unlock_decision_tooltip = GER_welle3
+			unlock_decision_tooltip = GER_welle4
 		}
 	}
 	
@@ -1292,9 +1296,9 @@ focus_tree = {
 			}
 			add_tech_bonus = {
 
-				name = naval_doctrine_bonus
+				name = naval_doc_bonus
 
-				bonus = 0.5
+				bonus = 0.75
 
 				uses = 1
 
@@ -1332,9 +1336,9 @@ focus_tree = {
 			}
 			add_tech_bonus = {
 
-				name = naval_doctrine_bonus
+				name = naval_doc_bonus
 
-				bonus = 0.5
+				bonus = 0.75
 
 				uses = 1
 
@@ -1481,7 +1485,7 @@ focus_tree = {
 		id = GER_nibelungenwerk 
 		prerequisite = { focus = GER_defence_economy_and_armament_office }
 		icon = GFX_goal_nibelungenwerke
-		x = -2 
+		x = -1
 		y = 5 
 		cost = 4 
 		available = { GER = { owns_state = 152 }
@@ -1506,7 +1510,7 @@ focus_tree = {
 	}
 	focus = {
 		id = GER_take_over_CKD 
-		prerequisite = { focus = GER_nibelungenwerk }
+		prerequisite = { focus = GER_defence_economy_and_armament_office }
 		icon = GFX_goal_ckd
 		x = -2 
 		y = 6
@@ -2198,7 +2202,7 @@ focus_tree = {
 				}
 			add_tech_bonus = {
 				name = air_sup_bonus
-				bonus = 0.40
+				bonus = 0.5
 				uses = 2
 				category = air_doctrine
 			}
@@ -2334,7 +2338,7 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
 			add_tech_bonus = {
-				name = nav_bomber_bonus
+				name = naval_air_bonus
 				bonus = 0.5
 				uses = 2
 				technology = tech_fi_167_bomber_equipment_1
@@ -2363,7 +2367,7 @@ focus_tree = {
 			navy_experience = 20
 			add_tech_bonus = {
 				name = land_doc_bonus
-				bonus = 0.3 
+				bonus = 0.4 
 				uses = 2
 				category = land_doctrine
 			}
@@ -2400,6 +2404,7 @@ focus_tree = {
 			custom_effect_tooltip = GER_unlock_paratroopers_tt
 			show_ideas_tooltip = kurt_student
 			hidden_effect = { country_event = germany.329 }
+			custom_effect_tooltip = GER_Fallschirmjaeger
 		}
 	}
 	
@@ -2421,7 +2426,7 @@ focus_tree = {
 			custom_effect_tooltip = available_military_high_command
 			show_ideas_tooltip = erwin_rommel
 				add_tech_bonus = {
-				bonus = 0.3
+				bonus = 0.4
 				uses = 3
 				category = land_doctrine
 			}
@@ -2505,11 +2510,22 @@ focus_tree = {
 		custom_effect_tooltip = available_chief_of_army
 		show_ideas_tooltip = ludwig_beck
 			army_experience = 10
+			if = { limit = { date < 1940.12.1 } 
 			add_tech_bonus = {
+			    name = mechanized_bonus
 				bonus = 0.5 
 				uses = 1 
 				ahead_reduction = 0.50 
 				technology = mechanised_infantry
+			}
+			}
+			else = {
+			add_tech_bonus = {
+			    name = mechanized_bonus
+				bonus = 0.5 
+				uses = 1 
+				technology = mechanised_infantry
+			}
 			}
 		}
 	}
@@ -2543,7 +2559,20 @@ focus_tree = {
 					has_tech = subtech_panzer_ii_art_equipment_1
 		    	}
 				hidden_effect = {
+				if = {
+			limit = { is_ai = yes has_army_experience > 9 }
+			create_equipment_variant = { 
+				type = panzer_iii_ag_equipment_1 
+				upgrades = { 
+				    tank_armor_upgrade = 1
+				}
+			}
+			}
+			army_experience = -10
+		
 			        	load_oob = "GER_Panzer_Division_1939b"
+						
+						
 			    }
 			}
 		}
@@ -2557,7 +2586,7 @@ focus_tree = {
 	
 		x = 7
 		y = 2
-		cost = 6.5
+		cost = 6
 		ai_will_do = {
 			factor = 10
 		}
@@ -2568,15 +2597,15 @@ focus_tree = {
 		
 			hidden_effect = {
 				division_template = {
-					name = "Panzer-Division '1936 -"
+					name = "Leichte-Panzer-Division"
 					division_names_group = GER_LTARM_01
 					priority = 2
 					
 					regiments = {
 						light_armor = { x = 0 y = 0 }
-						medium_armor = { x = 0 y = 1 }
+						light_armor = { x = 0 y = 1 }
 						light_armor = { x = 0 y = 2 }
-						medium_armor = { x = 0 y = 3 }
+						light_armor = { x = 0 y = 3 }
 
 						motorized = { x = 1 y = 0 }
 						motorized = { x = 1 y = 1 }
@@ -2586,7 +2615,8 @@ focus_tree = {
 
 						artillery_brigade_mot = { x = 3 y = 0 }		
 						artillery_brigade_mot = { x = 3 y = 1 }
-						anti_tank_brigade_mot =  { x = 3 y = 2 }
+						artillery_brigade_mot = { x = 3 y = 2 }
+						anti_tank_brigade_mot =  { x = 3 y = 3 }
 					}
 					support = {
 						DIV_HQ = { x = 0 y = 0 }
@@ -2596,14 +2626,21 @@ focus_tree = {
 						logistics_company_mot = { x = 1 y = 1 }
 					}
 				}
+				
+				64 = {
+					create_unit = { 
+						division = "name = \"1. Leichte-Panzer-Division\" division_template = \"Leichte-Panzer-Division\" start_experience_factor = 0.28" 
+						owner = GER
+						}
+				}
 			}
 			# Balance research bonus to 2 techs in armor, also in event
 			
 			add_tech_bonus = {
-                name = armor_bonus
-												# Liecht divison tech template
-				bonus = 0.6
-                uses = 2
+                name = light_armor_bonus
+						
+				bonus = 0.75
+                uses = 1
                 category = cat_light_armor
             }
 		}
@@ -2616,7 +2653,7 @@ focus_tree = {
 		
 		x = 7 
 		y = 4
-		cost = 7
+		cost = 6
 		ai_will_do = {
 			factor = 10
 		}
@@ -2625,7 +2662,7 @@ focus_tree = {
 		completion_reward = {
 		
 			add_tech_bonus = {
-			name = armor_bonus
+			name = light_armor_bonus
 			ahead_reduction = 0.5
 			bonus = 0.6
 			uses = 2
@@ -2640,7 +2677,7 @@ focus_tree = {
 		
 		x = 6 
 		y = 3
-		cost = 5
+		cost = 4.5
 		ai_will_do = {
 			factor = 0
 		}
@@ -2649,14 +2686,14 @@ focus_tree = {
 		completion_reward = {
 			
 			add_tech_bonus = {
-			name = armor_bonus
+			name = light_armor_bonus
 			
 			bonus = 0.7 
 			uses = 1
 			category = cat_light_art
 			}
 			add_tech_bonus = {
-			name = armor_bonus
+			name = light_armor_bonus
 			
 			bonus = 0.7
 			uses = 1
@@ -2698,14 +2735,14 @@ focus_tree = {
 			}
 			effect_tooltip = {
 			add_tech_bonus = {
-			name = GER_soviet_treaty
+			name = med_armor_bonus
 			ahead_reduction = 0.4
 			bonus = 0.5
 			uses = 1
 			category = cat_medium_armor
 		}
 		add_tech_bonus = {
-		    name = GER_soviet_treaty
+		    name = heavy_armor_bonus
 		        ahead_reduction = 0.4
 			bonus = 0.5
 			uses = 1
@@ -2767,7 +2804,7 @@ focus_tree = {
 				}
 			}
 			add_tech_bonus = {
-				name = armor_bonus
+				name = med_armor_bonus
 				bonus = 0.6
 				uses = 2
 				category = cat_medium_armor
@@ -2790,7 +2827,7 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
 				add_tech_bonus = {
-				name = armor_bonus
+				name = med_armor_bonus
 				bonus = 0.6
 				uses = 2
 				category = cat_medium_armor
@@ -2847,7 +2884,7 @@ focus_tree = {
 			
 				add_tech_bonus = {
 					name = heavy_armor_bonus
-					bonus = 0.7 
+					bonus = 0.75
 					uses = 1
 					category = cat_heavy_armor
 				}
@@ -2918,7 +2955,7 @@ focus_tree = {
 					category = cat_heavy_td
 				}
 				add_tech_bonus = {
-					name = gersh_armor_bonus
+					name = sh_armor_bonus
 					bonus = 0.5
 					ahead_reduction = 0.5
 					uses = 1
@@ -2952,7 +2989,6 @@ focus_tree = {
 				uses = 2
 				category = infantry_weapons
 			}
-			
 			# REVISIT Might want to add bonuses to Soviet through event, since focus branches from treaty
 		}
 	}
@@ -2974,10 +3010,11 @@ focus_tree = {
 			army_experience = 10
 			add_tech_bonus = {
 					name = artillery_bonus
-					bonus = 0.6
+					bonus = 0.75
 					uses = 2
 					category = artillery
 				}
+				hidden_effect = { if ={ limit = { is_ai = yes } country_event = germany.240 } }
 		}
 	}
 	focus = {
@@ -2997,7 +3034,7 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 				name = GER_modernize_support
-				bonus = 0.4
+				bonus = 0.45
 				uses = 3
 				category = support_tech
 			}
@@ -3021,7 +3058,7 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 			name = rocket_artillery
-			bonus = 0.4 
+			bonus = 0.5
 			uses = 2 
 			technology = rocket_artillery
 			technology = rocket_artillery2
@@ -3117,7 +3154,7 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 			name = vampir
-			bonus = 0.4 
+			bonus = 0.5 
 			uses = 1 
 			ahead_reduction = 0.50 
 			technology = night_vision
@@ -3148,7 +3185,7 @@ focus_tree = {
 			#kampfgruppe
 				add_tech_bonus = {
 				name = Kampgruppes		
-				bonus = 0.6
+				bonus = 0.75
 				uses = 1
 				technology = kampfgruppe	
 				
@@ -3233,8 +3270,8 @@ focus_tree = {
 			army_experience = 10 
 			add_tech_bonus = {
 				name = advanced_blitzkrieg_bonus
-				bonus = 0.3
-				uses = 3 
+				bonus = 0.75
+				uses = 2 
 				technology = firebrigades
 				technology = backhand_blow
 				technology = modern_blitzkrieg
@@ -3274,8 +3311,8 @@ focus_tree = {
 			custom_effect_tooltip = available_chief_of_army
 			show_ideas_tooltip = kurt_zeitzler
 			add_tech_bonus = {
-				bonus = 0.20
-				uses = 3 
+				bonus = 0.75
+				uses = 2
 				technology = volkssturm
 				technology = nd_conscription
 				technology = werwolf_guerillas
@@ -3671,7 +3708,7 @@ focus_tree = {
 		completion_reward = {
 			JAP = {
 				add_tech_bonus = {
-					#name = 
+					name = synth_bonus
 					bonus = 0.4
 					uses = 2
 					category = synth_resources
@@ -4584,12 +4621,41 @@ focus_tree = {
 	}
 	
 	focus = {
+		id = GER_africa_korps
+		icon = GFX_goal_DAK
+		prerequisite = { focus = GER_stahlpakt }
+		x = -1
+		y = 1
+		relative_position_id = GER_stahlpakt
+		
+		cost = 2
+		
+		available = {
+			ITA = { has_war_with = ENG }
+			is_in_faction_with = ITA
+			448 = { is_owned_and_controlled_by = ITA }
+			has_tech = desert_equipment
+		}
+		bypass = {
+			ITA = {
+				exists = no
+			}
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			GER = {
+			country_event = germany.233
+			}
+		}
+	}
+	
+	focus = {
 		id = GER_achtung_minen 
 		icon = GFX_goal_achtung_minen
-		prerequisite = { focus = GER_Wehrmacht }
-		x = 7
-		y = 2
-		relative_position_id = GER_Wehrmacht
+		prerequisite = { focus = GER_africa_korps }
+		x = 0
+		y = 1
+		relative_position_id = GER_africa_korps
 		
 		cost = 2 
 		
@@ -6878,21 +6944,21 @@ focus_tree = {
 			navy_experience = 10
 			add_tech_bonus = {
 				name = ProjectBismarck		
-				bonus = 0.5
+				bonus = 0.6
 				uses = 1
 				ahead_reduction = 0.75
 				technology = improved_ship_hull_heavy
 				
 			}
 			add_tech_bonus = {
-				name = naval_doctrine_bonus
-				bonus = 0.5
+				name = naval_doc_bonus
+				bonus = 0.6
 				uses = 1
 				category = naval_doctrine
 			}
 			add_tech_bonus = {
 				name = ships_bonus
-				bonus = 0.5
+				bonus = 0.6
 				uses = 1
 				category = naval_equipment
 			}
@@ -6938,21 +7004,21 @@ focus_tree = {
 			navy_experience = 10
 			add_tech_bonus = {
 				name = ProjectBismarck			
-				bonus = 0.5
+				bonus = 0.6
 				uses = 1
 				ahead_reduction = 0.75
 				technology = improved_ship_hull_heavy
 				
 			}
             add_tech_bonus = {
-				name = naval_doctrine_bonus
-				bonus = 0.5
+				name = naval_doc_bonus
+				bonus = 0.6
 				uses = 1
 				category = naval_doctrine
 			}
 			add_tech_bonus = {
 				name = ships_bonus
-				bonus = 0.5
+				bonus = 0.6
 				uses = 1
 				category = naval_equipment
 			}
@@ -6990,8 +7056,8 @@ focus_tree = {
 			
 			add_tech_bonus = {
 				name = retool_heavy_guns
-				bonus = 0.5
-				ahead_reduction = 0.5
+				bonus = 0.6
+				ahead_reduction = 0.6
 				uses = 1
 				technology = improved_heavy_battery
 			}
@@ -7199,7 +7265,7 @@ focus_tree = {
 				}
 				add_tech_bonus = {
 					name = cr_bonus
-					bonus = 0.5
+					bonus = 0.6
 					ahead_reduction = 0.5
 					uses = 1
 				    category = cl_tech
@@ -7207,7 +7273,7 @@ focus_tree = {
 					}
 					add_tech_bonus = {
 					name = navy_doctrine_bonus
-					bonus = 0.5
+					bonus = 0.6
 					ahead_reduction = 0.5
 					uses = 2
 					category = naval_equipment
@@ -7230,7 +7296,7 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 				name = navy_doctrine_bonus 
-				bonus = 0.5 
+				bonus = 0.6 
 				uses = 2 
 				technology = raider_patrols
 				technology = capital_ship_raiders
@@ -7584,16 +7650,15 @@ focus_tree = {
 
 				add_tech_bonus = {
 					name = cv_bonus
-					bonus = 0.8
+					bonus = 0.75
 					uses = 1
 					category = cv_tech
-					#category = cvl_tech
 				}
 				add_tech_bonus = {
 				name = bb_bonus
-				bonus = 0.5
+				bonus = 0.6
 				uses = 1
-				ahead_reduction = 0.5
+				ahead_reduction = 0.6
 				category = bb_tech  
 				}
 
@@ -7620,16 +7685,15 @@ focus_tree = {
 			}
 				add_tech_bonus = {
 					name = cv_bonus
-					bonus = 0.5
-					uses = 2
+					bonus = 0.75
+					uses = 1
 					category = cv_tech
-					#category = cvl_tech
 				}
 				add_tech_bonus = {
 				name = bb_bonus
-				bonus = 0.5
+				bonus = 0.6
 				uses = 1
-				ahead_reduction = 0.5
+				ahead_reduction = 0.6
 				category = bb_tech 
 				}
 		}
@@ -7690,7 +7754,7 @@ focus_tree = {
 				set_state_flag = GER_u_boat_effort_5dockyards
 			}
 			add_tech_bonus = {
-				name = GER_u_boat_effort
+				name = ss_bonus
 				bonus = 0.8
 				uses = 1
 				category = ss_tech
@@ -7714,7 +7778,7 @@ focus_tree = {
 			add_tech_bonus = {
 				name = ti_bonus
 				name = GER_trade_interdiction
-				bonus = 0.6
+				bonus = 0.75
 				uses = 3
 				technology = convoy_interdiction_ti
 				technology = unrestricted_submarine_warfare
@@ -7753,8 +7817,8 @@ focus_tree = {
 				set_state_flag = GER_u_boat_effort_6dockyards
 			}
 			add_tech_bonus = {
-				name = GER_u_boat_effort
-				bonus = 0.4
+				name = ss_bonus
+				bonus = 0.45
 				uses = 2
 				category = ss_tech
 			}
@@ -7888,7 +7952,17 @@ focus_tree = {
 		
 		search_filters = { FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
-			country_event = germany.328 
+		    hidden_effect = { country_event = germany.328  }
+			effect_tooltip = {
+			custom_effect_tooltip = GER_Landungstruppen
+		add_tech_bonus = {
+					name = amph_armor_bonus
+					bonus = 0.6
+					uses = 1
+					category = amp_armor
+		}
+			}
+			
 		}
 	}
 	focus = {
@@ -9004,6 +9078,7 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
 			add_tech_bonus = {
+			    name = paratrooper_bonus
 				bonus = 0.75
 				uses = 1
 				category = para_tech

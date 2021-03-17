@@ -612,6 +612,10 @@
 		}
 
 		completion_reward = {
+		    hidden_effect = {
+		        load_oob = "FRA_colonial_defence"
+			}
+			custom_effect_tooltip = FRA_colonial_defence_tt		
 			every_owned_state = {
 				limit = {
 					is_controlled_by = ROOT
@@ -675,7 +679,7 @@
 		prerequisite = { focus = FRA_invest_in_indochina }
 		x = 4
 		y = 5
-		cost = 10
+		cost = 7.2
         relative_position_id = FRA_invest_in_indochina
 		x = 0
 		y = 1
@@ -712,7 +716,7 @@
 		prerequisite = {focus = FRA_invest_in_the_colonies }
 		mutually_exclusive = { }
 		relative_position_id = FRA_invest_in_the_colonies
-		cost = 7.2
+		cost = 5
 
 		ai_will_do = {
 			factor = 1
@@ -766,6 +770,67 @@
 			}
 		}
 	}
+	
+	focus = {
+		id = FRA_invest_in_central_africa
+		icon = GFX_africa
+		x = 4
+		y = 1
+		offset = {
+			x = 0
+			y = 0
+		}
+		prerequisite = {focus = FRA_invest_in_the_colonies }
+		mutually_exclusive = { }
+		relative_position_id = FRA_invest_in_the_colonies
+		cost = 5
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			any_state = {
+				OR = {
+					state = 539
+					state = 660
+					state = 772
+					state = 773
+					state = 774
+				}	
+				is_owned_or_subject_trigger = yes
+			}
+		}
+		
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = yes
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			random_state = {
+				limit = { 
+					OR = {
+						state = 539
+						state = 660
+						state = 772
+						state = 773
+						state = 774
+					}	
+					OWNER = { is_owned_or_subject_trigger = yes }
+					NOT = {
+						has_state_flag = FRA_colonial_industry_target
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				set_state_flag = FRA_colonial_industry_target
+			}
+		}
+	}	
 	
 	focus = {
 		id = FRA_invest_in_syria
@@ -864,6 +929,7 @@
 		id = FRA_extra_research_slot
 		icon = GFX_focus_research
 		available = {
+			amount_research_slots < 8
 		}
 		prerequisite = {
 			focus = FRA_industrial_expansion
@@ -892,6 +958,7 @@
 			focus = FRA_colonial_industry
 		}
 		available = {
+			amount_research_slots < 8		
 		}
 		x = 0
 		y = 1
@@ -1077,7 +1144,7 @@
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
 			add_tech_bonus = {
-				name = FRA_methodical_battle
+				name = land_doc_bonus
 				category = land_doctrine
 				uses = 2
 				bonus = 1
@@ -1201,7 +1268,7 @@
 
 		completion_reward = {
 			add_tech_bonus = {
-				name = FRA_char_b1_bis
+				name = heavy_armor_bonus
 				technology = basic_heavy_tank_b
 				uses = 1
 				bonus = 1
@@ -1292,9 +1359,13 @@
 		}
 
 		available = {
-	    	OR = {
+            OR = {
 			has_completed_focus = FRA_tank_radio
 			has_completed_focus = FRA_infantry_focus
+			}
+			OR = {
+			    has_tech = basic_medium_tank
+				has_tech = basic_heavy_tank_b
 			}
 		}
 
@@ -1530,7 +1601,7 @@
 			add_ideas = { special_forces }
 			
 			add_tech_bonus = {
-				name = FRA_special_forces
+				name = special_forces_bonus
 				bonus = 0.75
 				ahead_reduction = 1.0
 				uses = 2
@@ -1560,10 +1631,15 @@
 
 		completion_reward = {
 			add_tech_bonus = {
-				name = FRA_fusiliers_marine
+				name = tp_bonus
 				category = tp_tech
+				uses = 1
+				bonus = 1
+			}
+			add_tech_bonus = {
+				name = marine_bonus
 				category = marine_tech
-				uses = 2
+				uses = 1
 				bonus = 1
 			}
 		}
@@ -1590,7 +1666,7 @@
 	}
 	focus = {
 		id = FRA_battle_of_maneuver
-		icon = GFX_goal_generic_position_armies
+		icon = GFX_doctrine_tank_warfare
 		x = 0
 		y = 1
 		offset = {
@@ -1651,7 +1727,7 @@
 		completion_reward = {
 			army_experience = 5
 			add_tech_bonus = {
-				name = FRA_mechanized_focus
+				name = mechanized_bonus
 				bonus = 0.6
 				uses = 1
 				category = cat_mechanized_equipment
@@ -1672,19 +1748,19 @@
 		completion_reward = {
 			army_experience = 5
 			add_tech_bonus = {
-				name = FRA_light_medium_armor
+				name = light_armor_bonus
 				bonus = 0.6
 				uses = 1
 				category = cat_light_armor
 			}
 			add_tech_bonus = {
-				name = FRA_light_medium_armor
+				name = med_armor_bonus
 				bonus = 0.6
 				uses = 1
 				category = cat_medium_armor
 			}
 			add_tech_bonus = {
-				name = FRA_char_b1_bis
+				name = heavy_tank_bonus
 				technology = basic_heavy_tank_b
 				uses = 1
 				bonus = 0.6
@@ -1705,7 +1781,7 @@
 		completion_reward = {
 			army_experience = 5
 			add_tech_bonus = {
-				name = FRA_tank_radio
+				name = radio_bonus
 				bonus = 0.6
 				uses = 2
 				technology = vehicle_radio
@@ -1763,7 +1839,7 @@
 
 		completion_reward = {
 			add_tech_bonus = {
-				name = FRA_cas_focus
+				name = CAS_bonus
 				bonus = 0.6
 				uses = 2
 				category = cas_bomber
@@ -1794,7 +1870,7 @@
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
 			add_tech_bonus = {
-				name = FRA_air_ground_cooperation
+				name = air_doc_bonus
 				category = air_doctrine
 				uses = 1
 				bonus = 1
@@ -1850,7 +1926,7 @@
 
 		completion_reward = {
 			add_tech_bonus = {	
-				name = land_doc_bonus
+				name = mobile_warfare_doc_bonus
 				bonus = 1.0
 				uses = 3
 				category = cat_mobile_warfare
@@ -1883,8 +1959,8 @@
 			add_timed_idea = { idea = FRA_planned_reforms days = 365 } 
 			army_experience = 10
 			add_tech_bonus = {
-				name = FRA_army_reform
-				bonus = 0.75
+				name = land_doc_bonus
+				bonus = 0.9
 				uses = 2
 				category = land_doctrine
 			}
@@ -1956,28 +2032,6 @@
 			}
 		}
 	}
-	
-	focus = {
-		id = FRA_colonial_defense
-		icon = GFX_colonial_police
-		cost = 5
-		prerequisite = { 
-			focus = FRA_tank_radio
-			focus = FRA_infantry_focus
-			focus = FRA_extend_the_maginot_line
-			focus = FRA_flying_artillery
-			focus = FRA_mobile_warfare
-		}
-		x = -6
-		y = 2
-		relative_position_id = FRA_light_medium_armor
-		completion_reward = {
-		    hidden_effect = {
-		        load_oob = "FRA_colonial_defence"
-			}
-			custom_effect_tooltip = FRA_colonial_defence_tt
-		}
-	}
 
     focus = {
 		id = FRA_french_legion
@@ -1995,7 +2049,7 @@
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
 		      add_tech_bonus = {
-				name = FRA_french_legion
+				name = paratrooper_bonus
 				bonus = 0.75
 				uses = 2
 				category = mountaineers_tech
@@ -2020,7 +2074,7 @@
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
 		      add_tech_bonus = {
-				name = FRA_french_legion
+				name = marine_bonus
 				bonus = 0.75
 				uses = 2
 				category = marine_tech
@@ -2045,7 +2099,7 @@
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
 		      add_tech_bonus = {
-				name = FRA_modernize_equipment
+				name = infantry_weapons_bonus
 				bonus = 0.5
 				uses = 2
 				category = infantry_weapons
@@ -2053,7 +2107,7 @@
 			}
 			
 			add_tech_bonus = {
-				name = FRA_modernize_equipment
+				name = motorized_bonus
 				bonus = 0.5
 				uses = 2 
 				category = cat_anti_tank 
@@ -2078,7 +2132,7 @@
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
 		    add_tech_bonus = {
-				name = FRA_machine_gun
+				name = infantry_weapons_bonus
 				bonus = 0.6
 				uses = 2
 			    technology = hmg_2
@@ -2104,7 +2158,7 @@
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
 		    add_tech_bonus = {
-				name = FRA_anti_air_effort
+				name = heavyAA_bonus
 				bonus = 0.75
 				uses = 2
 				technology = HVantiair2
@@ -2131,7 +2185,7 @@
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
 		    add_tech_bonus = {
-			name = FRA_siege_warfare
+			name = artillery_bonus
 			bonus = 0.75 
 			uses = 1
 			category = cat_heavy_art
@@ -2139,7 +2193,7 @@
 			}
 			
 			add_tech_bonus = {
-			name = FRA_siege_warfare
+			name = heavy_artillery_bonus
 			bonus = 0.5
 			ahead_reduction = 0.5
 			uses = 2
@@ -2165,7 +2219,7 @@
 
 		completion_reward = {
 			add_tech_bonus = {
-				name = FRA_heavy_armor_focus
+				name = heavy_armor_bonus
 				bonus = 0.75
 				uses = 1
 				category = cat_heavy_armor
@@ -2188,14 +2242,14 @@
 
 		completion_reward = {
 			add_tech_bonus = {
-			name = armor_bonus
+			name = light_armor_bonus
 			bonus = 0.5 
 			uses = 2
 			category = cat_light_art
 			}
 
 			add_tech_bonus = {
-			name = armor_bonus
+			name = light_armor_bonus
 			bonus = 0.5 
 			uses = 2
 			category = cat_light_td
@@ -5379,7 +5433,7 @@
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
 			add_tech_bonus = {
-				name = FRA_laissez_faire
+				name = industry_bonus
 				category = industry
 				uses = 3
 				bonus = 0.75
@@ -7014,7 +7068,7 @@
 		id = FRA_right_wing_rhetoric
 		icon = GFX_goal_generic_propaganda
 	 	prerequisite = { focus = FRA_revive_the_national_bloc }
-		x = 2
+		x = 5
 		y = 1
 		relative_position_id = FRA_revive_the_national_bloc
 		cost = 7.2
@@ -8837,7 +8891,7 @@
 				category = naval_gunry
 			}
 			add_tech_bonus = {
-				name = FRA_the_old_school
+				name = cv_bonus
 				bonus = 0.5
 				uses = 1
 				technology = basic_ship_hull_carrier
@@ -9057,7 +9111,7 @@
 
 		completion_reward = {
 			add_tech_bonus = {
-				name = FRA_carrier_planes
+				name = naval_air_bonus
 				bonus = 0.5
 				uses = 2
 				category = naval_air
@@ -9083,7 +9137,7 @@
 			add_ideas = FRA_the_young_school
 			
 			add_tech_bonus = {
-				name = FRA_the_young_school
+				name = torpedo_bonus
 				bonus = 0.5
 				uses = 2
 				technology = improved_ship_torpedo_launcher
@@ -9107,7 +9161,7 @@
 		completion_reward = {
 			navy_experience = 25
 			add_tech_bonus = {
-				name = FRA_undersea_combat
+				name = ss_bonus
 				bonus = 0.6
 				uses = 2
 				category = ss_tech
@@ -9129,7 +9183,7 @@
 		completion_reward = {
 			navy_experience = 25
 			add_tech_bonus = {
-				name = FRA_surface_combat
+				name = dd_bonus
 				bonus = 1.0
 				uses = 1
 				category = dd_tech
@@ -9155,7 +9209,7 @@
 		completion_reward = {
 
 			add_tech_bonus = {
-				name = FRA_naval_doctrine
+				name = naval_doc_bonus
 				bonus = 0.6
 				uses = 2
 				category = naval_doctrine
@@ -9176,7 +9230,7 @@
 		completion_reward = {
 			navy_experience = 25
 			add_tech_bonus = {
-				name = FRA_improved_screen_ships
+				name = cl_bonus
 				bonus = 1.0
 				uses = 1
 				category = cl_tech
@@ -9196,11 +9250,10 @@
 
 		completion_reward = {
 			add_tech_bonus = {
-				name = FRA_capital_ship_focus
+				name = bb_bonus
 				bonus = 0.75
 				uses = 2
-				category = bb_tech
-				#category = bc_tech
+				category = bb_tech # includes bc
 			}
 		}
 	}
@@ -9219,7 +9272,7 @@
 
 		completion_reward = {
 			add_tech_bonus = {
-				name = FRA_carrier_focus
+				name = cv_bonus
 				bonus = 0.6
 				uses = 2
 				category = cv_tech
@@ -9240,7 +9293,7 @@
 
 		completion_reward = {
 			add_tech_bonus = {
-				name = FRA_navy_effort
+				name = ships_bonus
 				bonus = 0.5
 				uses = 2
 				category = naval_equipment
@@ -9282,7 +9335,7 @@
 		completion_reward = {
 		# todo, le french
 	    	add_tech_bonus = {
-				name = FRA_enthusiast_flight
+				name = air_bonus
 				bonus = 1.0
 				uses = 1
 				technology = tech_scout_plane_equipment_1
@@ -9309,14 +9362,14 @@
 		y = 0
 		completion_reward = {
 			add_tech_bonus = {
-				name = FRA_commercial_flight
+				name = bomber_bonus
 				bonus = 0.5
 				uses = 1
 				technology = strategic_bomber1
 				technology = tactical_bomber1
 			}
 			add_tech_bonus = {
-				name = FRA_commercial_flight
+				name = transport_plane_bonus
 				bonus = 1.0
 				uses = 1
 				technology = tech_transport_plane_equipment_1
@@ -9421,6 +9474,7 @@
 		relative_position_id = FRA_air_focus
 		completion_reward = {
 			add_tech_bonus = {
+				name = air_doc_bonus
 				bonus = 0.5
 				uses = 2
 				category = battlefield_support_tree
@@ -9440,6 +9494,7 @@
 		relative_position_id = FRA_air_focus
 		completion_reward = {
 			add_tech_bonus = {
+				name = strat_dest_bonus
 				bonus = 0.5
 				uses = 2
 				category = strategic_destruction_tree
@@ -9461,7 +9516,7 @@
 
 		completion_reward = {
 			add_tech_bonus = {
-				name = FRA_fighter_focus
+				name = fighter_bonus
 				bonus = 0.6
 				uses = 1
 				category = light_fighter
@@ -9482,7 +9537,7 @@
 
 		completion_reward = {
 			add_tech_bonus = {
-				name = FRA_heavy_fighter_focus
+				name = heavyfighter_bonus
 				bonus = 0.6
 				uses = 2
 				category = cat_heavy_fighter
@@ -9504,7 +9559,7 @@
 
 		completion_reward = {
 			add_tech_bonus = {
-				name = FRA_bomber_focus
+				name = bomber_bonus
 				bonus = 0.6
 				uses = 1
 				category = tactical_bomber
@@ -9525,7 +9580,7 @@
 
 		completion_reward = {
 			add_tech_bonus = {
-				name = FRA_heavy_bomber_focus
+				name = heavy_bomber_bonus
 				bonus = 0.6
 				uses = 1
 				category = cat_strategic_bomber
@@ -9546,7 +9601,7 @@
 
 		completion_reward = {
 			add_tech_bonus = {
-				name = FRA_naval_bomber_focus
+				name = nav_bomber_bonus
 				bonus = 0.6
 				uses = 1
 				category = naval_bomber
@@ -9573,7 +9628,7 @@
 			air_experience = 50
 
 			add_tech_bonus = {
-				name = FRA_air_doctrine
+				name = air_doc_bonus
 				bonus = 0.75
 				uses = 2
 				category = air_doctrine

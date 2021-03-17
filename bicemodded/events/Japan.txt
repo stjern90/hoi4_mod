@@ -372,10 +372,7 @@ country_event = {
 		name = japan.8.a
 		effect_tooltip = {
 			CHI = {
-				swap_ideas = {
-					add_idea = german_advisors2
-					remove_idea = german_advisors
-				}
+				remove_ideas = german_advisors
 			}
 		}
 	}
@@ -431,9 +428,51 @@ country_event = {
 		name = japan.11.a
 		add_political_power = -100
 		ai_chance = { factor = 10 }
+		
+		SIA = {
+				custom_effect_tooltip = needs_approval
+			}
+			effect_tooltip = {
+	         	puppet = SIA
+				add_to_faction = SIA
+		    }
+			
+			
 		SIA = { 
 			country_event = { id = japan.12 }
-			hidden_effect = {
+			
+		}
+	}
+
+	option = {
+		name = japan.11.b
+		ai_chance = { factor = 0 }
+	}
+}
+
+# Siam event from Japan: Become puppet or not
+country_event = {
+	id = japan.12
+	title = japan.12.t
+	desc = japan.12.d
+	picture = GFX_report_event_japanese_officers
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = japan.12.a
+		ai_chance = {
+			factor = 90 
+			modifier = {
+				#If they have a fighting chance, they should stand their ground
+				factor = 0
+				strength_ratio = {
+					tag = JAP
+					ratio > 0.75
+				}
+			}
+		}
+		hidden_effect = {
 				if = {
 					limit = {
 						FROM = {
@@ -471,40 +510,10 @@ country_event = {
 					add_ideas = JAP_resource_war_4
 				}
 			}
-		}
-	}
-
-	option = {
-		name = japan.11.b
-		ai_chance = { factor = 0 }
-	}
-}
-
-# Siam event from Japan: Become puppet or not
-country_event = {
-	id = japan.12
-	title = japan.12.t
-	desc = japan.12.d
-	picture = GFX_report_event_japanese_officers
-	
-	is_triggered_only = yes
-	
-	option = {
-		name = japan.12.a
-		ai_chance = {
-			factor = 90 
-			modifier = {
-				#If they have a fighting chance, they should stand their ground
-				factor = 0
-				strength_ratio = {
-					tag = JAP
-					ratio > 0.75
-				}
-			}
-		}
 		JAP = { 
 			country_event = { id = japan.13 }
 			effect_tooltip = { puppet = SIA }
+			add_to_faction = SIA
 		}
 	}
 
@@ -1300,13 +1309,74 @@ country_event = {
 	is_triggered_only = yes
 	fire_only_once = yes
 	option = {	
-		name = japan.33.a		
+		name = japan.33.a
 		
+		
+		if = { 
+	    	limit = { 
+	    	    USA = {
+				    OR = {
+					has_navy_size = {
+						size < 17
+						type = screen_ship
+					}
+				    AND = {
+			    	ships_in_state_ports = {
+                        type = carrier
+                        size < 4
+                        state = 629
+                    }
+					ships_in_state_ports = {
+                        type = capital_ship
+                        size < 4
+                        state = 629
+                    }
+					}
+					}
+		    	} 
+	    	}
+			USA = {
+				add_timed_idea = { idea = USA_destroyed_hawaii days = 45 } 
+				country_event = { id = usa.108 days = 1 }
+			}
+		}
+
+		
+		
+		if = { limit = { USA = { has_completed_focus = USA_pearl_harbor_gambit } }
+		629 = { 
+			damage_building = { type = infrastructure damage = 2 }
+			damage_building = { type = air_base damage = 2 }
+			damage_building = { type = naval_base damage = 3 province = 4180 }
+			custom_effect_tooltip = pearl_harbor_sink_ships_1_tt
+			hidden_effect = {
+			    USA = {
+				    destroy_ships = {
+				    	type = ship_hull_heavy_1
+				    	 count = 1
+			    	}
+				}
+			}
+		}
+		}
+		else_if = { limit = { NOT = { USA = { has_completed_focus = USA_pearl_harbor_gambit } } }
 		629 = { 
 			damage_building = { type = infrastructure damage = 2 }
 			damage_building = { type = air_base damage = 3 }
 			damage_building = { type = naval_base damage = 4 province = 4180 }
-		}		
+			custom_effect_tooltip = pearl_harbor_sink_ships_2_tt
+			hidden_effect = {
+			    USA = {
+				    destroy_ships = {
+				    	type = ship_hull_heavy_1
+				    	 count = 2
+			    	}
+				}
+			}
+		}
+		}
+		
+				
 		
 		country_event = { id = japan.34 hours = 3 }
 	}	
@@ -1449,6 +1519,11 @@ news_event = {
 	    	modifier = {
 	         	factor = 0
 				NOT = { tag = ENG }
+				date < 1937.6.1        	
+	    	}
+			modifier = {
+	         	factor = 0
+				NOT = { tag = ITA }
 				date < 1937.6.1        	
 	    	}
 		}
@@ -2182,7 +2257,7 @@ news_event = {
 	id = japan.49
 	title = japan.49.t
 	desc = japan.49.d
-	picture = GFX_report_event_japanese_officers
+	picture = GFX_news_event_jap_sold
 	
 	major = yes
 	is_triggered_only = yes
@@ -2717,13 +2792,11 @@ country_event = {
 	}
 }
 
-country_event = { #Sino-Japanese War ends in a Japanese victory
+news_event = { #Sino-Japanese War ends in a Japanese victory
     id = japan.55
     title = japan.55.t
     desc = japan.55.d
     picture = GFX_news_event_040
-	
-	fire_only_once = yes
 	
 	is_triggered_only = yes
 	
@@ -2809,7 +2882,7 @@ country_event = {
 	id = japan.56
 	title = japan.56.t
 	desc = japan.56.d
-	picture = GFX_news_event_038
+	picture = GFX_report_event_japanese_naval_officers
 	
 	mean_time_to_happen = {
 		days = 20
