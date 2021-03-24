@@ -1242,7 +1242,7 @@ NNavy = {
 	NAVY_REPAIR_BASE_SEARCH_BOOST_FOR_SAME_COUNTRY = 5,				-- while searching for a naval base for repairs, your own bases gets a bonus
 
 	CONVOY_SPOTTING_COOLDOWN = 0.3,  -- % of travel time 
-	CONVOY_SPOTTING_COOLDOWN_MIN = 60, -- minimum cooldown time
+	CONVOY_SPOTTING_COOLDOWN_MIN = 54, -- minimum cooldown time
 	CONVOY_SPOTTING_COOLDOWN_MAX = 168, -- maximum cooldown time
 	CONVOY_SPOTTING_COOLDOWN_MIN_FROM_EFFICIENCY = 15, -- clamped min value after screening efficiency has been applied
 	
