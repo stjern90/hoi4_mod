@@ -1050,7 +1050,7 @@ NAir = {
 	AIR_WING_XP_LOSS_REDUCTION_OVER_FRIENDLY_TERRITORY_FACTOR = 0.3, 	--Reduction on XP loss over friendly territory
 
 	DISRUPTION_FACTOR = 2.4,									-- multiplier on disruption damage to scale its effects on planes
-	DISRUPTION_FACTOR_CARRIER = 8.0,							-- multiplier on disruption damage to scale its effects on carrier vs carrier planes
+	DISRUPTION_FACTOR_CARRIER = 4.0,							-- multiplier on disruption damage to scale its effects on carrier vs carrier planes
 	DISRUPTION_SPEED_FACTOR = 1.0,
 	DISRUPTION_AGILITY_FACTOR = 0.75,
 	DISRUPTION_ATTACK_FACTOR = 1.0,
