@@ -1489,8 +1489,8 @@ NNavy = {
 	RELATIVE_SURFACE_DETECTION_TO_POSITIONING_FACTOR				= 0.01,	-- multiples the surface detection difference between two sides. the side with higher detection will get a bonus of this value
 	MAX_POSITIONING_BONUS_FROM_SURFACE_DETECTION					= 0.0,  -- will clamp the bonus that you get from detection
 	
-	HIGHER_SHIP_RATIO_POSITIONING_PENALTY_FACTOR					= 0.75, -- if one side has more ships than the other, that side will get this penalty for each +100% ship ratio it has
-	MAX_POSITIONING_PENALTY_FROM_HIGHER_SHIP_RATIO					= 1.25, -- maximum penalty to get from larger fleets
+	HIGHER_SHIP_RATIO_POSITIONING_PENALTY_FACTOR					= 0.6, -- if one side has more ships than the other, that side will get this penalty for each +100% ship ratio it has
+	MAX_POSITIONING_PENALTY_FROM_HIGHER_SHIP_RATIO					= 1.2, -- maximum penalty to get from larger fleets
 
 	HIGHER_CARRIER_RATIO_POSITIONING_PENALTY_FACTOR					= 0.2;  -- penalty if other side has stronger carrier air force 
 	MAX_CARRIER_RATIO_POSITIONING_PENALTY_FACTOR 					= 0.2;  -- max penalty from stronger carrier air force
@@ -1545,7 +1545,7 @@ NNavy = {
 	
 	DEPTH_CHARGES_HIT_CHANCE_MULT 									= 2.5, 		-- multiplies hit chance of small guns
 	DEPTH_CHARGES_DAMAGE_MULT 										= 1.0, 		-- multiplies damage of depth charges
-	DEPTH_CHARGES_HIT_PROFILE 										= 60.0,	-- hit profile for depth charges
+	DEPTH_CHARGES_HIT_PROFILE 										= 100.0,	-- hit profile for depth charges
 	
 	
 	CONVOY_HIT_PROFILE												= 103.0,  	-- convoys has this contant hit profile
