@@ -414,7 +414,7 @@ create_field_marshal = {
 	
 	focus = {
 		id = USA_court_packing
-		icon = GFX_goal_generic_neutrality_focus
+		icon = GFX_USA_court
 		x = 2
 		y = 5
 		
@@ -805,10 +805,10 @@ create_field_marshal = {
 		x = 20
 		y = 5
 		
-		cost = 7.2
+		cost = 5
 		search_filters = {FOCUS_FILTER_INDUSTRY}
 		
-		prerequisite = { focus = USA_colonial_2 }
+		prerequisite = { focus = USA_colonial_2 focus = USA_airbases }
 		ai_will_do = {
 			factor = 1
 		}
@@ -853,7 +853,7 @@ create_field_marshal = {
 		x = 19
 		y = 3
 		
-		cost = 9
+		cost = 6
 		search_filters = {FOCUS_FILTER_INDUSTRY}
 		
 		prerequisite = { focus = USA_embargo_japan }
@@ -971,7 +971,7 @@ create_field_marshal = {
 		x = 19
 		y = 4
 		
-		cost = 7.2
+		cost = 6
 		search_filters = {FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY}
 		
 		prerequisite = { focus = USA_colonial_focus }
@@ -3268,7 +3268,7 @@ create_field_marshal = {
 	
 	focus = {
 		id = USA_pearl_harbor_gambit
-		icon = GFX_goal_generic_navy_doctrines_tactics
+		icon = GFX_USA_hawaii
 		prerequisite = { focus = USA_ask_uk_and_allies_to_embargo_japan }
 		prerequisite = { focus = USA_mid_pacific_strategic_direction_finder_net }
 		prerequisite = { focus = USA_Four_Freedoms }
@@ -3756,8 +3756,8 @@ create_field_marshal = {
 	
 	focus = {
 		id = USA_defense_department
-		icon = GFX_goal_generic_occupy_states_ongoing_war
-		x = 24
+		icon = GFX_USA_fores
+		x = 25
 		y = 0 
 		
 		cost = 8
@@ -3787,12 +3787,64 @@ create_field_marshal = {
 	}
 	
 	focus = {
+		id = USA_tri
+		icon = GFX_wartime_industry
+		x = 28
+		y = 0
+		
+		cost = 4.5 
+		search_filters = {FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH}
+
+		ai_will_do = {
+			factor = 5 
+		}
+		available_if_capitulated = yes
+		
+		completion_reward = { 
+				358 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			359 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			357 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			add_tech_bonus = {
+				name = heavy_industry_tech_bonus
+				bonus = 0.5
+				#ahead_reduction = 0.5
+				uses = 5
+				category = heavy_industry
+			}
+			country_event = { days = 10 id = usa.67 }
+		}
+	}
+	
+	focus = {
 		id = USA_us_army
 		icon = GFX_USA_army
 		prerequisite = { focus = USA_detroit_tank_focus focus = USA_detroit_vehicle_focus focus = USA_at_effort focus = USA_artillery_effort focus = USA_first_special_service_force }
 		relative_position_id = USA_tri
 		x = 2
 		y = 3
+		
+		available = { threat > 0.45 }
 		
 		cost = 2.9
 		search_filters = {FOCUS_FILTER_INDUSTRY}
@@ -3930,7 +3982,7 @@ create_field_marshal = {
 				uses = 1
 				category = land_doctrine
 			}
-			custom_effect_tooltip = UNLOCK_DIVISION_TEMPLATE
+			custom_effect_tooltip = UNLOCK_DIVISION_TEMPLATE_USA_LOUI
 			hidden_effect = {
 				load_oob = "unlock_infantry_usa"
 			}
@@ -4051,7 +4103,7 @@ create_field_marshal = {
 		prerequisite = { focus = USAF }
 		prerequisite = { focus = USA_combined_arms_focus focus = USA_motorized_infantry_focus focus = USA_chain_of_command }
 		relative_position_id = USA_us_army
-		x = -4
+		x = -3
 		y = 2
 		available = {
     		has_completed_focus = USA_first_special_service_force
@@ -4079,7 +4131,8 @@ create_field_marshal = {
 		id = USA_air_war_plans_division
 		icon = GFX_usa_airplanes
 		prerequisite = { focus = USA_defense_department }
-		x = 23 
+		relative_position_id = USA_defense_department
+		x = -1
 		y = 1
 		
 		cost = 8
@@ -4109,13 +4162,42 @@ create_field_marshal = {
 			USA_congress_small_opposition = yes	
 		}
 	}
+	focus = {
+		id = USAF
+		icon = GFX_us_air
+		prerequisite = { focus = USA_air_support focus = USA_strategic_bombing }
+		relative_position_id = USA_defense_department
+		x = -1
+		y = 3
+		
+		cost = 5.5
+		search_filters = {FOCUS_FILTER_RESEARCH}
+		
+		available = {
+		OR = {
+			has_war = yes
+			threat > 0.80
+			}
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			air_experience = 65
+			add_tech_bonus = {
+			    name = air_doctrine_bonus
+				uses = 2
+				bonus = 0.75
+				category = air_doctrine
+			}
+		}
+	}
 	
 	focus = {
 		id = USA_air_support
 		icon = GFX_goal_generic_air_fighter
 		prerequisite = { focus = USA_air_war_plans_division }
 		mutually_exclusive = { focus = USA_strategic_bombing }
-		x = 22 
+		relative_position_id = USA_defense_department
+		x = -2
 		y = 2
 		
 		cost = 6
@@ -4139,7 +4221,7 @@ create_field_marshal = {
 		text = CAS_effort
 		icon = GFX_little_bombs
 		prerequisite = { focus = USAF }
-		x = 22
+		x = 23
 		y = 5
 		
 		cost = 5
@@ -4163,7 +4245,7 @@ create_field_marshal = {
 		id = USA_TAC
 		icon = GFX_Aerial_Fleet
 		prerequisite = { focus = USA_CAS }
-		x = 22
+		x = 23
 		y = 6
 		
 		cost = 5
@@ -4244,11 +4326,29 @@ create_field_marshal = {
 	}
 	
 	focus = {
-		id = USA_airbases
-		icon = GFX_airport_effort
+		id = USA_pahfinders
+		icon = GFX_goal_generic_air_naval_bomber
 		prerequisite = { focus = USAF }
         relative_position_id = USAF
 		x = -2
+		y = 2
+		
+		cost = 5
+		search_filters = {FOCUS_FILTER_RESEARCH}
+		
+		available_if_capitulated = yes
+		completion_reward = {
+			add_ideas = { USA_pathfinding }
+		}
+	}
+	
+	focus = {
+		id = USA_airbases
+		icon = GFX_airport_effort
+		prerequisite = { focus = USAF }
+		prerequisite = { focus = USA_colonial_focus }
+        relative_position_id = USAF
+		x = -3
 		y = 1
 		
 		cost = 4
@@ -4309,7 +4409,7 @@ create_field_marshal = {
 				is_in_faction_with = ENG
 			}
 		}
-		x = 24
+		x = 25
 		y = 5
 		
 		cost = 8
@@ -4338,7 +4438,8 @@ create_field_marshal = {
 		available = {
 			ENG = { has_war_with = GER OR = { has_tech = tech_UK_fighther_equipment_2_c has_tech = tech_UK_fighther_equipment_4_a } }
 		}
-		x = 25
+		relative_position_id = USA_defense_department
+		x = 1
 		y = 1
 		
 		cost = 3
@@ -4346,7 +4447,8 @@ create_field_marshal = {
 		
 		available_if_capitulated = yes
 		completion_reward = {
-			ENG = { country_event = BICE_britain.28 }
+		    custom_effect_tooltip = EAGLE_SQUADRON_TT
+			hidden_effect = { ENG = { country_event = BICE_britain.28 } }
 		}
 	}
 	
@@ -4354,7 +4456,7 @@ create_field_marshal = {
 		id = USA_heavy_fighter
 		icon = GFX_focus_usa_escort_fighters
 		prerequisite = { focus = USA_combined_bomber_offensive }
-		x = 24
+		x = 25
 		y = 6
 		
 		cost = 8
@@ -4375,85 +4477,6 @@ create_field_marshal = {
 			add_ideas = heavy_fighter_focus
 		}
 	}
-	
-	focus = {
-		id = USAF
-		icon = GFX_us_air
-		prerequisite = { focus = USA_air_support focus = USA_strategic_bombing }
-		x = 23
-		y = 3
-		
-		cost = 5.5
-		search_filters = {FOCUS_FILTER_RESEARCH}
-		
-		available = {
-		OR = {
-			has_war = yes
-			threat > 0.80
-			}
-		}
-		available_if_capitulated = yes
-		completion_reward = {
-			air_experience = 65
-			add_tech_bonus = {
-			    name = air_doctrine_bonus
-				uses = 2
-				bonus = 0.75
-				category = air_doctrine
-			}
-		}
-	}
-	
-	focus = {
-		id = USA_tri
-		icon = GFX_wartime_industry
-		x = 28
-		y = 0
-		
-		cost = 4.5 
-		search_filters = {FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH}
-
-		ai_will_do = {
-			factor = 5 
-		}
-		available_if_capitulated = yes
-		
-		completion_reward = { 
-				358 = {
-				add_extra_state_shared_building_slots = 1
-				add_building_construction = {
-					type = industrial_complex
-					level = 1
-					instant_build = yes
-				}
-			}
-			359 = {
-				add_extra_state_shared_building_slots = 1
-				add_building_construction = {
-					type = industrial_complex
-					level = 1
-					instant_build = yes
-				}
-			}
-			357 = {
-				add_extra_state_shared_building_slots = 1
-				add_building_construction = {
-					type = industrial_complex
-					level = 1
-					instant_build = yes
-				}
-			}
-			add_tech_bonus = {
-				name = heavy_industry_tech_bonus
-				bonus = 0.5
-				#ahead_reduction = 0.5
-				uses = 5
-				category = heavy_industry
-			}
-			country_event = { days = 10 id = usa.67 }
-		}
-	}
-	
 	focus = {
 		id = USA_automotive_industry_focus
 		icon = GFX_auto_invest 
@@ -4909,7 +4932,7 @@ create_field_marshal = {
 		}
 		available_if_capitulated = yes
 		completion_reward = {		
-		    custom_effect_tooltip = available_military_high_command
+		    custom_effect_tooltip = available_chief_of_army
 			show_ideas_tooltip = george_patton_chief
 			add_tech_bonus = {
 		    	name = land_doc_bonus
@@ -4922,7 +4945,7 @@ create_field_marshal = {
 	
 	focus = {
 		id = USA_guns_over_butter
-		icon = GFX_doctrine_fire_superiority
+		icon = GFX_superior_firepower
 		prerequisite = { focus = USA_combined_arms_focus focus = USA_chain_of_command }
         mutually_exclusive = { focus = USA_mobile_warfare }
 		relative_position_id = USA_us_army
