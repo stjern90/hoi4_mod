@@ -1270,7 +1270,7 @@ NNavy = {
 	OUT_OF_FUEL_SPEED_FACTOR = -0.5,
 	OUT_OF_FUEL_RANGE_FACTOR = -0.5,
 	OUT_OF_FUEL_ATTACK_FACTOR = -0.25,
-	OUT_OF_FUEL_TORPEDO_FACTOR = -0.5,
+	OUT_OF_FUEL_TORPEDO_FACTOR = -0.25,
 
 	MISSION_SPREADS = {  -- mission spreads in the case a ship join combat, which is calculated for number of ships that will be in combat. 1 means no ship will be at start
 		0.0, -- HOLD 
