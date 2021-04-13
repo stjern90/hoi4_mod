@@ -952,7 +952,7 @@ NAir = {
 	COMBAT_BETTER_AGILITY_DAMAGE_REDUCTION = 0.45, 		-- How much the better agility (then opponent's) can reduce their damage to us.
 	COMBAT_MAX_WINGS_AT_ONCE = 5000, 						-- Max amount of air wings in one combat simulation. The higher value, the quicker countries may loose their wings. It's a gameplay balance value.
 	COMBAT_MAX_WINGS_AT_GROUND_ATTACK = 5000,	        	-- we can really pounce a land strike and escalate
-	COMBAT_MAX_WINGS_AT_ONCE_PORT_STRIKE = 1000,        -- we can really pounce a naval strike and escalate
+	COMBAT_MAX_WINGS_AT_ONCE_PORT_STRIKE = 500,        -- we can really pounce a naval strike and escalate
 	AIR_REGION_SUPERIORITY_PIXEL_SCALE = 0.04,           -- air superiority scale = superiority/(pixels*this)
 	COMBAT_MULTIPLANE_CAP = 2.0,						-- How many planes can shoot at each plane on other side ( if there are 100 planes we are atttacking COMBAT_MULTIPLANE_CAP * 100 of our planes can shoot )
 	COMBAT_DAMAGE_SCALE = 0.125,							-- Higher value = more shot down planes
@@ -967,7 +967,7 @@ NAir = {
 	DETECT_EFFICIENCY_RANDOM_FACTOR = 0.1,				-- How much randomness is in amount of detected aircrafts.
 	DAY_NIGHT_COVERAGE_FACTOR = 0.5,					-- How much of the land in the region must be covered by night to consider doing night missions. The same with the day.
 	HOURS_DELAY_AFTER_EACH_COMBAT = 4,					-- How many hours needs the wing to be ready for the next combat. Use for tweaking if combats happens too often. (generally used as double because of roundtrip)
-	PORT_STRIKES_DELAY_MULTIPLIER = 4,					-- multplies HOURS_DELAY_AFTER_EACH_COMBAT if port strikes
+	PORT_STRIKES_DELAY_MULTIPLIER = 6,					-- multplies HOURS_DELAY_AFTER_EACH_COMBAT if port strikes
 	CARRIER_HOURS_DELAY_AFTER_EACH_COMBAT = 3,          -- how often carrier planes do battle inside naval combat
 	NAVAL_STRIKE_TARGETTING_TO_AMOUNT = 0.31,			-- Balancing value to convert the naval_strike_targetting equipment stats to chances of how many airplanes managed to do successfull strike.
 	NAVAL_STRIKE_DAMAGE_TO_STR = 1.32,					-- Balancing value to convert damage ( naval_strike_attack * hits ) to Strength reduction.
