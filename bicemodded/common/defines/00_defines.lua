@@ -312,7 +312,7 @@ NCountry = {
 	SPECIAL_FORCES_CAP_BASE = 0.00,					-- Max ammount of special forces battalions is total number of non-special forces battalions multiplied by this and modified by a country modifier
 	SPECIAL_FORCES_CAP_MIN = 12,					-- You can have a minimum of this many special forces battalions, regardless of the number of non-special forces battalions you have, this can also be modified by a country modifier
 	DAYS_OF_WAR_BEFORE_SURRENDER = 7,				-- Number of days a war has to have existed before anyone can surrender in it
-	FUEL_LEASE_CONVOY_RATIO = 0.008,				-- num convoys needed per fuel land lease 
+	FUEL_LEASE_CONVOY_RATIO = 0.025,				-- num convoys needed per fuel land lease 
 	
 	STARTING_FUEL_RATIO = 0.33,						-- starting fuel ratio compared to max fuel for countries
 	BASE_FUEL_GAIN_PER_OIL = 2,						-- base amount of fuel gained hourly per excess oil
@@ -1111,7 +1111,7 @@ NAir = {
 	BOMBING_STATE_BUILD_PRIO_SCALE = 1.5,							-- Scale of the selected priority for state buildings
 	BOMBING_INFRA_PRIO_SCALE = 0.3,									-- Scale of the selected priority for infastryctyre
 	NAVAL_MINES_PLANTING_SPEED_MULT = 0.025,						-- Value used to overall balance of the speed of planting naval mines
-	NAVAL_MINES_SWEEPING_SPEED_MULT = 0.025,						-- Value used to overall balance of the speed of sweeping naval mines
+	NAVAL_MINES_SWEEPING_SPEED_MULT = 0.030,						-- Value used to overall balance of the speed of sweeping naval mines
 	NON_CORE_STRATEGIC_IMPACT = 0.5,                                -- multiplier for strategic impact of non-core bombing	
 	
 	RECON_LAND_SPOT_CHANCE = 0.02,                     				-- scale factor on spotting lan
@@ -1375,8 +1375,8 @@ NNavy = {
 	SUPREMACY_PER_SHIP_BASE = 10.0,
 
 	NAVAL_MINES_IN_REGION_MAX = 600.0,								-- Max number of mines that can be layed by the ships. The value should be hidden from the user, as we present % so it's an abstract value that should be used for balancing.
-	NAVAL_MINES_PLANTING_SPEED_MULT = 0.01,						-- Value used to overall balance of the speed of planting naval mines
-	NAVAL_MINES_SWEEPING_SPEED_MULT = 0.009,						-- Value used to overall balance of the speed of sweeping naval mines
+	NAVAL_MINES_PLANTING_SPEED_MULT = 0.009,						-- Value used to overall balance of the speed of planting naval mines
+	NAVAL_MINES_SWEEPING_SPEED_MULT = 0.01,						-- Value used to overall balance of the speed of sweeping naval mines
 	NAVAL_MINES_DECAY_AT_PEACE_TIME = 20.0,							-- How fast mines are decaying in peace time. Planting mines in peace time may be exploitable, so it's blocked atm. That's why after war we should decay them too.
 	NAVAL_MINES_SWEEPERS_REDUCTION_ON_PENALTY_EFFECT = 3.3,			-- How much is the task force's sweeping attribute reducing the penalty effect.
 	NAVAL_MINES_INTEL_DIFF_FACTOR = 0.1,					-- Better our decryption over enemy encryption will reduce the penalties from the enemy mines in the region. This value is a factor to be used for balancing.
@@ -1391,7 +1391,7 @@ NNavy = {
 	NAVAL_ACCIDENT_CRITICAL_HIT_CHANCE_REDUCTION_POTF = 0.01,		-- Scale of the current chance for a critical hit when an accident happens, applied for the pride of the fleet.
 
 	NAVAL_MINES_ACCIDENT_CRITICAL_HIT_CHANCES = 0.14,				-- If an accident happens, how likely it is to be a critical hit (caused by naval mines)
-	NAVAL_MINES_ACCIDENT_CRITICAL_HIT_DAMAGE_SCALE = 5.0,			-- Scale the value below in case of critical hit (caused by naval mines)
+	NAVAL_MINES_ACCIDENT_CRITICAL_HIT_DAMAGE_SCALE = 2.5,			-- Scale the value below in case of critical hit (caused by naval mines)
 	NAVAL_MINES_ACCIDENT_STRENGTH_LOSS = 75.0,						-- Amount of strength loss when hit by naval mine
 	NAVAL_MINES_ACCIDENT_ORG_LOSS_FACTOR = 0.6,						-- Amount of strength loss when hit by naval mine
 
