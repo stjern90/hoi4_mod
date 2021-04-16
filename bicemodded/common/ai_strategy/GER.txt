@@ -6,8 +6,8 @@ GER_barb = {
 	enable = {
 		has_war_with = SOV
 		has_idea = Barbarossa_I_AI
-		check_variable = { TW_inf_fielded_eq_ratio > 0.8 }
-		check_variable = { TW_uniform_fielded_eq_ratio > 0.8 }
+		check_variable = { TW_inf_fielded_eq_ratio > 0.85 }
+		check_variable = { TW_uniform_fielded_eq_ratio > 0.85 }
 	}
 	
 	abort_when_not_enabled = yes
@@ -124,8 +124,8 @@ GER_fallblau = {
 			has_idea = Blau_I 
 			has_idea = Blau_I_ai
 		}
-		check_variable = { TW_inf_fielded_eq_ratio > 0.8 }
-		check_variable = { TW_uniform_fielded_eq_ratio > 0.8 }
+		check_variable = { TW_inf_fielded_eq_ratio > 0.85 }
+		check_variable = { TW_uniform_fielded_eq_ratio > 0.85 }
 		NOT = { has_full_control_of_state = 245 }
 		NOT = { has_full_control_of_state = 217 }
 		NOT = { has_full_control_of_state = 218 }
@@ -276,7 +276,7 @@ GER_garrison_atlantic_wall = {
 
 	ai_strategy = {
 		type = put_unit_buffers
-		ratio = 0.3
+		ratio = 0.15
 		states = { 
 			99
 			58
@@ -298,7 +298,7 @@ GER_garrison_atlantic_wall = {
 			21
 		}
 		subtract_invasions_from_need = no
-		subtract_fronts_from_need = no
+		subtract_fronts_from_need = no # put yes here, todo test
 	}
 }
 
@@ -323,6 +323,44 @@ GER_norom = {
 	}
 }
 
+ROM_supportger = {
+	allowed = { OR = { tag = ROM tag = HUN } }
+	enable = {
+		is_historical_focus_on = yes
+		is_in_faction_with = GER
+		has_war_with = SOV
+		or = {
+			or = {
+				controls_state = 192
+				controls_state = 202
+				controls_state = 203
+			}
+			GER = {
+				or = {
+					controls_state = 192
+					controls_state = 202
+					controls_state = 203
+				}
+			}
+		}
+	}
+	abort_when_not_enabled = yes
+	
+	ai_strategy = {
+		type = force_defend_ally_borders
+		id = "GER"
+		value = 75
+	}
+	
+	ai_strategy = {
+		type = front_unit_request
+		country_trigger = {
+			tag = SOV
+		}
+		value = 40
+	}
+}
+
 war_with_france = {
     allowed = {
 		original_tag = GER
@@ -331,21 +369,23 @@ war_with_france = {
 		FRA = { has_capitulated = no } 
 		OR  = {
 		has_completed_focus = GER_war_with_france
-		has_war_with = FRA }
+		has_war_with = FRA 
+		date > 1939.4.1
+		}
 	}
 	abort = {
 		FRA = { has_capitulated = yes } 
 	}
 	
-	ai_strategy = { type = antagonize id = "FRA" value = 150 }
-	ai_strategy = { type = conquer id = "FRA" value = 150 }
+	ai_strategy = { type = antagonize id = "FRA" value = 120 }
+	ai_strategy = { type = conquer id = "FRA" value = 120 }
     ai_strategy = {
 		type = front_unit_request
 		country_trigger = {
 			tag = FRA
 		}
 		
-		value = 50
+		value = 45
 	}
 }
 
