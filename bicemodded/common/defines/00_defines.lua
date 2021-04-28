@@ -1463,10 +1463,10 @@ NNavy = {
 	NAVAL_INVASION_SPOTTING_SPEED_MULT = 10.0,						-- spotting speed mult against naval invasion armies
 	
 	
-	CONVOY_DETECTION_CHANCE_BASE = 4.0,							-- regular convoy base chance detection percentage (if this fails, no detection is done on that tick)
+	CONVOY_DETECTION_CHANCE_BASE = 3.75,							-- regular convoy base chance detection percentage (if this fails, no detection is done on that tick)
 	BASE_SPOTTING_EFFECT_FOR_INITIAL_CONVOY_SPOTTING = 0.35,		-- effect of base convoy spotting for initial spotting of regular convoys. this along with next value is added together and rolled a random  once for every convoy to check for spotting
 	SPOTTING_SPEED_EFFECT_FOR_INITIAL_CONVOY_SPOTTING = 1.2,		-- effect of convoy spotting speed for initial spotting of regular convoys. this along with prev value is added together and rolled a random once for every convoy to check for spotting
-	SPOTTING_MOD_FOR_CONVOY_COUNT = 0.2,							-- a modifier for scaling the count of convoys on a parabolic curve (counvoy_count ^ SPOTTING_MOD_FOR_CONVOY_COUNT)
+	SPOTTING_MOD_FOR_CONVOY_COUNT = 0.25,							-- a modifier for scaling the count of convoys on a parabolic curve (counvoy_count ^ SPOTTING_MOD_FOR_CONVOY_COUNT)
 
 	UNIT_TRANSFER_DETECTION_CHANCE_BASE = 13.02,						-- unit transfer and naval invasion base chance detection percentage (if this fails, no detection is done on that tick)
 	BASE_SPOTTING_EFFECT_FOR_INITIAL_UNIT_TRANSFER_SPOTTING = 2.0,	-- same as BASE_SPOTTING_EFFECT_FOR_INITIAL_CONVOY_SPOTTING, but for naval transfer convoys
