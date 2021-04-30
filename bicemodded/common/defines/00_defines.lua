@@ -952,7 +952,7 @@ NAir = {
 	COMBAT_BETTER_AGILITY_DAMAGE_REDUCTION = 0.45, 		-- How much the better agility (then opponent's) can reduce their damage to us.
 	COMBAT_MAX_WINGS_AT_ONCE = 5000, 						-- Max amount of air wings in one combat simulation. The higher value, the quicker countries may loose their wings. It's a gameplay balance value.
 	COMBAT_MAX_WINGS_AT_GROUND_ATTACK = 5000,	        	-- we can really pounce a land strike and escalate
-	COMBAT_MAX_WINGS_AT_ONCE_PORT_STRIKE = 500,        -- we can really pounce a naval strike and escalate
+	COMBAT_MAX_WINGS_AT_ONCE_PORT_STRIKE = 400,        -- we can really pounce a naval strike and escalate
 	AIR_REGION_SUPERIORITY_PIXEL_SCALE = 0.04,           -- air superiority scale = superiority/(pixels*this)
 	COMBAT_MULTIPLANE_CAP = 2.0,						-- How many planes can shoot at each plane on other side ( if there are 100 planes we are atttacking COMBAT_MULTIPLANE_CAP * 100 of our planes can shoot )
 	COMBAT_DAMAGE_SCALE = 0.125,							-- Higher value = more shot down planes
@@ -1087,7 +1087,7 @@ NAir = {
 	MISSION_FUEL_COSTS = {  -- fuel cost per plane for each mission
 		1.0, -- AIR_SUPERIORITY
 		1.0, -- CAS		
-		0.2, -- INTERCEPTION	
+		0.4, -- INTERCEPTION	
 		1.0, -- STRATEGIC_BOMBER
 		1.0, -- NAVAL_BOMBER	
 		1.0, -- DROP_NUKE		
