@@ -994,7 +994,7 @@ NAir = {
 	BASE_KAMIKAZE_DAMAGE = 2.0,                    				-- Base Kamikaze death rate
 	BASE_KAMIKAZE_TARGETING = 2.0,			        		-- Kamikaze can't be a bad target
 	BASE_STRATEGIC_BOMBING_HIT_SHIP_CHANCE = 0.2,		-- Chance to hit a ship in port when it is bombed.
-	BASE_STRATEGIC_BOMBING_HIT_SHIP_DAMAGE_FACTOR = 30,
+	BASE_STRATEGIC_BOMBING_HIT_SHIP_DAMAGE_FACTOR = 25,
 	BASE_STRATEGIC_BOMBING_HIT_PLANE_CHANCE = 0.7,		-- Chance to hit a plane in airbase when it is bombed.
 	BASE_STRATEGIC_BOMBING_HIT_PLANE_DAMAGE_FACTOR = 0.2,
 	STRATEGIC_BOMBER_NUKE_AIR_SUPERIORITY = 0.75,		-- How much air superiority is needed for a tactical bomber to be able to nuke a province
@@ -1063,7 +1063,7 @@ NAir = {
 	DISRUPTION_DEFENCE_SPEED_FACTOR = 1.0,
 	DISRUPTION_DEFENCE_ATTACK_FACTOR = 0.5,
 	
-	CARRIER_PLANES_AMOUNT_FOR_POSITIONING = 160,         -- below this amount of planes on a carrier we no longer get max benefit on enemy positioning 
+	CARRIER_PLANES_AMOUNT_FOR_POSITIONING = 70,         -- below this amount of planes on a carrier we no longer get max benefit on enemy positioning 
 	
 	CAS_NIGHT_ATTACK_FACTOR = 0.1,                      -- CAS damaged get multiplied by this in land combats at night
 	
