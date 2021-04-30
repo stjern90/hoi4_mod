@@ -9127,7 +9127,7 @@ search_filters = { FOCUS_FILTER_POLITICAL }
 		available = {
 
 			NOT = { is_in_faction_with = YUG }
-
+			is_subject = no
 			country_exists = YUG
 
 			OR = {
@@ -9140,11 +9140,11 @@ search_filters = { FOCUS_FILTER_POLITICAL }
 		}
 
 		bypass = {
-                OR = {
-			NOT = { country_exists = YUG }
-                        102 = {  is_controlled_by_ROOT_or_ally = yes }
-					has_war_with = YUG			
-		}
+			AND = {
+				102 = { is_controlled_by_ROOT_or_ally = yes }
+				103 = { is_controlled_by_ROOT_or_ally = yes }
+				105 = { is_controlled_by_ROOT_or_ally = yes }
+			}
 		}
 
 		will_lead_to_war_with = YUG
@@ -9156,23 +9156,57 @@ search_filters = { FOCUS_FILTER_POLITICAL }
 
 		cost = 4.2
 
-		ai_will_do = {
+		ai_will_do = { # AI ITA should avoid invading YUG if YUG is not neighboured by Axis members / doesn't control Albania / is being invaded / if doing well in Africa (also historical as GRE/YUG due to challanges in Africa)
 			factor = 10
+
+			modifier = {
+			factor = 0.5
+				AND = {
+					451 = { is_controlled_by_ROOT_or_ally = yes }
+					271 = { is_controlled_by_ROOT_or_ally = yes }
+				}
+			}
+
 			modifier = {
 			factor = 0
-			surrender_progress > 0.07
+				OR = {
+					surrender_progress > 0.05
+					AND = {
+						has_war = yes
+						NOT = {
+							any_allied_country = {
+								is_neighbor_of = YUG 
+							}
+						}
+						NOT = { 47 = { is_controlled_by_ROOT_or_ally = yes } }
+						NOT = { 731 = { is_controlled_by_ROOT_or_ally = yes } }
+					}
+				}
 			}
 			modifier = {
-			factor = 50
-			date > 1940.8.1
+			factor = 3
+				date > 1940.10.1
 			}
-		}	
+		}
 
-		completion_reward = {
-			create_wargoal = {
-				type = take_state_focus
-				target = YUG
-				generator = { 102 } 
+		completion_reward = { #Give actual claims on claimed regions
+
+			add_state_claim = 102
+			add_state_claim = 103
+			add_state_claim = 105
+
+			if = {
+				limit = {
+					OR = {
+						102 = { is_controlled_by = YUG }
+						103 = { is_controlled_by = YUG }
+						105 = { is_controlled_by = YUG }
+					}
+				}
+				create_wargoal = {
+					type = annex_everything
+					target = YUG
+				}
 			}
 		}
 	}	
