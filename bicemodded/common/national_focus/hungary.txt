@@ -370,7 +370,8 @@ focus_tree = {
 		completion_reward = {
 			set_cosmetic_tag = HUN_EMPIRE
 			hidden_effect = { AUS = { set_cosmetic_tag = AUS_NOT_WHITE } }
-			
+			set_rule = { can_create_factions = yes }
+
 			add_state_claim = 152
 			add_state_claim = 153
 			4 = { add_core_of = ROOT }
@@ -587,7 +588,7 @@ focus_tree = {
 		cost = 8
 
 		ai_will_do = {
-			factor = 20
+			factor = 40
 		}
 
 		available = {
@@ -620,7 +621,6 @@ focus_tree = {
 					NOT = {
 						has_war_with = ROM
 					}
-					threat < 0.5
 					ROM = {
 						OR = {
 							owns_state = 76
@@ -683,11 +683,10 @@ focus_tree = {
 						}
 					}
 				}
-				ROM = { country_event = DOD_hungary.50 }
 			}	
 		}
 	}
-	
+
 	focus = {
 		id = HUN_demand_slovenia
 		icon = GFX_goal_authority
@@ -699,7 +698,16 @@ focus_tree = {
 		cost = 7.2
 
 		ai_will_do = {
-			factor = 60
+			factor = 30
+
+			modifier = {
+			factor = 0
+				surrender_progress > 0.05
+			}
+			modifier = {
+			factor = 0.5
+				has_war = yes
+			}
 		}
 
 		available = {
@@ -712,11 +720,8 @@ focus_tree = {
 
 		bypass = {
 			controls_state = 102
-			controls_state = 103
-			controls_state = 109
-			controls_state = 104
 			controls_state = 45
-			controls_state = 163
+			controls_state = 764
 		}
 
 		cancel_if_invalid = yes
@@ -728,19 +733,70 @@ focus_tree = {
 		}
 
 		completion_reward = {
+
+			add_named_threat = { threat = 3 name = HUN_demand_slovenia_threat }
+			YUG = { add_opinion_modifier = { target = HUN modifier = GER_demand_slovenia_YUG } }
 			add_state_claim = 102
+			add_state_claim = 45
+			add_state_claim = 764
+
 			if = {
 				limit = {
+					NOT = { has_war_with = ENG }
+					102 = {
+						owner = {
+							tag = YUG
+							is_puppet = no
+							NOT = { has_war_with = ENG }
+						}
+					}
+					#YUG = { 
+					#	is_puppet = no
+					#	NOT = { has_war_with = ENG }
+					#}
+				}
+				ENG = {
+					country_event = { id = bramja.58 }
+				}
+			}
+			else_if = {
+				limit = {
+					102 = { is_controlled_by = YUG }
 					OR = {
-						102 = { is_controlled_by = YUG }
-						102 = { controller = { is_subject_of = YUG } }
-						102 = { controller = { is_in_faction_with = YUG } }
+						YUG = { is_puppet = yes }
+						YUG = { has_war_with = ENG }
+						has_war_with = ENG
 					}
 				}
-				add_ai_strategy = { 
-					type = conquer
-  					id = YUG
-  					value = 200
+				#YUG = {
+				#	country_event = { id = bramja.XXX }
+				#}
+			}
+			else_if = {
+				limit = {
+					NOT = { 102 = { is_controlled_by = YUG } }
+					OR = {
+						45 = { is_controlled_by = YUG }
+						764 = { is_controlled_by = YUG }
+					}
+				}
+				#YUG = {
+				#	country_event = { id = bramja.XXX }
+				#}
+			}
+			else_if = {
+				limit = {
+					OR = {
+						#102 = { is_controlled_by = YUG }
+						102 = { controller = { is_subject_of = YUG } }
+						102 = { controller = { is_in_faction_with = YUG } }
+						45 = { controller = { is_subject_of = YUG } }
+						45 = { controller = { is_in_faction_with = YUG } }
+					}
+				}
+				create_wargoal = {
+					type = annex_everything
+					target = YUG
 				}
 			}
 		}
@@ -756,8 +812,33 @@ focus_tree = {
 		x = -2
 		y = 6
 		cost = 8
+		ai_will_do = {
+			factor = 30
+
+			modifier = {
+			factor = 0.2
+				39 = {
+					owner = {
+						OR = {
+							strength_ratio = { tag = HUN ratio > 1.0 }
+							enemies_strength_ratio < 1.0
+						}
+					}
+				}
+			}
+
+			modifier = {
+			factor = 10
+				39 = {
+					owner = {
+						surrender_progress > 0.02
+					}
+				}
+			}
+		}
+
 		available = {
-			NOT = { owns_state = 39  }  #South Tyrol
+			#NOT = { owns_state = 39  }  #South Tyrol
 			owns_state = 152
 			owns_state = 153
 			owns_state = 4
@@ -765,20 +846,16 @@ focus_tree = {
 			has_army_manpower = { size > 350000 }
 		}
 		cancel = {
-				is_puppet = yes
+			is_puppet = yes
 		}
 		bypass = {
-			OR = {
-				ITA = {	NOT = { exists = yes } }
-				ITA = { NOT = { owns_state = 39 } } #South Tyrol
-			}
+			owns_state = 39
 		}
+		
 		available_if_capitulated = no
 		cancel_if_invalid = no
-		
-		ai_will_do = {
-			factor = 1
-		}	
+
+
 		completion_reward = {
 			add_state_claim = 39 #South Tyrol  
 			add_named_threat = { threat = 3 name = GER_south_tyrol_threat }
@@ -797,7 +874,29 @@ focus_tree = {
 		cost = 10
 
 		ai_will_do = {
-			factor = 60
+			factor = 30
+
+			modifier = {
+			factor = 0.5
+				109 = {
+					owner = {
+						OR = {
+							strength_ratio = { tag = HUN ratio > 1.0 }
+							enemies_strength_ratio < 1.0
+						}
+					}
+				}
+			}
+			
+			modifier = {
+			factor = 2
+				ITA = {
+					OR = {
+						has_completed_focus = ITA_albania_war_goal
+						has_completed_focus = ITA_greece_war_goal 
+					}
+				}
+			}
 		}
 
 		available = {
@@ -806,14 +905,14 @@ focus_tree = {
 			owns_state = 4
 			owns_state = 153
 			owns_state = 152
-			102 = { is_controlled_by = ROOT }
+			#102 = { is_controlled_by = ROOT }
 		}
 
 		bypass = {
 			controls_state = 103
 			controls_state = 109
 			controls_state = 104
-			controls_state = 45
+			#controls_state = 45 Done in preceding focus
 			controls_state = 163
 		}
 
@@ -829,7 +928,7 @@ focus_tree = {
 			add_state_claim = 103
 			add_state_claim = 109
 			add_state_claim = 104
-			add_state_claim = 45
+			#add_state_claim = 45 Done in preceding focus
 			add_state_claim = 163
 		}
 	}
@@ -846,6 +945,28 @@ focus_tree = {
 
 		ai_will_do = {
 			factor = 10
+
+			modifier = {
+			factor = 0
+				736 = {
+					owner = {
+						OR = {
+							surrender_progress < 0.02
+							strength_ratio = { tag = HUN ratio > 1.5 }
+							enemies_strength_ratio < 1.2
+						}
+					}
+				}
+			}
+
+			modifier = {
+			factor = 10
+				736 = {
+					owner = {
+						has_cosmetic_tag = ITA_GER
+					}
+				}
+			}
 		}
 
 		available = {
@@ -887,7 +1008,7 @@ focus_tree = {
 		cost = 7.2
 
 		ai_will_do = {
-			factor = 60
+			factor = 40
 		}
 
 		available = {
@@ -930,7 +1051,7 @@ focus_tree = {
 		cost = 7.2
 
 		ai_will_do = {
-			factor = 60
+			factor = 30
 		}
 
 		available = {
@@ -942,7 +1063,7 @@ focus_tree = {
 		}
 
 		bypass = {
-			controls_state = 80
+			#controls_state = 80
 		}
 
 		cancel_if_invalid = yes

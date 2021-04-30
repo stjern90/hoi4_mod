@@ -108,9 +108,13 @@
 		
 		ai_will_do = {
 			factor = 5
-			modifier = { 
+			modifier = {
 				factor = 0.1
 				NOT = { is_in_faction_with = SOV }
+			}
+			modifier = {
+				factor = 0.5
+				NOT = { SOV = { owns_state = 219 } }
 			}
 		}
 
@@ -150,6 +154,10 @@
 
 		ai_will_do = {
 			factor = 1
+			modifier = {
+				factor = 0.5
+				NOT = { is_in_faction_with = SOV }
+			}
 		}
 
 		available = {
@@ -442,12 +450,25 @@
 			}
 		}
 
-		ai_will_do = {
+		ai_will_do = {  #Romania will not join Axis if: fully owning Transylvania + HUN NOT in Axis (KUK path wouldn't be eg.) + GER not yet Barba OR GER losing/beaten
 			factor = 1
 			modifier = {
 				factor = 0
-				GER = {
-					has_capitulated = yes
+				OR = {
+					GER = { exists = no }
+					GER = { is_puppet = yes }
+					GER = { has_capitulated = yes }
+					GER = { surrender_progress > 0.15 }
+					AND = {
+						ROM = {
+							owns_state = 76
+							owns_state = 83
+							owns_state = 84
+							owns_state = 82
+						}
+						NOT = { HUN = { is_in_faction_with = GER } }
+						NOT = { GER = { has_completed_focus = GER_prepare_to_invade_the_ussr } }
+					}
 				}
 			}
 			modifier = {
