@@ -1489,7 +1489,7 @@ NNavy = {
 	RELATIVE_SURFACE_DETECTION_TO_POSITIONING_FACTOR				= 0.01,	-- multiples the surface detection difference between two sides. the side with higher detection will get a bonus of this value
 	MAX_POSITIONING_BONUS_FROM_SURFACE_DETECTION					= 0.0,  -- will clamp the bonus that you get from detection
 	
-	HIGHER_SHIP_RATIO_POSITIONING_PENALTY_FACTOR					= 0,5, -- if one side has more ships than the other, that side will get this penalty for each +100% ship ratio it has
+	HIGHER_SHIP_RATIO_POSITIONING_PENALTY_FACTOR					= 0.5, -- if one side has more ships than the other, that side will get this penalty for each +100% ship ratio it has
 	MAX_POSITIONING_PENALTY_FROM_HIGHER_SHIP_RATIO					= 0.75, -- maximum penalty to get from larger fleets
 
 	HIGHER_CARRIER_RATIO_POSITIONING_PENALTY_FACTOR					= 0.2;  -- penalty if other side has stronger carrier air force 
