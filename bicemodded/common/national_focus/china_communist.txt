@@ -391,7 +391,13 @@ focus_tree = {
 		available_if_capitulated = no
 
 		completion_reward = {
-			unlock_decision_tooltip = CHI_scorched_earth_tactics
+			add_war_support = -0.03
+			JAP = { add_war_support = -0.04 } # TODO, notification event to jap
+			hidden_effect = {
+			JAP = {
+				country_event = japan.57
+			}
+			}
 		}
 	}
 	
@@ -487,10 +493,10 @@ focus_tree = {
 		y = 1
 		relative_position_id = PRC_anti_japanese_aim 
 		
-		cost = 10 
+		cost = 5
 		
 		ai_will_do = { 
-			factor = 1 
+			factor = 1  
 		}
 		
 		available = {
@@ -500,7 +506,12 @@ focus_tree = {
 		}
 		
 		completion_reward = {
-			add_research_slot = 1
+			add_tech_bonus = {
+				name = asymmetric_doc_bonus
+				bonus = 1
+				uses = 1
+				category = cat_guerilla_warfare
+			}
 		}
 	}
 
@@ -1687,22 +1698,14 @@ focus_tree = {
 		id = PRC_mobile_warfare
 		icon = GFX_goal_generic_cavalry
 		prerequisite = { focus = PRC_field_army }
-		x = 0
+		x = 1
 		y = 1
 		relative_position_id = PRC_field_army
 
-		cost = 6
+		cost = 5
 
 		ai_will_do = {
 			factor = 4
-		}
-
-		available = {
-
-		}
-
-		bypass = {
-
 		}
 
 		cancel_if_invalid = yes
@@ -1715,6 +1718,65 @@ focus_tree = {
 
 		completion_reward = {
 			add_ideas = PRC_mobile_warfare
+		}
+	}
+	
+	focus = {
+		id = PRC_mountain_war
+		icon = GFX_goal_generic_special_forces
+		prerequisite = { focus = PRC_field_army }
+		x = -1
+		y = 1
+		relative_position_id = PRC_field_army
+
+		cost = 5
+		ai_will_do = {
+			factor = 4
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+		    set_technology = { mountain_warfare = 1 } 
+			custom_effect_tooltip = RAJ_revive_the_screw_guns_effect
+	    	
+			
+			add_tech_bonus = {
+				name = special_bonus
+				bonus = 0.5
+				uses = 1
+				category = mountaineers_tech
+			}
+		}
+	}
+	
+	focus = {
+		id = PRC_gun_focus
+		icon = GFX_goal_generic_small_arms
+		prerequisite = { focus = PRC_mountain_war }
+		x = 0
+		y = 1
+		relative_position_id = PRC_mountain_war
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			add_tech_bonus = {
+				name = infantry_weapons_bonus
+				bonus = 0.6
+				uses = 1
+				category = infantry_weapons
+			}
 		}
 	}
 
@@ -1733,11 +1795,7 @@ focus_tree = {
 		}
 
 		available = {
-
-		}
-
-		bypass = {
-
+            has_completed_focus = PRC_mobile_warfare
 		}
 
 		cancel_if_invalid = yes
@@ -1917,17 +1975,17 @@ focus_tree = {
 			}
 			remove_country_leader_trait = cornered_fox
 			CHI = { remove_country_leader_trait = cornered_fox }
+			
+			remove_ideas = PRC_protracted_warfare_idea
+			remove_ideas = PRC_mobile_warfare
 		}
 		available = {
-			OR = {
-				num_of_controlled_states > 5
-				num_of_factories > 15
-			}			
+				num_of_controlled_states > 5		
 			NOT = {
 				has_war_with = JAP
 			}
 			NOT = {
-				any_other_country = {
+				CHI = {
 					has_war_with = JAP
 				}
 			}
@@ -2490,18 +2548,19 @@ focus_tree = {
 		id = PRC_central_military_commission
 		icon = GFX_goal_generic_defence
 		prerequisite = { focus = PRC_socialism_with_chinese_characteristics }
-		x = -4
+		x = -5
 		y = 1
 		relative_position_id = PRC_socialism_with_chinese_characteristics
 
-		cost = 10
+		cost = 8
 
 		ai_will_do = {
 			factor = 4
 		}
 
 		available = {
-
+            num_of_controlled_states > 7
+            num_of_factories > 40
 		}
 
 		bypass = {
@@ -2526,9 +2585,9 @@ focus_tree = {
 	
 	focus = {
 		id = PRC_peoples_volunteer_army
-		icon = GFX_goal_generic_special_forces
+		icon = GFX_goal_volunteer_alliance
 		prerequisite = { focus = PRC_central_military_commission }
-		x = -2
+		x = 2
 		y = 1
 		relative_position_id = PRC_central_military_commission
 
@@ -2563,7 +2622,7 @@ focus_tree = {
 		id = PRC_peoples_liberation_army
 		icon = GFX_goal_generic_attack_allies
 		prerequisite = { focus = PRC_central_military_commission }
-		x = 0
+		x = -1
 		y = 1
 		relative_position_id = PRC_central_military_commission
 
@@ -2608,10 +2667,10 @@ focus_tree = {
 	focus = {
 		id = PRC_establish_the_peoples_liberation_army_air_force
 		icon = GFX_goal_generic_build_airforce
-		prerequisite = { focus = PRC_peoples_liberation_army }
-		x = -3
+		prerequisite = { focus = PRC_central_military_commission }
+		x = -5
 		y = 1
-		relative_position_id = PRC_peoples_liberation_army
+		relative_position_id = PRC_central_military_commission
 		
 		cost = 10
 		
@@ -2691,10 +2750,10 @@ focus_tree = {
 	focus = {
 		id = PRC_establish_the_peoples_liberation_army_navy
 		icon = GFX_goal_generic_navy_battleship
-		prerequisite = { focus = PRC_peoples_liberation_army }
-		x = -1
+		prerequisite = { focus = PRC_central_military_commission }
+		x = -7
 		y = 1
-		relative_position_id = PRC_peoples_liberation_army
+		relative_position_id = PRC_central_military_commission
 		
 		cost = 10
 		
@@ -2807,7 +2866,7 @@ focus_tree = {
 		id = PRC_invite_soviet_military_advisors
 		icon = GFX_focus_generic_join_comintern
 		prerequisite = { focus = PRC_peoples_liberation_army }
-		x = 1
+		x = 3
 		y = 2
 		relative_position_id = PRC_peoples_liberation_army
 		
@@ -2859,7 +2918,7 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 				name = armor_bonus
-				bonus =1.0
+				bonus = 1.0
 				uses = 1
 				category = armor
 			}
@@ -2867,6 +2926,207 @@ focus_tree = {
 			show_ideas_tooltip = PRC_soviet_tank_experts
 		}
 	}	
+	
+	focus = {
+		id = PRC_big_artillery
+		icon = GFX_superior_firepower
+		prerequisite = { focus = PRC_peoples_liberation_army }
+		x = 2
+		y = 1
+		relative_position_id = PRC_peoples_liberation_army
+		mutually_exclusive = { focus = PRC_motorize focus = PRC_sup_in_numbers }
+   
+		cost = 10
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			add_tech_bonus = {
+			name = medium_artillery_bonus
+			bonus = 0.5
+			uses = 1
+			technology = medartillery0
+			technology = medartillery2
+			}
+			add_tech_bonus = {
+			name = heavy_artillery_bonus
+			bonus = 0.5
+			uses = 1
+			technology = Hvartillery2
+			technology = Heavyshells
+			}
+			
+			add_tech_bonus = {
+			    name = suprior_firepower_doc_bonus
+				uses = 3
+			    bonus = 2.0
+				category = cat_mobile_warfare
+			}
+		}
+	}
+	
+	focus = {
+		id = PRC_motorize
+		icon = GFX_doctrine_tank_warfare
+		prerequisite = { focus = PRC_peoples_liberation_army }
+		x = -2
+		y = 1
+		relative_position_id = PRC_peoples_liberation_army
+		mutually_exclusive = { focus = PRC_big_artillery focus = PRC_sup_in_numbers }
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			add_tech_bonus = {
+				name = motorized_bonus
+				bonus = 0.5
+				uses = 1
+				category = motorized_tech
+			}
+			add_tech_bonus = {
+				name = mechanized_bonus
+				bonus = 0.5
+				uses = 1
+				category = cat_mechanized_equipment
+			}
+			add_tech_bonus = {
+			    name = mobile_warfare_doc_bonus
+				uses = 3
+			    bonus = 2.0
+				category = cat_mobile_warfare
+			}
+		}
+	}
+	
+	focus = {
+		id = PRC_sup_in_numbers
+		icon = GFX_Goal_Militia
+		prerequisite = { focus = PRC_peoples_liberation_army }
+		x = 0
+		y = 1
+		relative_position_id = PRC_peoples_liberation_army
+		mutually_exclusive = { focus = PRC_big_artillery focus = PRC_motorize }
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			add_tech_bonus = {
+			    name = mass_assault_doc_bonus
+				uses = 3
+			    bonus = 2.0
+				category = cat_mass_assault
+			}
+		}
+	}
+
+	
+	focus = {
+		id = PRC_modernize_equipment
+		icon = GFX_arms_artillery_grenades
+		prerequisite = { 
+			focus = PRC_motorize focus = PRC_big_artillery focus = PRC_sup_in_numbers
+		}
+		x = 0
+		y = 2
+		relative_position_id = PRC_peoples_liberation_army
+		cost = 7.2
+
+		available_if_capitulated = yes
+
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+		      add_tech_bonus = {
+				name = infantry_weapons_bonus
+				bonus = 0.5
+				uses = 2
+				category = infantry_weapons
+				category = infantry_uniforms_
+			}
+			
+			add_tech_bonus = {
+				name = motorized_bonus
+				bonus = 0.5
+				uses = 2 
+				category = cat_anti_tank 
+				category = motorized_tech
+			}
+		}
+	}
+	
+	focus = {
+		id = PRC_machine_gun
+		icon = GFX_goal_IRQ_land
+		prerequisite = { 
+			focus = PRC_modernize_equipment
+		}
+		x = -1
+		y = 1
+		relative_position_id = PRC_modernize_equipment
+		cost = 5
+
+		available_if_capitulated = yes
+
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+		    add_tech_bonus = {
+				name = infantry_weapons_bonus
+				bonus = 0.5
+				uses = 2
+			    technology = hmg_2
+				technology = hmg_3
+				technology = hmg_4
+			}
+		}
+	}
+	
+	focus = {
+		id = PRC_anti_air_effort
+		icon = GFX_goal_CZE_aaguns
+		prerequisite = { 
+			focus = PRC_modernize_equipment
+		}
+		x = 1
+		y = 1
+		relative_position_id = PRC_modernize_equipment
+		cost = 5
+
+		available_if_capitulated = yes
+
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+		    add_tech_bonus = {
+				name = heavyAA_bonus
+				bonus = 0.6
+				uses = 2
+				technology = HVantiair2
+				technology = HVantiair3
+				technology = HVantiair4
+				technology = HVantiair5
+			}
+		}
+	}
 
 	focus = {
 		id = PRC_enforce_the_three_rules
