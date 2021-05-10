@@ -132,7 +132,6 @@ focus_tree = {
 
 		completion_reward = {
 			add_stability = 0.12
-			#add_ideas = PRC_maoism
 		}
 	}
 	
@@ -1607,40 +1606,26 @@ focus_tree = {
 		y = 1
 		relative_position_id = PRC_focus_on_china
 
-		cost = 7
+		cost = 5
 
-		ai_will_do = {
+		ai_will_do = { 
 			factor = 4
 		}
 
 		available = {
-			country_exists = event_target:WTT_current_china_leader 
-			NOT = {
-				is_subject_of = event_target:WTT_current_china_leader
-				has_war_with = JAP
-			}
-			date > 1939.1.1
+		    NOT = { has_war_with = CHI }
+			any_neighbor_state = { is_fully_controlled_by = CHI }
 		}
-
-		bypass = {
-
-		}
+		
+		bypass = { has_war_with = CHI }
 
 		cancel_if_invalid = yes
 		continue_if_invalid = no
 		available_if_capitulated = no
 
-		complete_tooltip = {
-
-		}
-
 		completion_reward = {
-			unlock_decision_category_tooltip = PRC_infiltrate_nationalist_areas
-			set_country_flag = {
-				flag = CHI_delay_sweep_for_communists
-				days = 90
-				value = 1
-			}
+		    custom_effect_tooltip = PRC_infiltration_tt
+		    hidden_effect = { country_event = { id = CCP.52 days = 40 } }
 		}
 	}
 	
@@ -1782,7 +1767,7 @@ focus_tree = {
 
 	focus = {
 		id = PRC_peoples_war
-		icon = GFX_goal_flames_of_rebellion
+		icon = GFX_goal_flames_of_rebellion 
 		prerequisite = { focus = PRC_protracted_warfare focus = PRC_lure_them_in_strategy }
 		x = 0
 		y = 1
@@ -1803,7 +1788,10 @@ focus_tree = {
 		available_if_capitulated = no
 
 		completion_reward = {
-			add_ideas = PRC_peoples_war
+		    swap_ideas = {
+				remove_idea = PRC_mobile_warfare
+				add_idea = PRC_peoples_war
+			}
 		}
 	}
 
@@ -2385,7 +2373,7 @@ focus_tree = {
 		icon = GFX_goal_economic_control
 		prerequisite = { focus = PRC_invite_soviet_experts }
 		prerequisite = { focus = PRC_new_industrial_center }
-		prerequisite = { focus = PRC_hundred_flowers_campaign }
+		prerequisite = { focus = PRC_migration_to_the_coast }
 		x = -1 
 		y = 1
 		relative_position_id = PRC_new_industrial_center
@@ -2515,7 +2503,7 @@ focus_tree = {
 	focus = {
 		id = PRC_chemical_research_institute
 		icon = GFX_focus_research
-		prerequisite = { focus = PRC_hundred_flowers_campaign }
+		prerequisite = { focus = PRC_migration_to_the_coast }
 		prerequisite = { focus = PRC_invite_soviet_experts }
 		x = 0 
 		y = 2
@@ -3980,9 +3968,97 @@ focus_tree = {
 	}	
 	
 	focus = {
+		id = PRC_migration_to_the_coast  
+		icon = GFX_focus_chi_one_china_policy
+		prerequisite = { focus = PRC_cult_of_personality }
+		x = 0
+		y = 2
+		relative_position_id = PRC_cult_of_personality
+
+		cost = 6
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+		    613 = { is_fully_controlled_by = ROOT }
+			598 = { is_fully_controlled_by = ROOT }
+			596 = { is_fully_controlled_by = ROOT }
+			605 = { is_fully_controlled_by = ROOT }
+			608 = { is_fully_controlled_by = ROOT }
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = yes
+
+
+		completion_reward = {	
+			613 = {
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			598 = {
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			596 = {
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+			608 = {
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			605 = {
+				remove_building = {
+					type = arms_factory
+					level = 4
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 4
+				}
+			}
+		}
+	}
+	
+	focus = {
 		id = PRC_hundred_flowers_campaign
 		icon = GFX_goal_chi_unify
-		prerequisite = { focus = PRC_cult_of_personality }
+		prerequisite = { focus = PRC_migration_to_the_coast }
 		available = {
 			OR = {
 				has_war = no
@@ -3995,7 +4071,7 @@ focus_tree = {
 			605 = { is_fully_controlled_by = ROOT }
 		}
 		x = 0
-		y = 2
+		y = 3
 		relative_position_id = PRC_cult_of_personality
 		cost = 50
         bypass = {
