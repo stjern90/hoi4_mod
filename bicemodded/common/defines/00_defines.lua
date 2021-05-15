@@ -278,7 +278,7 @@ NCountry = {
 	
 	CONVOYS_BEING_RAIDED_WAR_SUPPORT_PENALTY_SCALE = -0.03,		-- Scaling of trade convoy raided to war support impact, will be added weekly as a war support penalty
 	MAX_CONVOYS_BEING_RAIDED_WEEKLY_WAR_SUPPORT_PENALTY = -0.015,	-- Max penalty that will gained per week from trade convoy raided
-	CONVOYS_BEING_RAIDED_WEEKLY_WAR_SUPPORT_PENALTY_DECAY = 0.002,	-- Weekly decay of trade convoy raided war support penalty
+	CONVOYS_BEING_RAIDED_WEEKLY_WAR_SUPPORT_PENALTY_DECAY = 0.004,	-- Weekly decay of trade convoy raided war support penalty
 	MAX_CONVOYS_BEING_RAIDED_WAR_SUPPORT_IMPACT = -0.35,				-- Max total penalty from trade convoy raided
 	
 	FEMALE_UNIT_LEADER_BASE_CHANCE = { 
@@ -295,10 +295,10 @@ NCountry = {
 	CONVOYS_SUNK_MULTIPLIER_FOR_WAR_SUPPORT_FROM_OVERSEA_STATES = 0.2,			-- once a resource transfer convoys from our states ship sunk, you will get a larger negative impact on your war support
 	CONVOYS_BEING_RAIDED_DAILY_WAR_SUPPORT_IMPACT = 0.2,	-- trade convoys being raided will give a daily war support penalty depending on how important that resource is and how inefficent convoys are
 	
-	MAX_PROPAGANDA_STABILITY_IMPACT = -0.25,			-- Max total penalty from operative performing the propaganda mission in a country
-	MAX_PROPAGANDA_WAR_SUPPORT_IMPACT = -0.25,		-- Max total penalty from operative performing the propaganda mission in a country
-	PROPAGANDA_STABILITY_DAILY_DECAY = 0.001,		-- Amount of stability recovered daily from propaganda effort
-	PROPAGANDA_WAR_SUPPORT_DAILY_DECAY = 0.001,		-- Amount of war support recovered daily from war support effort
+	MAX_PROPAGANDA_STABILITY_IMPACT = -0.2,			-- Max total penalty from operative performing the propaganda mission in a country
+	MAX_PROPAGANDA_WAR_SUPPORT_IMPACT = -0.2,		-- Max total penalty from operative performing the propaganda mission in a country
+	PROPAGANDA_STABILITY_DAILY_DECAY = 0.002,		-- Amount of stability recovered daily from propaganda effort
+	PROPAGANDA_WAR_SUPPORT_DAILY_DECAY = 0.002,		-- Amount of war support recovered daily from war support effort
 	MIN_NATIONAL_COVERAGE_FOR_PROPAGANDA = 0.01,			-- Minimum network coverage required to start the mission (the code ensures that a network exists at all)
 	NUM_DAYS_TO_FULLY_DELETE_STOCKPILED_EQUIPMENT = 90,	 -- time in days to fully delete equipments from stockpile. when you delete an equipment, they go to a temporary hidden pool which still can be seized 
 	AIR_SUPPLY_CONVERSION_SCALE = 0.5,				-- Conversion scale for planes to air supply
@@ -478,7 +478,7 @@ NProduction = {
 	EFFICIENCY_LOSS_PER_UNUSED_DAY = 0.45,		-- Daily loss of efficiency for unused factory slots ( efficiency is tracked per factory slot in the production line )
 	RESOURCE_PENALTY_WARNING_CRITICAL_RATIO = 0.75, -- Switch to red progress bar if penalty is over threshold 
 	BASE_FACTORY_SPEED = 2.9, 				-- Base factory speed multiplier (how much hoi3 style IC each factory gives).
-	BASE_FACTORY_SPEED_MIL = 3.33, 				-- Base factory speed multiplier (how much hoi3 style IC each factory gives).
+	BASE_FACTORY_SPEED_MIL = 3.28, 				-- Base factory speed multiplier (how much hoi3 style IC each factory gives).
 	BASE_FACTORY_SPEED_NAV = 2.6, 				-- Base factory speed multiplier (how much hoi3 style IC each factory gives).
 	BASE_FACTORY_START_EFFICIENCY_FACTOR = 25,	-- Base start efficiency for factories expressed in %.
 	BASE_FACTORY_MAX_EFFICIENCY_FACTOR = 60,	-- Base max efficiency for factories expressed in %.
@@ -971,7 +971,7 @@ NAir = {
 	CARRIER_HOURS_DELAY_AFTER_EACH_COMBAT = 3,          -- how often carrier planes do battle inside naval combat
 	NAVAL_STRIKE_TARGETTING_TO_AMOUNT = 0.31,			-- Balancing value to convert the naval_strike_targetting equipment stats to chances of how many airplanes managed to do successfull strike.
 	NAVAL_STRIKE_DAMAGE_TO_STR = 1.32,					-- Balancing value to convert damage ( naval_strike_attack * hits ) to Strength reduction.
-	NAVAL_STRIKE_DAMAGE_TO_ORG = 1.53,					-- Balancing value to convert damage ( naval_strike_attack * hits ) to Organisation reduction.
+	NAVAL_STRIKE_DAMAGE_TO_ORG = 1.45,					-- Balancing value to convert damage ( naval_strike_attack * hits ) to Organisation reduction.
 	NAVAL_STRIKE_CARRIER_MULTIPLIER = 3.75,              -- damage bonus when planes are in naval combat where their carrier is present (and can thus sortie faster and more effectively)
 	FIELD_EXPERIENCE_SCALE = 0.002,
 	FIELD_EXPERIENCE_MAX_PER_DAY = 1.5,					-- Most xp you can gain per day
@@ -1379,8 +1379,8 @@ NNavy = {
 	NAVAL_MINES_SWEEPING_SPEED_MULT = 0.01,						-- Value used to overall balance of the speed of sweeping naval mines
 	NAVAL_MINES_DECAY_AT_PEACE_TIME = 20.0,							-- How fast mines are decaying in peace time. Planting mines in peace time may be exploitable, so it's blocked atm. That's why after war we should decay them too.
 	NAVAL_MINES_SWEEPERS_REDUCTION_ON_PENALTY_EFFECT = 3.3,			-- How much is the task force's sweeping attribute reducing the penalty effect.
-	NAVAL_MINES_INTEL_DIFF_FACTOR = 0.1,					-- Better our decryption over enemy encryption will reduce the penalties from the enemy mines in the region. This value is a factor to be used for balancing.
-	NAVAL_MINES_NAVAL_SUPREMACY_FACTOR = 0.75,						-- Factor for max amount of mines increasing naval supremacy
+	NAVAL_MINES_INTEL_DIFF_FACTOR = 0.3,					-- Better our decryption over enemy encryption will reduce the penalties from the enemy mines in the region. This value is a factor to be used for balancing.
+	NAVAL_MINES_NAVAL_SUPREMACY_FACTOR = 0.5,						-- Factor for max amount of mines increasing naval supremacy
 	
 	ATTRITION_WHILE_MOVING_FACTOR = 1.5,							-- attrition multiplier while moving & doing missions
 	ATTRITION_DAMAGE_ORG = 0.01,					   				-- damage from attrition to Organisation (relative to max org)
@@ -1393,11 +1393,11 @@ NNavy = {
 	NAVAL_MINES_ACCIDENT_CRITICAL_HIT_CHANCES = 0.14,				-- If an accident happens, how likely it is to be a critical hit (caused by naval mines)
 	NAVAL_MINES_ACCIDENT_CRITICAL_HIT_DAMAGE_SCALE = 2.5,			-- Scale the value below in case of critical hit (caused by naval mines)
 	NAVAL_MINES_ACCIDENT_STRENGTH_LOSS = 75.0,						-- Amount of strength loss when hit by naval mine
-	NAVAL_MINES_ACCIDENT_ORG_LOSS_FACTOR = 0.6,						-- Amount of strength loss when hit by naval mine
+	NAVAL_MINES_ACCIDENT_ORG_LOSS_FACTOR = 0.3,						-- Amount of strength loss when hit by naval mine
 
 	TRAINING_ACCIDENT_CHANCES = 0.02,						-- Chances one ship get damage each hour while on training 
 	TRAINING_ACCIDENT_CRITICAL_HIT_CHANCES = 0.3,					-- If an accident happens, how likely it is to be a critical hit
-	TRAINING_ACCIDENT_CRITICAL_HIT_DAMAGE_SCALE = 4.0,				-- Scale the value below in case of critical hit
+	TRAINING_ACCIDENT_CRITICAL_HIT_DAMAGE_SCALE = 2.5,				-- Scale the value below in case of critical hit
 	TRAINING_ACCIDENT_STRENGTH_LOSS = 4.0,							-- Amount of strength loss in a training accident
 	TRAINING_ACCIDENT_STRENGTH_LOSS_FACTOR = 0.05,						-- Amount of strength loss in a training accident, propotional to the maximum strength of the ship
 	TRAINING_ACCIDENT_ORG_LOSS_FACTOR = 0.3,						-- Amount of current organization the ship lose
@@ -2746,7 +2746,7 @@ NIntel = {
 	NAVY_INTEL_BASE_SPOTTING_BONUS_MAX_INTEL_FOR_BONUS = 40, -- at this intel BASE_SPOTTING_FROM_DECRYPTION will be applied fully
 	
 	NAVY_INTEL_MINE_DAMAGE_REDUCTION_FACTOR_MIN_INTEL_FOR_BONUS = 5, -- at least this intel diff is needed for start applying NAVAL_MINES_INTEL_DIFF_FACTOR bonus
-	NAVY_INTEL_MINE_DAMAGE_REDUCTION_FACTOR_MAX_INTEL_FOR_BONUS = 40, -- t this intel NAVAL_MINES_INTEL_DIFF_FACTOR will be applied fully
+	NAVY_INTEL_MINE_DAMAGE_REDUCTION_FACTOR_MAX_INTEL_FOR_BONUS = 80, -- t this intel NAVAL_MINES_INTEL_DIFF_FACTOR will be applied fully
 
 	AIR_COMBAT_AIR_INTEL_PER_INSTANCE = 1.0,
 	AIR_COMBAT_AIR_INTEL_PER_OPPONENT_PLANE = 0.0,
