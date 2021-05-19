@@ -1243,32 +1243,30 @@ country_event = {
 	desc = china.101.d
 	picture = GFX_report_event_marco_polo_bridge
 
-	trigger = {
-		NOT = { has_country_flag = china.101_fired }
-		AND = {
-			CHI = {
-				NOT = { has_country_flag = CHI_hostile_against_warlords }
+	trigger = {		
+		OR = {
+			tag = XSM
+                        tag = GXC
+               	 	tag = YUN
+                	tag = SIC
+                	tag = XIN
+			AND = { 
+                    		tag = GDC
+				is_puppet = no
 			}
-			OR = {
-				tag = XSM
-                tag = GXC
-                tag = YUN
-                tag = SIC
-                tag = XIN
-				AND = { 
-                    tag = GDC
-					is_puppet = no
-				}
-				AND = {
-					OR = {
-						has_global_flag = CCP_no_join
-						CCP = { exists = no }
-					}
-					tag = SHX
-				}
+			AND = {
+				tag = SHX
+				OR = {
+					has_global_flag = CCP_no_join
+					CCP = { exists = no }
+				}	
 			}
 		}
+		
+		NOT = { has_country_flag = china.101_fired }	
+			
 		CHI = {
+			NOT = { has_country_flag = CHI_hostile_against_warlords }
 			has_war_with = JAP 
 			has_defensive_war = yes
 		}
@@ -1321,11 +1319,6 @@ country_event = {
 					CHI = {
 						set_country_flag = gxc_sumitted
 					}
-					GXC = {
-						every_unit_leader = {
-							set_nationality = CHI
-						}
-					}
 				}
 			}
 			if = {
@@ -1337,11 +1330,6 @@ country_event = {
 				CHI = {
 					set_country_flag = yun_sumitted
 				}
-				YUN = {
-					every_unit_leader = {
-						set_nationality = CHI
-					}
-				}
 			}
 			if = {
 				limit = {
@@ -1352,11 +1340,6 @@ country_event = {
 				CHI = {
 					set_country_flag = shx_sumitted
 				}
-				SHX = {
-					every_unit_leader = {
-						set_nationality = CHI
-					}
-				}
 			}
 			if = {
 				limit = {
@@ -1366,11 +1349,6 @@ country_event = {
 				}
 				CHI = {
 					set_country_flag = xsm_sumitted
-				}
-				XSM = {
-					every_unit_leader = {
-						set_nationality = CHI
-					}
 				}
 			}
 		}
@@ -1609,11 +1587,12 @@ country_event = {
 	title = china.1040.t
 	desc = china.1040.d
 	picture = GFX_report_event_chinese_soldiers
+	
+	is_triggered_only = yes
 
 	fire_only_once = yes
 
 	trigger = {
-		tag = CCP
 		has_war_with = JAP
         has_defensive_war = yes
         OR = {
@@ -1626,7 +1605,6 @@ SHX = {
 			has_defensive_war = yes
 		}
 }
-		#is_in_faction_with = CHI
 
 		is_puppet = no
 		
@@ -1634,10 +1612,6 @@ SHX = {
 		exists = yes 
 		is_puppet = no
 		}
-	}
-
-	mean_time_to_happen = {
-		days = 10
 	}
 	
 	option = {
@@ -1667,12 +1641,7 @@ country_event = {
 	option = {
 		ai_chance = { factor = 100 }
 		name = china.105.a
-		FROM = {
-			every_unit_leader = {
-				set_nationality = CCP
-			}
-		}
-		FROM = { annex_country = { target = ROOT transfer_troops = yes } }
+		
 		hidden_effect = {
 			if = {
 				limit = {
@@ -1691,17 +1660,29 @@ country_event = {
 					load_oob = "CCP_SOV_reinforcements"
 				}
 			}
-
-			CHI = {
-				create_corps_commander = {
-					name = "Yan Xishan"
-					portrait_path = "gfx/leaders/Asia/Portrait_Asia_Generic_warlord2.dds"
-					traits = {  desert_fox trait_mountaineer }
-					skill = 2
+			
+			if = { limit = { country_exists = CHI }
+			        CHI = {
+			        	set_country_flag = shx_sumitted
+					FROM = {
+					every_unit_leader = {
+			                	limit = {
+				                	has_id = 1004
+			                	}
+			                	set_nationality = CHI
+		                 	}
+					}
+					country_event = { id = china.1051
 				}
-				set_country_flag = shx_sumitted
 			}
 		}
+		
+		FROM = {
+			every_unit_leader = {
+				set_nationality = CCP
+			}
+		}
+		FROM = { annex_country = { target = ROOT transfer_troops = yes } }
 		custom_effect_tooltip = GAME_OVER_TT
 	}
 
@@ -1734,6 +1715,34 @@ country_event = {
 			enemy = JAP
 		}
 		add_ideas = KMT_united_front
+	}
+}
+
+# CCP gets reinforcements from soviet - break out effect from china.105
+country_event = {
+	id = china.1050
+	title = china.1050.t
+	desc = china.1050.d
+	picture = GFX_report_event_chinese_soldiers
+
+	is_triggered_only = yes
+
+	option = {
+		name = china.1050.a
+	}
+}
+
+# Yan Xishan joins the kmt army
+country_event = {
+	id = china.1051
+	title = china.1051.t
+	desc = china.1051.d
+	picture = GFX_report_event_chinese_soldiers
+
+	is_triggered_only = yes
+
+	option = {
+		name = china.1051.a
 	}
 }
 
