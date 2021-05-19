@@ -1768,6 +1768,7 @@ country_event = {
 	desc = {
 		text = china.107.d_CCP_joined
 		trigger = { 
+		        tag  = CHI
 			CCP = { 
 				has_country_flag = CCP_joined_CHI_against_JAP 
 			} 
@@ -1776,9 +1777,16 @@ country_event = {
 	desc = {
 		text = china.107.d_CCP_refused
 		trigger = { 
+		        tag  = CHI
 			CCP = { 
 				NOT = { has_country_flag = CCP_joined_CHI_against_JAP } 
 			} 
+		}
+	}
+	desc = {
+		text = china.107.d_CCP_ROOT
+		trigger = { 
+		        tag  = CCP
 		}
 	}
 
@@ -1787,12 +1795,21 @@ country_event = {
 	fire_only_once = yes
 
 	trigger = {
-	has_country_flag = impossible  # disable, re-enable in future
-		country_exists = CCP
-		tag = CHI
-		has_global_flag = CHI_unite
-		NOT = { has_war_with = JAP }
+		OR = {
+		AND = {
+		tag = CHI 
+		is_in_faction_with = CCP
 		is_faction_leader = yes
+		}
+		AND = {
+		tag = CCP 
+		is_in_faction_with = CHI
+		is_faction_leader = yes
+		}
+		}
+		
+		has_global_flag = CHI_warred_with_JAP
+		NOT = { has_war_with = JAP }
 	}
 
 	mean_time_to_happen = {
@@ -1801,13 +1818,16 @@ country_event = {
 
 	option = {
 		name = china.107.a
-		if = {
-			limit = { NOT = { CCP = { has_country_flag = CCP_joined_CHI_against_JAP } } }
-			dismantle_faction = yes
-			CCP = { remove_opinion_modifier = { target = CHI modifier = unstable_alliance } }
-			CHI = { remove_opinion_modifier = { target = CCP modifier = unstable_alliance } }			
-		}
-
+		dismantle_faction = yes
+		CCP = { remove_opinion_modifier = { target = CHI modifier = unstable_alliance } }
+		CHI = { remove_opinion_modifier = { target = CCP modifier = unstable_alliance } }
+		#if = {
+		#	limit = {
+		#		NOT = { has_global_flag = jap_civil_war_sf }
+		#	}
+		#	custom_effect_tooltip = china.107_tt
+		#}
+                CCP = { country_event = { id = china.111 } }
 		if = {
 			limit = {
 				CCP = { has_country_flag = CCP_joined_CHI_against_JAP }
@@ -1827,9 +1847,15 @@ country_event = {
 				CHI = { remove_opinion_modifier = { target = CCP modifier = unstable_alliance } }				
 			}
 		}
+		effect_tooltip = {
+		CCP = { add_ideas = kmt_planning_the_civil_war }
+		CHI = {
+			add_ideas = KMT_chinese_matter
+		}
+		}
 		hidden_effect = {
-			CCP = { country_event = { id = china.108 days = 90 } }
-			set_global_flag = CCP_restart_CHI_war_pre
+			#CCP = { country_event = { id = china.108 days = 90 } }
+			#set_global_flag = CCP_restart_CHI_war_pre
 		}
 	}
 }
@@ -1840,6 +1866,8 @@ country_event = {
 	title = china.108.t
 	desc = china.108.d
 	picture = GFX_report_event_chinese_soldiers_fighting
+	
+	is_triggered_only = yes
 	
 	trigger = {
 		tag = CCP
@@ -1873,8 +1901,6 @@ country_event = {
 	}
 	
 	fire_only_once = yes
-	
-	mean_time_to_happen = { days = 10 }
 
 	option = {
 		name = china.108.a
@@ -1994,7 +2020,7 @@ country_event = {
 	desc = china.109.d
 	picture = GFX_report_event_chinese_soldiers_fighting
 
-	fire_only_once = yes
+	is_triggered_only = yes
 
 	trigger = {
 		tag = CCP
@@ -2007,8 +2033,6 @@ country_event = {
 		}
 		has_government = communism
 	}
-
-	mean_time_to_happen = { days = 360 }
 
 	option = {
 		hidden_effect = {
@@ -2064,48 +2088,7 @@ country_event = {
 
 	option = {
 		name = china.111.a
-		CHI = { 
-			dismantle_faction = yes
-			hidden_effect = {
-				remove_opinion_modifier = { target = CCP modifier = unstable_alliance }
-			}
-		}
-		hidden_effect = {
-			CCP = { remove_opinion_modifier = { target = CHI modifier = unstable_alliance } }
-		}
-		if = {
-			limit = {
-				NOT = { has_global_flag = jap_civil_war_sf }
-			}
-			custom_effect_tooltip = china.107_tt
-			hidden_effect = {
-				every_state = {
-					limit = {
-						NOT = { is_owned_by = JAP }
-						OR = {
-							owner = {
-								is_puppet = no
-							}
-							owner = {
-								is_puppet_of = CHI
-							}
-						}
-						is_core_of = CCP
-						OR = {
-							region = 143
-							region = 155
-						}
-						NOT = { state = 525 }
-						NOT = { state = 527 }	
-						NOT = { state = 614 }	
-						NOT = { state = 597 }		
-						NOT = { state = 608 }				
-					}
-					ROOT = { transfer_state = PREV }
-				}			
-			}
-		}
-		add_ideas = kmt_planning_the_civil_war
+		CCP = { add_ideas = kmt_planning_the_civil_war }
 		CHI = {
 			add_ideas = KMT_chinese_matter
 		}
