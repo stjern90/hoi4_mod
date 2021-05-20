@@ -41,10 +41,9 @@ ITA_garrison = {
 	
 	ai_strategy = {
 		type = put_unit_buffers
-		ratio = 0.3
+		ratio = 0.2
 		states = { 
 			115
-			114
 			156
 			117
 			2
@@ -56,6 +55,7 @@ ITA_garrison = {
 		subtract_invasions_from_need = no
 		subtract_fronts_from_need = no
 	}
+    ai_strategy = { type = garrison value = 25 }
 	
 	ai_strategy = {
 		type = dont_defend_ally_borders
@@ -90,7 +90,7 @@ ITA_dont_fightger = {
 		country_trigger = {
 			tag = GER
 		}
-		value = -200
+		value = -100
 	}
 	
 	ai_strategy = {
@@ -99,36 +99,16 @@ ITA_dont_fightger = {
 		country_trigger = {
 			tag = SWI
 		}
-		value = -200
+		value = -100
 	}
-}
-
-ITA_garrisonsardinia = {
-	allowed = {
-		tag = ITA
-	}
-	enable = {
-		or = {  
-            FRA = { has_war_with = GER has_capitulated = no }
-            FRA = { has_war_with = ITA has_capitulated = no }
-			AND = { has_completed_focus = ITA_go_after_france FRA = { has_capitulated = no  } }
-			AND = {
-            NOT = { 448 = { is_controlled_by = ROOT } }
-			NOT = { 450 = { is_controlled_by = ROOT } }
-			}
-		}
-	}
-	abort_when_not_enabled = yes
 	
 	ai_strategy = {
-		type = put_unit_buffers
-		ratio = 0.04
+		type = front_unit_request
 		
-		states = { 
-			114
+		country_trigger = {
+			tag = TUR
 		}
-		subtract_invasions_from_need = no
-		subtract_fronts_from_need = no
+		value = -25
 	}
 }
 
@@ -174,6 +154,7 @@ Axis_minors_dont_go_north = {
 keep_libya_route_ita = {
     allowed = { original_tag = ITA }
 	enable = { 
+	    OR = { has_war_with = ENG date > 1939.9.1 }
 		OR = {
 		448 = { is_controlled_by = ITA }
 		449 = { is_controlled_by = ITA }
@@ -1039,34 +1020,6 @@ aggro_fra = {
 	}
 }
 
-def_against_ita = {
-	allowed = {
-		original_tag = ITA
-	}
-	enable = {
-		country_exists = GER
-		country_exists = ITA
-		has_war_with = GER
-		NOT = { has_war_with = ITA }
-	}
-	abort = {
-		or = { NOT = { country_exists = ITA }
-		has_war_with = ITA }
-	}
-	
-	ai_strategy = {
-		type = antagonize
-		id = "ITA"
-		value = 40
-	}
-	ai_strategy = {
-		type = ignore
-		id = "FRA"
-		value = -50
-	}
-	ai_strategy = { type = area_priority id = africa 			value = 50 }
-}
-
 dont_like_ita_syr = {
     allowed = {
 		original_tag = SYR
@@ -1087,8 +1040,17 @@ dont_like_ita_syr = {
 }
 
 dont_support_wrong_side = {
+    allowed = {
+	    OR = {
+		original_tag = ENG
+		original_tag = ITA
+		original_tag = GER
+		original_tag = JAP
+		original_tag = FRA
+		original_tag = SOV
+		}
+	}
 	enable = {
-		num_of_factories > 100
 		has_government = fascism
 		has_global_flag = spanish_civil_war
 		NOT = { has_global_flag = scw_over }

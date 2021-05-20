@@ -2,7 +2,7 @@ technologies = {
 
 	mobile_warfare = {
 		
-		xor = { superior_firepower trench_warfare mass_assault } 
+		xor = { superior_firepower trench_warfare mass_assault armed_civilians } 
 		dependencies = { semi_motorised_infantry = 1 }
 		on_research_complete = {
 			custom_effect_tooltip = mobile_warfare_equipment
@@ -912,7 +912,7 @@ technologies = {
 	
 	superior_firepower = {
 
-		xor = { mobile_warfare trench_warfare mass_assault  } 
+		xor = { mobile_warfare trench_warfare mass_assault armed_civilians } 
 
 		path = {
 			leads_to_tech = sup_delay 
@@ -1108,7 +1108,7 @@ technologies = {
 		planning_speed = -0.2
 		
 		category_heavy_artillery = {
-			soft_attack = 0.05
+			soft_attack = 0.07
 		}
 		
 		path = {
@@ -1193,7 +1193,7 @@ technologies = {
 		
 		category_line_artillery = {
 			default_morale = 0.1
-			soft_attack = 0.05
+			soft_attack = 0.07
 		}
 		
 		path = {
@@ -1682,7 +1682,7 @@ technologies = {
 	
 	trench_warfare = {
 
-		xor = { mobile_warfare superior_firepower mass_assault  } 
+		xor = { mobile_warfare superior_firepower mass_assault armed_civilians } 
 	
 		max_dig_in = 2
 		dig_in_speed_factor = 0.25 #25% bonus
@@ -1779,6 +1779,11 @@ technologies = {
 			modifier = {
 				factor = 0
 				has_idea = FRA_victors_of_wwi 
+			}
+			modifier = {
+				factor = 0
+				tag = JAP
+				NOT = { has_completed_focus = JAP_doctrinal }	
 			}
 		}
 	}
@@ -1964,7 +1969,7 @@ technologies = {
 	
 	assault_concentration = {
 	
-		special_forces_cap = 0.01
+		special_forces_min = 10
 	    max_planning = 0.07
         dependencies = { motorised_infantry = 1 }
 		enable_tactic = tactic_overwhelming_fire
@@ -2452,7 +2457,7 @@ technologies = {
 	
 	mass_assault = {
 
-		xor = { mobile_warfare superior_firepower trench_warfare  } 
+		xor = { mobile_warfare superior_firepower trench_warfare armed_civilians } 
 
 		path = {
 			leads_to_tech = pocket_defence 
@@ -2926,7 +2931,7 @@ technologies = {
 			max_strength = 0.5
 		}
 		ss_motorized = {
-		    max_organisation = 1
+		    max_organisation = 10
 			default_morale = 0.1
 			max_strength = 0.5
 		}
@@ -2988,6 +2993,9 @@ technologies = {
 			default_morale = 0.1
 		}
 		
+		on_research_complete = {
+			custom_effect_tooltip = enable_ability_air_barrage
+		}
 		enable_tactic = tactic_backhand_blow
 
 		xp_research_type = army
@@ -3380,73 +3388,65 @@ technologies = {
 	
 	
 	
-	#####ASSYMETRIC#####
+	###Resistance Warfare###
 	
-	guerilla_warfare_2 = {
+	armed_civilians = {
 		
-		#xor = { mobile_warfare superior_firepower trench_warfare mass_assault }
+		xor = { mobile_warfare superior_firepower trench_warfare mass_assault }
 		
-		#allow_branch = { num_divisions < 30 }
 		
 		xp_research_type = army
 		xp_research_cost = 40
 		xp_research_bonus = 0.40
 		
-		max_command_power = -30
-		command_power_gain_mult = -0.3
-
-		category_all_armor = {
-			max_organisation = -10
-			max_strength = -0.5
-			default_morale = -0.15	
-			supply_consumption_factor = 0.10
-		}	
-		
-		out_of_supply_factor = -0.1
-		category_army = {
-			default_morale = 0.05
-		}
 		category_light_infantry = {
-			max_organisation = 5
-			default_morale = 0.1
-		}		
-		mountaineers = {
-			max_organisation = 5
-			default_morale = 0.1
-		}			
-		cavalry = {
-			max_organisation = 3
-			default_morale = 0.1
-			supply_consumption_factor = -0.05	
-		}
-		
-		org_loss_when_moving = -0.1
-		
-		#resistance_growth_on_our_occupied_states = 0.2
-		
+			max_organisation = 7
+			default_morale = 0.07
+		}	
 		enable_tactic = tactic_guerrilla_tactics
+		
+		minimum_training_level = -0.1
+		experience_loss_factor = 0.05
+
+		cavalry = {
+			need = {
+				horse_equipment = -10
+				infantry_uniforms = -2
+				infantry_equipment = -2
+         	}	
+		}
+		militia = {
+			need = {
+				infantry_uniforms = -2
+				infantry_equipment = -2
+         	}
+			
+		}	
+		light_infantry = {
+			need = {
+				infantry_uniforms = -2
+				infantry_equipment = -2
+         	}
+		}
+		garrison = {
+			need = {
+				infantry_uniforms = -2
+				infantry_equipment = -2
+         	}
+		}		
 		
 		doctrine = yes	
 		research_cost = 3.5
 		on_research_complete = {
-			
+			custom_effect_tooltip = enable_ability_supply
+			#custom_effect_tooltip = armed_civilians_equipment
+			custom_effect_tooltip = armed_civilians_equipment_2			
 		}			
 		categories = {
 			land_doctrine
 			cat_guerilla_warfare
 		}
-		path = {
-			leads_to_tech = hit_and_run
-			research_cost_coeff = 1
-		}
-		path = {
-			leads_to_tech = armed_civilians
-			research_cost_coeff = 1
-		}
-		 path = {
-			leads_to_tech = local_knowledge2
-			research_cost_coeff = 1
-		}	
+	
 		folder = {
 			name = land_doctrine_folder
 			position = { x = 0 y = 0 }
@@ -3456,24 +3456,35 @@ technologies = {
 			factor = 6
 			modifier = {
 			    factor = 0
-				num_of_factories > 100
+				num_of_factories > 40
 			}
 			modifier = {
-			    factor = 2
+			    factor = 20
 				OR = {
 				tag = FIN
-				tag = SWE
 				tag = NOR
 				tag = MON
 				tag = AFG
 				tag = PER
 				tag = SYR
 				tag = YEM
-			    is_literally_china = yes
 				tag = SIA
 				tag = MAL
 				tag = PAK
+				tag = SIK
+				tag = XSM
+				tag = TIB
+				tag = SAU
 				}
+			}
+			modifier = {
+				AND = { #Motti Tactics 
+					original_tag = FIN
+					FIN = {
+						has_completed_focus = FIN_motti
+					}
+				}
+				factor = 500
 			}
 			modifier = {
 				factor = 0
@@ -3490,102 +3501,40 @@ technologies = {
 				}
 			}
 		}
-	}
-	armed_civilians = {
-			
-		xp_research_type = army
-		xp_research_cost = 40
-		xp_research_bonus = 0.40	
-				
-		minimum_training_level = -0.04
-		
-		experience_loss_factor = 0.05
-		resistance_growth_on_our_occupied_states = 0.1
-		resistance_damage_to_garrison_on_our_occupied_states = 0.1
-		#stability_weekly = -0.0005
-		
 		path = {
-			leads_to_tech = assymetric_defense
+			leads_to_tech = local_knowledge
 			research_cost_coeff = 1
 		}
 		
-		cavalry = {
-			need = {
-				horse_equipment = -10
-				infantry_equipment = -2
-         	}	
+		ai_research_weights = {
+			industry = 2.0
 		}
-		militia = {
-			need = {
-				infantry_uniforms = -1
-				infantry_equipment = -1
-         	}
-			
-		}	
-		light_infantry = {
-			need = {
-				infantry_uniforms = -1
-				infantry_equipment = -2
-         	}
-		}
-		garrison = {
-			need = {
-				infantry_uniforms = -1
-				infantry_equipment = -2
-         	}
-		}
-
-		
-		doctrine = yes	
-		research_cost = 3
-		on_research_complete = {
-			custom_effect_tooltip = armed_civilians_equipment
-		}			
-		categories = {
-			land_doctrine
-			cat_guerilla_warfare
-		}
-
-		
-		folder = {
-			name = land_doctrine_folder
-			position = { x = -2 y = 2 }
-		}
-		
-		ai_will_do = {
-			factor = 6
-			modifier = {
-			    factor = 0
-				date < 1940.1.1
-				NOT = { is_literally_china = yes }
-			}
-		}
-		
-		
 	}
-	hit_and_run = {
-			
+
+	 local_knowledge = {
 		xp_research_type = army
 		xp_research_cost = 40
 		xp_research_bonus = 0.40
-					
-		org_loss_when_moving = -0.1
-			
-		path = {
-			leads_to_tech = assymetric_defense
-			research_cost_coeff = 1
+		
+		mountaineers = {
+			max_organisation = 5
+			default_morale = 0.15
+			supply_consumption_factor = -0.05				
+		}			
+		cavalry = {
+			max_organisation = 3
+			default_morale = 0.15
+			supply_consumption_factor = -0.05	
 		}		
-		
-		
-		enable_tactic = tactic_ambush_adv
+		army_core_defence_factor = 0.03
+		land_reinforce_rate = 0.02	
+		terrain_penalty_reduction = 0.20	
+		recon_factor = 0.05	
+		max_dig_in = 1		
 		
 		doctrine = yes	
 		research_cost = 3.5
-		#on_research_complete = {
-		#	custom_effect_tooltip = tech_category_tt
-		#	custom_effect_tooltip = land_doctrine_tt
-		#	custom_effect_tooltip = cat_guerilla_warfare_tt
-		#}			
+		
 		categories = {
 			land_doctrine
 			cat_guerilla_warfare
@@ -3595,330 +3544,425 @@ technologies = {
 			name = land_doctrine_folder
 			position = { x = 0 y = 2 }
 		}
+
+		path = {
+			leads_to_tech = advanced_guerilla_warfare
+			research_cost_coeff = 1
+		}
 		
 		ai_will_do = {
-			factor = 6
+		    factor = 13
+			modifier = {
+				not = {
+					has_army_experience > 120
+				}
+				factor = 0.8
+			}
+			modifier = {
+		    	factor = 3
+		    	date > 1937.5.1
+			}
+			modifier = {
+				AND = { #Motti Tactics 
+					original_tag = FIN
+					FIN = {
+						has_completed_focus = FIN_motti
+					}
+				}
+				factor = 500
+			}
+			
+		}
+		
+		ai_research_weights = {
+			industry = 2.0
 		}
 	}
-	local_knowledge2 = {	
+
+	advanced_guerilla_warfare = {
+
 		xp_research_type = army
 		xp_research_cost = 40
 		xp_research_bonus = 0.40
 
-		land_reinforce_rate = 0.02
-		terrain_penalty_reduction = 0.05
-		army_core_attack_factor = 0.02
-		army_core_defence_factor = 0.02
-			
+		air_cas_present_factor = -0.05
+	    army_bonus_air_superiority_factor = -0.05
+		enemy_army_bonus_air_superiority_factor = -0.05		
 
-		doctrine = yes	
-		research_cost = 3.5
-		on_research_complete = {
-		
-		}			
-		categories = {
-			land_doctrine
-			cat_guerilla_warfare
-		}
-        path = {
-			leads_to_tech = assymetric_defense
-			research_cost_coeff = 1
-		}
-		
-		folder = {
-			name = land_doctrine_folder
-			position = { x = 2 y = 2 }
-		}
-		
-		ai_will_do = {
-			factor = 6
-		}
-	}
-	assymetric_defense = {
-		
-		
-		
-		xp_research_type = army
-		xp_research_cost = 40
-		xp_research_bonus = 0.40
+		resistance_growth_on_our_occupied_states = 0.2
+		resistance_damage_to_garrison_on_our_occupied_states = 0.2		
+
 		
 		on_research_complete = {
-			custom_effect_tooltip = assymetric_defense_tt
-			
-		}
-				
-		air_cas_present_factor = -0.04
-	    army_bonus_air_superiority_factor = -0.04
-		
-		out_of_supply_factor = -0.1
-		
-		category_light_infantry = {
-			default_morale = 0.15
-			forest = {		    
-				defence = 0.07
-				movement = 0.07
-				attack = -0.05
-			}
-			mountain = {		    
-				defence = 0.07
-				movement = 0.07
-				attack = -0.05
-			}
-			jungle = {		    
-				defence = 0.07
-				movement = 0.07
-				attack = -0.05
-			}
-			marsh = {		    
-				defence = 0.07
-				movement = 0.07
-				attack = -0.05
-			}
-			forest = {		    
-				defence = 0.07
-				movement = 0.07
-				attack = -0.05
-			}
-			hills = {		    
-				defence = 0.05
-				movement = 0.05
-				attack = -0.03
-			}
-			desert = {		    
-				defence = 0.05
-				movement = 0.05
-				attack = -0.03
-			}
-			village = {		    
-				defence = 0.05
-				movement = 0.05
-				attack = -0.03
-			}
-			plains = {
-			   attack = -0.03
-			}
-		}
-		cavalry = {
-		    default_morale = 0.15
-			forest = {		    
-				defence = 0.07
-				movement = 0.07
-				attack = -0.05
-			}
-			mountain = {		    
-				defence = 0.07
-				movement = 0.07
-				attack = -0.05
-			}
-			jungle = {		    
-				defence = 0.07
-				movement = 0.07
-				attack = -0.05
-			}
-			marsh = {		    
-				defence = 0.07
-				movement = 0.07
-				attack = -0.05
-			}
-			forest = {		    
-				defence = 0.07
-				movement = 0.07
-				attack = -0.05
-			}
-			hills = {		    
-				defence = 0.05
-				movement = 0.05
-				attack = -0.03
-			}
-			desert = {		    
-				defence = 0.05
-				movement = 0.05
-				attack = -0.03
-			}
-			village = {		    
-				defence = 0.05
-				movement = 0.05
-				attack = -0.03
-			}
-			plains = {
-			   attack = -0.03
-			}
-		}
-		
-	    #category_all_infantry = {
-		#    default_morale = 0.1
-		#	forest = {		    
-		#		defence = 0.05
-		#		movement = 0.05
-		#		attack = -0.05
-		#	}
-		#	mountain = {		    
-		#		defence = 0.05
-		#		movement = 0.05
-		#		attack = -0.05
-		#	}
-		#	jungle = {		    
-		#		defence = 0.05
-		#		movement = 0.05
-		#		attack = -0.05
-		#	}
-		#	marsh = {		    
-		#		defence = 0.05
-		#		movement = 0.05
-		#		attack = -0.05
-		#	}
-		#	forest = {		    
-		#		defence = 0.04
-		#		movement = 0.04
-		#		attack = -0.04
-		#	}
-		#	hills = {		    
-		#		defence = 0.04
-		#		movement = 0.04
-		#		attack = -0.04
-		#	}
-		#	desert = {		    
-		#		defence = 0.04
-		#		movement = 0.04
-		#		attack = -0.04
-		#	}
-		#	village = {		    
-		#		defence = 0.04
-		#		movement = 0.04
-		#		attack = -0.04
-		#	}
-		#	plains = {
-		#	   attack = -0.04
-		#	}
-		#}			
-		
-		
-		#enable_tactic = tactic_guerrilla_tactics
+		}					
 		
 		doctrine = yes	
 		research_cost = 3.5
-					
+
 		categories = {
 			land_doctrine
 			cat_guerilla_warfare
-		}
-		path = {
-			leads_to_tech = national_pride_propaganda
-			research_cost_coeff = 1
-		}
-		path = {
-			leads_to_tech = underground_tunnel_system
-			research_cost_coeff = 1
-		}
-		 path = {
-			leads_to_tech = unconventional_weapons
-			research_cost_coeff = 1
 		}	
+
+
+		path = {
+			leads_to_tech = partisan_army
+			research_cost_coeff = 1
+		}
+		
 		folder = {
 			name = land_doctrine_folder
 			position = { x = 0 y = 4 }
 		}
 		
 		ai_will_do = {
-			factor = 6
+			factor = 13
+			modifier = {
+		    	factor = 3
+		    	date > 1938.1.1
+			}
+			modifier = {
+				not = {
+					has_army_experience > 120
+				}
+				factor = 0.8
+			}
+		}
+		
+		ai_research_weights = {
+			industry = 2.0
 		}
 	}
-	national_pride_propaganda = {
-			
-		xp_research_type = army
-		xp_research_cost = 40
-		xp_research_bonus = 0.40				
-		
-		resistance_growth_on_our_occupied_states = 0.1 #10% more partisan effects
-		#enemy_army_bonus_air_superiority_factor = -0.05
-		resistance_damage_to_garrison_on_our_occupied_states = 0.1
-		
-		army_core_defence_factor = 0.05
-		
-		doctrine = yes	
-		research_cost = 3.5
-		on_research_complete = {
-			
-		}			
-		categories = {
-			land_doctrine
-			cat_guerilla_warfare
-		}
 
-		
-		folder = {
-			name = land_doctrine_folder
-			position = { x = -2 y = 6 }
-		}
-		
-		ai_will_do = {
-			factor = 6
-		}
-	}
-	
-	underground_tunnel_system = {
+	partisan_army = {
 		
 		xp_research_type = army
 		xp_research_cost = 40
 		xp_research_bonus = 0.40
-
-		resistance_damage_to_garrison_on_our_occupied_states = 0.1
 		
-		dig_in_speed_factor = 0.15
-		pocket_penalty = -0.1
-		enemy_army_bonus_air_superiority_factor = -0.05
-		
+		org_loss_when_moving = -0.1
+		category_light_infantry = {	
+            max_strength = 1.0	
+            default_morale = 0.1			
+		}	
+        category_all_infantry = {	
+            max_strength = 1.0	
+            default_morale = 0.1			
+		}			
+				
 
+		on_research_complete = {
+			custom_effect_tooltip = enable_mass_defense				
+			custom_effect_tooltip = fewer_radios_HQ
+		}		
+		
 		doctrine = yes	
 		research_cost = 3.5
-		#on_research_complete = {
-		#	custom_effect_tooltip = tech_category_tt
-		#	custom_effect_tooltip = land_doctrine_tt
-		#	custom_effect_tooltip = cat_guerilla_warfare_tt
-		#}			
+		
 		categories = {
 			land_doctrine
 			cat_guerilla_warfare
 		}
 
+		path = {
+			leads_to_tech = camouflage
+			research_cost_coeff = 1
+		}
 		
+		path = {
+			leads_to_tech = motti_tactics
+			research_cost_coeff = 1
+		}
+
 		folder = {
 			name = land_doctrine_folder
 			position = { x = 0 y = 6 }
 		}
-		
+
 		ai_will_do = {
-			factor = 6
+			modifier = {
+				not = {
+					has_army_experience > 120
+				}
+				factor = 0.8
+			}
+			modifier = {
+				OR = {
+					original_tag = FIN
+					original_tag = LAT
+					original_tag = EST
+				}
+				factor = 0.7
+			}
+			modifier = {
+		    	factor = 3
+		    	date > 1938.1.1
+			}
+			factor = 20
+		}
+		
+		
+		ai_research_weights = {
+			industry = 2.0
 		}
 	}
+
+	camouflage = {
 	
-	unconventional_weapons = {
-			
+		xor = { motti_tactics }
+		
 		xp_research_type = army
 		xp_research_cost = 40
 		xp_research_bonus = 0.40
-			
 
-		cavalry = {	
-			ap_attack = 0.2
-			air_attack = 0.2
-			hard_attack = 0.2
-			maximum_speed = 0.05
-		}
-		category_light_infantry = {
-		    ap_attack = 0.25
-			air_attack = 0.25
-			hard_attack = 0.25
-			maximum_speed = 0.05		
-		}
+		industry_air_damage_factor = -0.1
+	    army_bonus_air_superiority_factor = -0.1
+		enemy_army_bonus_air_superiority_factor = -0.1	
+		dig_in_speed_factor = 0.25
 		
-			
+		enable_tactic = tactic_delay		
+
 		doctrine = yes	
 		research_cost = 3.5
-		on_research_complete = {
-			#custom_effect_tooltip = armed_civilians_equipment
-			
-		}			
+		
+		categories = {
+			land_doctrine
+			cat_guerilla_warfare
+		}
+
+		path = {
+			leads_to_tech = underground_tunnels
+			research_cost_coeff = 1
+		}
+		
+		folder = {
+			name = land_doctrine_folder
+			position = { x = -2 y = 8 }
+		}
+		
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				not = {
+					has_army_experience > 120
+				}
+				factor = 0.8
+			}
+			modifier = {
+		    	factor = 3
+		    	date > 1938.1.1
+			}
+		}
+		
+		ai_research_weights = {
+			industry = 2.0
+		}
+	}
+
+	underground_tunnels = {
+
+		xp_research_type = army
+		xp_research_cost = 40
+		xp_research_bonus = 0.40
+	
+		pocket_penalty = -0.25
+		army_core_defence_factor = 0.1
+		out_of_supply_factor = -0.25	
+		max_dig_in = 2		
+
+		doctrine = yes	
+		research_cost = 3.5
+		
+		categories = {
+			land_doctrine
+			cat_guerilla_warfare
+		}
+
+		path = {
+			leads_to_tech = aw_delay
+			research_cost_coeff = 1
+		}
+		
+		folder = {
+			name = land_doctrine_folder
+			position = { x = -2 y = 10 }
+		}
+		
+		ai_will_do = {
+			factor = 20
+		}
+		
+		ai_research_weights = {
+			industry = 2.0
+		}
+	}
+
+	
+
+	motti_tactics = {
+	
+		xor = { camouflage }	
+	
+		xp_research_type = army
+		xp_research_cost = 40
+		xp_research_bonus = 0.40
+
+		mountaineers = {
+			default_morale = 0.1			
+		}	
+		
+		enable_tactic = tactic_infantry_charge		
+
+		category_light_infantry = {
+			default_morale = 0.1
+			forest = {		    
+				defence = 0.07
+				movement = 0.07
+
+			}
+			mountain = {		    
+				defence = 0.07
+				movement = 0.07
+
+			}
+			jungle = {		    
+				defence = 0.07
+				movement = 0.07
+
+			}
+			marsh = {		    
+				defence = 0.07
+				movement = 0.07
+
+			}
+			forest = {		    
+				defence = 0.07
+				movement = 0.07
+
+			}
+			hills = {		    
+				defence = 0.05
+				movement = 0.05
+
+			}
+			desert = {		    
+				defence = 0.05
+				movement = 0.05
+
+			}
+			village = {		    
+				defence = 0.05
+				movement = 0.05
+
+			}
+		}
+		cavalry = {
+		    default_morale = 0.2
+			forest = {		    
+				defence = 0.07
+				movement = 0.07
+				attack = -0.05
+			}
+			mountain = {		    
+				defence = 0.07
+				movement = 0.07
+				attack = -0.05
+			}
+			jungle = {		    
+				defence = 0.07
+				movement = 0.07
+				attack = -0.05
+			}
+			marsh = {		    
+				defence = 0.07
+				movement = 0.07
+				attack = -0.05
+			}
+			forest = {		    
+				defence = 0.07
+				movement = 0.07
+				attack = -0.05
+			}
+			hills = {		    
+				defence = 0.05
+				movement = 0.05
+				attack = -0.03
+			}
+			desert = {		    
+				defence = 0.05
+				movement = 0.05
+				attack = -0.03
+			}
+			village = {		    
+				defence = 0.05
+				movement = 0.05
+				attack = -0.03
+			}
+			plains = {
+			   attack = -0.03
+			}
+		}
+		
+		on_research_complete = { 
+			custom_effect_tooltip = assymetric_defense_tt		
+		}
+		
+		doctrine = yes	
+		research_cost = 3.5
+		
+		categories = {
+			land_doctrine
+			cat_guerilla_warfare
+		}
+
+		path = {
+			leads_to_tech = hit_and_run
+			research_cost_coeff = 1
+		}
+		
+		folder = {
+			name = land_doctrine_folder
+			position = { x = 2 y = 8 }
+		}
+		
+		ai_will_do = {
+			factor = 20
+			modifier = {
+		    	factor = 100
+		    	tag = FIN
+			}
+		}
+		
+		ai_research_weights = {
+			industry = 2.0
+		}
+	}
+
+	hit_and_run = {
+		
+		xp_research_type = army
+		xp_research_cost = 40
+		xp_research_bonus = 0.40
+		
+	
+		org_loss_when_moving = -0.1
+		resistance_damage_to_garrison_on_our_occupied_states = 0.1	
+
+		on_research_complete = { 
+			custom_effect_tooltip = enable_grandbattleplan_attack #This isn't added yet, I think...
+		}
+		
+		
+		
+		path = {
+			leads_to_tech = aw_delay
+			research_cost_coeff = 1
+		}
+		
+
+		doctrine = yes	
+		research_cost = 3.5
+		
 		categories = {
 			land_doctrine
 			cat_guerilla_warfare
@@ -3927,14 +3971,343 @@ technologies = {
 		
 		folder = {
 			name = land_doctrine_folder
-			position = { x = 2 y = 6 }
+			position = { x = 2 y = 10 }
 		}
 		
 		ai_will_do = {
-			factor = 6
-			
+			factor = 20
+			modifier = {
+				not = {
+					has_army_experience > 120
+				}
+				factor = 0.8
+			}
+			modifier = {
+				not = { ai_air_doctrine_tier_1_trigger = yes }
+				factor = 0.5
+			}
+			modifier = {
+				not = { ai_air_doctrine_tier_2_trigger = yes }
+				factor = 0.75
+			}
+			modifier = {
+				factor = 0.6
+
+				OR = {
+					tag = XSM
+					tag = SIK
+					tag = GXC
+					tag = SHX
+					tag = YUN
+				}
+			}
+
+		}
+		
+		ai_research_weights = {
+			industry = 2.0
 		}
 	}
 	
+	aw_delay = {
+
+		category_all_infantry = {
+			max_organisation = 8
+		}
+		light_infantry = {
+			max_organisation = 6
+		}
+		militia = {
+			max_organisation = 4
+		}
+		garrison = {
+			max_organisation = 4
+		}
+		
+		enable_tactic = tactic_delay
+		
+		path = {
+			leads_to_tech = aw_molotov_swarming
+			research_cost_coeff = 1
+		}
+
+		xp_research_type = army
+		xp_research_cost = 40
+		xp_research_bonus = 0.40
+		
+		doctrine = yes	
+		research_cost = 3.5
+
+		categories = {
+			land_doctrine
+			cat_guerilla_warfare
+		}
+
+		folder = {
+			name = land_doctrine_folder
+			position = { x = 0 y = 12 }
+		}
+		
+		ai_will_do = {
+			factor = 15
+		}
+	}
+	
+	aw_molotov_swarming = {
+		
+
+	    infantry = {
+			hard_attack = 0.3
+		}
+		light_infantry = {
+			hard_attack = 0.5
+		}
+		militia = {
+			hard_attack = 0.5
+		}
+		garrison = {
+		    hard_attack = 0.5
+		}
+		
+		xp_research_type = army
+		xp_research_cost = 40
+		xp_research_bonus = 0.40
+		
+		path = {
+			leads_to_tech = offensive_operations
+			research_cost_coeff = 1
+		}
+		path = {
+			leads_to_tech = night_operations
+			research_cost_coeff = 1
+		}
+		
+		doctrine = yes	
+		research_cost = 3.5
+		
+		categories = {
+			land_doctrine
+			cat_guerilla_warfare
+		}
+
+		folder = {
+			name = land_doctrine_folder
+			position = { x = 0 y = 14 }
+		}
+		
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	offensive_operations = {
+
+		xp_research_type = army
+		xp_research_cost = 40
+		xp_research_bonus = 0.40
+		
+		xor = { night_operations }	
+
+		army_core_attack_factor = 0.1
+		
+		category_army = {
+			default_morale = 0.05
+		}		
+		cavalry = {	
+			ap_attack = 0.25
+			air_attack = 0.25
+			hard_attack = 0.25
+		}
+		category_light_infantry = {
+		    ap_attack = 0.25
+			air_attack = 0.25
+			hard_attack = 0.25		
+		}	
+		category_special_forces = {
+			soft_attack = 0.03
+			hard_attack = 0.03
+		}		
+
+		doctrine = yes	
+		research_cost = 3.5
+		
+		categories = {
+			land_doctrine
+			cat_guerilla_warfare
+		}
+
+        path = {
+			leads_to_tech = aw_assault_breakthrough
+			research_cost_coeff = 1
+		}
+		path = {
+			leads_to_tech = aw_armored_operations
+			research_cost_coeff = 1
+		}
+		
+		
+		folder = {
+			name = land_doctrine_folder
+			position = { x = 2 y = 16 }
+		}
+		
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				not = {
+					has_army_experience > 120
+				}
+				factor = 0.8
+			}
+		}
+		
+		ai_research_weights = {
+			industry = 2.0
+		}
+	}
+	
+	night_operations = {
+		
+		xp_research_type = army
+		xp_research_cost = 40
+		xp_research_bonus = 0.40
+			
+		land_night_attack = 0.20
+		
+		xor = { offensive_operations }	
+
+
+		on_research_complete = {
+			custom_effect_tooltip = add_ability_last_stand 		
+		}		
+		
+		doctrine = yes	
+		research_cost = 3.5
+		
+		categories = {
+			land_doctrine
+			cat_guerilla_warfare
+		}
+		
+		path = {
+			leads_to_tech = aw_assault_breakthrough
+			research_cost_coeff = 1
+		}
+		path = {
+			leads_to_tech = aw_armored_operations
+			research_cost_coeff = 1
+		}
+
+		
+		folder = {
+			name = land_doctrine_folder
+			position = { x = -2 y = 16 }
+		}
+		
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				not = {
+					has_army_experience > 120
+				}
+				factor = 0.8
+			}
+			modifier = {
+				OR = {
+					original_tag = AFG
+					original_tag = YUN
+					original_tag = GXC
+					original_tag = SHX
+					original_tag = XSM
+					original_tag = SIK
+				}
+				factor = 0.7
+			}
+		}
+		
+		ai_research_weights = {
+			industry = 2.0
+		}
+	}
+	
+	aw_assault_breakthrough = {
+
+		category_army = {
+			breakthrough = 0.08		
+		}
+		
+		xor = { aw_armored_operations }	
+		
+		army_attack_factor = 0.03
+		
+		enable_tactic = tactic_breakthrough
+
+
+		xp_research_type = army
+		xp_research_cost = 40
+		xp_research_bonus = 0.40
+
+		doctrine = yes	
+		research_cost = 3.5
+		
+		categories = {
+			land_doctrine
+			cat_guerilla_warfare
+		}
+		on_research_complete = {
+			custom_effect_tooltip = enable_extreme_planned_attack
+		}
+		folder = {
+			name = land_doctrine_folder
+			position = { x = -2 y = 18 }
+		}
+		
+		ai_will_do = {
+			factor = 2
+		}
+	}
+	
+	aw_armored_operations = {
+
+		category_tanks = {
+			max_organisation = 3
+			max_strength = 1
+		}
+		category_all_armor = {
+			breakthrough = 0.05
+                        defense = 0.05
+		}
+		
+		xor = { aw_assault_breakthrough }	
+		
+		on_research_complete = {
+			custom_effect_tooltip = enable_shock_attack
+		}
+		
+		enable_tactic = tactic_blitz
+
+		xp_research_type = army
+		xp_research_cost = 40
+		xp_research_bonus = 0.40
+
+		doctrine = yes	
+		research_cost = 3.5
+		
+		categories = {
+			land_doctrine
+			cat_guerilla_warfare
+		}
+
+		
+		folder = {
+			name = land_doctrine_folder
+			position = { x = 2 y = 18 }
+		}
+		
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
 	
 }

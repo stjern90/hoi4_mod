@@ -373,6 +373,10 @@ country_event = {
 		effect_tooltip = {
 			CHI = {
 				remove_ideas = german_advisors
+				remove_ideas = german_chinese_trade_agreement_chi
+			}
+			GER = {
+				remove_ideas = german_chinese_trade_agreement_ger
 			}
 		}
 	}
@@ -982,7 +986,7 @@ country_event = {
 			ENG = { add_opinion_modifier = { target = ROOT modifier = JAP_broke_the_london_naval_treaty } }
 			}			
 			save_global_event_target_as = broke_london_treaty
-		news_event = { id = japan.37 days = 260 }
+		news_event = { id = japan.37 days = 320 }
 	}
 	option = { 
 		name = japan.27.b
@@ -1315,12 +1319,11 @@ country_event = {
 		if = { 
 	    	limit = { 
 	    	    USA = {
-				    OR = {
 					has_navy_size = {
 						size < 17
 						type = screen_ship
 					}
-				    AND = {
+				    OR = {
 			    	ships_in_state_ports = {
                         type = carrier
                         size < 4
@@ -1332,12 +1335,17 @@ country_event = {
                         state = 629
                     }
 					}
-					}
 		    	} 
 	    	}
 			USA = {
-				add_timed_idea = { idea = USA_destroyed_hawaii days = 45 } 
-				country_event = { id = usa.108 days = 1 }
+				add_timed_idea = { idea = USA_destroyed_hawaii_2 days = 60 } 
+				country_event = { id = usa.108 hours = 1 }
+			}
+		}
+		else = {
+		    USA = {
+				add_timed_idea = { idea = USA_destroyed_hawaii_1 days = 60 } 
+				country_event = { id = usa.109 hours = 1 }
 			}
 		}
 
@@ -1825,7 +1833,7 @@ country_event = {
 			name = japan.45.t #test_the_ussr_focus
 			bonus = 0.6
 			uses = 1
-			category = infantry_tech
+			category = infantry_weapons
 		}
 		add_stability = -0.02
 		name = japan.45.a
@@ -1846,7 +1854,7 @@ country_event = {
 			name = japan.45.t #test_the_ussr_focus
 			bonus = 0.6
 			uses = 1
-			category = infantry_tech
+			category = infantry_weapons
 		}
 		name = japan.46.a
 	}
@@ -1930,36 +1938,17 @@ country_event = {
 			else = {
 			    CCP = { country_event = japan.48 }
 			}
-			
-
-				if = { limit = { JAP = { is_ai = no } CHI = { is_ai = no }  }
-                
 			every_state = {
 				limit = {
 					OR = {
-						state = 603 #Nationalist China states
-						state = 748
-						state = 605
-						state = 751
-						state = 752
-						state = 601
-						state = 747
-						state = 325
-						state = 744
-						state = 750
-						state = 602
-						state = 599
-						state = 749
-						state = 596
-						state = 595
-						state = 593
-						state = 592
-						state = 594
-						state = 600
-						state = 620
-						state = 325
-						state = 604
-						state = 753
+						is_core_of = CHI
+						is_core_of = CCP
+					}
+				}
+				remove_province_modifier = {
+					static_modifiers = { unplanned_offensive_1 }
+					province = {
+						all_provinces = yes
 					}
 				}
 				remove_province_modifier = {
@@ -1968,28 +1957,19 @@ country_event = {
 						all_provinces = yes
 					}
 				}
-			}
-					
-			every_state = {
-				limit = {
-					OR = {
-						state = 746 #Communist China states, northern China
-						state = 622
-						state = 283
-						state = 754
-						state = 616
-						state = 755
-						state = 756	
+				remove_province_modifier = {
+					static_modifiers = { unplanned_offensive_3 }
+					province = {
+						all_provinces = yes
 					}
 				}
 				remove_province_modifier = {
-					static_modifiers = { unplanned_offensive_2 }
+					static_modifiers = { unplanned_offensive_4 }
 					province = {
 						all_provinces = yes
 					}
 				}
 			}
-            }
 		}
 	}
 	option = {
@@ -2619,7 +2599,7 @@ country_event = {
 	id = japan.54
 	title = japan.54.t
 	desc = japan.54.d
-	picture = GFX_report_event_radio_broadcast
+	picture = GFX_report_event_mud_2
 	is_triggered_only = yes
 	
 	immediate = {
@@ -2650,26 +2630,42 @@ country_event = {
 		CHI = { add_ideas = JAP_stalemate_XP }
 		CCP = { add_ideas = JAP_stalemate_XP }		
 		}
-			
+			every_state = {
+				limit = {
+				    OR = {
+					    is_core_of = XSM
+				    	is_core_of = SIC
+				     	state = 748
+					}
+					#NOT = {
+					#	OR = {
+					#		is_fully_controlled_by = JAP
+					#		is_fully_controlled_by = MEN
+					#		is_fully_controlled_by = MAN
+					#	}
+					#}
+					NOT = {
+						has_state_flag = chi_jap_war
+					}	
+				}
+				add_province_modifier = {
+					static_modifiers = { unplanned_offensive_1 }
+					province = {
+						all_provinces = yes
+					}
+				}
+				set_state_flag = chi_jap_war
+			}
 			every_state = {
 				limit = {
 					OR = {
-						state = 603 #Nationalist China states
-						state = 748
-						state = 605
-						state = 751
-						state = 752
-						state = 601
+					    state = 744
+						state = 622
+						state = 746
+						state = 750
 						state = 747
 						state = 325
-						state = 744
-						state = 750
-						state = 602
-						state = 600
-						state = 620
-						state = 325
-						state = 604
-						state = 753
+						state = 603
 					}
 					#NOT = {
 					#	OR = {
@@ -2695,13 +2691,21 @@ country_event = {
 					OR = {
 						state = 621 #States that Japan will probably try and defend from
 						state = 615
-						state = 607
-						state = 606
-
-						state = 599			
-						state = 595	
 						
-						state = 749						
+						state = 607
+						state = 620
+						
+						state = 602
+
+						state = 599	
+
+						
+						state = 600
+						
+						state = 606		
+
+
+                        state = 749						
 					}
 					#NOT = {
 					#	OR = {
@@ -2735,7 +2739,10 @@ country_event = {
 						state = 596	
 						state = 598
 						state = 593
+						state = 595
 						state = 592
+						state = 814
+						state = 815
 					}
 					#NOT = {
 					#	OR = {
@@ -2756,38 +2763,6 @@ country_event = {
 				}
 				set_state_flag = chi_jap_war
 			}
-			hidden_effect = {
-				every_state = {
-					limit = {
-						OR = {
-							state = 746 #Communist China states, northern China
-							state = 622
-							state = 283
-							state = 754
-							state = 616
-							state = 755
-							state = 756							
-						}
-						#NOT = {
-						#	OR = {
-						#		is_fully_controlled_by = JAP
-						#		is_fully_controlled_by = MEN
-						#		is_fully_controlled_by = MAN
-						#	}
-						#}
-						NOT = {
-							has_state_flag = chi_jap_war
-						}
-					}
-					add_province_modifier = {
-						static_modifiers = { unplanned_offensive_2 }
-						province = {
-							all_provinces = yes
-						}
-					}
-					set_state_flag = chi_jap_war
-				}
-			}
 		}
 	}
 }
@@ -2806,32 +2781,13 @@ news_event = { #Sino-Japanese War ends in a Japanese victory
 				limit = {
 					OR = {
 						is_core_of = CHI
-					}
-				}
-				remove_province_modifier = {
-					static_modifiers = { unplanned_offensive_2 }
-					province = {
-						all_provinces = yes
-					}
-				}
-				remove_province_modifier = {
-					static_modifiers = { unplanned_offensive_3 }
-					province = {
-						all_provinces = yes
-					}
-				}
-				remove_province_modifier = {
-					static_modifiers = { unplanned_offensive_4 }
-					province = {
-						all_provinces = yes
-					}
-				}
-			}
-					
-			every_state = {
-				limit = {
-					OR = {
 						is_core_of = CCP
+					}
+				}
+				remove_province_modifier = {
+					static_modifiers = { unplanned_offensive_1 }
+					province = {
+						all_provinces = yes
 					}
 				}
 				remove_province_modifier = {
@@ -3038,5 +2994,18 @@ country_event = {
 			factor = 0
 		}
 		set_country_flag = stop_sia_state_autotransfer
+	}
+}
+
+country_event = {
+	id = japan.57
+	title = japan.57.t
+	desc = japan.57.d
+	picture = GFX_report_event_chinese_soldiers_01
+	is_triggered_only = yes
+
+    option = {
+	    name = japan.57.a
+		add_war_support = -0.04
 	}
 }

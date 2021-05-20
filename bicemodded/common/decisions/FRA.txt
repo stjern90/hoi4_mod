@@ -181,7 +181,10 @@ FRA_vichy_france = {
 						NOT = { has_idea = recently_setup }
 				}
 			}
-			controls_state = 16 #Paris
+			AND = {
+				controls_state = 16 #Paris
+				controls_state = 15 #Normandy
+			}
 		}
 
 		visible = {
@@ -642,12 +645,13 @@ FRA_weapons_purchases_category = {
 	FRA_order_fighters_in_USA = {
 		icon = generic_air
 		available = {
-			
+			num_of_factories > 12						
 		}
 		visible = {
 			USA_can_sell_weapons_trigger = yes
+			has_country_flag = FRA_plane_purchases_permitted			
 		}
-		days_remove = 60
+		days_remove = 180
 		cost = 100
 		ai_will_do = {
 			factor = 1
@@ -665,18 +669,44 @@ FRA_weapons_purchases_category = {
 		modifier = {
 		}
 		complete_effect = {
-			USA = {
-				add_offsite_building = { type = industrial_complex level = 5 }
+			FRA = {
+				add_timed_idea = { idea = FRA_planes_purchase_payment days = 180 }
 			}
+			if = {
+				limit = {
+					controls_state = 694
+				}
+				USA = { transfer_state = 694 }
+			}			
 		}
 		remove_effect = {
-			add_equipment_to_stockpile = {
-				type = fighter_equipment
-				amount = 50
+			if = {
+				limit = {
+					USA = { has_tech = tech_USA_fighter_equipment_3_a }
+				}
+				add_equipment_to_stockpile = { type = us_fighter_equipment_2_a amount = 200 producer = USA }
+				add_equipment_to_stockpile = { type = us_fighter_equipment_3_a amount = 100 producer = USA }
 			}
-			USA = {
-				add_offsite_building = { type = industrial_complex level = -5 }
+			else_if = {
+				limit = {
+					USA = { has_tech = tech_USA_fighter_equipment_2_b }
+				}
+				add_equipment_to_stockpile = { type = us_fighter_equipment_1_b amount = 200 producer = USA }
+				add_equipment_to_stockpile = { type = us_fighter_equipment_2_b amount = 100 producer = USA }
+			}		
+			else_if = {
+				limit = {
+					USA = { has_tech = tech_USA_fighter_equipment_3_c }
+				}
+				add_equipment_to_stockpile = { type = us_fighter_equipment_2_c amount = 200 producer = USA }
+				add_equipment_to_stockpile = { type = us_fighter_equipment_3_c amount = 100 producer = USA }
 			}
+			else = {
+				add_equipment_to_stockpile = {
+					type = fighter_equipment
+					amount = 300
+				}
+			}			
 		}
 	}
 	FRA_order_bombers_in_USA = {
