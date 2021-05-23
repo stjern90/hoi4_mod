@@ -441,6 +441,7 @@ create_field_marshal = {
 		available_if_capitulated = yes
 		
 		completion_reward = {
+			add_stability = -0.05
 			USA_congress_large_opposition = yes
 		}
 	}	
@@ -546,7 +547,6 @@ create_field_marshal = {
 		icon = GFX_commercial_airplanes
 		x = 4
 		y = 4
-		mutually_exclusive = { focus = USA_food_stamp_plan }
 		
 		cost = 6
 		search_filters = {FOCUS_FILTER_RESEARCH}
@@ -610,7 +610,7 @@ create_field_marshal = {
 		cost = 6
 		search_filters = {FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER}
 		
-		prerequisite = { focus = USA_housing_act focus = USA_court_packing }
+		prerequisite = { focus = USA_housing_act focus = USA_court_packing focus = USA_bonneville_project_act }
 		ai_will_do = {
 			factor = 1
 		}
@@ -758,7 +758,7 @@ create_field_marshal = {
 		cost = 6
 		search_filters = {FOCUS_FILTER_POLITICAL}
 		
-		prerequisite = { focus = USA_bonneville_project_act focus = USA_court_packing }
+		prerequisite = { focus = USA_bonneville_project_act focus = USA_court_packing focus = USA_housing_act }
 		ai_will_do = {
 			factor = 1
 		}
@@ -778,7 +778,6 @@ create_field_marshal = {
 		icon = GFX_goal_USA_food
 		x = 0
 		y = 4
-		mutually_exclusive = { focus = USA_civil_aeronautics_act }
 		
 		cost = 6
 		search_filters = {FOCUS_FILTER_RESEARCH}
@@ -1637,7 +1636,7 @@ create_field_marshal = {
 	
 	focus = {
 		id = USA_support_springfield
-		icon = GFX_goal_generic_allies_build_infantry
+		icon = GFX_goal_USA_spring
 		x = 13
 		y = 10
 		
@@ -1719,6 +1718,15 @@ create_field_marshal = {
 				}
 				add_ideas = civilian_economy
 				set_country_flag = USA_the_giant_wakes_added_civ_eco
+			}
+			if = {
+				limit = {
+					is_ai = yes
+				}
+				hidden_effect = {
+					remove_ideas = henry_ford
+					add_ideas = USA_henry_stimson
+				}
 			}
 		}
 	}
@@ -2172,6 +2180,15 @@ create_field_marshal = {
 						instant_build = yes
 					}
 			}
+			if = {
+				limit = {
+					is_ai = yes
+				}
+				hidden_effect = {
+					remove_ideas = USA_henry_stimson
+					add_ideas = USA_donald_nelson
+				}
+			}
 		}
 	}
 	
@@ -2244,7 +2261,7 @@ create_field_marshal = {
 	
 	focus = {
 		id = USA_extra_tech_team
-		icon = GFX_focus_research
+		icon = GFX_goal_USA_skunk
 		prerequisite = { focus = USA_office_of_scientific_research_and_development }
 		x = 6
 		y = 4
@@ -2733,7 +2750,7 @@ create_field_marshal = {
 	
 	focus = {
 		id = USA_ask_east_indies_to_embargo_japan
-		icon = GFX_goal_generic_improve_relations
+		icon = GFX_goal_USA_embargo1
 		prerequisite = { focus = USA_colonial_2 }
 		prerequisite = { focus = USA_airbases }
 		x = 20
@@ -2754,7 +2771,7 @@ create_field_marshal = {
 	
 	focus = {
 		id = USA_ask_uk_and_allies_to_embargo_japan
-		icon = GFX_goal_generic_improve_relations
+		icon = GFX_goal_USA_embargo2
 		prerequisite = { focus = USA_ask_east_indies_to_embargo_japan }
 		x = 20
 		y = 6
@@ -5496,12 +5513,25 @@ create_navy_leader = {
 		#}
 		available_if_capitulated = yes
 		completion_reward = {
-			add_tech_bonus = {
-				bonus = 0.6
-				ahead_reduction = 0.4
-				name = bb_bonus
-				uses = 1
-				category = bb_tech
+			if = {
+				limit = {
+					NOT = { date > 1941.1.1 }
+				}
+				add_tech_bonus = {
+					bonus = 0.6
+					ahead_reduction = 0.4
+					name = bb_bonus
+					uses = 1
+					category = bb_tech
+				}
+			}
+			else = {
+				add_tech_bonus = {
+					bonus = 1
+					name = bb_bonus
+					uses = 1
+					category = bb_tech
+				}
 			}
 			custom_effect_tooltip = available_chief_of_navy
 			show_ideas_tooltip = william_leahy
@@ -5549,12 +5579,25 @@ create_navy_leader = {
 		#}
 		available_if_capitulated = yes
 		completion_reward = {
-			add_tech_bonus = {
-				bonus = 0.6
-				name = cv_bonus
-				ahead_reduction = 0.4
-				uses = 1
-				category = cv_tech
+			if = {
+				limit = {
+					NOT = { date > 1940.1.1 }
+				}
+				add_tech_bonus = {
+					bonus = 0.6
+					ahead_reduction = 0.4
+					name = cv_bonus
+					uses = 1
+					category = cv_tech
+				}
+			}
+			else = {
+				add_tech_bonus = {
+					bonus = 1
+					name = cv_bonus
+					uses = 1
+					category = cv_tech
+				}
 			}
 			custom_effect_tooltip = available_chief_of_navy
 			show_ideas_tooltip = william_halsey
@@ -5856,31 +5899,39 @@ create_navy_leader = {
 							fixed_ship_anti_air_slot = ship_anti_air_2
 							fixed_ship_radar_slot = ship_radar_1
 							fixed_ship_engine_slot = carrier_ship_engine_4
-							fixed_ship_secondaries_slot = dp_ship_secondaries_2
+							fixed_ship_secondaries_slot = dp_ship_secondaries_1
 						}
 					}
 				}
-				add_equipment_production = {
-					equipment = {
-						type = ship_hull_carrier_3
-						creator = "USA" 
-						version_name = "Essex Class"
+				if = {
+					limit = {
+						is_ai = yes
 					}
-					name = "USS Essex" 
-					requested_factories = 1
-					progress = 0.3
-					amount = 1
+					load_oob = USA_essex_ai
 				}
-				add_equipment_production = {
-					equipment = {
-						type = ship_hull_carrier_3
-						creator = "USA" 
-						version_name = "Essex Class"
+				else = {
+					add_equipment_production = {
+						equipment = {
+							type = ship_hull_carrier_3
+							creator = "USA" 
+							version_name = "Essex Class"
+						}
+						name = "USS Essex" 
+						requested_factories = 1
+						progress = 0.3
+						amount = 1
 					}
-					name = "USS Lexington" 
-					requested_factories = 1
-					progress = 0.2
-					amount = 1
+					add_equipment_production = {
+						equipment = {
+							type = ship_hull_carrier_3
+							creator = "USA" 
+							version_name = "Essex Class"
+						}
+						name = "USS Lexington" 
+						requested_factories = 1
+						progress = 0.2
+						amount = 1
+					}
 				}
 			}
 		}
