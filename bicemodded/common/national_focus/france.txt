@@ -1141,32 +1141,49 @@
 	focus = {
 		id = FRA_giraud_plan
 		icon = GFX_focus_FRA_Girauds_Defensive_Approach
+		mutually_exclusive = { focus = FRA_de_gaulle_strategy }
 		x = -3
 		y = 1
-		cost = 5.5
+		cost = 7.2
 		prerequisite = { focus = FRA_begin_rearmament }
 		available_if_capitulated = yes
 		relative_position_id = FRA_begin_rearmament
-		available = {
-			or = {
-				and = {
-					has_completed_focus = FRA_de_gaulle_strategy
-					has_completed_focus = FRA_army_reform
-				}
-				and = {
-					not = {
-						has_completed_focus = FRA_de_gaulle_strategy
-						has_completed_focus = FRA_army_reform
-					}
-				}
-			}
-		}
 		ai_will_do = {
 			factor = 1
 		}
 		completion_reward = {
 			custom_effect_tooltip = available_chief_of_army
 			show_ideas_tooltip = maxime_weygand
+		}
+	}
+	focus = {
+		id = FRA_firepower_kills
+		icon = GFX_goal_generic_army_artillery
+		x = -4
+		y = 1
+		offset = {
+			x = 0
+			y = 0
+		}
+		prerequisite = { focus = FRA_giraud_plan }
+
+		relative_position_id = FRA_giraud_plan
+		cost = 7.2
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			custom_effect_tooltip = available_designer
+			show_ideas_tooltip = schneider
+			custom_effect_tooltip = available_theorist
+			show_ideas_tooltip = fernand_ardouin
+			# todo, add artillery trait to some general or why not spawn general
 		}
 	}
 	focus = {
@@ -1208,158 +1225,117 @@
 			}
 		}
 	}
-	
-	focus = {
-		id = FRA_firepower_kills
-		icon = GFX_goal_generic_army_artillery
-		x = -1
-		y = 2
-		offset = {
-			x = 0
-			y = 0
-		}
-		prerequisite = { focus = FRA_char_b1_bis }
-
-		relative_position_id = FRA_methodical_battle
-		cost = 7.2
-
-		ai_will_do = {
-			factor = 1
-		}
-
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-
-		completion_reward = {
-			custom_effect_tooltip = available_designer
-			show_ideas_tooltip = schneider
-			custom_effect_tooltip = available_theorist
-			show_ideas_tooltip = fernand_ardouin
-			# todo, add artillery trait to some general or why not spawn general
-		}
-	}
-	
 	focus = {
 		id = FRA_fortification_focus
 		icon = GFX_goal_generic_construction2
-		prerequisite = { focus = FRA_begin_rearmament }
-		
-		available = {
-			not = { has_country_flag = abandoned_maginot }
-		}
-		
-		x = 0
-		y = 1
-		relative_position_id = FRA_begin_rearmament
-		cost = 6.2
-
-
-		completion_reward = {
-			unlock_decision_category_tooltip = FRA_forts
-			add_ideas = FRA_great_war
-		}
-	}
-	
-	focus = {
-		id = FRA_maginot_finished
-		icon = GFX_FRA_maginot
-		prerequisite = { focus = FRA_fortification_focus }
-		x = 1
-		y = 1
-		relative_position_id = FRA_fortification_focus
-		cost = 4.2
-		
-		available = {
-			has_country_flag = turret
-			has_country_flag = metz
-			has_country_flag = alsace
-		}
-
-
-		completion_reward = {
-			swap_ideas = {
-				add_idea = FRA_great_war_2
-				remove_idea = FRA_great_war
-			}
-			add_stability = 0.05
-		}
-	}
-	
-	focus = {
-		id = FRA_reform
-		icon = GFX_goal_fra_army
-		prerequisite = { focus = FRA_fortification_focus }
-		x = -1
-		y = 1
-		relative_position_id = FRA_fortification_focus
-		cost = 5.2
-		
-		available = {
-			date > 1940.6.1
-			has_completed_focus = FRA_maginot_finished
-			or = {
-				GER = {
-					or = {
-						has_war_with = BEL
-						has_war_with = HOL
-					}
-				}
-				and = {
-					date > 1941.1.1
-					has_war = no
-				}
-			}
-		}
-
-		completion_reward = {
-			swap_ideas = {
-				add_idea = FRA_great_war_3
-				remove_idea = FRA_great_war_2
-			}
-			add_war_support = 0.05
-			custom_effect_tooltip = paul_tt
-			hidden_effect = {
-				remove_country_leader_trait = slow_decisionmaker
-			}
-		}
-	}
-	#focus = {
-	#	id = FRA_extend_the_maginot_line
-	#	icon = GFX_goal_generic_fortify_city
-	#	prerequisite = { focus = FRA_alpine_forts focus = FRA_replenish_maginot }
-	#	x = 1
-	#	y = 1
-	#	relative_position_id = FRA_alpine_forts
-	#	cost = 7.2
-	#
-	#	available = {
-	#		18 = { is_controlled_by = ROOT }
-	#		29 = { is_controlled_by = ROOT }
-	#		785 = { is_controlled_by = ROOT }
-	#		has_idea = FRA_protected_by_the_maginot_line
-	#	}
-	#	completion_reward = {
-	#		ROOT = { country_event = { id = france.2 } }
-	#		BEL = {
-	#			add_opinion_modifier = {
-	#				target = ROOT
-	#				modifier = FRA_extend_the_maginot_line_focus_neg
-	#			}
-	#			add_opinion_modifier = {
-	#				target = GER
-	#				modifier = FRA_extend_the_maginot_line_focus_pos
-	#			}
-	#		}
-	#	}
-	#}
-	focus = {
-		id = FRA_char_b1_bis
-		icon = GFX_Goal_france_tank
 		prerequisite = { focus = FRA_methodical_battle }
 		x = 0
 		y = 1
 		relative_position_id = FRA_methodical_battle
+		cost = 7.2
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			add_ideas = FRA_fortification_focus
+		}
+	}
+	focus = {
+		id = FRA_replenish_maginot
+		icon = GFX_goal_generic_construct_military
+		prerequisite = { focus = FRA_fortification_focus }
+		x = 1
+		y = 1
+		relative_position_id = FRA_fortification_focus
+		cost = 7.2
+
+		available = {
+			28 = { is_controlled_by = ROOT }
+			has_tech = pre_fab2
+		}
+
+		completion_reward = {
+			28 = {
+			    add_province_modifier = {
+					static_modifiers = { underground_aa }
+					province = {
+						all_provinces = yes
+					}
+				}
+				add_building_construction = {
+					type = anti_air_building
+					level = 2 
+					instant_build = yes
+				}
+				set_building_level = {
+						type = bunker
+						level = 11
+						province = {
+							all_provinces = yes
+						}
+					}
+			}
+		}
+	}
+	focus = {
+		id = FRA_alpine_forts
+		icon = GFX_goal_generic_construct_military
+		prerequisite = { focus = FRA_fortification_focus }
+		x = -1
+		y = 1
+		relative_position_id = FRA_fortification_focus
+		cost = 7.2
+
+		available = {
+			735 = { is_controlled_by = ROOT }
+		}
+
+		completion_reward = {
+			ROOT = { country_event = { id = france.3 } }
+			ITA = {
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = FRA_alpine_forts
+				}
+			}
+		}
+	}
+	focus = {
+		id = FRA_extend_the_maginot_line
+		icon = GFX_goal_generic_fortify_city
+		prerequisite = { focus = FRA_alpine_forts focus = FRA_replenish_maginot }
+		x = 1
+		y = 1
+		relative_position_id = FRA_alpine_forts
+		cost = 7.2
+
+		available = {
+			18 = { is_controlled_by = ROOT }
+			29 = { is_controlled_by = ROOT }
+			785 = { is_controlled_by = ROOT }
+			has_idea = FRA_protected_by_the_maginot_line
+		}
+		completion_reward = {
+			ROOT = { country_event = { id = france.2 } }
+			BEL = {
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = FRA_extend_the_maginot_line_focus_neg
+				}
+				add_opinion_modifier = {
+					target = GER
+					modifier = FRA_extend_the_maginot_line_focus_pos
+				}
+			}
+		}
+	}
+	focus = {
+		id = FRA_char_b1_bis
+		icon = GFX_Goal_france_tank
+		prerequisite = { focus = FRA_firepower_kills }
+		x = -1
+		y = 1
+		relative_position_id = FRA_firepower_kills
 		cost = 5
 
 		available_if_capitulated = yes
@@ -1380,8 +1356,8 @@
 		icon = GFX_focus_generic_combined_arms
 		x = 1
 		y = 1
-		relative_position_id = FRA_char_b1_bis
-		prerequisite = { focus = FRA_char_b1_bis  }
+		relative_position_id = FRA_firepower_kills
+		prerequisite = { focus = FRA_firepower_kills  }
 
 		cost = 5
 
@@ -1401,11 +1377,8 @@
 	focus = {
 		id = FRA_artillery_focus
 		icon = GFX_goal_generic_army_artillery2
-		prerequisite = { 
-			focus = FRA_infantry_focus
-			focus = FRA_tank_radio
-		}
-		x = 2
+		prerequisite = { focus = FRA_char_b1_bis focus = FRA_infantry_tanks }
+		x = 0
 		y = 2
 		relative_position_id = FRA_firepower_kills
 		cost = 7.2
@@ -1433,11 +1406,11 @@
 	focus = {
 		id = FRA_infantry_focus
 		icon = GFX_goal_generic_allies_build_infantry
-		prerequisite = { focus = FRA_infantry_tanks focus = FRA_firepower_kills }
-		x = -1
+		prerequisite = { focus = FRA_artillery_focus }
+		x = 0
 		y = 1
-		relative_position_id = FRA_infantry_tanks
-		cost = 6.3
+		relative_position_id = FRA_artillery_focus
+		cost = 7.2
 
 		available_if_capitulated = yes
 
@@ -1450,10 +1423,10 @@
 	focus = {
 		id = FRA_division_cuirassee
 		icon = GFX_focus_generic_army_tanks2
-		x = 3
-		y = 0
-		relative_position_id = FRA_infantry_focus
-		cost = 8
+		x = 7
+		y = 1
+		relative_position_id = FRA_artillery_focus
+		cost = 7.2
 
 		ai_will_do = {
 			factor = 1
@@ -1720,7 +1693,7 @@
 		y = 2
 		prerequisite = { focus = FRA_special_forces }
 
-		cost = 5
+		cost = 5.7
 		
 		available = {
 			has_completed_focus = FRA_navy_effort 
@@ -1753,27 +1726,13 @@
 	focus = {
 		id = FRA_de_gaulle_strategy
 		icon = GFX_focus_FRA_De_Gaulles_Offensive_Approach
+		mutually_exclusive = { focus = FRA_giraud_plan }
 		x = 3
 		y = 1
-		cost = 5.5
+		cost = 7.2
 		relative_position_id = FRA_begin_rearmament
 		available_if_capitulated = yes
 		prerequisite = { focus = FRA_begin_rearmament }
-		
-		available = {
-			or = {
-				and = {
-					has_completed_focus = FRA_giraud_plan
-					has_completed_focus = FRA_army_reform
-				}
-				and = {
-					not = {
-						has_completed_focus = FRA_giraud_plan
-						has_completed_focus = FRA_army_reform
-					}
-				}
-			}
-		}
 		ai_will_do = {
 			factor = 0.2
 		}
@@ -1842,7 +1801,7 @@
 		x = -1
 		y = 1
 		relative_position_id = FRA_motorized_focus
-		cost = 5
+		cost = 6.4
 		completion_reward = {
 			army_experience = 5
 			add_tech_bonus = {
@@ -1893,7 +1852,7 @@
 		x = 1
 		y = 1
 		relative_position_id = FRA_mechanized_focus
-		cost = 6.3
+		cost = 6.6
 
 		available_if_capitulated = yes
 
@@ -1918,7 +1877,7 @@
 			x = 0
 			y = 0
 		}
-		prerequisite = { focus = FRA_air_focus }
+		prerequisite = { focus = FRA_de_gaulle_strategy focus = FRA_air_focus }
 
 		relative_position_id = FRA_de_gaulle_strategy
 		cost = 8.5
@@ -1932,7 +1891,7 @@
 		}
 		
 		bypass = {
-
+             #has country leader degaule
 		}
 
 		cancel_if_invalid = yes
@@ -2010,7 +1969,7 @@
 		prerequisite = { focus = FRA_air_ground_cooperation }
 		prerequisite = { focus = FRA_bomber_focus }
 		relative_position_id = FRA_air_dominance
-		cost = 4
+		cost = 5
 
 		ai_will_do = {
 			factor = 1
@@ -2059,11 +2018,12 @@
 		prerequisite = { 
 			focus = FRA_tank_radio
 			focus = FRA_infantry_focus
+			focus = FRA_extend_the_maginot_line
 			focus = FRA_flying_artillery
 			focus = FRA_mobile_warfare
 		}
 		x = -4
-		y = 2
+		y = 3
 		relative_position_id = FRA_light_medium_armor
 		cost = 7.2
 
@@ -2095,6 +2055,7 @@
 		prerequisite = { 
 			focus = FRA_tank_radio
 			focus = FRA_infantry_focus
+			focus = FRA_extend_the_maginot_line
 			focus = FRA_flying_artillery
 			focus = FRA_mobile_warfare
 		}
@@ -2148,6 +2109,28 @@
 					instant_build = yes
 				}
 			}
+		}
+	}
+	
+	focus = {
+		id = FRA_colonial_defense
+		icon = GFX_colonial_police
+		cost = 5
+		prerequisite = { 
+			focus = FRA_tank_radio
+			focus = FRA_infantry_focus
+			focus = FRA_extend_the_maginot_line
+			focus = FRA_flying_artillery
+			focus = FRA_mobile_warfare
+		}
+		x = -6
+		y = 2
+		relative_position_id = FRA_light_medium_armor
+		completion_reward = {
+		    hidden_effect = {
+		        load_oob = "FRA_colonial_defence"
+			}
+			custom_effect_tooltip = FRA_colonial_defence_tt
 		}
 	}
 
@@ -3816,7 +3799,6 @@
 		}
 		prerequisite = {
 			focus = FRA_nationalize_key_industry
-			focus = FRA_invest_in_the_metropole
 		}
 		relative_position_id = FRA_nationalize_key_industry
 		cost = 7.2
@@ -3826,7 +3808,7 @@
 		}
 
 		available = {
-			
+			has_completed_focus = FRA_invest_in_the_metropole
 		}
 		
 		bypass = {
@@ -4140,6 +4122,7 @@
 		completion_reward = {
 			add_ideas = { partial_economic_mobilisation }
 			add_war_support = 0.05
+            add_war_stability = -0.05
 			
 		}
 	}
