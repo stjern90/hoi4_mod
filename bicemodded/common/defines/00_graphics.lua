@@ -749,9 +749,9 @@ NGraphics = {
 	RESOURCE_MAP_ICON_TEXT_CUTOFF = 800,  -- At what camera distance the resource name/amount text disappears.
 	PROVINCE_ANIM_TEXT_DISTANCE_CUTOFF = 500,
 	CAPITAL_ICON_CUTOFF = 900,	-- At what camera distance capital icons disappears
-	UNITS_DISTANCE_CUTOFF = 120,
+	UNITS_DISTANCE_CUTOFF = 150,
 	SHIPS_DISTANCE_CUTOFF = 240,
-	UNIT_ARROW_DISTANCE_CUTOFF = 1000,
+	UNIT_ARROW_DISTANCE_CUTOFF = 900,
 	UNITS_ICONS_DISTANCE_CUTOFF = 900,
 	NAVAL_COMBAT_DISTANCE_CUTOFF = 1500,
 	ADJACENCY_RULE_DISTANCE_CUTOFF = 1700,
@@ -759,7 +759,7 @@ NGraphics = {
 	SUPPLY_ICON_DISTANCE_CUTOFF = 2500,
 	PROV_CONSTRUCTION_ICON_DISTANCE_CUTOFF = 400,
 	STATE_CONSTRUCTION_ICON_DISTANCE_CUTOFF = 800,
-	DECISION_MAP_ICON_DISTANCE_CUTOFF = 1000,
+	DECISION_MAP_ICON_DISTANCE_CUTOFF = 850,
 	DECISION_MAP_ICON_DEPTH_PRIORITY = 50,
 	NAVAL_MISSION_TASK_FORCES_GROUP_BY_ALLEGIANCE_CUTOFF = 500,
 	NAVAL_MISSION_ICONS_DISTANCE_CUTOFF = 1300,
@@ -768,17 +768,15 @@ NGraphics = {
 	NAVAL_MINES_CLUMPING = 58, -- The higher value, the more likely the 3d naval mines will clamp together
 	NAVAL_MINES_CLUMP_NEAR_TERRITORY = 25, -- Higher chance to spawn 3d naval mine near our territory
 	NAVAL_MINES_COUNT_TO_VISUAL_ASPECT = 0.1, -- How many in-game-naval-mines is one visual 3d naval mine?
-	MAP_ICONS_GROUP_MAX_SIZE = 15, -- max size in screen pixels of the group of merged icons
-	MAP_ICONS_GROUP_CAM_DISTANCE = 275.0, -- camera distance at which the icons begin to group up
-	MAP_ICONS_STATE_GROUP_CAM_DISTANCE = 450.0, -- Camera distance at which the icons begin to group up on state level
-	MAP_ICONS_STRATEGIC_GROUP_CAM_DISTANCE = 675.0, -- second camera distance at which the icons begin to group up
+	MAP_ICONS_GROUP_CAM_DISTANCE = 225.0, -- camera distance at which the icons begin to group up
+	MAP_ICONS_STATE_GROUP_CAM_DISTANCE = 375.0, -- Camera distance at which the icons begin to group up on state level
+	MAP_ICONS_STRATEGIC_GROUP_CAM_DISTANCE = 550, -- second camera distance at which the icons begin to group up
 	MAP_ICONS_STRATEGIC_AREA_HUGE = 220,
 	MAP_ICONS_STATE_HUGE = 100,
 	MAPICON_GROUP_PASSES = 20, -- how many mapicons get processed per frame for grouping. more = quicker response, fewer = better performance
-	MAPICON_GROUP_STRATEGIC_SIZE = 1000, -- for strategic areas of this size or bigger we dont do strategic area grouping
 	MAP_ICONS_GROUP_SPLIT_SELECTED_LIMIT = 10,   -- Maximum number of units selected that will cause icon stacks to split
-	MAP_ICONS_COARSE_COUNTRY_GROUPING_DISTANCE = 350, -- Distance at which icon grouping becomes very coarse and merges different types of units
-	MAP_ICONS_COARSE_COUNTRY_GROUPING_DISTANCE_STRATEGIC = 0, -- Distance at which icon grouping becomes very coarse and merges different types of units for strategic mapmodes
+	MAP_ICONS_COARSE_COUNTRY_GROUPING_DISTANCE = 300, -- Distance at which icon grouping becomes very coarse and merges different types of units
+	MAP_ICONS_COARSE_COUNTRY_GROUPING_DISTANCE_STRATEGIC = 450, -- Distance at which icon grouping becomes very coarse and merges different types of units for strategic mapmodes
 	RIVER_FADE_FROM = 20.0, -- the last river endings got faded out, X distance from the ending...
 	RIVER_FADE_TO = 3.0,
 	TOOLTIP_DELAYED_DELAY = 1, 						--How long before showing delayed tooltip.
@@ -899,18 +897,68 @@ NGraphics = {
 	COUNTRY_UI_COLOR_BRIGHTNESS_MODIFIER = 1.0,
 	
 	COMMANDGROUP_PRESET_COLORS_HSV = {
-		90.0/360.0, 0.95, 0.86,
-		60.0/360.0, 0.95, 0.86,
-		30.0/360.0, 0.95, 0.86,
-		00.0/360.0, 0.95, 0.86,
-		330.0/360.0, 0.95, 0.86,
-		300.0/360.0, 0.95, 0.86,
-		270.0/360.0, 0.95, 0.86,
-		240.0/360.0, 0.95, 0.86,
-		210.0/360.0, 0.95, 0.86,
-		180.0/360.0, 0.95, 0.86,
-		150.0/360.0, 0.95, 0.86,
-		120.0/360.0, 0.95, 0.86
+		000.0/360.0, 0.00, 0.95, -- Terrains
+	        005.0/360.0, 0.05, 0.38,
+	        000.0/360.0, 0.00, 0.15,
+	        000.0/360.0, 1.00, 0.65,
+	        030.0/360.0, 0.75, 0.9,
+	        045.0/360.0, 0.45, 0.95,
+	        030.0/360.0, 0.40, 0.38,
+	        085.0/360.0, 0.40, 0.38,
+	        155.0/360.0, 0.40, 0.38,
+	        180.0/360.0, 0.80, 0.85,
+	        210.0/360.0, 0.40, 0.85,
+	        220.0/360.0, 0.30, 0.95,
+	        000.0/360.0, 0.25, 0.95, -- Pale
+	        030.0/360.0, 0.25, 0.95,
+	        060.0/360.0, 0.25, 0.95,
+	        090.0/360.0, 0.25, 0.95,
+	120.0/360.0, 0.25, 0.95,
+	150.0/360.0, 0.25, 0.95,
+	180.0/360.0, 0.25, 0.95,
+	210.0/360.0, 0.25, 0.95,
+	240.0/360.0, 0.25, 0.95,
+	270.0/360.0, 0.25, 0.95,
+	300.0/360.0, 0.25, 0.95,
+	330.0/360.0, 0.25, 0.95,
+	000.0/360.0, 0.40, 0.70, -- Washed Out
+	030.0/360.0, 0.40, 0.70,
+	060.0/360.0, 0.40, 0.70,
+	090.0/360.0, 0.40, 0.70,
+	120.0/360.0, 0.40, 0.70,
+	150.0/360.0, 0.40, 0.70,
+	180.0/360.0, 0.40, 0.70,
+	210.0/360.0, 0.40, 0.70,
+	240.0/360.0, 0.40, 0.70,
+	270.0/360.0, 0.40, 0.70,
+	300.0/360.0, 0.40, 0.70,
+	330.0/360.0, 0.40, 0.70,
+	000.0/360.0, 0.40, 0.45, -- Dark Washed Out
+	030.0/360.0, 0.40, 0.45,
+	060.0/360.0, 0.40, 0.45,
+	090.0/360.0, 0.40, 0.45,
+	120.0/360.0, 0.40, 0.45,
+	150.0/360.0, 0.40, 0.45,
+	180.0/360.0, 0.40, 0.45,
+	210.0/360.0, 0.40, 0.45,
+	240.0/360.0, 0.40, 0.45,
+	270.0/360.0, 0.40, 0.45,
+	300.0/360.0, 0.40, 0.45,
+	330.0/360.0, 0.40, 0.45,
+	000.0/360.0, 0.95, 0.80, -- Pure
+	030.0/360.0, 0.95, 0.80,
+	060.0/360.0, 0.95, 0.80,
+	090.0/360.0, 0.95, 0.80,
+	120.0/360.0, 0.95, 0.80,
+	150.0/360.0, 0.95, 0.80,
+	180.0/360.0, 0.95, 0.80,
+	210.0/360.0, 0.95, 0.80,
+	240.0/360.0, 0.95, 0.80,
+	270.0/360.0, 0.95, 0.80,
+	300.0/360.0, 0.95, 0.80,
+	330.0/360.0, 0.95, 0.80,
+	000.0/360.0, 0.95, 0.35, -- Dark
+	030.0/360.0, 0.95, 0.35,
 	},
 	
 	CAMERA_OUTSIDE_MAP_DISTANCE_TOP = 200.0,

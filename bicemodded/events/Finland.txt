@@ -28,6 +28,11 @@ country_event = {
 				transfer_state = 146
 			}
 		}
+		effect_tooltip = {
+		FIN = {
+				add_ideas = FIN_refuge
+			}
+		}
 	}
 	option = { # Refuse
 		name = finland.1.b
@@ -767,11 +772,13 @@ country_event = {
 	trigger = {
 		tag = FIN
 		has_war_with = SOV
-		OR = {  surrender_progress > 0.15  NOT = { has_full_control_of_state = 111 } NOT = {  has_full_control_of_state = 149 } SOV = { controls_state = 146 } }
+		OR = {  surrender_progress > 0.15  SOV = { controls_state = 111 } SOV = { controls_state = 149 }SOV = { controls_state = 146 } FIN = { casualties > 100000 } }
 		has_civil_war = no
 		is_in_faction = no
 		NOT = { has_global_flag = winterwar }
 	}
+	
+	immediate = { remove_ideas = FIN_perkele_AI remove_ideas = FIN_perkele }
 
 
 	fire_only_once = yes
@@ -847,13 +854,15 @@ country_event = {
 	picture = GFX_report_event_soviet_finnish_pact
 	
 	is_triggered_only = yes
+	
+	immediate = {
+	if = { limit = {
+	has_game_rule = {
+				rule = must_hist_winterwar
+				option = block
 
-	#Accept surrender
-	option = {
-		name = finland.8.a
-		ai_chance = {
-			base = 75  # added for Historical Mod
-		}		
+			}
+		}
 		white_peace = FIN
 		if = { limit = { SWE = { has_war_with = SOV } }
 		       white_peace = SWE  # also add for other countries that might have helped?
@@ -861,12 +870,55 @@ country_event = {
 		transfer_state = 146
 		transfer_state = 147
 		set_global_flag = winterwar
-		FIN = {
-			country_event = {
-				id = finland.10
-				days = 1
+		
+		}
+	}
+
+	#Accept surrender
+	option = {
+		name = finland.8.a
+		ai_chance = {
+			base = 75  # added for Historical Mod
+		}		
+		if = { limit = {
+	NOT = { has_game_rule = {
+				rule = must_hist_winterwar
+				option = block
+
+			}
+		} }
+		white_peace = FIN
+		if = { limit = { SWE = { has_war_with = SOV } }
+		       white_peace = SWE  # also add for other countries that might have helped?
+		}
+		transfer_state = 146
+		transfer_state = 147
+		set_global_flag = winterwar
+		}
+		
+		if = { limit = {
+	has_game_rule = {
+				rule = must_hist_winterwar
+				option = block
+
 			}
 		}
+		effect_tooltip = {
+		white_peace = FIN
+		if = { limit = { SWE = { has_war_with = SOV } }
+		       white_peace = SWE  # also add for other countries that might have helped?
+		}
+		transfer_state = 146
+		transfer_state = 147
+		set_global_flag = winterwar
+		FIN = { 
+		add_ideas = FIN_refuge
+		FIN_loan_increase = yes
+		}
+		
+		}
+		}
+	    hidden_effect = { FIN = { country_event = { id = finland.10 } } }
 	}
 
 	#Take it all
@@ -887,6 +939,12 @@ country_event = {
 				factor = 0
 				is_historical_focus_on = yes
 			}			
+		}
+		effect_tooltip = {
+		FIN = { 
+		add_ideas = FIN_refuge
+		FIN_loan_increase = yes
+		}
 		}
 		FIN = { country_event = { id = finland.9 } }
 	}
@@ -914,8 +972,15 @@ country_event = {
 		transfer_state = 146
 		transfer_state = 147
 		transfer_state = 722
-		set_global_flag = winterwar
+		effect_tooltip = {
+		FIN = { 
+		add_ideas = FIN_refuge
+		FIN_loan_increase = yes
 		
+		}
+		}
+		set_global_flag = winterwar
+		hidden_effect = { FIN = { country_event = { id = finland.10 } } }
 	}
 
 	#Take it all
@@ -928,6 +993,21 @@ country_event = {
 				is_historical_focus_on = yes
 			}			
 		}
+		effect_tooltip = {
+		FIN = { 
+		add_ideas = FIN_refuge
+		FIN_loan_increase = yes
+		}
+		}
+		trigger= {
+		NOT = {
+		has_game_rule = {
+				rule = must_hist_winterwar
+				option = block
+
+			}
+			}
+			}
 		FIN = { country_event = { id = finland.9 } }
 	}
 }
@@ -943,6 +1023,8 @@ country_event = {
 
 	option = {
 		name = finland.9.a
+		add_ideas = FIN_refuge
+		FIN_loan_increase = yes
 	}
 }
 #Soviets says yes   historical mod
@@ -957,24 +1039,13 @@ country_event = {
 	option = {
 		name = finland.10.a
 		hidden_effect = {
-			add_ideas = neutrality_idea 
+			#add_ideas = neutrality_idea 
 			set_global_flag = first_finish_war_over
 			set_global_flag = winterwar
 		}
 		add_ideas = FIN_refuge
-		add_ideas = FIN_loans
-		ENG = {
-			add_timed_idea = {
-				idea = FIN_loans6
-				days = 180
-			}
-		}
-		GER = {
-			add_timed_idea = {
-				idea = FIN_loans6
-				days = 180
-			}
-		}
+		FIN_loan_increase = yes
+		remove_ideas = neutrality_war
 	}
 }
 
@@ -2135,7 +2206,7 @@ country_event = {
 	}
 	option = {
 		name = finland.105.b
-		ai_chance = { factor = 100 }
+		ai_chance = { factor = 0 }
 		add_stability = -0.12
 		swap_ideas = {
 			add_idea = FIN_lowfascist2
@@ -2166,11 +2237,13 @@ country_event = {
 		add_political_power = 50
 		FIN = {
 			add_tech_bonus = {
+			    name = armor_bonus
 				bonus = 0.5
 				uses = 1
 				category = armor
 			}
 			add_tech_bonus = {
+			    name = construction_tech_bonus
 				bonus = 0.5
 				uses = 1
 				category = construction_tech
@@ -2397,30 +2470,18 @@ country_event = {
 	
 	is_triggered_only = yes
 	
-	fire_only_once = yes
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = winterwar
 			set_global_flag = winterwar_won
 			FIN = {
-				add_ideas = FIN_loans
 				add_ideas = FIN_won
+				remove_ideas = neutrality_war
+				FIN_loan_increase = yes
 			}
-			ENG = {
-				add_timed_idea = {
-					idea = FIN_loans6
-					days = 180
-				}
-			}
-			GER = {
-				add_timed_idea = {
-					idea = FIN_loans6
-					days = 180
-				}
-			}
-			
 		}
+		add_war_support = -0.04
+		add_stability = -0.02
 		white_peace = FIN
 		if = {
 			limit = { has_war_with = SWE }
@@ -2442,7 +2503,15 @@ country_event = {
 				limit = { has_war_with = SWE }
 				white_peace = SWE
 			}
-		}
+			add_war_support = -0.04
+	    	add_stability = -0.02
+			
+			FIN = {
+				add_ideas = FIN_won
+				remove_ideas = neutrality_war
+				FIN_loan_increase = yes
+			}
+		}	
 	}
 }
 
@@ -2462,15 +2531,28 @@ news_event = {
         trigger = {
             tag = FIN
         }
+		
+		effect_tooltip = {
+		    SOV = {
+		    	add_war_support = -0.04
+	        	add_stability = -0.02
+			}
+			
+			add_ideas = FIN_won
+			remove_ideas = neutrality_war
+			FIN_loan_increase = yes
+		}
     }
 
     #Global Response
     option = {
         name = finland.115.b
         trigger = {
-            NOT = {
+            NOT = { 
+			    OR = {
                 tag = FIN
 				tag = SOV
+				}
             }
         }
 	}
@@ -2524,7 +2606,22 @@ news_event = {
 				}
 				add_timed_idea = {
 					idea = winter5
-					days = 200
+					days = 150
+				}
+				if = {
+					limit = {
+						or = {
+							tag = SOV
+							tag = FIN
+							tag = NOR
+							tag = SWE
+							tag = ICE
+						}
+					}
+					add_timed_idea = {
+						idea = SOV_winterproficiency
+						days = 150
+					}
 				}
 			}
 		}

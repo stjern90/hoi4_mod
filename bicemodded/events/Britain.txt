@@ -1026,7 +1026,8 @@ country_event = {
 	is_triggered_only = yes
 	option = {
 		name = BICE_britain.8.a	#A Beautiful Machine
-		load_oob = "19th_Squadron_RAF"
+		custom_effect_tooltip = suqadron_raf_1_tt
+		hidden_effect = { load_oob = "19th_Squadron_RAF" }
 	}
 }
 #Hawker Hurricane Mk I
@@ -1040,9 +1041,8 @@ country_event = {
 
 	option = {
 		name = BICE_britain.9.a	# A Splendid Machine
-		set_country_flag = Hurricane
-		load_oob = "111th_Squadron_RAF"
-		# tech increase
+		hidden_effect = { load_oob = "111th_Squadron_RAF" }
+		custom_effect_tooltip = suqadron_raf_2_tt
 	}
 }
 #Halifax visits Germany
@@ -1063,6 +1063,7 @@ country_event = {
 				modifier = improve_relation
 			}
 		}
+		hidden_effect = { country_event = { id = BICE_britain.13 days = 65 } }
 	}
 }
 #Sigmund Freud arrives in London
@@ -1092,12 +1093,7 @@ country_event = {
 	desc = BICE_britain.12.d
 	picture = GFX_report_event_bbc
 
-	fire_only_once = yes
-
-	trigger = {
-		tag = ENG
-		date > 1938.5.24
-	}
+	is_triggered_only = yes
 
 	option = {
 		name = BICE_britain.12.a	#Cor Blimey !
@@ -1109,20 +1105,14 @@ country_event = {
 	id = BICE_britain.13
 	title = BICE_britain.13.t
 	desc = BICE_britain.13.d
-	picture = GFX_report_event_generic_read_write
+	picture = GFX_report_event_eden_resigns
 
-	fire_only_once = yes
-
-	trigger = {
-		tag = ENG
-		date > 1939.1.20
-		has_country_flag = impossible
-		not = { has_country_flag = Eden_resigns }
-	}
+	is_triggered_only = yes
 
 	option = {
 		name = BICE_britain.13.a	#Install Halifax
-		set_country_flag = Eden_resigns
+		add_stability = -0.03
+		hidden_effect = { country_event = { id = BICE_britain.12 days = 90 } }
 	}
 }
 #Propaganda broadcasts
@@ -1185,13 +1175,11 @@ country_event = {
 	title = BICE_britain.16.t
 	desc = BICE_britain.16.d
 	picture = GFX_report_event_norway_airbase_finnmark_banak
+	
     is_triggered_only = yes	
 
 	trigger = {
-		tag = ENG
-		NOR = {exists = yes}
-		not = { has_war_with = NOR }
-		has_war_with = GER 
+		NOR = {exists = yes has_war = no}
 	}
 
 	option = {
@@ -1268,11 +1256,7 @@ country_event = {
 					ideology = democratic
 					popularity = -0.04
 				}
-	}
-	option = {
-		name = BICE_britain.19.b	#Forget It
-		ai_chance = { factor = 0 }
-		add_war_support = -0.04
+				add_war_support = 0.05
 	}
 }
 #Never give up
@@ -1465,8 +1449,12 @@ country_event = {
 
 	option = {
 		name = BICE_britain.28.a	#
-		set_country_flag = eagle71
-		load_oob = "71_Eagles_Squadron"
+		if = { limit = { has_tech = tech_UK_fighther_equipment_2_c }
+	    	load_oob = "71_Eagles_Squadron"
+		}
+		else_if = { limit = { has_tech = tech_UK_fighther_equipment_4_a }
+	    	load_oob = "71_Eagles_Squadron_a"
+		}
 	}
 }
 #121 Eagles Squadron joins the fight!
@@ -1516,7 +1504,23 @@ country_event = {
 		}
 		name = BICE_britain.36.a
 			add_political_power = -80
-			PER = { country_event = { id = Per.1 }}
+			PER = { country_event = { id = per.1 }}
+			effect_tooltip = {
+			PER = {
+			if = { limit = { SOV = { has_country_flag = operation_countenance_fired_by_soviet } }
+			give_resource_rights = { receiver = SOV state = 411 }
+			}
+			else = {
+			give_resource_rights = { receiver = ENG state = 411 }
+			}
+			
+			set_rule = { 
+					can_join_factions = no 
+					can_create_factions = no
+					can_not_declare_war = yes
+				}
+			}
+			}
 			SOV = { set_country_flag = operation_countenance_fired }	
 			ENG = { set_country_flag = operation_countenance_fired }			
 	}

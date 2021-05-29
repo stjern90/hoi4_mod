@@ -15,6 +15,30 @@ dontallypol = {
 	}
 }
 
+dont_justify_on_pol = {
+
+	allowed = {
+		original_tag = SOV
+	}
+	enable = {
+		date > 1939.1.1
+		date < 1941.1.1
+		is_historical_focus_on = yes
+	}
+	abort_when_not_enabled = yes
+	
+	ai_strategy = {
+		type = declare_war
+		id = "POL"
+		value = -200
+	}
+	ai_strategy = {
+		type = ignore_claim
+		id = "POL"
+		value = 1
+	}
+}
+
 dontproduceshit_2 = {
 	allowed = {
 		original_tag = SOV
@@ -39,7 +63,10 @@ SOV_ignoreclaims = {
 		original_tag = SOV
 	}
 	enable = {
-		has_global_flag = winterwar_won # finland won winterwar
+		or = {
+			has_global_flag = winterwar_won # finland won winterwar
+			is_historical_focus_on = yes
+		}
 		FIN = { exists = yes }
 	}
 	abort_when_not_enabled = yes
@@ -47,7 +74,7 @@ SOV_ignoreclaims = {
 	ai_strategy = {
 		type = ignore_claim
 		id = "FIN"
-		value = 5000
+		value = 1
 	}
 	
 }
@@ -70,44 +97,42 @@ dontproduceshit_3 = {
 		value = -500
 	}
 }
-SOV_defendsouth = {
-	allowed = { tag = SOV }
-	enable = {
-		has_war_with = GER
-		202 = {
-			CONTROLLER = {
-				OR = {
-					tag = GER
-					is_subject_of = GER
-					is_in_faction_with = GER
-				}
-			}
-		}
-		192 = {
-			CONTROLLER = {
-				OR = {
-					tag = GER
-					is_subject_of = GER
-					is_in_faction_with = GER
-				}
-			}
-		}
+
+SOV_buffer_leningrad = {
+	allowed = {
+		original_tag = SOV
 	}
+	enable = {
+		always = yes
+	}
+	
 	abort_when_not_enabled = yes
 	
-
 	ai_strategy = {
-		type = front_unit_request
-		country_trigger = {
-			or = {
-				tag = GER
-				tag = HUN
-				tag = ITA
-				tag = ROM
-			}
+		type = put_unit_buffers
+		ratio = 0.05
+ 		states = { 
+	    	195 
 		}
-		
-		value = 100
+		subtract_invasions_from_need = no # need to always guard here!
+	}
+	
+	ai_strategy = {
+		type = put_unit_buffers
+		ratio = 0.05
+		states = { 
+	    	213 
+		}
+		subtract_invasions_from_need = no # need to always guard here!
+	}
+	
+	ai_strategy = {
+		type = put_unit_buffers
+		ratio = 0.05
+		states = { 
+	    	137 
+		}
+		subtract_invasions_from_need = no # need to always guard here!
 	}
 }
 
@@ -132,13 +157,89 @@ SOV_defendfin = {
 	}
 }
 
+SOV_barb = {
+	allowed = { tag = SOV }
+	enable = {
+		has_war_with = GER
+		OR = {
+		has_idea = SOV_rear_is_safe
+		JAP = { surrender_progress > 0.04 }
+		}
+			NOT = { has_war_with = JAP }
+			NOT = { has_war_with = AFG }
+			NOT = { has_war_with = PER }
+			NOT = { has_war_with = TUR }
+	}
+	
+	abort_when_not_enabled = yes
+	
+	ai_strategy = {
+		type = front_unit_request
+		tag = JAP
+		value = -100
+	}
+
+	ai_strategy = {
+		type = front_unit_request
+		tag = MAN
+		value = -100
+	}
+	
+	ai_strategy = {
+		type = front_unit_request
+		tag = AFG
+		value = -100
+	}
+	
+	ai_strategy = {
+		type = front_unit_request
+		tag = PER
+		value = -100
+	}
+	
+	ai_strategy = {
+		type = front_unit_request
+		tag = TUR
+		value = -100
+	}
+	
+	ai_strategy = {
+		type = front_unit_request
+		tag = SIK
+		value = -100
+	}
+	
+	ai_strategy = {
+		type = conquer
+		id = "FIN"
+		value = 300
+	}
+	
+	ai_strategy = {
+		type = garrison
+		value = -50
+	}
+	
+	ai_strategy = {
+		type = conquer
+		id = "GER"
+		value = 300
+	}
+}
+
 SOV_attackonwinter = {
 	allowed = { tag = SOV }
 	enable = {
-		has_idea = winter_offensive
+		or = {
+			has_idea = winter_offensive
+			has_idea = winter_offensive2
+			has_idea = winter_offensive3
+			has_idea = winter_offensive4
+		}
 		check_variable = { TW_inf_fielded_eq_ratio > 0.83 }
 		check_variable = { TW_uniform_fielded_eq_ratio > 0.83 }
 		has_war_with = GER
+		NOT = { surrender_progress < 0.02 }
 	}
 
 	abort_when_not_enabled = yes
@@ -155,7 +256,7 @@ SOV_attackonwinter = {
 		}
 		ordertype = front
 		execute_order = yes
-		execution_type = careful
+		execution_type = rush
 	}
 }
 
@@ -166,6 +267,7 @@ prepare_for_finwar = {
 	enable = {
 		date > 1939.9.1
 		is_historical_focus_on = yes
+		NOT = { has_global_flag = winterwar }
 	}
 	
 	abort = {
@@ -675,7 +777,7 @@ germany_enemy = {
 	}	
 }
 
-germany_enemy = {
+germany_enemy2 = {
 	allowed = {
 		original_tag = SOV
 	}

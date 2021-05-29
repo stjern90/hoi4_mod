@@ -103,20 +103,28 @@ country_event = {
 	hidden = yes
 	
 	immediate = {
-		country_event = { id = tfv_raj.21 days = 300 }
+		country_event = { id = tfv_raj.21 days = 1 }
 	}
 
 	trigger = {
-		#compare_autonomy_state < autonomy_dominion
-		has_capitulated = no
-		NOT = { surrender_progress > 0.5 }
 		original_tag = RAJ
-		has_idea = RAJ_risk_of_famine
+		NOT = { has_idea = RAJ_famine }
+		has_capitulated = no
+		OR = { has_idea = RAJ_risk_of_famine has_idea = RAJ_risk_of_famine_2 }
 		has_war = yes		
 	}
 
-	mean_time_to_happen = { days = 150 }
-
+	mean_time_to_happen = { 
+    	days = 200
+        modifier = {
+			factor = 4
+			has_idea = RAJ_risk_of_famine_2
+		}	
+        modifier = {
+			factor = 2
+			has_war = no
+		}		
+	}
 }
 
 #RAJ gets famine - Actual event
@@ -128,30 +136,24 @@ country_event = {
 	
 	is_triggered_only = yes
 
-	fire_only_once = yes
-
 	immediate = {
 		hidden_effect = {
-			remove_ideas = RAJ_risk_of_famine
-			add_timed_idea = { idea = RAJ_famine days = 365 }
+			add_timed_idea = { idea = RAJ_famine days = 240 }
 			news_event = { id = news.272 }
-			news_event = { id = news.273 days = 365 }
+			news_event = { id = news.273 days = 240 }
 		}
 	}
 			
 	trigger = {
-		#compare_autonomy_state < autonomy_dominion
 		has_capitulated = no
-		NOT = { surrender_progress > 0.5 }
-		original_tag = RAJ
-		has_idea = RAJ_risk_of_famine
+		OR = { has_idea = RAJ_risk_of_famine has_idea = RAJ_risk_of_famine_2 }
+		has_war = yes
 	}
 
 	option = {
 		name = tfv_raj.21.a
 		effect_tooltip = {
-			remove_ideas = RAJ_risk_of_famine
-			add_timed_idea = { idea = RAJ_famine days = 365 }
+			add_timed_idea = { idea = RAJ_famine days = 240 }
 		}
 	}
 }
@@ -732,5 +734,63 @@ country_event = {
 
 		
 		ENG = { add_to_faction = PAK }
+	}
+}	
+
+country_event = {
+	id = tfv_raj.215
+	title = tfv_raj.215.t
+	desc = tfv_raj.215.desc
+	picture = GFX_report_event_generic_sign_treaty2
+	
+	is_triggered_only = yes
+	
+	
+	fire_only_once = yes
+	
+	option = {
+		name = tfv_raj.215.a
+		ai_chance = {
+			base = 100
+		}
+		effect_tooltip = {
+			RAJ = {
+				annex_country = { target = YEM transfer_troops = yes }
+			}
+		}
+		hidden_effect = {
+			RAJ = {
+				country_event = {
+					id = tfv_raj.216
+					days = 1
+				}
+			}
+		}
+	}
+	
+	option = {
+		name = tfv_raj.215.b
+		ai_chance = {
+			base = 0
+		}
+	}
+}	
+
+country_event = {
+	id = tfv_raj.216
+	title = tfv_raj.216.t
+	desc = tfv_raj.216.desc
+	picture = GFX_report_event_generic_sign_treaty2
+	
+	is_triggered_only = yes
+	
+	
+	fire_only_once = yes
+	
+	option = {
+		name = tfv_raj.216.a
+		RAJ = {
+			annex_country = { target = YEM transfer_troops = yes }
+		}
 	}
 }	

@@ -41,10 +41,9 @@ ITA_garrison = {
 	
 	ai_strategy = {
 		type = put_unit_buffers
-		ratio = 0.3
+		ratio = 0.2
 		states = { 
 			115
-			114
 			156
 			117
 			2
@@ -56,6 +55,7 @@ ITA_garrison = {
 		subtract_invasions_from_need = no
 		subtract_fronts_from_need = no
 	}
+    ai_strategy = { type = garrison value = 25 }
 	
 	ai_strategy = {
 		type = dont_defend_ally_borders
@@ -69,9 +69,92 @@ ITA_garrison = {
 	}
 }
 
+ITA_dont_fightger = {
+	allowed = {
+		tag = ITA
+	}
+	enable = {
+		GER = { NOT = { has_completed_focus = GER_south_tyrol } }
+	}
+	abort_when_not_enabled = yes
+	
+	ai_strategy = {
+		type = conquer
+		id = GER
+		value = -200
+	}
+	
+	ai_strategy = {
+		type = front_unit_request
+		
+		country_trigger = {
+			tag = GER
+		}
+		value = -100
+	}
+	
+	ai_strategy = {
+		type = front_unit_request
+		
+		country_trigger = {
+			tag = SWI
+		}
+		value = -100
+	}
+	
+	ai_strategy = {
+		type = front_unit_request
+		
+		country_trigger = {
+			tag = TUR
+		}
+		value = -25
+	}
+}
+
+Axis_minors_dont_go_north = {
+	allowed = {
+	    OR = {
+		original_tag = ITA
+		original_tag = HUN
+		original_tag = ROM
+		original_tag = CRO
+		original_tag = YUG
+		original_tag = BUL
+		original_tag = UKR
+		original_tag = MOL
+		original_tag = POL
+		original_tag = HOL
+		original_tag = BEL
+		}
+	}
+	enable = {
+		is_in_faction_with = GER
+		has_war_with = SOV
+	}
+	abort_when_not_enabled = yes
+	
+	ai_strategy = {
+		type = dont_defend_ally_borders
+		id = "FIN"
+		value = 200
+	}
+	ai_strategy = {
+		type = dont_defend_ally_borders
+		id = "SWE"
+		value = 200
+	}
+	ai_strategy = {
+		type = dont_defend_ally_borders
+		id = "NOR"
+		value = 200
+	}
+}
+
 keep_libya_route_ita = {
     allowed = { original_tag = ITA }
 	enable = { 
+	    OR = { has_war_with = ENG date > 1939.9.1 }
 		OR = {
 		448 = { is_controlled_by = ITA }
 		449 = { is_controlled_by = ITA }
@@ -92,6 +175,17 @@ keep_libya_route_ita = {
 	ai_strategy = {
 		type = strike_force_home_base
 		id = 214 # southern italy
+	}
+	
+	ai_strategy = {
+		type = naval_mission_threshold
+		id = "MISSION_PATROL"
+		value = -1100
+	}
+	ai_strategy = {
+		type = naval_mission_threshold
+		id = "MISSION_HOLD"
+		value = 1010
 	}
 }
 
@@ -217,9 +311,56 @@ greece_war_goal = {
 	ai_strategy = {
 		type = front_unit_request
 		
-		state = 44
+		country_trigger = {
+			tag = GRE
+		}
 
 		value = 50
+	}
+}
+
+greece_war_goal_help_bul = {
+	allowed = {
+		original_tag = BUL
+	}
+	enable = {
+	    GRE = { has_capitulated = no }
+		is_in_faction_with = ITA
+		NOT = { has_war_with = ROM }
+		ITA = { 
+		    focus_progress = {
+		    	focus = ITA_greece_war_goal
+		    	progress > 0.05
+	    	}
+		}
+		date > 1939.8.1
+	}	
+	abort = {
+	    OR = {
+		GRE = { has_capitulated = yes }
+		has_war_with = ROM
+		}
+	}
+	
+	ai_strategy = {
+		type = antagonize
+		id = "GRE"			
+		value = 50
+	}	
+	ai_strategy = {
+		type = conquer
+		id = "GRE"			
+		value = 100
+	}	
+
+	ai_strategy = {
+		type = front_unit_request
+		
+		country_trigger = {
+			tag = GRE
+		}
+
+		value = 85
 	}
 }
 
@@ -317,6 +458,16 @@ germany_ally = {
 		id = "SOV"
 		value = -100
 	}	
+	ai_strategy = {
+		type = dont_defend_ally_borders
+		id = "FIN"
+		value = 100
+	}
+	ai_strategy = {
+		type = dont_defend_ally_borders
+		id = "SWE"
+		value = 100
+	}
     ai_strategy = {
 		type = conquer
 		id = "EGY"
@@ -869,34 +1020,6 @@ aggro_fra = {
 	}
 }
 
-def_against_ita = {
-	allowed = {
-		original_tag = ITA
-	}
-	enable = {
-		country_exists = GER
-		country_exists = ITA
-		has_war_with = GER
-		NOT = { has_war_with = ITA }
-	}
-	abort = {
-		or = { NOT = { country_exists = ITA }
-		has_war_with = ITA }
-	}
-	
-	ai_strategy = {
-		type = antagonize
-		id = "ITA"
-		value = 40
-	}
-	ai_strategy = {
-		type = ignore
-		id = "FRA"
-		value = -50
-	}
-	ai_strategy = { type = area_priority id = africa 			value = 50 }
-}
-
 dont_like_ita_syr = {
     allowed = {
 		original_tag = SYR
@@ -917,8 +1040,17 @@ dont_like_ita_syr = {
 }
 
 dont_support_wrong_side = {
+    allowed = {
+	    OR = {
+		original_tag = ENG
+		original_tag = ITA
+		original_tag = GER
+		original_tag = JAP
+		original_tag = FRA
+		original_tag = SOV
+		}
+	}
 	enable = {
-		num_of_factories > 100
 		has_government = fascism
 		has_global_flag = spanish_civil_war
 		NOT = { has_global_flag = scw_over }

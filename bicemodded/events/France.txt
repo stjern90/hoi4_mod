@@ -180,12 +180,12 @@ country_event = {
 	trigger = {
 		tag = FRA
 		has_war_with = GER
-		surrender_progress > 0.4
+		surrender_progress > 0.5
 		OR = { has_government = democratic has_government = neutrality }
 		OR = {
 		    16 = { is_controlled_by = GER }
 		    14 = { is_controlled_by = GER }
-                    surrender_progress > 0.7
+                    surrender_progress > 0.75
 		}
 		is_in_faction_with = ENG
 		ENG = { has_war_with = GER }
@@ -256,7 +256,7 @@ country_event = {
 	is_triggered_only = yes
 
 	immediate = {
-		#set_global_flag = achievement_france_surrender
+		set_global_flag = achievement_france_surrender
     	ENG = { country_event = { id = britain.24 days = 6 } }
 	}
 	
@@ -991,6 +991,16 @@ country_event = {
 		FRA = {
 			set_cosmetic_tag = FRA_FREE
 			country_event = { id = france.16 days = 3 }
+			send_equipment = {
+					target = ENG
+					type = convoy
+					amount = 150
+			}
+			send_equipment = {
+					target = USA
+					type = convoy
+					amount = 150
+			}
 		}
 		# German Occupation Zone
 		if = {
@@ -1297,7 +1307,58 @@ country_event = {
 		FRA = { 
 			set_cosmetic_tag = FRA_FREE 
 			add_ideas = FRA_defeatism
+			if = { limit = { has_completed_focus = FRA_modernize_equipment }
+			     set_country_flag = FRA_modernize_equipment_flag
+			}
+			if = { limit = { has_completed_focus = FRA_machine_gun }
+			     set_country_flag = FRA_machine_gun_flag
+			}
+			if = { limit = { has_completed_focus = FRA_anti_air_effort }
+			     set_country_flag = FRA_anti_air_effort_flag
+			}
+			if = { limit = { has_completed_focus = FRA_siege_warfare }
+			     set_country_flag = FRA_siege_warfare_flag
+			}
+			if = { limit = { has_completed_focus = FRA_special_forces }
+			     set_country_flag = FRA_special_forces_flag
+			}
+			
+			send_equipment = {
+					target = ENG
+					type = convoy
+					amount = 150
+			}
+			send_equipment = {
+					target = USA
+					type = convoy
+					amount = 150
+			}
+			
 			load_focus_tree = free_french_focus
+			
+			
+			
+			if = { limit = { has_country_flag = FRA_modernize_equipment_flag }
+			    unlock_national_focus = FRA_free_modernize_equipment_flag
+				clr_country_flag = FRA_modernize_equipment_flag
+			}
+			if = { limit = { has_country_flag = FRA_machine_gun_flag }
+			    unlock_national_focus = FRA_free_machine_gun_flag
+				clr_country_flag = FRA_machine_gun_flag
+			}
+			if = { limit = { has_country_flag = FRA_anti_air_effort_flag }
+			    unlock_national_focus = FRA_free_anti_air_effort_flag
+				clr_country_flag = FRA_anti_air_effort_flag
+			}
+			if = { limit = { has_country_flag = FRA_siege_warfare_flag }
+			    unlock_national_focus = FRA_free_siege_warfare_flag
+				clr_country_flag = FRA_siege_warfare_flag
+			}
+			if = { limit = { has_country_flag = FRA_special_forcest_flag }
+			    unlock_national_focus = FRA_free_special_forces_flag
+				clr_country_flag = FRA_special_forces_flag
+			}
+			
 			country_event = { id = france.16 days = 3 }
 			if = {
 				limit = {
@@ -1510,7 +1571,7 @@ country_event = {
 						stockpile_ratio = 0.7
 						army_ratio = 0.5
 						navy_ratio = 0.85
-						air_ratio = 1.0
+						air_ratio = 0.9
 					}
 				}
 				if = {
@@ -2337,20 +2398,20 @@ country_event = {
     id = france.31
     title = france.31.t
     desc = france.31.d
-    picture = GFX_report_event_german_parade_paris
+    picture = GFX_report_event_FRA_paul
  
     fire_only_once = yes
  
     trigger = {
         original_tag = FRA
         has_government = democratic
-        has_global_flag = fall_of_france
-        NOT = { has_country_flag = france_de_gaulle }
+        date > 1939.1.1
+		date < 1941.1.1
+		NOT = { has_completed_focus = FRA_support_the_finns }
+		NOT = { has_capitulated = yes }
     } 
-
-    mean_time_to_happen = {
-        days = 7
-    }
+	
+	is_triggered_only = yes
 
     option = {
         name = france.31.a
@@ -2362,10 +2423,47 @@ country_event = {
         	expire = "1965.1.1"
         	ideology = liberalism
         	traits = {
+				dislikes_germany
+				slow_decisionmaker
             }
         }
         set_country_flag = daladier_resigned
       }
+}
+
+country_event = {
+    id = france.39
+    title = france.39.t
+    desc = france.39.d
+    picture = GFX_report_event_FRA_edouard
+ 
+    fire_only_once = yes
+ 
+    trigger = {
+        original_tag = FRA
+        has_government = democratic
+        date > 1938.1.1
+		date < 1939.1.1
+		NOT = { has_capitulated = yes }
+    } 
+	
+	is_triggered_only = yes
+
+    option = {
+        name = france.39.a
+        retire_country_leader = yes
+        create_country_leader = {
+        	name = "Édouard Daladier"
+        	desc = "POLITICS_ÉDOUARD_DALADIER_DESC"
+        	picture = "Portrait_France_Edouard_Daladier.dds"
+        	expire = "1965.1.1"
+        	ideology = socialism
+        	traits = {
+				stout_defender
+				rearmer
+            }
+        }
+    }
 }
 
 # Hidden event to add AI values for nationalist spain if France is going fascist
@@ -2727,7 +2825,7 @@ country_event = {
 			}
 			add_building_construction = {
 				type = arms_factory
-				level = 1
+				level = 2
 				instant_build = yes
 			}
 		}
@@ -2781,11 +2879,11 @@ country_event = {
 			}
 			remove_building = {
 				type = industrial_complex
-				level = 1
+				level = 2
 			}
 			remove_building = {
 				type = arms_factory
-				level = 2
+				level = 3
 			}
 		}
 		672 = {
@@ -2798,6 +2896,14 @@ country_event = {
 			add_building_construction = {
 				type = arms_factory
 				level = 2
+				instant_build = yes
+			}
+		}
+		673 = {
+		    add_extra_state_shared_building_slots = 1
+		    add_building_construction = {
+				type = industrial_complex
+				level = 1
 				instant_build = yes
 			}
 		}

@@ -8,6 +8,83 @@
 #Category visible when CHI_army_reform focus is completed
 CHI_army_reform = {
 
+	CHI_warplan2 = {
+
+		icon = generic_prepare_civil_war
+
+		available = {
+			num_of_civilian_factories_available_for_projects > 4
+			has_completed_focus = CHI_warplan
+		}
+
+		cost = 0
+		
+		ai_will_do = {
+			factor = 500
+		}
+		
+		days_remove = 120
+
+		visible = {
+		}
+		remove_effect = {
+			if = {
+				limit = {
+					controls_province = 7656
+				}
+				607 = {
+					add_building_construction = {
+						type = bunker
+						level = 2
+						province = 7656
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					controls_province = 4619
+				}
+				620 = {
+					add_building_construction = {
+						type = bunker
+						level = 2
+						province = 4619
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					controls_province = 1069
+				}
+				597 = {
+					add_building_construction = {
+						type = bunker
+						level = 2
+						province = 1069
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					controls_province = 11913
+				}
+				613 = {
+					add_building_construction = {
+						type = bunker
+						level = 2
+						province = 11913
+						instant_build = yes
+					}
+				}
+			}
+		}
+		complete_effect = {
+		}		
+	}
+
 	CHI_army_reform = {
 
 		icon = generic_prepare_civil_war
@@ -48,10 +125,6 @@ CHI_army_reform = {
 			else_if = {
 				limit = { has_idea = CHI_army_corruption_3 }
 				remove_ideas = CHI_army_corruption_3
-				add_timed_idea = {
-					idea = CHI_army_corruption_4
-					days = 700
-				}
 			}
 		}
 		complete_effect = {
@@ -378,7 +451,7 @@ war_measures = {
 				CHI = {
 					NOT = { controls_province = 1047 }
 				}
-				GXC = {
+				GDC = {
 					NOT = { controls_province = 1047 }
 				}
 			}
@@ -561,6 +634,7 @@ war_measures = {
 	CHI_scorched_earth_tactics = {
 		icon = generic_scorched_earth
 		available = {
+		    has_completed_focus = CHI_scorched_earth_tactics
 			any_owned_state = {
 				is_controlled_by = ROOT
 				infrastructure > 0
@@ -580,7 +654,8 @@ war_measures = {
 		}
 
 		visible = {			
-			has_completed_focus = CHI_scorched_earth_tactics
+			
+			has_war_with = JAP
 		}
 
 		days_re_enable = 45
@@ -760,699 +835,6 @@ war_measures = {
 
 
 
-### #  # ### ### #  ### ###   ##  ### ###  ##  #  #
- #  ## # #    #  #   #  #  # #  #  #   #  #  # ## #
- #  # ## ##   #  #   #  ###  ####  #   #  #  # # ##
- #  #  # #    #  #   #  #  # #  #  #   #  #  # #  #
-### #  # #   ### ### #  #  # #  #  #  ###  ##  #  #
-
-#Category allowed for all potential nationalist china
-#Visible when another country had completed focus PRC_infiltration
-@REMOVE_INFILTRATION_PP_COST = 10
-CHI_communist_infiltration = {
-
-	CHI_detect_infiltration = {
-		icon = oppression
-		available = {
-
-		}	
-
-
-		days_remove = 0
-		days_re_enable = 30
-
-		fixed_random_seed = no
-	
-		cost = 100
-
-		ai_will_do = {
-			base = 0
-			modifier = {
-				has_political_power < 150
-				factor = 0
-			}
-			#Focus on political struggle first
-			modifier = {
-				factor = 0
-				any_other_country = {
-					has_country_flag = wtt_political_struggle
-				}
-			}
-			modifier = {
-				add = 75
-				any_other_country = {
-					is_potentially_communist_china = yes
-					has_completed_focus = PRC_infiltration
-					NOT = { has_country_flag = CHI_delay_sweep_for_communists }
-				}
-			}
-
-			#Surely there must be commies somewhere
-			modifier = {
-				add = 85
-				NOT = {
-					any_state = {
-						OR = {
-							state = 283
-							state = 597
-							state = 598
-							state = 607
-							state = 608
-							state = 614
-							state = 615
-							state = 621
-							state = 744
-							state = 746
-						}
-						has_state_flag = discovered_infiltration
-					}
-				}
-			}
-		}
-	
-		complete_effect = {
-			custom_effect_tooltip = CHI_detect_infiltration_tooltip
-			hidden_effect = {
-				country_event = wtt_infiltration.1
-			}
-		}
-	}
-
-	CHI_communist_infiltration_in_gansu = {
-		icon = infiltrate_state
-		visible = { #TODO_WTT_CD merge the 2 visible triggers for all of these. Maybe for JAP as well.
-			283 = {
-				is_controlled_by = ROOT
-				has_any_PRC_infiltration_flag = yes
-			}
-		}
-		available = {
-			has_equipment = { infantry_equipment > 999 }
-		}
-
-		highlight_state_targets = {
-			state = 283
-		}
-		
-		visible = {
-			283 = {
-				is_controlled_by = ROOT
-				has_state_flag = {
-					flag = discovered_infiltration
-					value > 0
-				}
-			}
-		}
-
-		
-		modifier = {
-			command_power_gain = -0.1
-		}
-		
-		days_remove = 30
-		days_re_enable = 0
-		
-
-		ai_will_do = {
-			base = 100
-			#Pretty damn important
-			modifier = {
-				add = 100
-				always = yes
-			}
-		}
-
-		cost = @REMOVE_INFILTRATION_PP_COST
-		
-		complete_effect = {
-			add_equipment_to_stockpile = {
-				type = infantry_equipment
-				amount = -1000
-			}
-		}
-
-		remove_effect = {
-			283 = {
-				CHI_show_state_uprising_effect_after_infiltration_level_down = yes
-				save_event_target_as = infiltrated_state
-				CHI_infiltration_flag_down_2 = yes
-			}
-			event_target:WTT_communist_china = { country_event = wtt_infiltration.6 } 
-		}
-	}
-
-	CHI_communist_infiltration_in_shandong = {
-		icon = infiltrate_state
-		visible = {
-			597 = {
-				is_controlled_by = ROOT
-				has_any_PRC_infiltration_flag = yes
-			}
-		}
-		available = {
-			has_equipment = { infantry_equipment > 999 }
-		}
-		highlight_state_targets = {
-			state = 597
-		}
-		
-		visible = {
-			597 = {
-				is_controlled_by = ROOT
-				has_state_flag = {
-					flag = discovered_infiltration
-					value > 0
-				}
-			}
-		}
-
-		
-		modifier = {
-			command_power_gain = -0.1
-		}
-		
-		days_remove = 30
-		days_re_enable = 0
-		
-		cost = @REMOVE_INFILTRATION_PP_COST
-
-		ai_will_do = {
-			base = 100
-			#Pretty damn important
-			modifier = {
-				add = 100
-				always = yes
-			}
-		}
-		
-		complete_effect = {
-			add_equipment_to_stockpile = {
-				type = infantry_equipment
-				amount = -1000
-			}
-		}
-
-		remove_effect = {
-			597 = {
-				CHI_show_state_uprising_effect_after_infiltration_level_down = yes
-				save_event_target_as = infiltrated_state
-				CHI_infiltration_flag_down_2 = yes
-			}
-			event_target:WTT_communist_china = { country_event = wtt_infiltration.6 } 
-		}
-	}
-
-	CHI_communist_infiltration_in_jiangsu = {
-		icon = infiltrate_state
-		visible = {
-			598 = {
-				is_controlled_by = ROOT
-				has_any_PRC_infiltration_flag = yes
-			}
-		}
-		available = {
-			has_equipment = { infantry_equipment > 999 }
-		}
-
-		highlight_state_targets = {
-			state = 598
-		}
-		
-		visible = {
-			598 = {
-				is_controlled_by = ROOT
-				has_state_flag = {
-					flag = discovered_infiltration
-					value > 0
-				}
-			}
-		}
-
-		
-		modifier = {
-			command_power_gain = -0.1
-		}
-		
-		days_remove = 30
-		days_re_enable = 0
-		
-
-		ai_will_do = {
-			base = 100
-			#Pretty damn important
-			modifier = {
-				add = 100
-				always = yes
-			}
-		}
-		cost = @REMOVE_INFILTRATION_PP_COST
-		
-		complete_effect = {
-			add_equipment_to_stockpile = {
-				type = infantry_equipment
-				amount = -1000
-			}
-		}
-
-		remove_effect = {
-			598 = {
-				CHI_show_state_uprising_effect_after_infiltration_level_down = yes
-				save_event_target_as = infiltrated_state
-				CHI_infiltration_flag_down_2 = yes
-			}
-			event_target:WTT_communist_china = { country_event = wtt_infiltration.6 } 
-		}
-	}
-
-	CHI_communist_infiltration_in_henan = {
-		icon = infiltrate_state
-		visible = {
-			607 = {
-				is_controlled_by = ROOT
-				has_any_PRC_infiltration_flag = yes
-			}
-		}
-		available = {
-			has_equipment = { infantry_equipment > 999 }
-		}
-		
-		visible = {
-			607 = {
-				is_controlled_by = ROOT
-				has_state_flag = {
-					flag = discovered_infiltration
-					value > 0
-				}
-			}
-		}
-		highlight_state_targets = {
-			state = 607
-		}
-
-		
-		modifier = {
-			command_power_gain = -0.1
-		}
-		
-		days_remove = 30
-		days_re_enable = 0
-		
-		cost = @REMOVE_INFILTRATION_PP_COST
-
-		ai_will_do = {
-			base = 100
-			#Pretty damn important
-			modifier = {
-				add = 100
-				always = yes
-			}
-		}
-		
-		complete_effect = {
-			add_equipment_to_stockpile = {
-				type = infantry_equipment
-				amount = -1000
-			}
-		}
-
-		remove_effect = {
-			607 = {
-				CHI_show_state_uprising_effect_after_infiltration_level_down = yes
-				save_event_target_as = infiltrated_state
-				CHI_infiltration_flag_down_2 = yes
-			}
-			event_target:WTT_communist_china = { country_event = wtt_infiltration.6 } 
-		}
-	}
-
-	CHI_communist_infiltration_in_beijing = {
-		icon = infiltrate_state
-		visible = {
-			608 = {
-				is_controlled_by = ROOT
-				has_any_PRC_infiltration_flag = yes
-			}
-		}
-		available = {
-			has_equipment = { infantry_equipment > 999 }
-		}
-		highlight_state_targets = {
-			state = 608
-		}
-		
-		visible = {
-			608 = {
-				is_controlled_by = ROOT
-				has_state_flag = {
-					flag = discovered_infiltration
-					value > 0
-				}
-			}
-		}
-
-		
-		modifier = {
-			command_power_gain = -0.1
-		}
-		
-		days_remove = 30
-		days_re_enable = 0
-		
-		cost = @REMOVE_INFILTRATION_PP_COST
-
-		ai_will_do = {
-			base = 100
-			#Pretty damn important
-			modifier = {
-				add = 100
-				always = yes
-			}
-		}
-		
-		complete_effect = {
-			add_equipment_to_stockpile = {
-				type = infantry_equipment
-				amount = -1000
-			}
-		}
-
-		remove_effect = {
-			608 = {
-				CHI_show_state_uprising_effect_after_infiltration_level_down = yes
-				save_event_target_as = infiltrated_state
-				CHI_infiltration_flag_down_2 = yes
-			}
-			event_target:WTT_communist_china = { country_event = wtt_infiltration.6 } 
-		}
-	}
-
-	CHI_communist_infiltration_in_hebei = {
-		icon = infiltrate_state
-		visible = {
-			614 = {
-				is_controlled_by = ROOT
-				has_any_PRC_infiltration_flag = yes
-			}
-		}
-		available = {
-			has_equipment = { infantry_equipment > 999 }
-		}
-		highlight_state_targets = {
-			state = 614
-		}
-		
-		visible = {
-			614 = {
-				is_controlled_by = ROOT
-				has_state_flag = {
-					flag = discovered_infiltration
-					value > 0
-				}
-			}
-		}
-
-		
-		modifier = {
-			command_power_gain = -0.1
-		}
-		
-		days_remove = 30
-		days_re_enable = 0
-		
-		cost = @REMOVE_INFILTRATION_PP_COST
-
-		ai_will_do = {
-			base = 100
-			#Pretty damn important
-			modifier = {
-				add = 100
-				always = yes
-			}
-		}
-		
-		complete_effect = {
-			add_equipment_to_stockpile = {
-				type = infantry_equipment
-				amount = -1000
-			}
-		}
-
-		remove_effect = {
-			614 = {
-				CHI_show_state_uprising_effect_after_infiltration_level_down = yes
-				save_event_target_as = infiltrated_state
-				CHI_infiltration_flag_down_2 = yes
-			}
-			event_target:WTT_communist_china = { country_event = wtt_infiltration.6 } 
-		}
-	}
-
-	CHI_communist_infiltration_in_shanxi = {
-		icon = infiltrate_state
-		visible = {
-			615 = {
-				is_controlled_by = ROOT
-				has_any_PRC_infiltration_flag = yes
-			}
-		}
-		available = {
-			has_equipment = { infantry_equipment > 999 }
-		}
-		highlight_state_targets = {
-			state = 615
-		}
-		
-		visible = {
-			615 = {
-				is_controlled_by = ROOT
-				has_state_flag = {
-					flag = discovered_infiltration
-					value > 0
-				}
-			}
-		}
-
-		
-		modifier = {
-			command_power_gain = -0.1
-		}
-		
-		days_remove = 30
-		days_re_enable = 0
-		
-		cost = @REMOVE_INFILTRATION_PP_COST
-
-		ai_will_do = {
-			base = 100
-			#Pretty damn important
-			modifier = {
-				add = 100
-				always = yes
-			}
-		}
-		
-		complete_effect = {
-			add_equipment_to_stockpile = {
-				type = infantry_equipment
-				amount = -1000
-			}
-		}
-
-		remove_effect = {
-			615 = {
-				CHI_show_state_uprising_effect_after_infiltration_level_down = yes
-				save_event_target_as = infiltrated_state
-				CHI_infiltration_flag_down_2 = yes
-			}
-			event_target:WTT_communist_china = { country_event = wtt_infiltration.6 } 
-		}
-	}
-
-	CHI_communist_infiltration_in_suiyuan = {
-		icon = infiltrate_state
-		visible = {
-			621 = {
-				is_controlled_by = ROOT
-				has_any_PRC_infiltration_flag = yes
-			}
-		}
-		available = {
-			has_equipment = { infantry_equipment > 999 }
-		}
-		highlight_state_targets = {
-			state = 621
-		}
-		
-		visible = {
-			621 = {
-				is_controlled_by = ROOT
-				has_state_flag = {
-					flag = discovered_infiltration
-					value > 0
-				}
-			}
-		}
-
-		
-		modifier = {
-			command_power_gain = -0.1
-		}
-		
-		days_remove = 30
-		days_re_enable = 0
-		
-		cost = @REMOVE_INFILTRATION_PP_COST
-
-		ai_will_do = {
-			base = 100
-			#Pretty damn important
-			modifier = {
-				add = 100
-				always = yes
-			}
-		}
-		
-		complete_effect = {
-			add_equipment_to_stockpile = {
-				type = infantry_equipment
-				amount = -1000
-			}
-		}
-
-		remove_effect = {
-			621 = {
-				CHI_show_state_uprising_effect_after_infiltration_level_down = yes
-				save_event_target_as = infiltrated_state
-				CHI_infiltration_flag_down_2 = yes
-			}
-			event_target:WTT_communist_china = { country_event = wtt_infiltration.6 } 
-		}
-	}	
-
-	CHI_communist_infiltration_in_xian = {
-		icon = infiltrate_state
-		visible = {
-			744 = {
-				is_controlled_by = ROOT
-				has_any_PRC_infiltration_flag = yes
-			}
-		}
-		available = {
-			has_equipment = { infantry_equipment > 999 }
-		}
-		highlight_state_targets = {
-			state = 744
-		}
-		
-		visible = {
-			744 = {
-				is_controlled_by = ROOT
-				has_state_flag = {
-					flag = discovered_infiltration
-					value > 0
-				}
-			}
-		}
-
-		
-		modifier = {
-			command_power_gain = -0.1
-		}
-		
-		days_remove = 30
-		days_re_enable = 0
-		
-		cost = @REMOVE_INFILTRATION_PP_COST
-
-		ai_will_do = {
-			base = 100
-			#Pretty damn important
-			modifier = {
-				add = 100
-				always = yes
-			}
-		}
-		
-		complete_effect = {
-			add_equipment_to_stockpile = {
-				type = infantry_equipment
-				amount = -1000
-			}
-		}
-
-		remove_effect = {
-			744 = {
-				CHI_show_state_uprising_effect_after_infiltration_level_down = yes
-				save_event_target_as = infiltrated_state
-				CHI_infiltration_flag_down_2 = yes
-			}
-			event_target:WTT_communist_china = { country_event = wtt_infiltration.6 }
-		}
-	}
-
-	CHI_communist_infiltration_in_ordos = {
-		icon = infiltrate_state
-		visible = {
-			746 = {
-				is_controlled_by = ROOT
-				has_any_PRC_infiltration_flag = yes
-			}
-		}
-		available = {
-			has_equipment = { infantry_equipment > 999 }
-		}
-		highlight_state_targets = {
-			state = 746
-		}
-		
-		visible = {
-			746 = {
-				is_controlled_by = ROOT
-				has_state_flag = {
-					flag = discovered_infiltration
-					value > 0
-				}
-			}
-		}
-
-		
-		modifier = {
-			command_power_gain = -0.1
-		}
-		
-		days_remove = 30
-		days_re_enable = 0
-		
-		cost = @REMOVE_INFILTRATION_PP_COST
-
-		ai_will_do = {
-			base = 100
-			#Pretty damn important
-			modifier = {
-				add = 100
-				always = yes
-			}
-		}
-		
-		complete_effect = {
-			add_equipment_to_stockpile = {
-				type = infantry_equipment
-				amount = -1000
-			}
-		}
-
-		remove_effect = {
-			746 = {
-				CHI_show_state_uprising_effect_after_infiltration_level_down = yes
-				save_event_target_as = infiltrated_state
-				CHI_infiltration_flag_down_2 = yes
-			}
-			event_target:WTT_communist_china = { country_event = wtt_infiltration.6 }
-		}
-	}
-}
-
-
 ###  ##  ###  ### ###  ##  #  #      ## #  # ###  ###   ##  ###  ### 
 #   #  # #  # #    #  #    ## #     #   #  # #  # #  # #  # #  #  #  
 ##  #  # ###  ##   #  # ## # ##      #  #  # ###  ###  #  # ###   #  
@@ -1622,154 +1004,6 @@ CHI_opening_roads = {
 			}
 		}
 	}
-
-	CHI_ledo_road_decision = {
-	
-		cost = 25
-
-		icon = generic_prepare_civil_war
-
-		ai_will_do = {
-			factor = 1
-			modifier = {
-				factor = 4
-				tag = CHI
-			}
-			modifier = {
-				RAJ = {
-					exists = yes
-					NOT = {
-						is_in_faction_with = ENG
-					}
-				}
-				factor = 0
-			}
-		}
-		visible ={
-
-		}
-
-		fire_only_once = yes	
-
-		available = {
-			OR = {
-				is_subject = no
-				is_subject_of = ENG
-			}
-			CHI ={
-				has_war_with = JAP
-			}
-			tag = CHI
-			325 = { #Yunnan
-				CONTROLLER = {
-					OR = {
-						tag = ROOT
-						is_subject_of = ROOT
-						is_in_faction_with = ROOT
-					}
-				}
-			}
-			432 = { #Assam
-				CONTROLLER = {
-					NOT = { has_war_with = ROOT }
-					OR = {
-						original_tag = ENG
-						is_subject_of = ENG
-					}				
-				}
-			}
-			640 = { #Mandalay
-				CONTROLLER = {
-					NOT = { has_war_with = ROOT }
-					OR = {
-						original_tag = ENG
-						is_subject_of = ENG
-					}				
-				}
-			}
-		}
-
-
-		complete_effect = {
-			432 = { #Assam
-				set_state_flag = CHI_needed_for_ledo_road
-			}
-			325 = { #Yunnan
-				set_state_flag = CHI_needed_for_ledo_road
-			}
-			640 = { #Mandalay
-				set_state_flag = CHI_needed_for_ledo_road
-			}
-			set_variable = { CHI_ledo_road_current_level = 1 }
-			add_offsite_building = { type = arms_factory level = 1 }
-		}
-	}
-	CHI_the_hump_decision = {
-		cost = 25
-
-		icon = generic_prepare_civil_war
-		ai_will_do = {
-			factor = 1
-			modifier = {
-				factor = 4
-				tag = CHI
-			}
-			modifier = {
-				RAJ = {
-					exists = yes
-					NOT = {
-						is_in_faction_with = ENG
-					}
-				}
-				factor = 0
-			}
-		}
-		visible ={
-
-		}
-		fire_only_once = yes
-
-		available = {
-			OR = {
-				is_subject = no
-				is_subject_of = ENG
-			}
-			tag =  CHI
-			CHI = {
-				has_war_with = JAP
-			}
-			601 = { #Xikang
-				CONTROLLER = {
-					OR = {
-						tag = ROOT
-						is_subject_of = ROOT
-						is_in_faction_with = ROOT
-					}
-				}
-			}
-			434 = { #Arunachal Pradesh
-				CONTROLLER = {
-					NOT = { has_war_with = ROOT }
-					OR = {
-						original_tag = ENG
-						is_subject_of = ENG
-					}				
-				}
-			}
-		}
-
-
-		complete_effect = {		
-			434 = { #Arunachal Pradesh
-				set_state_flag = CHI_needed_for_the_hump
-			}
-			601 = { #Xikang
-				set_state_flag = CHI_needed_for_the_hump
-			}	
-			set_variable = { CHI_the_hump_current_level = 1 }
-			add_offsite_building = { type = arms_factory level = 1 }
-		}
-	}
 	CHI_guarantee_the_hanoi_route_decision = {
 
 		cost = 25
@@ -1898,7 +1132,9 @@ CHI_opening_roads = {
 	CHI_expand_the_airlift = {
 		icon = generic_construction
 		available = {
-        date > 1939.1.1		
+        any_country = {
+				has_completed_focus = CHI_the_hump
+			}	
 		AND = {
 			OR = {
 				ENG = {
@@ -1913,8 +1149,8 @@ CHI_opening_roads = {
 				}
 			}
 			OR ={	
-				controls_state = 601
-				601 = {
+				controls_state = 747
+				747 = { #Dali (Yunnan)
 					CONTROLLER = {
 						OR = {
 							is_in_faction_with = ROOT
@@ -1928,7 +1164,7 @@ CHI_opening_roads = {
 		date > 1938.6.1	
 			OR = { 
 				controls_state = 601
-				601 = {
+				747 = {
 					CONTROLLER = {
 						is_in_faction_with = ROOT
 					}
@@ -1967,7 +1203,7 @@ CHI_opening_roads = {
 					instant_build = yes
 				}
 			}
-			601 = {
+			747 = {
 				add_building_construction = {
 					type = air_base
 					level = 1
@@ -1986,7 +1222,7 @@ CHI_opening_roads = {
 				}
 				set_global_flag = CHI_hump_2
 			}
-			601 = {
+			747 = {
 				CONTROLLER = {
 					add_to_variable = { var = CHI_the_hump value = 1 }
 					add_offsite_building = { type = arms_factory level = 1 }

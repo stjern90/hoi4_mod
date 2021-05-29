@@ -3,7 +3,7 @@ political_actions = {
 		icon = generic_break_treaty
 
 		allowed = {
-			NOT = { tag = ITA tag = JAP tag = GER }
+			NOT = { OR = { tag = ITA tag = JAP tag = GER } }
 		}
 
 		available = {
@@ -27,6 +27,11 @@ political_actions = {
 
 		ai_will_do = {
 			factor = 0
+			modifier = {
+			     add = 100
+				 tag = ENG
+				 
+			}
 		}
 
 		complete_effect = {
@@ -390,14 +395,11 @@ economy_decisions = {
 
 		ai_will_do = {
 			base = 0
-			modifier = {
-				add = 1
-				OR = {
-					political_power_growth < 0.5
-					has_political_power < 0
-				}
-				has_war = no
-			}
+			#modifier = {
+			#	add = 1
+			#	political_power_growth < 0.5
+			#	has_war = no
+			#}
 		}
 	}
 
@@ -433,13 +435,12 @@ economy_decisions = {
 
 		ai_will_do = {
 			base = 0
-			modifier = {
-				add = 1
-				has_stability > 0.75 
-				political_power_growth < 0.5
-				has_political_power < 0
-				has_war = no
-			}
+			#modifier = {
+			#	add = 1
+			#	has_stability > 0.75 
+			#	political_power_growth < 0.5
+			#	has_war = no
+			#}
 		}
 	}
 
@@ -586,6 +587,7 @@ economy_decisions = {
 		available = {
 			controls_state = 146
 			has_war = no
+			FIN = { has_completed_focus = FIN_line }
 		}
 
 		ai_will_do = {
@@ -772,6 +774,208 @@ propaganda_efforts = {
 			}
 		}
 	}
+
+	#Propaganda campaign against a country in offensive that has caused a lot of tension and started a war		
+  	war_propaganda_against_warmonger = {		
+
+  		icon = generic_prepare_civil_war		
+
+		allowed = {		
+			OR = {		
+			original_tag = FRA		
+			original_tag = ENG		
+			original_tag = CAN		
+			original_tag = SAF		
+			original_tag = AST		
+			original_tag = RAJ		
+			original_tag = NZL		
+			original_tag = JAP		
+			original_tag = MAN		
+			original_tag = FIN		
+			original_tag = SPR		
+			original_tag = HUN		
+			original_tag = ROM		
+			original_tag = BUL		
+			original_tag = ITA		
+			original_tag = SOV		
+			original_tag = GER		
+			original_tag = USA	
+			original_tag = SIA	 
+			original_tag = SWE
+			}		
+ 		}		
+
+  		available = {		
+ 			NOT = { has_country_flag = war_propaganda_campaign_running }		
+ 			FROM = {		
+ 				OR = {		
+ 					is_justifying_wargoal_against = ROOT		
+ 					AND = {		
+ 						has_war_with = ROOT		
+ 						is_neighbor_of = ROOT		
+ 					}		
+ 					has_offensive_war = yes		
+ 				}		
+ 			}		
+ 			has_war_support < 0.75		
+ 			if = {		
+ 				limit = {		
+ 					tag = SPR		
+ 					has_dlc = "La Resistance"		
+ 				}		
+ 				NOT = {		
+ 					has_idea = SPR_political_violence		
+ 				}		
+ 			}		
+ 			if = {		
+ 				limit = {		
+ 					original_tag = SPR		
+ 					has_dlc = "La Resistance"		
+ 				}		
+ 				has_global_flag = scw_over		
+ 			}		
+
+  			# lower the cost for neighbors		
+ 			if = {		
+ 				limit = {		
+ 					FROM = {		
+ 						is_neighbor_of = ROOT		
+ 					}		
+ 					set_temp_variable = { war_propaganda_cost = 50 }		
+ 				}		
+ 			}		
+ 		}		
+
+  		visible = {		
+ 			FROM = {		
+ 			    is_puppet = no		
+ 			    OR = {		
+ 		   original_tag = FRA		
+ 		   original_tag = ENG		
+ 		   original_tag = CAN		
+ 		   original_tag = SAF		
+ 		   original_tag = AST		
+ 		   original_tag = JAP		
+ 		   original_tag = HUN		
+ 		   original_tag = ROM		
+ 		   original_tag = BUL		
+ 		   original_tag = ITA		
+ 		   original_tag = SOV		
+ 		   original_tag = GER		
+ 		   original_tag = CHI		
+ 		   original_tag = CCP		
+ 		   original_tag = USA		
+ 		   }		
+ 				NOT = { is_in_faction_with = ROOT }		
+ 				OR = {		
+ 					is_justifying_wargoal_against = ROOT		
+ 					AND = {		
+ 						is_neighbor_of = ROOT		
+ 						OR = {		
+ 							has_war_with = ROOT		
+ 							AND = {		
+ 								NOT = { has_government = ROOT }		
+ 								has_offensive_war = yes		
+ 								has_added_tension_amount > 5		
+ 							}		
+ 						}		
+ 					}		
+ 					AND = {		
+ 						NOT = { is_neighbor_of = ROOT }		
+ 						OR = {		
+ 							has_offensive_war_with = ROOT		
+ 							AND = {		
+ 								NOT = { has_government = ROOT }		
+ 								has_offensive_war = yes		
+ 								has_added_tension_amount > 30		
+ 							}		
+ 						}		
+ 					}		
+ 				}		
+ 			}		
+ 		}		
+
+  		target_trigger = {		
+ 			FROM = {		
+ 			    is_puppet = no		
+ 			    OR = {		
+ 		   original_tag = FRA		
+ 		   original_tag = ENG		
+ 		   original_tag = CAN		
+ 		   original_tag = SAF		
+ 		   original_tag = AST		
+ 		   original_tag = JAP		
+ 		   original_tag = HUN		
+ 		   original_tag = ROM		
+ 		   original_tag = BUL		
+ 		   original_tag = ITA		
+ 		   original_tag = SOV		
+ 		   original_tag = GER		
+ 		   original_tag = CHI		
+ 		   original_tag = CCP		
+ 		   original_tag = USA		
+ 		   }		
+ 				NOT = { is_in_faction_with = ROOT }		
+ 				OR = {		
+ 					is_justifying_wargoal_against = ROOT		
+ 					AND = {		
+ 						is_neighbor_of = ROOT		
+ 						OR = {		
+ 							has_war_with = ROOT		
+ 							AND = {		
+ 								NOT = { has_government = ROOT }		
+ 								has_offensive_war = yes		
+ 								has_added_tension_amount > 5		
+ 							}		
+ 						}		
+ 					}		
+ 					AND = {		
+ 						NOT = { is_neighbor_of = ROOT }		
+ 						OR = {		
+ 							has_offensive_war_with = ROOT		
+ 							AND = {		
+ 								NOT = { has_government = ROOT }		
+ 								has_offensive_war = yes		
+ 								has_added_tension_amount > 30		
+ 							}		
+ 						}		
+ 					}		
+ 				}		
+ 			}		
+ 		}		
+
+  		days_remove = 70		
+ 		days_re_enable = 180		
+
+  		fire_only_once = yes		
+
+  		cost = var:war_propaganda_cost?75		
+
+  		modifier = {		
+ 			war_support_weekly = 0.01		
+ 		}		
+
+  		complete_effect = {		
+ 			log = "[GetDateText]: [Root.GetName]: Decision war_propaganda_against_warmonger"		
+ 			set_country_flag = war_propaganda_campaign_running		
+ 		}		
+ 		remove_effect = {		
+ 			log = "[GetDateText]: [Root.GetName]: Decision remove war_propaganda_against_warmonger"		
+ 			clr_country_flag = war_propaganda_campaign_running		
+ 		}		
+
+  		ai_will_do = {		
+ 			factor = 2		
+ 			modifier = {		
+ 				factor = 5		
+ 				has_war_support < 0.5		
+ 			}		
+ 			modifier = {		
+ 				factor = 25		
+ 				has_war_support < 0.35		
+ 			}		
+ 		}		
+ 	}
 
 	
 }
@@ -1163,7 +1367,7 @@ war_measures = {
 		icon = generic_prepare_civil_war
 
 		available = {
-			surrender_progress > 0.45
+			surrender_progress > 0.4
 		}
 
 		visible = {
@@ -1255,7 +1459,7 @@ war_measures = {
 
 	scrap_iron_form_everywhere = {
 
-		icon = generic_industry
+		icon = steel
 
 		available = {
 			num_of_civilian_factories > 3
@@ -1305,7 +1509,7 @@ war_measures = {
 	}
 	scrap_aluminium_form_everywhere = {
 
-		icon = generic_industry
+		icon = aluminium
 
 		available = {
 			num_of_civilian_factories > 3
@@ -1359,7 +1563,7 @@ war_measures = {
 	}
 	scrap_chromium_form_everywhere = {
 
-		icon = generic_industry
+		icon = chromium
 
 		available = {
 			num_of_civilian_factories > 3
@@ -1730,7 +1934,7 @@ foreign_politics = {
 			}
 		}
 		ai_will_do = {
-			factor = 1
+			factor = 0
 		}
 	}
 	
@@ -1740,15 +1944,6 @@ foreign_politics = {
 		icon = GFX_decision_category_generic
 		allowed = {
 			#is_ai = no
-		}
-		highlight_state_targets = {
-			any_state = {
-				limit = {
-					CONTROLLER = {
-						has_country_flag = AC_assist_repair_target_by_@ROOT
-					}
-				}
-			}
 		}
 
 		visible = {

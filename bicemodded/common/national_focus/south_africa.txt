@@ -37,6 +37,11 @@ focus_tree = {
 
 		ai_will_do = {
 			factor = 1
+			modifier = {
+				factor = 0 
+				is_subject_of = GER
+				NOT = { has_completed_focus = SAF_invite_german_settlers }
+			}
 		}
 
 		available = {
@@ -246,8 +251,10 @@ focus_tree = {
 		available_if_capitulated = yes
 
 		completion_reward = {
-			remove_ideas = SAF_history_of_segregation_3
-			add_ideas = SAF_rural_volunteers
+			swap_ideas = {
+				remove_idea = SAF_history_of_segregation_3
+				add_idea = SAF_rural_volunteers
+			}
 			add_stability = -0.1
 		}
 	}
@@ -363,7 +370,7 @@ focus_tree = {
 			add_timed_idea = { idea = SAF_civil_industrial_infrastructure days = 540 }
 			add_tech_bonus = {
 				name = SAF_civil_investment
-				bonus = 0.6
+				bonus = 0.75
 				uses = 1
 				category = industry
 				category = electronics
@@ -503,10 +510,15 @@ focus_tree = {
 		y = 1
 		relative_position_id = SAF_force_parliament_debate 
 
-		cost = 10
+		cost = 7.2
 
 		ai_will_do = {
 			factor = 2
+			modifier = {
+				factor = 0 
+				is_subject_of = GER
+				NOT = { has_completed_focus = SAF_invite_german_settlers }
+			}
 		}
 
 		available = {
@@ -524,9 +536,9 @@ focus_tree = {
 			add_timed_idea = { idea = SAF_kickstarting_rearmament days = 540 }
 			add_tech_bonus = {
 				name = SAF_kickstart_rearmament
-				bonus = 0.6
+				bonus = 0.75
 				uses = 1
-				category = infantry_tech
+				category = infantry_weapons
 				category = support_tech
 				category = artillery
 			}
@@ -534,7 +546,7 @@ focus_tree = {
 				add_extra_state_shared_building_slots = 2
 				add_building_construction = {
 					type = arms_factory
-					level = 3
+					level = 2
 					instant_build = yes
 				}
 			}
@@ -568,8 +580,8 @@ focus_tree = {
 		completion_reward = {
 			army_experience = 15
 			add_tech_bonus = {
-				name = SAF_propose_joint_exercises
-				bonus = 0.6
+				name = land_doc_bonus
+				bonus = 0.75
 				uses = 1
 				category = land_doctrine
 			}
@@ -1123,7 +1135,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = SAF_joint_air_training_scheme
 
-		cost = 10
+		cost = 7.2
 
 		ai_will_do = {
 			factor = 1
@@ -1154,7 +1166,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = SAF_joint_air_training_scheme
 
-		cost = 10
+		cost = 7.2
 
 		ai_will_do = {
 			factor = 1
@@ -1208,17 +1220,17 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 				name = SAF_focus_europe
-				bonus = 0.6
+				bonus = 0.75
 				uses = 1
 				category = land_doctrine
 				category = air_doctrine
 			}
 			add_tech_bonus = {
 				name = SAF_focus_europe
-				bonus = 0.6
+				bonus = 0.75
 				uses = 1
 				category = cat_anti_tank
-				category = engineers_tech
+				technology = tech_flamethrower_squad2
 			}
 		}
 	}
@@ -1254,14 +1266,14 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 				name = SAF_focus_asia
-				bonus = 0.6
+				bonus = 0.75
 				uses = 1
 				category = land_doctrine
 				category = naval_doctrine
 			}
 			add_tech_bonus = {
 				name = SAF_focus_asia
-				bonus = 0.6
+				bonus = 0.75
 				uses = 1
 				category = mountaineers_tech
 				category = logistics_tech
@@ -1284,12 +1296,10 @@ focus_tree = {
 		}
 
 		available = {
-			AND = { 
-				has_war_with = GER has_war_with = JAP  
-				ENG = { OR = { exists = no has_capitulated = yes is_subject = yes }}  
-				FRA = { OR = { exists = no has_capitulated = yes is_subject = yes }} 
-				SOV = { OR = { exists = no has_capitulated = yes is_subject = yes }}  
-			}	
+			has_war_with = GER  
+			has_war_with = JAP 
+            is_subject_of = ENG		
+            has_war_support > 0.75			
 		}
 		
 		bypass = {
@@ -1301,6 +1311,55 @@ focus_tree = {
 
 		completion_reward = {
 			add_ideas = SAF_darkest_hour
+		}
+	}
+	
+	focus = { 
+		id = SAF_the_darkest_hour_2
+		icon = GFX_SAF_britain
+		prerequisite = { focus = SAF_the_darkest_hour }
+		x = -1
+		y = 3
+		relative_position_id = SAF_desert_equipment 
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			is_subject_of = ENG
+		}
+		
+		bypass = {
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = yes
+
+		completion_reward = {
+		    custom_effect_tooltip = SAF_the_darkest_hour_2_tt 
+			add_autonomy_ratio = {
+			value = -0.15
+			localization = SAF_the_darkest_hour
+			}
+			ENG = { add_war_support = 0.03 }
+		    hidden_effect = {
+			if = { limit = { has_completed_focus = SAF_focus_asia }
+		    swap_ideas = {
+				remove_idea = SAF_darkest_hour
+				add_idea = SAF_darkest_hour_2
+			}
+			}
+			else_if = { limit = { has_completed_focus = SAF_focus_europe }
+		    swap_ideas = {
+				remove_idea = SAF_darkest_hour
+				add_idea = SAF_darkest_hour_3
+			}
+			}
+			}
 		}
 	}
 	
@@ -1411,7 +1470,7 @@ focus_tree = {
 		bypass = {
 
 		}
-                allow_branch = {
+                available = {
 			has_game_rule = { rule = FORCED_HISTROICAL option = DEFAULT }
 		}
 
@@ -1610,7 +1669,7 @@ focus_tree = {
 		}
 		
 		bypass = {
-
+			has_idea = SAF_voortrekker_monument
 		}
 
 		cancel_if_invalid = yes
@@ -1678,7 +1737,7 @@ focus_tree = {
 		}
 		
 		bypass = {
-
+			has_idea = SAF_voortrekker_monument_2
 		}
 
 		cancel_if_invalid = yes
@@ -1849,9 +1908,14 @@ focus_tree = {
 
 		ai_will_do = {
 			factor = 1
+			modifier = {
+				factor = 10 
+				is_subject_of = GER
+			}
 		}
 		
-		bypass = {
+		allow_branch = {
+			has_game_rule = { rule = FORCED_HISTROICAL option = DEFAULT }
 		}
 
 		cancel_if_invalid = yes
@@ -1876,6 +1940,10 @@ focus_tree = {
 
 		ai_will_do = {
 			factor = 2
+			modifier = {
+				factor = 10 
+				is_subject_of = GER
+			}
 		}
 
 		available = {
@@ -1911,6 +1979,10 @@ focus_tree = {
 
 		ai_will_do = {
 			factor = 1
+			modifier = {
+				factor = 10 
+				is_subject_of = GER
+			}
 		}
 		
 		bypass = {
@@ -1939,6 +2011,10 @@ focus_tree = {
 
 		ai_will_do = {
 			factor = 1
+			modifier = {
+				factor = 10 
+				is_subject_of = GER
+			}
 		}
 		
 		bypass = {
@@ -1970,7 +2046,11 @@ focus_tree = {
 			factor = 0.45
 			modifier = {
 				GER = { has_war = yes }
-				factor = 0
+				factor = 0.5
+			}
+			modifier = {
+				factor = 10 
+				is_subject_of = GER
 			}
 		}
 
@@ -2055,7 +2135,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = SAF_support_nazification_of_south_west_africa
 
-		cost = 10
+		cost = 6
 
 		ai_will_do = {
 			factor = 1
@@ -2116,7 +2196,7 @@ focus_tree = {
 			}
 			set_party_name = { ideology = fascism long_name = SAF_fascism_nop_long name = SAF_fascism_nop }
 			set_cosmetic_tag = SAF_SANP
-			unlock_decision_category_tooltip = SAF_a_king_for_our_people
+			#unlock_decision_category_tooltip = SAF_a_king_for_our_people
 			custom_effect_tooltip = SAFR_create_unit_stormjaers_tt
 			custom_effect_tooltip = SAF_civil_war_tt			
 			hidden_effect = {
@@ -2234,10 +2314,14 @@ focus_tree = {
 		y = 1
 		relative_position_id = SAF_split_in_the_party
 
-		cost = 10
+		cost = 6
 
 		ai_will_do = {
 			factor = 2
+			modifier = {
+				factor = 2 
+				is_subject_of = GER
+			}
 		}
 
 		available = {
@@ -2271,7 +2355,7 @@ focus_tree = {
 		y = 2
 		relative_position_id = SAF_abandon_westminster
 
-		cost = 10
+		cost = 6
 
 		ai_will_do = {
 			factor = 0.5
@@ -2310,10 +2394,14 @@ focus_tree = {
 		y = 1
 		relative_position_id = SAF_malans_plan
 
-		cost = 10
+		cost = 6
 
 		ai_will_do = {
 			factor = 2
+			modifier = {
+				factor = 10 
+				is_subject_of = GER
+			}
 		}
 
 		available = {
@@ -2340,7 +2428,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = SAF_rearm_udf
 
-		cost = 10
+		cost = 8
 
 		ai_will_do = {
 			factor = 2
@@ -2400,7 +2488,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = SAF_rearm_udf
 
-		cost = 10
+		cost = 8
 
 		ai_will_do = {
 			factor = 2
@@ -2463,6 +2551,10 @@ focus_tree = {
 
 		ai_will_do = {
 			factor = 2
+			modifier = {
+				factor = 10 
+				is_subject_of = GER
+			}
 		}
 
 		available = {
@@ -2536,6 +2628,10 @@ focus_tree = {
 
 		ai_will_do = {
 			factor = 2
+			modifier = {
+				factor = 10 
+				is_subject_of = GER
+			}
 		}
 
 		available = {
@@ -2565,7 +2661,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = SAF_malans_plan
 
-		cost = 10
+		cost = 5
 
 		ai_will_do = {
 			factor = 2
@@ -2599,7 +2695,7 @@ focus_tree = {
 		y = 3
 		relative_position_id = SAF_malans_plan
 
-		cost = 10
+		cost = 5
 
 		ai_will_do = {
 			factor = 2
@@ -2652,7 +2748,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = SAF_support_the_german_coup
 
-		cost = 10
+		cost = 7
 
 		ai_will_do = {
 			factor = 2
@@ -2688,7 +2784,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = SAF_south_africa_first
 		 
-		cost = 10
+		cost = 4
 
 		ai_will_do = {
 			factor = 4
@@ -2708,8 +2804,26 @@ focus_tree = {
 		available_if_capitulated = yes
 
 		completion_reward = {
-			GER = { add_to_tech_sharing_group = axis_research }
-			add_to_tech_sharing_group = axis_research
+			if = {
+				limit = {
+					NOT = {
+						is_in_tech_sharing_group = axis_research
+					}
+				}
+					
+				add_to_tech_sharing_group = axis_research
+			}
+			GER = {
+				if = {
+					limit = {
+						NOT = {
+							is_in_tech_sharing_group = axis_research
+						}
+					}
+						
+					add_to_tech_sharing_group = axis_research
+				}
+			}
 		}
 	}
 	
@@ -2721,7 +2835,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = SAF_german_scientists
 
-		cost = 10
+		cost = 7
 
 		ai_will_do = {
 			factor = 2
@@ -2742,14 +2856,14 @@ focus_tree = {
 
 		completion_reward = {
 			add_tech_bonus = {
-				name = SAFR_armor_mech_bonus
-				bonus = 0.75
+				name = mobile_warfare_doc_bonus
+				bonus =1.0
 				uses = 2
 				category = cat_mobile_warfare
 			}
 			add_tech_bonus = {
 				name = SAFR_armor_mech_bonus
-				bonus = 0.6
+				bonus = 0.75
 				uses = 1
 				category = armor
 			}
@@ -2764,10 +2878,10 @@ focus_tree = {
 		y = 1
 		relative_position_id = SAF_german_scientists
 
-		cost = 10
+		cost = 8
 
 		ai_will_do = {
-			factor = 2
+			factor = 1
 		}
 
 		available = {
@@ -2792,7 +2906,7 @@ focus_tree = {
 			}
 			add_tech_bonus = {
 				name = SAFR_seawolf_bonus
-				bonus = 0.6
+				bonus = 0.75
 				uses = 1
 				category = ss_tech
 			}
@@ -2809,7 +2923,7 @@ focus_tree = {
 		y = 2
 		relative_position_id = SAF_german_scientists
 
-		cost = 10
+		cost = 9
 
 		ai_will_do = {
 			factor = 2
@@ -2841,7 +2955,7 @@ focus_tree = {
 		y = 2
 		relative_position_id = SAF_german_scientists
 		
-		cost = 10
+		cost = 9
 
 		ai_will_do = {
 			factor = 2
@@ -2904,7 +3018,7 @@ focus_tree = {
 			}
 			add_tech_bonus = {
 				name = SAF_invite_krupp
-				bonus = 0.6
+				bonus = 0.75
 				uses = 1
 				category = synth_resources
 			}
@@ -2915,7 +3029,7 @@ focus_tree = {
 	
 	focus = {
 		id = SAF_support_axis_interests
-		icon = GFX_goal_generic_construct_public_housing
+		icon = GFX_axis_papers
 		prerequisite = { focus = SAF_south_africa_first }
 		x = 5
 		y = 1
@@ -2971,16 +3085,16 @@ focus_tree = {
 	
 	focus = {
 		id = SAF_invite_german_settlers
-		icon = GFX_goal_develop_provinces
+		icon = GFX_generic_farmer
 		prerequisite = { focus = SAF_support_axis_interests }
 		x = 0
 		y = 1
 		relative_position_id = SAF_support_axis_interests
 
-		cost = 10
+		cost = 7
 
 		ai_will_do = {
-			factor = 2
+			factor = 4
 		}
 
 		available = {			
@@ -3010,7 +3124,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = SAF_south_africa_first
 
-		cost = 10
+		cost = 6
 
 		ai_will_do = {
 			factor = 2
@@ -3097,7 +3211,7 @@ focus_tree = {
 			}
 			add_tech_bonus = {
 				name = SAF_prepare_for_third_boer_war
-				bonus = 0.6
+				bonus = 0.75
 				uses = 1
 				category = infantry_weapons
 				category = land_doctrine
@@ -3113,7 +3227,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = SAF_prepare_for_third_boer_war
 
-		cost = 10
+		cost = 6
 
 		ai_will_do = {
 			factor = 1
@@ -3146,7 +3260,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = SAF_south_africa_first
 
-		cost = 10
+		cost = 8
 
 		ai_will_do = {
 			factor = 2
@@ -3198,7 +3312,7 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 				name = SAF_strategic_reach
-				bonus = 0.6
+				bonus = 0.75
 				uses = 2
 				category = cl_tech
 				category = dd_tech
@@ -3210,16 +3324,16 @@ focus_tree = {
 
 	focus = { 
 		id = SAF_split_portugal
-		icon = GFX_focus_generic_strike_at_democracy1
+		icon = GFX_focus_generic_attack_portugal
 		prerequisite = { focus = SAF_strategic_reach }
 		x = 0
 		y = 1
 		relative_position_id = SAF_strategic_reach
 
-		cost = 10
+		cost = 8
 
 		ai_will_do = {
-			factor = 1
+			factor = 0
 		}
 
 		available = {
@@ -3251,10 +3365,10 @@ focus_tree = {
 		y = 2
 		relative_position_id = SAF_strategic_reach
 
-		cost = 10
+		cost = 8
 
 		ai_will_do = {
-			factor = 1
+			factor = 0
 		}
 
 		available = {
@@ -3286,7 +3400,7 @@ focus_tree = {
 		cost = 10
 
 		ai_will_do = {
-			factor = 1
+			factor = 0
 		}
 
 		available = {
@@ -3318,7 +3432,7 @@ focus_tree = {
 		cost = 10
 
 		ai_will_do = {
-			factor = 1
+			factor = 0
 		}
 
 		available = {
@@ -3351,7 +3465,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = SAF_south_africa_first
 
-		cost = 10
+		cost = 5
 
 		ai_will_do = {
 			factor = 2
@@ -3385,7 +3499,7 @@ focus_tree = {
 		cost = 10
 
 		ai_will_do = {
-			factor = 2
+			factor = 0
 		}
 
 		available = {
@@ -3426,6 +3540,10 @@ focus_tree = {
 
 		ai_will_do = {
 			factor = 0.5
+			modifier = {
+				factor = 0 
+				is_subject_of = GER
+			}
 			modifier = {	#will make country more likely to go down this path if player boosts communism support
 				communism > 0.1
 				factor = 10
@@ -3440,8 +3558,8 @@ focus_tree = {
 			NOT = { has_completed_focus = SAF_native_representation_act }
 		}
 		
-		bypass = {
-
+		allow_branch = {
+			has_game_rule = { rule = FORCED_HISTROICAL option = DEFAULT }
 		}
 
 		cancel_if_invalid = yes
@@ -4081,7 +4199,7 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 				name = SAFR_exploit_mineral_wealth
-				bonus = 0.6
+				bonus = 0.75
 				uses = 2
 				technology = excavation1
 				technology = excavation2
@@ -4139,7 +4257,7 @@ focus_tree = {
 	
 	focus = {
 		id = SAF_expand_industrial_zones
-		icon = GFX_BEL_socialist_infrastructure2
+		icon = GFX_goal_CZE_buildup1
 		prerequisite = { focus = SAF_national_rationing_recycling_program }
 		x = 0
 		y = 1
@@ -4244,7 +4362,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = SAF_national_rationing_recycling_program
 
-		cost = 10
+		cost = 11.5
 
 		ai_will_do = {
 			factor = 1
@@ -4467,13 +4585,13 @@ focus_tree = {
 			add_ideas = SAF_soviet_advisers
 			add_tech_bonus = {
 				name = SAF_invite_soviet_advisers
-				bonus = 0.6
+				bonus = 0.75
 				uses = 2
 				category = cat_mass_assault
 			}
 			add_tech_bonus = {
 				name = SAF_invite_soviet_advisers
-				bonus = 0.5
+				bonus = 0.6
 				uses = 2
 				category = land_doctrine
 			}
@@ -5041,8 +5159,8 @@ focus_tree = {
 		completion_reward = {
 			army_experience = 10
 			add_tech_bonus = {
-				name = SAF_special_service_battalion
-				bonus = 0.6
+				name = land_doc_bonus
+				bonus = 0.75
 				uses = 1
 				category = land_doctrine
 			}
@@ -5087,7 +5205,7 @@ focus_tree = {
 			}
 			add_tech_bonus = {
 				name = SAFR_retool_pretoria_mint
-				bonus = 0.6
+				bonus = 0.75
 				uses = 1
 				category = infantry_weapons
 			}
@@ -5134,7 +5252,7 @@ focus_tree = {
 			}
 			add_tech_bonus = {
 				name = SAF_expand_the_south_african_artillery
-				bonus = 0.6
+				bonus = 0.75
 				uses = 1
 				category = artillery
 			}
@@ -5172,7 +5290,7 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 				name = special_bonus
-				bonus = 0.5
+				bonus = 0.6
 				uses = 3
 				category = mountaineers_tech
 				category = marine_tech
@@ -5180,7 +5298,7 @@ focus_tree = {
 			}
 			add_tech_bonus = {
 				name = SAF_lessons_of_ww1
-				bonus = 0.5
+				bonus = 0.6
 				uses = 1
 				category = cat_guerilla_warfare
 			}
@@ -5216,7 +5334,7 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 				name = SAF_q_services_corps
-				bonus = 0.45
+				bonus = 0.5
 				uses = 3
 				category = motorized_tech
 			}
@@ -5252,7 +5370,7 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 				name = SAF_q_services_corps
-				bonus = 0.6
+				bonus = 0.75
 				uses = 2
 				technology = tech_uk_ac_recon
 				technology = tech_uk_ac_recon2
@@ -5294,13 +5412,14 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 				name = SAF_sa_engineer_corps
-				bonus = 0.6
+				bonus = 0.75
 				uses = 1
-				category = engineers_tech
+				technology = tech_engineers2
+				technology = tech_engineers3
 			}
 			add_tech_bonus = {
 				name = SAF_sa_engineer_corps
-				bonus = 0.6
+				bonus = 0.75
 				uses = 1
 				category = hospital_tech
 			}
@@ -5337,7 +5456,7 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 				name = SAF_commandos
-				bonus = 0.5
+				bonus = 0.6
 				ahead_reduction = 0.75
 				uses = 1
 				technology = commando_team
@@ -5423,8 +5542,8 @@ focus_tree = {
 		completion_reward = {
 		    army_experience = 15
 			add_tech_bonus = {
-				name = SAF_training
-				bonus = 0.6
+				name = land_doc_bonus
+				bonus = 0.75
 				uses = 1
 				category = land_doctrine
 			}
@@ -5459,14 +5578,14 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 				name = SAFR_improve_infantry
-				bonus = 0.6
+				bonus = 0.75
 				uses = 1
 				category = para_tech
 				category = mountaineers_tech
 			}
 			add_tech_bonus = {
 				name = SAFR_improve_infantry
-				bonus = 0.6
+				bonus = 0.75
 				uses = 1
 				category = infantry_weapons
 			}
@@ -5501,7 +5620,7 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 				name = SAF_lights
-				bonus = 0.75
+				bonus =1.0
 				uses = 1
 				category = cat_light_armor
 			}	
@@ -5535,7 +5654,7 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 				name = SAFR_mechanize_army
-				bonus = 0.45
+				bonus = 0.5
 				uses = 2
 				category = armor
 				category = cat_mechanized_equipment
@@ -5577,7 +5696,7 @@ focus_tree = {
 			add_ideas = SAF_bush_warfare
 			add_tech_bonus = {
 				name = SAF_south_african_military_college
-				bonus = 0.75
+				bonus =1.0
 				uses = 2
 				category = cat_guerilla_warfare
 			}	
@@ -5624,7 +5743,7 @@ focus_tree = {
 			}
 			add_tech_bonus = {
 				name = SAF_commit_to_the_five_year_plan
-				bonus = 0.5
+				bonus = 0.6
 				uses = 1
 				category = air_doctrine
 			}
@@ -5668,7 +5787,7 @@ focus_tree = {
 			}
 			add_tech_bonus = {
 				name = SAFR_expand_artillery_aircraft_depot
-				bonus = 0.6
+				bonus = 0.75
 				uses = 1
 				category = light_air
 			}
@@ -5704,7 +5823,7 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 				name = SAF_desert_air_force
-				bonus = 0.6
+				bonus = 0.75
 				uses = 1
 				category = cas_bomber
 			}
@@ -5740,8 +5859,8 @@ focus_tree = {
 
 		completion_reward = {
 			add_tech_bonus = {
-				name = SAF_saaf_coastal_command
-				bonus = 0.6
+				name = nav_bomber_bonus
+				bonus = 0.75
 				uses = 1
 				category = naval_bomber
 			}
@@ -5779,7 +5898,7 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 				name = SAF_flexible_airforce
-				bonus = 0.6
+				bonus = 0.75
 				uses = 2
 				category = tactical_bomber
 				category = cat_heavy_fighter
@@ -5818,7 +5937,7 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 				name = SAFR_specialised_airforce
-				bonus = 0.6
+				bonus = 0.75
 				uses = 1
 				category = naval_bomber
 				category = cas_bomber
@@ -5855,7 +5974,7 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 				name = SAFR_sa_airforce_college
-				bonus = 0.6
+				bonus = 0.75
 				uses = 2
 				category = air_doctrine
 			}
@@ -5924,7 +6043,7 @@ focus_tree = {
 			}			
 			add_tech_bonus = {
 				name = SAF_seaward_defence_force
-				bonus = 0.6
+				bonus = 0.75
 				uses = 1
 				category = naval_doctrine
 			}
@@ -5946,14 +6065,6 @@ focus_tree = {
 			factor = 0.8
 		}
 
-		available = {
-
-		}
-		
-		bypass = {
-
-		}
-
 		cancel_if_invalid = yes
 		continue_if_invalid = no
 		available_if_capitulated = yes
@@ -5961,13 +6072,13 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 				name = SAF_protect_the_trade
-				bonus = 0.6
+				bonus = 0.75
 				uses = 1
 				category = convoy_defense_tree
 			}
 			add_tech_bonus = {
 				name = SAF_protect_the_trade
-				bonus = 0.6
+				bonus = 0.75
 				#ahead_reduction = 2
 				uses = 1
 				category = dd_tech
@@ -6004,13 +6115,13 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 				name = SAF_protect_the_trade_2
-				bonus = 0.6
+				bonus = 0.75
 				uses = 1
 				category = asw_tech
 			}
 			add_tech_bonus = {
 				name = SAF_minesweeping_tactics
-				bonus = 0.6
+				bonus = 0.75
 				uses = 1
 				category = naval_minesweeping
 			}
@@ -6026,7 +6137,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = SAF_seaward_defence_force
 
-		cost = 10
+		cost = 11.5
 
 		ai_will_do = {
 			factor = 0.2
@@ -6036,29 +6147,34 @@ focus_tree = {
 			}
 		}
 
-		available = {
-
-		}
-		
-		bypass = {
-
-		}
-
 		cancel_if_invalid = yes
 		continue_if_invalid = no
 		available_if_capitulated = yes
 
 		completion_reward = {
+		    custom_effect_tooltip = SAF_disrupt_the_trade_tt
+		hidden_effect = {
+		    create_navy_leader = {
+	name = "Frederick Dean"
+	portrait_path = "gfx/leaders/SAF/Portrait_Europe_Generic_navy_new_2.tga"   
+	traits = { seawolf }
+	skill = 2
+	attack_skill = 1
+	defense_skill = 2
+	maneuvering_skill = 1
+	coordination_skill = 2
+	id = 1014
+}
+}
 			add_tech_bonus = {
 				name = SAF_disrupt_the_trade
-				bonus = 0.6
+				bonus = 0.75
 				uses = 1
 				category = cat_trade_interdiction
 			}
 			add_tech_bonus = {
 				name = SAF_submarine_warfare
-				bonus = 0.6
-				#ahead_reduction = 2
+				bonus = 0.75
 				uses = 1
 				category = ss_tech
 			}
@@ -6098,13 +6214,13 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 				name = SAF_disrupt_the_trade2
-				bonus = 0.6
+				bonus = 0.75
 				uses = 1
 				category = naval_mines
 			}
 			add_tech_bonus = {
 				name = SAFR_submarine_warfare
-				bonus = 0.6
+				bonus = 0.75
 				uses = 1
 				technology = magnetic_detonator
 			}
@@ -6199,7 +6315,7 @@ focus_tree = {
 	
 	focus = {
 		id = SAF_expand_repair_facilities
-		icon = GFX_goal_generic_amphibious_assault
+		icon = GFX_goal_naval_industry
 		prerequisite = { focus = SAF_expand_the_simons_town_base }
 		x = 2
 		y = 2
@@ -6274,7 +6390,7 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 				name = SAF_prepare_overseas_offensive
-				bonus = 0.6
+				bonus = 0.75
 				uses = 2
 				category = marine_tech
 				category = tp_tech
@@ -6386,7 +6502,7 @@ focus_tree = {
 			add_ideas = SAF_modernised_navy
 			add_tech_bonus = {
 				name = SAFR_sa_naval_college
-				bonus = 0.6
+				bonus = 0.75
 				uses = 1
 				category = naval_doctrine
 			}
@@ -6408,6 +6524,11 @@ focus_tree = {
 
 		ai_will_do = {
 			factor = 15
+			modifier = {
+				factor = 0 
+				is_subject_of = GER
+				NOT = { has_completed_focus = SAF_invite_german_settlers }
+			}
 		}
 
 		available = {
@@ -6442,7 +6563,7 @@ focus_tree = {
 
 	focus = {
 		id = SAF_expand_the_mining_industry
-		icon = GFX_goal_generic_construction
+		icon = GFX_goal_generic_coal_mining
 		prerequisite = { focus = SAF_south_african_railways }
 		x = 0
 		y = 1
@@ -6517,7 +6638,7 @@ focus_tree = {
 		completion_reward = {			
 			add_tech_bonus = {
 				name = SAF_heavy_engineering
-				bonus = 0.6
+				bonus = 0.75
 				uses = 1
 				category = industry
 			}
@@ -6559,6 +6680,8 @@ focus_tree = {
 			}
 			custom_effect_tooltip = available_industrial_concern
 			show_ideas_tooltip = SAF_iscor
+			custom_effect_tooltip = available_tank_designer
+			show_ideas_tooltip = iscor
 		}
 	}
 	
@@ -6778,7 +6901,7 @@ focus_tree = {
 		y = 2
 		relative_position_id = SAF_south_african_railways
 
-		cost = 12
+		cost = 12.8
 
 		ai_will_do = {
 			factor = 45
@@ -6831,7 +6954,24 @@ focus_tree = {
 		available_if_capitulated = no
 
 		completion_reward = {
-			add_research_slot = 1
+			add_tech_bonus = {
+				name = SAF_the_cape_defense_institute
+				bonus = 0.6
+				uses = 1
+				category = armor
+			}
+			add_tech_bonus = {
+				name = SAF_the_cape_defense_institute
+				bonus = 0.6
+				uses = 1
+				category = motorized_tech
+			}
+			add_tech_bonus = {
+				name = SAF_the_cape_defense_institute
+				bonus = 0.6
+				uses = 1
+				category = land_doctrine
+			}
 		}
 	}	
 	
@@ -6873,7 +7013,7 @@ focus_tree = {
 	
 	focus = {
 		id = SAF_iscor_expansion #vereeniging thabazimbi
-		icon = GFX_focus_generic_steel
+		icon = GFX_goal_HUN_carpathians
 		prerequisite = { focus = SAF_south_african_steel }
 		prerequisite = { focus = SAF_expand_the_rand_mines }
 		x = 2
@@ -6916,7 +7056,7 @@ focus_tree = {
 		y = 5
 		relative_position_id = SAF_south_african_railways
 
-		cost = 11
+		cost = 12.8
 
 		ai_will_do = {
 			factor = 25
@@ -6996,7 +7136,7 @@ focus_tree = {
 			}
 			add_tech_bonus = {
 				name = SAFR_sasol_non_aligned
-				bonus = 0.6
+				bonus = 0.75
 				uses = 1
 				category = synth_resources
 			}
@@ -7034,7 +7174,7 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 				name = SAF_establish_the_atomics_energy_board
-				bonus = 0.75
+				bonus = 0.6
 				uses = 1
 				category = nuclear
 			}
@@ -7067,7 +7207,7 @@ focus_tree = {
 
 		completion_reward = {
 			add_tech_bonus = {
-				bonus = 0.4
+				bonus = 0.45
 				uses = 2
 				category = electronics
 			}
@@ -7111,7 +7251,7 @@ focus_tree = {
 	
 	focus = {
 		id = SAF_iscor_expansion_ii #vbp 
-		icon = GFX_focus_generic_steel
+		icon = GFX_goal_FIN_heavyindust2
 		prerequisite = { focus = SAF_iscor_expansion }
 		x = 2
 		y = 5

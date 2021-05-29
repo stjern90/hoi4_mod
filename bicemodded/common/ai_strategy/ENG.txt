@@ -18,6 +18,37 @@ iraq_war = {
 	
 }
 
+ENG_malta_garrison = {
+	allowed = { tag = ENG }
+
+	enable = {
+		always = yes
+	}
+
+	ai_strategy = {
+		type = put_unit_buffers
+
+		ratio = 0.12
+
+		states = { 116 }
+	 }
+}
+ENG_gibraltar_garrison = {
+	allowed = { tag = ENG }
+
+	enable = {
+		always = yes
+	}
+
+	ai_strategy = {
+		type = put_unit_buffers
+
+		ratio = 0.12
+
+		states = { 118 }
+	 }
+}
+
 iraq_war2 = {
 	allowed = {
 		NOT = { tag = ENG }
@@ -33,6 +64,23 @@ iraq_war2 = {
 		type = conquer
 		id = "IRQ"
 		value = -400
+	}
+	
+	ai_strategy = {
+		type = conquer
+		id = "SYR"
+		value = -400
+	}
+	
+	ai_strategy = {
+		type = front_unit_request
+		country_trigger = {
+			or = {
+				tag = IRQ
+				tag = SYR
+			}
+		}
+		value = -200
 	}
 	
 }
@@ -62,6 +110,27 @@ protect_poland_against_germany = {
 		type = ignore
 		id = "VEN"			
 		value = 50
+	}
+}
+
+dont_fight_soviet = {
+	allowed = {
+		or = {
+			is_in_faction_with = ENG
+			tag = ENG
+		}
+	}
+	enable = {
+		or = {
+			is_in_faction_with = ENG
+			tag = ENG 
+		}
+		GER = { has_war_with = POL }
+	}
+	ai_strategy = {
+		type = 	dont_join_wars_with
+		id = "SOV"
+		value = 10000
 	}
 }
 
@@ -339,6 +408,11 @@ disable_invasion_eng_0 = {   # just complete bullshit invasions
 		id = "TUR"
 		value = 400
 	}
+	ai_strategy = {
+		type = dont_defend_ally_borders
+		id = "BUL"
+		value = 400
+	}
 }
 
 disable_invasion_fra_0 = {   # just complete bullshit invasions
@@ -381,6 +455,11 @@ disable_invasion_fra_0 = {   # just complete bullshit invasions
 		id = "TUR"
 		value = 400
 	}
+	ai_strategy = {
+		type = dont_defend_ally_borders
+		id = "BUL"
+		value = 400
+	}
 }
 
 disable_invasion_eng_1 = {   # just complete bullshit invasions
@@ -412,6 +491,11 @@ disable_invasion_eng_1 = {   # just complete bullshit invasions
 	ai_strategy = {
 		type = dont_defend_ally_borders
 		id = "TUR"
+		value = 600
+	}
+	ai_strategy = {
+		type = dont_defend_ally_borders
+		id = "BUL"
 		value = 600
 	}
 }
@@ -535,7 +619,7 @@ ENG_trying_to_save_benelux_is_deathtrap = {
 	enable = {
 		
 		has_war_with = GER
-		date < 1940.5.1
+		date < 1940.5.20
 		OR = {
 			HOL = { has_capitulated = no }
 			BEL = { has_capitulated = no }
@@ -545,7 +629,7 @@ ENG_trying_to_save_benelux_is_deathtrap = {
 	
 	abort = {
 		OR = {
-			date > 1940.7.20
+			date > 1940.5.20
 			FRA = { has_capitulated = yes }
 			GER = { surrender_progress > 0.1}
 		}
@@ -663,7 +747,16 @@ avoid_meds2 = {
 	enable = { 
 		is_in_faction_with = ENG 
 		NOT = { original_tag = USA } 
-		alliance_naval_strength_ratio < 1
+		or = {
+			alliance_naval_strength_ratio < 1
+			ITA = {
+				has_tech = naval_bomber2
+				has_deployed_air_force_size = {
+					size > 2000
+					type = naval_bomber
+				}
+			}
+		}
 		OR = { has_war_with = ITA has_war_with = GER } 
 	}
 	abort_when_not_enabled = yes
@@ -677,8 +770,10 @@ avoid_meds2 = {
 }
 
 avoid_japan = {
-    allowed = { tag = ENG }
-	enable = { date > 1940.1.1 date < 1943.1.1 }
+	enable = { 
+		is_in_faction_with = ENG
+		date > 1940.1.1 date < 1943.1.1 
+	}
 	abort = {
 	    date > 1943.1.1
 	}
@@ -710,8 +805,9 @@ avoid_stuff2 = {
 }
 
 Commonwelth_trying_to_save_benelux_is_deathtrap_later = {
+    allowed = { OR = { tag = SAF tag = AST tag = NZL tag = MAL tag = RAJ tag = INS } }
 	enable = {
-		OR = { tag = SAF tag = AST tag = NZL tag = MAL tag = RAJ tag = INS }
+		
 		has_war_with = GER
 		FRA = { has_capitulated = no }
 		date > 1939.1.1
@@ -774,8 +870,9 @@ Commonwelth_trying_to_save_benelux_is_deathtrap_later = {
 
 
 stay_put = {
+    allowed = { tag = BOI }
 	enable = {
-	        tag = BOI
+	        always = yes
 	}
 	
 	abort = {
@@ -863,14 +960,17 @@ stay_put = {
 }
 
 stay_stable1 = {
-	enable = {
-		OR = { 	tag = CAN
+	allowed = { 
+	    OR = { 	
+		        tag = CAN
 				tag = SAF
 				tag = AST
 				tag = NZL
 				tag = EGY
 				tag = RAJ
-				}
+		} 
+	}
+	enable = {		
 				has_government = democratic
 				USA = { has_government = democratic }
 	}
@@ -899,8 +999,8 @@ stay_stable1 = {
 }
 
 stay_stable2 = {
+    allowed = { tag = RAJ }
 	enable = {
-				tag = RAJ
 				has_government = democratic
 				OR = { date > 1941.9.1 has_war_with = JAP }
 	}
@@ -931,8 +1031,8 @@ stay_stable2 = {
 }
 
 stay_stable3 = {
+    allowed = { tag = ENG }
 	enable = {
-				tag = ENG
 				NOT = { has_war_with = JAP }
 	}
 	abort = {
@@ -943,6 +1043,33 @@ stay_stable3 = {
 		type = conquer
 		id = "JAP"
 		value = -150
+	}
+	ai_strategy = {
+		type = conquer
+		id = "CHI"
+		value = -150
+	}
+	ai_strategy = {
+		type = conquer
+		id = "GXC"
+		value = -150
+	}
+	ai_strategy = {
+		type = conquer
+		id = "GDC"
+		value = -150
+	}
+	ai_strategy = {
+		type = front_unit_request
+		country_trigger = {
+			or = {
+				tag = GDC
+				tag = GXC
+				tag = CHI
+				tag = CCP
+			}
+		}
+		value = -100
 	}
 	ai_strategy = {
 		type = conquer

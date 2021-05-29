@@ -9,7 +9,7 @@ operations = {
 
 		available = {
 			date > 1942.1.1
-			has_completed_focus = USA_atlantic_charter
+			has_completed_focus = USA_operation_torch2
 		}
 
 		cost = 0
@@ -22,12 +22,16 @@ operations = {
 				factor = 0
 				date < 1942.11.1
 			}
+			modifier = {
+				factor = 0 # don't declare if ur homeland is invaded!!
+				surrender_progress > 0.00
+			}
 		}
 
 		visible = {
 			has_war_with = GER
 			has_war_with = ITA
-			459 = { is_owned_and_controlled_by = VIC }
+			# for some reason that fucking VIC tag is broken
 		}
 
 		complete_effect = {
@@ -329,7 +333,7 @@ USA_aid_britain = {
 	}
 }
 
-foreign_support = {
+USA_cat_foreign_support = {
 	USA_support_the_anti_fascist_war = {
 		icon = generic_industry
 		allowed = {
@@ -593,42 +597,6 @@ foreign_support = {
 
 USA_unique_measures = {
 
-	USA_day_of_infamy = {
-
-		allowed = {
-			original_tag = USA
-			#has_government = democratic
-		}
-
-		available = {
-			has_war_with = JAP
-		}
-
-		visible = {
-			has_war_with = JAP
-		}
-
-		cost = 25
-		ai_will_do = {
-			factor = 5
-		}
-
-		fire_only_once = yes
-
-		modifier = {
-		
-		}
-
-		complete_effect = { 
-			hidden_effect = {
-			if = { limit = { OR = { is_ai = no has_global_flag = ai_speeches } } 
-				sound_effect = sp_usa_dayofinfamy
-			}
-			}
-			add_war_support = 0.05
-		}
-	}
-
 	USA_rubber_refineries = {
 
 		icon = generic_industry
@@ -665,7 +633,7 @@ USA_unique_measures = {
 
 		fire_only_once = yes
                 ai_will_do = {
-			factor = 5
+			factor = 500
 		}
 		days_remove = 120
 
@@ -887,7 +855,6 @@ USA_monroe_doctrine = {
 				URG = { add_opinion_modifier =  { target = USA modifier = monroe_doctrine_trade } }
 				ARG = { add_opinion_modifier =  { target = USA modifier = monroe_doctrine_trade } }
 				CHL = { add_opinion_modifier =  { target = USA modifier = monroe_doctrine_trade } }
-				"PAN" = { add_opinion_modifier =  { target = USA modifier = monroe_doctrine_trade } }
 			}
 		}
 		
@@ -1083,7 +1050,7 @@ USA_monroe_doctrine = {
 		cost = 25
 
 		modifier = {
-			civilian_factory_use = 3			
+			civilian_factory_use = 5			
 		}
 		days_remove = 30
 		fire_only_once = yes
@@ -1091,9 +1058,20 @@ USA_monroe_doctrine = {
 		remove_effect = {
 			custom_effect_tooltip = USA_reinforce_monroe_doctrine_ger2
 			hidden_effect = {
-				CUB = { add_opinion_modifier =  { target = GER modifier = embargo } }
-				HAI = { add_opinion_modifier =  { target = GER modifier = embargo } }
-				DOM = { add_opinion_modifier =  { target = GER modifier = embargo } }
+				CUB = { add_opinion_modifier =  { target = GER modifier = embargo } add_opinion_modifier =  { target = GER modifier = monroe_doctrine_pressure } }
+				HAI = { add_opinion_modifier =  { target = GER modifier = embargo } add_opinion_modifier =  { target = GER modifier = monroe_doctrine_pressure } }
+				DOM = { add_opinion_modifier =  { target = GER modifier = embargo } add_opinion_modifier =  { target = GER modifier = monroe_doctrine_pressure } }
+			}
+			
+			effect_tooltip = {
+				every_other_country = { limit = { OR = { is_in_faction_with = GER tag = GER } }
+		            add_stability = -0.01
+				}
+			}
+			hidden_effect = {
+			    every_other_country = { limit = { OR = { is_in_faction_with = GER tag = GER } }
+			    	country_event = usa.107
+				}
 			}
 		}
 		
@@ -1136,22 +1114,27 @@ USA_monroe_doctrine = {
 			custom_effect_tooltip = USA_reinforce_monroe_doctrine_jap2
 			hidden_effect = {
 			    
-				CUB = { add_opinion_modifier =  { target = JAP modifier = embargo } }
-				HAI = { add_opinion_modifier =  { target = JAP modifier = embargo } }
-				DOM = { add_opinion_modifier =  { target = JAP modifier = embargo } }
+				CUB = { add_opinion_modifier =  { target = JAP modifier = embargo } add_opinion_modifier =  { target = JAP modifier = monroe_doctrine_pressure } }
+				HAI = { add_opinion_modifier =  { target = JAP modifier = embargo } add_opinion_modifier =  { target = JAP modifier = monroe_doctrine_pressure } }
+				DOM = { add_opinion_modifier =  { target = JAP modifier = embargo } add_opinion_modifier =  { target = JAP modifier = monroe_doctrine_pressure } }
 				set_country_flag = embargo_jap_1
 				if = {
 					limit = {
 						MAN = { is_subject_of = JAP }
 					}
-					CUB = { add_opinion_modifier =  { target = MAN modifier = embargo } }
-					HAI = { add_opinion_modifier =  { target = MAN modifier = embargo } }
-					DOM = { add_opinion_modifier =  { target = MAN modifier = embargo } }
+					CUB = { add_opinion_modifier =  { target = MAN modifier = embargo } add_opinion_modifier =  { target = MAN modifier = monroe_doctrine_pressure } }
+					HAI = { add_opinion_modifier =  { target = MAN modifier = embargo } add_opinion_modifier =  { target = MAN modifier = monroe_doctrine_pressure } }
+					DOM = { add_opinion_modifier =  { target = MAN modifier = embargo } add_opinion_modifier =  { target = MAN modifier = monroe_doctrine_pressure } }
 				}
 			}
 			if = { limit = { has_country_flag = embargo_jap_1 has_country_flag = embargo_jap_2 has_country_flag = embargo_jap_3 }  
 			JAP = { country_event = japan.53 }
-			MAN = { country_event = japan.53 }
+			every_country = {
+				limit = {
+					is_subject_of = JAP
+				}
+				country_event = japan.53
+			}
 			}
 		}
 		
@@ -1410,18 +1393,29 @@ USA_monroe_doctrine = {
 		modifier = {
 			civilian_factory_use = 5			
 		}
-		days_remove = 30
+		days_remove = 50
 		fire_only_once = yes
 
 		remove_effect = {
 			custom_effect_tooltip = USA_reinforce_monroe_doctrine_ger3
 			hidden_effect = {
-				GUA = { add_opinion_modifier =  { target = GER modifier = embargo } }
-				HON = { add_opinion_modifier =  { target = GER modifier = embargo } }
-				NIC = { add_opinion_modifier =  { target = GER modifier = embargo } }
-				COS = { add_opinion_modifier =  { target = GER modifier = embargo } }
-				CAN = { add_opinion_modifier =  { target = GER modifier = embargo } }
-				MEX = { add_opinion_modifier =  { target = GER modifier = embargo } }
+				GUA = { add_opinion_modifier =  { target = GER modifier = embargo } add_opinion_modifier =  { target = GER modifier = monroe_doctrine_pressure } }
+				HON = { add_opinion_modifier =  { target = GER modifier = embargo } add_opinion_modifier =  { target = GER modifier = monroe_doctrine_pressure } }
+				NIC = { add_opinion_modifier =  { target = GER modifier = embargo } add_opinion_modifier =  { target = GER modifier = monroe_doctrine_pressure } }
+				COS = { add_opinion_modifier =  { target = GER modifier = embargo } add_opinion_modifier =  { target = GER modifier = monroe_doctrine_pressure } }
+				CAN = { add_opinion_modifier =  { target = GER modifier = embargo } add_opinion_modifier =  { target = GER modifier = monroe_doctrine_pressure } }
+				MEX = { add_opinion_modifier =  { target = GER modifier = embargo } add_opinion_modifier =  { target = GER modifier = monroe_doctrine_pressure } }
+			}
+			effect_tooltip = {
+			    every_other_country = { limit = { OR = { is_in_faction_with = GER tag = GER } }
+				add_war_support = -0.01
+		            add_stability = -0.01
+				}
+			}
+			hidden_effect = {
+			    every_other_country = { limit = { OR = { is_in_faction_with = GER tag = GER } }
+			    	country_event = usa.105
+				}
 			}
 		}
 		ai_will_do = {
@@ -1461,28 +1455,34 @@ USA_monroe_doctrine = {
 		remove_effect = {
 			custom_effect_tooltip = USA_reinforce_monroe_doctrine_jap3
 			hidden_effect = {
-				GUA = { add_opinion_modifier =  { target = JAP modifier = embargo } }
-				HON = { add_opinion_modifier =  { target = JAP modifier = embargo } }
-				NIC = { add_opinion_modifier =  { target = JAP modifier = embargo } }
-				COS = { add_opinion_modifier =  { target = JAP modifier = embargo } }
-				CAN = { add_opinion_modifier =  { target = JAP modifier = embargo } }
-				MEX = { add_opinion_modifier =  { target = JAP modifier = embargo } }
+				GUA = { add_opinion_modifier =  { target = JAP modifier = embargo } add_opinion_modifier =  { target = JAP modifier = monroe_doctrine_pressure } }
+				HON = { add_opinion_modifier =  { target = JAP modifier = embargo } add_opinion_modifier =  { target = JAP modifier = monroe_doctrine_pressure } }
+				NIC = { add_opinion_modifier =  { target = JAP modifier = embargo } add_opinion_modifier =  { target = JAP modifier = monroe_doctrine_pressure } }
+				COS = { add_opinion_modifier =  { target = JAP modifier = embargo } add_opinion_modifier =  { target = JAP modifier = monroe_doctrine_pressure } }
+				CAN = { add_opinion_modifier =  { target = JAP modifier = embargo } add_opinion_modifier =  { target = JAP modifier = monroe_doctrine_pressure } }
+				MEX = { add_opinion_modifier =  { target = JAP modifier = embargo } add_opinion_modifier =  { target = JAP modifier = monroe_doctrine_pressure } }
 		    	set_country_flag = embargo_jap_2
 				if = {
 					limit = {
 						MAN = { is_subject_of = JAP }
 					}
-					GUA = { add_opinion_modifier =  { target = MAN modifier = embargo } }
-					HON = { add_opinion_modifier =  { target = MAN modifier = embargo } }
-					NIC = { add_opinion_modifier =  { target = MAN modifier = embargo } }
-					COS = { add_opinion_modifier =  { target = MAN modifier = embargo } }
-					CAN = { add_opinion_modifier =  { target = MAN modifier = embargo } }
-					MEX = { add_opinion_modifier =  { target = MAN modifier = embargo } }
+					GUA = { add_opinion_modifier =  { target = MAN modifier = embargo } add_opinion_modifier =  { target = MAN modifier = monroe_doctrine_pressure } }
+					HON = { add_opinion_modifier =  { target = MAN modifier = embargo } add_opinion_modifier =  { target = MAN modifier = monroe_doctrine_pressure } }
+					NIC = { add_opinion_modifier =  { target = MAN modifier = embargo } add_opinion_modifier =  { target = MAN modifier = monroe_doctrine_pressure } }
+					COS = { add_opinion_modifier =  { target = MAN modifier = embargo } add_opinion_modifier =  { target = MAN modifier = monroe_doctrine_pressure } }
+					CAN = { add_opinion_modifier =  { target = MAN modifier = embargo } add_opinion_modifier =  { target = MAN modifier = monroe_doctrine_pressure } }
+					MEX = { add_opinion_modifier =  { target = MAN modifier = embargo } add_opinion_modifier =  { target = MAN modifier = monroe_doctrine_pressure } }
 				}
 			}
 			if = { limit = { has_country_flag = embargo_jap_1 has_country_flag = embargo_jap_2 has_country_flag = embargo_jap_3 }  
 			JAP = { country_event = japan.53 }
-			MAN = { country_event = japan.53 }
+			every_country = {
+				limit = {
+					is_subject_of = JAP
+				}
+				country_event = japan.53
+			}
+			#MAN = { country_event = japan.53 }
 			}
 		}
 		ai_will_do = {
@@ -2018,26 +2018,36 @@ USA_monroe_doctrine = {
 		cost = 60
 
 		modifier = {
-			civilian_factory_use = 5			
+			civilian_factory_use = 10			
 		}
-		days_remove = 30
+		days_remove = 50
 		fire_only_once = yes
 
 
 		remove_effect = {
 			custom_effect_tooltip = USA_reinforce_monroe_doctrine_ger4
 			hidden_effect = {
-				COL = { add_opinion_modifier =  { target = GER modifier = embargo } }
-				VEN = { add_opinion_modifier =  { target = GER modifier = embargo } }
-				ECU = { add_opinion_modifier =  { target = GER modifier = embargo } }
-				PRU = { add_opinion_modifier =  { target = GER modifier = embargo } }
-				BRA = { add_opinion_modifier =  { target = GER modifier = embargo } }
-				BOL = { add_opinion_modifier =  { target = GER modifier = embargo } }
-				PAR = { add_opinion_modifier =  { target = GER modifier = embargo } }
-				URG = { add_opinion_modifier =  { target = GER modifier = embargo } }
-				ARG = { add_opinion_modifier =  { target = GER modifier = embargo } }
-				CHL = { add_opinion_modifier =  { target = GER modifier = embargo } }
-				"PAN" = { add_opinion_modifier =  { target = GER modifier = embargo } }
+				COL = { add_opinion_modifier =  { target = GER modifier = embargo } add_opinion_modifier =  { target = GER modifier = monroe_doctrine_pressure } }
+				VEN = { add_opinion_modifier =  { target = GER modifier = embargo } add_opinion_modifier =  { target = GER modifier = monroe_doctrine_pressure } }
+				ECU = { add_opinion_modifier =  { target = GER modifier = embargo } add_opinion_modifier =  { target = GER modifier = monroe_doctrine_pressure } }
+				PRU = { add_opinion_modifier =  { target = GER modifier = embargo } add_opinion_modifier =  { target = GER modifier = monroe_doctrine_pressure } }
+				BRA = { add_opinion_modifier =  { target = GER modifier = embargo } add_opinion_modifier =  { target = GER modifier = monroe_doctrine_pressure } }
+				BOL = { add_opinion_modifier =  { target = GER modifier = embargo } add_opinion_modifier =  { target = GER modifier = monroe_doctrine_pressure } }
+				PAR = { add_opinion_modifier =  { target = GER modifier = embargo } add_opinion_modifier =  { target = GER modifier = monroe_doctrine_pressure } }
+				URG = { add_opinion_modifier =  { target = GER modifier = embargo } add_opinion_modifier =  { target = GER modifier = monroe_doctrine_pressure } }
+				ARG = { add_opinion_modifier =  { target = GER modifier = embargo } add_opinion_modifier =  { target = GER modifier = monroe_doctrine_pressure } }
+				CHL = { add_opinion_modifier =  { target = GER modifier = embargo } add_opinion_modifier =  { target = GER modifier = monroe_doctrine_pressure } }
+			}
+			effect_tooltip = {
+			    every_other_country = { limit = { OR = { is_in_faction_with = GER tag = GER } }
+				add_war_support = -0.02
+		            add_stability = -0.01
+				}
+			}
+			hidden_effect = {
+			    every_other_country = { limit = { OR = { is_in_faction_with = GER tag = GER } }
+			    	country_event = usa.106
+				}
 			}
 		}
 		ai_will_do = {
@@ -2078,38 +2088,42 @@ USA_monroe_doctrine = {
 		remove_effect = {
 			custom_effect_tooltip = USA_reinforce_monroe_doctrine_jap4
 			hidden_effect = {
-				COL = { add_opinion_modifier =  { target = JAP modifier = embargo } }
-				VEN = { add_opinion_modifier =  { target = JAP modifier = embargo } }
-				ECU = { add_opinion_modifier =  { target = JAP modifier = embargo } }
-				PRU = { add_opinion_modifier =  { target = JAP modifier = embargo } }
-				BRA = { add_opinion_modifier =  { target = JAP modifier = embargo } }
-				BOL = { add_opinion_modifier =  { target = JAP modifier = embargo } }
-				PAR = { add_opinion_modifier =  { target = JAP modifier = embargo } }
-				URG = { add_opinion_modifier =  { target = JAP modifier = embargo } }
-				ARG = { add_opinion_modifier =  { target = JAP modifier = embargo } }
-				CHL = { add_opinion_modifier =  { target = JAP modifier = embargo } }
-				"PAN" = { add_opinion_modifier =  { target = JAP modifier = embargo } }
+				COL = { add_opinion_modifier =  { target = JAP modifier = embargo } add_opinion_modifier =  { target = JAP modifier = monroe_doctrine_pressure } }
+				VEN = { add_opinion_modifier =  { target = JAP modifier = embargo } add_opinion_modifier =  { target = JAP modifier = monroe_doctrine_pressure } }
+				ECU = { add_opinion_modifier =  { target = JAP modifier = embargo } add_opinion_modifier =  { target = JAP modifier = monroe_doctrine_pressure } }
+				PRU = { add_opinion_modifier =  { target = JAP modifier = embargo } add_opinion_modifier =  { target = JAP modifier = monroe_doctrine_pressure } }
+				BRA = { add_opinion_modifier =  { target = JAP modifier = embargo } add_opinion_modifier =  { target = JAP modifier = monroe_doctrine_pressure } }
+				BOL = { add_opinion_modifier =  { target = JAP modifier = embargo } add_opinion_modifier =  { target = JAP modifier = monroe_doctrine_pressure } }
+				PAR = { add_opinion_modifier =  { target = JAP modifier = embargo } add_opinion_modifier =  { target = JAP modifier = monroe_doctrine_pressure } }
+				URG = { add_opinion_modifier =  { target = JAP modifier = embargo } add_opinion_modifier =  { target = JAP modifier = monroe_doctrine_pressure } }
+				ARG = { add_opinion_modifier =  { target = JAP modifier = embargo } add_opinion_modifier =  { target = JAP modifier = monroe_doctrine_pressure } }
+				CHL = { add_opinion_modifier =  { target = JAP modifier = embargo } add_opinion_modifier =  { target = JAP modifier = monroe_doctrine_pressure } }
 				if = {
 					limit = {
 						MAN = { is_subject_of = JAP }
 					}
-					COL = { add_opinion_modifier =  { target = MAN modifier = embargo } }
-					VEN = { add_opinion_modifier =  { target = MAN modifier = embargo } }
-					ECU = { add_opinion_modifier =  { target = MAN modifier = embargo } }
-					PRU = { add_opinion_modifier =  { target = MAN modifier = embargo } }
-					BRA = { add_opinion_modifier =  { target = MAN modifier = embargo } }
-					BOL = { add_opinion_modifier =  { target = MAN modifier = embargo } }
-					PAR = { add_opinion_modifier =  { target = MAN modifier = embargo } }
-					URG = { add_opinion_modifier =  { target = MAN modifier = embargo } }
-					ARG = { add_opinion_modifier =  { target = MAN modifier = embargo } }
-					CHL = { add_opinion_modifier =  { target = MAN modifier = embargo } }
-					"PAN" = { add_opinion_modifier =  { target = JAP modifier = embargo } }
+					COL = { add_opinion_modifier =  { target = MAN modifier = embargo } add_opinion_modifier =  { target = MAN modifier = monroe_doctrine_pressure } }
+					VEN = { add_opinion_modifier =  { target = MAN modifier = embargo } add_opinion_modifier =  { target = MAN modifier = monroe_doctrine_pressure } }
+					ECU = { add_opinion_modifier =  { target = MAN modifier = embargo } add_opinion_modifier =  { target = MAN modifier = monroe_doctrine_pressure } }
+					PRU = { add_opinion_modifier =  { target = MAN modifier = embargo } add_opinion_modifier =  { target = MAN modifier = monroe_doctrine_pressure } }
+					BRA = { add_opinion_modifier =  { target = MAN modifier = embargo } add_opinion_modifier =  { target = MAN modifier = monroe_doctrine_pressure } }
+					BOL = { add_opinion_modifier =  { target = MAN modifier = embargo } add_opinion_modifier =  { target = MAN modifier = monroe_doctrine_pressure } }
+					PAR = { add_opinion_modifier =  { target = MAN modifier = embargo } add_opinion_modifier =  { target = MAN modifier = monroe_doctrine_pressure } }
+					URG = { add_opinion_modifier =  { target = MAN modifier = embargo } add_opinion_modifier =  { target = MAN modifier = monroe_doctrine_pressure } }
+					ARG = { add_opinion_modifier =  { target = MAN modifier = embargo } add_opinion_modifier =  { target = MAN modifier = monroe_doctrine_pressure } }
+					CHL = { add_opinion_modifier =  { target = MAN modifier = embargo } add_opinion_modifier =  { target = MAN modifier = monroe_doctrine_pressure } }
 				}				
 	    		set_country_flag = embargo_jap_3
 			}
 			if = { limit = { has_country_flag = embargo_jap_1 has_country_flag = embargo_jap_2 has_country_flag = embargo_jap_3 }  
 			JAP = { country_event = japan.53 }
-			MAN = { country_event = japan.53 }
+			every_country = {
+				limit = {
+					is_subject_of = JAP
+				}
+				country_event = japan.53
+			}
+			#MAN = { country_event = japan.53 }
 			}
 		}
 		ai_will_do = {
@@ -2243,10 +2257,10 @@ USA_marine_expansion = {
 			original_tag = USA
 		}
 		available = {
-			has_completed_focus = USA_marine_corps_expansion
+			has_completed_focus = USA_marine_corps
 		}
 		visible = {
-			has_completed_focus = USA_marine_corps_expansion
+			has_completed_focus = USA_marine_corps
 		}
 		complete_effect = {
 			custom_effect_tooltip = USA_Marine_two_tt
@@ -2274,7 +2288,7 @@ USA_marine_expansion = {
 			add_manpower = -14160
 		}
 		available = {
-			has_completed_focus = USA_marine_corps_expansion
+			has_completed_focus = USA_marine_corps
 		}
 	}
 	USA_four_marine = {
@@ -2296,7 +2310,7 @@ USA_marine_expansion = {
 		available = {
 		   date > 1942.2.1
 		   has_war = yes
-		   has_completed_focus = USA_marine_corps_expansion
+		   has_completed_focus = USA_marine_corps
 		}
 	}
 	USA_five_marine = {
@@ -2319,7 +2333,7 @@ USA_marine_expansion = {
 		available = {
 			date > 1942.8.1
 			has_war = yes
-			has_completed_focus = USA_marine_corps_expansion
+			has_completed_focus = USA_marine_corps
 		}
 	}
 }

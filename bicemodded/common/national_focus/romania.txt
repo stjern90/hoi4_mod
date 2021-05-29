@@ -108,9 +108,13 @@
 		
 		ai_will_do = {
 			factor = 5
-			modifier = { 
+			modifier = {
 				factor = 0.1
 				NOT = { is_in_faction_with = SOV }
+			}
+			modifier = {
+				factor = 0.5
+				NOT = { SOV = { owns_state = 219 } }
 			}
 		}
 
@@ -150,6 +154,10 @@
 
 		ai_will_do = {
 			factor = 1
+			modifier = {
+				factor = 0.5
+				NOT = { is_in_faction_with = SOV }
+			}
 		}
 
 		available = {
@@ -442,12 +450,25 @@
 			}
 		}
 
-		ai_will_do = {
+		ai_will_do = {  #Romania will not join Axis if: fully owning Transylvania + HUN NOT in Axis (KUK path wouldn't be eg.) + GER not yet Barba OR GER losing/beaten
 			factor = 1
 			modifier = {
 				factor = 0
-				GER = {
-					has_capitulated = yes
+				OR = {
+					GER = { exists = no }
+					GER = { is_puppet = yes }
+					GER = { has_capitulated = yes }
+					GER = { surrender_progress > 0.15 }
+					AND = {
+						ROM = {
+							owns_state = 76
+							owns_state = 83
+							owns_state = 84
+							owns_state = 82
+						}
+						NOT = { HUN = { is_in_faction_with = GER } }
+						NOT = { GER = { has_completed_focus = GER_prepare_to_invade_the_ussr } }
+					}
 				}
 			}
 			modifier = {
@@ -1045,6 +1066,7 @@
 			}
 			add_tech_bonus = {
 				uses = 1
+				name = infantry_weapon_bonus
 				category = infantry_weapons
 				bonus = 0.5
 			}
@@ -1978,7 +2000,7 @@
 		id = ROM_partofaxe
 		icon = GFX_goal_ROM_axis
 		prerequisite = { focus = ROM_5yearplan }
-		prerequisite = { focus = ROM_mechanized }
+		prerequisite = { focus = ROM_mechanized_focus }
 		x = -1
 		y = 1
 		relative_position_id = ROM_5yearplan
@@ -2012,7 +2034,7 @@
 		id = ROM_serbia
 		icon = GFX_goal_ROM_serbia
 		prerequisite = { focus = ROM_5yearplan }
-		prerequisite = { focus = ROM_mechanized }
+		prerequisite = { focus = ROM_mechanized_focus }
 		x = -3
 		y = 1
 		relative_position_id = ROM_5yearplan
@@ -2089,7 +2111,7 @@
 	}
 	
 	focus = {
-		id = ROM_mechanized
+		id = ROM_mechanized_focus
 		icon = GFX_goal_FIN_agri
 		x = -7
 		y = 4
@@ -3426,15 +3448,15 @@
 				ideology = fascism
 			}
 			if = {
+				limit = { NOT = { has_idea = ROM_reserve_divisions } }
+				add_ideas = ROM_reserve_divisions
+			}		
+			else_if = {
 				limit = { if = { has_idea = ROM_reserve_divisions } }
 				swap_ideas = {
 					remove_idea = ROM_reserve_divisions
 					add_idea = ROM_reserve_divisions_2
 				}
-			}
-			if = {
-				limit = { NOT = { has_idea = ROM_reserve_divisions } }
-				add_ideas = ROM_reserve_divisions
 			}
 			hidden_effect = {
 				set_party_name = { ideology = fascism long_name = ROM_Antonescu_party_long name = ROM_Antonescu_party }	
@@ -4178,6 +4200,21 @@
 				factor = 20
 				is_historical_focus_on= yes
 			}
+			modifier = {
+				factor = 0.5
+				SOV = { surrender_progress > 0.2 }
+			}
+			modifier = {
+				factor = 0.5
+				SOV = { surrender_progress > 0.1 }
+			}
+			modifier = {
+				factor = 500
+				or = {
+					10 = { is_controlled_by = SOV }
+					GER = { surrender_progress > 0.1 }
+				}
+			}
 		}
 		
 		will_lead_to_war_with = GER
@@ -4188,10 +4225,12 @@
 			date > 1942.01.01
 			78 = {
 				NOT = {
-					is_controlled_by_ROOT_or_ally = yes }
-				
+					is_controlled_by_ROOT_or_ally = yes 
 				}
 			}
+			surrender_progress > 0.2
+		}
+		
 		bypass = {
 
 		}
@@ -4852,7 +4891,7 @@
 		available_if_capitulated = yes
 
 		completion_reward = {
-			army_experience = 50
+			army_experience = 35
 		}
 	}
 
@@ -4930,7 +4969,7 @@
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
 			add_tech_bonus = {
-				name = ROM_the_zb_53
+				name = infantry_weapon_bonus
 				bonus = 0.6
 				uses = 1
 				category = infantry_weapons
@@ -5005,7 +5044,7 @@
 				}
 			}
 			add_tech_bonus = {
-				name = ROM_vanatori_de_munte
+				name = mountaineers_bonus
 				bonus = 0.6
 				uses = 1
 				category = mountaineers_tech
@@ -5341,15 +5380,15 @@ create_corps_commander = {
 		search_filters = { FOCUS_FILTER_MANPOWER }
 		completion_reward = {
 			if = {
+				limit = { NOT = { has_idea = ROM_reserve_divisions } }
+				add_ideas = ROM_reserve_divisions
+			}		
+			else_if = {
 				limit = { if = { has_idea = ROM_reserve_divisions } }
 				swap_ideas = {
 					remove_idea = ROM_reserve_divisions
 					add_idea = ROM_reserve_divisions_2
 				}
-			}
-			if = {
-				limit = { NOT = { has_idea = ROM_reserve_divisions } }
-				add_ideas = ROM_reserve_divisions
 			}
 		}
 	}
@@ -5410,11 +5449,14 @@ create_corps_commander = {
 							
 							artillery_brigade_mot = { x = 4 y = 0 }
 							artillery_brigade_mot = { x = 4 y = 1 }
+							artillery_brigade_mot = { x = 4 y = 2 }
+							artillery_brigade_mot = { x = 4 y = 3 }
 						}
 						support = {
 							engineer = { x = 0 y = 0 }
 							DIV_HQ = { x = 0 y = 1 }
 							recon_cav = { x = 0 y = 2 }
+							logistics_company_extra = { x = 0 y = 3 }
 						}
 					}
 					else = {

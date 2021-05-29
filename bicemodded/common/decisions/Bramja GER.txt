@@ -1,0 +1,1309 @@
+#Category only allowed for GER
+
+
+GER_offensives = {
+
+    GER_peace_with_Finland = {
+		icon = generic_break_treaty
+
+		allowed = {
+			original_tag = GER
+		}
+
+		available = {
+		    has_war_with = FIN
+			FIN = { is_in_faction = yes }
+			NOT = { FIN = { is_in_faction_with = ENG } }
+			NOT = { FIN = { is_in_faction_with = USA } }
+			POL = { OR = { has_capitulated = yes exists = no is_puppet = yes } }
+		}
+
+		visible = {
+			has_war_with = FIN
+			SOV = { has_idea = SOV_molotov_ribbentrop_pact }
+		}
+
+		fire_only_once = yes
+
+		modifier = {
+		}
+
+		days_remove = 0
+		days_re_enable = 0
+
+		cost = 1
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		complete_effect = {
+			custom_effect_tooltip = bramja_FIN_GER_Peace_tt
+				hidden_effect = {
+					FIN = {
+						country_event = { id = bramja.53 days = 1 }
+					}
+				}
+		}
+	}
+	
+### FIX TO NEW VERSION Countenance!
+#See events TO DO, here timed idea neutrality, instead change after certain level control?-->OKW/SS Support
+    GER_peace_with_Iran = {
+		icon = generic_break_treaty
+
+		allowed = {
+			OR = {
+				original_tag = GER
+				original_tag = ITA
+			}
+		}
+
+		available = {#Fixed to work with new set up operation Countenance
+			OR = {
+				266 = {
+					is_controlled_by_ROOT_or_subject = yes
+				}
+				AND = {
+					any_state = {
+						is_core_of = PER
+						is_controlled_by_ROOT_or_subject = yes
+					}
+					PER = { surrender_progress > 0.6 }
+				}
+				SOV = {
+					OR = {
+						has_capitulated = yes exists = no is_puppet = yes 
+						has_idea = SOV_lost
+						has_idea = SOV_lost2
+						has_idea = SOV_lost3
+						has_army_size = { size < 50 }
+					}
+					NOT = {
+						has_full_control_of_state = 230
+						has_full_control_of_state = 229 
+					}
+				}
+			}
+			#UZB = { has_capitulated = no exists = yes is_puppet = no }
+		}
+
+		visible = {
+			#has_war_with = PER
+			OR = {
+				any_state = {
+					is_core_of = GEO
+					is_controlled_by_ROOT_or_subject = yes
+				}
+				any_state = {
+					is_core_of = AZR
+					is_controlled_by_ROOT_or_subject = yes
+				}
+				any_state = {
+					is_core_of = ARM
+					is_controlled_by_ROOT_or_subject = yes
+				}
+				any_state = {
+					is_core_of = IRQ
+					is_controlled_by_ROOT_or_subject = yes
+				}
+				any_state = {
+					is_core_of = YEM
+					is_controlled_by_ROOT_or_subject = yes
+				}
+				any_state = {
+					is_core_of = PER
+					is_controlled_by_ROOT_or_subject = yes
+				}
+			}
+		}
+
+		#fire_only_once = yes
+
+		cost = 10
+
+		modifier = {
+		}
+		days_remove = 0
+		days_re_enable = 0
+		
+		
+		ai_will_do = {
+			factor = 10
+		}
+
+		complete_effect = {
+		
+			custom_effect_tooltip = bramja_Per_buffer_tt
+			hidden_effect = {
+				PER = {
+					if = {
+						limit = {
+							is_puppet_of = ENG
+						}
+						ENG = {
+							end_puppet = PER
+						}
+					}
+				}
+				
+				every_country = {
+					limit = {
+						has_war_with = PER
+					}
+					white_peace = PER
+				}
+
+				every_country = {
+					limit = {
+						is_in_faction_with = PER
+					}
+					add_opinion_modifier = { target = PER modifier = embargo }
+					PREV = { reverse_add_opinion_modifier = { target = PER modifier = embargo }}
+				}
+				
+				SOV = { add_opinion_modifier = { target = PER modifier = very_large_decrease } }
+				
+				PER = {
+					leave_faction = yes
+				}
+				PER = {
+					add_timed_idea = {
+						idea = neutrality_idea
+							days = 300
+					}
+				}
+				JAP = {
+					add_ai_strategy = {
+						type = ignore 
+						id = "PER"
+						value = 200
+					}
+				}
+				ROOT = {
+					give_guarantee = PER
+				}
+			}
+			
+			#extra effect if Countenanced ( highly probably)
+			if = {
+				limit = {
+					has_global_flag = persia_accept 
+				}
+				custom_effect_tooltip = bramja_Per_countenanced_tt
+				hidden_effect = {
+					PER = { remove_opinion_modifier = { target = ENG modifier = very_large_increase } }
+					ENG = { remove_opinion_modifier = { target = PER modifier = very_large_increase } }
+					PER = {
+						retire_country_leader = yes
+						create_country_leader = {
+							name = "Reza Shah Pahlavi"
+							desc = "POLITICS_REZA_SHAH_PAHLAVI_DESC_prisoner"
+							picture = "Portrait_Iran_Reza_Shah_Pahlavi.dds"
+							expire = "1965.1.1"
+							ideology = despotism
+							traits = {
+								political_prisoner
+								cabinet_crisis
+							} # Rescue mission to fix these traits, bad idea and resistance, but stop increase fascist support. Short & long term further reward? Further events,etc....
+						}
+					
+						set_popularities = {
+							democratic = 2
+							fascism = 35
+							communism = 3
+							neutrality = 60
+						}
+						set_rule = { can_join_factions = no }						
+						add_stability = -0.10
+						add_war_support = -0.15
+						add_ideas = PER_unstable_monarchy
+						
+						every_owned_state = { #Resistance Azeri higher
+							limit = { is_core_of = AZR }
+							force_enable_resistance = {
+								occupier = PER
+								occupied = AZR
+							}
+							start_resistance = AZR
+							set_compliance = 20
+							set_resistance = 45
+						}
+						every_owned_state = { #General resistance not too high
+							limit = {
+								NOT = { is_core_of = AZR }
+								has_resources_amount = {
+									resource = oil
+									amount < 1
+								}
+							}
+							force_enable_resistance = PER
+							start_resistance = yes 
+							set_compliance = 30 
+							set_resistance = 30
+						}
+						every_owned_state = { #Resistance Oil regions + Kurdistan higher !!! Adjust new DLC -->incentive to fix
+							limit = {
+								has_resources_amount = {
+									resource = oil
+									amount > 0
+								}
+							}
+							force_enable_resistance = PER
+							start_resistance = yes 
+							set_compliance = 20 
+							set_resistance = 60
+						}
+					}
+					news_event = { id = bramja.45 days = 3 }
+				}
+				else = {
+					hidden_effect = {
+						news_event = { id = bramja.46 days = 3 }
+					}
+				}
+			}
+			# Adding Resource rights, dynamic on controll Straits of Hormuz
+			custom_effect_tooltip = bramja_Per_oil_rights_tt
+			
+			hidden_effect = {
+				if = {
+					limit = {
+						has_dlc = "Man the Guns"
+						OR = {
+							291 = { is_controlled_by_ROOT_or_ally = yes } #Iraq
+							292 = { is_controlled_by_ROOT_or_ally = yes } #Arabia
+							656 = { is_controlled_by_ROOT_or_ally = yes } #Kuwait
+						}
+						658 = { is_controlled_by_ROOT_or_ally = yes } #UAE1
+						659 = { is_controlled_by_ROOT_or_ally = yes } #UAE2
+						294 = { is_controlled_by_ROOT_or_ally = yes } #Oman
+						269 = { is_controlled_by_ROOT_or_ally = yes } #British Somaliland
+						293 = { is_controlled_by_ROOT_or_ally = yes } #Yemen
+						765 = { is_controlled_by_ROOT_or_ally = yes } #Qatar
+						453 = { is_controlled_by_ROOT_or_ally = yes } #Sinai
+						446 = { is_controlled_by_ROOT_or_ally = yes } #Cairo
+					}
+					random_country = {
+						limit = {
+							NOT = { tag = ROOT }
+							is_subject = no
+							is_in_faction_with = ROOT
+							OR = {
+								has_navy_size = { size > 90 }
+								num_of_factories > 150
+							}
+						}
+						PER = { give_resource_rights = { receiver = PREV state = 413 }}
+					}
+					PER = { give_resource_rights = { receiver = ROOT state = 412 } }
+					PER = { give_resource_rights = { receiver = ROOT state = 411 } }
+				}
+				else_if = { #re add if if needed
+					limit = {
+						has_dlc = "Man the Guns"
+					}
+					PER = { give_resource_rights = { receiver = ROOT state = 411 } }
+				}
+			}
+		}
+	}
+
+# Germany peace propsal to SAFR when Axis reaches there. Starts event chain
+	GER_at_end_of_world_SAF = {
+		icon = generic_break_treaty
+
+		allowed = {
+			original_tag = GER
+		}
+
+		available = {
+			custom_trigger_tooltip = { tooltip = Conditions_GER_at_end_of_world_SAF_tt }
+
+			hidden_trigger = {
+
+				SAF = {
+					OR = {
+						has_idea = all_adults_serve
+						has_idea = scraping_the_barrel
+						has_army_size = { size < 13 }
+						casualties > 130000
+					}
+				}
+				EGY = {
+					all_owned_state = {
+						is_controlled_by_ROOT_or_ally = yes
+					}
+				}
+
+				OR = {
+					any_state = {
+						is_core_of = SAF
+						is_controlled_by_ROOT_or_ally = yes
+					}
+					any_state = {
+						is_core_of = ZIM
+						is_controlled_by_ROOT_or_ally = yes
+					}
+					any_state = {
+						is_core_of = ZAM
+						is_controlled_by_ROOT_or_ally = yes
+					}
+					any_state = {
+						is_core_of = BOT
+						is_controlled_by_ROOT_or_ally = yes
+					}
+					any_state = {
+						is_core_of = ANG
+						is_controlled_by_ROOT_or_ally = yes
+					}
+					any_state = {
+						is_core_of = MZB
+						is_controlled_by_ROOT_or_ally = yes
+					}
+				}
+			}
+		}
+
+		visible = {
+
+			ROOT = {
+				any_war_score > 10
+				surrender_progress < 0.05
+			}
+			has_government = fascism
+			has_war_with = SAF
+			SAF = { has_capitulated = no exists = yes }
+			any_state = {
+				NOT = {
+					is_core_of = EGY
+					is_core_of = LIB
+					is_core_of = ALG
+					is_core_of = MOR
+					is_core_of = TUN
+				}
+				is_on_continent = africa
+				is_controlled_by_ROOT_or_ally = yes
+			}
+		}
+
+		fire_only_once = yes
+
+		cost = 1
+
+		modifier = {
+		}
+		days_remove = 0
+		days_re_enable = 0
+		
+		
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				factor = 0.5
+				OR = {
+					has_navy_size = { size < 50 }
+					alliance_naval_strength_ratio < 0.5
+				}
+			}
+		}
+
+		complete_effect = {
+			custom_effect_tooltip = GER_at_end_of_world_SAF_tt
+			
+			hidden_effect = {
+				SAF = {
+					country_event = { id = bramja.47 days = 1 }
+				}
+			}
+		}
+	}
+}
+
+
+ITA_historical_politics = {
+
+	incorporate_Savoy = {
+		icon = ger_reichskommissariats
+		fire_only_once = yes	
+		allowed = {
+			tag = ITA
+		}
+		cost = 50
+		available = {
+			has_government = fascism			
+			735 = {
+				is_fully_controlled_by = ROOT
+				compliance > 15
+			}
+		}
+		visible = {
+			ITA = { has_completed_focus = ITA_cinecitta }
+		}
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				factor = 2
+				surrender_progress < 0
+			}
+		}
+		highlight_state_targets = {
+			state = 735
+		}
+		days_remove = 90
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+		remove_effect = {
+			735 = {
+				add_claim_by = ITA
+				add_compliance = 5
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = dockyard
+					level = 1
+					instant_build = yes
+				}
+			}
+			735 = { set_state_name = "Alpi Occidentali" }
+			set_province_name = { id = 9909 name = "Niza" }
+			#set_province_name = { id = 6609 name = "Sciamberì" }
+		}
+	}
+	
+	Core_Savoy = {
+		icon = ger_reichskommissariats
+		fire_only_once = yes	
+		allowed = {
+			tag = ITA
+		}
+		cost = 75
+		available = {
+			has_government = fascism			
+			735 = {
+				is_claimed_by = ITA
+				is_fully_controlled_by = ROOT
+				resistance < 20
+				compliance > 75
+			}
+		}
+		visible = {
+			ITA = { has_completed_focus = ITA_cinecitta }
+			735 = {
+				is_claimed_by = ITA
+				NOT = {
+					is_core_of = ITA
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				factor = 2
+				surrender_progress < 0
+			}
+		}
+		highlight_state_targets = {
+			state = 735
+		}
+		days_remove = 120
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+		remove_effect = {
+			735 = {
+				add_core_of = ITA 
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = dockyard
+					level = 1
+					instant_build = yes
+				}
+			}
+			add_popularity = { ideology = fascism popularity = 0.02 }
+			add_stability = 0.02
+		}
+	}
+
+	#TEST STAB EFFECT BELOW!
+	Seize_Dalmatia = {
+		icon = prepare_civil_war
+		#fire_only_once = yes	
+		allowed = {
+			tag = ITA
+		}
+		cost = 20
+		available = {
+
+			date > 1941.1.1
+			OR = {
+				has_war_support > 0.75
+				has_stability > 0.7
+			} #Zara # Montenegro # Albania # Epirus 
+			ITA = { controls_state = 163 controls_state = 105 controls_state = 44 controls_state = 185 }
+			103 = {
+				CONTROLLER = {
+					is_subject_of = ROOT
+				}
+			}
+			has_completed_focus = ITA_yugoslavia_war_goal
+		}
+		visible = {
+			is_subject = no
+			#ITA = { has_completed_focus = ITA_cinecitta }
+			NOT = {
+				has_government = communism
+			}
+			103 = {
+				NOT = { is_fully_controlled_by = ROOT }
+				CONTROLLER = {
+					is_subject_of = ROOT
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 0
+				surrender_progress > 0
+				NOT = {
+					has_full_control_of_state = 448
+				}
+			}
+		}
+		highlight_state_targets = {
+			state = 103
+		}
+		
+		complete_effect = {
+			random_country = {
+				limit = {
+					controls_state = 103
+				}
+				#PREV = { -->FROM?
+					add_opinion_modifier = { target = ROOT modifier = unprovoked_aggression }
+					add_stability = -0.1
+				#}
+			}
+			ITA = { transfer_state = 103 }
+			103 = {
+				add_claim_by = ITA
+				set_compliance = 33
+			}
+			103 = { set_state_name = "Dalmazia"}
+		}
+	}
+}
+
+political_actions = {
+
+	GER_Gau_Silesia_Kattowitz = { ###
+
+		icon = ger_reichskommissariats
+		
+		allowed = {
+			OR = {
+				tag = GER
+				tag = AUS
+				tag = HUN
+			}
+		}
+
+		available = {
+			#has_completed_focus = GER_form_the_reichskommissariats
+			#has_government = fascism
+			762 = {
+				is_fully_controlled_by = ROOT
+				compliance > 15
+			}
+		}
+		
+		fire_only_once = yes
+		
+		highlight_state_targets = {
+			state = 762
+		}
+
+		cost = 25
+		ai_will_do = {
+			factor = 10
+			
+		}
+
+		visible = {
+			controls_state = 762
+			OR = {
+				tag = GER
+				original_tag = AUS 
+				has_cosmetic_tag = HUN_EMPIRE
+			}
+			762 = {
+				NOT = {
+					is_core_of = GER
+				}
+			}
+		}
+		
+		days_remove = 60
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+
+		remove_effect = {
+			762 = {
+				add_claim_by = GER
+				add_compliance = 3
+			}
+			762 = { set_state_name = "Kattowitz" }
+			set_province_name = { id = 6464 name = "Kattowitz" }
+		}
+	}
+	
+	GER_norway = {
+
+		icon = ger_reichskommissariats
+		
+		allowed = {
+		   original_tag = GER
+		}
+
+		available = {
+			110 = {
+				is_fully_controlled_by = ROOT
+			}
+			142 = {
+				is_fully_controlled_by = ROOT
+			}
+			143 = {
+				is_fully_controlled_by = ROOT
+			}
+			144 = {
+				is_fully_controlled_by = ROOT
+			}
+		}
+		
+		fire_only_once = yes
+		
+		highlight_state_targets = {
+			state = 110
+		}
+
+		cost = 100
+		ai_will_do = {
+			factor = 10
+			
+		}
+
+		visible = {
+			110 = {
+				is_fully_controlled_by = ROOT
+			}
+			142 = {
+				is_fully_controlled_by = ROOT
+			}
+			143 = {
+				is_fully_controlled_by = ROOT
+			}
+			144 = {
+				is_fully_controlled_by = ROOT
+			}
+		}
+		
+		days_remove = 200
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+
+		remove_effect = {
+			110 = {
+				add_compliance = 10
+			}
+			142 = {
+				add_compliance = 11
+			}
+			143 = {
+				add_compliance = 12
+			}
+			144 = {
+				add_compliance = 12
+			}
+		}
+	}
+
+	GER_Integrate_Kattowitz = { ###
+
+		icon = ger_reichskommissariats
+		
+		allowed = {
+			OR = {
+				tag = GER
+				tag = AUS
+				tag = HUN
+			}
+		}
+
+		available = {
+			#has_completed_focus = GER_form_the_reichskommissariats
+			#has_government = fascism
+			762 = {
+				is_claimed_by = GER
+				is_fully_controlled_by = ROOT
+				resistance < 25
+				compliance > 30
+			}
+		}
+		
+		fire_only_once = yes
+		
+		highlight_state_targets = {
+			state = 762
+		}
+
+		cost = 50
+		ai_will_do = {
+			factor = 10
+			
+		}
+
+		visible = {
+			controls_state = 762
+			#has_government = fascism
+			OR = {
+				tag = GER
+				original_tag = AUS 
+				has_cosmetic_tag = HUN_EMPIRE
+			}
+			762 = {
+				is_claimed_by = ROOT
+				NOT = {
+					is_core_of = ROOT
+				}
+			}
+		}
+
+		days_remove = 90
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+
+		remove_effect = {
+		    762 = { add_core_of = GER }
+		}
+	}
+
+	GER_Gau_Silesia_Teschen = { ###
+
+		icon = ger_reichskommissariats
+		
+		allowed = {
+			OR = {
+				tag = GER
+				tag = AUS
+				tag = HUN
+			}
+		}
+
+		available = {
+			#has_completed_focus = GER_form_the_reichskommissariats
+			#has_government = fascism
+			controls_state = 72
+			date > 1940.6.1
+			72 = {
+				is_fully_controlled_by = ROOT
+				compliance > 23
+			}
+		}
+		
+		fire_only_once = yes
+		
+		highlight_state_targets = {
+			state = 72
+		}
+
+		cost = 25
+		ai_will_do = {
+			factor = 10
+		}
+
+		visible = {
+			controls_state = 72
+			#has_government = fascism
+			OR = {
+				tag = GER
+				original_tag = AUS 
+				has_cosmetic_tag = HUN_EMPIRE
+			}
+			date > 1940.2.1
+			72 = {
+				NOT = {
+					is_core_of = ROOT
+				}
+			}
+		}
+		
+		days_remove = 120
+
+		modifier = {
+			civilian_factory_use = 2
+		}
+
+		remove_effect = {
+			72 = {
+				add_claim_by = ROOT
+				add_compliance = 3
+			}
+			72 = { set_state_name = "Teschen" }
+		}
+	}
+
+	GER_Integrate_Teschen = { ###
+
+		icon = ger_reichskommissariats
+		
+		allowed = {
+			OR = {
+				tag = GER
+				tag = AUS
+				tag = HUN
+			}
+		}
+
+		available = {
+			#has_completed_focus = GER_form_the_reichskommissariats
+			#has_government = fascism
+			controls_state = 72
+			date > 1940.6.1
+			72 = {
+				is_fully_controlled_by = ROOT
+				resistance < 22
+				compliance > 35
+			}
+		}
+		
+		fire_only_once = yes
+		
+		highlight_state_targets = {
+			state = 72
+		}
+
+		cost = 50
+		ai_will_do = {
+			factor = 10
+		}
+
+		visible = {
+			controls_state = 72
+			#has_government = fascism
+			OR = {
+				tag = GER
+				original_tag = AUS 
+				has_cosmetic_tag = HUN_EMPIRE
+			}
+			date > 1940.6.1
+			72 = {
+				is_claimed_by = ROOT
+				NOT = {
+					is_core_of = ROOT
+				}
+			}
+		}
+
+		days_remove = 120
+
+		modifier = {
+			civilian_factory_use = 2
+		}
+
+		remove_effect = {
+		    72 = { add_core_of = ROOT }
+		}
+	}
+
+	GER_Integrate_Slovenia = {
+
+		icon = ger_reichskommissariats
+		
+		allowed = {
+			OR = {
+				tag = GER
+				tag = AUS
+				tag = HUN
+			}
+		}
+
+		available = {
+			#has_completed_focus = GER_form_the_reichskommissariats
+			#has_government = fascism
+			controls_state = 102
+			date > 1941.1.1
+			102 = {
+				is_fully_controlled_by = ROOT
+				resistance < 22
+				compliance > 35
+			}
+		}
+		
+		fire_only_once = yes
+		
+		highlight_state_targets = {
+			state = 102
+		}
+
+		cost = 75
+		ai_will_do = {
+			factor = 10
+			
+		}
+
+		visible = {
+			controls_state = 102
+			#has_government = fascism
+			OR = {
+				tag = GER
+				original_tag = AUS 
+				has_cosmetic_tag = HUN_EMPIRE
+			}
+			date > 1941.1.1
+			102 = {
+				NOT = {
+					is_core_of = ROOT
+				}
+			}
+		}
+
+		days_remove = 120
+
+		modifier = {
+			civilian_factory_use = 3
+		}
+
+		remove_effect = {
+			102 = { add_core_of = ROOT }
+			102 = { set_state_name = "Krain" }
+			set_province_name = { id = 9627 name = "Laibach" }
+		}
+	}
+}
+
+# GER support RK mechanics start
+#TO DO: add option further Stab once threshold X, reduce bad ideas / SS controll, but OKW tensions, States within State, etc, /Compromises in form autonomy / Coloniation & further renaming? 
+
+#Category only allowed for GER
+GER_reichskommissariats = {
+
+	GER_support_reichskommissariats = {
+
+		icon = oppression
+		
+		fire_only_once = no
+		
+		allowed = {
+			original_tag = GER
+		}
+
+		available = {
+			surrender_progress < 0.1
+			has_equipment = {
+				infantry_equipment > 1499
+			}
+			has_equipment = {
+				HQ_equipment > 99
+			}
+			has_equipment = {
+				support_equipment > 99
+			}
+			has_equipment = {
+				convoy > 9
+			}
+			has_equipment = {
+				motorized_equipment > 49
+			}
+			has_equipment = {
+				infantry_uniforms > 999
+			}
+			FROM = {
+				OR = {
+					has_war_support < 0.85
+					has_stability < 0.85
+				}
+			}
+		}
+
+		visible = {
+			GER = {
+				OR = {
+					has_country_flag = ostland_formed
+					has_country_flag = Generalgov_formed
+					has_country_flag = RKukraine_formed
+					has_country_flag = kaukasus_formed
+					has_global_flag = eastern_front_peace
+				}
+				has_government = fascism
+				is_faction_leader = yes
+			}
+			#LAT = {
+			FROM = {
+				is_puppet_of = GER
+				has_capitulated = no
+				exists = yes
+				has_idea = RK_Partisans
+			}
+		}
+		
+		target_root_trigger = {
+			OR = {
+				has_country_flag = ostland_formed
+				has_country_flag = Generalgov_formed
+				has_country_flag = RKukraine_formed
+				has_country_flag = kaukasus_formed
+				has_global_flag = eastern_front_peace
+			}
+		}
+			
+		targets = { LAT MSK UKR GEO POL KAZ }
+		
+		target_trigger = {
+			FROM = {
+				is_puppet_of = GER
+				has_capitulated = no
+				exists = yes
+				has_idea = RK_Partisans
+			}
+		}
+		
+		days_re_enable = 120
+		
+		cost = 25
+
+		ai_will_do = {
+			base = 0
+			
+			modifier = {
+				add = 1
+				GER = {
+					has_equipment = { infantry_equipment > 24999 }
+					has_equipment = {infantry_uniforms > 19999 }
+					has_equipment = { motorized_equipment > 9999 } 
+					has_political_power > 100
+				}
+				#LAT = {
+				FROM = {
+					surrender_progress < 0.1
+					OR = {
+						has_war_support < 0.7
+						has_stability < 0.75
+					}
+				}
+			}
+
+			modifier = {
+				add = 1
+				GER = {
+					has_equipment = { infantry_equipment > 9999 }
+					has_equipment = { infantry_uniforms > 4999 }
+					has_equipment = { motorized_equipment > 4999 } 
+				}
+				#LAT = {
+				FROM = {
+					surrender_progress < 0.1
+					OR = {
+						has_war_support < 0.3
+						has_stability < 0.3
+					}
+				}
+			}
+
+			modifier = {
+				add = 3
+				GER = {
+					has_war = no
+					has_equipment = { infantry_equipment > 19999 }
+					has_equipment = { infantry_uniforms > 7499 }
+					has_equipment = { motorized_equipment > 4999 } 
+				}
+				#LAT = {
+				FROM = {
+					OR = {
+						has_war_support < 0.75
+						has_stability < 0.75
+					}
+				}
+			}
+		}
+
+		complete_effect = {
+
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = -500
+			}
+			add_equipment_to_stockpile = {
+				type = support_equipment
+				amount = -25
+			}
+			add_equipment_to_stockpile = {
+				type = HQ_equipment
+				amount = -25
+			}
+			add_equipment_to_stockpile = {
+				type = infantry_uniforms
+				amount = -250
+			}
+			ROOT = {
+				send_equipment = {
+					#target = LAT
+					target = FROM
+					type = infantry_equipment
+					amount = 1000
+					old_prioritised = yes
+				}
+				send_equipment = {
+					#target = LAT
+					type = HQ_equipment_0
+					amount =  75
+					target = FROM
+					#old_prioritised = yes
+				}
+				send_equipment = {
+					type = support_equipment
+					amount = 75
+					target = FROM
+				}
+				send_equipment = {
+					type = convoy
+					amount = 10
+					target = FROM
+				}
+				send_equipment = {
+					type = motorized_equipment
+					amount = 50
+					target = FROM
+				}
+				send_equipment = {
+					target = FROM
+					type = infantry_uniforms
+					amount = 750
+					old_prioritised = yes
+				}
+				
+			}
+			
+			FROM = {
+				add_stability = 0.10
+				add_war_support = 0.10
+				add_timed_idea = {
+					idea = RK_GER_support
+						days = 60
+				}
+			}
+		}
+	}
+}
+
+foreign_support = {
+	SOV_refugees_and_refugees = {
+		icon = generic_break_treaty
+
+		allowed = {
+			OR = {
+				original_tag = SIB
+				original_tag = UZB
+				original_tag = TAN
+			}
+		}
+
+		available = {
+			ROOT = {
+				OR = {
+					has_war = no
+					surrender_progress < 0.25
+				}
+			}
+			SOV = {
+				has_army_size = { size > 50 }
+				has_idea = SOV_terror
+				OR = {
+					has_idea = SOV_lost
+					has_idea = SOV_lost2
+				}
+			}
+		}
+
+		visible = {
+			NOT = { has_government = communism }
+			SOV = {
+				has_idea = SOV_terror
+				OR = {
+					has_idea = SOV_lost
+					has_idea = SOV_lost2
+				}
+			}
+		}
+
+		#fire_only_once = yes
+
+		cost = 1
+
+		modifier = {
+		}
+
+		days_remove = 30
+		days_re_enable = 120
+		
+		
+		ai_will_do = {
+			factor = 100
+		}
+
+		remove_effect = {
+			SOV = {
+				transfer_units_fraction = {
+					target = ROOT
+					size = 0.03 
+					stockpile_ratio = 0.03
+					army_ratio = 0.03
+					navy_ratio = 0.0
+					air_ratio = 0.03
+				}
+				if = {
+					limit = {
+						NOT = { has_idea = SOV_desertion }
+					}
+					add_timed_idea = {
+						idea = SOV_desertion
+							days = 120
+					}
+				}
+			}
+			add_offsite_building = { type = arms_factory level = 1 }
+			
+			random_owned_state = { #2nd scope [1,2]
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+				ROOT = { #from random_owned_state(#2nd) to random_country(#1st). [1,2,1]
+					random_owned_state = { #new second scope [1,2_old,1,2_new]
+						limit = { NOT = { state = PREV.PREV } } # The first PREV scopes back to the country, the second scopes back to the first random state <Value:1,2_old,̶1̶,̶̶̶2̶̶̶_̶̶̶n̶̶̶e̶̶̶w>
+						add_extra_state_shared_building_slots = 2 #Note: We used PREV.PREV to get a value, but didn't actually enter that scope. [1,2_old,1,2_new]
+						add_building_construction = {
+							type = industrial_complex
+							level = 1
+							instant_build = yes
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+
+

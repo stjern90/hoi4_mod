@@ -15,20 +15,19 @@ focus_tree = {
 	focus = {
 		id = SOV_t28_dev
 		icon = GFX_goal_SOV_t28
-		x = 45
+		x = 48
 		y = 1
 		cost = 5.5
 		ai_will_do = {
-			factor = 1
+			factor = 4
 		}	
 		available_if_capitulated = no
 		
 		completion_reward = {
 			custom_effect_tooltip = SOV_t28
 			add_tech_bonus = {
-				name = SOV_t28_dev
+				name = med_armor_bonus
 				bonus = 1.0
-				ahead_reduction = 1.0
 				uses = 1
 				technology = tech_t_28_b
 			}
@@ -733,7 +732,7 @@ focus_tree = {
 		completion_reward = {
 			add_ideas = SOV_tankograd
 			add_tech_bonus = {
-				name = SOV_goal_tankograd
+				name = armor_factory_bonus
 				bonus = 1.0
 				uses = 1
 				technology = armor_industry2
@@ -785,6 +784,7 @@ focus_tree = {
 
 		completion_reward = {
 			add_tech_bonus = {
+			    name = med_armor_bonus
 				uses = 1
 				bonus = 0.75
 				category = cat_medium_armor
@@ -1064,6 +1064,37 @@ focus_tree = {
 	}
 	
 	focus = {
+		id = SOV_heavyrush
+		icon = GFX_goal_SOV_kv1
+		prerequisite = { focus = SOV_saturnprep }
+		relative_position_id = SOV_saturnprep
+		x = 2
+		y = 1
+		cost = 4.5
+
+		ai_will_do = {
+			factor = 12
+		}
+		
+		available = {
+			has_country_flag = SOVwintercounteroffense
+			has_war_with = GER
+		}
+
+		completion_reward = {
+			add_tech_bonus = {
+			    name = heavy_armor_bonus
+				category = cat_heavy_armor
+				category = cat_heavy_td
+				category = cat_heavy_art
+				uses = 4
+				ahead_reduction = 0.3
+				bonus = 0.6
+			}
+		}
+	}
+	
+	focus = {
 		id = SOV_martiallaw
 		icon = GFX_sov_stalin_writing
 		prerequisite = { focus = SOV_tankindustry focus = SOV_saviourofeast  }
@@ -1104,6 +1135,7 @@ focus_tree = {
 			has_country_flag = SOVwintercounteroffense
 			has_war_with = GER
 			date > 1942.5.1
+			has_completed_focus = SOV_STAVKA
 		}
 
 		completion_reward = {
@@ -1111,6 +1143,93 @@ focus_tree = {
 				add_idea = SOV_STAVKA_idea2
 				remove_idea = SOV_STAVKA_idea
 			}
+		}
+	}
+	
+	focus = {
+		id = SOV_gunfetus
+		icon = GFX_goal_SOV_equipment
+		prerequisite = { focus = SOV_reformstavka }
+		relative_position_id = SOV_reformstavka
+		x = 1
+		y = 1
+		cost = 5
+
+		ai_will_do = {
+			factor = 12
+		}
+		
+		available = {
+			has_country_flag = SOVwintercounteroffense
+			has_war_with = GER
+			has_army_experience > 100
+			or = {
+				has_tech = improved_infantry_weapons
+				has_tech = advanced_infantry_weapons
+			}
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					has_tech = advanced_infantry_weapons
+				}
+				create_equipment_variant = { 
+					name = "PPS-42" 
+					type = infantry_equipment_3
+					upgrades = { 
+						weapons_quality_upgrade = 3
+						LMG_upgrade = 3
+						AT_upgrade = 1
+						heavy_weapons_upgrade = 2
+						cheap_weapons_upgrade = 0
+					}		
+				}
+			}
+			else = {
+				create_equipment_variant = { 
+					name = "PPS-41s" 
+					type = infantry_equipment_2
+					upgrades = { 
+						weapons_quality_upgrade = 3
+						LMG_upgrade = 3
+						AT_upgrade = 1
+						heavy_weapons_upgrade = 2
+						cheap_weapons_upgrade = 0
+					}		
+				}
+			}
+			army_experience = -100
+		}
+	}
+	
+	focus = {
+		id = SOV_signal
+		icon = GFX_goal_SOV_signals
+		prerequisite = { focus = SOV_reformstavka }
+		relative_position_id = SOV_reformstavka
+		x = -1
+		y = 1
+		cost = 5
+
+		ai_will_do = {
+			factor = 12
+		}
+		
+		available = {
+			has_country_flag = SOVwintercounteroffense
+			has_war_with = GER
+			has_army_experience > 100
+		}
+
+		completion_reward = {
+			add_tech_bonus = {
+			    name = electronics_bonus
+				category = electronics
+				uses = 3
+				bonus = 0.4
+			}
+			army_experience = -100
 		}
 	}
 	
@@ -1483,13 +1602,13 @@ focus_tree = {
 			}
 			add_tech_bonus = {
 				name = construction_tech_bonus
-				bonus = 0.5
+				bonus = 0.6
 				uses = 1
 				category = construction_tech
 			}
 			add_tech_bonus = {
 				name = heavy_industry_tech_bonus
-				bonus = 0.5
+				bonus = 0.6
 				uses = 3
 				category = heavy_industry
 			}
@@ -1681,7 +1800,8 @@ focus_tree = {
 		completion_reward = {
 			add_ideas = SOV_stakhonovite_idea
 			add_tech_bonus = {
-				bonus = 0.20
+                                name = industry_bonus
+				bonus = 0.3
 				uses = 3
 				category = industry
 			}
@@ -1859,6 +1979,10 @@ focus_tree = {
 		x = -1
 		y = 9
 		cost = 5
+		
+		ai_will_do = {
+			factor = 10
+		}
 		available = {
 			OR = {
 			has_war_with = GER
@@ -1956,7 +2080,11 @@ focus_tree = {
 		cost = 2
 		ai_will_do = {
 			factor = 1
-		}	
+			modifier = {
+				factor = 3
+				threat > 0.4
+			}
+		}
 		available_if_capitulated = no
 		
 		completion_reward = {
@@ -2001,7 +2129,14 @@ focus_tree = {
 		cost = 4
 		ai_will_do = {
 			factor = 1
-		}	
+			modifier = {
+				factor = 8
+				OR = {
+				threat > 0.25
+				date > 1937.1.1
+				}
+			}
+		}
 		available = {
 		    has_tech = tech_t_28_b
 		}
@@ -2033,6 +2168,13 @@ focus_tree = {
 		cost = 5.4
 		ai_will_do = {
 			factor = 1
+			modifier = {
+				factor = 8
+				OR = {
+				threat > 0.35
+				date > 1937.6.1
+				}
+			}
 		}
                 #REVISIT TO OPTIMIZE AI
 		completion_reward = {
@@ -2059,6 +2201,13 @@ focus_tree = {
 		cost = 7
 		ai_will_do = {
 			factor = 1
+			modifier = {
+				factor = 8
+				OR = {
+				threat > 0.35
+				date > 1938.1.1
+				}
+			}
 		}
 
 		completion_reward = {
@@ -2142,7 +2291,7 @@ focus_tree = {
 			add_tech_bonus = {
 				category = nuclear
 				uses = 2
-				bonus = 0.75
+				bonus = 0.6
 			}
 		}
 	}
@@ -2179,7 +2328,7 @@ focus_tree = {
 		MON = { is_subject_of = SOV }
 		}
 		ai_will_do = {
-			factor = 1
+			factor = 5
 		}	
 		available_if_capitulated = yes
 		completion_reward = {
@@ -2244,7 +2393,7 @@ focus_tree = {
 		#SIK = { is_subject_of = SOV }
 		}
 		ai_will_do = {
-			factor = 1
+			factor = 2
 		}	
 		available_if_capitulated = yes
 		completion_reward = {
@@ -2317,7 +2466,7 @@ focus_tree = {
 		y = 8
 		cost = 4.5
 			ai_will_do = {
-				factor = 1
+				factor = 2
 		}
 
 		available_if_capitulated = yes
@@ -2618,7 +2767,14 @@ focus_tree = {
 		y = 9
 		cost = 4
 		ai_will_do = {
-			factor = 1
+			factor = 4
+			modifier = {
+				factor = 3
+				OR = {
+				has_war_with = JAP
+				CHI = { OR = { has_capitulated = yes exists = no is_puppet = yes } }				
+				}
+			}
 		}
 		
 		completion_reward = {
@@ -2636,7 +2792,7 @@ focus_tree = {
 		y = 0
 		cost = 8
 		ai_will_do = {
-			factor = 1
+			factor = 15
 		}
 
 		available_if_capitulated = yes
@@ -2659,7 +2815,7 @@ focus_tree = {
 		y = 2
 		cost = 3
 		ai_will_do = {
-			factor = 1
+			factor = 12
 			modifier = {
 				has_government = fascism
 				factor = 0
@@ -2823,7 +2979,14 @@ focus_tree = {
 		y = 3
 		cost = 4
 		ai_will_do = {
-			factor = 1
+			factor = 3
+			modifier = {
+				factor = 3
+				OR = {
+				has_war_with = JAP
+				CHI = { OR = { has_capitulated = yes exists = no is_puppet = yes } }				
+				}
+			}
 		}	
 		completion_reward = {
 			563 = {
@@ -2928,7 +3091,7 @@ focus_tree = {
 		y = 4
 		cost = 3
 		ai_will_do = {
-			factor = 1 
+			factor = 30 
 		}
 		bypass = {
 			CHI = {
@@ -3013,7 +3176,7 @@ focus_tree = {
 		y = 4
 		cost = 3
 		ai_will_do = {
-			factor = 1
+			factor = 10
 		}
 		completion_reward = {
 			MON = {
@@ -3254,7 +3417,7 @@ focus_tree = {
 		y = 6
 		cost = 2
 		ai_will_do = {
-			factor = 1
+			factor = 10
 		}	
 		completion_reward = {
 			TAN = {
@@ -3410,7 +3573,14 @@ focus_tree = {
 		y = 3
 		cost = 6
 		ai_will_do = {
-			factor = 1
+			factor = 3
+			modifier = {
+				factor = 4
+				OR = {
+				threat > 0.35
+				date > 1937.6.1
+				}
+			}
 		}	
 		completion_reward = {
 			209 = {
@@ -3557,6 +3727,10 @@ focus_tree = {
 					GER = { has_completed_focus = GER_demand_memel }
 				}
 			}
+			modifier = {
+				factor = 2
+				has_idea = SOV_molotov_ribbentrop_pact
+			}
 		}
 		bypass = {
 			OR = { 
@@ -3623,15 +3797,23 @@ focus_tree = {
 			factor = 20
 			modifier = {
 				factor = 0
-				date < 1939.7.1
-			}	
+				date < 1939.5.1
+			}
+			modifier = {
+				factor = 2
+				has_idea = SOV_molotov_ribbentrop_pact
+			}
 		}
 		bypass = {
 		}
 		completion_reward = {
+		    if = { limit = { FIN = { is_in_faction = no } }
+		    custom_effect_tooltip = SOV_baltic_security_tt
+			}
 			add_state_claim = 146 # Karjala
 			add_named_threat = { threat = 2 name = SOV_baltic_security }
 			hidden_effect = {
+			SOV = { country_event = { days = 2 id = soviet.31 } }
 			SWE = {
 			country_event = soviet.75
 			}
@@ -3657,7 +3839,11 @@ focus_tree = {
 			modifier = {
 				factor = 0
 				date < 1939.1.1
-			}	
+			}
+			modifier = {
+				factor = 4
+				has_idea = SOV_molotov_ribbentrop_pact
+			}
 		}
 
 		bypass = {
@@ -3757,10 +3943,23 @@ focus_tree = {
 
 		x = 14
 		y = 4
-		cost = 7
+		cost = 5
 		ai_will_do = {
 			factor = 1
-		}	
+			modifier = {
+				factor = 5
+				any_neighbor_country = {
+					tag = GER 
+				}
+			}
+			modifier = {
+				factor = 5
+				AND = {
+					NOR = { OR = { has_capitulated = yes exists = no is_puppet = yes } }
+					GER = { controls_state = 16 }
+				}
+			}
+		}
 
 		completion_reward = {
 			11 = {
@@ -3891,9 +4090,22 @@ focus_tree = {
 
 		x = 14
 		y = 5
-		cost = 8
+		cost = 6
 		ai_will_do = {
-			factor = 1
+			factor = 2
+			modifier = {
+				factor = 3
+				any_neighbor_country = {
+					tag = GER 
+				}
+			}
+			modifier = {
+				factor = 2
+				AND = {
+					NOR = { OR = { has_capitulated = yes exists = no is_puppet = yes } }
+					GER = { controls_state = 16 }
+				}
+			}
 		}	
 
 		completion_reward = {
@@ -4049,8 +4261,8 @@ focus_tree = {
 			casualties > 3000000
 			surrender_progress > 0.1
 		}
-		x = 0
-		y = 2
+		x = 3
+		y = 1
 		cost = 4.7
 
 		ai_will_do = {
@@ -4065,10 +4277,10 @@ focus_tree = {
 	focus = {
 		id = SOV_desperate_times
 		icon = GFX_goal_SOV_rodina
-		prerequisite = { focus = SOV_child_mobil  }
-		relative_position_id = SOV_child_mobil
+		prerequisite = { focus = SOV_defense_of_moscow }
+		relative_position_id = SOV_defense_of_moscow
 		x = 0
-		y = 1
+		y = 2
 		cost = 5.2
 
 		ai_will_do = {
@@ -4239,6 +4451,10 @@ focus_tree = {
 			modifier = {
 				factor = 0
 				date < 1939.1.1
+			}
+			modifier = {
+				factor = 8
+				has_idea = SOV_molotov_ribbentrop_pact
 			}			
 		}
 		bypass = {
@@ -4254,7 +4470,7 @@ focus_tree = {
 		completion_reward = {
 			add_state_claim = 78
 			add_state_claim = 80
-			add_state_claim = 198
+			add_state_claim = 766
 			add_named_threat = { threat = 1 name = SOV_claim_bessarabia }
 			random_other_country = {
 				limit = { owns_state = 78 }
@@ -4593,6 +4809,10 @@ focus_tree = {
 		}
 		ai_will_do = {
 			factor = 0.25
+			modifier = {
+				factor = 13
+				has_idea = SOV_molotov_ribbentrop_pact
+			}
 		}
 
 		completion_reward = {
@@ -4778,9 +4998,9 @@ focus_tree = {
 		completion_reward = {
 			navy_experience = 30
 			add_tech_bonus = {
-				name = naval_doctrine_bonus
+				name = naval_doc_bonus
 				uses = 3
-				bonus = 0.6
+				bonus = 0.75
 				category = naval_doctrine
 			}
 			if = {
@@ -4917,14 +5137,25 @@ focus_tree = {
 		id = SOV_lessons_of_war
 		icon = GFX_goal_generic_forceful_treaty
 
-		prerequisite = { focus = SOV_baltic_security	focus = SOV_afganistan }
-		prerequisite = {  }
+		prerequisite = { focus = SOV_great_purge }
 		available = {
-		     has_idea = SOV_unprepared_red_army
+            custom_trigger_tooltip = {
+					tooltip = SOV_lessons_of_war_tt
+					has_idea = SOV_unprepared_red_army
+				}
+            OR = {
+                AND = {
+                    NOT = { has_war_with = FIN }
+                    NOT = { has_war_with = AFG }
+                }
+                date > 1941.6.1
+                has_war_with = GER
+            }
 		}
+		relative_position_id = SOV_STAVKA
 
-		x = 17
-		y = 5
+		x = 1
+		y = 1
 		cost = 8
 		ai_will_do = {
 			factor = 1
@@ -4934,6 +5165,11 @@ focus_tree = {
 					has_war_with = POL
 					has_war_with = FIN
 				}
+			}
+			modifier = {
+				factor = 5
+					has_war_with = GER
+					date > 1942.6.1
 			}
 		}	
 		completion_reward = {
@@ -5258,10 +5494,10 @@ focus_tree = {
 				USA = { has_completed_focus = USA_lend_lease_act }
 		}
 		ai_will_do = {
-			factor = 1
+			factor = 7
 		}	
 		completion_reward = {
-			SOV_lend_lease_increased = yes
+			add_ideas = lend_lease1
 			if = { limit = { OR = { is_ai = no has_global_flag = ai_speeches } } 
 				hidden_effect = {
 					sound_effect = sp_sov_rallytheworkers 
@@ -5284,10 +5520,10 @@ focus_tree = {
 			date > 1941.12.12
 		}
 		ai_will_do = {
-			factor = 1
+			factor = 7
 		}	
 		completion_reward = {
-			SOV_lend_lease_increased = yes
+			add_ideas = lend_lease2
 		}
 	}
 
@@ -5308,10 +5544,10 @@ focus_tree = {
 		y = 9
 		cost = 4
 		ai_will_do = {
-			factor = 1
+			factor = 2
 		}
 		completion_reward = {
-			SOV_lend_lease_increased = yes
+			add_ideas = lend_lease3
 			country_event = { id = soviet.63 }
 		}
 	}
@@ -5329,10 +5565,10 @@ focus_tree = {
 		y = 5
 		cost = 4
 		ai_will_do = {
-			factor = 1
+			factor = 8
 		}	
 		completion_reward = {
-			SOV_lend_lease_increased = yes
+			add_ideas = lend_lease4
 		}
 	}
 
@@ -5433,7 +5669,7 @@ focus_tree = {
 		y = 2
 		cost = 4.7
 		ai_will_do = {
-			factor = 10
+			factor = 4
 		}
       bypass = {
 	     has_completed_focus = SOV_great_purge
@@ -5467,7 +5703,7 @@ focus_tree = {
 		y = 1
 		cost = 6
 		ai_will_do = {
-			factor = 10
+			factor = 4
 		}
 
 		completion_reward = {
@@ -5601,7 +5837,7 @@ focus_tree = {
 		icon = GFX_Goal_sov_troops
 		cost = 5
 		prerequisite = {
-			#focus = SOV_Create_a_Unified_Military_Doctrine
+			focus = SOV_lessons_of_war
 		}
 		mutually_exclusive = {
 			focus = SOV_superior_fp
@@ -5609,17 +5845,14 @@ focus_tree = {
 		mutually_exclusive = {
 			focus = SOV_Deep_Battle
 		}
-		available = {
-		    has_completed_focus = SOV_lessons_of_war
-		}
 		x = 32
 		y = 4
 
 		completion_reward = {
 			   add_tech_bonus = {
-			        name = SOV_lessons_of_war
+			        name = mass_assault_doc_bonus
 					uses = 2
-					bonus = 0.6
+					bonus = 0.75
 					technology = peoples_army
 					technology = human_infantry_offensive
 					technology = large_front_offensive
@@ -5632,7 +5865,7 @@ focus_tree = {
 		icon = GFX_Goal_sov_deepops
 		cost = 5
 		prerequisite = {
-			#focus = SOV_Create_a_Unified_Military_Doctrine
+			focus = SOV_lessons_of_war
 		}
 		mutually_exclusive = {
 			focus = SOV_superior_fp
@@ -5640,20 +5873,18 @@ focus_tree = {
 		mutually_exclusive = {
 			focus = SOV_peoples_war
 		}
-		available = {
-		    has_completed_focus = SOV_lessons_of_war
-		}
 		x = 34
 		y = 4
 
 		completion_reward = {
 				add_tech_bonus = {
-				    name = SOV_lessons_of_war
+				    name = mass_assault_doc_bonus
 					uses = 2
-					bonus = 0.6
+					bonus = 0.75
 					technology = large_front_operations
 					technology = deep_operations
 					technology = operational_concentration
+					technology = vast_offensives
 				}			
 		}
 	}
@@ -5662,23 +5893,23 @@ focus_tree = {
 		id = SOV_superior_fp
 		icon = GFX_SOV_rethink_doctrine
 		cost = 8
-
+		prerequisite = {
+			focus = SOV_lessons_of_war
+		}
 		mutually_exclusive = {
 			focus = SOV_peoples_war
 		}
 		mutually_exclusive = {
 			focus = SOV_Deep_Battle
 		}
-		available = {
-		    has_completed_focus = SOV_lessons_of_war
-		}
+
 		x = 36
 		y = 4
 		cancel_if_invalid = yes
 
 		completion_reward = {
 				add_tech_bonus = {
-				    name = SOV_lessons_of_war
+				    name = land_doctrine_bonus
 					uses = 3
 					bonus = 1.0
 					category = cat_superior_firepower
@@ -5720,8 +5951,8 @@ focus_tree = {
 
 		completion_reward = {
 				add_tech_bonus = {
-				name = arty_bonus
-				bonus = 0.6
+				name = artillery_bonus
+				bonus = 0.75
 				uses = 3
 				category = artillery
 			}		
@@ -5739,13 +5970,25 @@ focus_tree = {
 		cancel_if_invalid = yes
 
 		completion_reward = {
-				add_tech_bonus = {
-				name = SOV_rockets_focus
-				ahead_reduction = 0.5
-				bonus = 0.5
-				uses = 2
-				category = rocketry
-			}		
+            add_tech_bonus = {
+		    	name = rocket_artillery_bonus
+				ahead_reduction = 1.0
+		    	bonus = 0.5
+		    	uses = 1 
+		    	technology = rocket_artillery
+			    technology = rocket_artillery2
+			    technology = rocket_artillery3
+		    	technology = rocket_artillery4
+			}	
+            add_tech_bonus = {
+		    	name = rocket_artillery_bonus
+		    	bonus = 0.5
+		    	uses = 1 
+		    	technology = rocket_artillery
+			    technology = rocket_artillery2
+			    technology = rocket_artillery3
+		    	technology = rocket_artillery4
+			}			
 		}
 	}
 
@@ -5789,6 +6032,8 @@ focus_tree = {
 			show_ideas_tooltip = konstantin_rokossovsky 
 			custom_effect_tooltip = available_theorist
 			show_ideas_tooltip = georgy_zhukov
+			custom_effect_tooltip = available_chief_of_army
+			show_ideas_tooltip = georgy_zhukov_chief
 			# REVISIT Might want to add more
 		}
 	}
@@ -5800,7 +6045,7 @@ focus_tree = {
 		prerequisite = { focus = SOV_positive_heroism }
 		x = 31
 		y = 5
-		cost = 7
+		cost = 4.3
 		ai_will_do = {
 			factor = 1
 		}
@@ -5887,11 +6132,11 @@ focus_tree = {
 	focus = {
 		id = SOV_guards
 		icon = GFX_Goal_Guards_Unit2
-		prerequisite = { focus = SOV_STAVKA }
-		prerequisite = { focus = SOV_positive_heroism }
+		#prerequisite = { focus = SOV_STAVKA }
+		#prerequisite = { focus = SOV_positive_heroism }
 		prerequisite = { focus = SOV_unified_doctrine }
-		prerequisite = { focus = SOV_t_34_finalized focus = SOV_armored_car }
-		x = 42
+		#prerequisite = { focus = SOV_t_34_finalized focus = SOV_armored_car }
+		x = 38
 		y = 6
 		cost = 3
 		available = {
@@ -5902,7 +6147,7 @@ focus_tree = {
 		}
 		
 		ai_will_do = {
-			factor = 0
+			factor = 3
 		}
 
 		
@@ -5916,7 +6161,7 @@ focus_tree = {
 		id = SOV_amph2
 		icon = GFX_SOV_marines
 		prerequisite = { focus = SOV_guards }
-		x = 43
+		x = 39
 		y = 7
 		cost = 3.2
 		
@@ -5928,7 +6173,7 @@ focus_tree = {
 		completion_reward = {
 			custom_effect_tooltip = SOV_marine_template_tt
             add_tech_bonus = {
-				name = special_bonus
+				name = tp_bonus
 				bonus = 0.5
 				uses = 1
 				category = tp_tech
@@ -5970,8 +6215,8 @@ focus_tree = {
 		id = SOV_paratroopers
 		icon = GFX_Goal_Soviet_Airborne_Corps
 		prerequisite = { focus = SOV_guards }
-		prerequisite = { focus = SOV_Soviet_Airforce }
-		x = 41
+		#prerequisite = { focus = SOV_Soviet_Airforce }
+		x = 37
 		y = 7
 		cost = 4
 		available = {
@@ -6007,7 +6252,8 @@ focus_tree = {
 
 					support = {
 						DIV_HQ = { x = 0 y = 1 }
-						engineer = { x = 1 y = 1 }					
+						engineer = { x = 1 y = 1 }		
+                        logistics_company_small	 = { x = 0 y = 1 }						
 					}
 				}
 			}
@@ -6025,6 +6271,7 @@ focus_tree = {
 	y = 6
 	completion_reward = {
 		add_tech_bonus = {
+		    name = mechanized_bonus
 			uses = 1
 			bonus = 0.75
 			ahead_reduction = 0.5
@@ -6047,12 +6294,15 @@ focus_tree = {
 		cost = 5
 		available = {
 			has_war_with = GER
-			GER = {
 				10 = {
-					is_controlled_by_ROOT_or_ally = yes
-				}
-			}
-			
+					CONTROLLER = {
+						or = {
+							is_subject_of = GER
+							tag = GER
+							is_in_faction_with = GER
+						}
+					}
+				}	
 		}
 		ai_will_do = {
 			factor = 5
@@ -6099,14 +6349,18 @@ focus_tree = {
 		prerequisite = { focus = SOV_proletariat_reserves }
 		x = 29
 		y = 7
-		cost = 5
+		cost = 7
 		available = {
 			has_war_with = GER
-			GER = {
-				10 = {
-					is_controlled_by_ROOT_or_ally = yes
-				}
-			}
+			10 = {
+					CONTROLLER = {
+						or = {
+							is_subject_of = GER
+							tag = GER
+							is_in_faction_with = GER
+						}
+					}
+				}	
 			
 		}
 		ai_will_do = {
@@ -6129,7 +6383,7 @@ focus_tree = {
 		y = 6
 		cost = 5
 		ai_will_do = {
-			factor = 1
+			factor = 3
 		}
 		available = {
         OR = {
@@ -6152,17 +6406,19 @@ focus_tree = {
 			has_country_flag = operation_countenance_fired
 		}
 		completion_reward = {
+		     set_country_flag = operation_countenance_fired_by_soviet
 		      ENG = { country_event = { id = BICE_britain.36 } }
-        
-		#if = {   # Why the iraq check? what happens with iraq?
-		#			limit = {
-		#			NOT = { IRQ = { is_in_faction_with = ENG } }
-		#	291 = {
-		#    is_owned_and_controlled_by = IRQ
-		#	}
-		#			}
-		#					
-		#		}
+			   effect_tooltip = {
+			PER = {
+			custom_effect_tooltip = needs_approval
+			give_resource_rights = { receiver = SOV state = 411 }
+			set_rule = { 
+					can_join_factions = no 
+					can_create_factions = no
+					can_not_declare_war = yes
+				}
+			}
+			}
 		
 		
 
@@ -6178,7 +6434,7 @@ focus_tree = {
 		y = 4
 		cost = 2.6
 		ai_will_do = {
-			factor = 1
+			factor = 3
 		}
 		available = {
 		    has_war = yes
@@ -6216,7 +6472,7 @@ focus_tree = {
 		id = SOV_Red_Army_Airforce
 		icon = GFX_Aerial_Fleet
 		cost = 5.3
-		x = 38
+		x = 40
 		y = 1
 		allow_branch = {
 			NOT = {
@@ -6227,7 +6483,7 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 				name = air_doc_bonus
-				bonus = 0.5
+				bonus = 0.6
 				uses = 2
 				category = air_doctrine
 
@@ -6241,16 +6497,14 @@ focus_tree = {
 		icon = GFX_goal_generic_air_naval_bomber
 		cost = 5
 		prerequisite = {
-			focus = SOV_Soviet_Airforce
-		}
-		prerequisite = {
 			focus = SOV_Transpolar_Flight
 		}
 		x = 3
-		y = 4
+		y = 3
 		relative_position_id = SOV_Red_Army_Airforce
 		completion_reward = {
 			add_tech_bonus = {
+			    name = nav_bomber_bonus
 				uses = 2
 				bonus = 0.6
 				category = naval_bomber
@@ -6270,7 +6524,7 @@ focus_tree = {
 		prerequisite = {
 			focus = SOV_great_purge
 		}
-		x = -3
+		x = -2
 		y = 1
 		relative_position_id = SOV_Red_Army_Airforce
 		
@@ -6337,6 +6591,7 @@ focus_tree = {
 		custom_effect_tooltip = available_designer
 		show_ideas_tooltip = yakovlev_design_bureau
 			add_tech_bonus = {
+			    name = fighter_bonus
 				uses = 1
 				bonus = 0.5
 				category = light_fighter
@@ -6361,6 +6616,7 @@ focus_tree = {
 		custom_effect_tooltip = available_designer
 		show_ideas_tooltip = LaGG_design_bureau
 			add_tech_bonus = {
+			    name = fighter_bonus
 				uses = 1
 				bonus = 0.5
 				category = light_fighter
@@ -6375,13 +6631,14 @@ focus_tree = {
 		prerequisite = {
 			focus = SOV_OKB
 		}
-		x = 2
-		y = 3
+		x = -3
+		y = 2
 		relative_position_id = SOV_Red_Army_Airforce
 		completion_reward = {
 		custom_effect_tooltip = available_designer
 		show_ideas_tooltip = ilyushin_design_bureau
 			add_tech_bonus = {
+			    name = CAS_bonus
 				uses = 3
 				ahead_reduction = 0.4
 				category = cas_bomber
@@ -6402,6 +6659,7 @@ focus_tree = {
 		completion_reward = {
 				country_event = soviet.339
 			add_tech_bonus = {
+			    name = heavy_bomber_bonus
 				uses = 2
 				bonus = 0.75
 				category = heavy_air
@@ -6470,7 +6728,7 @@ focus_tree = {
 		relative_position_id = SOV_Red_Army_Airforce
 		completion_reward = {
 			add_tech_bonus = {
-			    name = SOV_Soviet_Airforce
+			    name = air_doc_bonus
 				uses = 2
 				bonus = 0.5
 				category = air_doctrine
@@ -6486,9 +6744,6 @@ focus_tree = {
 		prerequisite = {
 			focus = SOV_Soviet_Airforce
 		}
-		prerequisite = {
-			focus = SOV_Transpolar_Flight
-		}
 		mutually_exclusive = {
 			focus = SOV_Frontal_Aviation
 		}
@@ -6497,6 +6752,7 @@ focus_tree = {
 		relative_position_id = SOV_Red_Army_Airforce
 		completion_reward = {
 			add_tech_bonus = {
+			    name = heavy_bomber_bonus
 				uses = 2
 				bonus = 0.5
 				ahead_reduction = 0.3
@@ -6525,6 +6781,7 @@ focus_tree = {
 		custom_effect_tooltip = available_designer
 		show_ideas_tooltip = mig_design_bureau
 			add_tech_bonus = {
+			    name = fighter_bonus
 				uses = 1
 				bonus = 0.75
 				category = light_fighter
@@ -6564,7 +6821,7 @@ focus_tree = {
 				add_extra_state_shared_building_slots = 2
 			}
 			add_tech_bonus = {
-				name = SOV_preparation_war
+				name = heavy_industry_tech_bonus
 				bonus = 0.75
 				uses = 2
 				technology = uniform_industry2
@@ -6808,7 +7065,7 @@ focus_tree = {
 		prerequisite = { focus = SOV_develope_belarus focus = SOV_progress_cult }
 		relative_position_id = SOV_develope_baltics
 		
-		x = 4
+		x = 7
 		y = 2
 		cost = 4.5
 		available = {
@@ -6917,7 +7174,7 @@ focus_tree = {
 		y = 2
 		cost = 10
 		ai_will_do = {
-			factor = 8
+			factor = 0.5
 			modifier = {
 			factor = 0
 			is_historical_focus_on = yes
@@ -6950,7 +7207,7 @@ focus_tree = {
 			custom_effect_tooltip = available_tank_designer
 	    	show_ideas_tooltip = okmo
 	  		add_tech_bonus = {
-				name = armor_bonus
+				name = ag_bonus
 				bonus = 0.5
 				uses = 2
 				category = cat_stug
@@ -6973,14 +7230,14 @@ focus_tree = {
 
 		completion_reward = {
 			add_tech_bonus = {
-				name = armor_bonus
-				bonus = 0.6
+				name = light_td_bonus
+				bonus = 0.75
 				uses = 1
 				category = cat_light_td
 			}
 			add_tech_bonus = {
-				name = armor_bonus
-				bonus = 0.6
+				name = light_spg_bonus
+				bonus = 0.75
 				uses = 1
 				category = cat_light_art
 			}
@@ -6997,13 +7254,13 @@ focus_tree = {
 		y = 3
 		cost = 3.2
 		ai_will_do = {
-			factor = 1
+			factor = 3
 		}
 
 		completion_reward = {
 			add_tech_bonus = {
-				name = armor_bonus
-				bonus = 0.6
+				name = ac_bonus
+				bonus = 0.75
 				uses = 1
 			    technology = tech_sov_ac_recon3
 				technology = tech_sov_ac_recon4
@@ -7232,7 +7489,7 @@ focus_tree = {
 	focus = {
 		id = SOV_lostnation
 		icon = GFX_Goal_Attack_Soviets
-		x = 53
+		x = 57
 		y = 0
 		
 		available = {
@@ -7240,7 +7497,7 @@ focus_tree = {
 		}
 		
 		ai_will_do = {
-			factor = 1
+			factor = 15
 		}
 		
 		cost = 5
@@ -7265,7 +7522,7 @@ focus_tree = {
 		}
 		
 		ai_will_do = {
-			factor = 1
+			factor = 10
 		}
 		
 		cost = 6.2
@@ -7314,7 +7571,7 @@ focus_tree = {
 		}
 		
 		ai_will_do = {
-			factor = 1
+			factor = 10
 		}
 		
 		cost = 7.2
@@ -7339,7 +7596,7 @@ focus_tree = {
 		}
 		
 		ai_will_do = {
-			factor = 1
+			factor = 5
 		}
 		
 		cost = 2
@@ -7366,7 +7623,7 @@ focus_tree = {
 		}
 		
 		ai_will_do = {
-			factor = 1
+			factor = 5
 		}
 		
 		cost = 5
@@ -7391,7 +7648,7 @@ focus_tree = {
 		}
 		
 		ai_will_do = {
-			factor = 1
+			factor = 15
 		}
 		
 		cost = 7
@@ -7425,54 +7682,13 @@ focus_tree = {
 						}
 						add_extra_state_shared_building_slots = 6
 					}
-					set_technology = {
-						################# infantry ###############
-						infantry_uniforms = 1
-						infantry_weapons = 1
-						infantry_weapons1 = 1
-						hmg = 1
-						mortars = 1
-						semi_motorised_infantry = 2
-						tech_Garrison = 1
-						tech_Headquarters = 1
-						################## support ##################
-						tech_recon = 1
-						subtech_recon_cav_1 = 1
-						tech_engineers = 1
-						tech_support = 1
-						################## artillery ###############
-						gw_artillery = 2
-						#interwar_artillery = 2
-						################## armor ##############
-						generic_armor = 1
-						tech_Gun_Carriers = 1
-						################## aircraft ##############
-						early_fighter = 1
-						CAS0 = 1
-						generic_fighter = 1
-						generic_bomber = 1
-						############### economy ############
-						construction0 = 1
-						basic_industry = 2
-						defence_works0 = 1
-						infra_works0 = 1
-						concentrated_industry = 2
-						tech_Garrison_2 = 1
-					}
 					set_politics = {
 						ruling_party = neutrality
-					}
-					set_popularities = {
-						democratic = 11
-						neutrality = 63
-						fascism = 25
-						communism = 1
 					}
 					set_stability = 0.35
 					set_war_support = 0.6
 					add_manpower = 10000
 					army_experience = 12
-					load_oob = DON_cav
 				}
 			}
 		}
@@ -7492,7 +7708,7 @@ focus_tree = {
 		}
 		
 		ai_will_do = {
-			factor = 1
+			factor = 20
 		}
 		
 		cost = 6.2
@@ -7523,7 +7739,7 @@ focus_tree = {
 		}
 		
 		ai_will_do = {
-			factor = 1
+			factor = 5
 		}
 		
 		cost = 6
@@ -7553,7 +7769,7 @@ focus_tree = {
 		}
 		
 		ai_will_do = {
-			factor = 1
+			factor = 10
 		}
 		
 		cost = 4
@@ -7575,16 +7791,17 @@ focus_tree = {
 		}
 		
 		ai_will_do = {
-			factor = 1
+			factor = 10
 		}
 		
 		cost = 7.5
 		
 		completion_reward = {
 			add_tech_bonus = {
+			    name = infantry_weapons_bonus
 				uses = 1
 				category = infantry_weapons
-				bonus = 0.75
+				bonus = 0.9
 			}
 		}
 	}
@@ -7601,7 +7818,7 @@ focus_tree = {
 		}
 		
 		ai_will_do = {
-			factor = 1
+			factor = 5
 		}
 		
 		cost = 5.5
@@ -7623,7 +7840,7 @@ focus_tree = {
 		}
 		
 		ai_will_do = {
-			factor = 1
+			factor = 10
 		}
 		
 		cost = 10.5
@@ -7676,7 +7893,7 @@ focus_tree = {
 		}
 		
 		ai_will_do = {
-			factor = 1
+			factor = 10
 		}
 		
 		cost = 9.2
@@ -7729,7 +7946,7 @@ focus_tree = {
 		}
 		
 		ai_will_do = {
-			factor = 1
+			factor = 5
 		}
 		
 		cost = 5.2
