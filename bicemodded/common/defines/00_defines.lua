@@ -1291,7 +1291,7 @@ NNavy = {
 		0.9,	-- low
 		1.25,	-- medium
 		2.5,	-- high
-		10000,	-- I am death incarnate!
+		20,	-- I am death incarnate!
 	},
 	
 	AGGRESION_MULTIPLIER_FOR_COMBAT = 1.2,				-- ships are more aggresive in combat
@@ -1315,7 +1315,7 @@ NNavy = {
 		8.5,   -- low
 		2.5,   -- medium
 		1.0,   -- high
-		0.1,   -- I am death incarnate!
+		0.25,   -- I am death incarnate!
 	},
 	
 	MIN_REPAIR_FOR_JOINING_COMBATS = { -- strikeforces/patrol forces will not join combats if they are not repaired enough
