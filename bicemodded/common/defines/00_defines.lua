@@ -2973,18 +2973,18 @@ NIntel = {
 	ARMY_MAX_PIERCING_RANGE_AT_LOWEST_INTEL = 1.0,
 	--~
 	
-	NAVY_MAPICON_MISSION_COUNT_INTEL_MIN = 0.5,  -- min intel to show assigned naval missions
-	NAVY_MAPICON_MISSION_COUNT_INTEL_MAX = 0.8,  -- min intel to show assigned naval missions with perfect accuracy, and taskforces count
+	NAVY_MAPICON_MISSION_COUNT_INTEL_MIN = 0.7,  -- min intel to show assigned naval missions
+	NAVY_MAPICON_MISSION_COUNT_INTEL_MAX = 0.9,  -- min intel to show assigned naval missions with perfect accuracy, and taskforces count
 
-	NAVY_MAPICON_SHOW_ALL_NAVAL_PORTS = 0.3,  -- min intel to show all naval ports (otherwise you will only see nearby ones)
+	NAVY_MAPICON_SHOW_ALL_NAVAL_PORTS = 0.5,  -- min intel to show all naval ports (otherwise you will only see nearby ones)
 	NAVY_MAPICON_NAVAL_PORT_VISIBILITY_DETAIL_THRESHOLDS = { -- how detailed the post tooltips will be
 		0.0,	-- for no intel
-		0.1,	-- show port level
-		0.3,	-- show fuzzy taskforce count
-		0.7,	-- show full taskforce count
-		0.8,	-- show taskforce details
+		0.25,	-- show port level
+		0.5,	-- show fuzzy taskforce count
+		0.8,	-- show full taskforce count
+		0.9,	-- show taskforce details
 	},
-	NAVY_MAPICON_NAVAL_PORT_TASKFORCE_FUZZY_THRESHOLD = 0.5,
+	NAVY_MAPICON_NAVAL_PORT_TASKFORCE_FUZZY_THRESHOLD = 0.65,
 	
 	AIR_MAPICON_MISSION_COUNT_INTEL_MIN = {
 		0.3, -- AIR_SUPERIORITY
