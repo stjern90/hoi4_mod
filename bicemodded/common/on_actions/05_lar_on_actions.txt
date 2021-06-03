@@ -558,7 +558,7 @@ on_actions = {
 				if = {
 					limit = {
 						has_country_leader = {
-							name = "JosÈ†Åntonio Primo de Rivera"
+							name = "JosÈ Antonio Primo de Rivera"
 							ruling_only = yes
 						}
 						FROM = {
@@ -596,12 +596,6 @@ on_actions = {
 					}
 				}
 				country_event = { id = lar_news.28 }
-				delete_units = {
-					division_template = "Legioni Spedizionarie"
-				}
-				delete_units = {
-					division_template = "Brigada Legionario"
-				}
 			}
 			if = { # Republican victory SCW
 				limit = {
@@ -623,9 +617,6 @@ on_actions = {
 					}
 				}
 				country_event = { id = lar_news.29 }
-				delete_units = {
-					division_template = "Brigada Internacionales"
-				}
 			}
 			if = { # Nationalist victory SCW
 				limit = {
@@ -649,9 +640,9 @@ on_actions = {
 						}
 					}
 				}
-				country_event = { id = lar_news.1 }
 				set_global_flag = nationalist_victory
 				set_global_flag = scw_over
+				country_event = { id = lar_news.1 }
 			}
 			if = { # Republican victory SCW
 				limit = {
@@ -672,9 +663,9 @@ on_actions = {
 						}
 					}
 				}
-				country_event = { id = lar_news.2 }
 				set_global_flag = republican_victory
 				set_global_flag = scw_over
+				country_event = { id = lar_news.2 }
 				if = { #If SPD has Portuguese mutineers, send them back
 					limit = {
 						tag = SPD
@@ -1146,7 +1137,7 @@ on_actions = {
 
 
 	#ROOT is winner #FROM gets annexed - This fires just before FROM gets annexed, meaning the country and everything it owns still exists. It will also fire on_annex and on_civil_war_end
-	on_civil_war_end_before_annexation = {
+	on_civil_war_end_before_annexation {
 		effect = {
 			if = { # Carlists Defeated, civil war not over
 				limit = {
@@ -1360,7 +1351,6 @@ on_actions = {
 					add_dynamic_modifier = { modifier = semi_autonomous_state }
 				}
 			}
-			
 			if = { # AI Spanish factions surrender if they do not control any state in the Iberian Peninsula, but own other territories outside of it (preventing forcing the player to execute naval invasions to win the SCW)
 				limit = {
 					SPR_scw_in_progress = yes
@@ -1453,7 +1443,8 @@ on_actions = {
 			}
 		}
 	}
-	
+
+	#ROOT is winner #FROM gets annexed - For civil wars on_civil_war_end is also fired
 	on_annex = {
 		effect = {
 			# Portuguese Anarchism
@@ -1483,6 +1474,74 @@ on_actions = {
 				}
 				clr_global_flag = SPR_portuguese_anarchism_flag
 				set_rule = { can_join_factions = yes }
+			}
+			if = {
+				limit = {
+					has_global_flag = scw_over
+					FROM = {
+						tag = SPA
+					}
+				}
+				every_owned_state = {
+					limit = {
+						has_state_flag = SPR_sided_with_republicans_flag
+						NOT = {
+							is_core_of = SPA
+						}
+					}
+					add_core_of = SPA
+				}
+			}
+			if = {
+				limit = {
+					has_global_flag = scw_over
+					FROM = {
+						tag = SPB
+					}
+				}
+				every_owned_state = {
+					limit = {
+						has_state_flag = SPR_sided_with_republicans_flag
+						NOT = {
+							is_core_of = SPB
+						}
+					}
+					add_core_of = SPB
+				}
+			}
+			if = {
+				limit = {
+					has_global_flag = scw_over
+					FROM = {
+						tag = SPC
+					}
+				}
+				every_owned_state = {
+					limit = {
+						has_state_flag = SPR_sided_with_nationalists_flag
+						NOT = {
+							is_core_of = SPC
+						}
+					}
+					add_core_of = SPC
+				}
+			}
+			if = {
+				limit = {
+					has_global_flag = scw_over
+					FROM = {
+						tag = SPD
+					}
+				}
+				every_owned_state = {
+					limit = {
+						has_state_flag = SPR_sided_with_nationalists_flag
+						NOT = {
+							is_core_of = SPD
+						}
+					}
+					add_core_of = SPD
+				}
 			}
 		}
 	}
