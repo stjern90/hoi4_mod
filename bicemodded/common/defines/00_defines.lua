@@ -186,7 +186,7 @@ NCountry = {
 	REINFORCEMENT_AIRBASE_PRIORITY_COUNT = 3,
 	REINFORCEMENT_AIRBASE_PRIORITY_DEFAULT = 1,
 	REINFORCEMENT_DELIVERY_SPEED_MIN = 0.35,			-- The distance from the supply region to capital should affect the speed only a little bit. Main factor for penalty is overcrowded areas, and not the route length.
-	REINFORCEMENT_EQUIPMENT_DELIVERY_SPEED = 0.1,	-- Modifier for army equipment reinforcement speed
+	REINFORCEMENT_EQUIPMENT_DELIVERY_SPEED = 0.11,	-- Modifier for army equipment reinforcement speed
 	REINFORCEMENT_MANPOWER_DELIVERY_SPEED = 15.0,	-- Modifier for army manpower reinforcement delivery speed (travel time)
 	REINFORCEMENT_MANPOWER_CHUNK = 0.1,				-- Chunk size of manpower reinforcement delivery, in % of total manpower needed by the template.
 	EQUIPMENT_UPGRADE_CHUNK_MAX_SIZE = 10,			-- Maximum chunk size of equipment upgrade distribution per update.
@@ -1291,7 +1291,7 @@ NNavy = {
 		0.9,	-- low
 		1.25,	-- medium
 		2.5,	-- high
-		10000,	-- I am death incarnate!
+		20,	-- I am death incarnate!
 	},
 	
 	AGGRESION_MULTIPLIER_FOR_COMBAT = 1.2,				-- ships are more aggresive in combat
@@ -1315,7 +1315,7 @@ NNavy = {
 		8.5,   -- low
 		2.5,   -- medium
 		1.0,   -- high
-		0.1,   -- I am death incarnate!
+		0.25,   -- I am death incarnate!
 	},
 	
 	MIN_REPAIR_FOR_JOINING_COMBATS = { -- strikeforces/patrol forces will not join combats if they are not repaired enough
@@ -2973,18 +2973,18 @@ NIntel = {
 	ARMY_MAX_PIERCING_RANGE_AT_LOWEST_INTEL = 1.0,
 	--~
 	
-	NAVY_MAPICON_MISSION_COUNT_INTEL_MIN = 0.5,  -- min intel to show assigned naval missions
-	NAVY_MAPICON_MISSION_COUNT_INTEL_MAX = 0.8,  -- min intel to show assigned naval missions with perfect accuracy, and taskforces count
+	NAVY_MAPICON_MISSION_COUNT_INTEL_MIN = 0.7,  -- min intel to show assigned naval missions
+	NAVY_MAPICON_MISSION_COUNT_INTEL_MAX = 0.9,  -- min intel to show assigned naval missions with perfect accuracy, and taskforces count
 
-	NAVY_MAPICON_SHOW_ALL_NAVAL_PORTS = 0.3,  -- min intel to show all naval ports (otherwise you will only see nearby ones)
+	NAVY_MAPICON_SHOW_ALL_NAVAL_PORTS = 0.5,  -- min intel to show all naval ports (otherwise you will only see nearby ones)
 	NAVY_MAPICON_NAVAL_PORT_VISIBILITY_DETAIL_THRESHOLDS = { -- how detailed the post tooltips will be
 		0.0,	-- for no intel
-		0.1,	-- show port level
-		0.3,	-- show fuzzy taskforce count
-		0.7,	-- show full taskforce count
-		0.8,	-- show taskforce details
+		0.25,	-- show port level
+		0.5,	-- show fuzzy taskforce count
+		0.8,	-- show full taskforce count
+		0.9,	-- show taskforce details
 	},
-	NAVY_MAPICON_NAVAL_PORT_TASKFORCE_FUZZY_THRESHOLD = 0.5,
+	NAVY_MAPICON_NAVAL_PORT_TASKFORCE_FUZZY_THRESHOLD = 0.65,
 	
 	AIR_MAPICON_MISSION_COUNT_INTEL_MIN = {
 		0.3, -- AIR_SUPERIORITY
