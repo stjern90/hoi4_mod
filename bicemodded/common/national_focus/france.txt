@@ -3076,8 +3076,10 @@
 						original_tag = SLO
 						original_tag = MNT
 						original_tag = BOS
+						original_tag = HRZ
 						original_tag = MAC
 						original_tag = CRO
+						original_tag = TRA
 					}
 					exists = yes
 					is_in_faction = no
@@ -3550,22 +3552,26 @@
 		available_if_capitulated = no
 
 		completion_reward = {
-			
-			every_other_country = {
-				limit = {
-					original_tag = SPR
-					not = { has_government = communism }
-				}
-				ROOT = {
-					create_wargoal = {
-						target = PREV
-						type = topple_government
+			custom_effect_tooltip = FRA_carry_the_revolution_west_tt
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						original_tag = SPR
+						not = { has_government = communism }
+					}
+					ROOT = {
+						create_wargoal = {
+							target = PREV
+							type = topple_government
+							expire = 0
+						}
 					}
 				}
 			}
 			custom_effect_tooltip = unlocks_espionage_operation_tt
 			custom_effect_tooltip = FRA_instigate_workers_revolution_spain
 		}
+	}
 	}
 	focus = {
 		id = FRA_carry_the_revolution_east
@@ -5389,6 +5395,10 @@
 			268 = {
 				is_owned_or_subject_trigger = yes
 			}
+			ITA = {
+				owns_state = 550
+				owns_state = 559
+			}
 		}
 		
 		bypass = {
@@ -5434,6 +5444,10 @@
 					has_war_with = ITA
 				}
 				exists = yes
+			}
+			ITA = {
+				owns_state = 550
+				owns_state = 559
 			}
 			has_country_flag = lar_france_stresa_front_italy_agreed
 		}
@@ -6476,7 +6490,15 @@
 		available = {
 			any_other_country = {
 				original_tag = SPR
-				has_government = ROOT
+				OR = {
+					has_government = ROOT
+					AND = {
+						has_country_leader = { name = "Francisco Franco" }
+						ROOT = {
+							has_government = fascism
+						}
+					}
+				}
 			}
 			if = {
 				limit = {
@@ -6507,7 +6529,13 @@
 			random_other_country = { 
 				limit = {
 					original_tag = SPR
-					has_government = ROOT
+					OR = {
+						has_government = ROOT
+						has_country_leader = { name = "Francisco Franco" ruling_only = yes }
+						NOT = {
+							has_global_flag = spanish_civil_war #to make the focus show an effect before the SCW breaks out
+						}
+					}
 				}
 				if = {
 					limit = {
