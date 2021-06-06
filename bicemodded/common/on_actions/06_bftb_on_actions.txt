@@ -9,7 +9,6 @@ on_actions = {
 					has_war_with = GRE
 				}
 				GRE = { country_event = { id = bftb_greece.208 days = 0 } }
-				news_event = { id = bftb_news.301 hours = 12 }
 			}
 		}
 	}
@@ -353,6 +352,7 @@ on_actions = {
 				limit = {
 					FROM.FROM = { BUL_is_macedonian_state = yes }
 				}
+				#Widespread Sentiment
 				if = {
 					limit = {
 						FROM.FROM = { has_dynamic_modifier = { modifier = widespread_bulgarian_sentiment_01 } }
@@ -373,9 +373,23 @@ on_actions = {
 						add_dynamic_modifier = { modifier = widespread_bulgarian_sentiment_01 }
 					}
 				}
+				#IMRO Skirmishes
+				if = {
+					limit = {
+						FROM.FROM = {
+							has_dynamic_modifier = { modifier = skirmishes_against_imro }
+						}
+						ROOT = { tag = BUL }
+					}
+					FROM.FROM = {
+						remove_dynamic_modifier = { modifier = skirmishes_against_imro }
+					}
+				}
 			}
 		}
 	}
+
+	#FROM is faction leader on join faction requests. THIS DOES NOT FIRE ON ADD_TO_FACTION EFFECT! USE ON_OFFER_JOIN_FACTION!
 	on_join_faction = {
 		effect = {
 			if = {
@@ -398,7 +412,77 @@ on_actions = {
 				}
 			}
 		}
+		effect = { #If in faction with Bulgaria, remove bad opinion modifiers
+			if = { #A country joins Bulgaria's faction
+				limit = {
+					NOT = { original_tag = BUL }
+					FROM = {
+						OR = {
+							is_in_faction_with = BUL
+							original_tag = BUL
+						}
+					}
+				}
+				BUL_remove_balkan_opinion_modifiers = yes
+			}
+			else_if = { #Bulgaria joins a faction
+				limit = {
+					original_tag = BUL
+					FROM = {
+						any_allied_country = {
+							BUL_is_balkan_nation_no_bulgaria = yes
+						}
+					}
+				}
+				every_other_country = {
+					limit = {
+						is_in_faction_with = FROM
+						BUL_is_balkan_nation_no_bulgaria = yes
+					}
+					BUL_remove_balkan_opinion_modifiers = yes
+				}
+			}
+		}
 	}
+
+	#FROM is country getting invited.
+	on_offer_join_faction = {
+		effect = { #If in faction with Bulgaria, remove bad opinion modifiers
+			if = { #A country joins Bulgaria's faction
+				limit = {
+					is_in_faction_with = BUL
+					FROM = {
+						NOT = { original_tag = BUL }
+					}
+				}
+				FROM = { BUL_remove_balkan_opinion_modifiers = yes }
+			}
+			else_if = { #Bulgaria joins a faction
+				limit = {
+					FROM = {
+						original_tag = BUL
+					}
+					OR = {
+						BUL_is_balkan_nation_no_bulgaria = yes
+						any_allied_country = {
+							BUL_is_balkan_nation_no_bulgaria = yes
+						}
+					}
+				}
+				every_country = {
+					limit = {
+						OR = {
+							tag = PREV
+							is_in_faction_with = PREV
+						}
+						BUL_is_balkan_nation_no_bulgaria = yes
+					}
+					BUL_remove_balkan_opinion_modifiers = yes
+				}
+			}
+		}
+	}
+
 	on_startup = {
 		effect = {
 			#Iraqi oil concessions
@@ -524,15 +608,9 @@ on_actions = {
 						limit = {
 							has_government = fascism
 						}
-						set_country_flag = BUL_nsm_integrated_flag
 						unlock_national_focus = BUL_allow_far_right_organizations
 					}
-					else_if = {
-						limit = {
-							has_government = neutrality
-						}
-						set_country_flag = BUL_zveno_integrated_flag
-					}
+					set_country_flag = BUL_zveno_integrated_flag
 					clr_country_flag = BUL_zveno_coup_flag
 				}
 				else_if = { #Original BUL won the CW against ZVENO
@@ -646,13 +724,12 @@ on_actions = {
 						country_event = { id = bftb_bulgaria_scw_volunteers.1 hours = 12 random_hours = 8 }
 						clr_country_flag = BUL_sent_volunteers_to_SPD_flag
 					}
-					
 				}
 				else_if = {
 					limit = {
 						BUL = { has_country_flag = BUL_sent_volunteers_to_SPA_flag }
 					}
-					BUL = {
+					BUL = {						
 						country_event = { id = bftb_bulgaria_scw_volunteers.2 hours = 12 random_hours = 8 }
 						clr_country_flag = BUL_sent_volunteers_to_SPA_flag
 					}
@@ -1457,6 +1534,52 @@ on_actions = {
 	#FROM = defending side
 	#fired when two countries end up at war with each other (on_war is fired when a country goes to war against anyone and is not fired again when it enters war against another country unless it went to peace first)
 	on_war_relation_added = {
+		effect = { #Bulgaria vs SOV -> Cooldown before high chance of FF forming up
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							ROOT = { original_tag = BUL }
+							FROM = { original_tag = SOV }
+						}
+						AND = {
+							ROOT = { original_tag = SOV }
+							FROM = { original_tag = BUL }
+						}
+					}
+					
+					BUL = { NOT = { has_country_flag = BUL_at_war_with_the_soviets_flag } }
+				}
+				BUL = { set_country_flag = BUL_at_war_with_the_soviets_flag }
+			}
+		}
+		effect = {
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							original_tag = ITA
+							FROM = {
+								original_tag = GRE
+							}
+						}
+						AND = {
+							original_tag = GRE
+							FROM = {
+								original_tag = ITA
+							}
+						}
+					}
+					OR = {
+						has_country_flag = GRE_italy_attending_convention
+						FROM = { has_country_flag = GRE_italy_attending_convention }
+					}
+				}
+				GRE = {
+					clr_country_flag = GRE_italy_attending_convention
+				}
+			}
+		}
 		effect = {
 			if = {
 				limit = { 
@@ -1572,7 +1695,7 @@ on_actions = {
 	#used when puppeting in a peace conference
 	#ROOT = nation being puppeted, FROM = overlord
 	on_puppet = {
-		effect = {
+		effect = { #Add Ferdinand's puppet NS
 			if = {
 				limit = {
 					FROM = {
@@ -1585,6 +1708,22 @@ on_actions = {
 					NOT = { has_idea = BUL_ferdinands_puppet }
 				}
 				add_ideas = BUL_ferdinands_puppet
+			}
+		}
+		effect = { #Remove bad opinion modifiers when puppetting
+			if = { #If puppeted by Bulgaria, remove bad opinion modifiers
+				limit = {
+					BUL_is_balkan_nation_no_bulgaria = yes
+					FROM = { original_tag = BUL }
+				}
+				BUL_remove_balkan_opinion_modifiers = yes
+			}
+			else_if = { #Bulgaria puppeted by a Balkan nation
+				limit = {
+					original_tag = BUL
+					FROM = { BUL_is_balkan_nation_no_bulgaria = yes }
+				}
+				FROM = { BUL_remove_balkan_opinion_modifiers = yes }
 			}
 		}
 	}
@@ -1666,6 +1805,7 @@ on_actions = {
 				limit = {
 					is_historical_focus_on = yes
 					NOT = { has_completed_focus	= BUL_strengthen_the_royal_dictatorship }
+					BUL_has_abolished_monarchy = no
 					date > 1943.7.30 #Historical date of death is 1943.8.28
 					NOT = { has_country_flag = BUL_tsar_boris_is_dead_flag }
 					NOT = { has_country_flag = BUL_tsar_boris_assassinated_flag }
@@ -1676,11 +1816,36 @@ on_actions = {
 				limit = {
 					is_historical_focus_on = no
 					NOT = { has_completed_focus	= BUL_strengthen_the_royal_dictatorship }
+					BUL_has_abolished_monarchy = no
 					date > 1943.1.1 #Historical date of death is 1943.8.28
 					NOT = { has_country_flag = BUL_tsar_boris_is_dead_flag }
 					NOT = { has_country_flag = BUL_tsar_boris_assassinated_flag }
 				}
 				BUL_tsar_boris_may_die_effect = yes
+			}
+		}
+
+		effect = { #Support the Spanish Coup - Check for a general assigned to volunteers in the SCW fighting for SPA (it cannot be any other side)
+			if = {
+				limit = {
+					has_country_flag = BUL_sent_volunteers_to_SPA_flag
+				}
+				if = {
+					limit = {
+						any_unit_leader = {
+							is_field_marshal = no
+							is_leading_volunteer_group_with_original_country = SPR
+							NOT = { has_unit_leader_flag = BUL_scw_promotion_flag }
+						}
+					}
+					random_unit_leader = {
+						limit = {
+							is_field_marshal = no
+							is_leading_volunteer_group_with_original_country = SPR
+						}
+						set_unit_leader_flag = BUL_scw_promotion_flag 
+					}
+				}
 			}
 		}
 	}
