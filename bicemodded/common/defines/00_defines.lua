@@ -2040,10 +2040,10 @@ NAI = {
 	NAVAL_MISSION_INVASION_BASE = 1000,					-- Base score for region with naval invasion (modified dynamically by prioritizing orders)
 	NAVAL_MISSION_AGGRESSIVE_PATROL_DIVISOR = 1,		-- Divides patrol score when not defending
 	NAVAL_MISSION_AGGRESSIVE_ESCORT_DIVISOR = 2,		-- Divides escort score when not defending
-	NAVAL_MISSION_PATROL_NEAR_OWNED = 500,			-- Extra patrol mission score near owned provinces
+	NAVAL_MISSION_PATROL_NEAR_OWNED = 800,			-- Extra patrol mission score near owned provinces
 	NAVAL_MISSION_ESCORT_NEAR_OWNED = 300,			-- Extra escort mission score near owned provinces
-	NAVAL_MISSION_PATROL_NEAR_CONTROLLED = 200,		-- Extra patrol mission score near controlled provinces
-	NAVAL_MISSION_ESCORT_NEAR_CONTROLLED = 250,		-- Extra escort mission score near controlled provinces
+	NAVAL_MISSION_PATROL_NEAR_CONTROLLED = 800,		-- Extra patrol mission score near controlled provinces
+	NAVAL_MISSION_ESCORT_NEAR_CONTROLLED = 300,		-- Extra escort mission score near controlled provinces
 	NAVAL_MISSION_MINES_PLANTING_NEAR_OWNED = 40000,
 	NAVAL_MISSION_MINES_PLANTING_NEAR_CONTROLLED = 30000,
 	NAVAL_MISSION_MINES_SWEEPING_NEAR_OWNED = 60000,	 -- How likely the AI will do the sweeping missions. The value is scaled by the amount of mines to sweep.
@@ -2088,7 +2088,7 @@ NAI = {
 	AIR_SCORE_DISTANCE_IMPACT = 0.2,					-- Effect of distance applied to the score calculations
 	DAYS_BETWEEN_AIR_PRIORITIES_UPDATE = 4,				-- Amount of days between air ai updates priorities for air wings ( from 1 to N )
 	
-	NAVAL_AIR_SUPERIORITY_IMPORTANCE = 0.10,			-- Strategic importance of air superiority ( amount of enemy planes in area )
+	NAVAL_AIR_SUPERIORITY_IMPORTANCE = 0.2,			-- Strategic importance of air superiority ( amount of enemy planes in area )
 	NAVAL_SHIP_AIR_IMPORTANCE = 2.0,					-- Naval ship air importance
 	NAVAL_SHIP_IN_PORT_AIR_IMPORTANCE = 6.0,			-- Naval ship in the port air importance
 	NAVAL_COMBAT_AIR_IMPORTANCE = 12.0,					-- Naval combat air importance
@@ -2104,7 +2104,7 @@ NAI = {
 	
 	NAVAL_RANGE_FOR_DOCKING_RIGHTS_CHECK = 240.0,		-- Naval range used to check if docking rights would allow us to reach a specific province
 	
-	NAVAL_FIGHTERS_PER_PLANE = 0.1,						-- Amounts of air superiority planes requested per enemy plane
+	NAVAL_FIGHTERS_PER_PLANE = 0.25,						-- Amounts of air superiority planes requested per enemy plane
 	NAVAL_STRIKE_PLANES_PER_ARMY = 0,					-- Amount of planes requested per enemy army
 	NAVAL_STRIKE_PLANES_PER_SHIP = 20,					-- Amount of bombers requested per enemy ship
 	PORT_STRIKE_PLANES_PER_SHIP = 10,					-- Amount of bombers request per enemy ship in the port
@@ -2269,10 +2269,10 @@ NAI = {
 	
 	MAX_MISSION_PER_TASKFORCE = {  -- max mission region/taskforce ratio
 		0, -- HOLD (consumes fuel HOLD_MISSION_MOVEMENT_COST fuel while moving)
-		4, -- PATROL		
+		2, -- PATROL		
 		4, -- STRIKE FORCE 
 		2, -- CONVOY RAIDING
-		4, -- CONVOY ESCORT
+		2, -- CONVOY ESCORT
 		2, -- MINES PLANTING
 		2, -- MINES SWEEPING
 		4, -- TRAIN
