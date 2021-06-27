@@ -808,8 +808,8 @@ NMilitary = {
 	STRATEGIC_SPEED_BASE = 5,                 	-- Speed of strategic redeployment
 	STRATEGIC_INFRA_SPEED = 14.0,                   -- Max of additional speed gained trouh=gh level for strategic redeployment per infra
 	STRATEGIC_REDEPLOY_ORG_RATIO = 0.45,				-- Ratio of max org while strategic redeployment
-	BATALION_NOT_CHANGED_EXPERIENCE_DROP = 0.08,		-- Division experience drop if unit has same batalion
-	BATALION_CHANGED_EXPERIENCE_DROP = 0.9,			-- Division experience drop if unit has different batalion
+	BATALION_NOT_CHANGED_EXPERIENCE_DROP = 0.04,		-- Division experience drop if unit has same batalion
+	BATALION_CHANGED_EXPERIENCE_DROP = 0.75,			-- Division experience drop if unit has different batalion
 	ARMOR_VS_AVERAGE = 0.50,			                -- how to weight in highest armor & pen vs the division average
 	PEN_VS_AVERAGE = 0.50,
 	
