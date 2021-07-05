@@ -320,16 +320,7 @@
 	focus = {
 		id = FRA_metropolitan_france
 		icon = GFX_goal_generic_industry_3
-		available = {
-			any_owned_state = {
-				is_core_of = ROOT
-				free_building_slots = { #less than 24 unlocked slots
-					building = industrial_complex
-					size > 1
-					include_locked = yes
-				}
-			}
-		}
+
 		x = 5
 		y = 2
 		cost = 7.2
@@ -345,37 +336,41 @@
 			
 		}
 
-		complete_tooltip = {
-			every_owned_state = {
-				limit = { 
-					has_state_flag = FRA_industrial_expansion_target
-				}
-				add_extra_state_shared_building_slots = 2
-			}
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			custom_effect_tooltip = available_designer
+			show_ideas_tooltip = FRA_AMX
+			custom_effect_tooltip = available_designer
+			show_ideas_tooltip = renault_fra
+			custom_effect_tooltip = available_designer
+			show_ideas_tooltip = mas
+		}
+	}
+	
+	focus = {
+		id = FRA_rural_france
+		icon = GFX_goal_FIN_countryside
+		x = 7
+		y = 2
+		cost = 7.2
+		ai_will_do = {
+			factor = 1
+		}		
+		prerequisite = { focus = FRA_invest_in_the_metropole }
+		relative_position_id = FRA_devalue_the_franc
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		bypass = {
+			
 		}
 
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
-			random_owned_state = {
-				limit = { 
-					is_core_of = ROOT 
-					NOT = {
-						has_state_flag = FRA_industrial_expansion_target
-					}	
-				}
-				add_extra_state_shared_building_slots = 2
-				set_state_flag = FRA_industrial_expansion_target
-			}
-			random_owned_state = {
-				limit = { 
-					is_core_of = ROOT 	
-					NOT = {
-						has_state_flag = FRA_industrial_expansion_target
-					}	
-				}
-				add_extra_state_shared_building_slots = 2
-				set_state_flag = FRA_industrial_expansion_target
-			}
+			custom_effect_tooltip = available_designer
+			show_ideas_tooltip = FRA_APX
+			custom_effect_tooltip = available_designer
+			show_ideas_tooltip = morane_saulnier
 		}
 	}
 
@@ -384,11 +379,11 @@
 		icon = GFX_goal_production
 		available = {
 		}
-		prerequisite = { focus = FRA_metropolitan_france }
+		prerequisite = { focus = FRA_metropolitan_france focus = FRA_rural_france }
 		x = 1
 		y = 1
 		relative_position_id = FRA_metropolitan_france
-		cost = 9.2
+		cost = 7.2
 		ai_will_do = {
 			factor = 1
 		}
@@ -399,35 +394,32 @@
 		cancel_if_invalid = yes
 		continue_if_invalid = no
 		available_if_capitulated = no
-		complete_tooltip = {
-			every_state = {
-				limit = {
-					is_controlled_by_ROOT_or_ally = yes
-					has_state_flag = FRA_industrial_expansion_target
-				}
-				add_building_construction = {
-					type = industrial_complex
-					level = 2
-					instant_build = yes
-				}
-				add_extra_state_shared_building_slots = 2
-			}
-		}
 
 		search_filters = {  FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
-			custom_effect_tooltip = FRA_industrial_expansion_effect_tt
-			every_owned_state = {
-				limit = {
-					is_controlled_by = ROOT
-					has_state_flag = FRA_industrial_expansion_target
-				}
+			25 = {
 				add_building_construction = {
 					type = industrial_complex
-					level = 2
+					level = 3
 					instant_build = yes
 				}
-				add_extra_state_shared_building_slots = 2
+				add_extra_state_shared_building_slots = 3
+			}
+			21 = {
+				add_building_construction = {
+					type = dockyard
+					level = 3
+					instant_build = yes
+				}
+				add_extra_state_shared_building_slots = 3
+			}
+			14 = {
+				add_building_construction = {
+					type = arms_factory
+					level = 3
+					instant_build = yes
+				}
+				add_extra_state_shared_building_slots = 3
 			}
 		}
 	}
@@ -439,7 +431,8 @@
 			has_completed_focus = FRA_general_work_council
 			has_completed_focus = FRA_begin_rearmament
 		}
-		prerequisite = { focus = FRA_algerie_france focus = FRA_metropolitan_france}
+		prerequisite = { focus = FRA_algerie_france focus = FRA_invest_in_indochina}
+		prerequisite = { focus = FRA_rural_france focus = FRA_metropolitan_france}
 		x = -1
 		y = 1
 		relative_position_id = FRA_metropolitan_france
@@ -458,6 +451,8 @@
 		search_filters = {  FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
 			add_ideas = industry_strat
+			custom_effect_tooltip = available_designer
+			show_ideas_tooltip = famh
 		}
 	}
 
@@ -1090,7 +1085,8 @@
 		}
 
 		available = {
-			has_war_support > 0.1
+			has_war_support > 0.12
+			threat > 0.1
 		}
 		
 		bypass = {
@@ -1126,6 +1122,16 @@
 					instant_build = yes
 				}
 				add_extra_state_shared_building_slots = 2
+			}
+			
+			if = {
+				limit = {
+					has_idea = FRA_political_violence
+				}
+				random_list = {
+					100 = { country_event = { id = lar_france_political_violence.2 } }
+					100 = { country_event = { id = lar_france_political_violence.1 } }
+				}			
 			}
 		}
 	}
@@ -2081,8 +2087,7 @@ prerequisite = {
 				uses = 2
 				category = land_doctrine
 			}
-			custom_effect_tooltip = available_designer
-			show_ideas_tooltip = FRA_AMX
+			
 		}
 	}
 	
@@ -5212,6 +5217,10 @@ prerequisite = {
 				NOT = { has_idea = FRA_strengthen_government_support_focus }
 				has_country_flag = FRA_strengthen_government_support_focus_flag
 			}
+			OR = {
+			   has_stability > 0.65
+			   threat > 0.4
+			}
 		}
 	 	prerequisite = { focus = FRA_strengthen_government_support }
 		x = 0
@@ -5784,6 +5793,13 @@ prerequisite = {
 			}
 			hidden_effect = { country_event = { id = lar_fra_inefficient_economy.1 days = 730 } }
 			custom_effect_tooltip = FRA_laissez_faire_tt
+			
+			if = {
+				limit = {
+					has_idea = FRA_political_violence
+				}
+				country_event = lar_france_political_violence.3
+			}
 		}
 	}
 	focus = {
@@ -5944,6 +5960,13 @@ prerequisite = {
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
 			add_ideas = { FRA_agricultural_protectionism }
+			
+			if = {
+				limit = {
+					has_idea = FRA_political_violence
+				}
+				country_event = lar_france_political_violence.3
+			}
 		}
 	}
 	focus = {
@@ -9076,13 +9099,13 @@ prerequisite = {
 		complete_tooltip = {
 			navy_experience = 25
 			every_state = {
-				limit = { has_state_flag = FRA_naval_rearmament_2NB }
+				limit = { has_state_flag = FRA_naval_rearmament_3NB }
 				add_building_construction = {
 					type = dockyard
-					level = 2
+					level = 3
 					instant_build = yes
 				}
-				add_extra_state_shared_building_slots = 2
+				add_extra_state_shared_building_slots = 3
 			}		
 		}
 
@@ -9093,11 +9116,11 @@ prerequisite = {
 					limit = { is_controlled_by = ROOT }
 					add_building_construction = {
 						type = dockyard
-						level = 2
+						level = 3
 						instant_build = yes
 					}
-					set_state_flag = FRA_naval_rearmament_2NB
-					add_extra_state_shared_building_slots = 2
+					set_state_flag = FRA_naval_rearmament_3NB
+					add_extra_state_shared_building_slots = 3
 				}
 			}
 			14 = {
@@ -9105,11 +9128,11 @@ prerequisite = {
 					limit = { is_controlled_by = ROOT }
 					add_building_construction = {
 						type = dockyard
-						level = 2
+						level = 3
 						instant_build = yes
 					}
-					set_state_flag = FRA_naval_rearmament_2NB
-					add_extra_state_shared_building_slots = 2
+					set_state_flag = FRA_naval_rearmament_3NB
+					add_extra_state_shared_building_slots = 3
 				}
 			}
 		}
@@ -9284,7 +9307,7 @@ prerequisite = {
 		x = -1
 		y = 1
 		relative_position_id = FRA_the_old_school
-		cost = 7.2
+		cost = 5.8
 
 		available_if_capitulated = no
 
@@ -9352,7 +9375,7 @@ prerequisite = {
 		x = -2
 		y = 2
 		relative_position_id = FRA_the_old_school
-		cost = 7.2
+		cost = 5.8
 
 		available_if_capitulated = no
 
@@ -9417,7 +9440,7 @@ prerequisite = {
 		x = 1
 		y = 1
 		relative_position_id = FRA_the_old_school
-		cost = 5.8
+		cost = 5
 
 		available_if_capitulated = no
 		
@@ -9572,10 +9595,21 @@ prerequisite = {
 	 		focus = FRA_surface_combat
 			focus = FRA_undersea_combat
 	 	}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = FRA_strengthen_government_support_tooltip
+				NOT = { has_idea = FRA_strengthen_government_support_focus }
+				has_country_flag = FRA_strengthen_government_support_focus_flag
+			}
+			OR = {
+			   has_stability > 0.65
+			   threat > 0.4
+			}
+		}
 		x = 3
 		y = 1
 		relative_position_id = FRA_rush_the_richelieus
-		cost = 7.2
+		cost = 5.8
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		available_if_capitulated = yes
 
@@ -9617,7 +9651,7 @@ prerequisite = {
 		x = 0
 		y = 1
 		relative_position_id = FRA_naval_doctrine
-		cost = 9
+		cost = 8.7
 
 		available_if_capitulated = yes
 
@@ -9660,7 +9694,7 @@ prerequisite = {
 		x = 0
 		y = 2
 		relative_position_id = FRA_naval_doctrine
-		cost = 7.2
+		cost = 5.8
 
 		available_if_capitulated = yes
 
@@ -9705,7 +9739,7 @@ prerequisite = {
 		mutually_exclusive = {
 			focus = FRA_commercial_flight
 		}
-		x = 22
+		x = 23
 		y = 0
 		completion_reward = {
 		# todo, le french
@@ -9733,7 +9767,7 @@ prerequisite = {
 		mutually_exclusive = {
 			focus = FRA_enthusiast_flight
 		}
-		x = 24
+		x = 25
 		y = 0
 		completion_reward = {
 			add_tech_bonus = {
