@@ -1115,7 +1115,8 @@ country_event = {
 	is_triggered_only = yes
 	immediate = {
 		#set_variable = { var = USA.US_mils value = num_of_military_factories } #Number of US military factories
-		set_variable = { var = US_mils_production value = 60 } #3.3 * 0.05 *180 = 29.7, rounded up (base factory output * factory output penalty * days penalty is applied), this is how much factory output is siphoned off to the Soviet Union per factory
+		set_variable = { var = US_mils_production value = 120 } #3.3 * 0.2 *180 = 29.7, rounded up (base factory output * factory output penalty * days penalty is applied), this is how much factory output is siphoned off to the Soviet Union per factory
+		# doubled lend lease, doubled penalty, lend lease used to send too little before
 		multiply_variable = { var = US_mils_production value = USA.US_mils } #Multiply the number of milfacs with the above number
 		#Rifles
 		set_variable = { var = US_mils_production_rifles value = US_mils_production } #This is how much of that production goes to rifles
@@ -1168,6 +1169,7 @@ country_event = {
 
 		hidden_effect = {
 			news_event = { id = news.3148 days = 1 }
+			USA = { country_event = usa.531 }
 		}
 	    set_country_flag = lend_lease_act
 	}	
@@ -1179,7 +1181,26 @@ country_event = {
 	}
 }
 
+country_event = {
+	id = usa.531
+	title = usa.531.t
+	desc = usa.531.d
+	picture = GFX_report_event_generic_office
 
+	is_triggered_only = yes
+	option = {
+		name = usa.531.a
+		ai_chance = { factor = 100 }
+		effect_tooltip = {
+			SOV = {
+				add_equipment_to_stockpile = { type = infantry_equipment_1 amount = var:US_mils_production_rifles producer = USA }
+				add_equipment_to_stockpile = { type = infantry_uniforms amount = var:US_mils_production_uniforms producer = USA }
+				add_equipment_to_stockpile = { type = motorized_equipment_2 amount = var:US_mils_production_trucks producer = USA }
+				add_equipment_to_stockpile = { type = motorized_lia_equipment_01 amount = var:US_mils_production_cars producer = USA }
+			}
+		}		
+	}	
+}	
 
 country_event = {
 	id = usa.54
@@ -1302,7 +1323,7 @@ country_event = {
 	
 	immediate = {
 		#set_variable = { var = USA.US_mils value = num_of_military_factories } #Number of US military factories
-		set_variable = { var = US_mils_production value = 60 } #3.3 * 0.05 *180 = 29.7, rounded up (base factory output * factory output penalty * days penalty is applied), this is how much factory output is siphoned off to the Soviet Union per factory
+		set_variable = { var = US_mils_production value = 120 } #3.3 * 0.2 *180 = 29.7, rounded up (base factory output * factory output penalty * days penalty is applied), this is how much factory output is siphoned off to the Soviet Union per factory
 		multiply_variable = { var = US_mils_production value = USA.US_mils } #Multiply the number of milfacs with the above number
 		#P-39 Airacobra
 		set_variable = { var = US_mils_production_P39 value = US_mils_production } #This is how much of that production goes to P-39 Airacobras
@@ -1365,7 +1386,10 @@ country_event = {
 			}
 			add_equipment_to_stockpile = { type = us_fighter_equipment_4_c amount = var:US_mils_production_P47 producer = USA }
 			add_equipment_to_stockpile = { type = us_fighter_equipment_3_c amount = var:US_mils_production_P43 producer = USA }
-		}			
+		}
+		hidden_effect = {
+			USA = { country_event = usa.551 }
+		}		
 	}
 	
 	option = {
@@ -1374,6 +1398,44 @@ country_event = {
 		
 	}
 }
+
+country_event = {
+	id = usa.551
+	title = usa.531.t
+	desc = usa.531.d
+	picture = GFX_report_event_generic_office
+
+	is_triggered_only = yes
+	option = {
+		name = usa.531.a
+		ai_chance = { factor = 100 }
+		effect_tooltip = {
+			SOV = {
+				if = {
+					limit = {
+						USA = { has_tech = tech_USA_fighter_equipment_4_a }
+					}
+					add_equipment_to_stockpile = { type = us_fighter_equipment_3_a amount = var:US_mils_production_P40 producer = USA }
+					add_equipment_to_stockpile = { type = us_fighter_equipment_4_a amount = var:US_mils_production_P51 producer = USA }
+				}
+				else_if = {
+					limit = {
+						USA = { has_tech = tech_USA_fighter_equipment_2_b }
+					}
+					add_equipment_to_stockpile = { type = us_fighter_equipment_2_b amount = var:US_mils_production_P39 producer = USA }
+				}	
+				else_if = {
+					limit = {
+						USA = { has_tech = tech_USA_fighter_equipment_4_c }
+					}
+					add_equipment_to_stockpile = { type = us_fighter_equipment_4_c amount = var:US_mils_production_P47 producer = USA }
+					add_equipment_to_stockpile = { type = us_fighter_equipment_3_c amount = var:US_mils_production_P43 producer = USA }
+				}
+			}
+		}		
+	}	
+}	
+
 country_event = {
 	id = usa.56
 	title = usa.56.t

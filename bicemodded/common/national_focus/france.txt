@@ -428,7 +428,10 @@
 		id = FRA_industrial_strategy
 		icon = GFX_public_works
 		available = {
-			has_completed_focus = FRA_general_work_council
+			or = {
+				has_completed_focus = FRA_general_work_council
+				has_completed_focus = FRA_stimulate_the_dynamic_market
+			}
 			has_completed_focus = FRA_begin_rearmament
 		}
 		prerequisite = { focus = FRA_algerie_france focus = FRA_invest_in_indochina}
@@ -1241,10 +1244,13 @@
 	focus = {
 		id = FRA_fortification_focus
 		icon = GFX_goal_generic_construction2
-		prerequisite = { focus = FRA_begin_rearmament }
 		
 		available = {
 			not = { has_country_flag = abandoned_maginot }
+		}
+		
+		bypass = {
+			has_country_flag = abandoned_maginot
 		}
 		
 		x = 0
@@ -1256,7 +1262,10 @@
 
 		completion_reward = {
 			unlock_decision_category_tooltip = FRA_forts
-			add_ideas = FRA_great_war
+			swap_ideas = {
+				add_idea = FRA_great_war
+				remove_idea = FRA_great_war_base
+			}
 		}
 	}
 	
@@ -1295,8 +1304,11 @@
 		cost = 5.2
 		
 		available = {
-			date > 1940.6.1
-			has_completed_focus = FRA_maginot_finished
+			date > 1940.7.1
+			or = {
+				has_completed_focus = FRA_maginot_finished
+				has_country_flag = abandoned_maginot
+			}
 			or = {
 				GER = {
 					or = {
@@ -1313,9 +1325,23 @@
 		search_filters = {FOCUS_FILTER_WAR_SUPPORT }
 
 		completion_reward = {
-			swap_ideas = {
-				add_idea = FRA_great_war_3
-				remove_idea = FRA_great_war_2
+			custom_effect_tooltip = improve_spirit_fr
+			hidden_effect = {
+				if = {
+					limit = {
+						has_idea = FRA_great_war_2
+					}	
+					swap_ideas = {
+						add_idea = FRA_great_war_3
+						remove_idea = FRA_great_war_2
+					}
+				}	
+				else = {
+					swap_ideas = {
+						add_idea = FRA_great_war_mobile_reform
+						remove_idea = FRA_great_war_mobile
+					}
+				}
 			}
 			add_war_support = 0.05
 			custom_effect_tooltip = paul_tt
@@ -4667,7 +4693,7 @@ prerequisite = {
 			y = 0
 		}
 		prerequisite = {
-			focus = FRA_review_foreign_policy
+			focus = FRA_support_the_finns
 		}
 		mutually_exclusive = { focus = FRA_buy_time }
 		relative_position_id = FRA_review_foreign_policy
