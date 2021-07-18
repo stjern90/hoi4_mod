@@ -481,6 +481,7 @@ focus_tree = {
 		available_if_capitulated = yes
 		completion_reward = {
 			add_ideas = national_youth
+			custom_effect_tooltip = warremoved
 		}
 	}
 	
@@ -626,7 +627,7 @@ focus_tree = {
 		available_if_capitulated = yes
 		
 		completion_reward = {
-			add_stability = -0.05
+			add_stability = -0.1
 			USA_congress_large_opposition = yes
 		}
 	}	
@@ -1162,7 +1163,7 @@ focus_tree = {
 		x = 23
 		y = 3
 		
-		cost = 5.8
+		cost = 4.8
 		search_filters = {FOCUS_FILTER_INDUSTRY}
 		
 		prerequisite = { focus = USA_embargo_japan }
@@ -1171,7 +1172,8 @@ focus_tree = {
 		ai_will_do = {
 			factor = 10
 		}
-		available = { country_exists = PHI
+		available = { 
+			country_exists = PHI
         	PHI = {
 				OR = {
 					is_subject_of = USA
@@ -3416,11 +3418,9 @@ focus_tree = {
 				add_extra_state_shared_building_slots = 2
 			}
 			add_tech_bonus = {
-				technology = smallarms_industry
 				technology = smallarms_industry2
 				technology = smallarms_industry3
 				technology = smallarms_industry4
-				technology = smallarms_industry5
 				bonus = 0.5
 				uses = 3
 			}
@@ -4171,8 +4171,7 @@ focus_tree = {
     focus = {	
 		id = USA_marine_corps
 		icon = GFX_USMC_1
-		prerequisite = { focus = USA_combined_arms_focus focus = USA_motorized_infantry_focus focus = USA_chain_of_command }
-		prerequisite = { focus = USA_amphibious_operations }
+		prerequisite = { focus = USA_chain_of_command }
 		relative_position_id = USA_us_army
 		x = 3
 		y = 2
@@ -4653,7 +4652,6 @@ focus_tree = {
 	focus = {
 		id = USA_airbases
 		icon = GFX_airport_effort
-		prerequisite = { focus = USAF }
 		prerequisite = { focus = USA_colonial_focus }
         relative_position_id = USAF
 		x = -4
@@ -5554,13 +5552,13 @@ create_navy_leader = {
 		id = USA_proximity_fuze
 		icon = GFX_goal_anti_air_as_anti_tank
 		x = -3
-		y = 1
+		y = 3
 		relative_position_id = USA_United_States_maritime_commission
 		
 		cost = 2
 		search_filters = {FOCUS_FILTER_RESEARCH}
 		
-		prerequisite = { focus = USA_United_States_maritime_commission }
+		prerequisite = { focus = USA_naval_shipbuilding_program }
 
 		available = {
 			OR = {
@@ -5589,14 +5587,11 @@ create_navy_leader = {
 		search_filters = {FOCUS_FILTER_RESEARCH}
 		
 		prerequisite = {
-			focus = USA_naval_shipbuilding_program
-		}
-		prerequisite = {
-			focus = USA_us_army
+			focus = USA_chain_of_command
 		}
 		relative_position_id = USA_us_army
-		x = 4
-		y = 1
+		x = 5
+		y = 2
 			available_if_capitulated = yes
 			completion_reward = {
 					add_tech_bonus = {
@@ -5620,7 +5615,7 @@ create_navy_leader = {
 			focus = USA_marine_corps
 		}
 		prerequisite = {
-			focus = USA_two_ocean_navy
+			focus = USA_amphibious_operations
 		}
 		available = {
 		    has_war = yes
@@ -5632,7 +5627,7 @@ create_navy_leader = {
 			}
 		}
 		relative_position_id = USA_us_army
-		x = 5
+		x = 4
 		y = 3
 			available_if_capitulated = yes
 			completion_reward = {
@@ -5811,11 +5806,11 @@ create_navy_leader = {
 		id = USA_escort_effort
 		icon = GFX_goal_generic_navy_cruiser
 		prerequisite = { focus = USA_naval_shipbuilding_program }
-		x = -3
+		x = -5
 		y = 3
 		relative_position_id = USA_United_States_maritime_commission
 		
-		cost = 7.2
+		cost = 5
 		#search_filters = {FOCUS_FILTER_???}
 		
 		#ai_will_do = {
@@ -5831,11 +5826,11 @@ create_navy_leader = {
 		id = USA_convoy_tactics
 		icon = GFX_convoy_focus
 		prerequisite = { focus = USA_escort_effort }
-		x = -3
+		x = -5
 		y = 5 
 		relative_position_id = USA_United_States_maritime_commission
 		
-		cost = 6.6
+		cost = 5
 		search_filters = {FOCUS_FILTER_RESEARCH}
 		
 		#ai_will_do = {
@@ -5857,7 +5852,7 @@ create_navy_leader = {
 		id = USA_naval_shipbuilding_program
 		icon = GFX_goal_generic_construct_naval_dockyard
 		prerequisite = { focus = USA_naval_expansion_act }
-		x = -3
+		x = -4
 		y = 2
 		relative_position_id = USA_United_States_maritime_commission
 		
@@ -6127,7 +6122,6 @@ create_navy_leader = {
 	focus = {
 		id = USA_montana_class
 		icon = GFX_goal_NOR_battleship
-		prerequisite = { focus = USA_battleship_primacy }
 		prerequisite = { focus = USA_two_ocean_navy }
 		mutually_exclusive = { focus = USA_essex_class }
 		x = -1
@@ -6174,6 +6168,56 @@ create_navy_leader = {
 						mid_1_custom_slot = ship_secondaries_3
 						mid_2_custom_slot = ship_secondaries_3
 						rear_1_custom_slot = ship_heavy_battery_4
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_tech = advanced_heavy_battery
+					NOT = { has_tech = advanced_secondary_battery }
+				}
+				create_equipment_variant = {
+					name = "Montana Class"
+					type = ship_hull_heavy_4
+					name_group = USA_BB_HISTORICAL
+					parent_version = 0
+					modules = { 
+						fixed_ship_battery_slot = ship_heavy_battery_4
+						fixed_ship_anti_air_slot = ship_anti_air_2
+						fixed_ship_fire_control_system_slot = ship_fire_control_system_3
+						fixed_ship_radar_slot = empty
+						fixed_ship_engine_slot = heavy_ship_engine_5
+						fixed_ship_secondaries_slot = ship_secondaries_2
+						fixed_ship_armor_slot = ship_armor_bb_4
+						front_1_custom_slot = ship_heavy_battery_4
+						mid_1_custom_slot = ship_secondaries_2
+						mid_2_custom_slot = ship_secondaries_2
+						rear_1_custom_slot = ship_heavy_battery_4
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_tech = advanced_secondary_battery
+					NOT = { has_tech = advanced_heavy_battery }
+				}
+				create_equipment_variant = {
+					name = "Montana Class"
+					type = ship_hull_heavy_4
+					name_group = USA_BB_HISTORICAL
+					parent_version = 0
+					modules = { 
+						fixed_ship_battery_slot = ship_heavy_battery_3
+						fixed_ship_anti_air_slot = ship_anti_air_2
+						fixed_ship_fire_control_system_slot = ship_fire_control_system_3
+						fixed_ship_radar_slot = empty
+						fixed_ship_engine_slot = heavy_ship_engine_5
+						fixed_ship_secondaries_slot = ship_secondaries_3
+						fixed_ship_armor_slot = ship_armor_bb_4
+						front_1_custom_slot = ship_heavy_battery_3
+						mid_1_custom_slot = ship_secondaries_3
+						mid_2_custom_slot = ship_secondaries_3
+						rear_1_custom_slot = ship_heavy_battery_3
 					}
 				}
 			}
@@ -6230,7 +6274,6 @@ create_navy_leader = {
 	focus = {
 		id = USA_essex_class
 		icon = GFX_goal_carrier
-		prerequisite = { focus = USA_carrier_primacy }
 		prerequisite = { focus = USA_two_ocean_navy }
 		mutually_exclusive = { focus = USA_montana_class }
 		x = 1
