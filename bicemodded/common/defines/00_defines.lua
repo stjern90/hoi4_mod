@@ -1531,9 +1531,9 @@ NNavy = {
 
 	-- NOTE: you can see the effect of changing the values down below by running the command tfria with a task force selected
 	MIN_SHIP_COUNT_FOR_TASK_FORCE_ROLE_ASSIGNMENT = 4,					-- define the minimum number of ship that should be in a task force for it to be considered a patrol or an escort task force (used to the insignia assignment, see TASK_FORCE_ROLE_TO_INSIGNIA)
-	SURFACE_DETECTION_STAT_FOR_SHIP_TO_BE_PATROL = 16,					-- amount of surface detection required for a ship to be considered as part of a patrol task force
-	DEPTH_CHARGE_STAT_FOR_SHIP_TO_BE_SUB_HUNTER = 15,					-- amount of depth charge required for a ship to be considred a sub hunter and so good for convoy escort
-	SUB_DETECTION_STAT_FOR_SHIP_TO_BE_SUB_HUNTER = 4,					-- amount of sub detection required for a ship to be considered a sub hunter
+	SURFACE_DETECTION_STAT_FOR_SHIP_TO_BE_PATROL = 30,					-- amount of surface detection required for a ship to be considered as part of a patrol task force
+	DEPTH_CHARGE_STAT_FOR_SHIP_TO_BE_SUB_HUNTER = 24,					-- amount of depth charge required for a ship to be considred a sub hunter and so good for convoy escort
+	SUB_DETECTION_STAT_FOR_SHIP_TO_BE_SUB_HUNTER = 6.9,					-- amount of sub detection required for a ship to be considered a sub hunter
 	
 	HEAVY_GUN_ATTACK_TO_SHORE_BOMBARDMENT							= 0.1,  -- heavy gun attack value is divided by this value * 100 and added to shore bombardment modifier 
 	LIGHT_GUN_ATTACK_TO_SHORE_BOMBARDMENT							= 0.05, -- light gun attack value is divided by this value * 100 and added to shore bombardment modifier 
@@ -2645,8 +2645,8 @@ NIntel = {
 
 	STATIC_INTEL_SOURCE_OPERATION_TOKENS_MAXIMUMS = {},
 	STATIC_INTEL_SOURCE_BROKEN_CYPHER_MAXIMUMS = { 60.0, 60.0, 60.0, 60.0 },
-	STATIC_INTEL_SOURCE_RADAR_MAXIMUMS = { 10.0, 10.0, 20.0, 20.0 },
-	STATIC_INTEL_SOURCE_INTEL_NETWORK_MAXIMUMS = { 30.0, 30.0, 40.0, 30.0},
+	STATIC_INTEL_SOURCE_RADAR_MAXIMUMS = { 10.0, 10.0, 10.0, 10.0 },
+	STATIC_INTEL_SOURCE_INTEL_NETWORK_MAXIMUMS = { 30.0, 30.0, 30.0, 30.0},
 
 	-- Dynamic intel pool can be manipulated through the following defines:
 	--
@@ -2689,8 +2689,8 @@ NIntel = {
 	DYNAMIC_INTEL_SOURCE_NAVAL_COMBAT_MULT_DECAY = 0.985,
 	DYNAMIC_INTEL_SOURCE_NAVAL_COMBAT_AGGREGAT_LOG_FACTOR = 0.02,
 	DYNAMIC_INTEL_SOURCE_NAVAL_COMBAT_AGGREGAT_DIVISOR = 200,
-	DYNAMIC_INTEL_SOURCE_NAVAL_COMBAT_MAXIMUMS = { 10, 0, 40, 20 },
-	DYNAMIC_INTEL_SOURCE_NAVAL_COMBAT_ABSOLUTE_MAXIMUMS = { 15, 0, 45, 25 },
+	DYNAMIC_INTEL_SOURCE_NAVAL_COMBAT_MAXIMUMS = { 0, 0, 40, 20 },
+	DYNAMIC_INTEL_SOURCE_NAVAL_COMBAT_ABSOLUTE_MAXIMUMS = { 0, 0, 45, 25 },
 
 	-- Dynamic pool AIR_COMBAT
 	DYNAMIC_INTEL_SOURCE_AIR_COMBAT_FLAT_DECAY = 0.0,
@@ -2705,8 +2705,8 @@ NIntel = {
 	DYNAMIC_INTEL_SOURCE_AIR_RECON_MULT_DECAY = 0.990, -- Was 0.995
 	DYNAMIC_INTEL_SOURCE_AIR_RECON_AGGREGAT_LOG_FACTOR = 0.05,
 	DYNAMIC_INTEL_SOURCE_AIR_RECON_AGGREGAT_DIVISOR = 200,
-	DYNAMIC_INTEL_SOURCE_AIR_RECON_MAXIMUMS = { 25, 20, 30, 20 },
-	DYNAMIC_INTEL_SOURCE_AIR_RECON_ABSOLUTE_MAXIMUMS = { 30, 25, 35, 25 },
+	DYNAMIC_INTEL_SOURCE_AIR_RECON_MAXIMUMS = { 10, 10, 10, 10 },
+	DYNAMIC_INTEL_SOURCE_AIR_RECON_ABSOLUTE_MAXIMUMS = { 15, 15, 15, 15 },
 
 	-- Dynamic pool CAPTURED_OPERATIVE
 	DYNAMIC_INTEL_SOURCE_CAPTURED_OPERATIVE_FLAT_DECAY = 0.0,
@@ -2754,7 +2754,7 @@ NIntel = {
 	AIR_COMBAT_AIR_INTEL_FACTOR = 0.2,
 
 	INTEL_NETWORK_NATIONAL_COVERAGE_FACTOR = 2.0,			 -- multiplied to the national coverage to deduce the fraction of the maximum value listed below that will be added to the intel against the network's target
-	INTEL_NETWORK_NATIONAL_COVERAGE_NAVAL_BASE_FACTOR = 15.0, -- factor used instead of above in case you dont cover naval bases etc 
+	INTEL_NETWORK_NATIONAL_COVERAGE_NAVAL_BASE_FACTOR = 2.0, -- factor used instead of above in case you dont cover naval bases etc 
 
 	-- the maximum intel values that an intel network will provide against a target
 	INTEL_NETWORK_MAX_CIVILIAN_INTEL = 20.0,
