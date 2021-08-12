@@ -1244,7 +1244,7 @@ NNavy = {
 
 	CONVOY_SPOTTING_COOLDOWN = 0.3,  -- % of travel time 
 	CONVOY_SPOTTING_COOLDOWN_MIN = 168, -- minimum cooldown time
-	CONVOY_SPOTTING_COOLDOWN_MAX = 336, -- maximum cooldown time
+	CONVOY_SPOTTING_COOLDOWN_MAX = 288, -- maximum cooldown time
 	CONVOY_SPOTTING_COOLDOWN_MIN_FROM_EFFICIENCY = 168, -- clamped min value after screening efficiency has been applied
 	
 	MISSION_FUEL_COSTS = {  -- fuel cost for each mission
