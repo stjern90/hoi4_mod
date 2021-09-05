@@ -1375,7 +1375,7 @@ NNavy = {
 	SUPREMACY_PER_SHIP_PER_IC = 0.02,
 	SUPREMACY_PER_SHIP_BASE = 10.0,
 
-	NAVAL_MINES_IN_REGION_MAX = 600.0,								-- Max number of mines that can be layed by the ships. The value should be hidden from the user, as we present % so it's an abstract value that should be used for balancing.
+	NAVAL_MINES_IN_REGION_MAX = 500.0,								-- Max number of mines that can be layed by the ships. The value should be hidden from the user, as we present % so it's an abstract value that should be used for balancing.
 	NAVAL_MINES_PLANTING_SPEED_MULT = 0.003,						-- Value used to overall balance of the speed of planting naval mines
 	NAVAL_MINES_SWEEPING_SPEED_MULT = 0.006,						-- Value used to overall balance of the speed of sweeping naval mines
 	NAVAL_MINES_DECAY_AT_PEACE_TIME = 20.0,							-- How fast mines are decaying in peace time. Planting mines in peace time may be exploitable, so it's blocked atm. That's why after war we should decay them too.
@@ -1392,7 +1392,7 @@ NNavy = {
 	NAVAL_ACCIDENT_CRITICAL_HIT_CHANCE_REDUCTION_POTF = 0.01,		-- Scale of the current chance for a critical hit when an accident happens, applied for the pride of the fleet.
 
 	NAVAL_MINES_ACCIDENT_CRITICAL_HIT_CHANCES = 0.14,				-- If an accident happens, how likely it is to be a critical hit (caused by naval mines)
-	NAVAL_MINES_ACCIDENT_CRITICAL_HIT_DAMAGE_SCALE = 2.5,			-- Scale the value below in case of critical hit (caused by naval mines)
+	NAVAL_MINES_ACCIDENT_CRITICAL_HIT_DAMAGE_SCALE = 2.0,			-- Scale the value below in case of critical hit (caused by naval mines)
 	NAVAL_MINES_ACCIDENT_STRENGTH_LOSS = 75.0,						-- Amount of strength loss when hit by naval mine
 	NAVAL_MINES_ACCIDENT_ORG_LOSS_FACTOR = 0.3,						-- Amount of strength loss when hit by naval mine
 
@@ -2288,13 +2288,13 @@ NAI = {
 	MAX_SCREEN_TASKFORCES_FOR_CONVOY_DEFENSE_MAX_CONVOY_THREAT = 500,-- AI will increase screen assignment for escort missions as threate increases
 	
 	
-	MAX_SCREEN_TASKFORCES_FOR_MINE_SWEEPING = 0.15, -- maximum ratio of screens forces to be used in mine sweeping
+	MAX_SCREEN_TASKFORCES_FOR_MINE_SWEEPING = 0.10, -- maximum ratio of screens forces to be used in mine sweeping
 	MAX_SCREEN_TASKFORCES_FOR_MINE_SWEEPING_PRIO = 0.25, -- if you have mines near your owned states, you will start priotize mine missions and will assign this ratio of screens
 	MAX_SCREEN_TASKFORCES_FOR_MINE_SWEEPING_PRIO_MIN_MINES = 10, -- lowest mine for prioing mine missions
 	MAX_SCREEN_TASKFORCES_FOR_MINE_SWEEPING_PRIO_MAX_MINES = 1000, -- highest mines for highest prio for mine missions
 	
 	
-	MAX_SCREEN_TASKFORCES_FOR_MINE_LAYING = 0.20, -- maximum ratio of screens forces to be used in mine laying
+	MAX_SCREEN_TASKFORCES_FOR_MINE_LAYING = 0.10, -- maximum ratio of screens forces to be used in mine laying
 	MAX_SCREEN_FORCES_FOR_INVASION_SUPPORT = 0.05, -- max ratio of screens forces to be used in naval invasion missions
 	MAX_CAPITAL_FORCES_FOR_INVASION_SUPPORT = 0.25, -- max ratio of capital forces to be used in naval invasion missions
 	MAX_PATROL_TO_STRIKE_FORCE_RATIO = 10.0,	-- maximum patrol/strike force ratio
