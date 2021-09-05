@@ -1418,11 +1418,11 @@ NNavy = {
 	TRAINING_ORG = 0.2,												-- max organization on traiaing mission
  
 	BASE_SPOTTING = 1,												-- base spotting percentage for navy
-	BASE_SPOTTING_FROM_RADAR = 2.0,									-- base spotting percentage that comes from full radar coverage
-	BASE_SPOTTING_FROM_AIR_SUPERIORITY = 2.0,						-- base spotting percentage that comes from air superiority
-	BASE_SPOTTING_FROM_ACTIVE_NAVY = 2.0,							-- base spotting percentage that comes from ships in area
+	BASE_SPOTTING_FROM_RADAR = 10.0,									-- base spotting percentage that comes from full radar coverage
+	BASE_SPOTTING_FROM_AIR_SUPERIORITY = 25.0,						-- base spotting percentage that comes from air superiority
+	BASE_SPOTTING_FROM_ACTIVE_NAVY = 5.0,							-- base spotting percentage that comes from ships in area
 	BASE_SPOTTING_ACTIVE_NAVY_MULT = 0.25,							-- multiplier for your navies base spotting percentage
-	BASE_SPOTTING_FROM_DECRYPTION = 2.0,								-- base spotting percentage that comes from decryption, can go negative (enemy decryption is subtracted)
+	BASE_SPOTTING_FROM_DECRYPTION = 5.0,								-- base spotting percentage that comes from decryption, can go negative (enemy decryption is subtracted)
 		
 	MIN_HOURS_TO_SHUFFLE_NEWLY_ASSIGNED_PATROLS = 7 * 24,			-- if a fleet has less patrol than it needs to cover all of it areas, it will shuffle the patrols around. it will wait this much hour before shuffling a task force to new area
 	SPOTTING_ENEMY_SPOTTING_MULTIPLIER_FOR_RUNNING_AWAY = 0.80,		-- enemy spotting is multiplied by this value to simulate running away
