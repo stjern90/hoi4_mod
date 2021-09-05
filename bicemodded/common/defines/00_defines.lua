@@ -1128,7 +1128,7 @@ NNavy = {
 	RESOURCE_ORIGIN_PRIORITY = 5,									-- Default convoy priority for resources shipped internally
 	-- Convoy Priorities END
 	
-	ADMIRAL_TASKFORCE_CAP = 5,										-- admirals will start getting penalties after this amount of taskforces
+	ADMIRAL_TASKFORCE_CAP = 6,										-- admirals will start getting penalties after this amount of taskforces
 	
 	DETECTION_CHANCE_MULT_BASE = 0.1,								-- base multiplier value for detection chance. Later the chance is an average between our detection and enemy visibility, mult by surface/sub detection chance in the following defines.
 	DETECTION_CHANCE_MULT_RADAR_BONUS = 0.1,						-- detection chance bonus from radars. 
@@ -1496,9 +1496,9 @@ NNavy = {
 	HIGHER_CARRIER_RATIO_POSITIONING_PENALTY_FACTOR					= 0.05;  -- penalty if other side has stronger carrier air force 
 	MAX_CARRIER_RATIO_POSITIONING_PENALTY_FACTOR 					= 0.1;  -- max penalty from stronger carrier air force
 	
-	POSITIONING_PENALTY_FOR_SHIPS_JOINED_COMBAT_AFTER_IT_STARTS		= 0.02, -- each ship that joins the combat will have this penalty to be added into positioning
-	MAX_POSITIONING_PENALTY_FOR_NEWLY_JOINED_SHIPS 					= 0.1,  -- the accumulated penalty from new ships will be clamped to this value
-	POSITIONING_PENALTY_HOURLY_DECAY_FOR_NEWLY_JOINED_SHIPS			= 0.005,-- the accumulated penalty from new ships will decay hourly by this value
+	POSITIONING_PENALTY_FOR_SHIPS_JOINED_COMBAT_AFTER_IT_STARTS		= 0.05, -- each ship that joins the combat will have this penalty to be added into positioning
+	MAX_POSITIONING_PENALTY_FOR_NEWLY_JOINED_SHIPS 					= 0.5,  -- the accumulated penalty from new ships will be clamped to this value
+	POSITIONING_PENALTY_HOURLY_DECAY_FOR_NEWLY_JOINED_SHIPS			= 0.01,-- the accumulated penalty from new ships will decay hourly by this value
 	
 	DAMAGE_PENALTY_ON_MINIMUM_POSITIONING 							= 0.95, -- damage penalty at 0% positioning
 	SCREENING_EFFICIENCY_PENALTY_ON_MINIMUM_POSITIONING				= 0.75,  -- screening efficiency (screen to capital ratio) at 0% positioning
@@ -1575,7 +1575,7 @@ NNavy = {
 	
 	MISSION_EFFICIENCY_POW_FACTOR									= 1.7,		-- mission efficiencies will be powered up by this to further penalize low efficiencies
 	
-	NAVAL_COMBAT_SUB_DETECTION_FACTOR                               = 1.05,      -- balance value for sub detection in combat by ships
+	NAVAL_COMBAT_SUB_DETECTION_FACTOR                               = 1.04,      -- balance value for sub detection in combat by ships
 	SUBMARINE_HIDE_TIMEOUT 											= 12,		-- Amount of in-game-hours that takes the submarine (with position unrevealed), to hide.
 	SUBMARINE_REVEALED_TIMEOUT 										= 18,		-- Amount of in-game-hours that makes the submarine visible if it is on the defender side.
 	SUBMARINE_REVEAL_BASE_CHANCE 									= 12,		-- Base factor for submarine detection. It's modified by the difference of a spotter's submarines detection vs submarine visibility. Use this variable for game balancing. setting this too low will cause bad spotting issues.
@@ -2221,7 +2221,7 @@ NAI = {
 
 	CARRIER_TASKFORCE_MAX_CARRIER_COUNT = 2, 		-- optimum carrier count for carrier taskforces
 	CAPITAL_TASKFORCE_MAX_CAPITAL_COUNT = 4, 		-- optimum capital count for capital taskforces
-	SCREEN_TASKFORCE_MAX_SHIP_COUNT = 8,			-- optimum screen count for screen taskforces
+	SCREEN_TASKFORCE_MAX_SHIP_COUNT = 4,			-- optimum screen count for screen taskforces
 	SUB_TASKFORCE_MAX_SHIP_COUNT = 4,				-- optimum sub count for sub taskforces
 	
 	MIN_CAPITALS_FOR_CARRIER_TASKFORCE = 2,			-- carrier fleets will at least have this amount of capitals
