@@ -971,7 +971,7 @@ NAir = {
 	PORT_STRIKES_DELAY_MULTIPLIER = 6,					-- multplies HOURS_DELAY_AFTER_EACH_COMBAT if port strikes
 	CARRIER_HOURS_DELAY_AFTER_EACH_COMBAT = 2,          -- how often carrier planes do battle inside naval combat
 	NAVAL_STRIKE_TARGETTING_TO_AMOUNT = 0.31,			-- Balancing value to convert the naval_strike_targetting equipment stats to chances of how many airplanes managed to do successfull strike.
-	NAVAL_STRIKE_DAMAGE_TO_STR = 1.34,					-- Balancing value to convert damage ( naval_strike_attack * hits ) to Strength reduction.
+	NAVAL_STRIKE_DAMAGE_TO_STR = 1.36,					-- Balancing value to convert damage ( naval_strike_attack * hits ) to Strength reduction.
 	NAVAL_STRIKE_DAMAGE_TO_ORG = 0.57,					-- Balancing value to convert damage ( naval_strike_attack * hits ) to Organisation reduction.
 	NAVAL_STRIKE_CARRIER_MULTIPLIER = 10.0,              -- damage bonus when planes are in naval combat where their carrier is present (and can thus sortie faster and more effectively)
 	FIELD_EXPERIENCE_SCALE = 0.002,
@@ -1019,7 +1019,7 @@ NAir = {
 	ANTI_AIR_MAXIMUM_DAMAGE_REDUCTION_FACTOR = 0.6,	-- Maximum damage reduction factor applied to incoming air attacks against units with AA.
 	AIR_DEPLOYMENT_DAYS = 2,							-- Days to deploy one air wing
 	PORT_STRIKE_ENEMY_SUPERIORITY_LIMIT = 0.08,			-- Min air superiority for performing of naval strike
-	NAVAL_STRIKE_BASE_STR_TO_PLANES_RATIO = 0.07,		-- Max airbombers to do port strike comparing to strength
+	NAVAL_STRIKE_BASE_STR_TO_PLANES_RATIO = 0.08,		-- Max airbombers to do port strike comparing to strength
 	NAVAL_COMBAT_EXTERNAL_PLANES_JOIN_RATIO = 0.08,		-- Max planes that can join a combat comparing to the total strength of the ships
 	NAVAL_COMBAT_EXTERNAL_PLANES_JOIN_RATIO_PER_DAY = 0.25, -- max extra plane % that can join every day
 	NAVAL_COMBAT_EXTERNAL_PLANES_MIN_CAP = 25,			-- Min cap for planes that can join naval combat
@@ -1128,11 +1128,11 @@ NNavy = {
 	RESOURCE_ORIGIN_PRIORITY = 5,									-- Default convoy priority for resources shipped internally
 	-- Convoy Priorities END
 	
-	ADMIRAL_TASKFORCE_CAP = 5,										-- admirals will start getting penalties after this amount of taskforces
+	ADMIRAL_TASKFORCE_CAP = 6,										-- admirals will start getting penalties after this amount of taskforces
 	
 	DETECTION_CHANCE_MULT_BASE = 0.1,								-- base multiplier value for detection chance. Later the chance is an average between our detection and enemy visibility, mult by surface/sub detection chance in the following defines.
-	DETECTION_CHANCE_MULT_RADAR_BONUS = 0.1,						-- detection chance bonus from radars. 
-	DETECTION_CHANCE_MULT_AIR_SUPERIORITY_BONUS = 0.15,			-- bonus from air superiority.
+	DETECTION_CHANCE_MULT_RADAR_BONUS = 1.0,						-- detection chance bonus from radars. 
+	DETECTION_CHANCE_MULT_AIR_SUPERIORITY_BONUS = 1.0,			-- bonus from air superiority.
 
 	MAX_CAPITALS_PER_AUTO_TASK_FORCE = 4,							-- maximum number of capital ships the auto-task force creation will put together when designing SurfaceActionGroup
 	MAX_SUBMARINES_PER_AUTO_TASK_FORCE = 4,						-- maximum number of submarines the auto-task force creation will put together when designing wolfpack
@@ -1144,13 +1144,13 @@ NNavy = {
 	COMBAT_EVASION_TO_HIT_CHANCE = 0.007,							-- we take ship evasion stats, and mult by this value, so it gives hit chance reduction. So if reduction is 0.025 and ship evasion = 10, then there will be 0.25 (25%) lower hit chance. (Fe. 50% base -25% from evasion +10% bcoz it's very close).
 	COMBAT_EVASION_TO_HIT_CHANCE_TORPEDO_MULT = 10.0,				-- the above evasion hit chance is multiplied by 400% if shooting with torpedos. Torpedoes are slow, so evasion matters more.
 	MIN_HIT_PROFILE_MULT = 0.0,										-- largest hit profile penalty to hitting
-	COMBAT_LOW_ORG_HIT_CHANCE_PENALTY = -0.5,						-- % of penalty applied to hit chance when ORG is very low.
+	COMBAT_LOW_ORG_HIT_CHANCE_PENALTY = -0.25,						-- % of penalty applied to hit chance when ORG is very low.
 	COMBAT_LOW_MANPOWER_HIT_CHANCE_PENALTY = -0.25,						-- % of penalty applied to hit chance when manpower is very low.
 	COMBAT_DAMAGE_RANDOMNESS = 0.3,								-- random factor in damage. So if max damage is fe. 10, and randomness is 30%, then damage will be between 7-10.
 	COMBAT_TORPEDO_CRITICAL_CHANCE = 0.3,							-- chance for critical hit from torpedo.
 	COMBAT_TORPEDO_CRITICAL_DAMAGE_MULT = 5.0,						-- multiplier to damage when got critical hit from torpedo. (Critical hits are devastating as usualy torpedo_attack are pretty high base values).
 	COMBAT_DAMAGE_TO_STR_FACTOR = 0.47,								-- casting damage value to ship strength multiplier. Use it ot balance the game difficulty.
-	COMBAT_DAMAGE_TO_ORG_FACTOR = 0.8,							-- casting damage value to ship organisation multiplier. Use it to balance the game difficulty.
+	COMBAT_DAMAGE_TO_ORG_FACTOR = 0.5,							-- casting damage value to ship organisation multiplier. Use it to balance the game difficulty.
 	NAVY_MAX_XP = 100,
 	COMBAT_ON_THE_WAY_INIT_DISTANCE_BALANCE = 0.25, 					-- Value to balance initial distance to arrive for ships that are "on the way"	
 	COMBAT_CHASE_RESIGNATION_HOURS = 8,								-- Before we resign chasing enemy, give them some minimum time so the combat doesn't end instantly.
@@ -1215,7 +1215,7 @@ NNavy = {
 	NAVAL_SUPREMACY_CAN_INVADE = 0.9,								-- required naval supremacy to perform invasions on an area
 	CARRIER_STACK_PENALTY = 2,										-- The most efficient is 4 carriers in combat. 5+ brings the penalty to the amount of wings in battle.
 	CARRIER_STACK_PENALTY_EFFECT = 0.2,								-- Each carrier above the optimal amount decreases the amount of airplanes being able to takeoff by such %.
-	SHORE_BOMBARDMENT_CAP = 0.35,
+	SHORE_BOMBARDMENT_CAP = 0.40,
 	ANTI_AIR_TARGETING = 0.9,                                       -- how good ships are at hitting aircraft
 	MIN_TRACTED_ASSIST_DAMAGE_RATIO = 0.05,							-- How much damage counts as assist damage
 	SUPPLY_NEED_FACTOR = 4,										    -- multiplies supply usage
@@ -1290,8 +1290,8 @@ NNavy = {
 	AGGRESSION_SETTINGS_VALUES = { -- ships will use this values while deciding to attack enemies
 		0.4,		-- do not engage
 		0.9,	-- low
-		1.25,	-- medium
-		2.5,	-- high
+		1.2,	-- medium
+		1.5,	-- high
 		20,	-- I am death incarnate!
 	},
 	
@@ -1303,11 +1303,11 @@ NNavy = {
 	
 	AGGRESSION_LIGHT_GUN_EFFICIENCY_ON_LIGHT_SHIPS = 1.0, -- ratio for scoring for different gun types against light ships
 	AGGRESSION_HEAVY_GUN_EFFICIENCY_ON_LIGHT_SHIPS = 0.5,-- ratio for scoring for different gun types against light ships
-	AGGRESSION_TORPEDO_EFFICIENCY_ON_LIGHT_SHIPS = 0.1,   -- ratio for scoring for different gun types against light ships
+	AGGRESSION_TORPEDO_EFFICIENCY_ON_LIGHT_SHIPS = 0.5,   -- ratio for scoring for different gun types against light ships
 	
-	AGGRESSION_LIGHT_GUN_EFFICIENCY_ON_HEAVY_SHIPS = 0.05, -- ratio for scoring for different gun types against heavy ships
+	AGGRESSION_LIGHT_GUN_EFFICIENCY_ON_HEAVY_SHIPS = 0.5, -- ratio for scoring for different gun types against heavy ships
 	AGGRESSION_HEAVY_GUN_EFFICIENCY_ON_HEAVY_SHIPS = 1.0, -- ratio for scoring for different gun types against heavy ships
-	AGGRESSION_TORPEDO_EFFICIENCY_ON_HEAVY_SHIPS = 1.1,   -- ratio for scoring for different gun types against heavy ships
+	AGGRESSION_TORPEDO_EFFICIENCY_ON_HEAVY_SHIPS = 1.0,   -- ratio for scoring for different gun types against heavy ships
 	
 	AGGRESSION_CONVOY_STRENGTH_FACTOR = 0.1,			  -- convoys in combat gets a penalty to their strength in aggression calculations
 	
@@ -1418,11 +1418,11 @@ NNavy = {
 	TRAINING_ORG = 0.2,												-- max organization on traiaing mission
  
 	BASE_SPOTTING = 1,												-- base spotting percentage for navy
-	BASE_SPOTTING_FROM_RADAR = 3.5,									-- base spotting percentage that comes from full radar coverage
-	BASE_SPOTTING_FROM_AIR_SUPERIORITY = 7,						-- base spotting percentage that comes from air superiority
-	BASE_SPOTTING_FROM_ACTIVE_NAVY = 6,							-- base spotting percentage that comes from ships in area
+	BASE_SPOTTING_FROM_RADAR = 2.0,									-- base spotting percentage that comes from full radar coverage
+	BASE_SPOTTING_FROM_AIR_SUPERIORITY = 2.0,						-- base spotting percentage that comes from air superiority
+	BASE_SPOTTING_FROM_ACTIVE_NAVY = 2.0,							-- base spotting percentage that comes from ships in area
 	BASE_SPOTTING_ACTIVE_NAVY_MULT = 0.25,							-- multiplier for your navies base spotting percentage
-	BASE_SPOTTING_FROM_DECRYPTION = 7,								-- base spotting percentage that comes from decryption, can go negative (enemy decryption is subtracted)
+	BASE_SPOTTING_FROM_DECRYPTION = 2.0,								-- base spotting percentage that comes from decryption, can go negative (enemy decryption is subtracted)
 		
 	MIN_HOURS_TO_SHUFFLE_NEWLY_ASSIGNED_PATROLS = 7 * 24,			-- if a fleet has less patrol than it needs to cover all of it areas, it will shuffle the patrols around. it will wait this much hour before shuffling a task force to new area
 	SPOTTING_ENEMY_SPOTTING_MULTIPLIER_FOR_RUNNING_AWAY = 0.80,		-- enemy spotting is multiplied by this value to simulate running away
@@ -1432,8 +1432,8 @@ NNavy = {
 	SPOTTING_SPEED_MULT_FOR_CATCHING_UP = 0.2,						-- speed diff bonus rate that is added to spotting every hour
 	SPOTTING_MISSION_DETECTION_THRESHOLD_LOW = 10.0,					-- value between 0 and 100 above which to show very coarse information about the spotted task force
 	SPOTTING_MISSION_DETECTION_THRESHOLD_MEDIUM = 70.0,					-- value between 0 and 100 above which to show coarse information about the spotted task force. Note: accurate information are shown when spotting reach 100.
-	NAVY_VISIBILITY_BONUS_ON_RETURN_FOR_REPAIR = 0.9,				-- Multiplier for the surface/sub visiblity when the heavily damaged fleet is returning to the home base for reparation. 1.0 = no bonus. 0.0 = invisible.
-	VISIBILITY_MULTIPLIER_FOR_SPOTTING = 0.1,						-- multiplier for visibility stat
+	NAVY_VISIBILITY_BONUS_ON_RETURN_FOR_REPAIR = 0.25,				-- Multiplier for the surface/sub visiblity when the heavily damaged fleet is returning to the home base for reparation. 1.0 = no bonus. 0.0 = invisible.
+	VISIBILITY_MULTIPLIER_FOR_SPOTTING = 0.01,						-- multiplier for visibility stat
 	INTEL_LEVEL_LOW_HALF_RANGE_PERCENTAGE = 10,							-- Integer representing the maximum offset of the displayed value to the original, in percentage (divided by 100 in code). For spotting level "low".
 	INTEL_LEVEL_MEDIUM_HALF_RANGE_PERCENTAGE = 5,							-- Same as above but for the spotting level "medium"
 	INTEL_LEVEL_LOW_HALF_RANGE_MIN_SHIPS = 3,							-- If the percentage of the value is lower than this, use this value instead. For spotting level "low"
@@ -1442,7 +1442,7 @@ NNavy = {
 	INTEL_LEVEL_MEDIUM_HALF_RANGE_MIN_CAPITALS = 1,							-- Same as above but for capital ships. NOTE: overriden to 0 if the total number of ships in the task force is less than four.
 	INTEL_LEVEL_LOW_STRENGTH_ESTIMATE_HALF_RANGE_PERCENTAGE = 20,					-- Integer representing the maximum offset of the estimated enemy strength to the original, in percentage (divided by 100 in code). For spotting level "low".
 	INTEL_LEVEL_MEDIUM_STRENGTH_ESTIMATE_HALF_RANGE_PERCENTAGE = 10,					-- Same as above for spotting level "medium"
-	BASE_SPOTTING_SPEED = 0.0,										-- daily base spotting speed
+	BASE_SPOTTING_SPEED = 1.0,										-- daily base spotting speed
 	BASE_ESCAPE_SPEED = 0.15,										-- daily base escape speed (gained as percentagE)
 	SPEED_TO_ESCAPE_SPEED = 0.9,									-- ratio to converstion from ship speed to escape speed (divided by hundred)
 	ESCAPE_SPEED_PER_COMBAT_DAY = 0.03,								-- daily increase in escape speed during combat duration
@@ -1450,16 +1450,16 @@ NNavy = {
 	ESCAPE_SPEED_SUB_BASE = 0.25,									-- subs get faster escape speed. gets replaced by hidden version below if hidden
 	ESCAPE_SPEED_HIDDEN_SUB = 0.7,									-- hidden subs get faster escape speed
 
-	SUB_DETECTION_CHANCE_BASE = 5,									-- to start spotting a submarine, a dice is rolled and checked if it succeeds this percentage. if not, that enemy sub force won't be spotted on this tick
-	SUB_DETECTION_CHANCE_BASE_SPOTTING_EFFECT = 0.6,				-- effect of base spotting for initial spotting of pure submarine forces. this along with next value is added together and rolled against a random to start spotting
+	SUB_DETECTION_CHANCE_BASE = 2,									-- to start spotting a submarine, a dice is rolled and checked if it succeeds this percentage. if not, that enemy sub force won't be spotted on this tick
+	SUB_DETECTION_CHANCE_BASE_SPOTTING_EFFECT = 0.25,				-- effect of base spotting for initial spotting of pure submarine forces. this along with next value is added together and rolled against a random to start spotting
 	SUB_DETECTION_CHANCE_SPOTTING_SPEED_EFFECT = 2.5,				-- effect of spotting speed for initial spotting of pure submarine forces. this along with prev value is added together and rolled against a random to start spotting
 	SUB_DETECTION_CHANCE_BASE_SPOTTING_POW_EFFECT = 1.5,			-- effect of spotting speed will be powered by this for initial spotting of pure submarine forces. this along with prev value is added together and rolled against a random to start spotting
 	
-	BASE_CONVOY_SPOTTING_SPEED = 0.0,								-- daily base spotting speed against convoys
+	BASE_CONVOY_SPOTTING_SPEED = 1.0,								-- daily base spotting speed against convoys
 	BASE_UNIT_TRANSFER_SPOTTING_SPEED = 0.0,						-- daily base spotting speed against unit trans
 	BASE_NAVAL_INVASION_SPOTTING_SPEED = 0.15,						-- daily base spotting speed against unit transfers
 
-	CONVOY_SPOTTING_SPEED_MULT = 1.0,								-- spotting speed mult against convoys
+	CONVOY_SPOTTING_SPEED_MULT = 2.0,								-- spotting speed mult against convoys
 	UNIT_TRANSFER_SPOTTING_SPEED_MULT = 2.0,						-- spotting speed mult against unit transfers
 	NAVAL_INVASION_SPOTTING_SPEED_MULT = 10.0,						-- spotting speed mult against naval invasion armies
 	
@@ -1487,18 +1487,18 @@ NNavy = {
 		
 	BASE_POSITIONING												= 1.0,	-- base value for positioning
 	
-	RELATIVE_SURFACE_DETECTION_TO_POSITIONING_FACTOR				= 0.01,	-- multiples the surface detection difference between two sides. the side with higher detection will get a bonus of this value
-	MAX_POSITIONING_BONUS_FROM_SURFACE_DETECTION					= 0.20,  -- will clamp the bonus that you get from detection
+	RELATIVE_SURFACE_DETECTION_TO_POSITIONING_FACTOR				= 0.02,	-- multiples the surface detection difference between two sides. the side with higher detection will get a bonus of this value
+	MAX_POSITIONING_BONUS_FROM_SURFACE_DETECTION					= 0.10,  -- will clamp the bonus that you get from detection
 	
-	HIGHER_SHIP_RATIO_POSITIONING_PENALTY_FACTOR					= 0.9, -- if one side has more ships than the other, that side will get this penalty for each +100% ship ratio it has
+	HIGHER_SHIP_RATIO_POSITIONING_PENALTY_FACTOR					= 0.75, -- if one side has more ships than the other, that side will get this penalty for each +100% ship ratio it has
 	MAX_POSITIONING_PENALTY_FROM_HIGHER_SHIP_RATIO					= 1.0, -- maximum penalty to get from larger fleets
 
 	HIGHER_CARRIER_RATIO_POSITIONING_PENALTY_FACTOR					= 0.05;  -- penalty if other side has stronger carrier air force 
 	MAX_CARRIER_RATIO_POSITIONING_PENALTY_FACTOR 					= 0.1;  -- max penalty from stronger carrier air force
 	
-	POSITIONING_PENALTY_FOR_SHIPS_JOINED_COMBAT_AFTER_IT_STARTS		= 0.02, -- each ship that joins the combat will have this penalty to be added into positioning
-	MAX_POSITIONING_PENALTY_FOR_NEWLY_JOINED_SHIPS 					= 0.1,  -- the accumulated penalty from new ships will be clamped to this value
-	POSITIONING_PENALTY_HOURLY_DECAY_FOR_NEWLY_JOINED_SHIPS			= 0.005,-- the accumulated penalty from new ships will decay hourly by this value
+	POSITIONING_PENALTY_FOR_SHIPS_JOINED_COMBAT_AFTER_IT_STARTS		= 0.05, -- each ship that joins the combat will have this penalty to be added into positioning
+	MAX_POSITIONING_PENALTY_FOR_NEWLY_JOINED_SHIPS 					= 1.0,  -- the accumulated penalty from new ships will be clamped to this value
+	POSITIONING_PENALTY_HOURLY_DECAY_FOR_NEWLY_JOINED_SHIPS			= 0.02,-- the accumulated penalty from new ships will decay hourly by this value
 	
 	DAMAGE_PENALTY_ON_MINIMUM_POSITIONING 							= 0.95, -- damage penalty at 0% positioning
 	SCREENING_EFFICIENCY_PENALTY_ON_MINIMUM_POSITIONING				= 0.75,  -- screening efficiency (screen to capital ratio) at 0% positioning
@@ -1535,8 +1535,8 @@ NNavy = {
 	DEPTH_CHARGE_STAT_FOR_SHIP_TO_BE_SUB_HUNTER = 15,					-- amount of depth charge required for a ship to be considred a sub hunter and so good for convoy escort
 	SUB_DETECTION_STAT_FOR_SHIP_TO_BE_SUB_HUNTER = 4,					-- amount of sub detection required for a ship to be considered a sub hunter
 	
-	HEAVY_GUN_ATTACK_TO_SHORE_BOMBARDMENT							= 0.1,  -- heavy gun attack value is divided by this value * 100 and added to shore bombardment modifier 
-	LIGHT_GUN_ATTACK_TO_SHORE_BOMBARDMENT							= 0.05, -- light gun attack value is divided by this value * 100 and added to shore bombardment modifier 
+	HEAVY_GUN_ATTACK_TO_SHORE_BOMBARDMENT							= 0.2,  -- heavy gun attack value is divided by this value * 100 and added to shore bombardment modifier 
+	LIGHT_GUN_ATTACK_TO_SHORE_BOMBARDMENT							= 0.1, -- light gun attack value is divided by this value * 100 and added to shore bombardment modifier 
 
 	GUN_HIT_PROFILES = { -- hit profiles for guns, if target ih profile is lower the gun will have lower accuracy
 		80.0,	-- big guns
@@ -1575,7 +1575,7 @@ NNavy = {
 	
 	MISSION_EFFICIENCY_POW_FACTOR									= 1.7,		-- mission efficiencies will be powered up by this to further penalize low efficiencies
 	
-	NAVAL_COMBAT_SUB_DETECTION_FACTOR                               = 1.05,      -- balance value for sub detection in combat by ships
+	NAVAL_COMBAT_SUB_DETECTION_FACTOR                               = 1.04,      -- balance value for sub detection in combat by ships
 	SUBMARINE_HIDE_TIMEOUT 											= 12,		-- Amount of in-game-hours that takes the submarine (with position unrevealed), to hide.
 	SUBMARINE_REVEALED_TIMEOUT 										= 18,		-- Amount of in-game-hours that makes the submarine visible if it is on the defender side.
 	SUBMARINE_REVEAL_BASE_CHANCE 									= 12,		-- Base factor for submarine detection. It's modified by the difference of a spotter's submarines detection vs submarine visibility. Use this variable for game balancing. setting this too low will cause bad spotting issues.
@@ -2221,7 +2221,7 @@ NAI = {
 
 	CARRIER_TASKFORCE_MAX_CARRIER_COUNT = 2, 		-- optimum carrier count for carrier taskforces
 	CAPITAL_TASKFORCE_MAX_CAPITAL_COUNT = 4, 		-- optimum capital count for capital taskforces
-	SCREEN_TASKFORCE_MAX_SHIP_COUNT = 8,			-- optimum screen count for screen taskforces
+	SCREEN_TASKFORCE_MAX_SHIP_COUNT = 4,			-- optimum screen count for screen taskforces
 	SUB_TASKFORCE_MAX_SHIP_COUNT = 4,				-- optimum sub count for sub taskforces
 	
 	MIN_CAPITALS_FOR_CARRIER_TASKFORCE = 2,			-- carrier fleets will at least have this amount of capitals
