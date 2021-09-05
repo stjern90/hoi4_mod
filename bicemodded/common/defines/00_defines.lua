@@ -1215,7 +1215,7 @@ NNavy = {
 	NAVAL_SUPREMACY_CAN_INVADE = 0.9,								-- required naval supremacy to perform invasions on an area
 	CARRIER_STACK_PENALTY = 2,										-- The most efficient is 4 carriers in combat. 5+ brings the penalty to the amount of wings in battle.
 	CARRIER_STACK_PENALTY_EFFECT = 0.2,								-- Each carrier above the optimal amount decreases the amount of airplanes being able to takeoff by such %.
-	SHORE_BOMBARDMENT_CAP = 0.35,
+	SHORE_BOMBARDMENT_CAP = 0.40,
 	ANTI_AIR_TARGETING = 0.9,                                       -- how good ships are at hitting aircraft
 	MIN_TRACTED_ASSIST_DAMAGE_RATIO = 0.05,							-- How much damage counts as assist damage
 	SUPPLY_NEED_FACTOR = 4,										    -- multiplies supply usage
@@ -1535,8 +1535,8 @@ NNavy = {
 	DEPTH_CHARGE_STAT_FOR_SHIP_TO_BE_SUB_HUNTER = 15,					-- amount of depth charge required for a ship to be considred a sub hunter and so good for convoy escort
 	SUB_DETECTION_STAT_FOR_SHIP_TO_BE_SUB_HUNTER = 4,					-- amount of sub detection required for a ship to be considered a sub hunter
 	
-	HEAVY_GUN_ATTACK_TO_SHORE_BOMBARDMENT							= 0.1,  -- heavy gun attack value is divided by this value * 100 and added to shore bombardment modifier 
-	LIGHT_GUN_ATTACK_TO_SHORE_BOMBARDMENT							= 0.05, -- light gun attack value is divided by this value * 100 and added to shore bombardment modifier 
+	HEAVY_GUN_ATTACK_TO_SHORE_BOMBARDMENT							= 0.2,  -- heavy gun attack value is divided by this value * 100 and added to shore bombardment modifier 
+	LIGHT_GUN_ATTACK_TO_SHORE_BOMBARDMENT							= 0.1, -- light gun attack value is divided by this value * 100 and added to shore bombardment modifier 
 
 	GUN_HIT_PROFILES = { -- hit profiles for guns, if target ih profile is lower the gun will have lower accuracy
 		80.0,	-- big guns
