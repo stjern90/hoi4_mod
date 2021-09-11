@@ -313,7 +313,7 @@ NCountry = {
 	SPECIAL_FORCES_CAP_BASE = 0.00,					-- Max ammount of special forces battalions is total number of non-special forces battalions multiplied by this and modified by a country modifier
 	SPECIAL_FORCES_CAP_MIN = 12,					-- You can have a minimum of this many special forces battalions, regardless of the number of non-special forces battalions you have, this can also be modified by a country modifier
 	DAYS_OF_WAR_BEFORE_SURRENDER = 7,				-- Number of days a war has to have existed before anyone can surrender in it
-	FUEL_LEASE_CONVOY_RATIO = 0.030,				-- num convoys needed per fuel land lease 
+	FUEL_LEASE_CONVOY_RATIO = 0.025,				-- num convoys needed per fuel land lease 
 	
 	STARTING_FUEL_RATIO = 0.33,						-- starting fuel ratio compared to max fuel for countries
 	BASE_FUEL_GAIN_PER_OIL = 2,						-- base amount of fuel gained hourly per excess oil
@@ -991,7 +991,7 @@ NAir = {
 	AIR_AGILITY_TO_NAVAL_STRIKE_AGILITY = 0.01,         		-- conversion factor to bring agility in line with ship AA
 	AIR_DAMAGE_TO_DIVISION_LOSSES = 1.0,				-- factor for conversion air damage to division losses for details statistics of air wings
 	AIR_NAVAL_KAMIKAZE_DAMAGE_MULT = 15.0,				-- Balancing value to increase usual damage to Strength for Kamikaze
-	AIR_NAVAL_KAMIKAZE_LOSSES_MULT = 8.0,          			-- Balancing value to increase usual losses if Kamikaze participating in the battle
+	AIR_NAVAL_KAMIKAZE_LOSSES_MULT = 10.0,          			-- Balancing value to increase usual losses if Kamikaze participating in the battle
 	BASE_KAMIKAZE_DAMAGE = 2.0,                    				-- Base Kamikaze death rate
 	BASE_KAMIKAZE_TARGETING = 2.0,			        		-- Kamikaze can't be a bad target
 	BASE_STRATEGIC_BOMBING_HIT_SHIP_CHANCE = 0.2,		-- Chance to hit a ship in port when it is bombed.
@@ -2256,7 +2256,7 @@ NAI = {
 	
 	HIGH_PRIO_NAVAL_MISSION_SCORES = {  -- priorities for regions to get assigned to a mission
 		0, -- HOLD (consumes fuel HOLD_MISSION_MOVEMENT_COST fuel while moving)
-		3800, -- PATROL		
+		2000, -- PATROL		
 	    1000, -- STRIKE FORCE 
 		1500, -- CONVOY RAIDING
 		3000, -- CONVOY ESCORT
@@ -2645,8 +2645,8 @@ NIntel = {
 
 	STATIC_INTEL_SOURCE_OPERATION_TOKENS_MAXIMUMS = {},
 	STATIC_INTEL_SOURCE_BROKEN_CYPHER_MAXIMUMS = { 60.0, 60.0, 60.0, 60.0 },
-	STATIC_INTEL_SOURCE_RADAR_MAXIMUMS = { 10.0, 10.0, 20.0, 20.0 },
-	STATIC_INTEL_SOURCE_INTEL_NETWORK_MAXIMUMS = { 30.0, 30.0, 40.0, 30.0},
+	STATIC_INTEL_SOURCE_RADAR_MAXIMUMS = { 10.0, 10.0, 10.0, 10.0 },
+	STATIC_INTEL_SOURCE_INTEL_NETWORK_MAXIMUMS = { 30.0, 30.0, 30.0, 30.0},
 
 	-- Dynamic intel pool can be manipulated through the following defines:
 	--
@@ -2689,8 +2689,8 @@ NIntel = {
 	DYNAMIC_INTEL_SOURCE_NAVAL_COMBAT_MULT_DECAY = 0.985,
 	DYNAMIC_INTEL_SOURCE_NAVAL_COMBAT_AGGREGAT_LOG_FACTOR = 0.02,
 	DYNAMIC_INTEL_SOURCE_NAVAL_COMBAT_AGGREGAT_DIVISOR = 200,
-	DYNAMIC_INTEL_SOURCE_NAVAL_COMBAT_MAXIMUMS = { 10, 0, 40, 20 },
-	DYNAMIC_INTEL_SOURCE_NAVAL_COMBAT_ABSOLUTE_MAXIMUMS = { 15, 0, 45, 25 },
+	DYNAMIC_INTEL_SOURCE_NAVAL_COMBAT_MAXIMUMS = { 0, 0, 40, 20 },
+	DYNAMIC_INTEL_SOURCE_NAVAL_COMBAT_ABSOLUTE_MAXIMUMS = { 0, 0, 45, 25 },
 
 	-- Dynamic pool AIR_COMBAT
 	DYNAMIC_INTEL_SOURCE_AIR_COMBAT_FLAT_DECAY = 0.0,
@@ -2705,8 +2705,8 @@ NIntel = {
 	DYNAMIC_INTEL_SOURCE_AIR_RECON_MULT_DECAY = 0.990, -- Was 0.995
 	DYNAMIC_INTEL_SOURCE_AIR_RECON_AGGREGAT_LOG_FACTOR = 0.05,
 	DYNAMIC_INTEL_SOURCE_AIR_RECON_AGGREGAT_DIVISOR = 200,
-	DYNAMIC_INTEL_SOURCE_AIR_RECON_MAXIMUMS = { 25, 20, 30, 20 },
-	DYNAMIC_INTEL_SOURCE_AIR_RECON_ABSOLUTE_MAXIMUMS = { 30, 25, 35, 25 },
+	DYNAMIC_INTEL_SOURCE_AIR_RECON_MAXIMUMS = { 10, 10, 10, 10 },
+	DYNAMIC_INTEL_SOURCE_AIR_RECON_ABSOLUTE_MAXIMUMS = { 15, 15, 15, 15 },
 
 	-- Dynamic pool CAPTURED_OPERATIVE
 	DYNAMIC_INTEL_SOURCE_CAPTURED_OPERATIVE_FLAT_DECAY = 0.0,
@@ -2754,7 +2754,7 @@ NIntel = {
 	AIR_COMBAT_AIR_INTEL_FACTOR = 0.2,
 
 	INTEL_NETWORK_NATIONAL_COVERAGE_FACTOR = 2.0,			 -- multiplied to the national coverage to deduce the fraction of the maximum value listed below that will be added to the intel against the network's target
-	INTEL_NETWORK_NATIONAL_COVERAGE_NAVAL_BASE_FACTOR = 15.0, -- factor used instead of above in case you dont cover naval bases etc 
+	INTEL_NETWORK_NATIONAL_COVERAGE_NAVAL_BASE_FACTOR = 2.0, -- factor used instead of above in case you dont cover naval bases etc 
 
 	-- the maximum intel values that an intel network will provide against a target
 	INTEL_NETWORK_MAX_CIVILIAN_INTEL = 20.0,

@@ -239,17 +239,6 @@ avoid_iwo_jima = {
 	ai_strategy = { type = naval_avoid_region id = 94 value = 50 }
 }
 
-#pacific_war_USA = {
-#	allowed = { tag = USA }
-#	enable = {
-#		has_war_with = JAP
-#	}
-	
-#	abort_when_not_enabled = yes
-	
-#	ai_strategy = { type = invade id = "JAP" value = 12000 }
-#}
-
 USA_ignore_neighbours = {
 	allowed = { tag = USA }
 	enable = {
@@ -270,13 +259,13 @@ USA_ignore_neighbours = {
 	ai_strategy = {
 		type = ignore
 		id = "CAN"			
-		value = 2000
+		value = 1000
 	}
 	
 	ai_strategy = {
 		type = ignore
 		id = "MEX"			
-		value = 2000
+		value = 1000
 	}
 
 }
@@ -322,43 +311,6 @@ USA_ask_ENG_FRA_for_access_before_war = {
 	}
 }
 
-Allies_avoid_JAP = {
-	enable = {
-		has_war_with = JAP
-
-		NOT = { JAP = { has_capitulated = yes } }
-	}
-
-	abort_when_not_enabled = yes
-
-	ai_strategy = { type = naval_avoid_region id = 90 value = 50 }
-	ai_strategy = { type = naval_avoid_region id = 87 value = 50 }
-	ai_strategy = { type = naval_avoid_region id = 79 value = 200 }
-	ai_strategy = { type = naval_avoid_region id = 76 value = 50 }
-	ai_strategy = { type = naval_avoid_region id = 75 value = 50 }
-	ai_strategy = { type = naval_avoid_region id = 174 value = 50 }
-	ai_strategy = { type = naval_avoid_region id = 77 value = 200 }
-}
-
-USA_dont_garrison = {
-	enable = {
-		tag = USA
-		NOT = {
-			JAP = {
-				or = {
-					controls_state = 631
-					controls_state = 629
-				}
-			}
-		}
-	}
-	
-	ai_strategy = {
-		type = garrison
-		value = -500
-	}
-}
-
 USA_unit_buffer_for_pacific = {
 	allowed = {
 		original_tag = USA
@@ -371,7 +323,7 @@ USA_unit_buffer_for_pacific = {
 	
 	ai_strategy = {
 		type = put_unit_buffers
-		ratio = 0.2
+		ratio = 0.1
 		states = { 
 			642
 			726
@@ -384,14 +336,16 @@ USA_unit_buffer_for_pacific = {
 	}
 }
 
-USA_unit_buffer_for_australia = {
+
+# USA should put some buffer units in africa and ENG to help with invasions
+USA_unit_buffer_for_europe = {
 	allowed = {
 		original_tag = USA
 	}
 	enable = {
-		date > 1941.1.1
-		has_war_with = JAP
-		is_in_faction_with = AST
+		date > 1941.7.1
+		OR = { is_in_faction_with = ENG has_war_with = GER }
+		#should_USA_invade_europe_or_africa = yes, what's this ?
 	}
 	
 	abort_when_not_enabled = yes
@@ -400,165 +354,52 @@ USA_unit_buffer_for_australia = {
 		type = put_unit_buffers
 		ratio = 0.3
 		states = { 
-			634
-			737
-			523 
-			669
-            520			
-			521
-			522
+
+			### uk
+			127
+			126
+			125
+			123
+			338
+			122
+			129
+			130
+			132 
 		}
-		subtract_invasions_from_need = no # need to always guard here!
-	}
-}
-
-
-# USA should put some buffer units in africa and ENG to help with invasions
-#USA_unit_buffer_for_europe = {
-#	allowed = {
-#		original_tag = USA
-#	}
-#	enable = {
-#		date > 1941.7.1
-#		OR = { is_in_faction_with = ENG has_war_with = GER }
-#		#should_USA_invade_europe_or_africa = yes, what's this ?
-#	}
-#	
-#	abort_when_not_enabled = yes
-#	
-#	ai_strategy = {
-#		type = put_unit_buffers
-#		ratio = 0.3
-#		states = { 
-#
-#			### uk
-#			127
-#			126
-#			125
-#			123
-#			338
-#			122
-#			129
-#			130
-#			132 
-#		}
-#		subtract_invasions_from_need = no
-#		subtract_fronts_from_need = no
-#	}
-#	
-#	ai_strategy = {
-#		type = put_unit_buffers
-#		
-#		# north africa
-#		states = { 
-#			290
-#			461
-#			459
-#			460
-#			458
-#			665
-#			448
-#			449
-#			450
-#			451
-#			452
-#			447
-#		}
-#		
-#		ratio = 0.1
-#		
-#		subtract_invasions_from_need = no
-#		subtract_fronts_from_need = no
-#	}
-#}
-
-save_britain = {
-	allowed = { original_tag = USA }
-	enable = {
-		has_war_with = GER
-		NOT = { has_war_with = JAP }
-		has_global_flag = sealion
-		is_historical_focus_on = yes
-	}
-	abort_when_not_enabled = yes
-	
-	ai_strategy = {
-		type = front_unit_request
-		country_trigger = {
-			or = {
-				tag = GER
-				is_in_faction_with = GER
-			}
-		}
-		state_trigger = { 
-			or = {
-				region = 1
-				region = 2
-				region = 3
-			}
-		}		
-		value = 100
-	}	
-}
-
-vichy_attack = {
-	allowed = { original_tag = USA }
-	enable = {
-		has_war_with = VIC
-		is_historical_focus_on = yes
-	}
-	abort_when_not_enabled = yes
-		
-
-	ai_strategy = {
-		type = front_control
-		country_trigger = {
-			or = {
-				tag = VIC
-				is_in_faction_with = VIC
-			}
-		}
-		state_trigger = { 
-			or = {
-				region = 182
-				region = 126
-				region = 232
-				region = 244
-			}
-		}
-		
-		priority = 250
-		ordertype = front
-		execution_type = rush
-		execute_order = yes
-		manual_attack = yes
+		subtract_invasions_from_need = no
+		subtract_fronts_from_need = no
 	}
 	
 	ai_strategy = {
-		type = front_unit_request
-		country_trigger = {
-			or = {
-				tag = VIC
-				is_in_faction_with = VIC
-			}
+		type = put_unit_buffers
+		
+		# north africa
+		states = { 
+			290
+			461
+			459
+			460
+			458
+			665
+			448
+			449
+			450
+			451
+			452
+			447
 		}
-		state_trigger = { 
-			or = {
-				region = 182
-				region = 126
-				region = 232
-				region = 244
-			}
-		}		
-		value = 100
-	}	
+		
+		ratio = 0.1
+		
+		subtract_invasions_from_need = no
+		subtract_fronts_from_need = no
+	}
 }
 
 africa_campaign_allies_prepare = {
 	allowed = { OR = { original_tag = AST original_tag = CAN } }
 	enable = {
 		is_in_faction_with = ENG
-		NOT = { tag = USA }
 		date > 1938.6.1
 		date < 1941.1.1
 	}
@@ -588,7 +429,6 @@ africa_campaign_allies_east = {
 	enable = {
 		has_war_with = ITA
 		is_historical_focus_on = yes
-		NOT = { tag = USA }
 	}
 	abort_when_not_enabled = yes
 		
@@ -639,7 +479,6 @@ africa_campaign_allies_north = {
 	enable = {
 		has_war_with = ITA
 		is_historical_focus_on = yes
-		NOT = { tag = USA }
 		
 		ENG = {
 		OR = {
@@ -700,6 +539,47 @@ africa_campaign_allies_north = {
 	}	
 }
 
+
+USA_unit_buffer_for_pacific_2 = {
+	allowed = {
+		original_tag = USA
+	}
+	enable = {
+		has_war_with = JAP
+		OR = {
+		336 = { CONTROLLER = { has_war_with = USA } }
+		327 = { CONTROLLER = { has_war_with = USA } }
+		}
+	}
+	
+	abort = {
+	    OR  = {
+		NOT = { has_war_with = JAP }
+		NOT = {
+		336 = { CONTROLLER = { has_war_with = USA } }
+		327 = { CONTROLLER = { has_war_with = USA } }
+		}
+		}
+	}
+	
+	ai_strategy = {
+		type = put_unit_buffers
+		ratio = 0.15
+		states = { 
+
+			### ast
+			285			
+			517			
+			520
+			521
+			522			
+			737
+			523
+			634
+		}
+	}	
+}
+
 USA_gang_up_GER_with_ENG = {
 	allowed = {
 		tag = USA
@@ -714,6 +594,22 @@ USA_gang_up_GER_with_ENG = {
 		type = force_defend_ally_borders
 		value = 150
 		target = europe
+	}
+	ai_strategy = {
+		type = force_defend_ally_borders
+		value = 100
+		target = africa
+	}
+	
+	ai_strategy = {
+		type = contain
+		id = "ITA"			
+		value = 100
+	}
+	ai_strategy = {
+		type = consider_weak
+		id = "ITA"			
+		value = 200
 	}
 }
 
@@ -927,6 +823,26 @@ USA_stop_soviet_from_falling_2 = {
 		type = support
 		id = "SOV"
 		value = 170
+	}
+}
+
+USA_home_land_is_safe = {
+	allowed = { original_tag = USA }
+	enable = {
+		NOT = {
+			OR = {
+				has_civil_war = yes
+				has_war_with = CAN
+				has_war_with = MEX
+			}
+		}
+	}
+	abort_when_not_enabled = yes
+	
+	
+	ai_strategy = {
+		type = garrison
+		value = -70
 	}
 }
 

@@ -33,6 +33,8 @@ focus_tree = {
 		}
 		completion_reward = {
 			add_political_power = 25
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = harry_white
 		}
 	}
 	
@@ -287,6 +289,13 @@ focus_tree = {
 					add_idea = second_new_deal
 				}
 			}
+			if = {
+				limit = { has_idea = harry_white }
+				remove_ideas = harry_white
+			}
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = USA_henry_morgenthau
+			
 		}
 	}
 	
@@ -442,7 +451,7 @@ focus_tree = {
 	
 	focus = {
 		id = USA_wpa
-		icon = GFX_goal_support_democracy
+		icon = GFX_goal_USA_wpa
 		x = 1
 		y = 1
 		
@@ -601,13 +610,13 @@ focus_tree = {
 	focus = {
 		id = USA_court_packing
 		icon = GFX_goal_generic_neutrality_focus
-		x = 0
+		x = 2
 		y = 6
 		
 		cost = 3
 		search_filters = {FOCUS_FILTER_POLITICAL FOCUS_FILTER_USA_CONGRESS}
 		
-		prerequisite = { focus = USA_second_new_deal }
+		prerequisite = { focus = USA_second_new_deal focus = USA_landon }
 		
 		ai_will_do = {
 			factor = 1
@@ -672,7 +681,7 @@ focus_tree = {
 		x = 5
 		y = 1
 		
-		cost = 6
+		cost = 4.8
 		search_filters = {FOCUS_FILTER_STABILITY FOCUS_FILTER_USA_CONGRESS}
 		
 		prerequisite = { focus = USA_erf }
@@ -738,7 +747,7 @@ focus_tree = {
 	focus = {
 		id = USA_civil_aeronautics_act
 		icon = GFX_commercial_airplanes
-		x = -1
+		x = 1
 		y = 5
 		
 		cost = 6
@@ -798,7 +807,7 @@ focus_tree = {
 	focus = {
 		id = USA_bankruptcy_act
 		icon = GFX_banks
-		x = 1
+		x = -1
 		y = 5
 		
 		cost = 6
@@ -1052,26 +1061,20 @@ focus_tree = {
 	focus = {
 		id = USA_reorganization_act
 		icon = GFX_goal_support_democracy
-		x = -2
-		y = 7
+		x = 0
+		y = 6
 		
 		cost = 6
 		search_filters = {FOCUS_FILTER_POLITICAL}
 		
-		prerequisite = { focus = USA_court_packing focus = USA_food_stamp_plan focus = USA_civil_aeronautics_act }
+		prerequisite = { focus = USA_bankruptcy_act }
+		prerequisite = { focus = USA_civil_aeronautics_act }
 		ai_will_do = {
 			factor = 1
 		}
 		
 		available = {
 			congress_low_support_trigger = yes
-			or = {
-				has_completed_focus = USA_court_packing
-				and = {
-					has_completed_focus = USA_civil_aeronautics_act
-					has_completed_focus = USA_food_stamp_plan 
-				}
-			}
 		}
 		
 		available_if_capitulated = yes
@@ -1083,13 +1086,13 @@ focus_tree = {
 	focus = {
 		id = USA_food_stamp_plan
 		icon = GFX_goal_USA_food
-		x = -3
-		y = 5
+		x = -1
+		y = 7
 		
 		cost = 6
 		search_filters = {FOCUS_FILTER_RESEARCH}
 		
-		prerequisite = { focus = USA_second_new_deal  }
+		prerequisite = { focus = USA_reorganization_act  }
 		ai_will_do = {
 			factor = 1
 		}
@@ -1371,8 +1374,7 @@ focus_tree = {
 		cost = 4
 		search_filters = {FOCUS_FILTER_INDUSTRY}
 		
-		prerequisite = { focus = USA_court_packing }
-		prerequisite = { focus = USA_second_new_deal focus = USA_landon }
+		prerequisite = { focus = USA_tax_break focus = USA_reorganization_act focus = USA_court_packing }
 		#ai_will_do = {
 		#	factor = 1
 		#}
@@ -1410,6 +1412,54 @@ focus_tree = {
 			add_ideas = war_bonds_focus
 		}
 	}
+	
+	focus = {
+		id = USA_national_resource
+		icon = GFX_goal_USA_resource
+		available = {
+		}
+		x = 12
+		y = 8
+		
+		cost = 3.5
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		
+		prerequisite = { focus = USA_rubber_reserve_company focus = USA_issue_war_bonds }
+		#ai_will_do = {
+		#	factor = 1
+		#}
+		available_if_capitulated = yes
+		completion_reward = {
+			add_resource = {
+				type = chromium
+				amount = 24
+				state = 381
+			}
+			random_owned_controlled_state = {
+				prioritize = { 357 }
+				add_building_construction = {
+					type = steel_refinery
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+				add_extra_state_shared_building_slots = 1
+			}
+			random_owned_controlled_state = {
+				prioritize = { 358 }
+				add_building_construction = {
+					type = steel_refinery
+					level = 1
+					instant_build = yes
+				}
+				add_extra_state_shared_building_slots = 1
+			}	
+		}
+	}
 
 	focus = {
 		id = USA_office_of_strategic_services
@@ -1443,8 +1493,8 @@ focus_tree = {
 	focus = {
 		id = USA_scientist_haven
 		icon = GFX_big_brain
-		prerequisite = { focus = USA_issue_war_bonds }
-		x = 13
+		prerequisite = { focus = USA_order_8802 }
+		x = 14
 		y = 8		
 		cost = 6
 		search_filters = {FOCUS_FILTER_RESEARCH}
@@ -1463,9 +1513,36 @@ focus_tree = {
 	}
 	
 	focus = {
+		id = USA_beast_america
+		icon = GFX_goal_USA_beast
+		prerequisite = { focus = USA_Four_Freedoms }
+		available = {
+			has_war_support > 0.94
+		}
+		x = 9
+		y = 7
+		
+		cost = 1
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		
+		#ai_will_do = {
+		#	factor = 1
+		#}
+		available_if_capitulated = yes
+		completion_reward = {
+			add_tech_bonus = {
+				name = industry_bonus
+				category = industry
+				uses = 1
+				bonus = 1
+			}
+		}
+	}
+	
+	focus = {
 		id = USA_wartime_industry
 		icon = GFX_wartime_industry
-		prerequisite = { focus = USA_Four_Freedoms }
+		prerequisite = { focus = USA_beast_america }
 		available = {
 			OR = {
 				has_war_with = GER
@@ -1476,10 +1553,10 @@ focus_tree = {
 				has_war_with = ENG
 			}
 		}
-		x = 9
-		y = 7
+		x = 8
+		y = 8
 		
-		cost = 5
+		cost = 3.2
 		search_filters = {FOCUS_FILTER_INDUSTRY}
 		
 		#ai_will_do = {
@@ -1494,7 +1571,7 @@ focus_tree = {
 	focus = {
 		id = USA_rubber_reserve_company
 		icon = GFX_goal_generic_oil_refinery
-		prerequisite = { focus = USA_wartime_industry }
+		prerequisite = { focus = USA_Four_Freedoms }
 		available = {
 			has_government = democratic
 			controls_state = 369
@@ -1507,8 +1584,8 @@ focus_tree = {
 				has_war_with = ENG
 			}
 		}
-		x = 9
-		y = 8
+		x = 11
+		y = 7
 		
 		cost = 7
 		search_filters = {FOCUS_FILTER_INDUSTRY}
@@ -2435,6 +2512,9 @@ focus_tree = {
 		available = {
 			or = {
 				SOV = { surrender_progress > 0.25 }
+				SOV = { has_capitulated = yes }
+				SOV = { exists = no }
+				has_global_flag = eastern_front_peace
 				JAP = {
 					controls_state = 327
 					controls_state = 336
@@ -2459,9 +2539,9 @@ focus_tree = {
 	focus = {
 		id = USA_office_of_production_management
 		icon = GFX_war_factory_green
-		prerequisite = { focus = USA_Four_Freedoms }
-		x = 11
-		y = 7
+		prerequisite = { focus = USA_beast_america }
+		x = 10
+		y = 8
 		
 		cost = 5 
 		search_filters = {FOCUS_FILTER_INDUSTRY}
@@ -2516,8 +2596,8 @@ focus_tree = {
 		id = USA_war_production_board
 		icon = GFX_goal_generic_annexation
 		prerequisite = { focus = USA_office_of_production_management }
-		x = 11
-		y = 8
+		x = 10
+		y = 9
 		
 		cost = 4 
 		search_filters = {FOCUS_FILTER_INDUSTRY}
@@ -2694,6 +2774,9 @@ focus_tree = {
 			custom_effect_tooltip = needs_approval
 			ENG = { 
 				country_event = BICE_britain.26
+			}
+			hidden_effect = {
+				news_event = news.1316
 			}
 		}
 	}
@@ -5022,9 +5105,9 @@ focus_tree = {
 	focus = {
 		id = USA_support_tanks 
 		icon = GFX_support_tank_2
-		prerequisite = { focus = USA_mobile_warfare focus = USA_guns_over_butter }
+		prerequisite = { focus = USA_chain_of_command }
 		relative_position_id = USA_us_army
-		x = 0
+		x = 2
 		y = 3
 		
 		cost = 4.3
@@ -5053,13 +5136,12 @@ focus_tree = {
 	focus = {
 		id = USA_tanks 
 		icon = GFX_armor_usa_focus
-		prerequisite = { focus = USA_support_tanks }
-		mutually_exclusive = { focus = USA_mechanization }
+		prerequisite = { focus = USA_combined_arms_focus }
 		relative_position_id = USA_us_army
-		x = -1
-		y = 4
+		x = 0
+		y = 3
 		
-		cost = 5.8
+		cost = 4.3
 		search_filters = {FOCUS_FILTER_RESEARCH}
 		
 		ai_will_do = {
@@ -5089,15 +5171,41 @@ focus_tree = {
 	}
 	
 	focus = {
-		id = USA_mechanization
-		icon = GFX_goal_usa_the_halftracks
-		prerequisite = { focus = USA_support_tanks }
-		mutually_exclusive = { focus = USA_tanks }
+		id = USA_free_sherman
+		icon = GFX_goal_USA_sherman
+		prerequisite = { focus = USA_tanks focus = USA_mechanization focus = USA_support_tanks}
 		relative_position_id = USA_us_army
-		x = 1
+		x = 0
 		y = 4
 		
-		cost = 5.8
+		cost = 5
+		search_filters = {FOCUS_FILTER_RESEARCH}
+		
+		ai_will_do = {
+			factor = 2
+		}
+		
+		available = {
+			has_tech = tech_m4_equipment
+		}
+		
+		available_if_capitulated = yes
+		completion_reward = {
+			set_technology = {
+				tech_m4a3_equipment = 1
+			}
+		}
+	}
+	
+	focus = {
+		id = USA_mechanization
+		icon = GFX_goal_usa_the_halftracks
+		prerequisite = { focus = USA_motorized_infantry_focus }
+		relative_position_id = USA_us_army
+		x = -2
+		y = 3
+		
+		cost = 4.3
 		search_filters = {FOCUS_FILTER_RESEARCH}
 		
 		ai_will_do = {
@@ -5117,10 +5225,10 @@ focus_tree = {
 	focus = {
 		id = USA_hellcats
 		icon = GFX_goal_black_power
-		prerequisite = { focus = USA_tanks focus = USA_mechanization }
+		prerequisite = { focus = USA_study_conflicts }
 		relative_position_id = USA_us_army
-		x = 0
-		y = 5
+		x = 3
+		y = 0
 		
 		cost = 4
 		search_filters = {FOCUS_FILTER_RESEARCH}
@@ -5285,7 +5393,7 @@ focus_tree = {
 		}
 		available_if_capitulated = yes
 		completion_reward = {		
-		    custom_effect_tooltip = available_chief_of_army
+		    custom_effect_tooltip = available_military_high_command
 			show_ideas_tooltip = george_patton_chief
 			add_tech_bonus = {
 		    	name = mobile_warfare_doc_bonus
@@ -5714,12 +5822,6 @@ create_navy_leader = {
 		
 		available = {
 			has_completed_focus = USA_strategic_bombing
-			327 = {
-				is_controlled_by_ROOT_or_ally = yes
-			}
-			526 = {
-				is_controlled_by_ROOT_or_ally = yes
-			}
 		}
 		
 		available_if_capitulated = no
@@ -6148,134 +6250,134 @@ create_navy_leader = {
 		completion_reward = {
 			custom_effect_tooltip = US_montana_tt
 			hidden_effect = {
-			if = {
-				limit = {
-					has_tech = advanced_secondary_battery has_tech = advanced_heavy_battery
-				}
-				create_equipment_variant = {
-					name = "Montana Class"
-					type = ship_sh_battleship_41_usa
-					name_group = USA_BB_HISTORICAL
-					parent_version = 0
-					modules = {
-						fixed_ship_engine_slot = heavy_ship_engine_4
-						fixed_ship_fire_control_system_slot = ship_fire_control_system_3
-						fixed_ship_radar_slot = ship_radar_1
-						fixed_ship_anti_air_slot = ship_x2_anti_air_2
-						fixed_ship_anti_air_2_slot = ship_x2_anti_air_2
-						fixed_ship_anti_air_3_slot = ship_x2_anti_air_2
-						fixed_ship_armor_slot = ship_armor_shbb_2
-						front_1_battery_slot = ship_triple_super_heavy_battery_2
-						front_2_battery_slot = ship_triple_super_heavy_battery_2
-						mid_secondaries_slot = ship_x10_twin_secondaries_3
-						rear_1_battery_slot = ship_triple_super_heavy_battery_2
-						rear_2_battery_slot = ship_triple_super_heavy_battery_2
-						fixed_ship_float_plane_slot = ship_airplane_launcher_2
+				if = {
+					limit = {
+						has_tech = advanced_secondary_battery has_tech = advanced_heavy_battery
+					}
+					create_equipment_variant = {
+						name = "Montana Class"
+						type = ship_sh_battleship_41_usa
+						name_group = USA_BB_HISTORICAL
+						parent_version = 0
+						modules = {
+							fixed_ship_engine_slot = heavy_ship_engine_4
+							fixed_ship_fire_control_system_slot = ship_fire_control_system_3
+							fixed_ship_radar_slot = ship_radar_1
+							fixed_ship_anti_air_slot = ship_x2_anti_air_2
+							fixed_ship_anti_air_2_slot = ship_x2_anti_air_2
+							fixed_ship_anti_air_3_slot = ship_x2_anti_air_2
+							fixed_ship_armor_slot = ship_armor_shbb_2
+							front_1_battery_slot = ship_triple_super_heavy_battery_2
+							front_2_battery_slot = ship_triple_super_heavy_battery_2
+							mid_secondaries_slot = ship_x10_twin_secondaries_3
+							rear_1_battery_slot = ship_triple_super_heavy_battery_2
+							rear_2_battery_slot = ship_triple_super_heavy_battery_2
+							fixed_ship_float_plane_slot = ship_airplane_launcher_2
+						}
 					}
 				}
-			}
-			if = {
-				limit = {
-					has_tech = advanced_heavy_battery
-					NOT = { has_tech = advanced_secondary_battery }
-				}
-				create_equipment_variant = {
-					name = "Montana Class"
-					type = ship_sh_battleship_41_usa
-					name_group = USA_BB_HISTORICAL
-					parent_version = 0
-					modules = {
-						fixed_ship_engine_slot = heavy_ship_engine_4
-						fixed_ship_fire_control_system_slot = ship_fire_control_system_3
-						fixed_ship_radar_slot = ship_radar_1
-						fixed_ship_anti_air_slot = ship_x2_anti_air_2
-						fixed_ship_anti_air_2_slot = ship_x2_anti_air_2
-						fixed_ship_anti_air_3_slot = ship_x2_anti_air_2
-						fixed_ship_armor_slot = ship_armor_shbb_2
-						front_1_battery_slot = ship_triple_super_heavy_battery_2
-						front_2_battery_slot = ship_triple_super_heavy_battery_2
-						mid_secondaries_slot = dp_ship_x10_twin_secondaries
-						rear_1_battery_slot = ship_triple_super_heavy_battery_2
-						rear_2_battery_slot = ship_triple_super_heavy_battery_2
-						fixed_ship_float_plane_slot = ship_airplane_launcher_2
+				if = {
+					limit = {
+						has_tech = advanced_heavy_battery
+						NOT = { has_tech = advanced_secondary_battery }
+					}
+					create_equipment_variant = {
+						name = "Montana Class"
+						type = ship_sh_battleship_41_usa
+						name_group = USA_BB_HISTORICAL
+						parent_version = 0
+						modules = {
+							fixed_ship_engine_slot = heavy_ship_engine_4
+							fixed_ship_fire_control_system_slot = ship_fire_control_system_3
+							fixed_ship_radar_slot = ship_radar_1
+							fixed_ship_anti_air_slot = ship_x2_anti_air_2
+							fixed_ship_anti_air_2_slot = ship_x2_anti_air_2
+							fixed_ship_anti_air_3_slot = ship_x2_anti_air_2
+							fixed_ship_armor_slot = ship_armor_shbb_2
+							front_1_battery_slot = ship_triple_super_heavy_battery_2
+							front_2_battery_slot = ship_triple_super_heavy_battery_2
+							mid_secondaries_slot = dp_ship_x10_twin_secondaries
+							rear_1_battery_slot = ship_triple_super_heavy_battery_2
+							rear_2_battery_slot = ship_triple_super_heavy_battery_2
+							fixed_ship_float_plane_slot = ship_airplane_launcher_2
+						}
 					}
 				}
-			}
-			if = {
-				limit = {
-					has_tech = advanced_secondary_battery
-					NOT = { has_tech = advanced_heavy_battery }
-				}
-				create_equipment_variant = {
-					name = "Montana Class"
-					type = ship_sh_battleship_41_usa
-					name_group = USA_BB_HISTORICAL
-					parent_version = 0
-					modules = {
-						fixed_ship_engine_slot = heavy_ship_engine_4
-						fixed_ship_fire_control_system_slot = ship_fire_control_system_3
-						fixed_ship_radar_slot = ship_radar_1
-						fixed_ship_anti_air_slot = ship_x2_anti_air_2
-						fixed_ship_anti_air_2_slot = ship_x2_anti_air_2
-						fixed_ship_anti_air_3_slot = ship_x2_anti_air_2
-						fixed_ship_armor_slot = ship_armor_shbb_2
-						front_1_battery_slot = ship_triple_super_heavy_battery_1
-						front_2_battery_slot = ship_triple_super_heavy_battery_1
-						mid_secondaries_slot = ship_x10_twin_secondaries_3
-						rear_1_battery_slot = ship_triple_super_heavy_battery_1
-						rear_2_battery_slot = ship_triple_super_heavy_battery_1
-						fixed_ship_float_plane_slot = ship_airplane_launcher_2
+				if = {
+					limit = {
+						has_tech = advanced_secondary_battery
+						NOT = { has_tech = advanced_heavy_battery }
+					}
+					create_equipment_variant = {
+						name = "Montana Class"
+						type = ship_sh_battleship_41_usa
+						name_group = USA_BB_HISTORICAL
+						parent_version = 0
+						modules = {
+							fixed_ship_engine_slot = heavy_ship_engine_4
+							fixed_ship_fire_control_system_slot = ship_fire_control_system_3
+							fixed_ship_radar_slot = ship_radar_1
+							fixed_ship_anti_air_slot = ship_x2_anti_air_2
+							fixed_ship_anti_air_2_slot = ship_x2_anti_air_2
+							fixed_ship_anti_air_3_slot = ship_x2_anti_air_2
+							fixed_ship_armor_slot = ship_armor_shbb_2
+							front_1_battery_slot = ship_triple_super_heavy_battery_1
+							front_2_battery_slot = ship_triple_super_heavy_battery_1
+							mid_secondaries_slot = ship_x10_twin_secondaries_3
+							rear_1_battery_slot = ship_triple_super_heavy_battery_1
+							rear_2_battery_slot = ship_triple_super_heavy_battery_1
+							fixed_ship_float_plane_slot = ship_airplane_launcher_2
+						}
 					}
 				}
-			}
-			if = {
-				limit = {
-					NOT = { has_tech = advanced_secondary_battery has_tech = advanced_heavy_battery }
-				}
-				create_equipment_variant = {
-					name = "Montana Class"
-					type = ship_sh_battleship_41_usa
-					name_group = USA_BB_HISTORICAL
-					parent_version = 0
-					modules = {
-						fixed_ship_engine_slot = heavy_ship_engine_4
-						fixed_ship_fire_control_system_slot = ship_fire_control_system_3
-						fixed_ship_radar_slot = ship_radar_1
-						fixed_ship_anti_air_slot = ship_x2_anti_air_2
-						fixed_ship_anti_air_2_slot = ship_x2_anti_air_2
-						fixed_ship_anti_air_3_slot = ship_x2_anti_air_2
-						fixed_ship_armor_slot = ship_armor_shbb_2
-						front_1_battery_slot = ship_triple_super_heavy_battery_1
-						front_2_battery_slot = ship_triple_super_heavy_battery_1
-						mid_secondaries_slot = dp_ship_x10_twin_secondaries
-						rear_1_battery_slot = ship_triple_super_heavy_battery_1
-						rear_2_battery_slot = ship_triple_super_heavy_battery_1
-						fixed_ship_float_plane_slot = ship_airplane_launcher_2
+				if = {
+					limit = {
+						NOT = { has_tech = advanced_secondary_battery has_tech = advanced_heavy_battery }
+					}
+					create_equipment_variant = {
+						name = "Montana Class"
+						type = ship_sh_battleship_41_usa
+						name_group = USA_BB_HISTORICAL
+						parent_version = 0
+						modules = {
+							fixed_ship_engine_slot = heavy_ship_engine_4
+							fixed_ship_fire_control_system_slot = ship_fire_control_system_3
+							fixed_ship_radar_slot = ship_radar_1
+							fixed_ship_anti_air_slot = ship_x2_anti_air_2
+							fixed_ship_anti_air_2_slot = ship_x2_anti_air_2
+							fixed_ship_anti_air_3_slot = ship_x2_anti_air_2
+							fixed_ship_armor_slot = ship_armor_shbb_2
+							front_1_battery_slot = ship_triple_super_heavy_battery_1
+							front_2_battery_slot = ship_triple_super_heavy_battery_1
+							mid_secondaries_slot = dp_ship_x10_twin_secondaries
+							rear_1_battery_slot = ship_triple_super_heavy_battery_1
+							rear_2_battery_slot = ship_triple_super_heavy_battery_1
+							fixed_ship_float_plane_slot = ship_airplane_launcher_2
+						}
 					}
 				}
-			}
-			add_equipment_production = {
-				equipment = {
-					type = ship_sh_battleship_41_usa
-					creator = "USA" 
-					version_name = "Montana Class"
+				add_equipment_production = {
+					equipment = {
+						type = ship_sh_battleship_41_usa
+						creator = "USA" 
+						version_name = "Montana Class"
+					}
+					name = "USS Montana" 
+					requested_factories = 1
+					progress = 0.4
+					amount = 1
 				}
-				name = "USS Montana" 
-				requested_factories = 1
-				progress = 0.4
-				amount = 1
-			}
-			add_equipment_production = {
-				equipment = {
-					type = ship_sh_battleship_41_usa
-					creator = "USA" 
-					version_name = "Montana Class"
+				add_equipment_production = {
+					equipment = {
+						type = ship_sh_battleship_41_usa
+						creator = "USA" 
+						version_name = "Montana Class"
+					}
+					name = "USS Ohio" 
+					requested_factories = 1
+					progress = 0.3
+					amount = 1
 				}
-				name = "USS Ohio" 
-				requested_factories = 1
-				progress = 0.3
-				amount = 1
-			}
 			}
 		}
 	}
@@ -6457,12 +6559,6 @@ create_navy_leader = {
 		#}
 		
 		available = {
-			PHI = {
-				or = {
-					surrender_progress > 0.6
-					has_capitulated = yes
-				}
-			}
 		}
 			
 		completion_reward = {
@@ -6516,12 +6612,6 @@ create_navy_leader = {
 		#}
 		
 		available = {
-			PHI = {
-				or = {
-					surrender_progress > 0.6
-					has_capitulated = yes
-				}
-			}
 		}
 			
 		completion_reward = {
