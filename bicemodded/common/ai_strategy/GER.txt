@@ -1,3 +1,150 @@
+GER_barb = {
+	allowed = {
+		tag = GER
+	}
+	
+	enable = {
+		has_war_with = SOV
+		has_idea = Barbarossa_I_AI
+		check_variable = { TW_inf_fielded_eq_ratio > 0.89 }
+		check_variable = { TW_uniform_fielded_eq_ratio > 0.87 }
+	}
+	
+	abort_when_not_enabled = yes
+
+	ai_strategy = {
+		type = front_control
+		tag = SOV
+		ordertype = front
+		execution_type = rush
+		manual_attack = yes
+	}
+}
+
+GER_barb_winter_and_mud = {
+	allowed = {
+		tag = GER
+	}
+	
+	enable = {
+		tag = GER
+		has_war_with = SOV
+		SOV = { has_idea = winter_offensive }
+		date > 1941.11.22
+		date < 1942.5.22
+	}
+	
+	abort_when_not_enabled = yes
+
+	ai_strategy = {
+		type = front_control
+		tag = SOV
+		ordertype = front
+		execution_type = careful
+		manual_attack = yes
+	}
+}
+
+GER_defend_france = {
+	allowed = {
+		tag = GER
+	}
+	
+	enable = {
+		tag = GER
+		has_war_with = SOV
+		date > 1941.6.21
+		or = {
+			FRA = { controls_state = 15 }
+			FRA = { controls_state = 14 }
+			FRA = { controls_state = 30 }
+			FRA = { controls_state = 23 }
+			FRA = { controls_state = 19 }
+			FRA = { controls_state = 29 }
+			BEL = { controls_state = 6 }
+			HOL = { controls_state = 7 }
+		}
+	}
+	
+	abort_when_not_enabled = yes
+
+	ai_strategy = {
+		type = front_unit_request
+		country_trigger = {
+			or = {
+				tag = FRA
+				tag = BEL
+				tag = HOL
+			}
+		}
+		value = 1000
+	}
+	ai_strategy = {
+		type = front_unit_request
+		country_trigger = {
+			tag = SOV
+		}
+		value = 1000
+	}
+}
+
+ger_poland_ww2 = {
+	allowed = { tag = GER }
+	enable = {
+		has_war_with = POL
+		NOT = { POL = { has_capitulated = yes } }
+		has_war_with = FRA 
+	}
+	abort_when_not_enabled = yes
+	
+	ai_strategy = {
+		type = front_unit_request
+		country_trigger = {
+			tag = POL
+		}
+		value = 100
+	}
+	
+	ai_strategy = {
+		type = front_unit_request
+		country_trigger = {
+			tag = FRA
+		}
+		value = 20
+	}
+	
+}
+
+ger_sealion = {
+	allowed = { tag = GER }
+	enable = {
+		has_country_flag = sealion_ger
+		NOT = { has_country_flag = GER_sealion_win }
+	}
+	abort_when_not_enabled = yes
+	
+	ai_strategy = {
+		type = front_unit_request
+		country_trigger = {
+			tag = ENG
+		}
+		value = 1000
+	}
+	
+	ai_strategy = {
+		type = conquer
+		id = "ENG"
+		value = 200
+	}
+	
+	ai_strategy = {
+		type = ignore
+		id = "ENG"
+		value = -500
+	}
+}
+
+
 GER_fallblau = {
 	allowed = { tag = GER }
 	enable = {
@@ -13,17 +160,18 @@ GER_fallblau = {
 		
 		
 	}
-	abort_when_not_enabled = yes
 	
 	ai_strategy = {
 		type = front_control
-		country_trigger = {
-			original_tag = SOV
-		}
+	
+		state = 217
+		
+		ratio = 0.4
+		
+		priority = 100
 		ordertype = front
 		execution_type = balanced
 		execute_order = yes
-		manual_attack = yes
 	}
 }
 
@@ -1277,6 +1425,9 @@ axis_stay_away_from_the_royal_navy = {
 
 
 			}
+			has_country_flag = sealion_ger
+			
+			ENG = { has_capitulated = yes }
 		}
 	}
 	
