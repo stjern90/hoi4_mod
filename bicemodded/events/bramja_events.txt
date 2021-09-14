@@ -280,38 +280,48 @@ country_event = {
 		tag = FRA
 		has_war_with = GER
 		has_government = neutrality
-		NOT = { FRA = { is_in_faction_with = ENG } }
-		OR = {
-			is_in_faction = no
-			AND = {
-				is_faction_leader = yes
-				all_allied_country = {
-					OR = {
-						has_capitulated = yes
-						is_puppet = yes 
-					} 
-				}
-			}
-		}
-		OR = {
-			HOL = { OR = { has_capitulated = yes exists = no is_puppet = yes } }	
-			BEL = { OR = { has_capitulated = yes exists = no is_puppet = yes } }
-		}
 		NOT = {
 			OR = {
+				is_in_faction_with = ENG
 				has_war_with = HOL
 				has_war_with = BEL
 				has_war_with = ENG
 			}
 		}
+		OR = {
+			is_in_faction = no
+			AND = {
+				is_in_faction = yes
+				all_allied_country = {
+					OR = {
+						has_capitulated = yes
+						is_puppet = yes 
+						num_of_factories < 50
+					}
+				}
+			}
+		}
+
+		ENG = {
+			OR = {
+				has_government = democratic
+				has_government = neutrality
+			}
+		}
+
 		GER = { surrender_progress < 0.15 }
+
+		OR = {
+			HOL = { has_capitulated = yes }
+			BEL = { has_capitulated = yes }
+			FRA = { surrender_progress > 0.1 }
+		}	
 	}
-	
+
 	mean_time_to_happen = { days = 1 }
 	
 	option = { # join Alies
 		name = bramja.25.a
-		FRA = { dismantle_faction = yes }
 		ENG = { country_event = { id = bramja.26 days = 1 } }
 	}
 	
@@ -334,21 +344,55 @@ country_event = {
 	
 	option = { # France joins Alies
 		name = bramja.26.a
-		ENG = { add_to_faction = FRA }
+		ai_chance = {
+			base = 2
+		}
+
+		if = {
+			limit = {
+				FRA = { is_in_faction = yes }
+			}
+			every_country = {
+				limit = {
+					is_in_faction_with = FRA
+					OR = {
+						has_government = democratic
+						has_government = neutrality
+					}
+				}
+				ENG = { add_to_faction = PREV }
+				ENG = { add_to_faction = FRA }
+			}
+		}
+		else = {
+			ENG = { add_to_faction = FRA }
+		}
+
 		hidden_effect = {
 			news_event = { id = news.175 }
 		}
 	}
-	option = { # France don't join Alies
+
+	option = { # France not allowed in Alies
 		name = bramja.26.b
 		ai_chance = {
-			factor = 0
+			base = 0
+			modifier = {
+				add = 2
+				NOT = { has_war_with = GER }
+				GER = {
+					OR = {
+						has_government = democratic
+						has_government = neutrality
+					}
+				}
+			}
 		}
 		
 		hidden_effect = {
 			news_event = { id = news.176 }
 		}
-	}	
+	}
 }
 
 
@@ -362,12 +406,12 @@ country_event = {
 	
 	trigger = {
 		tag = FRA
-		NOT = { 
-			has_war_with = GER 
-			has_war_with = ITA
-			has_war_with = SPR
-		}
 		has_government = neutrality
+		NOT = { has_war_with = GER  }
+		NOT = { has_war_with = ITA  }
+		NOT = { has_war_with = SPR  }
+		NOT = { has_war_with = JAP  }
+
 		is_in_faction_with = ENG 
 		is_faction_leader = no
 	}
@@ -1452,6 +1496,683 @@ news_event = { #Shah Freed
 					tag = FROM
 					is_in_faction_with = FROM
 					has_war_with = FROM
+				}
+			}
+		}
+	}
+}
+
+
+country_event = { #Finland response GER peace offer if war due Miedzomyre or pre Barbarossa
+	id = bramja.53
+	title =  bramja.53.t
+	desc =  bramja.53.d
+	picture = GFX_report_event_german_elite_troops_inspected
+	
+	is_triggered_only = yes
+	
+	option = { #Yes Peace
+		name = bramja.53.a
+		
+		every_country = {
+			limit = {
+				has_war_with = FIN
+				is_in_faction_with = GER
+			}
+			white_peace = FIN
+		}
+		every_country = {
+			limit = {
+				is_in_faction_with = FIN
+			}
+			add_opinion_modifier = { target = FIN modifier = faction_traitor }
+		}
+		FIN = { leave_faction = yes }
+		FIN = {
+			add_opinion_modifier = {
+				target = GER
+				modifier = large_increase
+			}
+		}
+	}
+	
+	option = { #Take them Jerry aaandd the Sovjets
+		name = bramja.53.b
+
+		ai_chance = {
+			base = 0
+		}
+		add_stability = -0.15
+		add_war_support = -0.05
+	}
+	
+}
+
+country_event = { # KUK demands Slovenia from Yugoslavia: Uk event
+	id = bramja.58
+	title = britain.14.t##
+	desc = britain.14.d##
+	picture = GFX_report_event_hitler_croatia_handshake ##
+
+	is_triggered_only = yes
+
+	option = { # Abandon Yugoalvia
+		name = britain.14.a
+
+		ai_chance = {
+			factor = 30
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+		}
+
+		YUG = { add_opinion_modifier = { target = ENG modifier = western_betrayal } }	
+		
+		if = {
+			limit = {
+				country_exists = FRA
+				16 = { is_controlled_by = FRA }
+			}
+			FRA = { country_event = { id = bramja.59 hours = 2 } } #france.25
+		}
+		else_if = {
+			limit = {
+				ITA = {
+					has_completed_focus = ITA_yugoslavia_friend
+					NOT = { is_in_faction_with = GER }
+					NOT = { has_war_with = YUG }
+				}
+			}
+			ITA = { country_event = { id = bramja.62 } } #italy.12
+		}
+		else_if = {
+			limit = {
+				ITA = {
+					OR = {
+						NOT = { has_completed_focus = ITA_yugoslavia_friend }						
+						is_in_faction_with = GER
+						exists = no
+					}
+				}
+			}
+			YUG = { country_event = { id = bramja.61 hours = 6 } } # yugoslavia.5 		
+		}
+
+		every_country = {
+			limit = {
+				has_guaranteed = YUG
+				is_in_faction_with = ENG
+			}
+			diplomatic_relation = {
+   				country = YUG
+   				relation = guarantee
+   				active = no
+  			}
+		}
+	}
+
+
+	option = { # Support Yugoslavia
+		name = britain.14.b
+
+		ai_chance = {
+			factor = 15
+			modifier = {
+				factor = 2
+				country_exists = FRA
+				16 = { is_controlled_by = FRA }
+				NOT = { FRA = { is_in_faction_with = ROOT } }
+			}
+			modifier = {
+				factor = 0.5
+				is_in_faction_with = ROOT
+			}
+		}
+
+		if = {
+			limit = {
+				is_in_faction_with = ROOT
+				is_faction_leader = yes
+			}
+			remove_from_faction = ROOT
+		}
+		if = {
+			limit = {
+				is_in_faction_with = ROOT
+				is_faction_leader = no
+			}
+			ROOT = { remove_from_faction = ENG }
+		}
+
+		add_political_power = -50
+		add_opinion_modifier = { target = ROOT modifier = condemn_aggression }
+
+		effect_tooltip = {
+			ROOT = {
+				create_wargoal = {
+					type = take_state_focus
+					target = YUG
+					generator = { 102 }
+				}
+			}
+		}
+
+		add_to_faction = YUG
+		YUG = {
+			add_ai_strategy = {
+				type = alliance
+				id = "ENG"
+				value = 200
+			}
+		}
+
+		if = {
+			limit = {
+				FRA = {
+					is_puppet = no
+					NOT = { has_war_with = YUG }
+				}
+				16 = { is_controlled_by = FRA }
+			}
+			FRA = { country_event = { id = bramja.60 hours = 2 } } #france.26
+		}
+		YUG = {
+			add_opinion_modifier = { target = ENG modifier = offered_support }
+		}
+	}
+}
+
+country_event = { # KUK demands Slovenia from Yugoslavia: FRA event / UK Abandons
+	id = bramja.59
+	title = france.25.t#
+	desc = france.25.d#
+	picture = GFX_report_event_hitler_croatia_handshake
+
+	is_triggered_only	= yes
+
+	option = { # Follow Britain's lead
+		name = france.25.a
+
+		ai_chance = {
+			factor = 30
+			modifier = {
+				factor = 0.5
+				is_in_faction_with = YUG
+			}
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+		}
+
+		if = {
+			limit = {
+				has_guaranteed = YUG
+			}
+			diplomatic_relation = {
+   				country = YUG
+   				relation = guarantee
+   				active = no
+  			}
+		}
+
+		if = {
+			limit = {
+				ITA = {
+					OR = {
+						NOT = { has_completed_focus = ITA_yugoslavia_friend }						
+						is_in_faction_with = GER
+						exists = no
+					}
+				}
+			}
+			YUG = {
+				add_opinion_modifier = { target = FRA modifier = western_betrayal }
+				country_event = { id = bramja.61 hours = 6 } # yugoslavia.5
+			}			
+		}
+
+		if = {
+			limit = {
+				ITA = {
+					has_completed_focus = ITA_yugoslavia_friend
+					NOT = { is_in_faction_with = GER }
+					NOT = { has_war_with = YUG }
+				}
+			}
+			ITA = { country_event = { id = bramja.62 } } #italy.12
+		}
+	}
+
+
+	option = { # Support the Yugoslavs alone
+		name = france.25.b
+
+		ai_chance = {
+			factor = 15
+			modifier = {
+				factor = 0
+				has_completed_focus = FRA_strengthen_the_little_entente
+			}
+		}
+
+		add_opinion_modifier = { target = HUN modifier = condemn_aggression }
+		YUG = {
+			country_event = { id = bramja.63 days = 1 } # yugoslavia.4
+			add_opinion_modifier = { target = FRA modifier = offered_support }
+		}
+
+		HUN = {
+			country_event = { id = germany.97 hours = 6 } #Still ok old event
+			effect_tooltip = {
+				create_wargoal = {
+					type = take_state_focus
+					target = YUG
+					generator = { 102 }
+				}
+			}
+		}
+		if = {
+			limit = {
+				is_in_faction_with = ENG 
+			}
+			if = {
+				limit = { ENG = { is_faction_leader = yes } }
+				ENG = {
+					country_event = { id = britain.15 hours = 6 }
+					remove_from_faction = FRA
+				}
+				else_if = {
+					limit = {
+						is_faction_leader = yes
+					}
+					remove_from_faction = ENG
+				}
+			}
+		}
+		if = {
+			limit = { is_in_faction_with = HUN }
+			HUN = { 
+				remove_from_faction = FRA
+			}
+		}
+		if = {
+			limit = {
+				is_in_faction = yes
+				is_faction_leader = yes
+				NOT = { is_in_faction_with = ENG }
+				NOT = { is_in_faction_with = HUN }
+			}
+			add_to_faction = YUG
+			YUG = {
+				add_ai_strategy = {
+					type = alliance
+					id = "FRA"
+					value = 200
+				}
+			}
+		}
+		if = {
+			limit = {
+				OR = {
+					is_in_faction = no
+					is_faction_leader = no
+					is_in_faction_with = ENG
+					is_in_faction_with = HUN
+				}
+			}
+			create_faction = "french_alliance"
+			add_to_faction = YUG
+			YUG = {
+				add_ai_strategy = {
+					type = alliance
+					id = "FRA"
+					value = 200
+				}
+			}
+		}
+		if = {
+			limit = { NOT = { has_completed_focus = FRA_strengthen_the_little_entente } }
+			add_stability = 0.05
+		}
+	}
+}
+	
+country_event = { # KUK demands Slovenia from Yugoslavia: FRA event if UK Supports
+	id = bramja.60
+	title = france.26.t
+	desc = france.26.d
+	picture = GFX_report_event_hitler_croatia_handshake
+
+	is_triggered_only	= yes
+
+	option = { # FRA Join UK
+		name = france.26.a
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 0.5
+				is_in_faction_with = ROOT
+			}
+		}
+
+		if = {
+			limit = {
+				NOT = {
+					has_guaranteed = YUG
+				}
+			}
+			give_guarantee = YUG
+		}
+
+		if = {
+			limit = { is_in_faction = no }
+			ENG = { add_to_faction = FRA }
+			FRA = {
+				add_ai_strategy = {
+					type = alliance
+					id = "ENG"
+					value = 200
+				}
+			}
+		}
+
+		add_opinion_modifier = { target = HUN modifier = condemn_aggression }
+		YUG = { 
+			country_event = { id = bramja.64 days = 1 } #yugoslavia.3
+			add_opinion_modifier = { target = FRA modifier = offered_support }
+		}
+
+		HUN = {
+			country_event = { id = germany.93 hours = 6 } #Event still ok
+			effect_tooltip = {
+				create_wargoal = {
+					type = take_state_focus
+					target = YUG
+					generator = { 102 }
+				}
+			}
+		}		
+	}
+
+
+	option = { # FRA abandon YUG/UK
+		name = france.26.b
+		trigger = { NOT = { is_in_faction_with = ENG } }
+		ai_chance = { factor = 10 }
+
+		set_global_flag = FRA_abandoned_yugoslavia
+		if = {
+			limit = {
+				has_guaranteed = YUG
+			}
+			diplomatic_relation = {
+   				country = YUG
+   				relation = guarantee
+   				active = no
+  			}
+		}
+		YUG = {
+			country_event = { id = bramja.64 hours = 6 } #yugoslavia.3
+			add_opinion_modifier = { target = FRA modifier = western_betrayal }
+		}
+	}
+}
+	
+country_event = { # KUK demands Slovenia from Yugoslavia: Yugoslavia; Abandoned
+	id = bramja.61
+	title = yugoslavia.5.t
+	desc = yugoslavia.5.d
+	picture = GFX_report_event_king_peter_cabinet
+	
+	is_triggered_only = yes
+	
+	option = { # Surrender Slovenia
+		name = yugoslavia.5.a
+
+		ai_chance = {
+			factor = 50
+			modifier = { # Increase chance YUG resist chance vs KUK
+				strength_ratio = { tag = HUN ratio > 0.8 }
+				factor = 0.5
+			}
+			modifier = { # Further increase if bigger
+				factor = 0.5
+				strength_ratio = {
+					tag = HUN
+					ratio > 1.20
+				}
+			}
+			modifier = { #Increase chance YUG resist if in faction
+				factor = 0.5
+				is_in_faction = yes
+			}
+			modifier = { # Decrease it again if other bordering nations are allied KUK
+				factor = 2.0
+				any_neighbor_country = {
+					NOT = { tag = HUN }
+					is_in_faction_with = HUN
+				}
+			}
+		}
+
+		HUN = { country_event = bramja.65 } # germany.94 / KUK gets Slovenia
+	}
+
+	option = { # Refuse anyway
+		name = yugoslavia.5.b
+		ai_chance = {
+			factor = 10
+			modifier = { #has war
+				factor = 0.5
+				has_war = yes
+			}
+		}
+
+		HUN = {
+			country_event = germany.95 #old event still good / KUK gains wargoal
+			effect_tooltip = {
+				create_wargoal = {
+					type = take_state_focus
+					target = YUG
+					generator = { 102 }
+				}
+			}
+		}
+	}
+}
+
+
+country_event = { # KUK demands Slovenia from Yugoslavia: Italy event
+	id = bramja.62
+	title = italy.12.t
+	desc = italy.12.d
+	picture = GFX_report_event_fascist_gathering
+
+	is_triggered_only = yes
+	
+	option = {
+	name = italy.12.a
+
+		ai_chance = {
+			factor = 30
+			modifier = {
+				factor = 2
+				has_army_size = { size > 75 }
+				is_faction_leader = yes
+			}
+		}
+
+		ITA = {
+			add_political_power = -20
+
+			if = {
+				limit = {
+					is_faction_leader = yes 
+				}
+				add_to_faction = YUG
+				YUG = {
+					add_ai_strategy = {
+						type = alliance
+						id = "ITA"
+						value = 200
+					}
+				}
+			}
+
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							is_faction_leader = no
+							is_in_faction = yes
+						}
+						is_in_faction = no
+					}
+				}
+				create_faction = italy_empire_faction
+				add_to_faction = YUG
+				YUG = {
+					add_ai_strategy = {
+						type = alliance
+						id = "ITA"
+						value = 200
+					}
+				}
+			}
+		}
+
+		HUN = { country_event = { id = germany.96 hours = 6 } } #Old event is still good
+		YUG = { country_event = { id = bramja.66 hours = 6 } } #yugoslavia.6 
+	}
+
+
+	option = {
+	name = italy.12.b
+
+		ai_chance = {
+			factor = 60
+			modifier = { #has war
+				factor = 0.5
+				has_war = yes
+			}
+		}
+
+		YUG = {
+			add_opinion_modifier = { target = ITA modifier = western_betrayal }
+			country_event = { id = bramja.61 hours = 6 } #yugoslavia.5 
+		}
+	}
+}
+
+
+country_event = { # KUK demands Slovenia from Yugoslavia: Yugoslavia; French Support
+	id = bramja.63
+	title = yugoslavia.3.t
+	desc = yugoslavia.4.d
+	picture = GFX_report_event_degaulle
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = yugoslavia.4.a
+		effect_tooltip = {
+			HUN = {
+				create_wargoal = {
+					type = take_state_focus
+					target = YUG
+					generator = { 102 }
+				}
+			}
+		}
+	}
+}
+
+	
+country_event = { # UK demands Slovenia from Yugoslavia: Yugoslavia (British and (possibly) French Support)
+	id = bramja.64
+	title = yugoslavia.3.t
+	desc = {
+		text = yugoslavia.3.d 
+		trigger = {
+			NOT = { has_global_flag = FRA_abandoned_yugoslavia }
+		}
+	}
+	desc = {
+		text = yugoslavia.3.d_FRA_abandoned_yugoslavia
+		trigger = {
+			has_global_flag = FRA_abandoned_yugoslavia
+		}
+	}
+	picture = GFX_report_event_degaulle_churchill
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = yugoslavia.3.a
+		effect_tooltip = {
+			HUN = {
+				create_wargoal = {
+					type = take_state_focus
+					target = YUG
+					generator = { 102 }
+				}
+			}
+		}
+	}
+}
+
+
+country_event = { # KUK Yugoslavia Surrenders Slovenia
+	id = bramja.65
+	title = germany.94.t
+	desc = germany.94.d
+	picture = GFX_report_event_german_troops
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = germany.94.a
+
+		HUN = { transfer_state = 102 }
+		if = {
+			limit = {
+				45 = { is_controlled_by = YUG }
+			}
+			HUN = { transfer_state = 45 }
+		}
+
+		if = {
+			limit = {
+				764 = { is_controlled_by = YUG }
+			}
+			HUN = { transfer_state = 764 }
+		}
+
+		set_country_flag = slovenia_acquired
+		hidden_effect = {
+			news_event = { id = news.163 hours = 6 }
+		}
+	}
+}
+
+country_event = { # KUK demands Slovenia from Yugoslavia: Yugoslavia; Italian Support
+	id = bramja.66
+	title = yugoslavia.3.t
+	desc = yugoslavia.6.d
+	picture = GFX_report_event_mussolini_flag
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = yugoslavia.6.a
+		effect_tooltip = {
+			HUN = {
+				create_wargoal = {
+					type = take_state_focus
+					target = YUG
+					generator = { 102 }
 				}
 			}
 		}

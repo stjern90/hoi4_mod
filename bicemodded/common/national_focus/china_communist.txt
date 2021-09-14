@@ -439,7 +439,6 @@ random_owned_controlled_state = { limit = { NOT = { state = 810 } NOT = { state 
 		}
 		
 		completion_reward = {
-			set_country_flag = CHI_xian_instigator_flag
 			set_global_flag = CHI_xian_fired
 			CHI = {
 				country_event = wtt_xian_incident.11
@@ -464,9 +463,7 @@ random_owned_controlled_state = { limit = { NOT = { state = 810 } NOT = { state 
 				has_war_with = CHI
 			}
 		}
-		bypass = {
-			has_war_with = JAP
-		}
+
 		cancel = {
 			is_puppet_of = JAP
 		}
@@ -601,70 +598,26 @@ random_owned_controlled_state = { limit = { NOT = { state = 810 } NOT = { state 
 		}
 		
 		available = {
-			#NOT = {
-			#	CHI = {
-			#		has_non_aggression_pact_with = SOV
-			#	}
-			#}
 			SOV = {
 				has_government = communism
 			}
 			has_government = communism
-			custom_trigger_tooltip = {
-				tooltip = CCP_sov_supply_tt
-				any_owned_state = {
-					any_neighbor_state = {
-						OR = {
-							owner = {
-								OR = { 
-									tag = SOV
-									is_in_faction_with = SOV
-									AND = {
-										has_opinion = {
-											target = SOV
-											value > 0
-										}
-										NOT = {
-											has_war_with = SOV
-										}
-										tag = SIK
-									}
-								}
-								has_opinion = {
-									target = ROOT
-									value > 9
-								}
-							}
-							controller = {
-								OR = { 
-									tag = SOV
-									is_in_faction_with = SOV
-									AND = {
-										has_opinion = {
-											target = SOV
-											value > 0
-										}
-										NOT = {
-											has_war_with = SOV
-										}
-										tag = SIK
-									}
-								}
-								has_opinion = {
-									target = ROOT
-									value > 9
-								}
-							}
-						}
-					}
-				}
-			}
 		}
 		
 		completion_reward = {
 			custom_effect_tooltip = CCP_sov_supply_eff_tt
 			hidden_effect = {
 				country_event = { id = CCP.1 }
+			}
+			effect_tooltip = {
+			    add_equipment_to_stockpile = { type = infantry_equipment_0 amount = 1000 producer = SOV }
+		add_equipment_to_stockpile = { type = infantry_uniforms_0 amount = 750 producer = SOV }
+		add_equipment_to_stockpile = { type = artillery_equipment_0 amount = 100 producer = SOV }
+		add_equipment_to_stockpile = { type = horse_equipment_0 amount = 500 producer = SOV }
+		add_equipment_to_stockpile = { type = support_equipment_1 amount = 250 producer = SOV }
+		add_equipment_to_stockpile = { type = motorized_equipment_1 amount = 100 producer = SOV }
+		add_equipment_to_stockpile = { type = motorized_lia_equipment_01 amount = 100 producer = SOV }
+		add_equipment_to_stockpile = { type = mountain_artillery_equipment_0 amount = 150 producer = SOV }
 			}
 		}
 	}		
@@ -839,24 +792,6 @@ random_owned_controlled_state = { limit = { NOT = { state = 810 } NOT = { state 
 		continue_if_invalid = no
 		available_if_capitulated = no
 
-		complete_tooltip = {
-			622 = {
-				add_building_construction = {
-					type = infrastructure
-					level = 1
-					instant_build = yes
-				}
-				add_extra_state_shared_building_slots = 1
-			}
-			
-			add_tech_bonus = {
-				name = construction_tech_bonus
-				bonus = 0.75
-				uses = 1
-				category = construction_tech
-			}
-		}
-
 		completion_reward = {
 			622 = {
 				add_building_construction = {
@@ -865,6 +800,12 @@ random_owned_controlled_state = { limit = { NOT = { state = 810 } NOT = { state 
 					instant_build = yes
 				}
 				add_extra_state_shared_building_slots = 1
+			}
+			add_tech_bonus = {
+				name = construction_tech_bonus
+				bonus = 0.75
+				uses = 1
+				category = construction_tech
 			}
 		}
 	}
@@ -1253,7 +1194,7 @@ random_owned_controlled_state = { limit = { NOT = { state = 810 } NOT = { state 
 		y = 1
 		relative_position_id = PRC_start_to_reform_the_army
 		
-		cost = 11 
+		cost = 10 
 		
 		ai_will_do = {
 			}
@@ -1343,7 +1284,7 @@ random_owned_controlled_state = { limit = { NOT = { state = 810 } NOT = { state 
 
 		available = {
 			not = {
-				is_subject_of = event_target:WTT_current_china_leader
+				is_subject_of = CHI
 			}
 		}
 
@@ -1712,8 +1653,7 @@ random_owned_controlled_state = { limit = { NOT = { state = 810 } NOT = { state 
 	focus = {
 		id = PRC_recover_from_the_long_march
 		icon = GFX_goal_generic_build_tank
-		prerequisite = { focus = PRC_china_medical_university }
-		prerequisite = { focus = PRC_local_arms_production }
+		prerequisite = { focus = PRC_china_medical_university focus = PRC_local_arms_production }
 		x = 1
 		y = 1
 		relative_position_id = PRC_china_medical_university
@@ -2006,30 +1946,67 @@ random_owned_controlled_state = { limit = { NOT = { state = 810 } NOT = { state 
 		y = 1
 		relative_position_id = PRC_mobile_warfare
 
-		cost = 5
+		cost = 7.2
 
 		ai_will_do = {
 			factor = 4
-		}
-
-		available = {
-
-		}
-
-		bypass = {
-
 		}
 
 		cancel_if_invalid = yes
 		continue_if_invalid = no
 		available_if_capitulated = no
 
-		complete_tooltip = {
-
-		}
-
 		completion_reward = {
-			unlock_decision_tooltip = PRC_launch_100_regiments_campaign
+			custom_effect_tooltip = PRC_100_regiments_campaign_tt
+			hidden_effect = {
+				division_template = {
+				name = "Irregular Corps"
+					regiments = {
+						militia = { x = 0 y = 0 }
+						militia = { x = 0 y = 1 }
+						militia = { x = 0 y = 2 }
+
+						militia = { x = 1 y = 0 }
+						militia = { x = 1 y = 1 }
+						militia = { x = 1 y = 2 }
+						
+						militia = { x = 2 y = 0 }
+						militia = { x = 2 y = 1 }
+						militia = { x = 2 y = 2 }
+						
+						mountain_artillery_brigade = { x = 3 y = 0 }
+	                                    	mountain_artillery_brigade = { x = 3 y = 1 }
+					}
+					support = {
+		DIV_HQ = { x = 0 y = 0 }
+		recon_cav = { x = 0 y = 1 }
+		engineer = { x = 1 y = 0 }
+	                              }
+				}
+				random_owned_controlled_state = {
+				    limit = { NOT = { state = 810 } NOT = { state = 809 } NOT = { state = 808 } NOT = { state = 811 } }
+					create_unit = { 
+						division = "name = \"Irregular Corps I\" division_template = \"Irregular Corps\" start_experience_factor = 0.3" 
+						owner = CCP
+						}
+				}
+				random_owned_controlled_state = {
+				    limit = { NOT = { state = 810 } NOT = { state = 809 } NOT = { state = 808 } NOT = { state = 811 } }
+					create_unit = { 
+						division = "name = \"Irregular Corps II\" division_template = \"Irregular Corps\" start_experience_factor = 0.3" 
+						owner = CCP
+						}
+				}
+				if = { limit = { is_ai = yes } 
+					random_owned_controlled_state = {
+					    limit = { NOT = { state = 810 } NOT = { state = 809 } NOT = { state = 808 } NOT = { state = 811 } }
+						create_unit = { 
+							division = "name = \"Irregular Corps III\" division_template = \"Irregular Corp\" start_experience_factor = 0.3" 
+							owner = CCP
+						}
+					}
+				}
+			}
 		}
 	}	
 	
@@ -2083,7 +2060,7 @@ random_owned_controlled_state = { limit = { NOT = { state = 810 } NOT = { state 
 		}
 
 		available = {
-            event_target:WTT_current_china_leader = { has_war = yes }
+            CHI = { has_war = yes }
 		}
 
 		bypass = {
@@ -2104,7 +2081,7 @@ random_owned_controlled_state = { limit = { NOT = { state = 810 } NOT = { state 
 				}
 				add_war_support = 0.05
 			effect_tooltip = {
-			event_target:WTT_current_china_leader = { 
+			CHI = { 
 			add_popularity = {
 					ideology = communism
 					popularity = 0.05
@@ -2112,7 +2089,7 @@ random_owned_controlled_state = { limit = { NOT = { state = 810 } NOT = { state 
 				}
 			}
 			hidden_effect = {
-			event_target:WTT_current_china_leader = { 
+			CHI = { 
 			country_event = { id = china.27 }
 			}
 		}
@@ -2377,7 +2354,7 @@ random_owned_controlled_state = { limit = { NOT = { state = 810 } NOT = { state 
 		completion_reward = {
 				
 			effect_tooltip = {
-			event_target:WTT_current_china_leader = { 
+			CHI = { 
 			add_popularity = {
 					ideology = communism
 					popularity = 0.1
@@ -2386,7 +2363,7 @@ random_owned_controlled_state = { limit = { NOT = { state = 810 } NOT = { state 
 				}
 			}
 			hidden_effect = {
-			event_target:WTT_current_china_leader = { 
+			CHI = { 
 			country_event = { id = china.28 }
 			}
 		}

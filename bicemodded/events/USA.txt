@@ -296,7 +296,6 @@ country_event = {
 		ai_chance = {
 			factor = 75
 		}		
-		add_ideas = new_deal
 		if = { limit = { OR = { NOT = { is_ai = yes } has_global_flag = ai_speeches } } 
 			hidden_effect = {
 			sound_effect = sp_usa_letmewarnyou
@@ -314,19 +313,8 @@ country_event = {
 			}
 		}		
 		add_ideas = landon_new_deal
+		remove_ideas = new_deal
 		set_party_name = { ideology = democratic long_name = USA_republican_party name = USA_republican_party }
-		if = {
-			limit = {
-				has_idea = standard_oil_california
-			}
-			add_political_power = 150
-		}
-		if = {
-			limit = {
-				NOT = { has_idea = standard_oil_california }
-			}
-			add_ideas = standard_oil_california
-		}
 		create_country_leader = {
 			name = "Alf Landon"
 			desc = "POLITICS_ALF_LANDON_DESC"
@@ -369,8 +357,8 @@ country_event = {
 		set_party_name = { ideology = democratic long_name = USA_republican_party name = USA_republican_party }
 		if = { 
 			limit = { NOT = { has_idea = second_new_deal } }
-		remove_ideas = new_deal
-		add_ideas = wilkies_new_deal
+			remove_ideas = new_deal
+			add_ideas = wilkies_new_deal
 		}
 		create_country_leader = {
 			name = "Wendell Wilkie"
@@ -415,26 +403,6 @@ country_event = {
 		name = usa.8.a
 		add_political_power = -40
 		add_stability = 0.05
-		if = { 
-			limit = { has_idea = great_depression  }
-		    remove_ideas = great_depression
-		}
-		if = { 
-			limit = { has_idea = great_depression_II  }
-		    remove_ideas = great_depression_II
-		}
-		if = { 
-			limit = { has_idea = great_depression_III  }
-		    remove_ideas = great_depression_III
-		}
-		if = { 
-			limit = { has_idea = great_depression_IV  }
-		    remove_ideas = great_depression_IV
-		}
-		if = { 
-			limit = { has_idea = great_depression_V  }
-		    remove_ideas = great_depression_V
-		}
 	}
 
 	option = { 
@@ -442,30 +410,11 @@ country_event = {
 		set_party_name = { ideology = democratic long_name = USA_democratic_party name = USA_democratic_party }
 		if = { 
 			limit = { NOT = { has_idea = second_new_deal } }
-		add_ideas = new_deal
+			add_ideas = second_new_deal
+			remove_ideas = landon_new_deal
 		}
 		add_stability = -0.05
 		retire_country_leader = yes
-		if = { 
-			limit = { has_idea = great_depression  }
-		    remove_ideas = great_depression
-		}
-		if = { 
-			limit = { has_idea = great_depression_II  }
-		    remove_ideas = great_depression_II
-		}
-		if = { 
-			limit = { has_idea = great_depression_III  }
-		    remove_ideas = great_depression_III
-		}
-		if = { 
-			limit = { has_idea = great_depression_IV  }
-		    remove_ideas = great_depression_IV
-		}
-		if = { 
-			limit = { has_idea = great_depression_V  }
-		    remove_ideas = great_depression_V
-		}
 	}
 }
 
@@ -1155,7 +1104,8 @@ country_event = {
 	is_triggered_only = yes
 	immediate = {
 		#set_variable = { var = USA.US_mils value = num_of_military_factories } #Number of US military factories
-		set_variable = { var = US_mils_production value = 60 } #3.3 * 0.05 *180 = 29.7, rounded up (base factory output * factory output penalty * days penalty is applied), this is how much factory output is siphoned off to the Soviet Union per factory
+		set_variable = { var = US_mils_production value = 120 } #3.3 * 0.2 *180 = 29.7, rounded up (base factory output * factory output penalty * days penalty is applied), this is how much factory output is siphoned off to the Soviet Union per factory
+		# doubled lend lease, doubled penalty, lend lease used to send too little before
 		multiply_variable = { var = US_mils_production value = USA.US_mils } #Multiply the number of milfacs with the above number
 		#Rifles
 		set_variable = { var = US_mils_production_rifles value = US_mils_production } #This is how much of that production goes to rifles
@@ -1208,6 +1158,7 @@ country_event = {
 
 		hidden_effect = {
 			news_event = { id = news.3148 days = 1 }
+			USA = { country_event = usa.531 }
 		}
 	    set_country_flag = lend_lease_act
 	}	
@@ -1219,7 +1170,26 @@ country_event = {
 	}
 }
 
+country_event = {
+	id = usa.531
+	title = usa.531.t
+	desc = usa.531.d
+	picture = GFX_report_event_generic_office
 
+	is_triggered_only = yes
+	option = {
+		name = usa.531.a
+		ai_chance = { factor = 100 }
+		effect_tooltip = {
+			SOV = {
+				add_equipment_to_stockpile = { type = infantry_equipment_1 amount = var:US_mils_production_rifles producer = USA }
+				add_equipment_to_stockpile = { type = infantry_uniforms amount = var:US_mils_production_uniforms producer = USA }
+				add_equipment_to_stockpile = { type = motorized_equipment_2 amount = var:US_mils_production_trucks producer = USA }
+				add_equipment_to_stockpile = { type = motorized_lia_equipment_01 amount = var:US_mils_production_cars producer = USA }
+			}
+		}		
+	}	
+}	
 
 country_event = {
 	id = usa.54
@@ -1342,7 +1312,7 @@ country_event = {
 	
 	immediate = {
 		#set_variable = { var = USA.US_mils value = num_of_military_factories } #Number of US military factories
-		set_variable = { var = US_mils_production value = 60 } #3.3 * 0.05 *180 = 29.7, rounded up (base factory output * factory output penalty * days penalty is applied), this is how much factory output is siphoned off to the Soviet Union per factory
+		set_variable = { var = US_mils_production value = 120 } #3.3 * 0.2 *180 = 29.7, rounded up (base factory output * factory output penalty * days penalty is applied), this is how much factory output is siphoned off to the Soviet Union per factory
 		multiply_variable = { var = US_mils_production value = USA.US_mils } #Multiply the number of milfacs with the above number
 		#P-39 Airacobra
 		set_variable = { var = US_mils_production_P39 value = US_mils_production } #This is how much of that production goes to P-39 Airacobras
@@ -1405,7 +1375,10 @@ country_event = {
 			}
 			add_equipment_to_stockpile = { type = us_fighter_equipment_4_c amount = var:US_mils_production_P47 producer = USA }
 			add_equipment_to_stockpile = { type = us_fighter_equipment_3_c amount = var:US_mils_production_P43 producer = USA }
-		}			
+		}
+		hidden_effect = {
+			USA = { country_event = usa.551 }
+		}		
 	}
 	
 	option = {
@@ -1414,6 +1387,44 @@ country_event = {
 		
 	}
 }
+
+country_event = {
+	id = usa.551
+	title = usa.531.t
+	desc = usa.531.d
+	picture = GFX_report_event_generic_office
+
+	is_triggered_only = yes
+	option = {
+		name = usa.531.a
+		ai_chance = { factor = 100 }
+		effect_tooltip = {
+			SOV = {
+				if = {
+					limit = {
+						USA = { has_tech = tech_USA_fighter_equipment_4_a }
+					}
+					add_equipment_to_stockpile = { type = us_fighter_equipment_3_a amount = var:US_mils_production_P40 producer = USA }
+					add_equipment_to_stockpile = { type = us_fighter_equipment_4_a amount = var:US_mils_production_P51 producer = USA }
+				}
+				else_if = {
+					limit = {
+						USA = { has_tech = tech_USA_fighter_equipment_2_b }
+					}
+					add_equipment_to_stockpile = { type = us_fighter_equipment_2_b amount = var:US_mils_production_P39 producer = USA }
+				}	
+				else_if = {
+					limit = {
+						USA = { has_tech = tech_USA_fighter_equipment_4_c }
+					}
+					add_equipment_to_stockpile = { type = us_fighter_equipment_4_c amount = var:US_mils_production_P47 producer = USA }
+					add_equipment_to_stockpile = { type = us_fighter_equipment_3_c amount = var:US_mils_production_P43 producer = USA }
+				}
+			}
+		}		
+	}	
+}	
+
 country_event = {
 	id = usa.56
 	title = usa.56.t

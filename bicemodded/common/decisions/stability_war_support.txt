@@ -771,12 +771,6 @@ demobilization = {
 		visible = {
 			has_unsupported_manpower_law = yes
 			has_war = no
-			if = {
-				limit = { original_tag = GRE }
-				NOT = {
-					has_completed_focus = GRE_request_communist_support
-				}
-			}
 		}
 		complete_effect = {
 			if = {
@@ -826,26 +820,8 @@ demobilization = {
 		activation = {
 			has_unsupported_manpower_law = yes
 			has_war = no
-			if = {
-				limit = {
-					original_tag = GRE
-				}
-				NOT = {
-					has_completed_focus = GRE_request_communist_support
-				}
-			}
+			#is_ai = no
 		}
-		visible = {
-			if = {
-				limit = {
-					original_tag = GRE
-				}
-				NOT = {
-					has_completed_focus = GRE_request_communist_support #put here in lieu of a cancel trigger
-				}
-			}		
-		}
-		cancel_if_not_visible = yes
 		timeout_effect = {
 
 			if = {
@@ -949,6 +925,176 @@ demobilization = {
 			else = {
 				add_ideas = mutiny_1
 			}
+		}
+	}
+}
+harmonize_trade = {
+	demobilization_trade_law = {
+
+		icon = generic_prepare_civil_war
+
+		icon = revolt
+		is_good = no
+
+		available = {
+			has_unsupported_trade_law = yes
+			has_war = no			
+		}
+
+		allowed = {
+			always = yes
+		}
+
+		cost = 10
+		ai_will_do = {
+			factor = 500
+		}
+		
+
+		visible = {
+			has_unsupported_trade_law = yes
+			has_war = no			
+		}
+		complete_effect = {
+			if = {
+				limit = {
+					has_idea = free_trade
+				}
+				add_ideas = export_focus
+			}
+			else_if = {
+				limit = {
+					has_idea = limited_exports
+				}
+				add_ideas = export_focus
+			}
+			else_if = {
+				limit = {
+					has_idea = closed_economy
+				}
+				add_ideas = limited_exports
+			}
+			else = {
+				add_ideas = export_focus
+			}
+		}
+	}
+
+	demob_trade_mission = {
+
+		icon = revolt
+		is_good = no
+		days_mission_timeout = 120
+		available = {
+			OR = {
+				has_unsupported_trade_law = no
+				has_war = yes			
+			}
+		}
+		activation = {
+			has_unsupported_trade_law = yes
+			has_war = no			
+		}
+		complete_effect = {
+			if = {
+				limit = {
+					has_idea = strikes_1
+				}
+				remove_ideas = strikes_1
+			}
+			if = {
+				limit = {
+					has_idea = strikes_2
+				}
+				remove_ideas = strikes_2
+			}
+			if = {
+				limit = {
+					has_idea = strikes_3
+				}
+				remove_ideas = strikes_3
+			}
+		}
+		timeout_effect = {
+			activate_mission = demob_trade_mission
+			if = {
+				limit = {
+					has_idea = strikes_3
+					has_stability < 0.24
+					NOT = {
+						has_government = communism
+					}
+				}
+				start_civil_war = {
+					ideology = communism
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = strikes_3
+					has_stability < 0.24
+					has_government = communism
+				}
+				start_civil_war = {
+					ideology = democratic
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = strikes_3
+					has_stability < 0.41
+					NOT = {
+						has_government = communism
+					}
+				}
+				add_popularity = { ideology = communism popularity = 0.1}
+			}
+			else_if = {
+				limit = {
+					has_idea = strikes_3
+					has_stability < 0.41
+					has_government = communism
+				}
+				add_popularity = { ideology = democratic popularity = 0.1}
+			}
+			else_if = {
+				limit = {
+					has_idea = strikes_3
+					has_stability > 0.4
+				}
+				add_stability = -0.05
+			}
+			else_if = {
+				limit = {
+					has_idea = strikes_2
+				}
+				swap_ideas = {
+					remove_idea = strikes_2
+					add_idea = strikes_3
+				}
+			}
+			if = {
+				limit = { 
+					has_idea = strikes_1
+				}
+				swap_ideas = {
+					remove_idea = strikes_1
+					add_idea = strikes_2
+				}
+				news_event = { id = bramja.2 days = 1 }
+			}
+			if = {
+				limit = { 
+					NOT = { 
+						OR = {
+							has_idea = strikes_1
+							has_idea = strikes_2
+							has_idea = strikes_3
+						}
+					}
+				}
+				add_ideas = strikes_1
+			}	
 		}
 	}
 }
