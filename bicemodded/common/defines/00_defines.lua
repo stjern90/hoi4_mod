@@ -926,7 +926,7 @@ NMilitary = {
 	ARMY_NAVAL_TRANSFER_FUEL_MULT = 0.66,			-- fuel consumption ratio while naval transferring
 	ARMY_STRATEGIC_DEPLOYMENT_FUEL_MULT = 0.66,		-- fuel consumption ratio while doing strategic deployment
 	ARMY_IDLE_FUEL_MULT = 0.33,						-- fuel consumption ratio while just existing
-	FUEL_EFFICIENCY_RAID_MULTIPLIER = 1.0,			-- convoy raid multiplier for fuel sunk
+	FUEL_EFFICIENCY_RAID_MULTIPLIER = 1.1,			-- convoy raid multiplier for fuel sunk
 	
 	FUEL_FLOW_PENALTY_FOR_SUPPLY_CHUNK_EDGE_RATIO = 0.5, -- supply flow that is limited by control of incoming edge provinces will have lesser effect on fuel flow
 	
