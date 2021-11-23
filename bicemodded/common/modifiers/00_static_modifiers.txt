@@ -13,6 +13,7 @@ weather_rain_light = { # on Region
 	air_mission_efficiency = -0.1
 
 	local_org_regain = -0.05
+	org_loss_when_moving = 0.05
 }
 weather_rain_heavy = { # on Region 
 	air_detection = -0.2
@@ -25,6 +26,9 @@ weather_rain_heavy = { # on Region
 	air_accidents = 0.25
 	local_org_regain = -0.2
 	air_mission_efficiency = -0.25
+	org_loss_when_moving = 0.1
+	supply_consumption_factor = 0.1
+	supply_factor = -0.05
 }
 weather_snow = { # on Region 
 	local_supplies = -0.05
@@ -36,6 +40,9 @@ weather_snow = { # on Region
 	air_accidents = 0.1
 	local_org_regain = -0.05
 	air_mission_efficiency = -0.1
+	org_loss_when_moving = 0.1
+	supply_factor = -0.10
+	truck_attrition_factor = 0.3
 }
 weather_blizzard = { # on Region 
 	local_supplies = -0.35
@@ -49,15 +56,26 @@ weather_blizzard = { # on Region
 	air_bombing_targetting = -0.75
 	local_org_regain = -0.3
 	air_mission_efficiency = -0.4
+	
+	org_loss_when_moving = 0.25
+	
+	supply_consumption_factor = 0.15
+	supply_factor = -0.25
+	truck_attrition_factor = 1.0
+	army_attack_speed_factor = -0.25
 }
 weather_sandstorm = { # on Region 
 	local_supplies = -0.25
 	air_detection = -0.9
 	air_accidents = 0.6
 	air_bombing_targetting = -0.75
-	local_org_regain = -0.5
+	local_org_regain = -0.25
     army_attack_factor = -0.15
 	air_mission_efficiency = -0.5
+	
+	org_loss_when_moving = 0.25
+	supply_factor = -0.15
+	truck_attrition_factor = 3.0
 }
 
 weather_arctic_water = { # on Region 
@@ -68,23 +86,24 @@ weather_arctic_water = { # on Region
 }
 
 weather_mud = { # on Province
-	local_supplies = -0.3
 	attrition = 0.15
 	army_speed_factor = -0.5
 	army_attack_factor = -0.4
-	#local_org_regain = -0.2
-	#dig_in_speed_factor = -0.3
-	#army_armor_speed_factor = 0.1 # halftracks faster
+	
+	org_loss_when_moving = 0.25
+	supply_factor = -0.25
+	truck_attrition_factor = 5.0
 }
 
 weather_extreme_cold = { # on Province
-	local_supplies = -0.2
 	winter_attrition = 0.25
 	dig_in_speed_factor = -0.6
 	local_org_regain = -0.05
 	army_speed_factor = -0.4 # compared to mud, tanks arent completely immobilised
 	army_attack_factor = -0.5
 	army_defence_factor = -0.1
+	supply_factor = -0.15
+	truck_attrition_factor = 1.0
 }
 weather_very_cold = { # on Province
 	local_supplies = -0.05
@@ -93,35 +112,48 @@ weather_very_cold = { # on Province
 	army_speed_factor = -0.25
 	army_attack_factor = -0.30
 	army_defence_factor = -0.05
+	breakthrough_factor = -0.15
 }
 weather_very_hot = { # on Province
-	local_supplies = -0.05
 	heat_attrition = 0.1
+	local_org_regain = -0.05
+	supply_factor = -0.05
 }
 weather_extreme_hot = { # on Province
-	local_supplies = -0.2
 	heat_attrition = 0.2
-	local_org_regain = -0.05
+	local_org_regain = -0.08
+	supply_consumption_factor = 0.5
+	truck_attrition_factor = 0.1
 }
 weather_ground_snow_medium = { # on Province
-	local_supplies = -0.1
+	army_attack_factor = -0.2
 	army_speed_factor = -0.2
-        local_org_regain = -0.05
-	army_attack_factor = -0.25
-        winter_attrition = 0.05
+	army_attack_speed_factor = -0.25
+	breakthrough_factor = -0.15
+	org_loss_when_moving = 0.1
+	supply_factor = -0.20
+	truck_attrition_factor = 0.5
+	dig_in_speed_factor = 0.05
 }
 weather_ground_snow_high = { # on Province
-	local_supplies = -0.2
-	army_speed_factor = -0.3
-	local_org_regain = -0.1
 	army_attack_factor = -0.4
-        winter_attrition = 0.1
+	army_speed_factor = -0.4
+	army_attack_speed_factor = -0.5
+	breakthrough_factor = -0.3
+	local_org_regain = -0.05
+	org_loss_when_moving = 0.25
+	supply_factor = -0.40
+	truck_attrition_factor = 1.0
+	dig_in_speed_factor = 0.15
 }
 
 flooded = { # on Province
 	army_speed_factor = -0.5
 	army_defence_factor = 0.5
 	dig_in_speed_factor = 0.2
+	org_loss_when_moving = 0.25
+	supply_factor = -0.40
+	truck_attrition_factor = 3.0
 }
 
 unplanned_offensive = { # on Province
@@ -780,4 +812,40 @@ FRA_carry_the_revolution_south = {
 		}
 	}
 	compliance_gain = 0.4
+}
+
+SOV_soviet_chinese_relations = {
+	valid_relation_trigger = {
+		FROM = {
+			NOT = { has_war_with = ROOT }
+		}
+	}
+
+	license_purchase_cost = 0 #base cost reduction
+	ai_license_acceptance = 20 #more to AI acceptance value.
+	license_production_speed = 0.25 #speed  increase for being a license
+	license_tech_difference_speed = 0.25 #less cost increase for each tech level between the license and own tech level
+}
+
+SOV_face_western_fascism_static = {
+	valid_relation_trigger = {
+		FROM = {
+			has_war_with = ROOT
+		}
+	}
+
+	attack_bonus_against = 0.1
+	defense_bonus_against = 0.1
+}
+
+SOV_for_the_common_good_relation = { #For Right Oppo allies
+	valid_relation_trigger = {
+		FROM = {
+			NOT = { has_war_with = ROOT }
+		}
+	}
+
+	ai_license_acceptance = 20 #more to AI acceptance value.
+	license_production_speed = 0.25 #speed  increase for being a license
+	license_tech_difference_speed = 0.25 #less cost increase for each tech level between the license and own tech level
 }
