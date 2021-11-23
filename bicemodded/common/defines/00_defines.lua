@@ -968,17 +968,18 @@ NMilitary = {
 	OUT_OF_FUEL_EQUIPMENT_MULT = 0.5,				-- ratio of the stats that you get from equipments that uses fuel and you lack it
 	OUT_OF_FUEL_SPEED_MULT = 0.8,					-- speed mult that armies get when out of fuel
 	OUT_OF_FUEL_TRAINING_XP_GAIN_MULT = 0.0,		-- xp gain mult from training when a unit is out of fuel
-	FUEL_CAPACITY_DEFAULT_HOURS = 192             -- default capacity if not specified
-	
+	FUEL_CAPACITY_DEFAULT_HOURS = 192,				-- default capacity if not specified
+
 	MAX_ESTIMATED_PLAN_UNITS_NOT_IN_PLACE_FACTOR = -0.6, 	--Scaled by % of units not in place. Used to be a flat -50%
 	DAMAGE_SPLIT_ON_FIRST_TARGET = 0.35,			--% of damage dealt to the first target in a combat. The rest will be split amongst subsequent targets. Modifiers can affect this up to a maximum of 0.9. That value must not be exposed as a define.
 
 
 	NEW_ARMY_LEADER_LEVEL_CHANCES = {				-- chances for new army leaders to start at a given level
-		0.9, -- 95% for level one
-		0.1  -- 5% for level two
+		0.95, -- 95% for level one
+		0.05  -- 5% for level two
 		      -- 0% for level three to ten
 	}
+
 },
 
 
@@ -2208,9 +2209,10 @@ NAI = {
 	PLAN_ACTIVATION_PLAYER_WEIGHT_FACTOR = 1,		-- AI countries will hold on activating plans if player controlled countries have plans in the same location. Majors count extra (value of 1 will negate this)
 	AREA_DEFENSE_BASE_IMPORTANCE = 30,					-- Area defense order base importance value (used for determining order of troop selections)
 	AREA_DEFENSE_CIVIL_WAR_IMPORTANCE = 30,			-- Area defense order importance value when a country is in a civil war as target or revolter.
+	AREA_DEFENSE_IMPORTANCE_FACTOR = 1.0,               -- used to balance defensive area importance vs other fronts
 
 	COMBINED_ARMS_LEVEL = 1,							-- 0 = Never, 1 = Infantry/Artillery, 2 = Go wild
-	MAX_DISTANCE_NAVAL_INVASIO = 350.0,				-- AI is extremely unwilling to plan naval invasions above this naval distance limit.
+	MAX_DISTANCE_NAVAL_INVASION = 350.0,				-- AI is extremely unwilling to plan naval invasions above this naval distance limit.
 	ENEMY_NAVY_STRENGTH_DONT_BOTHER = 10.0,				-- If the enemy has a navy at least these many times stronger that the own, don't bother invading
 	MIN_SUPPLY_USE_SANITY_CAP = 100,					-- Ignore supply cap if below this value when deciding on how many divisions to produce.
 	MAX_SUPPLY_DIVISOR = 1.9,							-- To make sure the AI does not overdeploy divisions. Higher number means more supply per unit.
