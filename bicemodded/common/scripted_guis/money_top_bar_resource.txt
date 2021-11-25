@@ -1,0 +1,256 @@
+scripted_gui = {
+
+	money = {
+		context_type = player_context
+		
+		window_name = "money_container"
+		
+		visible = {
+			#player_only_trigger = yes
+		}
+		
+		dynamic_lists = {
+			topbar_list = {
+				array = Root.topbar_array 
+				change_scope = yes 
+				entry_container = "topbar_list_container"
+			}
+			topbar_menu = { 
+				array = topbar_menu 
+				change_scope = yes
+				entry_container = "topbar_menu_container"
+			}  
+		}
+		
+		properties = { 
+			topbar_icon = {    
+				image = "[GetTopbarIcon]"
+			} 
+		}
+		
+		effects = {
+			casualties_box_click = { 
+				if = {
+					limit = { 
+						check_variable = { topbar_array^num < 13 }
+					}
+					random_state = {
+						limit = {
+							NOT = {
+								has_state_flag = selected_topbar
+							}
+						}
+						ROOT = { add_to_array = { topbar_array = PREV } }
+						set_state_flag = {
+							flag = selected_topbar_info 
+							value = 100 
+						}
+					}
+				}
+			}
+			
+			#TOPBAR Dynamic Info 
+			list_click = { 
+				for_each_loop = {
+					array = Root.topbar_array
+					
+					if = {
+						limit = {
+							var:v = { has_state_flag = show_topbar_menu }
+						}
+						var:v = { clear_array = topbar_menu clr_state_flag = show_topbar_menu }
+					}
+				}
+				FROM = {
+					if = { 	
+						limit = {
+							NOT = {
+								meta_trigger = {
+									text = {
+										has_state_flag = {
+											flag = selected_topbar_info
+											value = [X]
+										}
+									}
+									X = "[Prev.GetID]"
+								}
+							}
+						}
+						clear_topbar_list_flags = yes
+						meta_effect = {
+							text = {
+								set_state_flag = {
+									flag = selected_topbar_info
+									value = [X]
+								}
+							}
+							X = "[Prev.GetID]"
+						} 
+					}
+				}
+			}
+			list_right_click = {
+				if = {
+					limit = {
+						state = 5
+					}
+					meta_effect = {  
+						text = { 
+							add_to_variable = { topbar_resource_list_[FROM]_[ROOT] = 1 } 
+							if = {
+								limit = {
+									check_variable = { topbar_resource_list_[FROM]_[ROOT] > 5 }
+								}
+								clear_variable = topbar_resource_list_[FROM]_[ROOT] 
+							}
+						} 
+						ROOT = "[Root.GetTag]"
+						FROM = "[From.GetID]"
+					}
+				} 
+				
+				if = {
+					limit = {
+						state = 12 
+					}
+					meta_effect = {   
+						text = { 
+							add_to_variable = { topbar_special_forces_list_[FROM]_[ROOT] = 1 } 
+							if = {
+								limit = { #total, mount, para, marine etc
+									check_variable = { topbar_special_forces_list_[FROM]_[ROOT] > 6 }
+								}
+								clear_variable = topbar_special_forces_list_[FROM]_[ROOT]
+							}
+						} 
+						ROOT = "[Root.GetTag]"
+						FROM = "[From.GetID]"
+					}
+				} 
+				if = {
+					limit = {
+						state = 14
+					}
+					meta_effect = {  
+						text = { 
+							add_to_variable = { topbar_ship_list_[FROM]_[ROOT] = 1 } 
+							if = {
+								limit = { #all ship units
+									check_variable = { topbar_ship_list_[FROM]_[ROOT] > 7 }
+								}
+								clear_variable = topbar_ship_list_[FROM]_[ROOT]
+							}
+						}   
+						ROOT = "[Root.GetTag]"
+						FROM = "[From.GetID]"
+					}
+				} 
+				
+				
+				if = {  
+					limit = { 
+						state = 19 
+					} 
+					meta_effect = {   
+						text = {  
+							add_to_variable = { topbar_factories_list_[FROM]_[ROOT] = 1 } 
+							if = {
+								limit = { #all factories
+									check_variable = { topbar_factories_list_[FROM]_[ROOT] > 3 }
+								}
+								clear_variable = topbar_factories_list_[FROM]_[ROOT]
+							}
+						}  
+						ROOT = "[Root.GetTag]"  
+						FROM = "[From.GetID]"
+					}
+				} 
+			}
+			list_shift_click = {
+				if = {
+					limit = {   
+						state = 5   
+					}
+					meta_effect = { 
+						text = {
+							add_to_variable = { topbar_resource_var_[FROM]_[ROOT] = 1 } 
+							if = {
+								limit = { 
+									check_variable = { topbar_resource_var_[FROM]_[ROOT] > 4 }
+								}
+								clear_variable = topbar_resource_var_[FROM]_[ROOT] 
+							}
+						}
+						ROOT = "[Root.GetTag]"
+						FROM = "[From.GetID]"
+					}
+				}
+			}
+			background_button_click = {
+				if = {
+					limit = {
+						NOT = { has_state_flag = show_topbar_menu } 
+					}
+					for_each_loop = { 
+						array = Root.topbar_array
+						
+						if = { 
+							limit = {
+								var:v = { has_state_flag = show_topbar_menu }
+							} 
+							var:v = { clear_array = topbar_menu clr_state_flag = show_topbar_menu }
+						}
+					}
+					set_state_flag = show_topbar_menu
+					add_to_array = { topbar_menu = 1 }
+					add_to_array = { topbar_menu = 2 }
+					add_to_array = { topbar_menu = 3 }
+					add_to_array = { topbar_menu = 4 } 
+					add_to_array = { topbar_menu = 5 }
+					add_to_array = { topbar_menu = 6 }
+					#add_to_array = { topbar_menu = 7 }
+					#if = { #MEFO
+					#	limit = { ROOT = { tag = GER } }
+					#	add_to_array = { topbar_menu = 8 } 
+					#}
+					#add_to_array = { topbar_menu = 9 }
+					add_to_array = { topbar_menu = 10 }
+					add_to_array = { topbar_menu = 11 }
+					add_to_array = { topbar_menu = 12 }
+					#add_to_array = { topbar_menu = 13 }
+					add_to_array = { topbar_menu = 14 }
+					add_to_array = { topbar_menu = 15 }
+					#add_to_array = { topbar_menu = 16 }
+					add_to_array = { topbar_menu = 17 } 
+					add_to_array = { topbar_menu = 18 }
+					add_to_array = { topbar_menu = 19 }
+					add_to_array = { topbar_menu = 20 }  
+					#add_to_array = { topbar_menu = 21 }
+					#add_to_array = { topbar_menu = 22 }
+					#add_to_array = { topbar_menu = 23 }
+					#add_to_array = { topbar_menu = 24 }
+					#add_to_array = { topbar_menu = 25 }
+				}
+				else_if = {
+					limit = {
+						has_state_flag = show_topbar_menu 
+					}
+					clr_state_flag = show_topbar_menu
+					clear_array = topbar_menu 
+				}
+			}
+			background_button_right_click = {	
+				clear_topbar_list_flags = yes
+				ROOT = { remove_from_array = { topbar_array = PREV } }
+				#meta_effect = {
+				#	text = {
+				#		remove_from_array = { Root.topbar_array = [X] }
+				#	}
+				#	X = "[This.GetID]"
+				#}
+			}
+			
+		}
+	}
+	
+}
