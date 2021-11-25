@@ -1,0 +1,344 @@
+on_actions = {
+    
+	
+	on_capitulation = {
+		effect = {
+			if = { 
+				limit = {
+					ROOT = { original_tag = POL }
+					is_in_faction_with = ENG
+					ENG = { has_war_with = SOV }
+					has_global_flag = sov_yes_pact
+					NOT = { GER = { has_war_with = SOV } }
+				}
+				GER = { country_event = { id = germany.14 days = 7 } }
+				every_country = { limit = { is_in_faction_with = ENG }
+				    white_peace = SOV
+					if = { limit = { MON = { is_in_faction_with = SOV }  }
+                        white_peace = MON
+                    }
+					if = { limit = { TAN = { is_in_faction_with = SOV }  }
+                        white_peace = TAN
+                    }
+					if = { limit = { CCP = { is_in_faction_with = SOV }  }
+                        white_peace = CCP
+                    }
+					if = { limit = { SIK = { is_in_faction_with = SOV }  }
+                        white_peace = SIK
+                    }
+					if = { limit = { FIN = { is_in_faction_with = SOV }  }
+                        white_peace = FIN
+                    }
+					if = { limit = { SPR = { is_in_faction_with = SOV }  }
+                        white_peace = SPR
+                    }
+					if = { limit = { CZE = { is_in_faction_with = SOV }  }
+                        white_peace = CZE
+                    }
+					if = { limit = { HUN = { is_in_faction_with = SOV }  }
+                        white_peace = HUN
+                    }
+					if = { limit = { ROM = { is_in_faction_with = SOV }  }
+                        white_peace = ROM
+                    }
+					if = { limit = { SWE = { is_in_faction_with = SOV }  }
+                        white_peace = SWE
+                    }
+					if = { limit = { MOL = { is_in_faction_with = SOV }  }
+                        white_peace = MOL
+                    }
+					if = { limit = { UKR = { is_in_faction_with = SOV }  }
+                        white_peace = UKR
+                    }
+					if = { limit = { SIB = { is_in_faction_with = SOV }  }
+                        white_peace = SIB
+                    }
+					if = { limit = { AFG = { is_in_faction_with = SOV }  }
+                        white_peace = AFG
+                    }
+				}
+			}
+		}
+	}
+
+		
+	on_startup = {
+		effect = {
+			if = {
+				limit = {
+				OR = {
+					has_game_rule = {
+						rule = allow_divisions_sa
+						option = yes
+					}
+					has_game_rule = {
+						rule = allow_divisions_sa
+						option = full
+					}
+				}
+				}
+				every_country = {
+					limit = {
+						    is_ai = yes
+							OR = {
+								tag = PRU
+								tag = ARG
+								tag = URG
+								tag = PAR
+								tag = CHL
+								#tag = BRA
+								tag = VEN
+								tag = ECU
+								tag = COL
+								tag = COS
+								tag = GUA
+								tag = CUB
+								tag = MEX
+							}
+					}
+					add_ideas = betterlategame_idea
+					set_country_flag = no_deploying
+					GUA = { 
+                        annex_country = {
+			     		target = HON
+			    		transfer_troops = no
+						}
+		    		}
+					COS = { 
+                        annex_country = {
+			     		target = NIC
+			    		transfer_troops = no
+						}
+		    		}
+					CUB = { 
+                        annex_country = {
+			     		target = DOM
+			    		transfer_troops = no
+						}
+		    		}
+					CHL = { 
+                        annex_country = {
+			     		target = BOL
+			    		transfer_troops = no
+						}
+						delete_unit_template_and_units = { division_template = "Militia" }
+		    		}
+					ARG = { 
+					    delete_unit_template_and_units = { division_template = "Militia" }
+					}
+					BRA = { 
+					    delete_unit_template_and_units = { division_template = "Divisão de Infantaria" }
+					}
+					319 = {
+	                	remove_building = {
+            				type = arms_factory
+			        		level = 1
+		        	    }
+			    	    remove_building = {
+				    		type = industrial_complex
+				    		level = 1
+			    	    }
+              		}
+				}
+			}
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = allow_divisions_sa
+						option = full
+					}
+				}
+				every_country = {
+					limit = {
+						    is_ai = yes
+							OR = {
+								#tag = YEM
+								#tag = SYR
+								tag = AFG
+								tag = SAU
+								#tag = TUR
+								tag = MON
+								tag = LIB
+							}
+					}
+					add_ideas = betterlategame_idea
+					set_country_flag = no_deploying
+				}
+			}
+			set_variable = { resistance = 50 }
+			FIN = {
+	    	news_event = {
+		    	id = finland.116
+		    	days = 2120
+		    }
+			}
+			JAP = {
+				country_event = {
+					id = jap.1
+					days = 57
+				}
+			}
+		}
+	}
+	#ROOT is new controller #FROM is old controller #FROM.FROM is state ID
+
+	##Island Hopping
+	on_state_control_changed = {
+		effect = {
+			if = {
+				limit = {
+					FROM = { tag = JAP }
+					ROOT = { tag = USA }
+					FROM.FROM = {
+						has_state_flag = JAP_controls
+					}
+				}
+				FROM.FROM = {  
+				 	set_state_flag = USA_controls
+				 	clr_state_flag = JAP_controls
+				}
+			 	if = { limit = { original_tag = USA } 
+			 		USA_island_hopping_level_up = yes
+			 	}
+		 		JAP = {
+		 			JAP_island_hopping_level_down = yes 
+		 		}
+			}
+		}
+	}
+	on_state_control_changed = {
+		effect = {
+			if = {
+				limit = {
+					FROM = { tag = USA }
+					ROOT = { tag = JAP }
+					FROM.FROM = {
+						has_state_flag = USA_controls
+					}
+				}
+				FROM.FROM = { 
+				 	set_state_flag = JAP_controls 
+				 	clr_state_flag = USA_controls 
+				}
+		 		if = { limit = { original_tag = JAP } 
+		 			JAP_island_hopping_level_up = yes 
+		 		}
+		 		USA = {
+					USA_island_hopping_level_down = yes
+		 		} 
+			}
+		}
+	}
+	on_declare_war = { 
+		effect = { 
+			if = { 
+				limit = { 
+					ROOT = {
+						AND = {
+							has_war_with = ENG
+							OR = {
+								tag = GER
+								tag = JAP
+								any_country = {
+									is_in_faction_with = GER
+								} 
+								any_country = {
+									is_in_faction_with = JAP
+								}							
+							}
+						}
+					} 
+					FROM = { tag = PER } 
+				} 
+			ENG = { country_event = { id = BICE_britain.36 } }
+			} 
+		} 
+	}
+
+	#used when puppeting in a peace conference
+	#ROOT = nation being puppeted, FROM = overlord	
+	on_puppet = {
+		effect = {
+			if = {
+				limit = {
+					FROM = {
+						original_tag = JAP
+						has_idea = JAP_resource_war_1
+					}
+				}
+				add_ideas = JAP_resource_war_1
+			}
+			if = {
+				limit = {
+					FROM = {
+						original_tag = JAP
+						has_idea = JAP_resource_war_2
+					}
+				}
+				add_ideas = JAP_resource_war_2
+			}		
+			if = {
+				limit = {
+					FROM = {
+						original_tag = JAP
+						has_idea = JAP_resource_war_3
+					}
+				}
+				add_ideas = JAP_resource_war_3
+			}	
+			if = {
+				limit = {
+					FROM = {
+						original_tag = JAP
+						has_idea = JAP_resource_war_4
+					}
+				}
+				add_ideas = JAP_resource_war_4
+			}
+		}
+	}
+	#used when puppeting through the occupied territories menu during peace time (or when releasing from non-core but owned territory, f.e. Britain releasing Egypt)
+	#ROOT = nation being released, FROM = overlord
+	
+	on_release_as_puppet = {
+		effect = {
+			if = {
+				limit = {
+					FROM = {
+						original_tag = JAP
+						has_idea = JAP_resource_war_1
+					}
+				}
+				add_ideas = JAP_resource_war_1
+			}
+			if = {
+				limit = {
+					FROM = {
+						original_tag = JAP
+						has_idea = JAP_resource_war_2
+					}
+				}
+				add_ideas = JAP_resource_war_2
+			}		
+			if = {
+				limit = {
+					FROM = {
+						original_tag = JAP
+						has_idea = JAP_resource_war_3
+					}
+				}
+				add_ideas = JAP_resource_war_3
+			}	
+			if = {
+				limit = {
+					FROM = {
+						original_tag = JAP
+						has_idea = JAP_resource_war_4
+					}
+				}
+				add_ideas = JAP_resource_war_4
+			}
+		}
+	}
+		
+}
