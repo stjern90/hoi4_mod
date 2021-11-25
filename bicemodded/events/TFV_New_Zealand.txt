@@ -1,0 +1,504 @@
+﻿###########################
+# NZL TFV events Events
+###########################
+
+add_namespace = tfv_new_zealand
+
+#NZL joins Comintern
+country_event = {
+	id = tfv_new_zealand.1
+	title = tfv_new_zealand.1.t	
+	desc = tfv_new_zealand.1.desc	#
+	picture = GFX_report_event_stalin_meeting
+	
+	is_triggered_only = yes
+	
+	option = { #SOV agrees
+		name = tfv_new_zealand.1.a
+		ai_chance = {
+			base = 90
+			modifier = { 
+				NZL = { NOT = { has_government = communism } } 
+				factor = 0
+				}
+		}
+		add_to_faction = NZL
+		NZL = { country_event = { id = tfv_new_zealand.2 hours = 6 } }
+	}
+
+
+	option = { #SOV refuses
+		name = tfv_new_zealand.1.b
+		ai_chance = {
+			base = 0
+			modifier = { 
+				NZL = { NOT = { has_government = communism } } 
+				add = 100
+				}
+		}
+		NZL = { country_event = { id = tfv_new_zealand.3 hours = 6 } }	
+	}
+}
+
+#SOV agrees
+country_event = {
+	id = tfv_new_zealand.2
+	title = tfv_new_zealand.2.t		# 
+	desc = tfv_new_zealand.2.desc	#
+	picture = GFX_report_event_stalin_meeting
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = tfv_new_zealand.2.a
+	}
+}
+#SOV refuses :(
+country_event = {
+	id = tfv_new_zealand.3
+	title = tfv_new_zealand.3.t		# 
+	desc = tfv_new_zealand.3.desc	#
+	picture = GFX_report_event_stalin_meeting
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = tfv_new_zealand.3.a
+	}
+}
+
+#NZL joins JAP - Event for JAP from NZL focus
+country_event = {
+	id = tfv_new_zealand.4
+	title = tfv_new_zealand.4.t	
+	desc = tfv_new_zealand.4.desc	#
+	picture = GFX_report_event_ast_transfer_singapore
+	
+	is_triggered_only = yes
+	
+	option = { #JAP agrees
+		name = tfv_new_zealand.4.a
+		ai_chance = {
+			base = 100
+		}
+		if = {
+			limit = {
+				is_in_faction = yes
+			}
+			add_to_faction = NZL
+			else = {
+				create_faction = "daitoa_kyoeiken"
+				add_to_faction = NZL
+			}
+		}
+		NZL = { country_event = { id = tfv_new_zealand.5 hours = 6 } }
+	}
+
+
+	option = { #JAP refuses
+		name = tfv_new_zealand.4.b
+		ai_chance = {
+			base = 0
+		}
+		NZL = { country_event = { id = tfv_new_zealand.6 hours = 6 } }	
+	}
+}
+
+#JAP agrees
+country_event = {
+	id = tfv_new_zealand.5
+	title = tfv_new_zealand.5.t		# 
+	desc = tfv_new_zealand.5.desc	#
+	picture = GFX_report_event_ast_transfer_singapore
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = tfv_new_zealand.5.a
+	}
+}
+#JAP refuses :(
+country_event = {
+	id = tfv_new_zealand.6
+	title = tfv_new_zealand.6.t		# 
+	desc = tfv_new_zealand.6.desc	#
+	picture = GFX_report_event_ast_transfer_singapore				
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = tfv_new_zealand.6.a
+	}
+}
+
+# MJS dies
+country_event = {
+	id = tfv_new_zealand.7
+	
+	fire_only_once = yes
+	
+	hidden = yes
+	
+	trigger = {
+		date > 1940.3.26
+		date < 1940.3.28
+		any_country = {
+			original_tag = NZL
+			has_government = democratic
+			has_country_leader = { ruling_only = yes name = "Michael Joseph Savage" }
+		}
+	}
+	
+	immediate = {
+		random_country = {
+			limit = { 
+				original_tag = NZL
+				has_government = democratic
+				has_country_leader = { ruling_only = yes name = "Michael Joseph Savage" }
+			}
+			country_event = { id = tfv_new_zealand.8 }
+		}
+	}
+	
+	option = {
+		name = tfv_new_zealand.8
+	}
+}
+
+country_event = {
+	id = tfv_new_zealand.8
+	title = tfv_new_zealand.8.t
+	desc = tfv_new_zealand.8.desc
+	picture = GFX_report_event_generic_funeral
+	
+	is_triggered_only = yes
+	
+	trigger = {
+	
+	}
+	
+	option = {
+		name = tfv_new_zealand.8.a
+		kill_country_leader = yes
+		create_country_leader = {
+			name = "Peter Fraser"
+			desc = "POLITICS_PETER_FRASER_DESC"
+			picture = "Portrait_NewZealand_Peter_Fraser.dds"
+			expire = "1965.1.1"
+			ideology = socialism
+			traits = {
+				NZL_war_above_all_else
+			}
+		}
+	}
+}
+
+# Completed NZL_demand_australia.
+# New Zealand national focus.
+country_event = {
+	id = tfv_new_zealand.10
+	title = tfv_new_zealand.10.t	# Fascist New Zealand demands annexation of Australia.
+	desc = tfv_new_zealand.10.desc	#
+	picture = GFX_report_event_generic_rally
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = tfv_new_zealand.10.a # Accept New Zealand's demands
+		
+		ai_chance = {
+			base = 100
+			modifier = {
+				add = 20
+				OR = {
+					AND = {
+						is_in_faction_with = ENG
+						ENG = {
+							surrender_progress > 0.3
+						}
+					}
+					AST = { is_in_faction = no }
+					has_government = fascism
+				}
+			}
+			modifier = {
+				add = 10
+				is_subject_of = ENG
+				CAN = { NOT = { is_subject_of = ENG } }
+				RAJ = { NOT = { is_subject_of = ENG } }
+			}
+			modifier = {
+				factor = 0.5
+				FROM = {
+					strength_ratio = {
+						tag = ROOT
+						ratio > 2
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				NZL = {
+					is_ai = yes
+				}
+			}
+		}
+		
+		NZL = {
+			country_event = { id = tfv_new_zealand.11 }
+		}
+
+		custom_effect_tooltip = GAME_OVER_TT
+	}
+	
+	option = {
+		name = tfv_new_zealand.10.b # Refuse New Zealand's demands
+		
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 10
+				NZL = {
+					is_ai = yes
+				}
+			}
+			
+		}
+		
+		effect_tooltip = {
+			NZL = {
+				create_wargoal = {
+					type = annex_everything
+					target = AST
+				}
+			}
+		}
+
+		hidden_effect = {
+			NZL = {
+				country_event = { id = tfv_new_zealand.12 }
+			}
+		}
+	}
+}
+
+country_event = {
+	id = tfv_new_zealand.11
+	title = tfv_new_zealand.11.t	# Australia accepted annexation peacefully.
+	desc = tfv_new_zealand.11.desc	#
+	picture = GFX_report_event_ast_navy
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = tfv_new_zealand.11.a
+		
+		annex_country = { target = AST transfer_troops = yes }
+		
+		add_state_core = 285
+		add_state_core = 517
+		add_state_core = 518
+		add_state_core = 519
+		add_state_core = 520
+		add_state_core = 521
+		add_state_core = 522
+		add_state_core = 523
+		add_state_core = 634
+		add_state_core = 674
+		add_state_core = 737
+
+		news_event = {
+			id = news.255 hours = 2 
+		}
+	}
+}
+
+country_event = {
+	id = tfv_new_zealand.12
+	title = tfv_new_zealand.12.t	# Australia refused New Zealand's annexation demands.
+	desc = tfv_new_zealand.12.desc	#
+	picture = GFX_report_event_ast_troops_landing
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = tfv_new_zealand.12.a
+		
+		create_wargoal = {
+			type = annex_everything
+			target = AST
+		}
+		
+		add_state_core = 285
+		add_state_core = 517
+		add_state_core = 518
+		add_state_core = 519
+		add_state_core = 520
+		add_state_core = 521
+		add_state_core = 522
+		add_state_core = 523
+		add_state_core = 634
+		add_state_core = 674
+		add_state_core = 737
+	}
+}
+
+# Jean Batten wants to join the RNZAF
+country_event = {
+	id = tfv_new_zealand.13
+	title = tfv_new_zealand.13.t
+	desc = tfv_new_zealand.13.desc
+	picture = GFX_report_event_usa_amelia_earhart_airplane
+
+	fire_only_once = yes
+	
+	trigger = {
+		tag = NZL
+		has_war = yes
+	}
+	
+	mean_time_to_happen = {
+		days = 30
+	}
+	
+	option = { # Let her join
+		name = tfv_new_zealand.13.a
+		ai_chance = {
+			base = 100
+		}
+		add_political_power = 50
+		add_ace = {
+			name = "Jean"
+			surname = "Batten"
+			callsign = "Gardner"
+			type = fighter_genius
+			is_female = yes
+		}
+		set_country_flag = jean_batten_active_ace
+	}
+	
+	option = { # Refuse
+		name = tfv_new_zealand.13.b
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+
+#from Australian Decisions
+country_event = {
+	id = tfv_new_zealand.14				#Australia take Britains people
+	title = tfv_new_zealand.14.t	
+	desc = tfv_new_zealand.14.desc
+	picture = GFX_report_event_destroyers
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = tfv_new_zealand.14.a
+		add_opinion_modifier = {
+			target = NZL
+			modifier = NZL_accepted_british_refugees
+		}
+		if = {
+			limit = {
+				any_owned_state = {	
+					state_population > 1000000
+				}
+			}
+			random_owned_state = {
+				prioritize = { 126 }
+				limit = {
+					state_population > 1000000
+				}
+				add_manpower = -5000
+			}
+			random_owned_state = {
+				prioritize = { 121 122 123 125 127 128 129 130 131 132 133 338 }
+				limit = {
+					state_population > 1000000
+				}
+				add_manpower = -5000
+			}
+			random_owned_state = {
+				prioritize = { 121 122 123 125 127 128 129 130 131 132 133 338 }
+				limit = {
+					state_population > 1000000
+				}
+				add_manpower = -5000
+			}
+		}
+		else = {
+			random_owned_state = {
+				prioritize = { 126 }
+				add_manpower = -5000
+			}
+			random_owned_state = {
+				prioritize = { 121 122 123 125 127 128 129 130 131 132 133 338 }
+				add_manpower = -5000
+			}
+			random_owned_state = {
+				prioritize = { 121 122 123 125 127 128 129 130 131 132 133 338 }
+				add_manpower = -5000
+			}
+		}
+	}
+}
+
+# Jean Batten News Event Trigger
+country_event = {
+	id = tfv_new_zealand.15
+	
+	fire_only_once = yes
+	
+	hidden = yes
+	
+	trigger = {
+		date > 1936.8.16
+		date < 1936.8.18
+		NZL = { 
+			has_war = no
+			exists = yes
+			NOT = { has_country_flag = jean_batten_active_ace }
+		}
+	}
+	
+	immediate = {
+		news_event = {
+			id = news.256
+		}
+	}
+	
+	option = {
+		name = tfv_new_zealand.15.a
+	}
+}
+
+# Jean Batten News Event II Trigger
+country_event = {
+	id = tfv_new_zealand.16
+	
+	fire_only_once = yes
+	
+	hidden = yes
+	
+	trigger = {
+		date > 1937.8.24
+		date < 1937.8.26
+		NZL = { 
+			has_war = no
+			exists = yes
+			NOT = { has_country_flag = jean_batten_active_ace }
+		}
+	}
+	
+	immediate = {
+		news_event = {
+			id = news.257
+		}
+	}
+	
+	option = {
+		name = tfv_new_zealand.16.a
+	}
+}

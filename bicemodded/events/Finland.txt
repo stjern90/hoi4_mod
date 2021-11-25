@@ -1,0 +1,2772 @@
+﻿###########################
+# Finland Events
+###########################
+
+add_namespace = finland
+
+# Soviet Ultimatum
+country_event = {
+	id = finland.1
+	title = finland.1.t
+	desc = finland.1.d
+	picture = GFX_report_event_stalin_01
+	
+	is_triggered_only = yes
+	
+	option = { # Accept demands
+		name = finland.1.a
+		ai_chance = { 
+		factor = 0
+		modifier = {   # Added to to Historical Mod
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+		SOV = {
+			country_event = { days = 5 id = soviet.12 }
+			effect_tooltip = {
+				transfer_state = 146
+			}
+		}
+		effect_tooltip = {
+		FIN = {
+				add_ideas = FIN_refuge
+			}
+		}
+	}
+	option = { # Refuse
+		name = finland.1.b
+		ai_chance = { factor = 100 }
+		
+		FIN = {
+			add_timed_idea = {
+				idea = neutrality_war
+				days = 180
+			}              
+		}
+		SOV = {
+			country_event = { days = 5 id = soviet.13 }
+			effect_tooltip = {
+				create_wargoal = {
+					type = take_state
+					target = FIN
+					generator = { 146 }
+				}
+			}
+		}
+	}
+}
+
+# Request Swedish Assistance?
+country_event = {
+	id = finland.2
+	title = finland.2.t
+	desc = finland.2.d
+	picture = GFX_report_event_swedish_soldiers2
+	
+	is_triggered_only = yes
+
+	trigger = {
+		SWE = {
+		    exists = yes
+			NOT = { has_war_with = FIN }
+			NOT = { is_in_faction_with = SOV }
+		}
+	}
+
+	option = {
+		name = finland.2.a
+		SWE = {
+			country_event = { id = finland.3 }
+		}
+	}
+
+	option = {
+		name = finland.2.b
+	}
+}
+
+# Swedish Support in Winter War
+country_event = {
+	id = finland.3
+	title = finland.3.t
+	desc = finland.3.d
+	picture = GFX_report_event_swedish_soldiers1
+	
+	is_triggered_only = yes
+
+	option = {
+		name = finland.3.a
+
+		ai_chance = {
+			factor = 10 
+			modifier = {
+				factor = 10
+				OR = {
+					has_war = yes
+					has_government = communism
+				}
+			}
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+
+		FIN = {
+			country_event = { id = finland.4 days = 3 }
+			add_opinion_modifier = {
+				target = ROOT
+				modifier = refused_help
+			}
+		}
+		add_stability = -0.1
+	}
+
+	option = {
+		name = finland.3.b
+
+		ai_chance = {
+			factor = 25
+			modifier = {
+				factor = 5							
+				has_government = democratic
+				FIN = {
+				 has_government = democratic
+				}
+			}
+		}
+
+		trigger = {
+			AND = {
+				has_war = no
+				NOT = {
+					has_government = communism
+				}
+			}	
+		}
+		if = {
+			limit = {
+				has_equipment = {
+					infantry_equipment > 400
+				}
+			}
+			send_equipment = {
+				target = FIN
+				type = infantry_equipment
+				amount = 400
+			}
+		}
+		if = {
+			limit = {
+				has_equipment = {
+					mountain_artillery_equipment > 100
+				}
+			}
+			send_equipment = {
+				target = FIN
+				type = mountain_artillery_equipment
+				amount = 100
+			}
+		}
+		if = {
+			limit = {
+				has_equipment = {
+					artillery_equipment > 100
+				}
+			}
+			send_equipment = {
+				target = FIN
+				type = artillery_equipment
+				amount = 100
+			}
+		}
+		141 = {
+			remove_building = {
+				type = industrial_complex
+				level = 3
+			}
+			remove_building = {
+				type = arms_factory
+				level = 1
+			}
+		}
+		FIN = {
+				add_equipment_to_stockpile = { type = support_equipment_1 amount = 300 producer = SWE }
+				add_equipment_to_stockpile = { type = horse_equipment_0 amount = 300 producer = SWE }
+				add_equipment_to_stockpile = { type = infantry_uniforms_0 amount = 500 producer = SWE }
+				add_equipment_to_stockpile = { type = motorized_equipment_1 amount = 100 producer = SWE }
+				add_equipment_to_stockpile = { type = motorized_lia_equipment_01 amount = 100 producer = SWE }
+				
+				if = {
+				limit = {
+				    SWE = {
+						has_tech = infantry_weapons1
+					}				}
+				add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 1000 producer = SWE }
+				}
+				if = {
+				limit = {
+				    SWE = {
+						NOT = { has_tech = infantry_weapons1 }
+					}				
+				}
+				add_equipment_to_stockpile = { type = infantry_equipment_0 amount = 1000 producer = SWE }
+				}
+				
+				if = {
+				limit = {
+				    SWE = {
+						has_tech = packartillery2
+					}
+				}
+				add_equipment_to_stockpile = { type = mountain_artillery_equipment_1 amount = 100 producer = SWE }
+				}
+				if = {
+				limit = {
+				    SWE = {
+						NOT = { has_tech = packartillery2 }
+					}
+					
+				}
+				add_equipment_to_stockpile = { type = mountain_artillery_equipment_0 amount = 100 producer = SWE }
+				}
+				
+				if = {
+				limit = {
+				    SWE = {
+						has_tech = artillery1
+					}			
+				}
+				add_equipment_to_stockpile = { type = artillery_equipment_1 amount = 50 producer = SWE }
+				}
+				if = {
+				limit = {
+				    SWE = {
+						NOT = { has_tech = artillery1 }
+					}	
+				}
+				add_equipment_to_stockpile = { type = artillery_equipment_0 amount = 50 producer = SWE }
+			}
+			country_event = { id = finland.5 days = 3 }
+		}
+		add_stability = 0.02
+		add_war_support = 0.04
+	}
+
+	option = {
+		name = finland.3.c
+
+		ai_chance = {
+
+			factor = 1
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+			modifier = {
+				factor = 100
+				has_war = no
+				has_government = democratic
+				strength_ratio = {
+					tag = SOV
+					ratio > 0.2
+				}
+				FIN = {
+					has_government = democratic
+					strength_ratio = {
+						tag = SOV 
+						ratio > 0.3
+					}
+				}
+			}			
+		}
+
+		declare_war_on = {
+			target = SOV
+			type = take_state
+			generator = { 195 208 } # Leningrand and Luga
+		}
+		FIN = {
+			country_event = { id = finland.6 days = 3 }
+			add_opinion_modifier = {
+				target = ROOT
+				modifier = took_stand_for_us
+			}
+		}
+	}
+}
+
+country_event = {
+	id = finland.4
+	title = finland.4.t
+	desc = finland.4.d
+	picture = GFX_report_event_swedish_soldiers1
+	
+	is_triggered_only = yes
+
+	option = {
+		name = finland.4.a
+	}
+}
+
+country_event = {
+	id = finland.5
+	title = finland.5.t
+	desc = finland.5.d
+	picture = GFX_report_event_swedish_soldiers2
+	
+	is_triggered_only = yes
+
+	option = {
+		name = finland.5.a
+
+		effect_tooltip = {
+			SWE = {
+				if = {
+					limit = {
+						has_equipment = {
+							infantry_equipment > 500
+						}
+					}
+					send_equipment = {
+						target = FIN
+						type = infantry_equipment
+						amount = 500
+					}
+				}
+				if = {
+					limit = {
+						has_equipment = {
+							artillery_equipment > 250
+						}
+					}
+					send_equipment = {
+						target = FIN
+						type = artillery_equipment
+						amount = 250
+					}
+				}
+				
+				
+			}
+			FIN = {
+				add_equipment_to_stockpile = { type = support_equipment_1 amount = 500 producer = SWE }
+				add_equipment_to_stockpile = { type = horse_equipment_0 amount = 500 producer = SWE }
+				add_equipment_to_stockpile = { type = infantry_uniforms_0 amount = 750 producer = SWE }
+				add_equipment_to_stockpile = { type = motorized_equipment_1 amount = 100 producer = SWE }
+				add_equipment_to_stockpile = { type = motorized_lia_equipment_01 amount = 100 producer = SWE }
+				
+				if = {
+				limit = {
+				    SWE = {
+						has_tech = infantry_weapons1
+					}				}
+				add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 1250 producer = SWE }
+				}
+				if = {
+				limit = {
+				    SWE = {
+						NOT = { has_tech = infantry_weapons1 }
+					}				
+				}
+				add_equipment_to_stockpile = { type = infantry_equipment_0 amount = 1250 producer = SWE }
+				}
+				
+				if = {
+				limit = {
+				    SWE = {
+						has_tech = packartillery2
+					}
+				}
+				add_equipment_to_stockpile = { type = mountain_artillery_equipment_1 amount = 125 producer = SWE }
+				}
+				if = {
+				limit = {
+				    SWE = {
+						NOT = { has_tech = packartillery2 }
+					}
+					
+				}
+				add_equipment_to_stockpile = { type = mountain_artillery_equipment_0 amount = 125 producer = SWE }
+				}
+				
+				if = {
+				limit = {
+				    SWE = {
+						has_tech = artillery1
+					}			
+				}
+				add_equipment_to_stockpile = { type = artillery_equipment_1 amount = 60 producer = SWE }
+				}
+				if = {
+				limit = {
+				    SWE = {
+						NOT = { has_tech = artillery1 }
+					}	
+				}
+				add_equipment_to_stockpile = { type = artillery_equipment_0 amount = 60 producer = SWE }
+			}
+			}
+		}
+	}
+}
+
+# Sweden is organizing the nordic volunteers corp
+country_event = {
+	id = finland.20
+	title = finland.20.t
+	desc = finland.20.d
+	picture = GFX_report_event_swedish_soldiers2
+	
+	is_triggered_only = yes
+
+	option = {
+		name = finland.20.a
+		FIN = { set_country_flag = NOR_volunteer }
+		ai_chance = {
+			base = 20 
+			modifier = {
+			    factor = 0
+				OR = {
+				has_government = communism
+				is_in_faction_with = SOV
+				}
+			}
+		}
+		if = { limit = { DEN = { exists = yes }  }
+	    	DEN = { country_event = finland.21 }
+		}
+		else_if = { limit = { DEN = { exists = no }  }
+		    FIN = { country_event = finland.24 }
+		}
+		add_stability = 0.02
+		add_war_support = 0.04
+	}
+	option = {
+		name = finland.20.b
+		ai_chance = {
+			base = 1 
+		}
+		if = { limit = { DEN = { exists = yes }  }
+	    	DEN = { country_event = finland.21 }
+		}
+		else_if = { limit = { DEN = { exists = no }  }
+		    FIN = { country_event = finland.24 }
+		}
+		add_stability = -0.07
+	}
+}
+country_event = {
+	id = finland.21
+	title = finland.20.t
+	desc = finland.20.d
+	picture = GFX_report_event_swedish_soldiers2
+	
+	is_triggered_only = yes
+
+	option = {
+		name = finland.20.a
+		FIN = { set_country_flag = DEN_volunteer }
+		ai_chance = {
+			base = 20 
+			modifier = {
+			    factor = 0
+				OR = {
+				has_government = communism
+				is_in_faction_with = SOV
+				}
+			}
+		}
+		FIN = { country_event = finland.24 }
+		add_stability = 0.02
+		add_war_support = 0.04
+	}
+	option = {
+		name = finland.20.b
+		ai_chance = {
+			base = 1 
+		}
+		FIN = { country_event = finland.24 }
+		add_stability = -0.05
+	}
+}
+
+country_event = {
+	id = finland.24
+	title = finland.24.t
+	desc = finland.24.d
+	picture = GFX_report_event_swedish_soldiers2
+	
+	is_triggered_only = yes
+
+	option = {
+		name = finland.24.a
+		if = {
+			limit = {
+				has_tech = tech_mountaineers
+			}
+		if = { limit = { has_country_flag = DEN_volunteer has_country_flag = NOR_volunteer }
+		custom_effect_tooltip = Nordic_div1_tt
+			hidden_effect = {	
+				division_template = {
+					name = "Nordic Volunteer Corps"
+					priority = 1
+		
+					regiments = {
+		mountaineers = { x = 0 y = 0 }
+		mountaineers = { x = 0 y = 1 }
+		mountaineers = { x = 0 y = 2 }
+
+      	mountaineers = { x = 1 y = 0 }
+		mountaineers = { x = 1 y = 1 }
+		mountaineers = { x = 1 y = 2 }
+
+       	mountaineers = { x = 2 y = 0 }
+		mountaineers = { x = 2 y = 1 }
+
+		mountain_artillery_brigade = { x = 3 y = 0 }
+		mountain_artillery_brigade = { x = 3 y = 1 }
+		mountain_artillery_brigade = { x = 3 y = 2 }
+		anti_tank_brigade =  { x = 3 y = 3 }
+	}
+	support = {
+       	DIV_HQ = { x = 0 y = 0 }
+		engineer = { x = 0 y = 1 }
+		recon_cav = { x = 0 y = 2 }
+		field_hospital = { x = 1 y = 0 }
+		logistics_company = { x = 1 y = 1 }
+	}
+				}
+				random_owned_controlled_state = {
+					prioritize = { 111 }
+					create_unit = {
+						division = "name = \"1st Nordic Volunteers\" division_template = \"Nordic Volunteer Corps\" start_experience_factor = 0.3 start_equipment_factor = 1.0" 
+						owner = FIN
+					}	
+				}
+			}
+			}
+			else_if = { limit = { OR = { has_country_flag = DEN_volunteer has_country_flag = NOR_volunteer } }
+		custom_effect_tooltip = Nordic_div2_tt
+			hidden_effect = {	
+				division_template = {
+					name = "Nordic Volunteer Corps"
+					priority = 1
+		
+					regiments = {
+		mountaineers = { x = 0 y = 0 }
+		mountaineers = { x = 0 y = 1 }
+
+      	mountaineers = { x = 1 y = 0 }
+		mountaineers = { x = 1 y = 1 }
+
+       	mountaineers = { x = 2 y = 0 }
+		mountaineers = { x = 2 y = 1 }
+
+		mountain_artillery_brigade = { x = 3 y = 0 }
+		mountain_artillery_brigade = { x = 3 y = 1 }
+		mountain_artillery_brigade = { x = 3 y = 2 }
+		anti_tank_brigade =  { x = 3 y = 3 }
+	}
+	support = {
+       	DIV_HQ = { x = 0 y = 0 }
+		engineer = { x = 0 y = 1 }
+		recon_cav = { x = 0 y = 2 }
+		field_hospital = { x = 1 y = 0 }
+		logistics_company = { x = 1 y = 1 }
+	}
+				}
+				random_owned_controlled_state = {
+					prioritize = { 111 }
+					create_unit = {
+						division = "name = \"1st Nordic Volunteers\" division_template = \"Nordic Volunteer Corps\" start_experience_factor = 0.3 start_equipment_factor = 1.0" 
+						owner = FIN
+					}	
+				}
+			}
+			}
+			else_if = { limit = { NOT = { has_country_flag = DEN_volunteer } NOT = { has_country_flag = NOR_volunteer } }
+		custom_effect_tooltip = Nordic_div3_tt
+			hidden_effect = {	
+				division_template = {
+					name = "Nordic Volunteer Corps"
+					priority = 1
+		
+					regiments = {
+		mountaineers = { x = 0 y = 0 }
+		mountaineers = { x = 0 y = 1 }
+		mountaineers = { x = 0 y = 2 }
+
+      	mountaineers = { x = 1 y = 0 }
+		mountaineers = { x = 1 y = 1 }
+
+		mountain_artillery_brigade = { x = 2 y = 0 }
+		mountain_artillery_brigade = { x = 2 y = 1 }
+		anti_tank_brigade =  { x = 2 y = 2 }
+	}
+	support = {
+       	DIV_HQ = { x = 0 y = 0 }
+		engineer = { x = 0 y = 1 }
+		recon_cav = { x = 0 y = 2 }
+		field_hospital = { x = 1 y = 0 }
+		logistics_company = { x = 1 y = 1 }
+	}
+				}
+				random_owned_controlled_state = {
+					prioritize = { 111 }
+					create_unit = {
+						division = "name = \"1st Nordic Volunteers\" division_template = \"Nordic Volunteer Corps\" start_experience_factor = 0.3 start_equipment_factor = 1.0" 
+						owner = FIN
+					}	
+				}
+			}
+			}
+			}
+			else_if = {
+			limit = {
+				NOT = { has_tech = tech_mountaineers }
+			}
+			if = { limit = { has_country_flag = DEN_volunteer has_country_flag = NOR_volunteer }
+		custom_effect_tooltip = Nordic_div11_tt
+			hidden_effect = {	
+				division_template = {
+					name = "Nordic Volunteer Corps"
+					priority = 1
+		
+					regiments = {
+		light_infantry = { x = 0 y = 0 }
+		light_infantry = { x = 0 y = 1 }
+		light_infantry = { x = 0 y = 2 }
+
+      	light_infantry = { x = 1 y = 0 }
+		light_infantry = { x = 1 y = 1 }
+		light_infantry = { x = 1 y = 2 }
+
+       	light_infantry = { x = 2 y = 0 }
+		light_infantry = { x = 2 y = 1 }
+
+		mountain_artillery_brigade = { x = 3 y = 0 }
+		mountain_artillery_brigade = { x = 3 y = 1 }
+		mountain_artillery_brigade = { x = 3 y = 2 }
+		anti_tank_brigade =  { x = 3 y = 3 }
+	}
+	support = {
+       	DIV_HQ = { x = 0 y = 0 }
+		engineer = { x = 0 y = 1 }
+		recon_cav = { x = 0 y = 2 }
+		field_hospital = { x = 1 y = 0 }
+		logistics_company = { x = 1 y = 1 }
+	}
+				}
+				random_owned_controlled_state = {
+					prioritize = { 111 }
+					create_unit = {
+						division = "name = \"1st Nordic Volunteers\" division_template = \"Nordic Volunteer Corps\" start_experience_factor = 0.3 start_equipment_factor = 1.0" 
+						owner = FIN
+					}	
+				}
+			}
+			}
+			else_if = { limit = { OR = { has_country_flag = DEN_volunteer has_country_flag = NOR_volunteer } }
+		custom_effect_tooltip = Nordic_div22_tt
+			hidden_effect = {	
+				division_template = {
+					name = "Nordic Volunteer Corps"
+					priority = 1
+		
+					regiments = {
+		light_infantry = { x = 0 y = 0 }
+		light_infantry = { x = 0 y = 1 }
+
+      	light_infantry = { x = 1 y = 0 }
+		light_infantry = { x = 1 y = 1 }
+
+       	light_infantry = { x = 2 y = 0 }
+		light_infantry = { x = 2 y = 1 }
+
+		mountain_artillery_brigade = { x = 3 y = 0 }
+		mountain_artillery_brigade = { x = 3 y = 1 }
+		mountain_artillery_brigade = { x = 3 y = 2 }
+		anti_tank_brigade =  { x = 3 y = 3 }
+	}
+	support = {
+       	DIV_HQ = { x = 0 y = 0 }
+		engineer = { x = 0 y = 1 }
+		recon_cav = { x = 0 y = 2 }
+		field_hospital = { x = 1 y = 0 }
+		logistics_company = { x = 1 y = 1 }
+	}
+				}
+				random_owned_controlled_state = {
+					prioritize = { 111 }
+					create_unit = {
+						division = "name = \"1st Nordic Volunteers\" division_template = \"Nordic Volunteer Corps\" start_experience_factor = 0.3 start_equipment_factor = 1.0" 
+						owner = FIN
+					}	
+				}
+			}
+			}
+			else_if = { limit = { NOT = { has_country_flag = DEN_volunteer } NOT = { has_country_flag = NOR_volunteer } }
+		custom_effect_tooltip = Nordic_div33_tt
+			hidden_effect = {	
+				division_template = {
+					name = "Nordic Volunteer Corps"
+					priority = 1
+		
+					regiments = {
+		light_infantry = { x = 0 y = 0 }
+		light_infantry = { x = 0 y = 1 }
+		light_infantry = { x = 0 y = 2 }
+
+      	light_infantry = { x = 1 y = 0 }
+		light_infantry = { x = 1 y = 1 }
+
+		mountain_artillery_brigade = { x = 2 y = 0 }
+		mountain_artillery_brigade = { x = 2 y = 1 }
+		anti_tank_brigade =  { x = 2 y = 2 }
+	}
+	support = {
+       	DIV_HQ = { x = 0 y = 0 }
+		engineer = { x = 0 y = 1 }
+		recon_cav = { x = 0 y = 2 }
+		field_hospital = { x = 1 y = 0 }
+		logistics_company = { x = 1 y = 1 }
+	}
+				}
+				random_owned_controlled_state = {
+					prioritize = { 111 }
+					create_unit = {
+						division = "name = \"1st Nordic Volunteers\" division_template = \"Nordic Volunteer Corps\" start_experience_factor = 0.3 start_equipment_factor = 1.0" 
+						owner = FIN
+					}	
+				}
+			}
+			}
+			}
+        }
+}
+
+country_event = {
+	id = finland.6
+	title = finland.6.t
+	desc = finland.6.d
+	picture = GFX_report_event_finnish_soldiers_snow
+	
+	is_triggered_only = yes
+
+	option = {
+		name = finland.6.a
+	}
+}
+
+#Surrender when Soviet has taken too much land
+country_event = {
+	id = finland.7
+	title = finland.7.t
+	desc = finland.7.d
+	picture = GFX_report_event_soviet_tanks_snow
+	
+	trigger = {
+		tag = FIN
+		has_war_with = SOV
+		OR = {  surrender_progress > 0.15  SOV = { controls_state = 111 } SOV = { controls_state = 149 }SOV = { controls_state = 146 } FIN = { casualties > 100000 } }
+		has_civil_war = no
+		is_in_faction = no
+		NOT = { has_global_flag = winterwar }
+	}
+	
+	immediate = { remove_ideas = FIN_perkele_AI remove_ideas = FIN_perkele }
+
+
+	fire_only_once = yes
+
+	#Surrender and offer territory
+	option = {
+		name = finland.7.a
+		ai_chance = {
+			base = 75    # Added to Historical Mod
+		}
+		SOV = {
+			country_event = { id = finland.8 }
+		}
+		custom_effect_tooltip = finland.7.a_tt
+		effect_tooltip = {
+			SOV = { 
+				white_peace = {
+					tag = FIN 
+					message = FIN_agree_peace 
+				} 
+			}
+			transfer_state = 146
+			transfer_state = 147
+		}
+	}
+
+	#Never give up!
+	option = {
+		name = finland.7.b
+		trigger= {
+		NOT = {
+		has_game_rule = {
+				rule = must_hist_winterwar
+				option = block
+
+			}
+			}
+			}
+		ai_chance = {
+			base = 0
+		}
+	}
+	
+	#Surrender and offer a lot of territory
+	option = {
+		name = finland.7.c
+		ai_chance = {
+			base = 0    
+		}
+		SOV = {
+			country_event = { id = finland.88 }
+		}
+		custom_effect_tooltip = finland.7.a_tt
+		effect_tooltip = {
+			SOV = { 
+				white_peace = {
+					tag = FIN 
+					message = FIN_agree_peace 
+				} 
+			}
+			transfer_state = 146
+			transfer_state = 147
+			transfer_state = 722
+		}
+	}
+}
+
+#Soviet response to Finish surrender
+country_event = {
+	id = finland.8
+	title = finland.8.t
+	desc = finland.8.d
+	picture = GFX_report_event_soviet_finnish_pact
+	
+	is_triggered_only = yes
+	
+	immediate = {
+	if = { limit = {
+	has_game_rule = {
+				rule = must_hist_winterwar
+				option = block
+
+			}
+		}
+		white_peace = FIN
+		if = { limit = { SWE = { has_war_with = SOV } }
+		       white_peace = SWE  # also add for other countries that might have helped?
+		}
+		transfer_state = 146
+		transfer_state = 147
+		set_global_flag = winterwar
+		
+		}
+	}
+
+	#Accept surrender
+	option = {
+		name = finland.8.a
+		ai_chance = {
+			base = 75  # added for Historical Mod
+		}		
+		if = { limit = {
+	NOT = { has_game_rule = {
+				rule = must_hist_winterwar
+				option = block
+
+			}
+		} }
+		white_peace = FIN
+		if = { limit = { SWE = { has_war_with = SOV } }
+		       white_peace = SWE  # also add for other countries that might have helped?
+		}
+		transfer_state = 146
+		transfer_state = 147
+		set_global_flag = winterwar
+		}
+		
+		if = { limit = {
+	has_game_rule = {
+				rule = must_hist_winterwar
+				option = block
+
+			}
+		}
+		effect_tooltip = {
+		white_peace = FIN
+		if = { limit = { SWE = { has_war_with = SOV } }
+		       white_peace = SWE  # also add for other countries that might have helped?
+		}
+		transfer_state = 146
+		transfer_state = 147
+		set_global_flag = winterwar
+		FIN = { 
+		add_ideas = FIN_refuge
+		FIN_loan_increase = yes
+		}
+		
+		}
+		}
+	    hidden_effect = { FIN = { country_event = { id = finland.10 } } }
+	}
+
+	#Take it all
+	option = {
+		name = finland.8.b
+                trigger= {
+		NOT = {
+		has_game_rule = {
+				rule = must_hist_winterwar
+				option = block
+
+			}
+			}
+			}
+		ai_chance = {
+			base = 1
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}			
+		}
+		effect_tooltip = {
+		FIN = { 
+		add_ideas = FIN_refuge
+		FIN_loan_increase = yes
+		}
+		}
+		FIN = { country_event = { id = finland.9 } }
+	}
+}
+
+#Soviet response to Finish surrender
+country_event = {
+	id = finland.88
+	title = finland.8.t
+	desc = finland.8.d
+	picture = GFX_report_event_soviet_finnish_pact
+	
+	is_triggered_only = yes
+
+	#Accept surrender
+	option = {
+		name = finland.8.a
+		ai_chance = {
+			base = 75  # added for Historical Mod
+		}		
+		white_peace = FIN
+		if = { limit = { SWE = { has_war_with = SOV } }
+		       white_peace = SWE  # also add for other countries that might have helped?
+		}
+		transfer_state = 146
+		transfer_state = 147
+		transfer_state = 722
+		effect_tooltip = {
+		FIN = { 
+		add_ideas = FIN_refuge
+		FIN_loan_increase = yes
+		
+		}
+		}
+		set_global_flag = winterwar
+		hidden_effect = { FIN = { country_event = { id = finland.10 } } }
+	}
+
+	#Take it all
+	option = {
+		name = finland.8.b
+		ai_chance = {
+			base = 1
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}			
+		}
+		effect_tooltip = {
+		FIN = { 
+		add_ideas = FIN_refuge
+		FIN_loan_increase = yes
+		}
+		}
+		trigger= {
+		NOT = {
+		has_game_rule = {
+				rule = must_hist_winterwar
+				option = block
+
+			}
+			}
+			}
+		FIN = { country_event = { id = finland.9 } }
+	}
+}
+
+#Soviet says no!
+country_event = {
+	id = finland.9
+	title = finland.9.t
+	desc = finland.9.d
+	picture = GFX_report_event_soviet_tanks_snow
+	
+	is_triggered_only = yes
+
+	option = {
+		name = finland.9.a
+		add_ideas = FIN_refuge
+		FIN_loan_increase = yes
+	}
+}
+#Soviets says yes   historical mod
+country_event = {
+	id = finland.10
+	title = finland.10.t
+	desc = finland.10.d
+	picture = GFX_report_event_soviet_finnish_pact
+	
+	is_triggered_only = yes
+
+	option = {
+		name = finland.10.a
+		hidden_effect = {
+			#add_ideas = neutrality_idea 
+			set_global_flag = first_finish_war_over
+			set_global_flag = winterwar
+		}
+		add_ideas = FIN_refuge
+		FIN_loan_increase = yes
+		remove_ideas = neutrality_war
+	}
+}
+
+country_event = {
+	id = finland.12
+	title = finland.12.t 
+	desc = finland.12.d 
+	picture = GFX_news_event_finnish_flag
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = finland.12.a 
+		ai_chance = { factor = 100 }
+		add_resource = {
+			type = chromium
+			amount = 16
+			state = 722
+		}
+		country_event = {
+			id = finland.13
+			days = 2
+		}
+	}
+	
+	option = {
+		name = finland.12.b
+		ai_chance = { factor = 0 }
+		add_resource = {
+			type = chromium
+			amount = 8
+			state = 722
+		}
+		add_timed_idea = {
+			idea = FIN_prod
+			days = 365
+		}
+		country_event = {
+			id = finland.13
+			days = 2
+		}
+	}
+}
+
+country_event = {
+	id = finland.13
+	title = finland.13.t 
+	desc = finland.13.d 
+	picture = FIN_petsamo
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = finland.13.a 
+		ai_chance = { factor = 0 }
+		GER = {
+			add_resource = {
+				type = chromium
+				amount = 8				
+				state = 58
+			}
+		}
+		SOV = {
+			country_event = {
+				id = finland.14
+				days = 5
+			}
+		}
+	}
+	
+	option = {
+		name = finland.13.b
+		ai_chance = { factor = 0 }
+		SOV = {
+			add_resource = {
+				type = chromium
+				amount = 8
+				state = 722
+			}
+		}
+		GER = {
+			country_event = {
+				id = finland.14
+				days = 5
+			}
+		}
+		
+	}
+	
+	option = {
+		name = finland.13.c
+		ai_chance = { factor = 100 }
+	}
+}
+
+country_event = {
+	id = finland.15
+	title = finland.15.t 
+	desc = finland.15.d 
+	picture = FIN_sweden
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = finland.15.a 
+		ai_chance = { factor = 100 }
+		give_guarantee = FIN
+		give_military_access = FIN
+		FIN = {
+			give_guarantee = SWE
+			give_military_access = SWE
+			add_opinion_modifier = { target = SWE modifier = HUN_trade_deal_with_germany }
+		}
+		diplomatic_relation = {
+			country = FIN
+			relation = non_aggression_pact
+			active = yes
+		}
+		add_opinion_modifier = { target = FIN modifier = HUN_trade_deal_with_germany }
+	}
+	
+	option = {
+		name = finland.15.b
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = finland.14
+	title = finland.14.t 
+	desc = finland.14.d 
+	picture = FIN_petsamo
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = finland.14.a 
+		ai_chance = { factor = 0 }
+		declare_war_on = {
+			target = FROM
+			type = annex_everything
+		}
+	}
+	
+	option = {
+		name = finland.14.b
+		ai_chance = { factor = 100 }
+		add_opinion_modifier = {
+			target = FIN
+			modifier = faction_traitor
+		}
+	}
+}
+# Invitation to Finnish Faction
+country_event = {
+	id = finland.17
+	title = finland.17.t
+	desc = finland.17.d
+	picture = GFX_report_event_finnish_flag
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = finland.17.a
+		ai_chance = { factor = 90 }
+		FIN = {
+			country_event = finland.18
+			add_to_faction = ROOT
+			
+			ROOT = {
+			remove_ideas = neutrality_idea
+			}
+		}
+	}
+
+	option = {
+		name = finland.17.b
+		ai_chance = { factor = 10 }
+		FIN = { country_event = finland.19 }
+	}
+}
+
+# [Country] Accepts
+country_event = {
+	id = finland.18
+	title = finland.18.t
+	desc = finland.18.d
+	picture = GFX_report_event_soviet_finnish_pact
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = finland.18.a
+		effect_tooltip = {
+			add_to_faction = FROM
+		}
+	}
+}
+
+# [Country] Refuses
+country_event = {
+	id = finland.19
+	title = finland.19.t
+	desc = finland.19.d
+	picture = GFX_report_event_finnish_stug40
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = finland.19.a
+	}
+}
+
+
+# Finland - Britain accepts Ally request
+country_event = {
+	id = finland.29
+	title = finland.29.t
+	desc = finland.29.d
+	picture = GFX_report_event_chamberlain
+
+	is_triggered_only = yes
+
+	option = {
+		name = finland.29.a
+	}
+}
+
+# Finland - Britain denies Ally request
+country_event = {
+	id = finland.30
+	title = finland.30.t
+	desc = finland.30.d
+	picture = GFX_report_event_soviet_finnish_pact
+
+	is_triggered_only	= yes
+
+	option = {
+		name = finland.30.a
+	}
+}
+
+# Finland - Germany accepts Axis request
+country_event = {
+	id = finland.31
+	title = finland.31.t
+	desc = finland.31.d
+	picture = GFX_report_event_german_finnish_alliance
+
+	is_triggered_only	= yes
+
+	option = {
+		name = finland.31.a
+	}
+}
+
+# Finland - Germany denies Axis request
+country_event = {
+	id = finland.32
+	title = finland.32.t
+	desc = finland.32.d
+	picture = GFX_report_event_finnish_flag
+
+	is_triggered_only	= yes
+
+	option = {
+		name = finland.32.a
+	}
+}
+
+
+# Finland - Soviet accepts Comintern request
+country_event = {
+	id = finland.33
+	title = finland.33.t
+	desc = finland.33.d
+	picture = GFX_report_event_stalin_01
+
+	is_triggered_only	= yes
+
+	option = {
+		name = finland.33.a
+	}
+}
+
+# Finland - Soviet denies Comintern request
+country_event = {
+	id = finland.34
+	title = finland.34.t
+	desc = finland.34.d
+	picture = GFX_report_event_stalin_01
+
+	is_triggered_only	= yes
+
+	option = {
+		name = finland.34.a
+	}
+}
+
+# ------------------------------------
+
+# Finland wants to join allies
+country_event = {
+	id = finland.25
+	title = finland.25.t
+	desc = finland.25.d
+	picture = GFX_report_event_degaulle_churchill
+
+	is_triggered_only = yes
+	
+	option = {
+		name = finland.25.a
+		add_to_faction = FROM
+		FROM = { country_event = { id = finland.29} }
+		hidden_effect = {
+			news_event = { id = finland.920 }
+		}
+	}
+	
+	option = {
+		name = finland.25.b
+		ai_chance = { factor = 0 }
+		FROM = { 
+			country_event = { id = finland.30 }
+		}
+		hidden_effect = {
+			news_event = { id = finland.921 }
+		}
+	}
+}
+
+# Finland wants to join axis
+country_event = {
+	id = finland.333
+	title = finland.333.t
+	desc = finland.333.d
+	picture = GFX_report_event_german_finnish_alliance
+
+	is_triggered_only = yes
+	
+	option = {
+		name = finland.333.a
+		add_to_faction = FROM
+		FROM = { country_event = { id = finland.31} }
+		hidden_effect = {
+			news_event = { id = finland.928 }
+		}
+	}
+	
+	option = {
+		name = finland.333.b
+		ai_chance = { factor = 0 }
+		FROM = { 
+			country_event = { id = finland.32 }
+		}
+		hidden_effect = {
+			news_event = { id = finland.929 }
+		}
+	}
+}
+
+
+# Finland wants to join commitern
+country_event = {
+	id = finland.355
+	title = finland.355.t
+	desc = finland.355.d
+	picture = GFX_report_event_stalin_02
+
+	is_triggered_only = yes
+	
+	option = {
+		name = finland.355.a
+		add_to_faction = FROM
+		FROM = { country_event = { id = finland.33} }
+		
+		country_event = { id = finland.356}
+		
+		hidden_effect = {
+			news_event = { id = finland.998 }
+		}
+	}
+	
+	option = {
+		name = finland.355.b
+		ai_chance = { factor = 0 }
+		FROM = { 
+			country_event = { id = finland.34 }
+		}
+		hidden_effect = {
+			news_event = { id = finland.999 }
+		}
+	}
+}
+
+# Karjala Deal
+country_event = {
+	id = finland.356
+	title = finland.356.t
+	desc = finland.356.d
+	picture = GFX_report_event_stalin_02
+
+	is_triggered_only = yes
+	
+	option = {
+		name = finland.356.a
+		
+		          add_state_core = 215
+            FIN = { transfer_state = 215 }
+           
+			
+            add_state_core = 213
+            FIN = { transfer_state = 213 }
+            
+   
+   
+            SOV = {
+				add_state_core = 146
+            }
+            
+            SOV = { transfer_state = 146 }
+            
+            
+		
+	
+	}
+}
+
+
+#Finland joins Britain
+news_event = {
+	id = finland.920
+	title = finland.920.t
+	picture = GFX_news_event_churchill_degaulle
+	desc = finland.920.d
+
+	major = yes
+
+	is_triggered_only = yes
+
+	#We stand together.
+	option = {
+		name = finland.920.a
+		trigger = {
+			OR = {
+				tag = ENG
+				tag = FIN
+			}
+		}
+	}
+
+	#They are preparing for the worst.
+	option = {
+		name = finland.920.b
+		trigger = {
+			FIN = {
+				has_war = no
+			}
+			NOT = {
+				OR = {
+					tag = FIN
+					tag = ENG
+					tag = GER
+				}
+			}
+		}
+	}
+
+	#Banding together like cornered rats.
+	option = {
+		name = finland.920.c
+		trigger = {
+			OR = {
+				tag = GER
+				has_war_with = FIN
+			}
+		}
+	}
+
+	#Britain has thrown in their lot.
+	option = {
+		name = finland.920.e
+		trigger = {
+			FIN = {
+				has_war = yes
+			}
+			NOT = {
+				has_war_with = FIN
+			}
+			NOT = {
+				OR = {
+					tag = FIN
+					tag = ENG
+					tag = GER
+				}
+			}
+		}
+	}
+}
+
+
+
+#Britain rejects Finnish alliance
+news_event = {
+	id = finland.921
+	title = finland.921.t
+	picture = GFX_news_event_finnish_flag
+	desc = finland.921.d
+
+	major = yes
+
+	is_triggered_only = yes
+
+	fire_for_sender = no
+
+	#They should have asked more nicely.
+	option = {
+		name = finland.921.a
+		trigger = {
+			tag = ENG
+		}
+	}
+
+	#Our old enemies stand divided.
+	option = {
+		name = finland.921.b
+		trigger = {
+			tag = GER
+		}
+	}
+
+	#A dark day for the old allies.
+	option = {
+		name = finland.921.b
+		trigger = {
+			NOT = {
+				OR = {
+					tag = ENG
+					tag = GER
+				}
+			}
+		}
+	}
+}
+
+
+#Finland joins Germany
+news_event = {
+	id = finland.928
+	title = finland.928.t
+	picture = GFX_news_event_german_finnish_alliance
+	desc = finland.928.d
+
+	major = yes
+
+	is_triggered_only = yes
+
+	#We stand together.
+	option = {
+		name = finland.928.a
+		trigger = {
+			OR = {
+				tag = GER
+				tag = FIN
+			}
+		}
+	}
+
+	#They are preparing for the worst.
+	option = {
+		name = finland.928.b
+		trigger = {
+			FIN = {
+				has_war = no
+			}
+			NOT = {
+				OR = {
+					tag = FIN
+					tag = ENG
+					tag = GER
+				}
+			}
+		}
+	}
+
+	#Banding together like cornered rats.
+	option = {
+		name = finland.928.c
+		trigger = {
+			OR = {
+				tag = SOV
+				has_war_with = FIN
+			}
+		}
+	}
+
+	#Britain has thrown in their lot.
+	option = {
+		name = finland.928.e
+		trigger = {
+			FIN = {
+				has_war = yes
+			}
+			NOT = {
+				has_war_with = FIN
+			}
+			NOT = {
+				OR = {
+					tag = FIN
+					tag = ENG
+					tag = GER
+				}
+			}
+		}
+	}
+}
+
+
+
+#Britain rejects Finnish alliance
+news_event = {
+	id = finland.929
+	title = finland.929.t
+	picture = GFX_news_event_finnish_flag
+	desc = finland.929.d
+
+	major = yes
+
+	is_triggered_only = yes
+
+	fire_for_sender = no
+
+	#They should have asked more nicely.
+	option = {
+		name = finland.929.a
+		trigger = {
+			tag = GER
+		}
+	}
+
+	#Our old enemies stand divided.
+	option = {
+		name = finland.921.b
+		trigger = {
+			tag = SWE
+		}
+	}
+
+	#A dark day for the old allies.
+	option = {
+		name = finland.921.b
+		trigger = {
+			NOT = {
+				OR = {
+				
+					tag = VEN
+				}
+			}
+		}
+	}
+}
+
+
+
+#The Second Kalmar Union
+news_event = {
+	id = finland.922
+	title = finland.922.t
+	desc = finland.922.d
+	picture = GFX_news_event_finnish_flag
+
+	major = yes
+
+	is_triggered_only = yes
+
+	#Don't come crying to us later, then!
+	option = {
+		name = finland.922.a
+		trigger = {
+			tag = ENG
+		}
+	}
+
+	#Vive la France!
+	option = {
+		name = finland.922.b
+		trigger = {
+			tag = FIN
+			tag = SWE
+		}
+	}
+
+	#We must never again let France have hegemony in Europe.
+	option = {
+		name = finland.922.c
+		trigger = {
+			OR = {
+				tag = GER
+				tag = ITA
+				AND = {
+					original_tag = SPR
+					has_government = fascism
+				}
+				tag = SOV
+			}
+		}
+	}
+
+	#Europe must unite against Fascist aggressors!
+	option = {
+		name = finland.922.e
+		trigger = {
+			tag = SWE
+			NOT = {
+				has_government = fascism
+				has_government = communism
+			}
+		}
+	}
+
+	#European tension is growing.
+	option = {
+		name = finland.922.f
+		trigger = {
+			NOT = {
+				tag = GER
+				tag = ITA
+				tag = SOV
+				AND = {
+					original_tag = SPR
+					NOT = {
+						has_government = fascism
+					}
+				}
+				tag = FRA
+				tag = ENG
+				AND = {
+					tag = CZE
+					has_government = fascism
+				}
+			}
+		}
+	}
+}
+
+#Finland Announces Claims On Estonian Territory
+news_event = {
+	id = finland.952
+	title = finland.952.t
+	desc = finland.952.d
+	picture = GFX_news_event_swedish_soldier
+
+	major = yes
+
+	is_triggered_only = yes
+
+	#Those are Estonian lands, not Finnish!
+	option = {
+		name = finland.952.a
+		trigger = {
+			tag = EST
+		}
+	}
+
+	#They are upsetting the already fragile balance in the region.
+	option = {
+		name = finland.952.b
+		trigger = {
+			NOT = {
+				OR = {
+					tag = EST
+					tag = FIN
+				}
+			}
+			NOT = {
+				has_government = fascism
+			}
+		}
+	}
+
+	#Those territories seem more Finnish than Estonian.
+	option = {
+		name = finland.952.c
+		trigger = {
+			NOT = {
+				OR = {
+					tag = EST
+				}
+			}
+			OR = {
+			has_government = fascism
+			tag = FIN
+			}
+		}
+	}
+}
+
+
+#Finland joins Comintern
+news_event = {
+	id = finland.998
+	title = finland.998.t
+	picture = GFX_news_event_stalin
+	desc = finland.998.d
+
+	major = yes
+
+	is_triggered_only = yes
+
+	#We stand together.
+	option = {
+		name = finland.998.a
+		trigger = {
+			OR = {
+				tag = SOV
+				tag = FIN
+			}
+		}
+	}
+
+	#They are preparing for the worst.
+	option = {
+		name = finland.998.b
+		trigger = {
+			FIN = {
+				has_war = no
+			}
+			NOT = {
+				OR = {
+					tag = FIN
+					tag = SOV
+					tag = GER
+				}
+			}
+		}
+	}
+
+	#Banding together like cornered rats.
+	option = {
+		name = finland.998.c
+		trigger = {
+			OR = {
+				tag = GER
+				has_war_with = FIN
+			}
+		}
+	}
+
+	#The USSR has thrown in their lot.
+	option = {
+		name = finland.998.e
+		trigger = {
+			GER = {
+				has_war = yes
+			}
+			NOT = {
+				has_war_with = FIN
+			}
+			NOT = {
+				OR = {
+					tag = FIN
+					tag = SOV
+					tag = GER
+				}
+			}
+		}
+	}
+}
+
+
+
+#Britain rejects Finnish alliance
+news_event = {
+	id = finland.999
+	title = finland.999.t
+	picture = GFX_news_event_finnish_flag
+	desc = finland.999.d
+
+	major = yes
+
+	is_triggered_only = yes
+
+	fire_for_sender = yes
+
+	#They should have asked more nicely.
+	option = {
+		name = finland.999.a
+		trigger = {
+			tag = SOV
+		}
+	}
+
+	#Our enemies stand divided.
+	option = {
+		name = finland.999.b
+		trigger = {
+			tag = GER
+		}
+	}
+
+	#A dark day for the revolution.
+	option = {
+		name = finland.999.b
+		trigger = {
+			NOT = {
+				OR = {
+					tag = SOV
+				}
+			}
+		}
+	}
+}
+
+#mannerheim line 
+country_event = {
+	id = finland.100
+	title = finland.100.t 
+	desc = finland.100.d 
+	picture = GFX_FIN_mannerheim
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = finland.100.a 
+		ai_chance = { factor = 100 }
+		if = { 
+			limit = { 
+				FIN = { controls_state = 146 } 
+				FIN = { is_ai = no }
+			}
+			146 = {
+				add_building_construction = {
+					type = bunker
+					level = 1
+					province = 9100
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 1
+					province = 9105
+					instant_build = yes
+				}
+			}
+		}
+		if = { 
+			limit = { 
+				FIN = { controls_state = 146 } 
+				FIN = { is_ai = yes }
+			}
+			146 = {
+				add_building_construction = {
+					type = bunker
+					level = 1
+					province = 3060
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 1
+					province = 9150
+					instant_build = yes
+				}
+			}
+		}
+		hidden_effect = {
+			country_event = {
+				id = finland.101
+				days = 365
+			}
+			news_event = {
+				id = finland.104
+				days = 1
+			}
+		}
+	}
+}
+
+country_event = {
+	id = finland.101
+	title = finland.100.t 
+	desc = finland.100.d 
+	picture = GFX_FIN_mannerheim
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = finland.100.a 
+		ai_chance = { factor = 100 }
+		if = { 
+			limit = { 
+				FIN = { controls_state = 146 } 
+				FIN = { is_ai = no }
+			}
+			146 = {
+				add_building_construction = {
+					type = bunker
+					level = 1
+					province = 9100
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 1
+					province = 9105
+					instant_build = yes
+				}
+			}
+		}
+		if = { 
+			limit = { 
+				FIN = { controls_state = 146 } 
+				FIN = { is_ai = yes }
+			}
+			146 = {
+				add_building_construction = {
+					type = bunker
+					level = 1
+					province = 3060
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 1
+					province = 9150
+					instant_build = yes
+				}
+			}
+		}
+		hidden_effect = {
+			country_event = {
+				id = finland.102
+				days = 180
+			}
+		}
+		
+	}
+}
+
+country_event = {
+	id = finland.102
+	title = finland.100.t 
+	desc = finland.100.d 
+	picture = GFX_FIN_mannerheim
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = finland.100.a 
+		ai_chance = { factor = 100 }
+		if = { 
+			limit = { 
+				FIN = { controls_state = 146 } 
+				FIN = { is_ai = no }
+			}
+			146 = {
+				add_building_construction = {
+					type = bunker
+					level = 1
+					province = 9100
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 1
+					province = 9105
+					instant_build = yes
+				}
+			}
+		}
+		if = { 
+			limit = { 
+				FIN = { controls_state = 146 } 
+				FIN = { is_ai = yes }
+			}
+			146 = {
+				add_building_construction = {
+					type = bunker
+					level = 1
+					province = 3060
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 1
+					province = 9150
+					instant_build = yes
+				}
+			}
+		}
+		hidden_effect = {
+			country_event = {
+				id = finland.103
+				days = 180
+			}
+		}
+		
+	}
+}
+
+country_event = {
+	id = finland.103
+	title = finland.100.t 
+	desc = finland.100.d 
+	picture = GFX_FIN_mannerheim
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = finland.100.a
+		ai_chance = { factor = 100 }
+		if = { 
+			limit = { 
+				FIN = { controls_state = 146 } 
+				FIN = { is_ai = no }
+			}
+			146 = {
+				add_building_construction = {
+					type = bunker
+					level = 1
+					province = 9100
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 1
+					province = 9105
+					instant_build = yes
+				}
+			}
+		}
+		if = { 
+			limit = { 
+				FIN = { controls_state = 146 } 
+				FIN = { is_ai = yes }
+			}
+			146 = {
+				add_building_construction = {
+					type = bunker
+					level = 1
+					province = 3060
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 1
+					province = 9150
+					instant_build = yes
+				}
+			}
+		}
+		hidden_effect = {
+			country_event = {
+				id = finland.108
+				days = 365
+			}
+		}		
+	}
+}
+
+country_event = {
+	id = finland.108
+	title = finland.100.t 
+	desc = finland.100.d 
+	picture = GFX_FIN_mannerheim
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = finland.100.a
+		ai_chance = { factor = 100 }
+		if = { 
+			limit = { 
+				FIN = { controls_state = 146 } 
+				FIN = { is_ai = no }
+			}
+			146 = {
+				add_building_construction = {
+					type = bunker
+					level = 1
+					province = 9100
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 1
+					province = 9105
+					instant_build = yes
+				}
+			}
+		}
+		if = { 
+			limit = { 
+				FIN = { controls_state = 146 } 
+				FIN = { is_ai = yes }
+			}
+			146 = {
+				add_building_construction = {
+					type = bunker
+					level = 1
+					province = 3060
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 1
+					province = 9150
+					instant_build = yes
+				}
+			}
+		}		
+	}
+}
+
+news_event = {
+    id = finland.104
+    title = finland.104.t
+    desc = finland.100.d
+    picture = GFX_news_event_011
+	
+	is_triggered_only = yes
+	
+	major = yes
+
+    #Finnish response
+    option = {
+        name = finland.104.a
+        trigger = {
+            tag = FIN
+        }
+    }
+
+    #Global Response
+    option = {
+        name = finland.104.b
+        trigger = {
+            NOT = {
+                tag = FIN
+				tag = SOV
+            }
+        }
+	}
+	
+	option = {
+        name = finland.104.c
+        trigger = {
+            original_tag = SOV
+        }
+	}
+}
+
+country_event = {
+	id = finland.105
+	title = finland.105.t 
+	desc = finland.105.d 
+	picture = GFX_news_event_finnish_flag
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		tag = FIN
+		date > 1936.06.01
+		date < 1937.01.01
+	}
+	
+	option = {
+		name = finland.105.a
+		ai_chance = { factor = 100 }
+		add_political_power = 25
+		add_popularity = {
+			ideology = fascism
+			popularity = -0.1
+		}
+		hidden_effect = {
+			set_country_flag = FIN_election1936
+			set_global_flag = FIN_democratic_win
+		}
+	}
+	option = {
+		name = finland.105.b
+		ai_chance = { factor = 0 }
+		add_stability = -0.12
+		swap_ideas = {
+			add_idea = FIN_lowfascist2
+			remove_idea = FIN_lowfascist
+		}
+		add_timed_idea = {
+			idea = FIN_aftermath
+			days = 30
+		}
+		hidden_effect = {
+			set_country_flag = FIN_election1936
+			set_global_flag = FIN_fascism_election
+		}
+	}
+}
+
+country_event = {
+	id = finland.106
+	title = finland.106.t 
+	desc = finland.106.d 
+	picture = GFX_news_event_finnish_flag
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = finland.106.a
+		ai_chance = { factor = 100 }
+		add_political_power = 50
+		FIN = {
+			add_tech_bonus = {
+			    name = armor_bonus
+				bonus = 0.5
+				uses = 1
+				category = armor
+			}
+			add_tech_bonus = {
+			    name = construction_tech_bonus
+				bonus = 0.5
+				uses = 1
+				category = construction_tech
+			}
+			add_political_power = 30
+			add_popularity = {
+		        ideology = fascism
+		         popularity = 0.04
+		    }
+		}
+		news_event = {
+			id = finland.107
+			days = 1
+		}
+		add_opinion_modifier = { target = FIN modifier = medium_increase }
+	}
+	
+	option = {
+		name = finland.106.b
+		ai_chance = { factor = 0 }
+		hidden_effect = {
+			set_global_flag = FIN_germantreaty_no
+		}
+	}
+}
+
+news_event = {
+    id = finland.107
+    title = finland.107.t
+    desc = finland.107.d
+    picture = GFX_FIN_gertreaty2
+	
+	is_triggered_only = yes
+	
+	major = yes
+
+    #Finnish response
+    option = {
+        name = finland.107.a
+        trigger = {
+            tag = FIN
+        }
+    }
+
+    #Global Response
+    option = {
+        name = finland.107.b
+        trigger = {
+            NOT = {
+                tag = FIN
+				tag = SOV
+            }
+        }
+	}
+	
+	option = {
+        name = finland.107.c
+        trigger = {
+            original_tag = SOV
+        }
+	}
+}
+
+country_event = {
+	id = finland.109
+	title = finland.108.t 
+	desc = finland.108.d 
+	picture = GFX_FIN_influx
+	
+	trigger = {
+		has_global_flag = FIN_investbaltic
+		or = {
+			EST = { exists = yes }
+			LIT = { exists = yes }
+			LAT = { exists = yes }
+		}
+		tag = FIN
+	}
+	
+	mean_time_to_happen = { days = 1 }
+	
+	fire_only_once = yes
+	
+	option = {
+		name = finland.108.a
+		ai_chance = { factor = 100 }
+		add_manpower = 25000
+		hidden_effect = {
+			if = { 
+				limit = { 
+					and = {
+						EST = { exists = yes }
+						LIT = { exists = yes }
+						LAT = { exists = yes }
+					}
+				}
+				country_event = {
+					id = finland.110
+					days = 365
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = finland.110
+	title = finland.108.t 
+	desc = finland.108.d 
+	picture = GFX_FIN_influx
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = finland.108.a
+		ai_chance = { factor = 100 }
+		custom_effect_tooltip = FIN_unlock_1_tt
+		hidden_effect = {
+			set_country_flag = FIN_unlock_1
+			if = { 
+				limit = { 
+					and = {
+						EST = { exists = yes }
+						LIT = { exists = yes }
+						LAT = { exists = yes }
+					}
+				}
+				country_event = {
+					id = finland.111
+					days = 365
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = finland.111
+	title = finland.108.t 
+	desc = finland.108.d 
+	picture = GFX_FIN_influx
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = finland.108.a
+		ai_chance = { factor = 100 }
+		custom_effect_tooltip = FIN_unlock_2_tt
+		hidden_effect = {
+			set_country_flag = FIN_unlock_2
+		}
+	}
+}
+
+country_event = {
+	id = finland.112
+	title = finland.112.t 
+	desc = finland.112.d 
+	picture = GFX_FIN_influx
+	
+	trigger = {
+		has_global_flag = FIN_investbaltic
+		and = {
+			EST = { exists = no }
+			LIT = { exists = no }
+			LAT = { exists = no }
+		}
+		tag = FIN
+	}
+	
+	mean_time_to_happen = { days = 1 }
+	
+	fire_only_once = yes
+	
+	option = {
+		name = finland.112.a
+		ai_chance = { factor = 100 }
+		FIN_bread_increase = yes
+	}
+}
+
+news_event = {
+    id = finland.113
+    title = finland.113.t
+    desc = finland.113.d
+    picture = GFX_FIN_swewar
+	
+	is_triggered_only = yes
+	
+	major = yes
+
+    #Finnish response
+    option = {
+        name = finland.113.a
+        trigger = {
+            tag = FIN
+        }
+    }
+
+    #Global Response
+    option = {
+        name = finland.113.b
+        trigger = {
+            NOT = {
+                tag = FIN
+				tag = SWE
+            }
+        }
+	}
+	
+	option = {
+        name = finland.113.c
+        trigger = {
+            original_tag = SWE
+        }
+	}
+}
+
+country_event = {
+	id = finland.114
+	title = finland.114.t 
+	desc = finland.114.d 
+	picture = GFX_report_event_swedish_soldiers2
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		hidden_effect = {
+			set_global_flag = winterwar
+			set_global_flag = winterwar_won
+			FIN = {
+				add_ideas = FIN_won
+				remove_ideas = neutrality_war
+				FIN_loan_increase = yes
+			}
+		}
+		add_war_support = -0.04
+		add_stability = -0.02
+		white_peace = FIN
+		if = {
+			limit = { has_war_with = SWE }
+			white_peace = SWE
+		}
+		news_event = {
+			id = finland.115
+			hours = 1
+		}
+	}
+		
+	
+	option = {
+		name = finland.114.a
+		ai_chance = { factor = 100 }
+		effect_tooltip = {
+			white_peace = FIN
+			if = {
+				limit = { has_war_with = SWE }
+				white_peace = SWE
+			}
+			add_war_support = -0.04
+	    	add_stability = -0.02
+			
+			FIN = {
+				add_ideas = FIN_won
+				remove_ideas = neutrality_war
+				FIN_loan_increase = yes
+			}
+		}	
+	}
+}
+
+news_event = {
+    id = finland.115
+    title = finland.115.t
+    desc = finland.115.d
+    picture = GFX_FIN_swewar
+	
+	is_triggered_only = yes
+	
+	major = yes
+
+    #Finnish response
+    option = {
+        name = finland.115.a
+        trigger = {
+            tag = FIN
+        }
+		
+		effect_tooltip = {
+		    SOV = {
+		    	add_war_support = -0.04
+	        	add_stability = -0.02
+			}
+			
+			add_ideas = FIN_won
+			remove_ideas = neutrality_war
+			FIN_loan_increase = yes
+		}
+    }
+
+    #Global Response
+    option = {
+        name = finland.115.b
+        trigger = {
+            NOT = { 
+			    OR = {
+                tag = FIN
+				tag = SOV
+				}
+            }
+        }
+	}
+	
+	option = {
+        name = finland.115.c
+        trigger = {
+            original_tag = SOV
+        }
+	}
+}
+
+news_event = {
+    id = finland.116
+    title = finland.116.t
+    desc = finland.116.d
+    picture = GFX_winter
+	
+	is_triggered_only = yes
+	
+	major = yes
+	
+	immediate = {
+		hidden_effect = {
+			every_country = {
+				limit = {
+					OR = {
+						original_tag = SOV
+						original_tag = GER
+						original_tag = POL
+						original_tag = ROM
+						original_tag = HUN
+						original_tag = FIN
+						original_tag = SWE
+						original_tag = NOR
+						AND = { original_tag = HOL 7 = { is_controlled_by = HOL } }
+						original_tag = YUG
+						original_tag = TAN
+						original_tag = MON
+						original_tag = CAN
+						original_tag = DEN
+						original_tag = SIK
+						original_tag = XSM
+						original_tag = SHX
+						original_tag = CCP
+						original_tag = MAN
+						original_tag = CZE
+						original_tag = AUS
+						original_tag = MEN
+					}
+				}
+				add_timed_idea = {
+					idea = winter5
+					days = 150
+				}
+				if = {
+					limit = {
+						or = {
+							tag = SOV
+							tag = FIN
+							tag = NOR
+							tag = SWE
+							tag = ICE
+						}
+					}
+					add_timed_idea = {
+						idea = SOV_winterproficiency
+						days = 150
+					}
+				}
+			}
+		}
+	}
+
+    option = {
+        name = finland.116.a
+    }
+
+}
+
+country_event = {
+	id = finland.117
+	title = finland.117.t 
+	desc = finland.117.d 
+	picture = FIN_sweden
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		name = finland.117.a
+		ai_chance = { factor = 100 }
+		add_ideas = FIN_cause
+		hidden_effect = {
+			set_country_flag = FIN_cause_tt
+		}
+	}
+}

@@ -1,0 +1,737 @@
+﻿
+add_namespace = switzerland
+
+country_event = {
+	id = switzerland.1 
+	title = switzerland.1.t
+	desc = switzerland.1.desc 
+	picture = GFX_report_event_hurricane
+	
+	is_triggered_only = yes
+
+	option = {# certainly
+		name = switzerland.1.a
+		ai_chance = {
+			factor = 100
+		}
+		SWI = { country_event = switzerland.2 }
+		add_relation_modifier = {
+			target = SWI
+			modifier = free_license # name is from static_modifiers.txt
+		}
+		if = {
+			limit = {
+				has_tech = fighter1
+				NOT = { has_tech = fighter2 }
+			}
+			create_production_license = {
+				target = SWI
+				equipment = {
+					type = fighter_equipment_1
+					
+				}
+				cost_factor = 0
+			}
+		}
+		if = {
+			limit = {
+				has_tech = fighter2
+				NOT = { has_tech = fighter3 }
+			}
+			create_production_license = {
+				target = SWI 
+				equipment = {
+					type = fighter_equipment_2
+				}
+				cost_factor = 0
+			}
+		}
+		if = {
+			limit = {
+				has_tech = fighter3
+			}
+			create_production_license = {
+				target = SWI 
+				equipment = {
+					type = fighter_equipment_3
+				}
+				cost_factor = 0
+			}
+		}
+	}
+	option = {# no
+		name = switzerland.1.b 
+		ai_chance = {
+			factor = 0
+		}
+		if = {
+			limit = { tag = FRA }
+		}
+		SWI = { country_event = switzerland.3 }
+		reverse_add_opinion_modifier = { target = SWI modifier = refused_help }
+	}
+}	
+country_event = {
+	id = switzerland.2 
+	title = switzerland.2.t
+	desc = switzerland.2.desc 
+	picture = GFX_report_event_hurricane
+	
+	is_triggered_only = yes
+
+	option = {# neat
+		name = switzerland.2.a
+		
+	}
+}
+country_event = {
+	id = switzerland.3 
+	title = switzerland.3.t
+	desc = switzerland.3.desc 
+	picture = GFX_report_event_hurricane
+	
+	is_triggered_only = yes
+
+	option = {# unlucky
+		name = switzerland.3.a
+		
+	}
+}
+country_event = {
+	id = switzerland.4
+	title = switzerland.4.t
+	desc = switzerland.4.desc
+	picture = GFX_report_event_german_halftrack_with_arty_in_city
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {		
+		name = switzerland.4.a		#yes
+		ai_chance = { factor = 100 }
+		
+		hidden_effect = {
+			load_oob = "SWI_4_Army_Korps"
+		}
+	}
+	option = {
+		name = switzerland.4.b		#not needed
+		ai_chance = { factor = 0 }
+	}
+}
+#Switzerland wants to buy planes - event for GER,FRA,ENG,ITA
+country_event = {
+	id = switzerland.5
+	title = switzerland.5.t
+	desc = switzerland.5.desc
+	picture = GFX_report_event_bomber_factory
+	
+	is_triggered_only = yes
+	
+	option = { # send some fighters
+		name = switzerland.5.a
+		ai_chance = {
+			factor = 70
+		}	
+		trigger = {
+			has_equipment = { fighter_equipment > 50 }
+		}
+		send_equipment = {
+			target = SWI
+			type = fighter_equipment
+			amount = 50
+		}
+		add_timed_idea = { idea = SWI_air_payment days = 180 }
+		SWI = {
+			country_event = switzerland.6
+		}
+	}	
+	option = { # send some bombers
+		name = switzerland.5.b
+		ai_chance = {
+			factor = 70
+		}
+		trigger = {
+			has_equipment = { tac_bomber_equipment > 25 }
+		}
+		send_equipment = {
+			target = SWI
+			type = tac_bomber_equipment
+			amount = 25
+		}	
+		add_timed_idea = { idea = SWI_air_payment days = 180 }
+		SWI = {
+			country_event = switzerland.7
+		}
+	}
+
+	option = { # divert some fighters from production
+		name = switzerland.5.d
+		ai_chance = {
+			factor = 70
+		}	
+		trigger = {
+			NOT = { has_equipment = { fighter_equipment > 50 } }
+		}
+		add_timed_idea = { idea = SWI_air_payment days = 180 }
+		add_timed_idea = { idea = SWI_fighter_production_diverted days = 120 }
+		SWI = {
+			country_event = switzerland.8
+		}
+	}
+
+	option = { # divert some bombers from production
+		name = switzerland.5.e
+		ai_chance = {
+			factor = 70
+		}
+		trigger = {
+			NOT = { has_equipment = { tac_bomber_equipment > 25 } }
+		}
+		add_timed_idea = { idea = SWI_air_payment days = 180 }
+		add_timed_idea = { idea = SWI_bomber_production_diverted days = 120 }
+		SWI = {
+			country_event = switzerland.9
+		}
+	}
+	option = { # no
+		name = switzerland.5.c
+		ai_chance = {
+			factor = 30
+		}	
+	}	
+}
+#Yugoslavia wants to buy planes - Major nation sells some fighters
+country_event = {
+	id = switzerland.6
+	title = switzerland.6.t
+	desc = switzerland.6.desc   
+	picture = GFX_report_event_bomber_factory
+	
+	is_triggered_only = yes
+	
+	option = { # cool
+		name = switzerland.6.a
+		ai_chance = {
+			factor = 30
+		}
+		add_opinion_modifier = { target = FROM modifier = YUG_sold_planes}	
+	}	
+}
+
+#Yugoslavia wants to buy planes - Major nation sells some bombers
+country_event = {
+	id = switzerland.7
+	title = switzerland.7.t
+	desc = switzerland.7.desc
+	picture = GFX_report_event_bomber_factory
+	
+	is_triggered_only = yes
+	
+	option = { # cool
+		name = switzerland.7.a
+		ai_chance = {
+			factor = 30
+		}
+		add_opinion_modifier = { target = FROM modifier = YUG_sold_planes}	
+	}	
+}
+#Yugoslavia wants to buy planes - Major nation sells some fighters
+country_event = {
+	id = switzerland.8
+	title = switzerland.8.t
+	desc = switzerland.8.desc   
+	picture = GFX_report_event_bomber_factory
+	
+	is_triggered_only = yes
+	
+	option = { # cool
+		name = switzerland.8.a
+		ai_chance = {
+			factor = 30
+		}
+		if = {
+			limit = {
+				FROM = {
+					tag = GER
+				}
+			}
+			if = {
+				limit = { 
+					GER = { 
+						has_tech = tech_ar_68_equipment_1
+						NOT = { has_tech = tech_me_109_early_fighter_equipment_1 }
+						NOT = { has_tech = tech_he_112_equipment_1 }
+					} 
+				}
+				add_equipment_to_stockpile = { type = ar_68_equipment_1 amount = 50 producer = GER } 
+			}
+			if = {
+				limit = { 
+					GER = { 
+						OR = {
+						AND = {
+						has_tech = tech_me_109_early_fighter_equipment_1
+						NOT = { has_tech = tech_me_109_mid_fighter_equipment_1 }
+						}
+						AND = {
+						has_tech = tech_he_112_equipment_1
+						NOT = { has_tech = tech_he_100_equipment_1 }
+						}
+						}
+					}
+				}
+				add_equipment_to_stockpile = { type = me_109_early_fighter_equipment_1 amount = 50 producer = GER } 
+			}
+			if = {
+				limit = { 
+					GER = { 
+						OR = {
+						AND = {
+						has_tech = tech_me_109_mid_fighter_equipment_1 
+						NOT = { has_tech = tech_me_109_late_fighter_equipment_1 }
+						}
+						AND = {
+						has_tech = tech_he_100_equipment_1
+						NOT = { has_tech = tech_fw_190_fighter_equipment_1 }
+						}
+						}
+					}
+				}
+				add_equipment_to_stockpile = { type = me_109_mid_fighter_equipment_1 amount = 50 producer = GER } 
+			}
+			if = {
+				limit = {
+					GER = { 
+						OR = {
+						has_tech = tech_me_109_late_fighter_equipment_1 
+						has_tech = tech_fw_190_fighter_equipment_1
+					} 
+					}
+				}
+				add_equipment_to_stockpile = { type = me_109_late_fighter_equipment_1  amount = 50 producer = GER } 
+			}
+		} 
+		if = {
+			limit = {
+				FROM = {
+					tag = ITA
+				}
+			}
+			if = {
+				limit = { 
+					ITA= { 
+						has_tech = early_fighter
+						NOT = { has_tech = fighter1 }
+					} 
+				}
+				add_equipment_to_stockpile = { type = fighter_equipment_0 amount = 50 producer = ITA } 
+			}
+			if = {
+				limit = { 
+					ITA = { 
+						has_tech = fighter1 
+						NOT = { has_tech = fighter2 }
+					} 
+				}
+				add_equipment_to_stockpile = { type = fighter_equipment_1 amount = 50 producer = ITA } 
+			}
+			if = {
+				limit = { 
+					ITA = { 
+						has_tech = fighter2 
+						NOT = { has_tech = fighter3 }
+					} 
+				}
+				add_equipment_to_stockpile = { type = fighter_equipment_2 amount = 50 producer = ITA } 
+			}
+			if = {
+				limit = { 
+					ITA = { 
+						has_tech = fighter3 
+					} 
+				}
+				add_equipment_to_stockpile = { type = fighter_equipment_3 amount = 50 producer = ITA } 
+			}
+		}
+
+		if = {
+			limit = {
+				FROM = {
+					tag = FRA
+				}
+			}
+			if = {
+				limit = { 
+					FRA = { 
+						has_tech = early_fighter
+						NOT = { has_tech = fighter1 }
+					} 
+				}
+				add_equipment_to_stockpile = { type = fighter_equipment_0 amount = 50 producer = FRA } 
+			}
+			if = {
+				limit = { 
+					FRA = { 
+						has_tech = fighter1 
+						NOT = { has_tech = fighter2 }
+					} 
+				}
+				add_equipment_to_stockpile = { type = fighter_equipment_1 amount = 50 producer = FRA } 
+			}
+			if = {
+				limit = { 
+					FRA = { 
+						has_tech = fighter2 
+						NOT = { has_tech = fighter3 }
+					} 
+				}
+				add_equipment_to_stockpile = { type = fighter_equipment_2 amount = 50 producer = FRA } 
+			}
+			if = {
+				limit = { 
+					FRA = { 
+						has_tech = fighter3 
+					} 
+				}
+				add_equipment_to_stockpile = { type = fighter_equipment_3 amount = 50 producer = FRA } 
+			}
+		}
+
+		if = {
+			limit = {
+				FROM = {
+					tag = ENG
+				}
+			}
+			if = {
+				limit = { 
+					ENG = { 
+						has_tech = early_fighter
+						NOT = { has_tech = fighter1 }
+					} 
+				}
+				add_equipment_to_stockpile = { type = fighter_equipment_0 amount = 50 producer = ENG } 
+			}
+			if = {
+				limit = { 
+					ENG = { 
+						has_tech = fighter1 
+						NOT = { has_tech = fighter2 }
+					} 
+				}
+				add_equipment_to_stockpile = { type = fighter_equipment_1 amount = 50 producer = ENG } 
+			}
+			if = {
+				limit = { 
+					ENG = { 
+						has_tech = fighter2 
+						NOT = { has_tech = fighter3 }
+					} 
+				}
+				add_equipment_to_stockpile = { type = fighter_equipment_2 amount = 50 producer = ENG } 
+			}
+			if = {
+				limit = { 
+					ENG = { 
+						has_tech = fighter3 
+					} 
+				}
+				add_equipment_to_stockpile = { type = fighter_equipment_3 amount = 50 producer = ENG } 
+			}
+		}
+		add_opinion_modifier = { target = FROM modifier = YUG_sold_planes}	
+	}	
+		
+	
+}
+
+#Yugoslavia wants to buy planes - Major nation sells some bombers
+country_event = {
+	id = switzerland.9
+	title = switzerland.9.t
+	desc = switzerland.9.desc
+	picture = GFX_report_event_bomber_factory
+	
+	is_triggered_only = yes
+	
+	option = { # cool
+		name = switzerland.9.a
+		ai_chance = {
+			factor = 30
+		}
+		if = {
+			limit = {
+				FROM = {
+					tag = GER
+				}
+			}
+			if = {
+				limit = { 
+					GER = { 
+						has_tech = early_bomber 
+						NOT = { has_tech = tactical_bomber1 }
+					} 
+				}
+				add_equipment_to_stockpile = { type = tac_bomber_equipment_0 amount = 25 producer = GER } 
+			}
+			if = {
+				limit = { 
+					GER = { 
+						has_tech = tactical_bomber1 
+						NOT = { has_tech = tactical_bomber2 }
+					} 
+				}
+				add_equipment_to_stockpile = { type = tac_bomber_equipment_1 amount = 25 producer = GER } 
+			}
+			if = {
+				limit = { 
+					GER = { 
+						has_tech = tactical_bomber2 
+						NOT = { has_tech = tactical_bomber3 }
+					} 
+				}
+				add_equipment_to_stockpile = { type = tac_bomber_equipment_2 amount = 25 producer = GER } 
+			}
+			if = {
+				limit = { 
+					GER = { 
+						has_tech = tactical_bomber3 
+					} 
+				}
+				add_equipment_to_stockpile = { type = tac_bomber_equipment_3 amount = 25 producer = GER } 
+			}
+		}
+		if = {
+			limit = {
+				FROM = {
+					tag = ITA
+				}
+			}
+			if = {
+				limit = { 
+					ITA = { 
+						has_tech = early_bomber 
+						NOT = { has_tech = tactical_bomber1 }
+					} 
+				}
+				add_equipment_to_stockpile = { type = tac_bomber_equipment_0 amount = 25 producer = ITA } 
+			}
+			if = {
+				limit = { 
+					ITA = { 
+						has_tech = tactical_bomber1 
+						NOT = { has_tech = tactical_bomber2 }
+					} 
+				}
+				add_equipment_to_stockpile = { type = tac_bomber_equipment_1 amount = 25 producer = ITA } 
+			}
+			if = {
+				limit = { 
+					ITA = { 
+						has_tech = tactical_bomber2 
+						NOT = { has_tech = tactical_bomber3 }
+					} 
+				}
+				add_equipment_to_stockpile = { type = tac_bomber_equipment_2 amount = 25 producer = ITA } 
+			}
+			if = {
+				limit = { 
+					ITA = { 
+						has_tech = tactical_bomber3 
+					} 
+				}
+				add_equipment_to_stockpile = { type = tac_bomber_equipment_3 amount = 25 producer = ITA } 
+			}
+		}
+
+		if = {
+			limit = {
+				FROM = {
+					tag = FRA
+				}
+			}
+			if = {
+				limit = { 
+					FRA = { 
+						has_tech = early_bomber 
+						NOT = { has_tech = tactical_bomber1 }
+					} 
+				}
+				add_equipment_to_stockpile = { type = tac_bomber_equipment_0 amount = 25 producer = FRA } 
+			}
+			if = {
+				limit = { 
+					FRA = { 
+						has_tech = tactical_bomber1 
+						NOT = { has_tech = tactical_bomber2 }
+					} 
+				}
+				add_equipment_to_stockpile = { type = tac_bomber_equipment_1 amount = 25 producer = FRA } 
+			}
+			if = {
+				limit = { 
+					FRA = { 
+						has_tech = tactical_bomber2 
+						NOT = { has_tech = tactical_bomber3 }
+					} 
+				}
+				add_equipment_to_stockpile = { type = tac_bomber_equipment_2 amount = 25 producer = FRA } 
+			}
+			if = {
+				limit = { 
+					FRA = { 
+						has_tech = tactical_bomber3 
+					} 
+				}
+				add_equipment_to_stockpile = { type = tac_bomber_equipment_3 amount = 25 producer = FRA } 
+			}
+		}
+
+		if = {
+			limit = {
+				FROM = {
+					tag = ENG
+				}
+			}
+			if = {
+				limit = { 
+					ENG = { 
+						has_tech = early_bomber 
+						NOT = { has_tech = tactical_bomber1 }
+					} 
+				}
+				add_equipment_to_stockpile = { type = tac_bomber_equipment_0 amount = 25 producer = ENG } 
+			}
+			if = {
+				limit = { 
+					ENG = { 
+						has_tech = tactical_bomber1 
+						NOT = { has_tech = tactical_bomber2 }
+					} 
+				}
+				add_equipment_to_stockpile = { type = tac_bomber_equipment_1 amount = 25 producer = ENG } 
+			}
+			if = {
+				limit = { 
+					ENG = { 
+						has_tech = tactical_bomber2 
+						NOT = { has_tech = tactical_bomber3 }
+					} 
+				}
+				add_equipment_to_stockpile = { type = tac_bomber_equipment_2 amount = 25 producer = ENG } 
+			}
+			if = {
+				limit = { 
+					ENG = { 
+						has_tech = tactical_bomber3 
+					} 
+				}
+				add_equipment_to_stockpile = { type = tac_bomber_equipment_3 amount = 25 producer = ENG } 
+			}
+		}
+		add_opinion_modifier = { target = FROM modifier = YUG_sold_planes}	
+	}	
+}
+country_event = { #German-Swiss-trade
+	id = switzerland.10
+	title = switzerland.10.t
+	desc = switzerland.10.d
+	picture = GFX_report_event_reichstag_hitler_speech
+
+	is_triggered_only = yes
+
+	option = { #yes 
+		name = switzerland.10.a
+	
+		ai_chance = {
+			factor = 100
+		}
+		
+		add_resource = {
+			type = steel
+			amount = 8
+			state = 3
+		}
+		add_resource = {
+			type = steel
+			amount = -8
+			state = 42
+		}
+		random_owned_controlled_state = {
+			prioritize = { 151 }
+				add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = industrial_complex
+						level = 2 
+						instant_build = yes
+			}
+		}
+		random_owned_controlled_state = {
+			prioritize = { 3 }
+				add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = arms_factory
+						level = 1
+						instant_build = yes
+			}
+		}
+		SWI = {
+			diplomatic_relation = {
+				country = GER
+				relation = non_aggression_pact
+				active = yes
+			}
+		}
+		GER = { country_event = { id = switzerland.11 days = 1 } }
+		if = { 
+			limit = { GER = { is_in_faction_with = ITA }
+			}
+			diplomatic_relation = { country = ITA relation = non_aggression_pact }
+			ITA = { country_event = { id = switzerland.11 days = 1 } }
+		}
+	}
+	option = { #no 
+		name = switzerland.10.b 
+		ai_chance = {
+			factor = 0
+		} 
+		GER = {
+			add_opinion_modifier = { target = SWI modifier = large_decrease }
+	     }
+	}
+} 
+country_event = {
+	id = switzerland.11
+	title = switzerland.11.t
+	desc = switzerland.11.d
+	picture = GFX_report_event_reichstag_hitler_speech
+
+	is_triggered_only = yes
+	
+	option = {
+		name = switzerland.11.a
+		ai_chance = {
+			base = 100
+		}
+		if = {
+			limit = { tag = GER }
+			add_offsite_building = { type = arms_factory level = 4 }
+		}
+		if = {
+			limit = { tag = ITA }
+			add_offsite_building = { type = arms_factory level = 1 }
+		}
+		effect_tooltip = {
+			diplomatic_relation = {
+				country = FROM
+				relation = non_aggression_pact
+				active = yes
+			}
+		}
+	}
+}

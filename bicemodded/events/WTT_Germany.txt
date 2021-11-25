@@ -1,0 +1,346 @@
+﻿add_namespace = wtt_germany
+
+country_event = {
+	id = wtt_germany.63
+	title = wtt_germany.63.t
+	desc = wtt_germany.63.desc
+	picture = GFX_report_event_generic_peaceful_annexation
+
+	is_triggered_only = yes
+	
+	option = {
+		name = wtt_germany.63.a
+		effect_tooltip = {
+			GER = {
+				add_state_core = 8
+				add_state_core = 28
+			}
+		}
+	}
+}
+
+# Reintegration notification for Luxemburg
+country_event = {
+	id = wtt_germany.64
+	title = wtt_germany.64.t
+	desc = wtt_germany.63.desc
+	picture = GFX_report_event_generic_peaceful_annexation
+
+	is_triggered_only = yes
+	
+	option = {
+		name = wtt_germany.64.a
+		effect_tooltip = {
+			GER = {
+				add_state_core = 8
+				add_state_core = 28
+			}
+		}
+	}
+}
+
+
+# Event for POL - GER Pressures POL to Join War against SOV
+country_event = {
+	id = wtt_germany.65
+	title = wtt_germany.65.t
+	desc = wtt_germany.65.desc
+	picture = GFX_report_event_german_troops
+
+	is_triggered_only = yes
+	
+	# Accept
+	option = {
+		name = wtt_germany.65.a
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 0.5
+				has_opinion = { target = GER value < 0 }
+			}
+			modifier = {
+				factor = 0.2
+				has_opinion = { target = GER value < -50 }
+			}
+			modifier = {
+				factor = 0.5
+				GER = { strength_ratio = { tag = SOV ratio < 1 } }
+			}
+			modifier = {
+				factor = 0.2
+				GER = { strength_ratio = { tag = SOV ratio < 0.8 } }
+			}
+		}
+		if = {
+			limit = {
+				is_in_faction = yes
+				has_war = no
+				is_faction_leader = no
+			}
+			random_other_country = {
+				limit = {
+					is_in_faction_with = POL
+					is_faction_leader = yes
+				}
+				remove_from_faction = POL
+			}
+			GER = { add_to_faction = POL }
+			add_to_war = { targeted_alliance = GER enemy = SOV hostility_reason = ally }
+		}
+		if = {
+			limit = {
+				is_in_faction = yes
+				has_war = no
+				is_faction_leader = yes
+			}
+			dismantle_faction = yes
+			GER = { add_to_faction = POL }
+			add_to_war = { targeted_alliance = GER enemy = SOV hostility_reason = ally }
+		}
+		if = {
+			limit = {
+				is_in_faction = no
+			}
+			GER = { add_to_faction = POL }
+			add_to_war = { targeted_alliance = GER enemy = SOV hostility_reason = ally }
+		}
+		GER = { country_event = { id = wtt_germany.66 } }
+	}
+
+	# Reject
+	option = {
+		name = wtt_germany.65.b
+		ai_chance = {
+			factor = 0
+			modifier = {
+				factor = 0.5
+				has_opinion = { target = GER value > 50 }
+			}
+			modifier = {
+				factor = 0.5
+				GER = { strength_ratio = { tag = SOV ratio > 1 } }
+			}
+			modifier = {
+				factor = 0.2
+				GER = { strength_ratio = { tag = SOV ratio > 1.5 } }
+			}
+		}
+		GER = {
+			create_wargoal = {
+				type = annex_everything
+				target = POL
+			}
+			country_event = { id = wtt_germany.67 }
+		}
+	}
+}
+
+# Event for GER - POL Joins Faction and War against SOV
+country_event = {
+	id = wtt_germany.66
+	title = wtt_germany.66.t
+	desc = wtt_germany.66.desc
+	picture = GFX_report_event_german_troops
+
+	is_triggered_only = yes
+	
+	option = {
+		name = excellent
+		effect_tooltip = {
+			add_to_faction = POL
+			POL = { add_to_war = { targeted_alliance = GER enemy = SOV hostility_reason = ally } }
+		}
+	}
+}
+
+# Event for GER - POL Rejects Demands
+country_event = {
+	id = wtt_germany.67
+	title = wtt_germany.67.t
+	desc = wtt_germany.67.desc
+	picture = GFX_report_event_german_troops
+
+	is_triggered_only = yes
+	
+	option = {
+		name = wtt_germany.67.a
+		effect_tooltip = {
+			create_wargoal = {
+				type = annex_everything
+				target = POL
+			}
+		}
+	}
+}
+
+# Event for other nations (HUN/AUS/CZE) to accept becoming annex by new Austria-Hungary
+country_event = {
+	id = wtt_germany.68
+	title = wtt_germany.68.t
+	desc = wtt_germany.68.desc
+	picture = GFX_report_event_generic_conference
+
+	is_triggered_only = yes
+	
+	# Accept
+	option = {
+		name = wtt_germany.68.a
+		custom_effect_tooltip = GAME_OVER_TT
+		FROM = { country_event = { id = wtt_germany.69 hours = 6 } }
+	}
+
+	# Decline
+	option = {
+		name = wtt_germany.68.b
+		ai_chance = {
+			factor = 0
+		}
+		FROM = { country_event = { id = wtt_germany.70 hours = 6 } }
+	}
+}
+
+# Event for original nation (HUN/AUS/CZE) notifying another nation accepted
+country_event = {
+	id = wtt_germany.69
+	title = wtt_germany.69.t
+	desc = wtt_germany.69.desc
+	picture = GFX_report_event_generic_conference
+
+	is_triggered_only = yes
+	
+	option = {
+		name = excellent
+		if = {
+			limit = {
+				has_country_flag = GER_austria_hungary_accepted_integration
+			}
+			country_event = { id = wtt_germany.71 days = 1 }
+		}
+		if = {
+			limit = {
+				NOT = { has_country_flag = GER_austria_hungary_accepted_integration }
+			}
+			hidden_effect = { set_country_flag = GER_austria_hungary_accepted_integration }
+		}
+	}
+}
+
+# Event for original nation (HUN/AUS/CZE) notifying another nation rejected
+country_event = {
+	id = wtt_germany.70
+	title = wtt_germany.70.t
+	desc = wtt_germany.70.desc
+	picture = GFX_report_event_generic_conference
+
+	is_triggered_only = yes
+	
+	option = {
+		name = unfortunate
+		hidden_effect = { clr_global_flag = GER_reformed_austro_hungarian_empire }
+	}
+}
+
+# Event for original nation (HUN/AUS/CZE) notifying of integration and formation of Austria-Hungary
+country_event = {
+	id = wtt_germany.71
+	title = wtt_germany.71.t
+	desc = wtt_germany.71.desc
+	picture = GFX_report_event_generic_conference
+
+	is_triggered_only = yes
+	
+	option = {
+		name = wtt_germany.71.a
+		if = {
+			limit = {
+				NOT = { has_government = neutrality }
+			}
+			set_politics = { ruling_party = neutrality elections_allowed = no }
+		}
+		create_country_leader = {
+			name = "Otto von Habsburg"
+			desc = "POLITICS_OTTO_VON_HABSBURG_DESC"
+			picture = GFX_Portrait_hungary_otto_von_hapsburg
+			expire = "1965.1.1"
+			ideology = despotism
+			traits = {
+				
+			}
+		}
+		if = {
+			limit = {
+				tag = AUS
+			}
+			HUN = { ROOT_inherit_current_scope_wars_effect = yes }
+			CZE = { ROOT_inherit_current_scope_wars_effect = yes }
+			annex_country = { target = HUN transfer_troops = yes }
+			annex_country = { target = CZE transfer_troops = yes }
+			154 = { add_core_of = ROOT }
+			155 = { add_core_of = ROOT }
+			43 = { add_core_of = ROOT }
+			69 = { add_core_of = ROOT }
+			9 = { add_core_of = ROOT }
+			75 = { add_core_of = ROOT }
+			74 = { add_core_of = ROOT }
+			72 = { add_core_of = ROOT }
+			70 = { add_core_of = ROOT }
+			664 = { add_core_of = ROOT }
+			71 = { add_core_of = ROOT }
+			73 = { add_core_of = ROOT }
+			GER = { add_to_faction = AUS }
+		}
+		if = {
+			limit = {
+				tag = HUN
+			}
+			AUS = { ROOT_inherit_current_scope_wars_effect = yes }
+			CZE = { ROOT_inherit_current_scope_wars_effect = yes }
+			annex_country = { target = AUS transfer_troops = yes }
+			annex_country = { target = CZE transfer_troops = yes }
+			152 = { add_core_of = ROOT }
+			153 = { add_core_of = ROOT }
+			4 = { add_core_of = ROOT }
+			69 = { add_core_of = ROOT }
+			9 = { add_core_of = ROOT }
+			75 = { add_core_of = ROOT }
+			74 = { add_core_of = ROOT }
+			72 = { add_core_of = ROOT }
+			70 = { add_core_of = ROOT }
+			664 = { add_core_of = ROOT }
+			71 = { add_core_of = ROOT }
+			73 = { add_core_of = ROOT }
+			GER = { add_to_faction = HUN }
+		}
+		if = {
+			limit = {
+				tag = CZE
+			}
+			HUN = { ROOT_inherit_current_scope_wars_effect = yes }
+			AUS = { ROOT_inherit_current_scope_wars_effect = yes }
+			annex_country = { target = HUN transfer_troops = yes }
+			annex_country = { target = AUS transfer_troops = yes }
+			152 = { add_core_of = ROOT }
+			153 = { add_core_of = ROOT }
+			4 = { add_core_of = ROOT }
+			154 = { add_core_of = ROOT }
+			155 = { add_core_of = ROOT }
+			43 = { add_core_of = ROOT }
+			GER = { add_to_faction = CZE }
+		}
+		set_cosmetic_tag = HUN_EMPIRE
+		GER = {
+			country_event = { id = wtt_germany.13 }
+		}
+		if = {
+			limit = {
+				NOT = { has_government = neutrality }
+			}
+			set_politics = { ruling_party = neutrality elections_allowed = no }
+		}
+		add_ai_strategy = {
+			type = alliance
+			id = "GER"			
+			value = 200
+		}
+	}
+}

@@ -1,0 +1,649 @@
+﻿###########################
+# Siamese Events
+###########################
+
+add_namespace = siam_event
+add_namespace = siam_border_conflict
+add_namespace = siam_purchase_ships
+add_namespace = siam_equipment_purchases
+
+#Siam asks Japan for more land
+country_event = {
+	id = siam_event.1
+	title = siam_event.1.t
+	desc = siam_event.1.desc
+	picture = GFX_report_event_japanese_transport_soldiers
+	
+	is_triggered_only = yes
+	
+	#Accept the transfer of territories
+	option = {
+		name = siam_event.1.a
+		add_autonomy_ratio = {
+			value = 0.05
+		}
+		every_state = {
+			limit = {
+				OR = {
+					is_core_of = SIA
+					is_claimed_by = SIA
+					state = 741
+					state = 670
+					state = 336
+					state = 640
+					state = 288
+				}
+				OR = {
+					is_fully_controlled_by = JAP
+					AND = {
+						is_owned_and_controlled_by = CAM
+						CAM = { is_subject_of = JAP }
+					}
+					AND = {
+						is_owned_and_controlled_by = MAN
+						MAN = { is_subject_of = JAP }
+					}
+					AND = {
+						is_owned_and_controlled_by = CHI
+						CHI = { is_subject_of = JAP }
+					}
+				}
+			}
+			SIA = {
+				transfer_state = PREV
+			}
+		}
+	}
+	#Reject
+	option = {
+		name = siam_event.1.b
+		add_autonomy_ratio = {
+			value = -0.05
+		}		
+	}
+}
+
+#Free Thai Movement Appears
+country_event = {
+	id = siam_event.2
+	title = siam_event.2.t
+	desc = siam_event.2.desc
+	picture = GFX_report_event_japanese_transport_soldiers
+	
+	trigger = {
+		tag = SIA
+		OR = {
+			has_war_with = USA
+			has_war_with = ENG
+		}
+	}
+	
+	fire_only_once = yes
+	
+	mean_time_to_happen = { days = 21 }
+	
+	option = {
+		name = siam_event.2.a
+		add_ideas = SIA_free_thai
+	}
+}
+
+#Japan asks us to join their faction
+country_event = {
+	id = siam_event.3
+	title = siam_event.3.t
+	desc = siam_event.3.desc
+	picture = GFX_report_event_japanese_transport_soldiers
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = siam_event.3.a
+		JAP = {
+			add_to_faction = SIA
+			country_event = siam_event.5
+		}
+		country_event = siam_event.4
+		add_ideas = japan_siam_trade_agreement_sia
+	}
+	option = {
+		name = siam_event.3.b	
+		JAP = {
+			country_event = siam_event.6
+		}
+		ai_chance = { 
+			factor = 0
+		}		
+	}
+}
+
+#We get to pick what bonus we want from Japan
+country_event = {
+	id = siam_event.4
+	title = siam_event.4.t
+	desc = siam_event.4.desc
+	picture = GFX_report_event_japanese_transport_soldiers
+	
+	is_triggered_only = yes
+	
+	option = { #Marines
+		name = siam_event.4.a
+			add_tech_bonus = {
+				name = marine_bonus
+				bonus = 0.6
+				uses = 1
+				category = marine_tech
+			}
+			add_tech_bonus = {
+				name = tp_bonus
+				bonus = 0.6
+				uses = 1
+				category = tp_tech
+			}
+			add_tech_bonus = {
+				name = industry_bonus
+				bonus = 0.6
+				uses = 1
+				category = industry
+			}
+	}
+	option = { #Mountaineers
+		name = siam_event.4.b
+			add_tech_bonus = {
+				name = mountaineer_bonus
+				bonus = 0.6
+				uses = 2
+				category = mountaineers_tech
+			}
+			add_tech_bonus = {
+				name = industry_bonus
+				bonus = 0.6
+				uses = 1
+				category = industry
+			}		
+	}
+	option = { #Basic infantry
+		name = siam_event.4.c	
+			add_tech_bonus = {
+				name = infantry_weapons_bonus
+				bonus = 0.3
+				uses = 4
+				category = infantry_weapons
+			}
+			add_tech_bonus = {
+				name = industry_bonus
+				bonus = 0.6
+				uses = 1
+				category = industry
+			}		
+	}
+	option = { #Industry
+		name = siam_event.4.d
+			add_tech_bonus = {
+				name = industry_bonus
+				bonus = 0.6
+				uses = 2
+				category = industry
+			}			
+	}
+}
+
+#Japan is notified about siam accepting
+country_event = {
+	id = siam_event.5
+	title = siam_event.5.t
+	desc = siam_event.5.desc
+	picture = GFX_report_event_japanese_transport_soldiers
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = siam_event.5.a
+	}
+}
+
+#Japan is notified about siam NOT accepting
+country_event = {
+	id = siam_event.6
+	title = siam_event.6.t
+	desc = siam_event.6.desc
+	picture = GFX_report_event_japanese_transport_soldiers
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = siam_event.6.a
+	}
+}
+
+#Siam wins
+country_event = {
+	id = siam_border_conflict.2
+	title = siam_border_conflict.2.t
+	desc = siam_border_conflict.2.desc
+	picture = GFX_report_event_japanese_transport_soldiers
+
+	is_triggered_only = yes
+
+	option = {
+		name = siam_border_conflict.2.a
+		trigger = {
+			original_tag = SIA
+		}
+		add_tech_bonus = {
+			name = SIA_franco_thai_war
+			category = land_doctrine
+			bonus = 1.0
+		}
+		add_tech_bonus = {
+			name = SIA_franco_thai_war
+			category = air_doctrine
+			bonus = 1.0
+		}
+		transfer_state = 741
+		hidden_effect = {
+			news_event = { hours = 6 id = news.1313 }
+		}
+	}
+	option = {
+		name = siam_border_conflict.2.b
+		trigger = {
+			OR = {
+				original_tag = CAM
+				original_tag = FRA
+			}
+		}
+		army_experience = 20
+	}
+}
+#Siam loses
+country_event = {
+	id = siam_border_conflict.3
+	title = siam_border_conflict.3.t
+	desc = siam_border_conflict.3.desc
+	picture = GFX_report_event_japanese_soldiers_03
+
+	is_triggered_only = yes
+
+	option = {
+		name = siam_border_conflict.3.a
+		trigger = {
+			original_tag = SIA
+		}
+		army_experience = 25
+	}
+	option = {
+		name = siam_border_conflict.3.b
+		trigger = {
+			OR = {
+				original_tag = CAM
+				original_tag = FRA
+			}
+		}
+		add_tech_bonus = {
+			name = SIA_franco_thai_war
+			category = land_doctrine
+			bonus = 1.0
+		}
+		hidden_effect = {
+			news_event = { hours = 6 id = news.1314 }
+		}		
+	}
+}
+
+#stalemate
+country_event = {
+	id = siam_border_conflict.4
+	title = siam_border_conflict.4.t
+	desc = siam_border_conflict.4.desc
+	picture = GFX_report_event_japanese_army_parade
+
+	is_triggered_only = yes
+
+	option = {
+		name = siam_border_conflict.4.a
+		trigger = {
+			original_tag = SIA
+		}
+		army_experience = 50
+	}
+	option = {
+		name = siam_border_conflict.4.b
+		trigger = {
+			OR = {
+				original_tag = CAM
+				original_tag = FRA
+			}
+		}
+		army_experience = 50
+		hidden_effect = {
+			news_event = { hours = 6 id = news.1314 }
+		}		
+	}
+}
+
+######## PURCHASE SHIPS FROM BRITAIN / ITALY / JAPAN ########
+#Event for ENG/ITA/JAP to accept or reject Siamese proposal to purchase ships
+country_event = {
+	id = siam_purchase_ships.1
+	title = siam_purchase_ships.1.t
+	desc = siam_purchase_ships.1.desc
+	picture = GFX_report_event_sailors_in_working_rig
+
+	is_triggered_only = yes
+
+	option = { #Accept
+		name = siam_purchase_ships.1.a
+
+		ai_chance = {
+			base = 99
+			modifier = {
+				factor = 0
+				OR = {
+					has_opinion = { target = SIA value < 0 }
+					has_civil_war = yes
+					has_capitulated = yes
+					has_war = yes
+					AND = {
+						tag = ENG
+						NOT = { owns_state = 126 } #Owns London
+					}
+					AND = {
+						tag = ITA
+						NOT = { owns_state = 2 } #Owns Rome
+					}
+					AND = {
+						tag = JAP
+						NOT = { owns_state = 282 } #Owns Tokyo
+					}
+				}
+			}
+		}
+
+		custom_effect_tooltip = siam_purchase_ships.1.a_tt
+		SIA = {
+			country_event = { id = siam_purchase_ships.2 hours = 8 random_hours = 4 }
+		}
+	}
+	option = { #Reject
+		name = siam_purchase_ships.1.b
+
+		ai_chance = {
+			base = 1
+		}
+
+		SIA = {
+			country_event = { id = siam_purchase_ships.3 hours = 8 random_hours = 4 }
+			if = {
+				limit = { 
+					ROOT = { tag = ENG }
+				}
+				set_country_flag = {
+					flag = siam_british_ships_purchase_rejected_flag
+					value = 1
+					days = 180
+				}
+			}
+			else_if = {
+				limit = { 
+					ROOT = { tag = ITA }
+				}
+				set_country_flag = {
+					flag = siam_italian_ships_purchase_rejected_flag
+					value = 1
+					days = 180
+				}
+			}
+			else_if = {
+				limit = { 
+					ROOT = { tag = JAP }
+				}
+				set_country_flag = {
+					flag = siam_japanese_ships_purchase_rejected_flag
+					value = 1
+					days = 180
+				}
+			}
+		}
+	}
+}
+
+# Event for SIA to choose the type of ships to be purchased
+country_event = {
+	id = siam_purchase_ships.2
+	title = siam_purchase_ships.2.t
+	desc = siam_purchase_ships.2.desc
+	picture = GFX_report_event_sailors_in_working_rig
+
+	is_triggered_only = yes
+
+	option = { # 3 Submarines - 1 Year
+		name = siam_purchase_ships.2.a
+		ai_chance = {
+			base = 34
+		}
+
+		FROM = {
+			add_offsite_building = {
+				type = industrial_complex
+				level = 1
+			}
+			add_opinion_modifier = {
+				target = SIA
+				modifier = POR_bought_ships
+			}
+		}
+		if = {
+			limit = { FROM = { tag = ENG } }
+			add_opinion_modifier = {
+				target = ENG
+				modifier = POR_sold_ships
+			}
+			add_opinion_modifier = {
+				target = ENG
+				modifier = POR_ships_trade
+			}
+			activate_decision = SIA_british_submarines_construction_progress
+			set_country_flag = POR_purchase_british_submarines_flag
+		}
+		else_if = {
+			limit = { FROM = { tag = ITA } }
+			add_opinion_modifier = {
+				target = ITA
+				modifier = POR_sold_ships
+			}
+			add_opinion_modifier = {
+				target = ITA
+				modifier = POR_ships_trade
+			}
+			activate_decision = SIA_italian_submarines_construction_progress
+			set_country_flag = POR_purchase_italian_submarines_flag
+		}
+		else_if = {
+			limit = { FROM = { tag = JAP } }
+			add_opinion_modifier = {
+				target = JAP
+				modifier = POR_sold_ships
+			}
+			add_opinion_modifier = {
+				target = JAP
+				modifier = POR_ships_trade
+			}
+			activate_decision = SIA_japanese_submarines_construction_progress
+			set_country_flag = POR_purchase_japanese_submarines_flag
+		}
+	}
+	option = { # 2 Destroyers - 2 Years
+		name = siam_purchase_ships.2.b
+		ai_chance = {
+			base = 33
+		}
+		
+		FROM = {
+			add_offsite_building = {
+				type = industrial_complex
+				level = 1
+			}
+			add_opinion_modifier = {
+				target = SIA
+				modifier = POR_bought_ships
+			}
+		}
+		if = {
+			limit = { FROM = { tag = ENG } }
+			add_opinion_modifier = {
+				target = ENG
+				modifier = POR_sold_ships
+			}
+			add_opinion_modifier = {
+				target = ENG
+				modifier = POR_ships_trade
+			}
+			activate_decision = SIA_british_destroyers_construction_progress
+			set_country_flag = POR_purchase_british_destroyers_flag
+		}
+		else_if = {
+			limit = { FROM = { tag = ITA } }
+			add_opinion_modifier = {
+				target = ITA
+				modifier = POR_sold_ships
+			}
+			add_opinion_modifier = {
+				target = ITA
+				modifier = POR_ships_trade
+			}
+			activate_decision = SIA_italian_destroyers_construction_progress
+			set_country_flag = POR_purchase_italian_destroyers_flag
+		}
+		else_if = {
+			limit = { FROM = { tag = JAP } }
+			add_opinion_modifier = {
+				target = JAP
+				modifier = POR_sold_ships
+			}
+			add_opinion_modifier = {
+				target = JAP
+				modifier = POR_ships_trade
+			}
+			activate_decision = SIA_japanese_destroyers_construction_progress
+			set_country_flag = POR_purchase_japanese_destroyers_flag
+		}
+	}
+	option = { # 1 Light Cruiser - 3 Years
+		name = siam_purchase_ships.2.c
+		ai_chance = {
+			base = 33
+		}
+
+		FROM = {
+			add_offsite_building = {
+				type = industrial_complex
+				level = 1
+			}
+			add_opinion_modifier = {
+				target = SIA
+				modifier = POR_bought_ships
+			}
+		}
+		if = {
+			limit = { FROM = { tag = ENG } }
+			add_opinion_modifier = {
+				target = ENG
+				modifier = POR_sold_ships
+			}
+			add_opinion_modifier = {
+				target = ENG
+				modifier = POR_ships_trade
+			}
+			activate_decision = SIA_british_light_cruiser_construction_progress
+			set_country_flag = POR_purchase_british_light_cruiser_flag
+		}
+		else_if = {
+			limit = { FROM = { tag = ITA } }
+			add_opinion_modifier = {
+				target = ITA
+				modifier = POR_sold_ships
+			}
+			add_opinion_modifier = {
+				target = ITA
+				modifier = POR_ships_trade
+			}
+			activate_decision = SIA_italian_light_cruiser_construction_progress
+			set_country_flag = POR_purchase_italian_light_cruiser_flag
+		}
+		else_if = {
+			limit = { FROM = { tag = JAP } }
+			add_opinion_modifier = {
+				target = JAP
+				modifier = POR_sold_ships
+			}
+			add_opinion_modifier = {
+				target = JAP
+				modifier = POR_ships_trade
+			}
+			activate_decision = SIA_japanese_light_cruiser_construction_progress
+			set_country_flag = POR_purchase_japanese_light_cruiser_flag
+		}
+	}
+}
+
+# Event for SIA when ships purchase has been rejected
+country_event = {
+	id = siam_purchase_ships.3
+	title = siam_purchase_ships.3.t
+	desc = siam_purchase_ships.3.desc
+	picture = GFX_report_event_generic_sign_treaty2
+
+	is_triggered_only = yes
+
+	option = {
+		name = lar_portugal_purchase_ships.3.a
+		clr_country_flag = POR_ships_purchase_in_progress_flag
+	}
+}
+
+# Event for SIA when submarines purchased are ready
+country_event = {
+	id = siam_purchase_ships.4
+	title = siam_purchase_ships.4.t
+	desc = siam_purchase_ships.4.desc
+	picture = GFX_report_event_ast_navy
+
+	is_triggered_only = yes
+
+	option = {
+		name = siam_purchase_ships.4.a
+		custom_effect_tooltip = sia_purchase_ships.4.a_tt
+	}
+}
+
+# Event for SIA when destroyers purchased are ready
+country_event = {
+	id = siam_purchase_ships.5
+	title = siam_purchase_ships.5.t
+	desc = siam_purchase_ships.5.desc
+	picture = GFX_report_event_ast_navy
+
+	is_triggered_only = yes
+
+	option = {
+		name = siam_purchase_ships.5.a
+		custom_effect_tooltip = sia_purchase_ships.5.a_tt
+	}
+}
+
+# Event for SIA when light cruiser purchased is ready
+country_event = {
+	id = siam_purchase_ships.6
+	title = siam_purchase_ships.6.t
+	desc = siam_purchase_ships.6.desc
+	picture = GFX_report_event_ast_navy
+
+	is_triggered_only = yes
+
+	option = {
+		name = siam_purchase_ships.6.a
+		custom_effect_tooltip = sia_purchase_ships.6.a_tt
+	}
+}
+### EOF ###
