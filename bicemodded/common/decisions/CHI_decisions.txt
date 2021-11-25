@@ -1,0 +1,1438 @@
+
+
+#Category only allowed for CHI
+
+
+
+#Category allowed for all potential nationalist china
+#Category visible when CHI_army_reform focus is completed
+CHI_army_reform = {
+
+	CHI_warplan2 = {
+
+		icon = generic_prepare_civil_war
+
+		available = {
+			num_of_civilian_factories_available_for_projects > 4
+			has_completed_focus = CHI_warplan
+		}
+
+		cost = 0
+		
+		ai_will_do = {
+			factor = 500
+		}
+		
+		days_remove = 120
+
+		visible = {
+		}
+		remove_effect = {
+			if = {
+				limit = {
+					controls_province = 7656
+				}
+				607 = {
+					add_building_construction = {
+						type = bunker
+						level = 2
+						province = 7656
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					controls_province = 4619
+				}
+				620 = {
+					add_building_construction = {
+						type = bunker
+						level = 2
+						province = 4619
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					controls_province = 1069
+				}
+				597 = {
+					add_building_construction = {
+						type = bunker
+						level = 2
+						province = 1069
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					controls_province = 11913
+				}
+				613 = {
+					add_building_construction = {
+						type = bunker
+						level = 2
+						province = 11913
+						instant_build = yes
+					}
+				}
+			}
+		}
+		complete_effect = {
+		}		
+	}
+
+	CHI_army_reform = {
+
+		icon = generic_prepare_civil_war
+
+		available = {
+			has_army_experience > 99
+			has_completed_focus = CHI_army_reform
+		}
+
+		cost = 0
+		ai_will_do = {
+			factor = 500
+		}
+		days_remove = 90
+
+		visible = {
+			OR = {
+				has_idea = CHI_army_corruption_1
+				has_idea = CHI_army_corruption_2
+				has_idea = CHI_army_corruption_3
+			}
+		}
+		remove_effect = {
+			if = {
+				limit = { has_idea = CHI_army_corruption_1 }
+				swap_ideas = {
+					remove_idea = CHI_army_corruption_1
+					add_idea = CHI_army_corruption_2
+				}
+			}
+			else_if = {
+				limit = { has_idea = CHI_army_corruption_2 }
+				swap_ideas = {
+					remove_idea = CHI_army_corruption_2
+					add_idea = CHI_army_corruption_3
+				}
+			}
+			else_if = {
+				limit = { has_idea = CHI_army_corruption_3 }
+				remove_ideas = CHI_army_corruption_3
+			}
+		}
+		complete_effect = {
+			army_experience = -100
+			custom_effect_tooltip = 90_days_tt
+						
+		}		
+	}
+
+	CHI_lessons_of_war = {
+		icon = generic_army_support
+		available = {
+			has_army_experience > 199
+			has_idea = CHI_incompetent_officers
+			if = {
+				limit = { has_idea = CHI_army_corruption_1 }
+				NOT = { has_idea = CHI_army_corruption_1 }
+			}
+
+			if = {
+				limit = { has_idea = CHI_army_corruption_2 }
+				NOT = { has_idea = CHI_army_corruption_2 }
+			}
+
+			if = {
+				limit = { has_idea = CHI_army_corruption_3 }
+				NOT = { has_idea = CHI_army_corruption_3 }
+			}
+
+			if = {
+				limit = {
+					NOT = { has_idea = CHI_army_corruption_1 }
+					NOT = { has_idea = CHI_army_corruption_2 }
+					NOT = { has_idea = CHI_army_corruption_3 }
+				}
+				NOT = { has_idea = CHI_army_corruption_3 }
+			}
+		}
+
+		cost = 0
+		ai_will_do = {
+			factor = 10
+		}
+		fire_only_once = yes
+
+		visible = {
+			has_idea = CHI_incompetent_officers
+			has_completed_focus = CHI_army_reform
+		}
+
+		complete_effect = {
+			army_experience = -200
+			remove_ideas = CHI_incompetent_officers
+			set_country_flag = CHI_lessons_of_war_completed
+		}		
+	}
+
+	#Activates when the player picks CHI_60_divisions_plan decision
+	CHI_bolster_our_ranks = {
+
+		icon = generic_prepare_civil_war
+
+		available = {
+			num_divisions > 60
+			has_army_manpower = { size > 549999 }
+		}
+
+		fire_only_once = yes
+		
+		days_mission_timeout = 180
+
+		is_good = no
+
+		activation = {
+			always = no #Triggered from effect in CHI_60_divisions_plan
+		}
+
+		complete_effect = {
+			add_war_support = 0.1
+		}
+
+		timeout_effect = {
+
+		}
+	}
+
+	CHI_60_divisions_plan = {
+
+		icon = generic_operation
+
+		available = {
+			
+		}
+
+		cost = 90
+		ai_will_do = {
+			factor = 1
+		}
+		fire_only_once = yes
+
+		visible = {
+			has_completed_focus = CHI_60_divisions_plan
+		}
+
+		days_remove = 180
+
+		modifier = {
+			training_time_army_factor = -0.25
+		}
+
+		complete_effect = {
+			activate_mission = CHI_bolster_our_ranks
+		}		
+	}
+	
+	chinese_offensive = { #39 winter
+		allowed = {
+			original_tag = CHI
+		}
+		available = {
+			tag = CHI
+			has_war_with = JAP
+			has_capitulated = no
+		
+			or = { AND = { date > 1939.11.22 date < 1940.01.20 } AND = { date > 1941.11.22 date < 1942.01.20} }
+		
+			surrender_progress > 0.2
+		}
+
+
+	visible = {
+		or = { AND = { date > 1939.10.22 date < 1940.01.20 } AND = { date > 1941.10.22 date < 1942.01.20} }
+	}
+	icon = generic_scorched_earth
+
+		cost = 0
+		ai_will_do = {
+			factor = 100
+		}	
+		fire_only_once = yes
+	
+	complete_effect = {
+		set_country_flag = CHIwinter1
+		news_event = { 
+			hours = 20 
+			id = worldnews.17 
+		}
+		add_timed_idea = {	
+			idea = CHI_winter
+			days = 60
+		}
+    }
+}
+
+}
+
+
+economy_decisions = {
+	CHI_forced_loans = {
+
+		icon = ger_mefo_bills
+
+		available = {
+			has_hyper_inflation = yes
+		}
+
+		cost = 100
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				OR = {
+					has_idea = CHI_hyper_inflation_none
+					has_idea = CHI_hyper_inflation_1
+				}
+				factor = 0
+			}
+			modifier = {
+				has_idea = CHI_hyper_inflation_3
+				factor = 2
+			}
+			modifier = {
+				has_idea = CHI_hyper_inflation_4
+				factor = 5
+			}
+			modifier = {
+				has_idea = CHI_hyper_inflation_5
+				factor = 10
+			}
+		}
+
+		visible = {
+			has_completed_focus = CHI_forced_loans
+		}
+
+		days_re_enable = 90
+
+		complete_effect = {
+			CHI_hyper_inflation_level_down = yes
+			add_stability = -0.03
+			add_war_support = -0.03
+		}		
+	}
+}
+
+war_measures = {
+
+	CHI_stalemate_timer = {
+
+		priority = 10
+
+		icon = generic_ignite_civil_war
+
+		available = {
+			hidden_trigger = { always = no }
+		}
+
+		days_mission_timeout = 150
+
+		fire_only_once = yes
+
+		activation = {
+			has_war_with = JAP
+		}
+
+		visible = {
+			OR = {
+				tag = CHI
+				tag = CCP
+			}
+			has_war_with = JAP
+		}
+
+		cancel_if_not_visible = yes
+
+		is_good = yes
+
+		timeout_effect = {
+			custom_effect_tooltip = CHI_stalemate_tt
+		}
+	}
+
+	CHI_defend_beijing_mission = {
+
+		name = CHI_defend_beijing
+
+		icon = eng_propaganda_campaigns
+
+		allowed = {
+			tag = CHI
+		}
+
+		available = {
+			NOT = { controls_province = 9843 }
+		}
+
+		fire_only_once = yes
+		is_good = yes
+
+		days_mission_timeout = 120
+
+		cancel_if_not_visible = yes
+
+		activation = {
+			has_war_with = JAP
+		}
+
+		visible = {
+			tag = CHI
+			has_war_with = JAP
+		}
+
+		complete_effect = {
+			custom_effect_tooltip = CHI_stalemate_delayed_tt
+		}
+	}
+	
+	CHI_defend_nanjing_mission = {
+
+		name = CHI_defend_nanjing
+
+		icon = eng_propaganda_campaigns
+
+		allowed = {
+			tag = CHI
+		}
+
+		available = {
+			NOT = { controls_province = 11913 }
+		}
+
+		fire_only_once = yes
+		is_good = yes
+
+		days_mission_timeout = 120
+
+		cancel_if_not_visible = yes
+
+		activation = {
+			has_war_with = JAP
+		}
+
+		visible = {
+			tag = CHI
+			has_war_with = JAP
+		}
+
+		complete_effect = {
+			custom_effect_tooltip = CHI_stalemate_delayed_tt
+		}
+	}
+	
+	CHI_defend_guangzhou_mission = {
+
+		name = CHI_defend_guangzhou
+
+		icon = eng_propaganda_campaigns
+
+		allowed = {
+			tag = CHI
+		}
+
+		available = {
+			AND = {
+				CHI = {
+					NOT = { controls_province = 1047 }
+				}
+				GDC = {
+					NOT = { controls_province = 1047 }
+				}
+			}
+		}
+
+		fire_only_once = yes
+		is_good = yes
+
+		days_mission_timeout = 120
+
+		cancel_if_not_visible = yes
+
+		activation = {
+			has_war_with = JAP
+			592 = {
+				is_owned_by = CHI
+			}
+		}
+
+		visible = {
+			tag = CHI
+			has_war_with = JAP
+		}
+
+		complete_effect = {
+			custom_effect_tooltip = CHI_stalemate_delayed_tt
+		}
+	}
+
+	CHI_defend_wuhan_mission = {
+
+		name = CHI_defend_wuhan
+
+		icon = eng_propaganda_campaigns
+
+		allowed = {
+			tag = CHI
+		}
+
+		available = {
+			NOT = { controls_province = 4619 }
+		}
+
+		fire_only_once = yes
+		is_good = yes
+
+		days_mission_timeout = 120
+
+		cancel_if_not_visible = yes
+
+		activation = {
+			has_war_with = JAP
+		}
+
+		visible = {
+			tag = CHI
+			has_war_with = JAP
+		}
+
+		complete_effect = {
+			custom_effect_tooltip = CHI_stalemate_delayed_tt
+		}
+	}
+	
+	CHI_defend_changsha_mission = {
+
+		name = CHI_defend_changsha
+
+		icon = eng_propaganda_campaigns
+
+		allowed = {
+			tag = CHI
+		}
+
+		available = {
+			NOT = { controls_province = 7097 }
+		}
+
+		fire_only_once = yes
+		is_good = yes
+
+		days_mission_timeout = 120
+
+		cancel_if_not_visible = yes
+
+		activation = {
+			has_war_with = JAP
+		}
+
+		visible = {
+			tag = CHI
+			has_war_with = JAP
+		}
+
+		complete_effect = {
+			custom_effect_tooltip = CHI_stalemate_delayed_tt
+		}
+	}
+	
+	CHI_defend_taiyuan_mission = {
+
+		name = CHI_defend_taiyuan
+
+		icon = eng_propaganda_campaigns
+
+		allowed = {
+			tag = CHI
+		}
+
+		available = {
+			AND = {
+				CHI = {
+					NOT = { controls_province = 1519 }
+				}
+				CCP = {
+					NOT = { controls_province = 1519 }
+				}
+				SHX = {
+					NOT = { controls_province = 1519 }
+				}
+			}
+		}
+
+		fire_only_once = yes
+		is_good = yes
+
+		days_mission_timeout = 120
+
+		cancel_if_not_visible = yes
+
+		activation = {
+			has_war_with = JAP
+		}
+
+		visible = {
+			tag = CHI
+			has_war_with = JAP
+		}
+
+		complete_effect = {
+			custom_effect_tooltip = CHI_stalemate_delayed_tt
+		}
+	}
+	
+	CHI_defend_kaifeng_mission = {
+
+		name = CHI_defend_kaifeng
+
+		icon = eng_propaganda_campaigns
+
+		allowed = {
+			tag = CHI
+		}
+
+		available = {
+			NOT = { controls_province = 7656 }
+		}
+
+		fire_only_once = yes
+		is_good = yes
+
+		days_mission_timeout = 120
+
+		cancel_if_not_visible = yes
+
+		activation = {
+			has_war_with = JAP
+		}
+
+		visible = {
+			tag = CHI
+			has_war_with = JAP
+		}
+
+		complete_effect = {
+			custom_effect_tooltip = CHI_stalemate_delayed_tt
+		}
+	}
+
+	CHI_scorched_earth_tactics = {
+		icon = generic_scorched_earth
+		available = {
+		    has_completed_focus = CHI_scorched_earth_tactics
+			any_owned_state = {
+				is_controlled_by = ROOT
+				infrastructure > 0
+				any_neighbor_state = {
+					NOT = { is_fully_controlled_by = ROOT }
+					controller = { has_war_with = CHI }
+				}
+			}
+		}
+        allowed = {
+			tag = CHI
+		}
+		cost = 25
+
+		ai_will_do = {
+			factor = 400
+		}
+
+		visible = {			
+			
+			has_war_with = JAP
+		}
+
+		days_re_enable = 45
+
+		complete_effect = {
+		
+		JAP = {
+		        	country_event = partisan_sabotage.1
+        		}
+			random_country = {
+				limit = {
+					PRC_has_low_popular_support = yes
+				}
+                add_popularity = {
+	  	    	ideology = communism
+	  	    	popularity = 0.03
+	            }
+				PRC_low_popular_support_level_down = yes
+			}			
+		}
+	}
+	
+	CHI_flood_the_yellow_river = {
+
+		icon = hol_inundate_water_lines
+
+		allowed = {
+			tag = CHI
+		}
+
+		available = {
+			has_completed_focus = CHI_war_of_resistance
+		}
+
+		cost = 25
+
+		fire_only_once = no
+
+		days_remove = 7
+
+		highlight_state_targets = { state = 597 }
+		highlight_state_targets = { state = 607 }
+
+		highlight_provinces = {
+			 10072
+			 10043
+			 12069
+			 12045
+			 9958
+			 7656
+			 7129
+			 4010
+			 10098
+			 7085
+			 9995
+			 7025
+			 9956
+			 12055
+			 11973
+			 1121
+			 1076
+			 1029
+		}
+
+		modifier = {
+		}
+
+		visible = {
+			has_war_with = JAP
+			597 = { is_controlled_by = ROOT }
+			607 = { is_controlled_by = ROOT }
+			NOT = { has_global_flag = CHI_yellow_river_flooded }
+		}
+
+		remove_effect = {
+			if = {
+				limit = {
+					597 = { is_controlled_by = ROOT }
+				}
+				597 = {
+					add_province_modifier = {
+						static_modifiers = { flooded }
+						province = {
+							id = 10072
+							id = 10043
+							id = 12069
+							id = 12045
+						}
+					}
+					damage_building = {
+					    type = infrastructure
+					    damage = 1
+					}
+					damage_building = {
+					    type = industrial_complex
+					    damage = 0.5
+					}
+					damage_building = {
+					    type = arms_factory
+					    damage = 0.5
+					}
+				}
+                            
+				607 = {
+					add_province_modifier = {
+						static_modifiers = { flooded }
+						province = {
+							id = 9958
+							id = 7656
+							id = 7129
+							id = 4010
+							id = 10098
+							id = 7085
+							id = 9995
+						}
+					}
+					damage_building = {
+					    type = infrastructure
+					    damage = 1
+					}
+					damage_building = {
+					    type = industrial_complex
+					    damage = 1.5
+					}
+					damage_building = {
+					    type = arms_factory
+					    damage = 1.5
+					}
+				}
+				598 = {
+					add_province_modifier = {
+						static_modifiers = { flooded }
+						province = {
+							id = 7025
+							id = 9956
+							id = 12055
+							id = 11973
+							id = 1121
+							id = 1076
+							id = 1029
+						}
+					}
+					damage_building = {
+					    type = infrastructure
+					    damage = 1
+					}
+					damage_building = {
+					    type = industrial_complex
+					    damage = 1.5
+					}
+					damage_building = {
+					    type = arms_factory
+					    damage = 1.5
+					}
+				}
+				JAP = {
+		        	country_event = china.22
+        		}
+				hidden_effect = {
+				JAP = {
+		        	country_event = { id = china.23 days = 360 }
+        		}
+				CHI = {
+		        	country_event = { id = china.24 days = 360 }
+        		}
+				}
+			}
+			set_global_flag = CHI_yellow_river_flooded
+		}
+
+		complete_effect = {
+			add_war_support = -0.1
+		}
+
+	}
+}
+
+
+
+###  ##  ###  ### ###  ##  #  #      ## #  # ###  ###   ##  ###  ### 
+#   #  # #  # #    #  #    ## #     #   #  # #  # #  # #  # #  #  #  
+##  #  # ###  ##   #  # ## # ##      #  #  # ###  ###  #  # ###   #  
+#   #  # #  # #    #  #  # #  #       # #  # #    #    #  # #  #  #  
+#    ##  #  # ### ###  ##  #  #     ##   ##  #    #     ##  #  #  #  
+
+CHI_after_war_with_jap = {
+	
+
+
+}
+
+
+
+CHI_opening_roads = {
+	
+	CHI_expand_the_burma_road = {
+		icon = generic_construction
+		allowed = {
+			OR = {
+				original_tag = ENG
+		original_tag = CHI
+		original_tag = CCP
+		original_tag = GXC
+		original_tag = YUN
+		original_tag = SHX
+		original_tag = XSM
+		original_tag = SIK
+			}
+		}
+
+		available = { #WTT_TODO_CD: Make this tooltip not look like complete garbage
+			ENG = {
+				has_completed_focus = ENG_burma_road
+			}
+			288 = {
+				CONTROLLER = {
+					NOT = {
+						has_war_with = ROOT
+					}
+				}
+			}
+			640 = {
+				CONTROLLER = {
+					NOT = {
+						has_war_with = ROOT
+					}
+				}
+			}
+			325 = {
+				CONTROLLER = {
+					NOT = {
+						has_war_with = ROOT
+					}
+				}
+			}
+			747 = {
+				CONTROLLER = {
+					NOT = {
+						has_war_with = ROOT
+					}
+				}
+			}
+			ENG = {
+				any_state = {
+					OR = {
+						state = 288
+						state = 640
+						state = 325
+						state = 747
+					}
+					CONTROLLER = {
+						OR = {
+							is_in_faction_with = ENG
+						}
+					}
+				}
+			}
+		}
+		visible = {
+			NOT = { has_global_flag = CHI_burma_3 }
+			OR = {
+				AND = {
+					OR = {
+						controls_state = 325
+						325 = {
+							CONTROLLER = {
+								OR = {
+									is_subject_of = ROOT
+									is_in_faction_with = ROOT
+								}
+							}
+						}
+					}
+				}
+				AND = {
+					controls_state = 288
+					controls_state = 640
+				}
+				AND = {
+					288 = { CONTROLLER = { is_in_faction_with = ROOT } }
+					640 = { CONTROLLER = { is_in_faction_with = ROOT } }
+				}
+			}
+		}
+		days_re_enable = 360
+		ai_will_do = {
+			factor = 1
+		}
+		cost = 25
+		days_remove = 60
+		modifier = {
+			civilian_factory_use = 2
+		}
+		complete_effect = {
+			if = {
+				limit = {
+					AND = {
+						has_war = no
+						has_war_support < 0.6
+					}
+				}
+				add_war_support = 0.05
+			}
+		}
+		remove_effect = {
+			288 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			640 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			325 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			if = {
+				limit = {
+					has_global_flag = CHI_burma_2
+				}
+				set_global_flag = CHI_burma_3
+			}
+			if = {
+				limit = {
+					NOT = { has_global_flag = CHI_burma_2} # 
+				}
+				set_global_flag = CHI_burma_2
+			}
+			
+			random_country = {
+				limit = { check_variable = { CHI_burma_road > 0 } }
+				add_to_variable = { var = CHI_burma_road value = 1 }
+
+				#Country that had the burma road open
+				add_offsite_building = { type = arms_factory level = 1 }
+			}
+		}
+	}
+	CHI_guarantee_the_hanoi_route_decision = {
+
+		cost = 25
+
+		icon = generic_prepare_civil_war
+
+		ai_will_do = {
+			factor = 5
+			modifier = {
+				FRA = {
+					has_war = yes
+				}
+				factor = 0
+			}
+		}
+
+		visible ={
+
+		}
+
+		fire_only_once = yes
+
+		available = {
+			tag =  CHI
+			CHI = {
+				has_war_with = JAP
+			}
+			325 = { #Yunnan
+				CONTROLLER = {
+					OR = {
+						tag = ROOT
+						is_subject_of = ROOT
+						is_in_faction_with = ROOT
+					}
+				}
+			}
+			671 = { #Tonkin
+				CONTROLLER = {
+					NOT = { has_war_with = ROOT }
+					OR = {
+						original_tag = FRA
+						is_subject_of = FRA
+					}
+				}
+			}
+		}
+
+		complete_effect = {
+			671 = { #Tonkin
+				set_state_flag = CHI_needed_for_hanoi_route
+			}
+			325 = { #Yunnan
+				set_state_flag = CHI_needed_for_hanoi_route
+			}	
+			set_variable = { CHI_hanoi_route_current_level = 2 }
+			add_offsite_building = { type = arms_factory level = 2 }
+		}
+	}
+	CHI_expand_the_ledo_road = {
+		icon = generic_construction
+		available = {
+			any_country = {
+				has_completed_focus = CHI_ledo_road
+			}
+			OR = {
+				controls_state = 640
+				640 = {
+					CONTROLLER = {
+						is_in_faction_with = ROOT
+					}
+				}
+				controls_state = 325
+				325 = {
+					CONTROLLER = {
+						is_in_faction_with = ROOT
+					}
+				}
+			}
+		}
+		visible = {
+			OR = {
+				controls_state = 640
+				640 = {
+					CONTROLLER = {
+						is_in_faction_with = ROOT
+					}
+				}
+			}
+			NOT = {
+				has_global_flag = CHI_ledo_3
+			}
+		}
+		days_re_enable = 360
+		ai_will_do = {
+			factor = 1
+		}
+		cost = 25
+		days_remove = 60
+		modifier = {
+			civilian_factory_use = 2
+		}
+
+		remove_effect = {
+			if = {
+				limit = {
+					has_global_flag = CHI_ledo_2
+				}
+				set_global_flag = CHI_ledo_3
+			}
+			if = {
+				limit = {
+					NOT = { has_global_flag = CHI_ledo_2} # 
+				}
+				set_global_flag = CHI_ledo_2
+			}
+
+			random_country = {
+				limit = { check_variable = { CHI_ledo_road > 0 } }
+				add_to_variable = { var = CHI_ledo_road value = 1 }
+
+				#Country that had the ledo road open
+				add_offsite_building = { type = arms_factory level = 1 }
+			}
+		}
+	}
+	CHI_expand_the_airlift = {
+		icon = generic_construction
+		available = {
+        any_country = {
+				has_completed_focus = CHI_the_hump
+			}	
+		AND = {
+			OR = {
+				ENG = {
+					434 = {
+						CONTROLLER = {
+							NOT = {
+								has_war_with = CHI
+							}
+							is_in_faction_with = ENG
+						}
+					}
+				}
+			}
+			OR ={	
+				controls_state = 747
+				747 = { #Dali (Yunnan)
+					CONTROLLER = {
+						OR = {
+							is_in_faction_with = ROOT
+						}
+					}
+				}
+			}
+		}
+		}
+		visible = {
+		date > 1938.6.1	
+			OR = { 
+				controls_state = 601
+				747 = {
+					CONTROLLER = {
+						is_in_faction_with = ROOT
+					}
+				}
+			}
+		
+			NOT = {
+				has_global_flag = CHI_hump_3
+			}
+		}
+		cost = 25
+		days_re_enable = 360
+		ai_will_do = {
+			factor = 5
+		}
+		days_remove = 60
+		modifier = {
+			civilian_factory_use = 5
+		}
+		complete_effect = {
+			if = {
+				limit = {
+					AND = {
+						has_war = no
+						has_war_support < 0.6
+					}
+				}
+				add_war_support = 0.05
+			}
+		}
+		remove_effect = {
+			434 = {
+				add_building_construction = {
+					type = air_base
+					level = 1
+					instant_build = yes
+				}
+			}
+			747 = {
+				add_building_construction = {
+					type = air_base
+					level = 1
+					instant_build = yes
+				}
+			}
+			if = {
+				limit = {
+					has_global_flag = CHI_hump_2
+				}
+				set_global_flag = CHI_hump_3 # Hump 3: Revenge of the Hump: The Humpening
+			}
+			if = {
+				limit = {
+					NOT = { has_global_flag = CHI_hump_2} # Hump 2: Hump Harder
+				}
+				set_global_flag = CHI_hump_2
+			}
+			747 = {
+				CONTROLLER = {
+					add_to_variable = { var = CHI_the_hump value = 1 }
+					add_offsite_building = { type = arms_factory level = 1 }
+				}
+			}
+		}
+	}
+}
+
+political_actions = {
+
+	CHI_suspend_the_inter_party_coordination_council = {
+		icon = oppression
+		available = {
+			has_idea = CHI_inter_party_coordination_council
+		}
+		visible = {
+			has_idea = CHI_inter_party_coordination_council
+		}
+		cost = 25
+		complete_effect = {
+			if = {
+				limit = {
+					NOT = {
+						has_government = democratic
+					}
+				}
+				add_stability = -0.05
+			}
+			remove_ideas = CHI_inter_party_coordination_council
+		}
+	}
+	CHI_reinstate_the_inter_party_coordination_council = {
+		icon = generic_political_discourse
+		available = {
+			NOT = { has_idea = CHI_inter_party_coordination_council }
+			NOT = {
+				has_government = democratic
+			}
+			has_completed_focus = CHI_inter_party_coordination_council
+		}
+		visible = {
+			NOT = { has_idea = CHI_inter_party_coordination_council }
+			NOT = {
+				has_government = democratic
+			}
+			has_completed_focus = CHI_inter_party_coordination_council
+		}
+		cost = 25
+		complete_effect = {
+			add_ideas = CHI_inter_party_coordination_council
+		}
+	}
+
+	CHI_move_the_capital = {
+		allowed = {
+			OR = {
+		original_tag = CHI
+		original_tag = CCP
+		original_tag = GXC
+		original_tag = YUN
+		original_tag = SHX
+		original_tag = XSM
+		original_tag = SIK
+			}
+			has_dlc = "Waking the Tiger"
+		}
+		available = {
+			has_war = no
+			OR = {
+				has_full_control_of_state = 608
+				has_full_control_of_state = 613
+			}
+			capital_scope = {
+				NOT = {
+					OR = {
+						state = 608
+						state = 613
+					}
+				}
+			}
+		}
+		visible = {
+			has_war = no
+			OR = {
+				has_full_control_of_state = 608
+				has_full_control_of_state = 613
+			}
+			capital_scope = {
+				NOT = {
+					OR = {
+						state = 608
+						state = 613
+					}
+				}
+			}
+		}
+		cost = 50
+		ai_will_do = {
+			factor = 1
+		}
+		complete_effect = {
+			country_event = wtt_china.204
+		}
+	}
+}
+
+#CHI_xian_incident = {
+#	CHI_instigate_xian_incident = {
+#		icon = generic_political_discourse
+#		available = {			
+#			NOT = {
+#				has_global_flag = CHI_xian_fired
+#			}
+#			CHI = {
+#				NOT = {
+#					is_in_faction_with = CCP
+#				}
+#				NOT = {
+#					has_war_with = JAP
+#				}
+#				NOT = {
+#					has_war_with = CCP
+#				}
+#				NOT = {
+#					OR = {
+#						has_completed_focus = CHI_foreign_threats
+#						has_completed_focus = CHI_prioritize_the_interior
+#					}
+#				}
+#				OR = {
+#		        	has_idea = CHI_encircle_communists_1
+#	        		has_idea = CHI_encircle_communists_2
+#		    	}
+#			}
+#			CCP = {
+#				NOT = {
+#					has_war_with = JAP
+#				}
+#				NOT = {
+#					has_war_with = CHI
+#				}
+#				is_in_faction = no
+#			}
+#			NOT = {
+#				has_war_with = CHI
+#			}
+#			NOT = {
+#				has_war_with = CCP
+#			}
+#		}
+#
+#		visible = {
+#			NOT = {
+#				has_global_flag = CHI_xian_fired
+#			}
+#			CHI = {
+#				NOT = {
+#					is_in_faction_with = CCP
+#				}
+#				NOT = {
+#					has_war_with = JAP
+#				}
+#			}
+#			CCP = {
+#				NOT = {
+#					has_war_with = JAP
+#				}
+#			}
+#			is_literally_china = yes
+#			NOT = {
+#				OR = {
+#					original_tag = CHI
+#					original_tag = CCP
+#				}
+#			}
+#			event_target:WTT_current_china_leader = { tag = CHI }
+#		}
+#		cost = 25
+#		fire_only_once = yes
+#		ai_will_do = {
+#			factor = 1
+#			modifier = {
+#				threat > 0.1
+#				factor = 2
+#			}
+#			modifier = {
+#				NOT = { 	
+#					JAP = {
+#						has_added_tension_amount > 0
+#					}
+#				}
+#				factor = 0
+#			}
+#			modifier = {
+#				JAP = {
+#					NOT = {
+#						has_government = fascism
+#					}
+#				}
+#				factor = 0
+#			}
+#		}
+#		complete_effect = {
+#			set_country_flag = CHI_xian_instigator_flag
+#			set_global_flag = CHI_xian_fired
+#			CHI = {
+#				country_event = wtt_xian_incident.1
+#			}
+#		}
+#	}
+#}
+

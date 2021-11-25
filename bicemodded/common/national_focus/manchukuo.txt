@@ -1,0 +1,1352 @@
+focus_tree = {
+	id = MEN_focus
+	
+	country = {
+		factor = 0
+		modifier = {
+			add = 10
+			tag = CHI
+			has_government = fascism
+		}
+	}
+	
+	default = no
+	
+	focus = {
+		id = CHI_military_dictatorship
+		icon = GFX_goal_demand_sudetenland
+
+		available = {
+		}
+		x = 10
+		y = 0
+		cost = 10
+		
+		completion_reward = {
+			add_ideas = militarism_focus
+		}
+	}
+        focus = {
+		id = MEN_sow_anti_japanese_sentiment
+		icon = GFX_goal_generic_forceful_treaty
+		mutually_exclusive = { focus = MEN_assassination_of_japanese_officials }
+		x = 14
+		y = 0
+		ai_will_do = {
+			factor = 2
+			modifier = {
+			factor = 0.5
+			has_stability > 0.5
+			}
+			modifier = {
+			factor = 0.5
+			has_stability > 0.62
+			}
+			modifier = {
+			factor = 0
+			has_stability > 0.75
+			}
+			modifier = {
+			factor = 0.5
+			fascism > 0.45
+			}
+			modifier = {
+			factor = 0.5
+			fascism > 0.6
+			}
+			modifier = {
+			factor = 0
+			fascism > 0.75
+			}
+		}
+		
+		allow_branch = { always = no }
+		
+		cost = 10
+		completion_reward = {
+			add_popularity = {
+				ideology = fascism
+				popularity = -0.1
+			}
+                        add_stability = -0.05
+		}
+	}
+        focus = {
+		id = MEN_assassination_of_japanese_officials
+		icon = GFX_goal_generic_military_deal
+		mutually_exclusive = { focus = MEN_sow_anti_japanese_sentiment }
+		x = 16
+		y = 0
+		cost = 10
+		available = {
+			is_puppet_of = JAP
+			
+		}
+		ai_will_do = {
+			factor = 3
+			modifier = {
+			factor = 0.5
+			has_stability > 0.35
+			}
+			modifier = {
+			factor = 0.5
+			has_stability > 0.5
+			}
+			modifier = {
+			factor = 0
+			has_stability > 0.7
+			}
+			modifier = {
+			factor = 0.5
+			fascism > 0.42
+			}
+			modifier = {
+			factor = 0.5
+			fascism > 0.55
+			}
+			modifier = {
+			factor = 0
+			fascism > 0.7
+			}
+		}
+		allow_branch = { always = no }
+		completion_reward = {
+			add_stability = -0.05
+			#set_country_flag = MCK_assassinated
+			custom_effect_tooltip = MCK_assassination_tt
+			hidden_effect = {
+				OVERLORD = {
+						country_event = { id = jap.12 }
+					}
+			}
+		}
+	}
+	focus = { # wow i make revolt against japan
+		id = MEN_freedom
+		icon = GFX_goal_generic_forceful_treaty
+		prerequisite = { focus = MEN_assassination_of_japanese_officials focus = MEN_sow_anti_japanese_sentiment }
+		x = 15
+		y = 1
+		cost = 10
+		available = {
+		OR = {
+		fascism < 0.5 
+		has_stability < 0.5
+		}
+		fascism < 0.7
+		has_stability < 0.7
+		}
+		completion_reward = {
+		custom_effect_tooltip = GAME_OVER_TT
+		    if = {
+				limit = {
+					country_exists = CHI
+				}
+				every_state = {
+				limit = {
+						NOT = { region = 200 }
+						NOT = { region = 229 }
+						NOT = { region = 230 }
+						NOT = { region = 231 }
+						NOT = { region = 144 }
+						NOT = { state = 620 }
+						NOT = { state = 600 }
+					
+					owner = {
+							tag = ROOT
+					}
+				}
+
+				JAP = {
+					transfer_state = PREV
+				}
+				
+			}
+				CHI = {
+				annex_country = { target = ROOT transfer_troops = yes } 
+				}
+			else = {
+			
+			        every_state = {
+				limit = {
+					OR = {
+						region = 200
+						region = 229
+						region = 230
+						region = 231
+						region = 144
+						state = 620
+						state = 600
+					}
+					owner = {
+						OR = {
+							tag = JAP
+							is_in_faction_with = JAP
+						}
+					}
+				}
+
+				CHI = {
+					transfer_state = PREV
+				}
+				
+			}
+			CHI = {
+				
+				set_politics = {
+					ruling_party = neutrality
+					elections_allowed = no
+				}
+				set_popularities = {
+    democratic = 5
+	fascism = 5
+	communism = 17
+	neutrality = 73
+}
+create_country_leader = {
+	name = "Dai Li"
+	desc = "POLITICS_DAI_LI_DESC"
+	picture = "gfx/leaders/CHI/Portrait_Dai_Li.tga"
+	expire = "1965.1.1"
+	ideology = despotism
+	traits = {
+		#
+	}
+}
+
+if = { 
+				limit = { JAP = { exists = yes } }
+				declare_war_on = {
+			target = JAP
+			type = annex_everything
+		}
+				}
+				
+				country_event = { id = CHI.993 hours = 3 }
+				
+			}
+			if = {
+				limit = {
+					NOT = { has_country_flag = mass_assault_a }
+				}
+				hidden_effect = {
+					load_oob = "mass_assault_a"
+					set_country_flag = mass_assault_a
+				}
+			}
+			
+			JAP = {
+				annex_country = { target = ROOT transfer_troops = yes } 
+				}
+				
+			}
+		}
+		}
+	}
+	focus = {
+		id = KMT_japanese_advisors
+		icon = GFX_goal_tripartite_pact
+		available = {
+		}
+		prerequisite = { focus = CHI_military_dictatorship }
+		x = 12
+		y = 1
+		cost = 10
+		
+		completion_reward = {
+			add_ideas = KMT_jap_military_advisors
+		}
+	}
+	focus = {
+		id = MEN_jap_industrial_development_company
+		icon = GFX_goal_generic_construct_civ_factory
+		prerequisite = { focus = MEN_coastal_railway }
+		dynamic = yes
+		available = {
+		}
+		x = 4
+		y = 1
+		cost = 11
+		completion_reward = {
+			#add_ideas = MCK_manchurian_industrial_development_company
+			
+			if = {
+				limit = {
+					716 = {
+						is_owned_by = ROOT
+						is_controlled_by = ROOT
+						free_building_slots = {
+							building = industrial_complex
+							size > 1
+							include_locked = yes
+						}
+					}
+				}
+				716 = {
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = industrial_complex
+						level = 2
+						instant_build = yes
+					}
+				}
+				else = {
+					random_owned_controlled_state = {
+						limit = {
+							free_building_slots = {
+								building = industrial_complex
+								size > 1
+								include_locked = yes
+							}
+						}
+						add_extra_state_shared_building_slots = 2
+						add_building_construction = {
+							type = industrial_complex
+							level = 2
+							instant_build = yes
+						}
+					}
+				}
+			}
+			add_research_slot = 1
+		}
+	}
+	focus = {
+		id = MEN_request_zaibatsu_investment_on_military_industry
+		icon = GFX_goal_generic_military_sphere
+		prerequisite = { focus = MEN_jap_industrial_development_company }
+		mutually_exclusive = { focus = MEN_request_zaibatsu_investment_on_industry }
+		available = {
+			is_puppet_of = JAP
+		}
+		x = 3
+		y = 2
+		cost = 9
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+					free_building_slots = {
+						building = arms_factory
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+					free_building_slots = {
+						building = arms_factory
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			add_tech_bonus = {
+				name = industrial_bonus
+				uses = 1
+				bonus = 0.5
+				category = industry
+				category = infantry_weapons
+			}
+		}
+	}
+	
+	focus = {
+		id = MEN_request_zaibatsu_investment_on_industry
+		icon = GFX_goal_generic_construction
+		prerequisite = { focus = MEN_jap_industrial_development_company }
+		mutually_exclusive = { focus = MEN_request_zaibatsu_investment_on_military_industry }
+		available = {
+			is_puppet_of = JAP
+		}
+		x = 5
+		y = 2
+		cost = 10
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+					free_building_slots = {
+						building = arms_factory
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+					free_building_slots = {
+						building = industrial_complex
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			add_tech_bonus = {
+				name = industrial_bonus
+				uses = 1
+				bonus = 0.5
+				category = industry
+			}
+		}
+	}
+	focus = {
+		id = MEN_coastal_railway
+		icon = GFX_goal_generic_construct_infrastructure
+		x = 0
+		y = 0
+		cost = 9
+		bypass = {
+			NOT = {
+				328 = {
+					is_owned_by = ROOT
+				}
+				717 = {
+					is_owned_by = ROOT
+				}
+				716 = {
+					is_owned_by = ROOT
+				}
+				714 = {
+					is_owned_by = ROOT
+				}
+			}
+		}
+		completion_reward = {
+			if = {
+				limit = {
+					328 = {
+						is_owned_by = ROOT
+					}
+				}
+				328 = {
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					716 = {
+						is_owned_by = ROOT
+					}
+				}
+				716 = {
+					add_building_construction = {
+						type = infrastructure
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					717 = {
+						is_owned_by = ROOT
+					}
+				}
+				717 = {
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					714 = {
+						is_owned_by = ROOT
+					}
+				}
+				714 = {
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = CHI_embrace_the_opium_trade
+		icon = GFX_goal_generic_trade
+		#prerequisite = { focus = CHI_new_model_province }
+		#mutually_exclusive = { focus = CHI_root_out_corruption }
+		x = 6
+		y = 0
+		#relative_position_id = CHI_new_model_province
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		complete_tooltip = {
+
+		}
+
+		completion_reward = {
+			add_ideas = CHI_embrace_the_opium_trade
+		}
+	}
+	
+	focus = {
+		id = MEN_revive_jiangnan_shipyard
+		icon = GFX_goal_generic_occupy_states_coastal
+		x = 3
+		y = 4
+		cost = 10
+		prerequisite = { focus = KMT_study_foreign_ship }
+		bypass = {
+			custom_trigger_tooltip =  {
+				tooltip = production_effort_tt
+				all_owned_state = {
+					free_building_slots = {
+						building = dockyard
+						size < 0
+						include_locked = yes
+					}
+				}
+			}
+		}
+		completion_reward = {
+			if = {
+				limit = {
+					613 = {
+						OR = {
+							OR = { 
+								NOT = {
+									is_owned_by = ROOT
+								}
+								NOT = {
+									is_controlled_by = ROOT
+								}
+							}
+							AND = {
+								is_owned_by = ROOT
+								free_building_slots = {
+									building = dockyard
+									size < 1
+									include_locked = yes
+								}
+							}
+						}
+					}
+				}
+				random_owned_controlled_state = {
+					limit = { 
+						free_building_slots = {
+							building = dockyard
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = dockyard
+						level = 1
+						instant_build = yes
+					}							
+				}
+			}
+			613 = {
+				if = {
+					limit = { 
+						is_owned_by = ROOT
+						free_building_slots = {
+							building = dockyard
+							size > 0
+							include_locked = yes
+						}
+						is_controlled_by = ROOT
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = dockyard
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			custom_effect_tooltip = available_designer
+			show_ideas_tooltip = CHI_jiangnan_shipyard_group
+		}
+	}
+	
+	focus = {
+		id = MEN_revive_hanyang_armory
+		icon = GFX_goal_generic_production2
+		x = 5
+		y = 6
+		cost = 10
+		prerequisite = { focus = MEN_armor_effort }
+		prerequisite = { focus = KMT_study_foreign_ship }
+		bypass = {
+			custom_trigger_tooltip =  {
+				tooltip = production_effort_tt
+				all_owned_state = {
+					free_building_slots = {
+						building = arms_factory
+						size < 0
+						include_locked = yes
+					}
+				}
+			}
+		}
+		completion_reward = {
+			if = {
+				limit = {
+					620 = {
+						OR = {
+							OR = { 
+								NOT = {
+									is_owned_by = ROOT
+								}
+								NOT = {
+									is_controlled_by = ROOT
+								}
+							}
+							AND = {
+								is_owned_by = ROOT
+								free_building_slots = {
+									building = arms_factory
+									size < 0
+									include_locked = yes
+								}
+							}
+						}
+					}
+				}
+				random_owned_controlled_state = {
+					limit = { 
+						free_building_slots = {
+							building = arms_factory
+							size > 1
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = arms_factory
+						level = 1
+						instant_build = yes
+					}							
+				}
+			}
+			620 = {
+				if = {
+					limit = { 
+						is_owned_by = ROOT
+						free_building_slots = {
+							building = arms_factory
+							size > 0
+							include_locked = yes
+						}
+						is_controlled_by = ROOT
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = arms_factory
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			custom_effect_tooltip = available_designer
+			show_ideas_tooltip = CHI_hanyang_armory
+		}
+	}
+	
+	focus = {
+		id = KMT_claim_territory
+		icon = GFX_goal_generic_demand_territory
+		prerequisite = { focus = KMT_japanese_advisors }
+		#prerequisite = { focus = MEN_coastal_railway }
+		available = {
+			has_government = fascism
+			JAP = { has_completed_focus = JAP_chinese_interrior }
+		}
+		x = 12
+		y = 2
+		cost = 5
+		
+		ai_will_do = {
+			factor = 100
+		}
+		
+		completion_reward = {
+			every_state = {
+				limit = {
+					OR = {
+						#region = 155
+						region = 143
+						region = 164
+						region = 165
+						region = 144
+						region = 145
+						region = 227
+						region = 228
+						region = 229
+						region = 230
+						region = 231
+						state = 524
+					}
+					NOT = {
+						OR = {
+							state = 527
+							state = 525
+							is_core_of = MEN
+						}
+					}
+				}
+				add_claim_by = MEN
+			}
+			add_popularity = { ideology = fascism popularity = 0.1 }	
+			#unlock_decision_category_tooltip = MEN_reclaim_china
+		}
+	}
+	
+	focus = {
+		id = KMT_supreme_leader
+		icon = GFX_goal_generic_secret_weapon
+		x = 8
+		y = 1
+		cost = 10
+		available = {
+			has_government = fascism
+		}
+		prerequisite = { focus = CHI_military_dictatorship }
+		
+		completion_reward = {
+					add_country_leader_trait = dictator
+		}
+	}
+	
+	focus = {
+		id = KMT_ban_communism
+		icon = GFX_goal_anti_comintern_pact
+        prerequisite = { focus = KMT_supreme_leader }
+		x = 8
+		y = 2
+		cost = 10
+		completion_reward = {
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.25
+			}
+			every_country = {
+				limit = {
+					has_government = communism
+				}
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = KMT_commie_banned
+				}
+			}
+			add_ideas = communism_banned
+			if = {
+				limit = {
+					country_exists = CCP
+				}
+				create_wargoal = {
+					target = CCP
+					type = civil_war
+				}
+				if = {
+					limit = {
+						CCP = { is_subject_of = ROOT }
+					}
+					end_puppet = CCP
+				}
+			}
+		}
+	}
+	
+		focus = {
+		id = KMT_war_propaganda
+		icon = GFX_goal_generic_propaganda
+		prerequisite = { focus = KMT_ban_communism }
+		x = 8
+		y = 3
+		cost = 10
+		
+		completion_reward = {
+			add_ideas = KMT_war_propaganda_idea
+		}
+	}
+	
+	focus = {
+		id = KMT_military_first
+		icon = GFX_goal_generic_army_doctrines
+		prerequisite = { focus = KMT_war_propaganda }
+
+		available = {
+			has_government = fascism
+		}
+		bypass = {
+			has_idea = CHI_military_first
+			amount_research_slots > 4
+		}
+		x = 7
+		y = 4
+		cost = 10
+		
+		completion_reward = {
+			if = {
+				limit = {
+					has_idea = KMT_militarism
+				}
+				swap_ideas = {
+					remove_idea = KMT_militarism
+					add_idea = CHI_military_first
+				}
+				else = {
+					effect_tooltip = {
+						swap_ideas = {
+							remove_idea = KMT_militarism
+							add_idea = CHI_military_first
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					amount_research_slots < 5
+				}
+				add_research_slot = 1
+			}
+		}
+	}
+	
+	focus = {
+		id = KMT_planning_our_empire
+		icon = GFX_goal_generic_more_territorial_claims
+		prerequisite = { focus = KMT_claim_territory }
+		prerequisite = { focus = KMT_supreme_leader }
+		available = {
+			has_government = fascism
+		}
+		ai_will_do = {
+			factor = 0.5
+			modifier = {
+			factor = 2
+			has_stability > 0.5
+			}
+			modifier = {
+			factor = 2
+			has_stability > 0.62
+			}
+			modifier = {
+			factor = 2
+			has_stability > 0.75
+			}
+		}
+		x = 10
+		y = 3
+		cost = 10
+		completion_reward = {
+			add_ideas = KMT_empire_plan
+		}
+	}
+	
+	
+	
+	focus = {
+		id = MEN_equipment_effort
+		icon = GFX_goal_generic_small_arms
+		x = 0
+		y = 1
+		cost = 10
+		available_if_capitulated = yes
+				ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			add_tech_bonus = {
+				name = infantry_artillery_bonus
+				bonus = 0.4
+				uses = 4
+				category = infantry_weapons
+				category = artillery
+			}
+		}
+	}
+
+	focus = {
+		id = MEN_motorization_effort
+		icon = GFX_goal_generic_army_motorized
+				ai_will_do = {
+			factor = 1
+		}
+		bypass = { has_tech = motorised_infantry }
+		x = 2
+		y = 1
+		cost = 10
+		available_if_capitulated = yes
+		completion_reward = {
+			add_tech_bonus = {
+				name = motorized_bonus
+				bonus = 0.4
+				technology = motorised_infantry
+			}
+		}
+	}
+
+	focus = {
+		id = MEN_doctrine_effort
+		icon = GFX_goal_generic_army_doctrines
+		x = 1
+		y = 2
+		cost = 10
+		available_if_capitulated = yes
+				ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			army_experience = 5
+			add_tech_bonus = {
+				name = land_doc_bonus
+				bonus = 0.6
+				uses = 2
+				category = land_doctrine
+			}
+		}
+	}
+
+	focus = {
+		id = MEN_equipment_effort_2
+		icon = GFX_goal_generic_army_artillery
+		prerequisite = { focus = MEN_equipment_effort }
+		x = 0
+		y = 3
+		cost = 10
+		available_if_capitulated = yes
+		
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			army_experience = 10
+			add_tech_bonus = {
+				name = support_bonus
+				bonus = 0.6
+				uses = 4
+				category = support_tech
+			}
+		}
+	}
+
+	focus = {
+		id = MEN_mechanization_effort
+		icon = GFX_goal_generic_build_tank
+		prerequisite = { focus = MEN_motorization_effort }
+		x = 2
+		y = 3
+		cost = 10
+		available_if_capitulated = yes
+				ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			add_tech_bonus = {
+				name = mechanized_bonus
+				bonus = 0.5
+				uses = 2
+				category = cat_mechanized_equipment
+			}
+		}
+	}
+
+	focus = {
+		id = MEN_doctrine_effort_2
+		icon = GFX_goal_generic_army_doctrines
+		prerequisite = { focus = MEN_doctrine_effort }
+		x = 1
+		y = 4
+		cost = 10
+		available_if_capitulated = yes
+				ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			army_experience = 5
+			add_tech_bonus = {
+				name = land_doc_bonus
+				bonus = 0.4
+				uses = 2
+				category = land_doctrine
+			}
+		}
+	}
+
+	focus = {
+		id = MEN_equipment_effort_3
+		icon = GFX_goal_generic_army_artillery2
+		prerequisite = { focus = MEN_equipment_effort_2 }
+		x = 0
+		y = 5
+		cost = 10
+		available_if_capitulated = yes
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			add_tech_bonus = {
+				name = infantry_artillery_bonus
+				bonus = 0.5
+				uses = 3
+				category = infantry_weapons
+				category = artillery
+			}
+		}
+	}
+
+	focus = {
+		id = MEN_armor_effort
+		icon = GFX_goal_generic_army_tanks
+		prerequisite = { focus = MEN_mechanization_effort }
+		x = 2
+		y = 5
+		cost = 10
+		available_if_capitulated = yes
+				ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			add_tech_bonus = {
+				name = armor_bonus
+				bonus = 0.6
+				uses = 3
+				category = armor
+			}
+		}
+	}
+	focus = {
+		id = MEN_stug_effort
+		icon = GFX_goal_TD
+		prerequisite = { focus = MEN_armor_effort }
+		x = 1
+		y = 6
+		cost = 7
+		available_if_capitulated = yes
+		completion_reward = {
+			add_tech_bonus = {
+			     name = ag_bonus
+			     bonus = 0.5
+			     uses = 2
+			     category = cat_stug
+			}
+		}
+	}
+	focus = {
+		id = MEN_support_tanks 
+		icon = GFX_goal_TD_2
+		prerequisite = { focus = MEN_armor_effort }
+		
+		x = 3
+		y = 6
+		cost = 7
+		ai_will_do = {
+			factor = 2
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			add_tech_bonus = {
+			name = armor_bonus
+			bonus = 0.5 
+			uses = 2
+			category = cat_art
+			}
+			add_tech_bonus = {
+			name = armor_bonus
+			bonus = 0.5 
+			uses = 2
+			category = cat_td
+			}
+		}
+	}
+	
+	focus = {
+		id = KMT_study_foreign_ship
+		icon = GFX_goal_generic_production
+		prerequisite = { focus = MEN_request_zaibatsu_investment_on_military_industry focus = MEN_request_zaibatsu_investment_on_industry }
+		x = 4
+		y = 3
+		cost = 7
+		
+		completion_reward = {
+			navy_experience = 5
+			add_tech_bonus = {
+				name = dd_bonus
+				bonus = 0.6
+				uses = 2
+				category = dd_tech
+			}
+		}
+	}
+	
+	focus = {
+		id = KMT_demand_taiwan
+		icon = GFX_goal_generic_political_pressure
+		prerequisite = { focus = MEN_coastal_railway }
+		x = 9
+		y = 5
+		cost = 9
+		available = {
+			NOT = { owns_state = 524 }
+			custom_trigger_tooltip = {
+				tooltip = demand_taiwan_tt
+				hidden_trigger = {
+					524 = {
+						owner = {
+							NOT = {
+								has_war_with = ROOT
+							}
+						}
+					}
+				}
+			}
+			has_war = no
+		}
+		ai_will_do = {
+			factor = 0
+		}
+		bypass = {
+			524 = {
+				is_owned_by = ROOT
+			}
+		}
+		
+		completion_reward = {
+			524 = {
+				owner = {
+					country_event = { id = kmt.15 days = 3 }
+				}
+			}
+		}
+		
+	}
+	
+	focus = {
+		id = KMT_taiwan_fleet_hub
+		icon = GFX_goal_generic_construct_naval_dockyard
+		prerequisite = { focus = KMT_demand_taiwan }
+		available = {
+			524 = {
+				is_owned_by = ROOT
+				is_controlled_by = ROOT
+			}
+		}
+		x = 9
+		y = 6
+		cost = 10
+		bypass = {
+			custom_trigger_tooltip =  {
+				tooltip = KMT_ocean_hub_tt
+				524 = {
+					free_building_slots = {
+						building = dockyard
+						size < 5
+						include_locked = yes
+					}
+				}
+			}
+		}
+		
+		completion_reward = {
+			navy_experience = 10
+
+			add_tech_bonus = {
+				name = ships_bonus
+				bonus = 1
+				uses = 2
+				category = naval_equipment
+			}
+
+			524 = {
+				add_extra_state_shared_building_slots = 5
+				add_building_construction = {
+					type = dockyard
+					level = 5
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = naval_base
+					level = 10
+					instant_build = yes
+					province = 7186
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = KMT_pacific_fleet
+		icon = GFX_goal_generic_navy_carrier
+		prerequisite = { focus = KMT_taiwan_fleet_hub }
+		mutually_exclusive = { focus = KMT_sea_fleet }
+		available = {
+			has_navy_size = {
+				size > 49
+			}
+		}
+		x = 10
+		y = 7
+		cost = 10
+		
+		completion_reward = {
+			navy_experience = 30
+			add_tech_bonus = {
+				name = cv_bonus
+				bonus = 0.5
+				uses = 1
+				category = cv_tech
+			}
+			add_tech_bonus = {
+				name = bb_bonus
+				bonus = 0.5
+				uses = 1
+				category = bb_tech
+			}
+			add_tech_bonus = {
+				name = cl_bonus
+				bonus = 0.5
+				uses = 1
+				category = cl_tech
+			}
+		}
+	}
+	
+	focus = {
+		id = KMT_sea_fleet
+		icon = GFX_goal_generic_navy_submarine
+		prerequisite = { focus = KMT_taiwan_fleet_hub }
+		mutually_exclusive = { focus = KMT_pacific_fleet }
+		available = {
+			has_navy_size = {
+				size > 49
+			}
+		}
+		x = 8
+		y = 7
+		cost = 10
+		
+		completion_reward = {
+			navy_experience = 10
+			add_tech_bonus = {
+				name = ss_bonus
+				bonus = 0.5
+				uses = 1
+				category = ss_tech
+			}
+			add_tech_bonus = {
+				name = dd_bonus
+				bonus = 0.5
+				uses = 1
+				category = dd_tech
+			}
+			add_tech_bonus = {
+				name = cl_bonus
+				bonus = 0.5
+				uses = 1
+				category = cl_tech
+			}
+		}
+	}
+	
+	focus = {
+		id = KMT_pacific_expansion
+		icon = GFX_goal_generic_navy_doctrines_tactics
+		prerequisite = { focus = KMT_pacific_fleet }
+		available = {
+			has_navy_size = {
+				size > 74
+			}
+		}
+		x = 10
+		y = 8
+		cost = 10
+		
+		completion_reward = {
+			add_tech_bonus = {
+				name = nav_doc_bonus
+				bonus = 0.5
+				uses = 2
+				category = cat_fleet_in_being
+				category = cat_base_strike
+			}
+			#KMT_take_pacific_wargoal = yes
+		}
+	}
+	
+	focus = {
+		id = KMT_sea_expansion
+		icon = GFX_goal_generic_navy_anti_submarine
+		prerequisite = { focus = KMT_sea_fleet }
+		available = {
+			has_navy_size = {
+				size > 74
+			}
+		}
+		x = 8
+		y = 8
+		cost = 10
+		historical_ai = {
+			always = no
+		}
+		completion_reward = {
+			add_tech_bonus = {
+				name = ti_bonus
+				bonus = 2
+				uses = 0.5
+				category = cat_trade_interdiction
+			}
+			#KMT_take_SEA_wargoal = yes
+		}
+	}
+}

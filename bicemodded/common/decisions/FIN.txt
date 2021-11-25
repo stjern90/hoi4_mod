@@ -1,0 +1,376 @@
+FIN_agriculture = {
+
+	FIN_sales1 = {
+	    allowed = {
+			original_tag = FIN
+		}
+			
+		visible = {
+			has_completed_focus = FIN_salestax
+			NOT = { has_country_flag = FIN_lowered }
+			or = {
+				has_idea = FIN_loans
+				has_idea = FIN_loans2
+				has_idea = FIN_loans3
+				has_idea = FIN_loans4
+				has_idea = FIN_loans5
+			}
+		}
+
+		available = {
+			has_completed_focus = FIN_salestax
+			has_global_flag = winterwar
+			
+		}
+		
+		cost = 100
+
+		ai_will_do = {
+			factor = 5000
+		}
+		
+		days_remove = 90
+
+		complete_effect = {
+			FIN_loan_decrease = yes
+		}
+	}
+
+	FIN_grain = {
+	    allowed = {
+			original_tag = FIN
+		}
+			
+		visible = {
+			has_completed_focus = FIN_statecontrol
+		}
+
+		available = {
+			has_completed_focus = FIN_statecontrol
+			NOT = { has_global_flag = winterwar }
+			or = {
+				has_idea = FIN_russia
+				has_idea = FIN_russia2
+			}
+		}
+		
+		cost = 30
+		
+		days_remove = 10
+
+		ai_will_do = {
+			factor = 200
+		}
+
+		complete_effect = {
+			FIN_russia_decrease = yes
+		}
+	}
+	
+	FIN_grain2 = {
+	    allowed = {
+			original_tag = FIN
+		}
+			
+		visible = {
+			has_completed_focus = FIN_statecontrol
+		}
+
+		available = {
+			has_completed_focus = FIN_statecontrol
+			NOT = { has_global_flag = winterwar }
+			or = {
+				has_idea = FIN_russia2
+				has_idea = FIN_russia3
+			}
+		}
+		
+		cost = 30
+		
+		days_remove = 10
+
+		ai_will_do = {
+			factor = 0
+		}
+
+		complete_effect = {
+			FIN_russia_increase = yes
+		}
+	}
+
+}
+
+
+FIN_sovwar = {
+
+	FIN_swedenwar = {
+	    allowed = {
+			original_tag = FIN
+		}
+			
+		visible = {
+			or = {
+				has_completed_focus = FIN_strikesweden
+				has_war_with = SWE
+			}
+		}
+
+		available = {
+			or = {
+				has_completed_focus = FIN_strikesweden
+				has_war_with = SWE
+			}
+		}
+		
+		cost = 0
+
+		ai_will_do = {
+			factor = 50
+			modifier = {
+				factor = 0
+				has_war_with = SOV
+			}
+			modifier = {
+				factor = 2
+				has_completed_focus = FIN_winterwar
+			}
+		}
+		
+		fire_only_once = yes
+
+		complete_effect = {
+			if = {
+				limit = { NOT = { has_war_with = SWE } }
+				declare_war_on = {
+					target = SWE
+					type = annex_everything
+				}
+			}
+			add_timed_idea = {
+				days = 60
+				idea = FIN_swewar
+			}
+			hidden_effect = {
+				news_event = {
+					id = finland.113
+					days = 1
+				}
+			}
+		}
+	}
+
+	FIN_winterwar3 = {
+	    allowed = {
+			original_tag = FIN
+		}
+			
+		visible = {
+			has_defensive_war_with = SOV
+		}
+
+		available = {
+			NOT = { has_war = yes }
+		}
+		
+		activation = {
+			has_defensive_war_with = SOV
+		}		
+		
+		days_mission_timeout = 1	
+
+
+		is_good = yes
+		ai_will_do = {
+			factor = 200
+		}
+		
+		fire_only_once = yes
+		timeout_effect = {
+			if = {
+				limit = { is_ai = no }
+				FIN = {
+					add_timed_idea = {
+						idea = FIN_perkele
+						days = 80
+					}
+				}
+			}
+			else = {
+				FIN = {
+					add_timed_idea = {
+						idea = FIN_perkele_AI
+						days = 90
+					}
+				}
+			}
+		}
+		complete_effect = {
+
+		}
+	}
+	
+	FIN_continuationwar = {
+	    allowed = {
+			original_tag = FIN
+		}
+			
+		visible = {
+			or = {
+				has_offensive_war_with = SOV
+				date > 1940.1.1
+				has_completed_focus = FIN_preparerevenge
+			}
+		}
+
+		available = {
+			or = {
+				is_in_faction_with = GER
+				GER = { has_offensive_war_with = SOV }
+			}
+			has_completed_focus = FIN_preparerevenge
+			is_puppet = no
+		}
+
+		ai_will_do = {
+			factor = 200
+			modifier = {
+				factor = 0
+				NOT = { GER = { has_war_with = SOV } }
+			}
+		}
+		
+		fire_only_once = yes
+		
+		cost = 20
+
+		complete_effect = {
+			#cleanup, no more ai/player different Continuation war modifiers, a buff to 2 years approx. of continuation war, after that soviets started winning.
+			add_command_power = -50
+			if = {
+				limit = { is_ai = no }
+				FIN = {
+					add_timed_idea = {
+						idea = FIN_perkele2
+						days = 500
+					}
+					add_ideas = FIN_resistance
+				}
+			}
+			else = {
+				FIN = {
+					add_timed_idea = {
+						idea = FIN_perkele2 #only defensive stats
+						days = 500
+					}
+					add_timed_idea = {
+						idea = FIN_perkele_AI5
+						days = 60
+					}
+				}
+			}
+			if = {
+				limit = { 
+					NOT = { is_in_faction_with = SOV } 
+					SOV = { exists = yes }
+					NOT = { has_war_with = SOV }
+				}
+				FIN = {
+					country_event = {
+						id = twevents.74
+						days = 1
+					}
+				}
+				declare_war_on = {
+					target = SOV
+					type = annex_everything
+				}
+
+			}
+			hidden_effect = {
+				news_event = {
+					id = news.1306
+					days = 1
+				}
+			}
+		}
+	}
+	
+	FIN_forces = {
+		allowed = {
+			original_tag = FIN
+		}
+			
+		visible = {
+			or = {
+				date > 1941.1.1
+				has_completed_focus = FIN_preparerevenge
+			}
+		}
+
+		available = {
+			has_war = no
+			date > 1941.2.1
+			has_completed_focus = FIN_preparerevenge
+		}
+
+		ai_will_do = {
+			factor = 200
+		}
+		
+		fire_only_once = yes
+		
+		cost = 40
+
+		complete_effect = {
+			custom_effect_tooltip = FIN_force
+			hidden_effect = {
+				load_oob = FIN_forces
+				random_owned_controlled_state = {
+					prioritize = { 111 }
+					create_unit = { 
+						division = "name = \"Finnish Infantry Division\" division_template = \"Jalkaväkidivisioona S.\" start_experience_factor = 0.3" 
+						owner = FIN
+					}
+				}
+				random_owned_controlled_state = {
+					prioritize = { 111 }
+					create_unit = { 
+						division = "name = \"Finnish Infantry Division\" division_template = \"Jalkaväkidivisioona S.\" start_experience_factor = 0.3" 
+						owner = FIN
+					}
+				}
+				random_owned_controlled_state = {
+					prioritize = { 111 }
+					create_unit = { 
+						division = "name = \"Finnish Infantry Division\" division_template = \"Jalkaväkidivisioona S.\" start_experience_factor = 0.2" 
+						owner = FIN
+					}
+				}
+				random_owned_controlled_state = {
+					prioritize = { 111 }
+					create_unit = { 
+						division = "name = \"Finnish Infantry Division\" division_template = \"Jalkaväkidivisioona S.\" start_experience_factor = 0.2" 
+						owner = FIN
+					}
+				}
+				if = {
+					limit = { is_ai = yes }
+					random_owned_controlled_state = {
+						prioritize = { 111 }
+						create_unit = { 
+							division = "name = \"Finnish Infantry Division\" division_template = \"Jalkaväkidivisioona S.\" start_experience_factor = 0.4" 
+							owner = FIN
+						}
+					}
+					random_owned_controlled_state = {
+						prioritize = { 111 }
+						create_unit = { 
+							division = "name = \"Finnish Infantry Division\" division_template = \"Jalkaväkidivisioona S.\" start_experience_factor = 0.4" 
+							owner = FIN
+						}
+					}
+				}
+			}
+		}
+	}
+}

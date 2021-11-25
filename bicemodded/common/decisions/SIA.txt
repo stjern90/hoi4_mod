@@ -1,0 +1,2263 @@
+SIA_arms_purchases = {
+
+	SIA_buy_ships_britain = {
+
+		icon = eng_trade_unions_support
+
+		available = {
+			ENG = {
+				has_war = no
+				has_opinion = {
+					target = ROOT
+					value > 0
+				}
+			}
+		}
+
+		cost = 0
+
+		ai_will_do = {
+			base = 50
+			modifier = {
+				factor = 100
+				OR = {
+					ENG = { has_government = ROOT }
+					AND = {
+						NOT = { ENG = { has_government = fascism } }
+						NOT = { has_government = fascism }
+					}
+				}
+			}
+		}
+		
+		visible = {
+			has_completed_focus = SIA_commission_british_ships
+			ENG = {
+				exists = yes
+				NOT = { has_war_with = ROOT }
+				has_civil_war = no
+				has_capitulated = no
+				owns_state = 126 #Owns London
+			}
+			NOT = {	has_country_flag = SIA_ships_purchase_in_progress_flag }
+			NOT = { has_country_flag = SIA_british_ships_purchase_rejected_flag }
+		}
+		complete_effect = {
+			ENG = {
+				country_event = { id = siam_purchase_ships.1 }
+			}
+			set_country_flag = SIA_ships_purchase_in_progress_flag
+		}
+	}
+
+	SIA_buy_ships_italy = {
+
+		icon = eng_trade_unions_support
+
+		available = {
+			ITA = {
+				has_war = no
+				has_opinion = {
+					target = ROOT
+					value > 0
+				}
+			}
+		}
+
+		cost = 0
+
+		ai_will_do = {
+			base = 50
+			modifier = {
+				factor = 100
+				ITA = { has_government = ROOT }
+			}
+		}
+		
+		visible = {
+			has_completed_focus = SIA_commission_italian_ships
+			ITA = {
+				exists = yes
+				NOT = { has_war_with = ROOT }
+				has_civil_war = no
+				has_capitulated = no
+				owns_state = 2 #Owns Rome
+			}
+			NOT = { has_country_flag = SIA_ships_purchase_in_progress_flag }
+			NOT = { has_country_flag = SIA_british_ships_purchase_rejected_flag }
+		}
+		complete_effect = {
+			ITA = {
+				country_event = { id = siam_purchase_ships.1 }
+			}
+			set_country_flag = SIA_ships_purchase_in_progress_flag
+		}
+	}	
+	
+	SIA_buy_ships_japan = {
+
+		icon = eng_trade_unions_support
+
+		available = {
+			JAP = {
+				has_war = no
+				has_opinion = {
+					target = ROOT
+					value > 0
+				}
+			}
+		}
+
+		cost = 0
+
+		ai_will_do = {
+			base = 50
+			modifier = {
+				factor = 100
+				JAP = { has_government = ROOT }
+			}
+		}
+		
+		visible = {
+			has_completed_focus = SIA_commission_japanese_ships
+			JAP = {
+				exists = yes
+				NOT = { has_war_with = ROOT }
+				has_civil_war = no
+				has_capitulated = no
+				owns_state = 282 #Owns Tokyo
+			}
+			NOT = { has_country_flag = SIA_ships_purchase_in_progress_flag }
+			NOT = { has_country_flag = SIA_british_ships_purchase_rejected_flag }
+		}
+		complete_effect = {
+			JAP = {
+				country_event = { id = siam_purchase_ships.1 }
+			}
+			set_country_flag = SIA_ships_purchase_in_progress_flag
+		}
+	}
+	#Mission to track the progress of British SUBMARINES construction
+	SIA_british_submarines_construction_progress = {
+		
+		icon = generic_naval
+
+		allowed = {
+			original_tag = SIA
+		}
+
+		visible = {
+			has_country_flag = SIA_purchase_british_submarines_flag
+		}
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+
+		days_remove = 365
+
+		cancel_trigger = {
+			OR = {
+				NOT = { country_exists = SIA }
+				NOT = { country_exists = ENG }
+				ENG = {
+					OR = {
+						has_war_with = ROOT
+						has_civil_war = yes
+						has_capitulated = yes
+						NOT = { owns_state = 126 } #Owns London
+					}
+				}
+			}
+		}
+
+		#On Activation
+		complete_effect ={
+			ENG = {
+				add_offsite_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+		}
+
+		#Fail
+		cancel_effect = {
+			ENG = {
+				add_offsite_building = {
+					type = industrial_complex
+					level = -1
+				}
+				remove_opinion_modifier = {
+					target = SIA
+					modifier = POR_bought_ships
+				}
+			}
+			remove_opinion_modifier = {
+				target = ENG
+				modifier = POR_sold_ships
+			}
+			remove_opinion_modifier = {
+				target = ENG
+				modifier = POR_ships_trade
+			}			
+			clr_country_flag = SIA_purchase_british_submarines_flag
+			clr_country_flag = SIA_ships_purchase_in_progress_flag
+		}
+
+		#Success
+		remove_effect = {
+			hidden_effect = { add_manpower = 600 }
+			if = {
+				limit = { has_dlc = "Man the Guns" }
+				if = { 
+					limit = {
+						ENG = { has_tech = advanced_ship_hull_submarine }
+					}
+					ENG = {
+						create_equipment_variant = {
+							name = "Delfim Class"				
+							type = ship_hull_submarine_4
+							name_group = POR_SS_HISTORICAL
+							parent_version = 0
+							modules = {
+								fixed_ship_torpedo_slot = ship_torpedo_sub_1
+								fixed_ship_engine_slot = sub_ship_engine_1
+								rear_1_custom_slot = ship_torpedo_sub_1
+								front_1_custom_slot = ship_torpedo_sub_1
+							}
+						}
+					}
+					create_ship = { type = ship_hull_submarine_4 equipment_variant = "Delfim Class" creator = ENG }
+					create_ship = { type = ship_hull_submarine_4 equipment_variant = "Delfim Class" creator = ENG }
+					create_ship = { type = ship_hull_submarine_4 equipment_variant = "Delfim Class" creator = ENG }
+				}
+				else_if = { 
+					limit = {
+						ENG = { has_tech = improved_ship_hull_submarine }
+					}
+					ENG = {
+						create_equipment_variant = {
+							name = "Delfim Class"				
+							type = ship_hull_submarine_3
+							name_group = POR_SS_HISTORICAL
+							parent_version = 0
+							modules = {
+								fixed_ship_torpedo_slot = ship_torpedo_sub_1
+								fixed_ship_engine_slot = sub_ship_engine_1
+								rear_1_custom_slot = ship_torpedo_sub_1
+							}
+						}
+					}
+					create_ship = { type = ship_hull_submarine_3 equipment_variant = "Delfim Class" creator = ENG }
+					create_ship = { type = ship_hull_submarine_3 equipment_variant = "Delfim Class" creator = ENG }
+					create_ship = { type = ship_hull_submarine_3 equipment_variant = "Delfim Class" creator = ENG }
+				}
+				else_if = { 
+					limit = {
+						ENG = { has_tech = basic_ship_hull_submarine }
+					}
+					ENG = {
+						create_equipment_variant = {
+							name = "Delfim Class"				
+							type = ship_hull_submarine_2
+							name_group = POR_SS_HISTORICAL
+							parent_version = 0
+							modules = {
+								fixed_ship_torpedo_slot = ship_torpedo_sub_1
+								fixed_ship_engine_slot = sub_ship_engine_1
+								#rear_1_custom_slot = ship_torpedo_sub_1
+							}
+						}
+					}
+					create_ship = { type = ship_hull_submarine_2 equipment_variant = "Delfim Class" creator = ENG }
+					create_ship = { type = ship_hull_submarine_2 equipment_variant = "Delfim Class" creator = ENG }
+					create_ship = { type = ship_hull_submarine_2 equipment_variant = "Delfim Class" creator = ENG }
+				}
+				else = {
+					create_ship = { type = ship_hull_submarine_2 equipment_variant = "Delfim Class" creator = SIA }
+					create_ship = { type = ship_hull_submarine_2 equipment_variant = "Delfim Class" creator = SIA }
+					create_ship = { type = ship_hull_submarine_2 equipment_variant = "Delfim Class" creator = SIA }
+				}
+			}
+			else = { #NO MTG
+				if = { 
+					limit = {
+						ENG = { has_tech = advanced_submarine }
+					}
+					ENG = {
+						create_equipment_variant = {
+							name = "Delfim Class"
+							type = submarine_4
+							upgrades = {
+								ship_reliability_upgrade = 3
+								sub_torpedo_upgrade = 3
+								sub_stealth_upgrade = 3
+								sub_engine_upgrade = 2
+							}
+						}
+					}
+					create_ship = { type = submarine_4 equipment_variant = "Delfim Class" creator = ENG }
+					create_ship = { type = submarine_4 equipment_variant = "Delfim Class" creator = ENG }
+					create_ship = { type = submarine_4 equipment_variant = "Delfim Class" creator = ENG }
+				}
+				else_if = { 
+					limit = {
+						ENG = { has_tech = improved_submarine }
+					}
+					ENG = {
+						create_equipment_variant = {
+							name = "Delfim Class"
+							type = submarine_3
+							upgrades = {
+								ship_reliability_upgrade = 2
+								sub_torpedo_upgrade = 3
+								sub_stealth_upgrade = 2
+								sub_engine_upgrade = 2
+							}
+						}
+					}
+					create_ship = { type = submarine_3 equipment_variant = "Delfim Class" creator = ENG }
+					create_ship = { type = submarine_3 equipment_variant = "Delfim Class" creator = ENG }
+					create_ship = { type = submarine_3 equipment_variant = "Delfim Class" creator = ENG }
+				}
+				else_if = { 
+					limit = {
+						ENG = { has_tech = basic_submarine }
+					}
+					ENG = {
+						create_equipment_variant = {
+							name = "Delfim Class"
+							type = submarine_2
+							upgrades = {
+								ship_reliability_upgrade = 2
+								sub_torpedo_upgrade = 2
+								sub_stealth_upgrade = 2
+								sub_engine_upgrade = 1
+							}
+						}
+					}
+					create_ship = { type = submarine_2 equipment_variant = "Delfim Class" creator = ENG }
+					create_ship = { type = submarine_2 equipment_variant = "Delfim Class" creator = ENG }
+					create_ship = { type = submarine_2 equipment_variant = "Delfim Class" creator = ENG }
+				}
+				else = {
+					create_equipment_variant = {
+						name = "Delfim Class"
+						type = submarine_2
+						upgrades = {
+							ship_reliability_upgrade = 2
+							sub_torpedo_upgrade = 2
+							sub_stealth_upgrade = 1
+							sub_engine_upgrade = 0
+						}
+					}
+					create_ship = { type = submarine_2 equipment_variant = "Delfim Class" creator = SIA }
+					create_ship = { type = submarine_2 equipment_variant = "Delfim Class" creator = SIA }
+					create_ship = { type = submarine_2 equipment_variant = "Delfim Class" creator = SIA }
+				}
+			}
+
+			ENG = {
+				add_offsite_building = {
+					type = industrial_complex
+					level = -1
+				}
+			}
+			country_event = siam_purchase_ships.4
+			set_country_flag = SIA_ships_purchased_flag
+			clr_country_flag = SIA_purchase_british_submarines_flag
+			clr_country_flag = SIA_ships_purchase_in_progress_flag
+		}
+	}
+
+	#Mission to track the progress of Italian SUBMARINES construction
+	SIA_italian_submarines_construction_progress = {
+		
+		icon = generic_naval
+
+		allowed = {
+			original_tag = SIA
+		}
+
+		visible = {
+			has_country_flag = SIA_purchase_italian_submarines_flag
+		}
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+
+		days_remove = 365
+
+		cancel_trigger = {
+			OR = {
+				NOT = { country_exists = SIA }
+				NOT = { country_exists = ITA }
+				ITA = {
+					OR = {
+						has_war_with = ROOT
+						has_civil_war = yes
+						has_capitulated = yes
+						NOT = { owns_state = 2 } #Owns Rome
+					}
+				}
+			}	
+		}
+
+
+		#On Activation
+		complete_effect = {
+			ITA = {
+				add_offsite_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+		}
+
+		#Fail
+		cancel_effect = {
+			ITA = {
+				add_offsite_building = {
+					type = industrial_complex
+					level = -1
+				}
+				remove_opinion_modifier = {
+					target = SIA
+					modifier = POR_bought_ships
+				}
+			}
+			remove_opinion_modifier = {
+				target = ITA
+				modifier = POR_sold_ships
+			}
+			remove_opinion_modifier = {
+				target = ITA
+				modifier = POR_ships_trade
+			}			
+			clr_country_flag = SIA_purchase_italian_submarines_flag
+			clr_country_flag = SIA_ships_purchase_in_progress_flag
+		}
+
+		#Success
+		remove_effect = {
+			hidden_effect = { add_manpower = 600 }
+			if = {
+				limit = { has_dlc = "Man the Guns" }
+				if = { 
+					limit = {
+						ITA = { has_tech = advanced_ship_hull_submarine }
+					}
+					ITA = {
+						create_equipment_variant = {
+							name = "Delfim Class"				
+							type = ship_hull_submarine_4
+							name_group = POR_SS_HISTORICAL
+							parent_version = 0
+							modules = {
+								fixed_ship_torpedo_slot = ship_torpedo_sub_1
+								fixed_ship_engine_slot = sub_ship_engine_1
+								rear_1_custom_slot = ship_torpedo_sub_1
+								front_1_custom_slot = ship_torpedo_sub_1
+							}
+						}
+					}
+					create_ship = { type = ship_hull_submarine_4 equipment_variant = "Delfim Class" creator = ITA }
+					create_ship = { type = ship_hull_submarine_4 equipment_variant = "Delfim Class" creator = ITA }
+					create_ship = { type = ship_hull_submarine_4 equipment_variant = "Delfim Class" creator = ITA }
+				}
+				else_if = { 
+					limit = {
+						ITA = { has_tech = improved_ship_hull_submarine }
+					}
+					ITA = {
+						create_equipment_variant = {
+							name = "Delfim Class"				
+							type = ship_hull_submarine_3
+							name_group = POR_SS_HISTORICAL
+							parent_version = 0
+							modules = {
+								fixed_ship_torpedo_slot = ship_torpedo_sub_1
+								fixed_ship_engine_slot = sub_ship_engine_1
+								rear_1_custom_slot = ship_torpedo_sub_1
+							}
+						}
+					}
+					create_ship = { type = ship_hull_submarine_3 equipment_variant = "Delfim Class" creator = ITA }
+					create_ship = { type = ship_hull_submarine_3 equipment_variant = "Delfim Class" creator = ITA }
+					create_ship = { type = ship_hull_submarine_3 equipment_variant = "Delfim Class" creator = ITA }
+				}
+				else_if = { 
+					limit = {
+						ITA = { has_tech = basic_ship_hull_submarine }
+					}
+					ITA = {
+						create_equipment_variant = {
+							name = "Delfim Class"				
+							type = ship_hull_submarine_2
+							name_group = POR_SS_HISTORICAL
+							parent_version = 0
+							modules = {
+								fixed_ship_torpedo_slot = ship_torpedo_sub_1
+								fixed_ship_engine_slot = sub_ship_engine_1
+								#rear_1_custom_slot = ship_torpedo_sub_1
+							}
+						}
+					}
+					create_ship = { type = ship_hull_submarine_2 equipment_variant = "Delfim Class" creator = ITA }
+					create_ship = { type = ship_hull_submarine_2 equipment_variant = "Delfim Class" creator = ITA }
+					create_ship = { type = ship_hull_submarine_2 equipment_variant = "Delfim Class" creator = ITA }
+				}
+				else = {
+					create_ship = { type = ship_hull_submarine_2 equipment_variant = "Delfim Class" creator = SIA }
+					create_ship = { type = ship_hull_submarine_2 equipment_variant = "Delfim Class" creator = SIA }
+					create_ship = { type = ship_hull_submarine_2 equipment_variant = "Delfim Class" creator = SIA }
+				}
+			}
+			else = { #NO MTG
+				if = { 
+					limit = {
+						ITA = { has_tech = advanced_submarine }
+					}
+					ITA = {
+						create_equipment_variant = {
+							name = "Delfim Class"
+							type = submarine_4
+							upgrades = {
+								ship_reliability_upgrade = 3
+								sub_torpedo_upgrade = 3
+								sub_stealth_upgrade = 3
+								sub_engine_upgrade = 2
+							}
+						}
+					}
+					create_ship = { type = submarine_4 equipment_variant = "Delfim Class" creator = ITA }
+					create_ship = { type = submarine_4 equipment_variant = "Delfim Class" creator = ITA }
+					create_ship = { type = submarine_4 equipment_variant = "Delfim Class" creator = ITA }
+				}
+				else_if = { 
+					limit = {
+						ITA = { has_tech = improved_submarine }
+					}
+					ITA = {
+						create_equipment_variant = {
+							name = "Delfim Class"
+							type = submarine_3
+							upgrades = {
+								ship_reliability_upgrade = 2
+								sub_torpedo_upgrade = 3
+								sub_stealth_upgrade = 2
+								sub_engine_upgrade = 2
+							}
+						}
+					}
+					create_ship = { type = submarine_3 equipment_variant = "Delfim Class" creator = ITA }
+					create_ship = { type = submarine_3 equipment_variant = "Delfim Class" creator = ITA }
+					create_ship = { type = submarine_3 equipment_variant = "Delfim Class" creator = ITA }
+				}
+				else_if = { 
+					limit = {
+						ITA = { has_tech = basic_submarine }
+					}
+					ITA = {
+						create_equipment_variant = {
+							name = "Delfim Class"
+							type = submarine_2
+							upgrades = {
+								ship_reliability_upgrade = 2
+								sub_torpedo_upgrade = 2
+								sub_stealth_upgrade = 2
+								sub_engine_upgrade = 1
+							}
+						}
+					}
+					create_ship = { type = submarine_2 equipment_variant = "Delfim Class" creator = ITA }
+					create_ship = { type = submarine_2 equipment_variant = "Delfim Class" creator = ITA }
+					create_ship = { type = submarine_2 equipment_variant = "Delfim Class" creator = ITA }
+				}
+				else = {
+					ITA = {
+						create_equipment_variant = {
+							name = "Delfim Class"
+							type = submarine_1
+							upgrades = {
+								ship_reliability_upgrade = 2
+								sub_torpedo_upgrade = 2
+								sub_stealth_upgrade = 1
+								sub_engine_upgrade = 0
+							}
+						}
+					}
+					create_ship = { type = submarine_1 equipment_variant = "Delfim Class" creator = ITA }
+					create_ship = { type = submarine_1 equipment_variant = "Delfim Class" creator = ITA }
+					create_ship = { type = submarine_1 equipment_variant = "Delfim Class" creator = ITA }
+				}
+			}
+
+			ITA = {
+				add_offsite_building = {
+					type = industrial_complex
+					level = -1
+				}
+			}
+			country_event = siam_purchase_ships.4
+			set_country_flag = SIA_ships_purchased_flag
+			clr_country_flag = SIA_purchase_italian_submarines_flag
+			clr_country_flag = SIA_ships_purchase_in_progress_flag
+		}
+	}
+	
+	#Mission to track the progress of Japanese SUBMARINES construction
+	SIA_japanese_submarines_construction_progress = {
+		
+		icon = generic_naval
+
+		allowed = {
+			original_tag = SIA
+		}
+
+		visible = {
+			has_country_flag = SIA_purchase_japanese_submarines_flag
+		}
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+
+		days_remove = 365
+
+		cancel_trigger = {
+			OR = {
+				NOT = { country_exists = SIA }
+				NOT = { country_exists = JAP }
+				JAP = {
+					OR = {
+						has_war_with = ROOT
+						has_civil_war = yes
+						has_capitulated = yes
+						NOT = { owns_state = 282 } #Owns Tokyo
+					}
+				}
+			}	
+		}
+
+
+		#On Activation
+		complete_effect = {
+			JAP = {
+				add_offsite_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+		}
+
+		#Fail
+		cancel_effect = {
+			JAP = {
+				add_offsite_building = {
+					type = industrial_complex
+					level = -1
+				}
+				remove_opinion_modifier = {
+					target = SIA
+					modifier = POR_bought_ships
+				}
+			}
+			remove_opinion_modifier = {
+				target = JAP
+				modifier = POR_sold_ships
+			}
+			remove_opinion_modifier = {
+				target = JAP
+				modifier = POR_ships_trade
+			}			
+			clr_country_flag = SIA_purchase_japanese_submarines_flag
+			clr_country_flag = SIA_ships_purchase_in_progress_flag
+		}
+
+		#Success
+		remove_effect = {
+			hidden_effect = { add_manpower = 600 }
+			if = {
+				limit = { has_dlc = "Man the Guns" }
+				if = { 
+					limit = {
+						JAP = { has_tech = advanced_ship_hull_submarine }
+					}
+					JAP = {
+						create_equipment_variant = {
+							name = "Delfim Class"				
+							type = ship_hull_submarine_4
+							name_group = POR_SS_HISTORICAL
+							parent_version = 0
+							modules = {
+								fixed_ship_torpedo_slot = ship_torpedo_sub_1
+								fixed_ship_engine_slot = sub_ship_engine_1
+								rear_1_custom_slot = ship_torpedo_sub_1
+								front_1_custom_slot = ship_torpedo_sub_1
+							}
+						}
+					}
+					create_ship = { type = ship_hull_submarine_4 equipment_variant = "Delfim Class" creator = JAP }
+					create_ship = { type = ship_hull_submarine_4 equipment_variant = "Delfim Class" creator = JAP }
+					create_ship = { type = ship_hull_submarine_4 equipment_variant = "Delfim Class" creator = JAP }
+				}
+				else_if = { 
+					limit = {
+						JAP = { has_tech = improved_ship_hull_submarine }
+					}
+					JAP = {
+						create_equipment_variant = {
+							name = "Delfim Class"				
+							type = ship_hull_submarine_3
+							name_group = POR_SS_HISTORICAL
+							parent_version = 0
+							modules = {
+								fixed_ship_torpedo_slot = ship_torpedo_sub_1
+								fixed_ship_engine_slot = sub_ship_engine_1
+								rear_1_custom_slot = ship_torpedo_sub_1
+							}
+						}
+					}
+					create_ship = { type = ship_hull_submarine_3 equipment_variant = "Delfim Class" creator = JAP }
+					create_ship = { type = ship_hull_submarine_3 equipment_variant = "Delfim Class" creator = JAP }
+					create_ship = { type = ship_hull_submarine_3 equipment_variant = "Delfim Class" creator = JAP }
+				}
+				else_if = { 
+					limit = {
+						JAP = { has_tech = basic_ship_hull_submarine }
+					}
+					JAP = {
+						create_equipment_variant = {
+							name = "Delfim Class"				
+							type = ship_hull_submarine_2
+							name_group = POR_SS_HISTORICAL
+							parent_version = 0
+							modules = {
+								fixed_ship_torpedo_slot = ship_torpedo_sub_1
+								fixed_ship_engine_slot = sub_ship_engine_1
+								#rear_1_custom_slot = ship_torpedo_sub_1
+							}
+						}
+					}
+					create_ship = { type = ship_hull_submarine_2 equipment_variant = "Delfim Class" creator = JAP }
+					create_ship = { type = ship_hull_submarine_2 equipment_variant = "Delfim Class" creator = JAP }
+					create_ship = { type = ship_hull_submarine_2 equipment_variant = "Delfim Class" creator = JAP }
+				}
+				else = {
+					create_ship = { type = ship_hull_submarine_2 equipment_variant = "Delfim Class" creator = SIA }
+					create_ship = { type = ship_hull_submarine_2 equipment_variant = "Delfim Class" creator = SIA }
+					create_ship = { type = ship_hull_submarine_2 equipment_variant = "Delfim Class" creator = SIA }
+				}
+			}
+			else = { #NO MTG
+				if = { 
+					limit = {
+						JAP = { has_tech = advanced_submarine }
+					}
+					JAP = {
+						create_equipment_variant = {
+							name = "Delfim Class"
+							type = submarine_4
+							upgrades = {
+								ship_reliability_upgrade = 3
+								sub_torpedo_upgrade = 3
+								sub_stealth_upgrade = 3
+								sub_engine_upgrade = 2
+							}
+						}
+					}
+					create_ship = { type = submarine_4 equipment_variant = "Delfim Class" creator = JAP }
+					create_ship = { type = submarine_4 equipment_variant = "Delfim Class" creator = JAP }
+					create_ship = { type = submarine_4 equipment_variant = "Delfim Class" creator = JAP }
+				}
+				else_if = { 
+					limit = {
+						JAP = { has_tech = improved_submarine }
+					}
+					JAP = {
+						create_equipment_variant = {
+							name = "Delfim Class"
+							type = submarine_3
+							upgrades = {
+								ship_reliability_upgrade = 2
+								sub_torpedo_upgrade = 3
+								sub_stealth_upgrade = 2
+								sub_engine_upgrade = 2
+							}
+						}
+					}
+					create_ship = { type = submarine_3 equipment_variant = "Delfim Class" creator = JAP }
+					create_ship = { type = submarine_3 equipment_variant = "Delfim Class" creator = JAP }
+					create_ship = { type = submarine_3 equipment_variant = "Delfim Class" creator = JAP }
+				}
+				else_if = { 
+					limit = {
+						JAP = { has_tech = basic_submarine }
+					}
+					JAP = {
+						create_equipment_variant = {
+							name = "Delfim Class"
+							type = submarine_2
+							upgrades = {
+								ship_reliability_upgrade = 2
+								sub_torpedo_upgrade = 2
+								sub_stealth_upgrade = 2
+								sub_engine_upgrade = 1
+							}
+						}
+					}
+					create_ship = { type = submarine_2 equipment_variant = "Delfim Class" creator = JAP }
+					create_ship = { type = submarine_2 equipment_variant = "Delfim Class" creator = JAP }
+					create_ship = { type = submarine_2 equipment_variant = "Delfim Class" creator = JAP }
+				}
+				else = {
+					JAP = {
+						create_equipment_variant = {
+							name = "Delfim Class"
+							type = submarine_1
+							upgrades = {
+								ship_reliability_upgrade = 2
+								sub_torpedo_upgrade = 2
+								sub_stealth_upgrade = 1
+								sub_engine_upgrade = 0
+							}
+						}
+					}
+					create_ship = { type = submarine_1 equipment_variant = "Delfim Class" creator = JAP }
+					create_ship = { type = submarine_1 equipment_variant = "Delfim Class" creator = JAP }
+					create_ship = { type = submarine_1 equipment_variant = "Delfim Class" creator = JAP }
+				}
+			}
+
+			JAP = {
+				add_offsite_building = {
+					type = industrial_complex
+					level = -1
+				}
+			}
+			country_event = siam_purchase_ships.4
+			set_country_flag = SIA_ships_purchased_flag
+			clr_country_flag = SIA_purchase_japanese_submarines_flag
+			clr_country_flag = SIA_ships_purchase_in_progress_flag
+		}
+	}
+
+	#Mission to track the progress of British DESTROYERS construction
+	SIA_british_destroyers_construction_progress = {
+		
+		icon = generic_naval
+
+		allowed = {
+			original_tag = SIA
+		}
+
+		visible = {
+			has_country_flag = SIA_purchase_british_destroyers_flag
+		}
+		
+		modifier = {
+			civilian_factory_use = 2
+		}
+
+		days_remove = 365
+
+		cancel_trigger = {
+			OR = {
+				NOT = { country_exists = SIA }
+				NOT = { country_exists = ENG }
+				ENG = {
+					OR = {
+						has_war_with = ROOT
+						has_civil_war = yes
+						has_capitulated = yes
+						NOT = { owns_state = 126 } #Owns London
+					}
+				}
+			}
+		}
+
+		#On Activation
+		complete_effect = {
+			ENG = {
+				add_offsite_building = {
+					type = industrial_complex
+					level = 2
+				}
+			}
+		}
+
+		#Fail
+		cancel_effect = {
+			ENG = {
+				add_offsite_building = {
+					type = industrial_complex
+					level = -2
+				}
+				remove_opinion_modifier = {
+					target = SIA
+					modifier = POR_bought_ships
+				}
+			}
+			remove_opinion_modifier = {
+				target = ENG
+				modifier = POR_sold_ships
+			}
+			remove_opinion_modifier = {
+				target = ENG
+				modifier = POR_ships_trade
+			}		
+			clr_country_flag = SIA_purchase_british_destroyers_flag
+			clr_country_flag = SIA_ships_purchase_in_progress_flag
+		}
+
+		#Success
+		remove_effect = {
+			if = {
+				limit = { has_dlc = "Man the Guns" }
+				if = { 
+					limit = {
+						ENG = { has_tech = advanced_ship_hull_light }
+					}
+					hidden_effect = { add_manpower = 1000 }
+					ENG = {
+						create_equipment_variant = {
+							name = "Vouga Class"	
+							type = ship_hull_light_4
+							name_group = POR_DD_HISTORICAL
+							parent_version = 0
+							modules = {
+								fixed_ship_battery_slot = ship_light_battery_1
+								fixed_ship_anti_air_slot = ship_anti_air_1
+								fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+								fixed_ship_radar_slot = empty
+								fixed_ship_engine_slot = light_ship_engine_2
+								fixed_ship_torpedo_slot = ship_torpedo_1
+								mid_1_custom_slot = ship_mine_layer_1
+								rear_1_custom_slot = ship_depth_charge_1
+							}
+						}
+					}
+					create_ship = { type = ship_hull_light_4 equipment_variant = "Vouga Class" creator = ENG }
+					create_ship = { type = ship_hull_light_4 equipment_variant = "Vouga Class" creator = ENG }
+				}
+				else_if = { 
+					limit = {
+						ENG = { has_tech = improved_ship_hull_light }
+					}
+					hidden_effect = { add_manpower = 800 }
+					ENG = {
+						create_equipment_variant = {
+							name = "Vouga Class"	
+							type = ship_hull_light_3
+							name_group = POR_DD_HISTORICAL
+							parent_version = 0
+							modules = {
+								fixed_ship_battery_slot = ship_light_battery_1
+								fixed_ship_anti_air_slot = ship_anti_air_1
+								fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+								fixed_ship_radar_slot = empty
+								fixed_ship_engine_slot = light_ship_engine_2
+								fixed_ship_torpedo_slot = ship_torpedo_1
+								mid_1_custom_slot = ship_mine_layer_1
+								rear_1_custom_slot = ship_depth_charge_1
+							}
+						}
+					}
+					create_ship = { type = ship_hull_light_3 equipment_variant = "Vouga Class" creator = ENG }
+					create_ship = { type = ship_hull_light_3 equipment_variant = "Vouga Class" creator = ENG }
+				}
+				else = {
+					hidden_effect = { add_manpower = 650 }
+					ENG = {
+						create_equipment_variant = {
+							name = "Vouga Class"	
+							type = ship_hull_light_2
+							name_group = POR_DD_HISTORICAL
+							parent_version = 0
+							modules = {
+								fixed_ship_battery_slot = ship_light_battery_1
+								fixed_ship_anti_air_slot = ship_anti_air_1
+								fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+								fixed_ship_radar_slot = empty
+								fixed_ship_engine_slot = light_ship_engine_2
+								fixed_ship_torpedo_slot = ship_torpedo_1
+								mid_1_custom_slot = ship_mine_layer_1
+								rear_1_custom_slot = ship_depth_charge_1
+							}
+						}
+					}
+					create_ship = { type = ship_hull_light_2 equipment_variant = "Vouga Class" creator = ENG }
+					create_ship = { type = ship_hull_light_2 equipment_variant = "Vouga Class" creator = ENG }
+				}
+			}
+			else = { #NO MTG
+				if = { 
+					limit = {
+						ENG = { has_tech = advanced_destroyer }
+					}
+					hidden_effect = { add_manpower = 500 }
+					ENG = {
+						create_equipment_variant = {
+							name = "Vouga Class"
+							type = destroyer_4
+							upgrades = {
+								ship_torpedo_upgrade = 4
+								destroyer_engine_upgrade = 2
+								ship_ASW_upgrade = 3
+								ship_anti_air_upgrade = 3
+							}
+						}
+					}
+					create_ship = { type = destroyer_4 equipment_variant = "Vouga Class" creator = ENG }
+					create_ship = { type = destroyer_4 equipment_variant = "Vouga Class" creator = ENG }
+				}
+				else_if = { 
+					limit = {
+						ENG = { has_tech = improved_destroyer }
+					}
+					hidden_effect = { add_manpower = 400 }
+					ENG = {
+						create_equipment_variant = {
+							name = "Vouga Class"
+							type = destroyer_3
+							upgrades = {
+								ship_torpedo_upgrade = 3
+								destroyer_engine_upgrade = 2
+								ship_ASW_upgrade = 2
+								ship_anti_air_upgrade = 3
+							}
+						}
+					}
+					create_ship = { type = destroyer_3 equipment_variant = "Vouga Class" creator = ENG }
+					create_ship = { type = destroyer_3 equipment_variant = "Vouga Class" creator = ENG }
+				}
+				else = {
+					hidden_effect = { add_manpower = 325 }
+					ENG = {
+						create_equipment_variant = {
+							name = "Vouga Class"
+							type = destroyer_2
+							upgrades = {
+								ship_torpedo_upgrade = 2
+								destroyer_engine_upgrade = 1
+								ship_ASW_upgrade = 2
+								ship_anti_air_upgrade = 3
+							}
+						}
+					}
+					create_ship = { type = destroyer_2 equipment_variant = "Vouga Class" creator = ENG }
+					create_ship = { type = destroyer_2 equipment_variant = "Vouga Class" creator = ENG }
+				}
+			}
+
+			ENG = {
+				add_offsite_building = {
+					type = industrial_complex
+					level = -1
+				}
+			}
+			country_event = siam_purchase_ships.5
+			set_country_flag = SIA_ships_purchased_flag
+			clr_country_flag = SIA_purchase_british_destroyers_flag
+			clr_country_flag = SIA_ships_purchase_in_progress_flag
+		}
+	}
+
+	#Mission to track the progress of Italian DESTROYERS construction
+	SIA_italian_destroyers_construction_progress = {
+		
+		icon = generic_naval
+
+		allowed = {
+			original_tag = SIA
+		}
+
+		visible = {
+			has_country_flag = SIA_purchase_italian_destroyers_flag
+		}
+
+		modifier = {
+			civilian_factory_use = 2
+		}
+
+		days_remove = 365
+
+		cancel_trigger = {
+			OR = {
+				NOT = { country_exists = SIA }
+				NOT = { country_exists = ITA }
+				ITA = {
+					OR = {
+						has_war_with = ROOT
+						has_civil_war = yes
+						has_capitulated = yes
+						NOT = { owns_state = 2 } #Owns Rome
+					}
+				}
+			}
+		}
+
+		#On Activation
+		complete_effect ={
+			ITA = {
+				add_offsite_building = {
+					type = industrial_complex
+					level = 2
+				}
+			}
+		}
+
+		#Fail
+		cancel_effect = {
+			ITA = {
+				add_offsite_building = {
+					type = industrial_complex
+					level = -2
+				}
+				remove_opinion_modifier = {
+					target = SIA
+					modifier = POR_bought_ships
+				}
+			}
+			remove_opinion_modifier = {
+				target = ITA
+				modifier = POR_sold_ships
+			}
+			remove_opinion_modifier = {
+				target = ITA
+				modifier = POR_ships_trade
+			}		
+			clr_country_flag = SIA_purchase_italian_destroyers_flag
+			clr_country_flag = SIA_ships_purchase_in_progress_flag
+		}
+
+		is_good = yes
+		#Success
+		remove_effect = {
+			if = {
+				limit = { has_dlc = "Man the Guns" }
+				if = { 
+					limit = {
+						ITA = { has_tech = advanced_ship_hull_light }
+					}
+					hidden_effect = { add_manpower = 1000 }
+					ITA = {
+						create_equipment_variant = {
+							name = "Vouga Class"	
+							type = ship_hull_light_4
+							name_group = POR_DD_HISTORICAL
+							parent_version = 0
+							modules = {
+								fixed_ship_battery_slot = ship_light_battery_1
+								fixed_ship_anti_air_slot = ship_anti_air_1
+								fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+								fixed_ship_radar_slot = empty
+								fixed_ship_engine_slot = light_ship_engine_2
+								fixed_ship_torpedo_slot = ship_torpedo_1
+								mid_1_custom_slot = ship_mine_layer_1
+								rear_1_custom_slot = ship_depth_charge_1
+							}
+						}
+					}
+					create_ship = { type = ship_hull_light_4 equipment_variant = "Vouga Class" creator = ITA }
+					create_ship = { type = ship_hull_light_4 equipment_variant = "Vouga Class" creator = ITA }
+				}
+				else_if = { 
+					limit = {
+						ITA = { has_tech = improved_ship_hull_light }
+					}
+					hidden_effect = { add_manpower = 800 }
+					ITA = {
+						create_equipment_variant = {
+							name = "Vouga Class"	
+							type = ship_hull_light_3
+							name_group = POR_DD_HISTORICAL
+							parent_version = 0
+							modules = {
+								fixed_ship_battery_slot = ship_light_battery_1
+								fixed_ship_anti_air_slot = ship_anti_air_1
+								fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+								fixed_ship_radar_slot = empty
+								fixed_ship_engine_slot = light_ship_engine_2
+								fixed_ship_torpedo_slot = ship_torpedo_1
+								mid_1_custom_slot = ship_mine_layer_1
+								rear_1_custom_slot = ship_depth_charge_1
+							}
+						}
+					}
+					create_ship = { type = ship_hull_light_3 equipment_variant = "Vouga Class" creator = ITA }
+					create_ship = { type = ship_hull_light_3 equipment_variant = "Vouga Class" creator = ITA }
+				}
+				else = {
+					hidden_effect = { add_manpower = 650 }
+					ITA = {
+						create_equipment_variant = {
+							name = "Vouga Class"	
+							type = ship_hull_light_2
+							name_group = POR_DD_HISTORICAL
+							parent_version = 0
+							modules = {
+								fixed_ship_battery_slot = ship_light_battery_1
+								fixed_ship_anti_air_slot = ship_anti_air_1
+								fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+								fixed_ship_radar_slot = empty
+								fixed_ship_engine_slot = light_ship_engine_2
+								fixed_ship_torpedo_slot = ship_torpedo_1
+								mid_1_custom_slot = ship_mine_layer_1
+								rear_1_custom_slot = ship_depth_charge_1
+							}
+						}
+					}
+					create_ship = { type = ship_hull_light_2 equipment_variant = "Vouga Class" creator = ITA }
+					create_ship = { type = ship_hull_light_2 equipment_variant = "Vouga Class" creator = ITA }
+				}
+			}
+			else = { #NO MTG
+				if = { 
+					limit = {
+						ITA = { has_tech = advanced_destroyer }
+					}
+					hidden_effect = { add_manpower = 500 }
+					ITA = {
+						create_equipment_variant = {
+							name = "Vouga Class"
+							type = destroyer_4
+							upgrades = {
+								ship_torpedo_upgrade = 4
+								destroyer_engine_upgrade = 2
+								ship_ASW_upgrade = 3
+								ship_anti_air_upgrade = 3
+							}
+						}
+					}
+					create_ship = { type = destroyer_4 equipment_variant = "Vouga Class" creator = ITA }
+					create_ship = { type = destroyer_4 equipment_variant = "Vouga Class" creator = ITA }
+				}
+				else_if = { 
+					limit = {
+						ITA = { has_tech = improved_destroyer }
+					}
+					hidden_effect = { add_manpower = 400 }
+					ITA = {
+						create_equipment_variant = {
+							name = "Vouga Class"
+							type = destroyer_3
+							upgrades = {
+								ship_torpedo_upgrade = 3
+								destroyer_engine_upgrade = 2
+								ship_ASW_upgrade = 2
+								ship_anti_air_upgrade = 3
+							}
+						}
+					}
+					create_ship = { type = destroyer_3 equipment_variant = "Vouga Class" creator = ITA }
+					create_ship = { type = destroyer_3 equipment_variant = "Vouga Class" creator = ITA }
+				}
+				else_if = {
+					limit = {
+						ITA = { has_tech = basic_destroyer }
+					}
+					hidden_effect = { add_manpower = 325 }
+					ITA = {
+						create_equipment_variant = {
+							name = "Vouga Class"
+							type = destroyer_2
+							upgrades = {
+								ship_torpedo_upgrade = 2
+								destroyer_engine_upgrade = 1
+								ship_ASW_upgrade = 2
+								ship_anti_air_upgrade = 3
+							}
+						}
+					}
+					create_ship = { type = destroyer_2 equipment_variant = "Vouga Class" creator = ITA }
+					create_ship = { type = destroyer_2 equipment_variant = "Vouga Class" creator = ITA }
+				}
+				else = {				
+					hidden_effect = { add_manpower = 250 }
+					ITA = {
+						create_equipment_variant = {
+							name = "Vouga Class"
+							type = destroyer_1
+							upgrades = {
+								ship_torpedo_upgrade = 1
+								destroyer_engine_upgrade = 1
+								ship_ASW_upgrade = 2
+								ship_anti_air_upgrade = 2
+							}
+						}
+					}
+					create_ship = { type = destroyer_1 equipment_variant = "Vouga Class" creator = ITA }
+					create_ship = { type = destroyer_1 equipment_variant = "Vouga Class" creator = ITA }
+				}
+			}
+
+			ITA = {
+				add_offsite_building = {
+					type = industrial_complex
+					level = -2
+				}
+			}
+			country_event = siam_purchase_ships.5
+			set_country_flag = SIA_ships_purchased_flag
+			clr_country_flag = SIA_purchase_italian_destroyers_flag
+			clr_country_flag = SIA_ships_purchase_in_progress_flag
+		}
+	}
+	
+	#Mission to track the progress of Japanese DESTROYERS construction
+	SIA_japanese_destroyers_construction_progress = {
+		
+		icon = generic_naval
+
+		allowed = {
+			original_tag = SIA
+		}
+
+		visible = {
+			has_country_flag = SIA_purchase_japanese_destroyers_flag
+		}
+
+		modifier = {
+			civilian_factory_use = 2
+		}
+
+		days_remove = 365
+
+		cancel_trigger = {
+			OR = {
+				NOT = { country_exists = SIA }
+				NOT = { country_exists = JAP }
+				JAP = {
+					OR = {
+						has_war_with = ROOT
+						has_civil_war = yes
+						has_capitulated = yes
+						NOT = { owns_state = 282 } #Owns Tokyo
+					}
+				}
+			}
+		}
+
+		#On Activation
+		complete_effect ={
+			JAP = {
+				add_offsite_building = {
+					type = industrial_complex
+					level = 2
+				}
+			}
+		}
+
+		#Fail
+		cancel_effect = {
+			JAP = {
+				add_offsite_building = {
+					type = industrial_complex
+					level = -2
+				}
+				remove_opinion_modifier = {
+					target = SIA
+					modifier = POR_bought_ships
+				}
+			}
+			remove_opinion_modifier = {
+				target = JAP
+				modifier = POR_sold_ships
+			}
+			remove_opinion_modifier = {
+				target = JAP
+				modifier = POR_ships_trade
+			}		
+			clr_country_flag = SIA_purchase_japanese_destroyers_flag
+			clr_country_flag = SIA_ships_purchase_in_progress_flag
+		}
+
+		is_good = yes
+		#Success
+		remove_effect = {
+			if = {
+				limit = { has_dlc = "Man the Guns" }
+				if = { 
+					limit = {
+						JAP = { has_tech = advanced_ship_hull_light }
+					}
+					hidden_effect = { add_manpower = 1000 }
+					JAP = {
+						create_equipment_variant = {
+							name = "Vouga Class"	
+							type = ship_hull_light_4
+							name_group = POR_DD_HISTORICAL
+							parent_version = 0
+							modules = {
+								fixed_ship_battery_slot = ship_light_battery_1
+								fixed_ship_anti_air_slot = ship_anti_air_1
+								fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+								fixed_ship_radar_slot = empty
+								fixed_ship_engine_slot = light_ship_engine_2
+								fixed_ship_torpedo_slot = ship_torpedo_1
+								mid_1_custom_slot = ship_mine_layer_1
+								rear_1_custom_slot = ship_depth_charge_1
+							}
+						}
+					}
+					create_ship = { type = ship_hull_light_4 equipment_variant = "Vouga Class" creator = JAP }
+					create_ship = { type = ship_hull_light_4 equipment_variant = "Vouga Class" creator = JAP }
+				}
+				else_if = { 
+					limit = {
+						JAP = { has_tech = improved_ship_hull_light }
+					}
+					hidden_effect = { add_manpower = 800 }
+					JAP = {
+						create_equipment_variant = {
+							name = "Vouga Class"	
+							type = ship_hull_light_3
+							name_group = POR_DD_HISTORICAL
+							parent_version = 0
+							modules = {
+								fixed_ship_battery_slot = ship_light_battery_1
+								fixed_ship_anti_air_slot = ship_anti_air_1
+								fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+								fixed_ship_radar_slot = empty
+								fixed_ship_engine_slot = light_ship_engine_2
+								fixed_ship_torpedo_slot = ship_torpedo_1
+								mid_1_custom_slot = ship_mine_layer_1
+								rear_1_custom_slot = ship_depth_charge_1
+							}
+						}
+					}
+					create_ship = { type = ship_hull_light_3 equipment_variant = "Vouga Class" creator = JAP }
+					create_ship = { type = ship_hull_light_3 equipment_variant = "Vouga Class" creator = JAP }
+				}
+				else = {
+					hidden_effect = { add_manpower = 650 }
+					JAP = {
+						create_equipment_variant = {
+							name = "Vouga Class"	
+							type = ship_hull_light_2
+							name_group = POR_DD_HISTORICAL
+							parent_version = 0
+							modules = {
+								fixed_ship_battery_slot = ship_light_battery_1
+								fixed_ship_anti_air_slot = ship_anti_air_1
+								fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+								fixed_ship_radar_slot = empty
+								fixed_ship_engine_slot = light_ship_engine_2
+								fixed_ship_torpedo_slot = ship_torpedo_1
+								mid_1_custom_slot = ship_mine_layer_1
+								rear_1_custom_slot = ship_depth_charge_1
+							}
+						}
+					}
+					create_ship = { type = ship_hull_light_2 equipment_variant = "Vouga Class" creator = JAP }
+					create_ship = { type = ship_hull_light_2 equipment_variant = "Vouga Class" creator = JAP }
+				}
+			}
+			else = { #NO MTG
+				if = { 
+					limit = {
+						JAP = { has_tech = advanced_destroyer }
+					}
+					hidden_effect = { add_manpower = 500 }
+					JAP = {
+						create_equipment_variant = {
+							name = "Vouga Class"
+							type = destroyer_4
+							upgrades = {
+								ship_torpedo_upgrade = 4
+								destroyer_engine_upgrade = 2
+								ship_ASW_upgrade = 3
+								ship_anti_air_upgrade = 3
+							}
+						}
+					}
+					create_ship = { type = destroyer_4 equipment_variant = "Vouga Class" creator = JAP }
+					create_ship = { type = destroyer_4 equipment_variant = "Vouga Class" creator = JAP }
+				}
+				else_if = { 
+					limit = {
+						JAP = { has_tech = improved_destroyer }
+					}
+					hidden_effect = { add_manpower = 400 }
+					JAP = {
+						create_equipment_variant = {
+							name = "Vouga Class"
+							type = destroyer_3
+							upgrades = {
+								ship_torpedo_upgrade = 3
+								destroyer_engine_upgrade = 2
+								ship_ASW_upgrade = 2
+								ship_anti_air_upgrade = 3
+							}
+						}
+					}
+					create_ship = { type = destroyer_3 equipment_variant = "Vouga Class" creator = JAP }
+					create_ship = { type = destroyer_3 equipment_variant = "Vouga Class" creator = JAP }
+				}
+				else_if = {
+					limit = {
+						JAP = { has_tech = basic_destroyer }
+					}
+					hidden_effect = { add_manpower = 325 }
+					JAP = {
+						create_equipment_variant = {
+							name = "Vouga Class"
+							type = destroyer_2
+							upgrades = {
+								ship_torpedo_upgrade = 2
+								destroyer_engine_upgrade = 1
+								ship_ASW_upgrade = 2
+								ship_anti_air_upgrade = 3
+							}
+						}
+					}
+					create_ship = { type = destroyer_2 equipment_variant = "Vouga Class" creator = JAP }
+					create_ship = { type = destroyer_2 equipment_variant = "Vouga Class" creator = JAP }
+				}
+				else = {				
+					hidden_effect = { add_manpower = 250 }
+					JAP = {
+						create_equipment_variant = {
+							name = "Vouga Class"
+							type = destroyer_1
+							upgrades = {
+								ship_torpedo_upgrade = 1
+								destroyer_engine_upgrade = 1
+								ship_ASW_upgrade = 2
+								ship_anti_air_upgrade = 2
+							}
+						}
+					}
+					create_ship = { type = destroyer_1 equipment_variant = "Vouga Class" creator = JAP }
+					create_ship = { type = destroyer_1 equipment_variant = "Vouga Class" creator = JAP }
+				}
+			}
+
+			JAP = {
+				add_offsite_building = {
+					type = industrial_complex
+					level = -2
+				}
+			}
+			country_event = siam_purchase_ships.5
+			set_country_flag = SIA_ships_purchased_flag
+			clr_country_flag = SIA_purchase_japanese_destroyers_flag
+			clr_country_flag = SIA_ships_purchase_in_progress_flag
+		}
+	}	
+
+	#Mission to track the progress of British LIGHT CRUISER construction
+	SIA_british_light_cruiser_construction_progress = {
+		
+		icon = generic_naval
+
+		allowed = {
+			original_tag = SIA
+		}
+
+		visible = {
+			has_country_flag = SIA_purchase_british_light_cruiser_flag
+		}
+		
+		modifier = {
+			civilian_factory_use = 2
+		}
+
+		days_remove = 546
+
+		cancel_trigger = {
+			OR = {
+				NOT = { country_exists = SIA }
+				NOT = { country_exists = ENG }
+				ENG = {
+					OR = {
+						has_war_with = ROOT
+						has_civil_war = yes
+						has_capitulated = yes
+						NOT = { owns_state = 126 } #Owns London
+					}
+				}
+			}
+		}
+		
+		#On Activation
+		complete_effect = {
+			ENG = {
+				add_offsite_building = {
+					type = industrial_complex
+					level = 2
+				}
+			}
+		}
+
+		#Fail
+		cancel_effect = {
+			ENG = {
+				add_offsite_building = {
+					type = industrial_complex
+					level = -2
+				}
+				remove_opinion_modifier = {
+					target = SIA
+					modifier = POR_bought_ships
+				}
+			}
+			remove_opinion_modifier = {
+				target = ENG
+				modifier = POR_sold_ships
+			}
+			remove_opinion_modifier = {
+				target = ENG
+				modifier = POR_ships_trade
+			}
+			clr_country_flag = SIA_purchase_british_light_cruiser_flag
+			clr_country_flag = SIA_ships_purchase_in_progress_flag
+		}
+
+		#Success
+		remove_effect = {
+			if = {
+				limit = { has_dlc = "Man the Guns" }
+				if = { 
+					limit = {
+						ENG = { has_tech = advanced_ship_hull_cruiser }
+					}
+					hidden_effect = { add_manpower = 1400 }
+					ENG = {
+						create_equipment_variant = {
+							name = "Atlântico Class"	
+							type = ship_hull_cruiser_4
+							name_group = POR_CL_HISTORICAL
+							parent_version = 0
+							modules = {
+								fixed_ship_battery_slot = ship_light_medium_battery_2
+								fixed_ship_anti_air_slot = ship_anti_air_2
+								fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+								fixed_ship_radar_slot = empty
+								fixed_ship_engine_slot = cruiser_ship_engine_2
+								fixed_ship_armor_slot = empty
+								mid_1_custom_slot = ship_torpedo_1
+								mid_2_custom_slot = ship_airplane_launcher_1
+								rear_1_custom_slot = ship_light_medium_battery_2
+							}
+						}
+					}
+					create_ship = { type = ship_hull_cruiser_4 equipment_variant = "Atlântico Class" creator = ENG }
+				}
+				else_if = { 
+					limit = {
+						ENG = { has_tech = improved_ship_hull_cruiser }
+					}
+					hidden_effect = { add_manpower = 1200 }
+					ENG = {
+						create_equipment_variant = {
+							name = "Atlântico Class"	
+							type = ship_hull_cruiser_3
+							name_group = POR_CL_HISTORICAL
+							parent_version = 0
+							modules = {
+								fixed_ship_battery_slot = ship_light_medium_battery_2
+								fixed_ship_anti_air_slot = ship_anti_air_2
+								fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+								fixed_ship_radar_slot = empty
+								fixed_ship_engine_slot = cruiser_ship_engine_2
+								fixed_ship_armor_slot = empty
+								mid_1_custom_slot = ship_torpedo_1
+								mid_2_custom_slot = ship_airplane_launcher_1
+								rear_1_custom_slot = ship_light_medium_battery_2
+							}
+						}
+					}
+					create_ship = { type = ship_hull_cruiser_3 equipment_variant = "Atlântico Class" creator = ENG }
+				}
+				else = {
+					hidden_effect = { add_manpower = 800 }
+					ENG = {
+						create_equipment_variant = {
+							name = "Atlântico Class"	
+							type = ship_hull_cruiser_2
+							name_group = POR_CL_HISTORICAL
+							parent_version = 0
+							modules = {
+								fixed_ship_battery_slot = ship_light_medium_battery_2
+								fixed_ship_anti_air_slot = ship_anti_air_2
+								fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+								fixed_ship_radar_slot = empty
+								fixed_ship_engine_slot = cruiser_ship_engine_2
+								fixed_ship_armor_slot = empty
+								mid_1_custom_slot = ship_torpedo_1
+								mid_2_custom_slot = ship_airplane_launcher_1
+								rear_1_custom_slot = ship_light_medium_battery_2
+							}
+						}
+					}
+					create_ship = { type = ship_hull_cruiser_2 equipment_variant = "Atlântico Class" creator = ENG }
+				}
+			}
+			else = { #NO MTG
+				if = { 
+					limit = {
+						ENG = { has_tech = advanced_light_cruiser }
+					}
+					hidden_effect = { add_manpower = 1140 }
+					ENG = {
+						create_equipment_variant = {
+							name = "Atlântico Class"
+							type = light_cruiser_4
+							upgrades = {
+								ship_reliability_upgrade = 4
+								ship_engine_upgrade = 3
+								ship_gun_upgrade = 4
+								ship_anti_air_upgrade = 3
+							}
+						}
+					}
+					create_ship = { type = light_cruiser_4 equipment_variant = "Atlântico Class" creator = ENG }
+				}
+				else_if = { 
+					limit = {
+						ENG = { has_tech = improved_light_cruiser }
+					}
+					hidden_effect = { add_manpower = 960 }
+					ENG = {
+						create_equipment_variant = {
+							name = "Atlântico Class"
+							type = light_cruiser_3
+							upgrades = {
+								ship_reliability_upgrade = 4
+								ship_engine_upgrade = 2
+								ship_gun_upgrade = 3
+								ship_anti_air_upgrade = 3
+							}
+						}
+					}
+					create_ship = { type = light_cruiser_3 equipment_variant = "Atlântico Class" creator = ENG }
+				}
+				else_if = { 
+					limit = {
+						ENG = { has_tech = basic_light_cruiser }
+					}
+					hidden_effect = { add_manpower = 800 }
+					ENG = {
+						create_equipment_variant = {
+							name = "Atlântico Class"
+							type = light_cruiser_2
+							upgrades = {
+								ship_reliability_upgrade = 3
+								ship_engine_upgrade = 2
+								ship_gun_upgrade = 3
+								ship_anti_air_upgrade = 2
+							}
+						}
+					}
+					create_ship = { type = light_cruiser_2 equipment_variant = "Atlântico Class" creator = ENG }
+				}
+				else = {
+					hidden_effect = { add_manpower = 600 }
+					ENG = {
+						create_equipment_variant = {
+							name = "Atlântico Class"
+							type = light_cruiser_1
+							upgrades = {
+								ship_reliability_upgrade = 2
+								ship_engine_upgrade = 1
+								ship_gun_upgrade = 3
+								ship_anti_air_upgrade = 2
+							}
+						}
+					}
+					create_ship = { type = light_cruiser_1 equipment_variant = "Atlântico Class" creator = ENG }
+				}
+			}
+
+			ENG = {
+				add_offsite_building = {
+					type = industrial_complex
+					level = -2
+				}
+			}
+			country_event = siam_purchase_ships.6
+			set_country_flag = SIA_ships_purchased_flag
+			clr_country_flag = SIA_purchase_british_light_cruiser_flag
+			clr_country_flag = SIA_ships_purchase_in_progress_flag
+		}
+	}
+
+	#Mission to track the progress of Italian LIGHT CRUISER construction
+	SIA_italian_light_cruiser_construction_progress = {
+		
+		icon = generic_naval
+
+		allowed = {
+			original_tag = SIA
+		}
+
+		visible = {
+			has_country_flag = SIA_purchase_italian_light_cruiser_flag
+		}
+		
+		modifier = {
+			civilian_factory_use = 2
+		}
+
+		days_remove = 546
+
+		cancel_trigger = {
+			OR = {
+				NOT = { country_exists = SIA }
+				NOT = { country_exists = ITA }
+				ITA = {
+					OR = {
+						has_war_with = ROOT
+						has_civil_war = yes
+						has_capitulated = yes
+						NOT = { owns_state = 2 } #Owns Rome
+					}
+				}
+			}
+		}
+
+		#On Activation
+		complete_effect ={
+			ITA = {
+				add_offsite_building = {
+					type = industrial_complex
+					level = 2
+				}
+			}
+		}
+
+		#Fail
+		cancel_effect = {
+			ITA = {
+				add_offsite_building = {
+					type = industrial_complex
+					level = -2
+				}
+				remove_opinion_modifier = {
+					target = SIA
+					modifier = POR_bought_ships
+				}
+			}
+			remove_opinion_modifier = {
+				target = ITA
+				modifier = POR_sold_ships
+			}
+			remove_opinion_modifier = {
+				target = ITA
+				modifier = POR_ships_trade
+			}
+			clr_country_flag = SIA_purchase_italian_light_cruiser_flag
+			clr_country_flag = SIA_ships_purchase_in_progress_flag
+		}
+
+		#Success
+		remove_effect = {
+			if = {
+				limit = { has_dlc = "Man the Guns" }
+				if = { 
+					limit = {
+						ITA = { has_tech = advanced_ship_hull_cruiser }
+					}
+					hidden_effect = { add_manpower = 1400 }
+					ITA = {
+						create_equipment_variant = {
+							name = "Atlântico Class"	
+							type = ship_hull_cruiser_4
+							name_group = POR_CL_HISTORICAL
+							parent_version = 0
+							modules = {
+								fixed_ship_battery_slot = ship_light_medium_battery_2
+								fixed_ship_anti_air_slot = ship_anti_air_2
+								fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+								fixed_ship_radar_slot = empty
+								fixed_ship_engine_slot = cruiser_ship_engine_2
+								fixed_ship_armor_slot = empty
+								mid_1_custom_slot = ship_torpedo_1
+								mid_2_custom_slot = ship_airplane_launcher_1
+								rear_1_custom_slot = ship_light_medium_battery_2
+							}
+						}
+					}
+					create_ship = { type = ship_hull_cruiser_4 equipment_variant = "Atlântico Class" creator = ITA }
+				}
+				else_if = { 
+					limit = {
+						ITA = { has_tech = improved_ship_hull_cruiser }
+					}
+					hidden_effect = { add_manpower = 1200 }
+					ITA = {
+						create_equipment_variant = {
+							name = "Atlântico Class"	
+							type = ship_hull_cruiser_3
+							name_group = POR_CL_HISTORICAL
+							parent_version = 0
+							modules = {
+								fixed_ship_battery_slot = ship_light_medium_battery_2
+								fixed_ship_anti_air_slot = ship_anti_air_2
+								fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+								fixed_ship_radar_slot = empty
+								fixed_ship_engine_slot = cruiser_ship_engine_2
+								fixed_ship_armor_slot = empty
+								mid_1_custom_slot = ship_torpedo_1
+								mid_2_custom_slot = ship_airplane_launcher_1
+								rear_1_custom_slot = ship_light_medium_battery_2
+							}
+						}
+					}
+					create_ship = { type = ship_hull_cruiser_3 equipment_variant = "Atlântico Class" creator = ITA }
+				}
+				else = {
+					hidden_effect = { add_manpower = 800 }
+					ITA = {
+						create_equipment_variant = {
+							name = "Atlântico Class"	
+							type = ship_hull_cruiser_2
+							name_group = POR_CL_HISTORICAL
+							parent_version = 0
+							modules = {
+								fixed_ship_battery_slot = ship_light_medium_battery_2
+								fixed_ship_anti_air_slot = ship_anti_air_2
+								fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+								fixed_ship_radar_slot = empty
+								fixed_ship_engine_slot = cruiser_ship_engine_2
+								fixed_ship_armor_slot = empty
+								mid_1_custom_slot = ship_torpedo_1
+								mid_2_custom_slot = ship_airplane_launcher_1
+								rear_1_custom_slot = ship_light_medium_battery_2
+							}
+						}
+					}
+					create_ship = { type = ship_hull_cruiser_2 equipment_variant = "Atlântico Class" creator = ITA }
+				}
+			}
+			else = { #NO MTG
+				if = { 
+					limit = {
+						ITA = { has_tech = advanced_light_cruiser }
+					}
+					hidden_effect = { add_manpower = 1140 }
+					ITA = {
+						create_equipment_variant = {
+							name = "Atlântico Class"
+							type = light_cruiser_4
+							upgrades = {
+								ship_reliability_upgrade = 4
+								ship_engine_upgrade = 3
+								ship_gun_upgrade = 4
+								ship_anti_air_upgrade = 3
+							}
+						}
+					}
+					create_ship = { type = light_cruiser_4 equipment_variant = "Atlântico Class" creator = ITA }
+				}
+				else_if = { 
+					limit = {
+						ITA = { has_tech = improved_light_cruiser }
+					}
+					hidden_effect = { add_manpower = 960 }
+					ITA = {
+						create_equipment_variant = {
+							name = "Atlântico Class"
+							type = light_cruiser_3
+							upgrades = {
+								ship_reliability_upgrade = 4
+								ship_engine_upgrade = 2
+								ship_gun_upgrade = 3
+								ship_anti_air_upgrade = 3
+							}
+						}
+					}
+					create_ship = { type = light_cruiser_3 equipment_variant = "Atlântico Class" creator = ITA }
+				}
+				else_if = { 
+					limit = {
+						ITA = { has_tech = basic_light_cruiser }
+					}
+					hidden_effect = { add_manpower = 800 }
+					ITA = {
+						create_equipment_variant = {
+							name = "Atlântico Class"
+							type = light_cruiser_2
+							upgrades = {
+								ship_reliability_upgrade = 3
+								ship_engine_upgrade = 2
+								ship_gun_upgrade = 3
+								ship_anti_air_upgrade = 2
+							}
+						}
+					}
+					create_ship = { type = light_cruiser_2 equipment_variant = "Atlântico Class" creator = ITA }
+				}
+				else = {
+					hidden_effect = { add_manpower = 600 }
+					ITA = {
+						create_equipment_variant = {
+							name = "Atlântico Class"
+							type = light_cruiser_1
+							upgrades = {
+								ship_reliability_upgrade = 2
+								ship_engine_upgrade = 1
+								ship_gun_upgrade = 3
+								ship_anti_air_upgrade = 2
+							}
+						}
+					}
+					create_ship = { type = light_cruiser_1 equipment_variant = "Atlântico Class" creator = ITA }
+				}
+			}
+
+			ITA = {
+				add_offsite_building = {
+					type = industrial_complex
+					level = -2
+				}
+			}
+			country_event = siam_purchase_ships.6
+			set_country_flag = SIA_ships_purchased_flag
+			clr_country_flag = SIA_purchase_italian_light_cruiser_flag
+			clr_country_flag = SIA_ships_purchase_in_progress_flag
+		}
+	}
+	
+	#Mission to track the progress of Japanese LIGHT CRUISER construction
+	SIA_japanese_light_cruiser_construction_progress = {
+		
+		icon = generic_naval
+
+		allowed = {
+			original_tag = SIA
+		}
+
+		visible = {
+			has_country_flag = SIA_purchase_japanese_light_cruiser_flag
+		}
+		
+		modifier = {
+			civilian_factory_use = 2
+		}
+
+		days_remove = 546
+
+		cancel_trigger = {
+			OR = {
+				NOT = { country_exists = SIA }
+				NOT = { country_exists = JAP }
+				JAP = {
+					OR = {
+						has_war_with = ROOT
+						has_civil_war = yes
+						has_capitulated = yes
+						NOT = { owns_state = 282 } #Owns Tokyo
+					}
+				}
+			}
+		}
+
+		#On Activation
+		complete_effect ={
+			JAP = {
+				add_offsite_building = {
+					type = industrial_complex
+					level = 2
+				}
+			}
+		}
+
+		#Fail
+		cancel_effect = {
+			JAP = {
+				add_offsite_building = {
+					type = industrial_complex
+					level = -2
+				}
+				remove_opinion_modifier = {
+					target = SIA
+					modifier = POR_bought_ships
+				}
+			}
+			remove_opinion_modifier = {
+				target = JAP
+				modifier = POR_sold_ships
+			}
+			remove_opinion_modifier = {
+				target = JAP
+				modifier = POR_ships_trade
+			}
+			clr_country_flag = SIA_purchase_japanese_light_cruiser_flag
+			clr_country_flag = SIA_ships_purchase_in_progress_flag
+		}
+
+		#Success
+		remove_effect = {
+			if = {
+				limit = { has_dlc = "Man the Guns" }
+				if = { 
+					limit = {
+						JAP = { has_tech = advanced_ship_hull_cruiser }
+					}
+					hidden_effect = { add_manpower = 1400 }
+					JAP = {
+						create_equipment_variant = {
+							name = "Atlântico Class"	
+							type = ship_hull_cruiser_4
+							name_group = POR_CL_HISTORICAL
+							parent_version = 0
+							modules = {
+								fixed_ship_battery_slot = ship_light_medium_battery_2
+								fixed_ship_anti_air_slot = ship_anti_air_2
+								fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+								fixed_ship_radar_slot = empty
+								fixed_ship_engine_slot = cruiser_ship_engine_2
+								fixed_ship_armor_slot = empty
+								mid_1_custom_slot = ship_torpedo_1
+								mid_2_custom_slot = ship_airplane_launcher_1
+								rear_1_custom_slot = ship_light_medium_battery_2
+							}
+						}
+					}
+					create_ship = { type = ship_hull_cruiser_4 equipment_variant = "Atlântico Class" creator = JAP }
+				}
+				else_if = { 
+					limit = {
+						JAP = { has_tech = improved_ship_hull_cruiser }
+					}
+					hidden_effect = { add_manpower = 1200 }
+					JAP = {
+						create_equipment_variant = {
+							name = "Atlântico Class"	
+							type = ship_hull_cruiser_3
+							name_group = POR_CL_HISTORICAL
+							parent_version = 0
+							modules = {
+								fixed_ship_battery_slot = ship_light_medium_battery_2
+								fixed_ship_anti_air_slot = ship_anti_air_2
+								fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+								fixed_ship_radar_slot = empty
+								fixed_ship_engine_slot = cruiser_ship_engine_2
+								fixed_ship_armor_slot = empty
+								mid_1_custom_slot = ship_torpedo_1
+								mid_2_custom_slot = ship_airplane_launcher_1
+								rear_1_custom_slot = ship_light_medium_battery_2
+							}
+						}
+					}
+					create_ship = { type = ship_hull_cruiser_3 equipment_variant = "Atlântico Class" creator = JAP }
+				}
+				else = {
+					hidden_effect = { add_manpower = 800 }
+					JAP = {
+						create_equipment_variant = {
+							name = "Atlântico Class"	
+							type = ship_hull_cruiser_2
+							name_group = POR_CL_HISTORICAL
+							parent_version = 0
+							modules = {
+								fixed_ship_battery_slot = ship_light_medium_battery_2
+								fixed_ship_anti_air_slot = ship_anti_air_2
+								fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+								fixed_ship_radar_slot = empty
+								fixed_ship_engine_slot = cruiser_ship_engine_2
+								fixed_ship_armor_slot = empty
+								mid_1_custom_slot = ship_torpedo_1
+								mid_2_custom_slot = ship_airplane_launcher_1
+								rear_1_custom_slot = ship_light_medium_battery_2
+							}
+						}
+					}
+					create_ship = { type = ship_hull_cruiser_2 equipment_variant = "Atlântico Class" creator = JAP }
+				}
+			}
+			else = { #NO MTG
+				if = { 
+					limit = {
+						JAP = { has_tech = advanced_light_cruiser }
+					}
+					hidden_effect = { add_manpower = 1140 }
+					JAP = {
+						create_equipment_variant = {
+							name = "Atlântico Class"
+							type = light_cruiser_4
+							upgrades = {
+								ship_reliability_upgrade = 4
+								ship_engine_upgrade = 3
+								ship_gun_upgrade = 4
+								ship_anti_air_upgrade = 3
+							}
+						}
+					}
+					create_ship = { type = light_cruiser_4 equipment_variant = "Atlântico Class" creator = JAP }
+				}
+				else_if = { 
+					limit = {
+						JAP = { has_tech = improved_light_cruiser }
+					}
+					hidden_effect = { add_manpower = 960 }
+					JAP = {
+						create_equipment_variant = {
+							name = "Atlântico Class"
+							type = light_cruiser_3
+							upgrades = {
+								ship_reliability_upgrade = 4
+								ship_engine_upgrade = 2
+								ship_gun_upgrade = 3
+								ship_anti_air_upgrade = 3
+							}
+						}
+					}
+					create_ship = { type = light_cruiser_3 equipment_variant = "Atlântico Class" creator = JAP }
+				}
+				else_if = { 
+					limit = {
+						JAP = { has_tech = basic_light_cruiser }
+					}
+					hidden_effect = { add_manpower = 800 }
+					JAP = {
+						create_equipment_variant = {
+							name = "Atlântico Class"
+							type = light_cruiser_2
+							upgrades = {
+								ship_reliability_upgrade = 3
+								ship_engine_upgrade = 2
+								ship_gun_upgrade = 3
+								ship_anti_air_upgrade = 2
+							}
+						}
+					}
+					create_ship = { type = light_cruiser_2 equipment_variant = "Atlântico Class" creator = JAP }
+				}
+				else = {
+					hidden_effect = { add_manpower = 600 }
+					JAP = {
+						create_equipment_variant = {
+							name = "Atlântico Class"
+							type = light_cruiser_1
+							upgrades = {
+								ship_reliability_upgrade = 2
+								ship_engine_upgrade = 1
+								ship_gun_upgrade = 3
+								ship_anti_air_upgrade = 2
+							}
+						}
+					}
+					create_ship = { type = light_cruiser_1 equipment_variant = "Atlântico Class" creator = JAP }
+				}
+			}
+
+			JAP = {
+				add_offsite_building = {
+					type = industrial_complex
+					level = -2
+				}
+			}
+			country_event = siam_purchase_ships.6
+			set_country_flag = SIA_ships_purchased_flag
+			clr_country_flag = SIA_purchase_japanese_light_cruiser_flag
+			clr_country_flag = SIA_ships_purchase_in_progress_flag
+		}
+	}
+}
