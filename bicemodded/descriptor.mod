@@ -12,5 +12,6 @@ tags={
 }
 picture="FrontTotalWar.jpg"
 version="1.10.1"
-supported_version="1.10.8"
+replace_path="map/strategicregions"
+supported_version="1.11.1"
 remote_file_id="806209426"
