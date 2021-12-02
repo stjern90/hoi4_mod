@@ -165,7 +165,7 @@ ConstantBuffer( 3, 32 ) # For arrow shader
 	float vNormalMapFactor;
 };
 
-ConstantBuffer( 2, 32 ) # For symbol shader
+ConstantBuffer( 4, 32 ) # For symbol shader
 {
 	float4 SymbolColor;
 	float4 Position_Scale;
@@ -417,7 +417,7 @@ PixelShader =
 			float4 vMask = tex2D( TexMask, vUV );
 			vMask -= ( ( sin( vTime_IsSelected_FadeInOut.x * MAP_ARROW_SEL_BLINK_SPEED ) * MAP_ARROW_SEL_BLINK_RANGE + 1.0f - MAP_ARROW_SEL_BLINK_RANGE * 0.5f ) * 0.5f ) * vTime_IsSelected_FadeInOut.y;
 			vMask = saturate( vMask );
-			clip( vMask.a <= 0 ? -1 : 1 );
+			//clip( vMask.a <= 0 ? -1 : 1 );
 			vMask.rgb = vMask.rgb * ArrowMask.rgb * vMask.a;
 			float vMaskValue = saturate( vMask.r + vMask.g + vMask.b );
 			clip( vMaskValue <= 0 ? -1 : 1 ); //SVA
