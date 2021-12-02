@@ -3392,8 +3392,8 @@ NSupply = {
 	--defines to calculate the capitals supply. This will be also used for max supply of other nodes depending on how well they are connected to capital. Using the formula:
 	--CapitalSupply = CAPITAL_SUPPLY_BASE + (NumberOfCivilianFactories * CAPITAL_SUPPLY_CIVILIAN_FACTORIES) + (NumberOfMilitaryFactories * CAPITAL_SUPPLY_MILITARY_FACTORIES) + (NumberOfDockyards * CAPITAL_SUPPLY_DOCKYARDS)
 	CAPITAL_SUPPLY_BASE = 5.0, -- base supply for capital
-	CAPITAL_SUPPLY_CIVILIAN_FACTORIES = 0.3, -- supply from one civilian factory
-	CAPITAL_SUPPLY_MILITARY_FACTORIES = 0.6, -- supply from one military factory
+	CAPITAL_SUPPLY_CIVILIAN_FACTORIES = 0.35, -- supply from one civilian factory
+	CAPITAL_SUPPLY_MILITARY_FACTORIES = 0.7, -- supply from one military factory
 	CAPITAL_SUPPLY_DOCKYARDS = 0.4, --supply from one naval factory
 
 	-- defines that are used for supply reach for capital
@@ -3465,11 +3465,11 @@ NSupply = {
 
 	SUPPLY_NODE_MIN_SUPPLY_THRESHOLD = 1.0, -- if supply of a node is below this value it will be set to 0 -- Currently unused?
 
-	INFRA_TO_SUPPLY = 0.3,							-- each level of infra gives this many supply
-	VP_TO_SUPPLY_BASE = 0.2,							-- Bonus to supply from a VP, no matter the level
-	VP_TO_SUPPLY_BONUS_CONVERSION = 0.05,			-- Bonus to supply local supplies from Victory Points, multiplied by this aspect and rounded to closest integer
-	SUPPLY_FROM_DAMAGED_INFRA = 0.15,                -- damaged infrastructure counts as this in supply calcs
-	SUPPLY_BASE_MULT = 0.2,							-- multiplier on supply base values
+	INFRA_TO_SUPPLY = 0.5,							-- each level of infra gives this many supply
+	VP_TO_SUPPLY_BASE = 1,							-- Bonus to supply from a VP, no matter the level
+	VP_TO_SUPPLY_BONUS_CONVERSION = 0.4,			-- Bonus to supply local supplies from Victory Points, multiplied by this aspect and rounded to closest integer
+	SUPPLY_FROM_DAMAGED_INFRA = 0.25,                -- damaged infrastructure counts as this in supply calcs
+	SUPPLY_BASE_MULT = 1,							-- multiplier on supply base values
 	SUPPLY_DISRUPTION_DAILY_RECOVERY = 1.5,		-- every day nodes recover this much of their accumulated disruption.
 
 	RAILWAY_CONVERSION_COOLDOWN = 10, -- railways will be put on cooldown when they are captured by enemy and will not be usable during the cooldown
