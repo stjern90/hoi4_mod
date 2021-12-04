@@ -316,7 +316,7 @@ NCountry = {
 	BASE_FUEL_GAIN = 2.0,							-- base amount of fuel gained hourly, independent of excess oil
 	BASE_FUEL_CAPACITY = 50000,						-- base amount of fuel capacity
 
-	SCORCHED_EARTH_STATE_COST = 5,					-- pp cost to scorch a state
+	SCORCHED_EARTH_STATE_COST = 10,					-- pp cost to scorch a state
 	
 	COUNTRY_MANPOWER_CAPITULATED_FREE_POOL_FACTOR = 0.1,	-- Factor on amount of normal manpower left for an exiled nation with no territory.
 	COUNTRY_MANPOWER_CAPITULATED_CORE_GAIN_FACTOR = 0.001,	-- Factor on amount of normal manpower gained for the exile nation. From owned states that are controlled by an enemy. State manpower reduced by factor 1000 in code.
@@ -1147,7 +1147,7 @@ NAir = {
 		0.0, -- NAVAL_KAMIKAZE
         0.0, -- PORT_STRIKE
 		0.0, -- ATTACK_LOGISTICS
-		0.05, -- AIR_SUPPLY
+		2.0, -- AIR_SUPPLY
 		0.0, -- TRAINING
 		0.0, -- NAVAL_MINES_PLANTING
 		0.0, -- NAVAL_MINES_SWEEPING
@@ -1165,7 +1165,7 @@ NAir = {
 		0.75, -- NAVAL_KAMIKAZE	
 		1.2, -- PORT_STRIKE		
 		1.2, -- ATTACK_LOGISTICS
-		1.0, -- AIR_SUPPLY	
+		75.0, -- AIR_SUPPLY	
 		0.8, -- TRAINING
 		1.0, -- NAVAL_MINES_PLANTING
 		1.0, -- NAVAL_MINES_SWEEPING
