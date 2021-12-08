@@ -1872,7 +1872,7 @@ NAI = {
 	DESIRE_USE_XP_TO_UNLOCK_LAND_DOCTRINE = 0.5,    -- How quickly is desire to unlock land doctrines accumulated?
 	DESIRE_USE_XP_TO_UNLOCK_NAVAL_DOCTRINE = 0.5,   -- How quickly is desire to unlock naval doctrines accumulated?
 	DESIRE_USE_XP_TO_UNLOCK_AIR_DOCTRINE = 0.5,     -- How quickly is desire to unlock air doctrines accumulated?
-	DESIRE_USE_XP_TO_UPDATE_LAND_TEMPLATE = 2.0,    -- How quickly is desire to update/create templates accumulated?
+	DESIRE_USE_XP_TO_UPDATE_LAND_TEMPLATE = 0.0,    -- How quickly is desire to update/create templates accumulated?
 	DESIRE_USE_XP_TO_UPGRADE_LAND_EQUIPMENT = 1.0,  -- How quickly is desire to update/create land equipment variants accumulated?
 	DESIRE_USE_XP_TO_UPGRADE_NAVAL_EQUIPMENT = 1.0, -- How quickly is desire to update/create naval equipment variants accumulated?
 	DESIRE_USE_XP_TO_UPGRADE_AIR_EQUIPMENT = 1.0,   -- How quickly is desire to update/create air equipment variants accumulated?
@@ -1880,9 +1880,9 @@ NAI = {
 	DESIRE_USE_XP_TO_UNLOCK_NAVY_SPIRIT = 0.4,   -- How quickly is desire to unlock naval spirits accumulated?
 	DESIRE_USE_XP_TO_UNLOCK_AIR_SPIRIT = 0.4,     -- How quickly is desire to unlock air spirits accumulated?
 
-	DAYS_BETWEEN_CHECK_BEST_DOCTRINE = 7;       -- Recalculate desired best doctrine to unlock with this many days inbetween.
-	DAYS_BETWEEN_CHECK_BEST_TEMPLATE = 7;       -- Recalculate desired best template to upgrade with this many days inbetween.
-	DAYS_BETWEEN_CHECK_BEST_EQUIPMENT = 7;      -- Recalculate desired best equipment to upgrade with this many days inbetween.
+	DAYS_BETWEEN_CHECK_BEST_DOCTRINE = 12;       -- Recalculate desired best doctrine to unlock with this many days inbetween.
+	DAYS_BETWEEN_CHECK_BEST_TEMPLATE = 12;       -- Recalculate desired best template to upgrade with this many days inbetween.
+	DAYS_BETWEEN_CHECK_BEST_EQUIPMENT = 12;      -- Recalculate desired best equipment to upgrade with this many days inbetween.
 	FOCUS_TREE_CONTINUE_FACTOR = 1.5,			-- Factor for score of how likely the AI is to keep going down a focus tree rather than starting a new path.
 	PLAN_VALUE_TO_EXECUTE = 0.2,				-- AI will typically avoid carrying out a plan it below this value (0.0 is considered balanced).
 	DECLARE_WAR_NOT_NEIGHBOR_FACTOR = 0.25,		-- Multiplier applied before force factor if country is not neighbor with the one it is considering going to war
@@ -2192,7 +2192,7 @@ NAI = {
 	UPGRADE_DIVISION_RELUCTANCE = 1.0,					-- How often to consider upgrading to new templates for units in the field
 	UPGRADE_PERCENTAGE_OF_FORCES = 0.01,					-- How big part of the army that should be considered for upgrading
 
-	REFIT_SHIP_RELUCTANCE = 5,							-- How often to consider refitting to new equipment variants for ships in the field
+	REFIT_SHIP_RELUCTANCE = 12,							-- How often to consider refitting to new equipment variants for ships in the field
 	REFIT_SHIP_PERCENTAGE_OF_FORCES = 0.5,				-- How big part of the navy that should be considered for refitting
 	NAVY_PREFERED_MAX_SIZE = 50,						-- AI will generally attempt to merge fleets into this size, but as a soft limit.
 	INVASION_COASTAL_PROVS_PER_ORDER = 28,				-- AI will consider one extra invasion per number of provinces stated here (num orders = total coast / this)
@@ -2343,8 +2343,8 @@ NAI = {
 	
 	LAND_COMBAT_INTERCEPT_PER_PLANE = 0.4,			-- Amount of interception planes requested per enemy plane
 	
-	XP_RATIO_REQUIRED_TO_RESEARCH_WITH_XP = 2.0,		-- AI will at least need this amount of xp compared to cost of a tech to reserch it with XP			
-	RESEARCH_WITH_XP_AI_WEIGHT_MULT = 1.2, 				-- AI will bump score of a research with this mult if it can use XP
+	XP_RATIO_REQUIRED_TO_RESEARCH_WITH_XP = 1.5,		-- AI will at least need this amount of xp compared to cost of a tech to reserch it with XP			
+	RESEARCH_WITH_XP_AI_WEIGHT_MULT = 1.3, 				-- AI will bump score of a research with this mult if it can use XP
 	
 	STR_BOMB_AIR_SUPERIORITY_IMPORTANCE = 0.05,			-- Strategic importance of air superiority ( amount of enemy planes in area )
 	STR_BOMB_CIVIL_FACTORY_IMPORTANCE = 50,				-- Strategic importance of enemy civil factories
