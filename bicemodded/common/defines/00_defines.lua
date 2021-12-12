@@ -1161,11 +1161,11 @@ NAir = {
 		1.0, -- STRATEGIC_BOMBER
 		1.0, -- NAVAL_BOMBER	
 		1.0, -- DROP_NUKE		
-		20.0, -- PARADROP		
+		30.0, -- PARADROP		
 		0.75, -- NAVAL_KAMIKAZE	
 		1.2, -- PORT_STRIKE		
 		1.2, -- ATTACK_LOGISTICS
-		20.0, -- AIR_SUPPLY	
+		30.0, -- AIR_SUPPLY	
 		0.8, -- TRAINING
 		1.0, -- NAVAL_MINES_PLANTING
 		1.0, -- NAVAL_MINES_SWEEPING
@@ -3408,8 +3408,8 @@ NSupply = {
 	NODE_STARTING_PENALTY_PER_PROVINCE = 0.50,
 	NODE_ADDED_PENALTY_PER_PROVINCE = 0.70,
 
-	-- defines that are used for supply reach for dockyards
-	NAVAL_BASE_INITIAL_SUPPLY_FLOW = 3.5,
+	-- defines that are used for supply reach for dockyards (sic? naval bases?)
+	NAVAL_BASE_INITIAL_SUPPLY_FLOW = 3.0,
 	NAVAL_BASE_STARTING_PENALTY_PER_PROVINCE = 0.8,
 	NAVAL_BASE_ADDED_PENALTY_PER_PROVINCE = 1.0,
 
@@ -3445,9 +3445,9 @@ NSupply = {
 	SUPPLY_FLOW_DIST_LOGISTICS_FALLOFF_MIN_PENALTY_SCALE = 0.25, -- Logistics curve never reduces penalty facor below this limit
 
 	-- The range bonus added to a fully motorized hub. This supply is added on top of the XXX_INITIAL_SUPPLY_FLOW defined above.
-	SUPPLY_HUB_FULL_MOTORIZATION_BONUS = 2.2,
+	SUPPLY_HUB_FULL_MOTORIZATION_BONUS = 2.4,
 	-- How many trucks does it cost to fully motorize a hub
-	SUPPLY_HUB_FULL_MOTORIZATION_TRUCK_COST = 150.0,
+	SUPPLY_HUB_FULL_MOTORIZATION_TRUCK_COST = 100.0,
 	-- For each additional level of motorization on a hub (i.e. contry with set motoriazation) reduce max bonus for next level by this amount
 	SUPPLY_HUB_MOTORIZATION_MARGINAL_EFFECT_DECAY = 1.6,
 
@@ -3465,7 +3465,7 @@ NSupply = {
 
 	SUPPLY_NODE_MIN_SUPPLY_THRESHOLD = 1.0, -- if supply of a node is below this value it will be set to 0 -- Currently unused?
 
-	INFRA_TO_SUPPLY = 0.5,							-- each level of infra gives this many supply
+	INFRA_TO_SUPPLY = 0.6,							-- each level of infra gives this many supply
 	VP_TO_SUPPLY_BASE = 1,							-- Bonus to supply from a VP, no matter the level
 	VP_TO_SUPPLY_BONUS_CONVERSION = 0.4,			-- Bonus to supply local supplies from Victory Points, multiplied by this aspect and rounded to closest integer
 	SUPPLY_FROM_DAMAGED_INFRA = 0.25,                -- damaged infrastructure counts as this in supply calcs
@@ -3477,7 +3477,7 @@ NSupply = {
 	RAILWAY_CONVERSION_COOLDOWN_CIVILWAR = 0,
 
 	DEFAULT_STARTING_TRUCK_RATIO = 1.5, -- countries get this ratio of starting truck in their buffers compared to their need
-	DEFAULT_STARTING_TRAIN_RATIO = 1, -- countries get this ratio of starting trains in their buffers compared to their need
+	DEFAULT_STARTING_TRAIN_RATIO = 1.0, -- countries get this ratio of starting trains in their buffers compared to their need
 
 	SUPPLY_POINTS_PER_TRAIN = 1.0,  -- old default 1.25 -- Amount of supply that can fit in a train. (Trains distribute supply from capital to a supply node.)
 	NUM_RAILWAYS_TRAIN_FACTOR = 0.03, -- the train usage is scaled by railway distance between the supply node and the capital multiplied by this factor
@@ -3526,7 +3526,7 @@ NSupply = {
 
 	MIN_DIFF_FOR_AUTO_UPDATING_EXISTING_RAILWAYS = 5, -- while building railways, the system will prefer updating existing railway if new railway is close enough to existing one
 
-	LOCAL_SUPPLY_PER_AIR_MISSION = 1.2, -- each assigned plane gives this much supply at full efficiency
+	LOCAL_SUPPLY_PER_AIR_MISSION = 0.3, -- each assigned plane gives this much supply at full efficiency
 
 	-- reinforcements depends on distance to capital and following defines are used for calculating reinforcement time
 	SUPPLY_PATH_MAX_DISTANCE = 15,	-- max time it can take
