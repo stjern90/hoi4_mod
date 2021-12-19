@@ -512,9 +512,9 @@ NProduction = {
 	LICENSE_EQUIPMENT_UPGRADE_XP_FACTOR = 1.7,			-- XP cost for upgrading licensed equipment
 	LICENSE_EQUIPMENT_SPEED_NO_LICENSE = -0.30,			-- Penalty for producing non licensed equipment
 	CONVERSION_SPEED_BONUS = 1.5,						-- Modifier to the production speed when converting equipment
-    EQUIPMENT_MODULE_ADD_XP_COST = 4.0,					-- XP cost for adding a new equipment module in an empty slot when creating an equipment variant.
-	EQUIPMENT_MODULE_REPLACE_XP_COST = 5.0,				-- XP cost for replacing one equipment module with an unrelated module when creating an equipment variant.
-	EQUIPMENT_MODULE_CONVERT_XP_COST = 2.5,				-- XP cost for converting one equipment module to a related module when creating an equipment variant.
+    EQUIPMENT_MODULE_ADD_XP_COST = 3.0,					-- XP cost for adding a new equipment module in an empty slot when creating an equipment variant.
+	EQUIPMENT_MODULE_REPLACE_XP_COST = 4.0,				-- XP cost for replacing one equipment module with an unrelated module when creating an equipment variant.
+	EQUIPMENT_MODULE_CONVERT_XP_COST = 2.0,				-- XP cost for converting one equipment module to a related module when creating an equipment variant.
 	EQUIPMENT_MODULE_REMOVE_XP_COST = 1.0,				-- XP cost for removing an equipment module and leaving the slot empty when creating an equipment variant.
 	MIN_NAVAL_EQUIPMENT_CONVERSION_IC_COST_FACTOR = 0.2,		-- Minimum fraction of an equipment type's base industry capacity cost to use when converting a naval equipment, such as through ship refitting.
 	MIN_NAVAL_EQUIPMENT_CONVERSION_RESOURCE_COST_FACTOR = 0.2,	-- Minimum fraction of an equipment type's base strategic resource cost to use when converting a naval equipment, such as through ship refitting.
@@ -1220,8 +1220,8 @@ NNavy = {
 	COMBAT_DAMAGE_RANDOMNESS = 0.3,								-- random factor in damage. So if max damage is fe. 10, and randomness is 30%, then damage will be between 7-10.
 	COMBAT_TORPEDO_CRITICAL_CHANCE = 0.25,							-- chance for critical hit from torpedo.
 	COMBAT_TORPEDO_CRITICAL_DAMAGE_MULT = 3.0,						-- multiplier to damage when got critical hit from torpedo. (Critical hits are devastating as usualy torpedo_attack are pretty high base values).
-	COMBAT_DAMAGE_TO_STR_FACTOR = 0.47,								-- casting damage value to ship strength multiplier. Use it ot balance the game difficulty.
-	COMBAT_DAMAGE_TO_ORG_FACTOR = 0.9,							-- casting damage value to ship organisation multiplier. Use it to balance the game difficulty.
+	COMBAT_DAMAGE_TO_STR_FACTOR = 0.45,								-- casting damage value to ship strength multiplier. Use it ot balance the game difficulty.
+	COMBAT_DAMAGE_TO_ORG_FACTOR = 0.85,							-- casting damage value to ship organisation multiplier. Use it to balance the game difficulty.
 	NAVY_MAX_XP = 100,
 	COMBAT_ON_THE_WAY_INIT_DISTANCE_BALANCE = 0.25, 					-- Value to balance initial distance to arrive for ships that are "on the way"	
 	COMBAT_CHASE_RESIGNATION_HOURS = 8,								-- Before we resign chasing enemy, give them some minimum time so the combat doesn't end instantly.
@@ -1574,7 +1574,7 @@ NNavy = {
 	
 	DAMAGE_PENALTY_ON_MINIMUM_POSITIONING 							= 0.6, -- damage penalty at 0% positioning
 	SCREENING_EFFICIENCY_PENALTY_ON_MINIMUM_POSITIONING				= 0.25,  -- screening efficiency (screen to capital ratio) at 0% positioning
-	AA_EFFICIENCY_PENALTY_ON_MINIMUM_POSITIONING					= 0.25,  -- AA penalty at 0% positioning
+	AA_EFFICIENCY_PENALTY_ON_MINIMUM_POSITIONING					= 0.1,  -- AA penalty at 0% positioning
 	SUBMARINE_REVEAL_ON_MINIMUM_POSITIONING                         = 0,  -- submarine reveal change on 0% positioning 
 	
 	SHIP_TO_FLEET_ANTI_AIR_RATIO									= 0.25,	-- total sum of fleet's anti air will be multiplied with this ratio and added to calculations anti-air of individual ships while air damage reduction
@@ -1591,7 +1591,7 @@ NNavy = {
 	CAPITAL_RATIO_FOR_FULL_SCREENING_FOR_CARRIERS 					= 1.0,  -- this capital ratio to num carriers is needed for full screening beyond screen line
 	
 	TASK_FORCE_ROLE_TO_INSIGNIA = {								-- define the index of the insignia to use for a task force designed for a specific role
-		6,	-- Role undefined
+		6,	-- Role underfund
 		15,	-- Wolfpack
 		22,	-- Carrier task force
 		26,	-- Surface action group
