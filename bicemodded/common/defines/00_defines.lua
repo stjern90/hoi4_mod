@@ -1433,7 +1433,7 @@ NNavy = {
 	MISSION_SUPREMACY_RATIOS = { -- supremacy multipliers for different mission types
 		0.0, -- HOLD
 		1.0, -- PATROL		
-		0.75, -- STRIKE FORCE 
+		0.5, -- STRIKE FORCE 
 		0.5, -- CONVOY RAIDING
 		0.5, -- CONVOY ESCORT
 		0.3, -- MINES PLANTING	
