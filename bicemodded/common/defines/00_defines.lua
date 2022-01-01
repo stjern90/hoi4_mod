@@ -1563,7 +1563,7 @@ NNavy = {
 	MAX_POSITIONING_BONUS_FROM_SURFACE_DETECTION					= 0.0,  -- will clamp the bonus that you get from detection
 	
 	HIGHER_SHIP_RATIO_POSITIONING_PENALTY_FACTOR					= 0.5, -- if one side has more ships than the other, that side will get this penalty for each +100% ship ratio it has
-	MAX_POSITIONING_PENALTY_FROM_HIGHER_SHIP_RATIO					= 0.8, -- maximum penalty to get from larger fleets
+	MAX_POSITIONING_PENALTY_FROM_HIGHER_SHIP_RATIO					= 1.0, -- maximum penalty to get from larger fleets
 
 	HIGHER_CARRIER_RATIO_POSITIONING_PENALTY_FACTOR					= 0.2;  -- penalty if other side has stronger carrier air force 
 	MAX_CARRIER_RATIO_POSITIONING_PENALTY_FACTOR 					= 0.2;  -- max penalty from stronger carrier air force
@@ -1607,7 +1607,7 @@ NNavy = {
 	DEPTH_CHARGE_STAT_FOR_SHIP_TO_BE_SUB_HUNTER = 20,					-- amount of depth charge required for a ship to be considred a sub hunter and so good for convoy escort
 	SUB_DETECTION_STAT_FOR_SHIP_TO_BE_SUB_HUNTER = 6.9,					-- amount of sub detection required for a ship to be considered a sub hunter
 	
-	HEAVY_GUN_ATTACK_TO_SHORE_BOMBARDMENT							= 0.1,  -- heavy gun attack value is divided by this value * 100 and added to shore bombardment modifier 
+	HEAVY_GUN_ATTACK_TO_SHORE_BOMBARDMENT							= 0.15,  -- heavy gun attack value is divided by this value * 100 and added to shore bombardment modifier 
 	LIGHT_GUN_ATTACK_TO_SHORE_BOMBARDMENT							= 0.05, -- light gun attack value is divided by this value * 100 and added to shore bombardment modifier 
 
 	GUN_HIT_PROFILES = { -- hit profiles for guns, if target ih profile is lower the gun will have lower accuracy
