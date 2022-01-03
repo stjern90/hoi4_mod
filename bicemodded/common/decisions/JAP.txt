@@ -2619,9 +2619,14 @@ operations = {
 		}
 
 		available = {
+		    has_completed_focus = test_the_ussr_focus
 			NOT = {
+			OR = {
 				has_war_with = SOV
 				is_in_faction_with = SOV
+				has_non_aggression_pact_with = SOV
+				SOV = { is_puppet_of = JAP }
+            }
 			}
 			527 = {
 				any_neighbor_state = {
@@ -2637,11 +2642,12 @@ operations = {
 		}
 
 		highlight_states = {
-			highlight_state_targets = { 
+	 		highlight_state_targets = {
 				state = 408
 				state = 527
-			}
+			} 
 		}
+		
 		fire_only_once = yes
 		ai_will_do = {
 			factor = 1
@@ -2651,10 +2657,23 @@ operations = {
 				factor = 0
 			}
 		}
-		cost = 50
+		cost = 5
 		days_remove = 30
 		war_with_on_remove = SOV
 		complete_effect = {
+		    custom_effect_tooltip = when_border_war_completed_tt
+			effect_tooltip = {
+				add_tech_bonus = {
+					name = land_doc_bonus
+					category = land_doctrine
+					bonus = 1.0
+		    	}
+		    	add_tech_bonus = {
+					name = armor_bonus
+					category = armor
+					bonus = 1.0
+	    		}
+	    	}
 			527 = {
 				save_event_target_as = JAP_SOV_attacker_state
 				set_state_flag = border_incident_active
@@ -2687,7 +2706,7 @@ operations = {
 
 		war_with_target_on_timeout = yes
 		ai_will_do = {
-			factor = 0
+			base = 0
 			modifier = {
 				
 			}
@@ -2711,15 +2730,15 @@ operations = {
 			effect_tooltip = {
 				JAP = {
 					add_tech_bonus = {
-						name = sov_jap_border_conflict_won
-						category = land_doctrine
-						bonus = 0.5
-					}
-					add_tech_bonus = {
-						name = sov_jap_border_conflict_won
-						category = armor
-						bonus = 0.5
-					}
+			name = land_doc_bonus
+			category = land_doctrine
+			bonus = 1.0
+		}
+		add_tech_bonus = {
+			name = armor_bonus
+			category = armor
+			bonus = 1.0
+		}
 				}
 			}
 			hidden_effect = {
@@ -2735,6 +2754,8 @@ operations = {
 		icon = border_war
 
 		allowed = { always = no } #Activated from effect
+		visible = { hidden_trigger = { NOT = { has_border_war_with = JAP } } }
+		cancel_if_not_visible = yes 
 
 		available = {
 			#var:ROOT.defender_state_vs_@FROM = {
@@ -2752,7 +2773,7 @@ operations = {
 
 		war_with_target_on_timeout = yes
 		ai_will_do = {
-			factor = 0
+			base = 0
 			modifier = {
 				
 			}
@@ -2770,15 +2791,15 @@ operations = {
 			effect_tooltip = {
 				JAP = {
 					add_tech_bonus = {
-						name = sov_jap_border_conflict_won
-						category = land_doctrine
-						bonus = 0.5
-					}
-					add_tech_bonus = {
-						name = sov_jap_border_conflict_won
-						category = armor
-						bonus = 0.5
-					}
+			name = land_doc_bonus
+			category = land_doctrine
+			bonus = 1.0
+		}
+		add_tech_bonus = {
+			name = armor_bonus
+			category = armor
+			bonus = 1.0
+		}
 				}
 			}
 		}		
@@ -2791,14 +2812,14 @@ operations = {
 		allowed = { always = no } #Activated from effect
 
 		available = {
-			has_border_war_with = SOV
+			has_border_war_with = SOV # Japan shouldn't lose war support if they actually use the window of opportunity
 		}
 
 		highlight_states = {
-			highlight_state_targets = { 
-				state = 408
+			highlight_state_targets = {
 				state = 527
-			}
+				state = 408
+			} 
 		}
 
 		ai_will_do = {
@@ -2914,8 +2935,8 @@ operations = {
 		
 		highlight_states = {
 			highlight_state_targets = {
+				state = 408
 				state = 527
-				state = 408	
 			} 
 		}
 
@@ -2958,7 +2979,7 @@ operations = {
 		highlight_states = {
 			highlight_state_targets = {
 				state = 527
-				state = 408	
+				state = 408
 			} 
 		}
 
@@ -2966,19 +2987,38 @@ operations = {
 
 		ai_will_do = {
 			base = 0
+			modifier = {
+				factor = 0
+				has_war = yes 
+			}
 		}
 
 		fire_only_once = yes #Reactivation handled in effect
 
 		complete_effect = {
 			if = {
-				limit = { is_border_conflict_defender_vs_FROM = yes }
+				limit = { original_tag = SOV }
 				set_border_war_data = {
 					attacker = 527
 					defender = 408
 					defender_modifier = 0.15
 					combat_width = 100
 				}
+				JAP = {
+					set_country_flag = {
+						flag = WTT_border_conflict_escalate_to_war_cooldown
+						days = 60
+						value = 1
+					}
+					remove_targeted_decision = { target = SOV decision = JAP_border_conflict_escalate_conflict }
+				}
+				set_country_flag = {
+					flag = WTT_border_conflict_escalate_to_war_cooldown
+					days = 60
+					value = 1
+				}
+				custom_effect_tooltip = in_60_days
+				activate_targeted_decision = { target = JAP decision = JAP_border_conflict_escalate_to_war }
 			}
 			else = {
 				set_border_war_data = {
@@ -2987,22 +3027,23 @@ operations = {
 					attacker_modifier = 0.15
 					combat_width = 100
 				}
-			}
-			SOV = {
+				SOV = {
+					set_country_flag = {
+						flag = WTT_border_conflict_escalate_to_war_cooldown
+						days = 60
+						value = 1
+					}
+					remove_targeted_decision = { target = JAP decision = JAP_border_conflict_escalate_conflict }
+				}
 				set_country_flag = {
-					flag = WTT_border_conflict_escalate_to_war_cooldown_@ROOT
+					flag = WTT_border_conflict_escalate_to_war_cooldown
 					days = 60
 					value = 1
 				}
-				remove_targeted_decision = { target = JAP decision = JAP_border_conflict_escalate_conflict }
+				custom_effect_tooltip = in_60_days
+				activate_targeted_decision = { target = SOV decision = JAP_border_conflict_escalate_to_war }
 			}
-			set_country_flag = {
-				flag = WTT_border_conflict_escalate_to_war_cooldown_@SOV
-				days = 60
-				value = 1
-			}
-			custom_effect_tooltip = in_60_days
-			activate_targeted_decision = { target = SOV decision = JAP_border_conflict_escalate_to_war }
+			
 		}
 	}
 
@@ -3014,14 +3055,17 @@ operations = {
 		allowed = { always = no } #Activated from effect
 
 		visible = {
-			NOT = { has_country_flag = WTT_border_conflict_escalate_to_war_cooldown_@FROM }
+			NOT = { has_country_flag = WTT_border_conflict_escalate_to_war_cooldown }
 			has_border_war_with = FROM
+		}
+		cancel_trigger = {
+			NOT = { has_border_war = yes }
 		}
 
 		highlight_states = {
-			highlight_state_targets = {
+ 			highlight_state_targets = {
+				state = 408
 				state = 527
-				state = 408	
 			} 
 		}
 
@@ -3029,6 +3073,10 @@ operations = {
 
 		ai_will_do = {
 			base = 0
+			modifier = {
+				factor = 0
+				has_war = yes 
+			}
 		}
 
 		days_remove = 15
@@ -3039,20 +3087,27 @@ operations = {
 
 		complete_effect = {
 			if = {
-				limit = { is_border_conflict_defender_vs_FROM = yes }
+				limit = { original_tag = SOV }
 				408 = { save_event_target_as = their_state }
 				527 = { save_event_target_as = our_state }
+				JAP = {
+					country_event = { id = japan_border_conflict.6 hours = 1 }
+					hidden_effect = {
+						remove_targeted_decision = { target = SOV decision = JAP_border_conflict_escalate_to_war }
+					}
+			 	}
 			}
 			else = {
 				527 = { save_event_target_as = our_state }
 				408 = { save_event_target_as = their_state }
+				SOV = {
+					country_event = { id = japan_border_conflict.5 hours = 1 }
+					hidden_effect = {
+						remove_targeted_decision = { target = JAP decision = JAP_border_conflict_escalate_to_war }
+					}
+			 	}
 			}
-			SOV = {
-				country_event = { id = japan_border_conflict.5 }
-				hidden_effect = {
-					remove_targeted_decision = { target = JAP decision = JAP_border_conflict_escalate_to_war }
-				}
-		 	}
+			
 		}
 
 		remove_effect = {
@@ -3063,7 +3118,7 @@ operations = {
 			}
 			declare_war_on = { target = FROM type = annex_everything }
 			if = {
-				limit = { is_border_conflict_defender_vs_FROM = yes }
+				limit = { original_tag = SOV }
 				527 = {
 					clr_state_flag = border_incident_active
 				}
@@ -3097,19 +3152,22 @@ operations = {
 		highlight_states = {
 			highlight_state_targets = {
 				state = 527
-				state = 408	
+				state = 408
 			} 
 		}
 
 		ai_will_do = {
 			base = 0
+			modifier = {
+				
+			}
 		}
 
 		fire_only_once = yes #Reactivation handled in effect
 
 		complete_effect = {
 			if = {
-				limit = { is_border_conflict_defender_vs_FROM = yes }
+				limit = { original_tag = SOV }
 				finalize_border_war = {
 					attacker_win = yes
 					attacker = 527
@@ -3176,7 +3234,7 @@ operations = {
 		}
 		}
 		
-		cost = 50
+		cost = 25
 		days_remove = 30
 		war_with_on_remove = SHX
 		
@@ -3474,7 +3532,7 @@ operations = {
 			}
 		}
 
-		cost = 200
+		cost = 150
 
 		ai_will_do = {
 			factor = 0
