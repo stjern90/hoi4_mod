@@ -13,9 +13,11 @@ quickly_help_england_in_africa3 = {
 	}
 	
 	ai_strategy = {
-		type = conquer
-		id = "ITA"			
-		value = 500
+		type = front_unit_request
+		country_trigger = {
+			tag = ITA
+		}
+		value = 200
 	}
 	ai_strategy = {
 		type = antagonize
@@ -23,9 +25,11 @@ quickly_help_england_in_africa3 = {
 		value = 500
 	}
 	ai_strategy = {
-		type = conquer
-		id = "ETH"			
-		value = 500
+		type = front_unit_request
+		country_trigger = {
+			tag = ETH
+		}
+		value = 200
 	}
 	ai_strategy = {
 		type = antagonize
@@ -175,22 +179,6 @@ swe_friend_2 = {
 		id = "GER"
 		value = 40
 	}
-}
-
-play_nice_with_LIB = {
-	allowed = { tag = GER }
-	enable = {
-		has_war_with = ENG
-		country_exists = LIB 
-		date > 1940.1.1
-	}
-	
-	abort = {
-		NOT = { country_exists = LIB }
-	}
-
-	ai_strategy = { type = antagonize id = "LIB" value = -100 }
-	
 }
 
 play_nice_with_SWI = {
@@ -357,7 +345,7 @@ GER_area_priorities = {
 	ai_strategy = { type = area_priority id = south_america 	value = 0 }
 	
 	ai_strategy = { type = area_priority id = middle_east 		value = -35 }
-	ai_strategy = { type = area_priority id = africa 			value = -90 }
+	ai_strategy = { type = area_priority id = africa 			value = -100 }
 	ai_strategy = { type = area_priority id = suez value = -30 }
 	ai_strategy = { type = area_priority id = asia 				value = 1 }
 	ai_strategy = { type = area_priority id = pacific 			value = 1 }
@@ -395,8 +383,8 @@ GER_area_priorities_winning = {
 	allowed = { OR = { original_tag = GER original_tag = ITA } }
 	enable = {			
 		has_government = fascism
-		num_of_military_factories > 189
-		surrender_progress < 0.1
+		num_of_military_factories > 219
+		surrender_progress < 0.05
 		OR = { 
 		    is_in_faction_with = SOV
 			is_in_faction_with = USA
@@ -415,7 +403,7 @@ GER_area_priorities_winning = {
 	ai_strategy = { type = area_priority id = south_america 	value = 70 }
 	
 	ai_strategy = { type = area_priority id = middle_east 		value = 55 }
-	ai_strategy = { type = area_priority id = africa 			value = 75 }
+	ai_strategy = { type = area_priority id = africa 			value = 100 }
 	ai_strategy = { type = area_priority id = suez value = 50 }
 	ai_strategy = { type = area_priority id = asia 				value = 10 }
 	ai_strategy = { type = area_priority id = pacific 			value = 10 }
@@ -436,8 +424,8 @@ ITA_area_priorities = {
 	ai_strategy = { type = area_priority id = south_america 	value = 15 }
 	
 	ai_strategy = { type = area_priority id = middle_east 		value = 10 }
-	ai_strategy = { type = area_priority id = africa 			value = 90 }
-	ai_strategy = { type = area_priority id = suez value = 80 }
+	ai_strategy = { type = area_priority id = africa 			value = 80 }
+	ai_strategy = { type = area_priority id = suez value = 75 }
 	ai_strategy = { type = area_priority id = asia 				value = -25 }
 	ai_strategy = { type = area_priority id = pacific 			value = -50 }
 	ai_strategy = { type = area_priority id = oceania 			value = -51 }
@@ -446,9 +434,10 @@ ITA_area_priorities = {
 ITA_protect_core = {
 	allowed = { original_tag = ITA }
 	enable = {	
-		surrender_progress > 0.07
+		surrender_progress > 0.05
 		NOT = { has_capitulated = yes }
-		any_owned_state = { OR = { region = 21 region = 23 } controller = { has_war_with = ITA } }
+		any_owned_state = { region = 21  controller = { has_war_with = ITA } }
+                any_owned_state = { region = 23 controller = { has_war_with = ITA } }
 	}
 	abort = {
 		OR = {
@@ -469,9 +458,11 @@ ITA_protect_core = {
 	ai_strategy = { type = area_priority id = pacific 			value = -100 }
 	ai_strategy = { type = area_priority id = oceania 			value = -100 }
 	ai_strategy = {
-		type = conquer
-		id = "SOV"
-		value = -100
+		type = front_unit_request
+		country_trigger = {
+			tag = SOV
+		}
+		value = -75
 	}
 	ai_strategy = { type = garrison value = 75 }
 }
@@ -722,6 +713,7 @@ SOV_area_priorities_2 = {
 	allowed = { original_tag = SOV }
 	enable = {	
 		has_war_with = GER
+                NOT = { has_war_with = JAP }
 		or = {
 		JAP = {
 		   has_war_with = CHI
@@ -729,27 +721,10 @@ SOV_area_priorities_2 = {
 		JAP = {
 		   has_war_with = USA
 		}
+                has_non_aggression_pact_with = JAP
 		}
 	}
-	abort = {
-	    or = {
-		and = {
-		NOT = {
-		JAP = {
-		   has_war_with = CHI
-		}
-		}
-		NOT = {
-		JAP = {
-		   has_war_with = USA
-		}
-		}
-		}
-		JAP = {
-		   has_war_with = SOV
-		}
-		}
-	}
+	abort_when_not_enabled = yes
 
 	ai_strategy = { type = area_priority id = europe 			value = 50 }
 	ai_strategy = { type = area_priority id = asia 				value = -70 }
@@ -796,14 +771,11 @@ MAL_area_priorities = {
 	ai_strategy = { type = area_priority id = pacific 			value = 20 }
 	ai_strategy = { type = area_priority id = oceania 			value = 20 }
         ai_strategy = {
-		type = conquer
-		id = "ITA"
-		value = -150
-	}
-        ai_strategy = {
-		type = conquer
-		id = "GER"
-		value = -150
+		type = front_unit_request
+		country_trigger = {
+			OR = { tag = ITA tag = GER tag = ETH }
+		}
+		value = -200
 	}
 	
 	ai_strategy = { type = dont_defend_ally_borders id = "BEL" value = 500 }
@@ -841,14 +813,11 @@ CAM_area_priorities = {
 	ai_strategy = { type = area_priority id = pacific 			value = 20 }
 	ai_strategy = { type = area_priority id = oceania 			value = 20 }
         ai_strategy = {
-		type = conquer
-		id = "ITA"
-		value = -150
-	}
-        ai_strategy = {
-		type = conquer
-		id = "GER"
-		value = -150
+		type = front_unit_request
+		country_trigger = {
+			OR = { tag = ITA tag = GER tag = ETH }
+		}
+		value = -200
 	}
 	
 	ai_strategy = { type = dont_defend_ally_borders id = "BEL" value = 500 }
@@ -884,14 +853,11 @@ NZL_area_priorities = {
 	ai_strategy = { type = area_priority id = pacific 			value = 100 }
 	ai_strategy = { type = area_priority id = oceania 			value = 100 }
         ai_strategy = {
-		type = conquer
-		id = "ITA"
-		value = -150
-	}
-        ai_strategy = {
-		type = conquer
-		id = "GER"
-		value = -150
+		type = front_unit_request
+		country_trigger = {
+			OR = { tag = ITA tag = GER tag = ETH }
+		}
+		value = -200
 	}
 	ai_strategy = { type = dont_defend_ally_borders id = "EGY" value = 500 }
 	ai_strategy = { type = dont_defend_ally_borders id = "SYR" value = 500 }
@@ -1071,9 +1037,11 @@ EGY_area_priorities = {
 	ai_strategy = { type = area_priority id = pacific 			value = -200 }
 	ai_strategy = { type = area_priority id = oceania 			value = -200 }
         ai_strategy = {
-		type = conquer
-		id = "JAP"
-		value = -100
+		type = front_unit_request
+		country_trigger = {
+			OR = { tag = JAP tag = MAN tag = SIA tag = CHI }
+		}
+		value = -200
 	}
 	
 	ai_strategy = { type = dont_defend_ally_borders id = "BEL" value = 500 }
@@ -1123,7 +1091,7 @@ SYR_area_priorities = {
 
 build_intelligence_agency_as_major = {
 	enable = {
-		num_of_factories > 74
+		num_of_factories > 94
 		OR = {
 			has_war = yes
 			date > 1938.1.1
@@ -1141,12 +1109,12 @@ build_intelligence_agency = {
 	enable = {
 		date > 1940.1.1
 		has_war = no
-		num_of_civilian_factories > 35
+		num_of_civilian_factories > 40
 	}
 	abort = {
 		OR = {
 			has_war = yes
-			num_of_civilian_factories < 35
+			num_of_civilian_factories < 40
 		}
 	}
 
@@ -1318,12 +1286,11 @@ minors_dont_spy = {  # todo, remove should be in default production
 }
 
 soviets_ignore_ireland = {
-	enable = {
+	allowed = {
 		tag = SOV
 	}
 
-	abort = {
-	}
+	enable = { always = yes }
 	ai_strategy = {
 		type = alliance
 		id = IRE
