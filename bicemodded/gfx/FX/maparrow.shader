@@ -337,117 +337,192 @@ PixelShader =
 		return 1.0f - vOfsX_vOfsTex_vOfsFx.z * stripeVal * ( 1.0f - vIsHead );
 	}
 
-	]]
-
-	MainCode ArrowPixelShader
-	[[
-		float4 main( VS_OUTPUT_MAPARROW Input ) : PDX_COLOR
-		{
-			//return float4( 1, 0, 1, 1 );
-			float vIsHead = Input.uv_isHead_variant.z < 0.5f ? 0.0f : 1.0f;
-			float vTextureVariant = 1.0f - step( Input.uv_isHead_variant.w, 0.0f );
+	// Split arrows into two groups. Those that fade until 0 (battleplan/etc.) and those that have a minimum (naval invasion, supply, air)
+	// Fade distance is different
+	float4 ArrowCore(VS_OUTPUT_MAPARROW Input, out float vMaskValue){
+		//return float4( 1, 0, 1, 1 );
+		float vIsHead = Input.uv_isHead_variant.z < 0.5f ? 0.0f : 1.0f;
+		float vTextureVariant = 1.0f - step( Input.uv_isHead_variant.w, 0.0f );
 			
-			float vVariantBodyUvScale = lerp( vBodyUvScale, vSecondaryBodyUvScale, vTextureVariant );
+		float vVariantBodyUvScale = lerp( vBodyUvScale, vSecondaryBodyUvScale, vTextureVariant );
 
-			float2 vUV;
-			vUV.x = Input.uv_isHead_variant.x * 0.5f + ( vIsHead * 0.5f );
-			float vHeadV = Input.uv_isHead_variant.y;
-			float vBodyV = ( ( Input.uv_isHead_variant.y - 0.5f ) * vVariantBodyUvScale + 0.5f + vTextureVariant ) * vTextureVariantScale; // Adjust UV vertically to select the correct packed texture variant.
-			vUV.y = lerp( vBodyV, vHeadV, vIsHead );
+		float2 vUV;
+		vUV.x = Input.uv_isHead_variant.x * 0.5f + ( vIsHead * 0.5f );
+		float vHeadV = Input.uv_isHead_variant.y;
+		float vBodyV = ( ( Input.uv_isHead_variant.y - 0.5f ) * vVariantBodyUvScale + 0.5f + vTextureVariant ) * vTextureVariantScale; // Adjust UV vertically to select the correct packed texture variant.
+		vUV.y = lerp( vBodyV, vHeadV, vIsHead );
 
-			float vWaterValue = 0;
-			float3 vNormal = vNormalMapFactor * CalculateTerrainNormal( Input.uv_terrain, Input.uv_terrain_id, vWaterValue, vTime_IsSelected_FadeInOut.x );
-			vUV += vNormal.xz * ( /*vNormal.y **/ MAP_ARROW_NORMALS_STR_TERR );
-			vUV -= vNormal.xz * ( vWaterValue * MAP_ARROW_NORMALS_STR_WATER );
-			vUV = clamp( vUV, 0.001f, 0.998f );
+		float vWaterValue = 0;
+		float3 vNormal = vNormalMapFactor * CalculateTerrainNormal( Input.uv_terrain, Input.uv_terrain_id, vWaterValue, vTime_IsSelected_FadeInOut.x );
+		vUV += vNormal.xz * ( /*vNormal.y **/ MAP_ARROW_NORMALS_STR_TERR );
+		vUV -= vNormal.xz * ( vWaterValue * MAP_ARROW_NORMALS_STR_WATER );
+		vUV = clamp( vUV, 0.001f, 0.998f );
 
-			float4 vMask = tex2D( TexMask, vUV );
-			vMask -= ( ( sin( vTime_IsSelected_FadeInOut.x * MAP_ARROW_SEL_BLINK_SPEED ) * MAP_ARROW_SEL_BLINK_RANGE + 1.0f - MAP_ARROW_SEL_BLINK_RANGE * 0.5f ) * 0.5f ) * vTime_IsSelected_FadeInOut.y;
-			vMask = saturate( vMask );
-			clip( vMask.a <= 0 ? -1 : 1 );
-			vMask.rgb = vMask.rgb * ArrowMask.rgb * vMask.a;
-			float vMaskValue = saturate( vMask.r + vMask.g + vMask.b );
-			vMaskValue *= vTime_IsSelected_FadeInOut.z > 0 ? saturate( Levels( Input.uv_isHead_variant.x, 0.0f, vTime_IsSelected_FadeInOut.z ) + vIsHead ) : 1;
-			vMaskValue *= vTime_IsSelected_FadeInOut.w > 0 ? saturate( Levels( 1.0f - Input.uv_isHead_variant.x, 0.0f, vTime_IsSelected_FadeInOut.w ) + vIsHead ) : 1;
-			clip( vMaskValue <= 0 ? -1 : 1 ); //SVA
-			vMaskValue *= FxMask( float2( vUV.x * 2.0f, vUV.y ), vIsHead );
+		float4 vMask = tex2D( TexMask, vUV );
+		vMask -= ( ( sin( vTime_IsSelected_FadeInOut.x * MAP_ARROW_SEL_BLINK_SPEED ) * MAP_ARROW_SEL_BLINK_RANGE + 1.0f - MAP_ARROW_SEL_BLINK_RANGE * 0.5f ) * 0.5f ) * vTime_IsSelected_FadeInOut.y;
+		vMask = saturate( vMask );
+		clip( vMask.a <= 0 ? -1 : 1 );
+		vMask.rgb = vMask.rgb * ArrowMask.rgb * vMask.a;
+		vMaskValue = saturate( vMask.r + vMask.g + vMask.b );
+		vMaskValue *= vTime_IsSelected_FadeInOut.z > 0 ? saturate( Levels( Input.uv_isHead_variant.x, 0.0f, vTime_IsSelected_FadeInOut.z ) + vIsHead ) : 1;
+		vMaskValue *= vTime_IsSelected_FadeInOut.w > 0 ? saturate( Levels( 1.0f - Input.uv_isHead_variant.x, 0.0f, vTime_IsSelected_FadeInOut.w ) + vIsHead ) : 1;
+		clip( vMaskValue <= 0 ? 0 : 1 );
+		vMaskValue *= FxMask( float2( vUV.x * 2.0f, vUV.y ), vIsHead );
 
-			float4 vPattern = tex2D( TexPattern, vUV );
+		float4 vPattern = tex2D( TexPattern, vUV );
 
-			float4 vArrowColor = lerp( ArrowColor, ArrowSecondaryColor, vTextureVariant );
+		float4 vArrowColor = lerp( ArrowColor, ArrowSecondaryColor, vTextureVariant );
+	#if 1
+		vArrowColor.rgb = RGBtoHSV(vArrowColor.rgb);
+		vArrowColor.r = mod( vArrowColor.r, 6.0 ); //H
+		vArrowColor.g *= 1.5; //S bump up the saturation and light
+		vArrowColor.b *= 1.0; //V
+		vArrowColor.rgb = HSVtoRGBPost(vArrowColor.rgb);
+
+		float4 vColor = saturate( vPattern * vArrowColor );
+		float3 vColor2 = CalculateLighting( Input.prepos, Input.vScreenCoord, vNormal, vColor );
+		vColor.rgb = lerp(vColor.rgb, vColor2, 0.5);
+	#else
+		float4 vColor = saturate( vPattern * vArrowColor );
+		vColor.rgb = CalculateLighting( Input.prepos, Input.vScreenCoord, vNormal, vColor );
+	#endif
+		
+		vColor.rgb = ApplyDistanceFog( vColor.rgb, Input.prepos );
+		vColor.rgb = DayNightWithBlend( vColor.rgb, CalcGlobeNormal( Input.prepos.xz ), 0.2f );
+		return vColor;
+	}
+	
+	float4 ArrowNoHeadCore(VS_OUTPUT_MAPARROW Input, out float vMaskValue, out float4 vArrowColor)
+	{
+		//return float4( 1, 0, 1, 1 );
+		float vTextureVariant = 1.0f - step( Input.uv_isHead_variant.w, 0.0f );
+			
+		float vVariantBodyUvScale = lerp( vBodyUvScale, vSecondaryBodyUvScale, vTextureVariant );
+		float2 vUV = Input.uv_isHead_variant.xy;
+		vUV.y = ( ( vUV.y - 0.5f ) * vVariantBodyUvScale + 0.5f + vTextureVariant ) * vTextureVariantScale; // Adjust UV vertically to select the correct packed texture variant.
+
+		float vWaterValue = 0;
+		float3 vNormal = vNormalMapFactor * CalculateTerrainNormal( Input.uv_terrain, Input.uv_terrain_id, vWaterValue, vTime_IsSelected_FadeInOut.x );
+
+		vUV += vNormal.xz * ( vNormal.y * MAP_ARROW_NORMALS_STR_TERR );
+		vUV -= vNormal.xz * ( vWaterValue * MAP_ARROW_NORMALS_STR_WATER );
+
+		float4 vMask = tex2D( TexMask, vUV );
+		vMask -= ( ( sin( vTime_IsSelected_FadeInOut.x * MAP_ARROW_SEL_BLINK_SPEED ) * MAP_ARROW_SEL_BLINK_RANGE + 1.0f - MAP_ARROW_SEL_BLINK_RANGE * 0.5f ) * 0.5f ) * vTime_IsSelected_FadeInOut.y;
+		vMask = saturate( vMask );
+		//clip( vMask.a <= 0 ? -1 : 1 );
+		vMask.rgb = vMask.rgb * ArrowMask.rgb * vMask.a;
+		vMaskValue = saturate( vMask.r + vMask.g + vMask.b );
+		clip( vMaskValue <= 0 ? -1 : 1 );
+
+		float4 vPattern = tex2D( TexPattern, vUV );
+
+		vArrowColor = lerp( ArrowColor, ArrowSecondaryColor, vTextureVariant );
 		#if 1
 			vArrowColor.rgb = RGBtoHSV(vArrowColor.rgb);
 			vArrowColor.r = mod( vArrowColor.r, 6.0 ); //H
-			vArrowColor.g *= 1.0; //S //SVA
-			vArrowColor.b *= 1.0; //V //SVA
+			vArrowColor.g *= 2.0; //S bump up the saturation and light
+			vArrowColor.b *= 1.5; //V
 			vArrowColor.rgb = HSVtoRGBPost(vArrowColor.rgb);
 
 			float4 vColor = saturate( vPattern * vArrowColor );
 			float3 vColor2 = CalculateLighting( Input.prepos, Input.vScreenCoord, vNormal, vColor );
-			//vColor.rgb = lerp(vColor.rgb, vColor2, 0.5); //SVA
+			vColor.rgb = lerp(vColor.rgb, vColor2, 0.5);
 		#else
 			float4 vColor = saturate( vPattern * vArrowColor );
 			vColor.rgb = CalculateLighting( Input.prepos, Input.vScreenCoord, vNormal, vColor );
 		#endif
 
-			vColor.rgb = ApplyDistanceFog( vColor.rgb, Input.prepos );
-			vColor.rgb = DayNightWithBlend( vColor.rgb, CalcGlobeNormal( Input.prepos.xz ), 0.2f );
-			return float4( vColor.rgb, vColor.a * vMaskValue );
+		vColor.rgb *= GetShadowScaled( vShadowFactor * SHADOW_WEIGHT_TERRAIN, Input.vScreenCoord, ShadowMap );
+		vColor.rgb = ApplyDistanceFog( vColor.rgb, Input.prepos );
+		vColor.rgb = DayNightWithBlend( vColor.rgb, CalcGlobeNormal( Input.prepos.xz ), 0.2f );
+		return vColor;
+	}
+		
+	// Camera-distance fade control
+	#define CAM_MAX 350
+	#define CAM_MIN 200
+	
+	]]
+
+	## Battleplan arrows
+	MainCode ArrowPixelShader
+	[[
+		float4 main( VS_OUTPUT_MAPARROW Input ) : PDX_COLOR
+		{
+			float mask = 0;
+			float4 vColor = ArrowCore(Input, mask);
+			
+			// Fade out arrows based on camera distance
+			vColor.a *= cam_distance( CAM_MIN, CAM_MAX );
+
+			// Not viable cuz of auto-map-mode switch when selecting units.
+			// HACK: Display battleplans only in Air-mode view!!
+			//vColor.a *= (vGBCamDistOverride_GBOutlineCutoff.x == -1);
+		
+			// HACK: Hide battleplans in non-country view (i.e. Show in main view and some rarely used map modes)
+			vColor.a *= !any(vGBCamDistOverride_GBOutlineCutoff.x + 3);
+			
+			return float4( vColor.rgb, vColor.a * mask);
 		}
 		
 	]]
 
+	## Naval invasion, supply, air, etc.
+	MainCode ArrowPixelShaderAlwaysVisible
+	[[
+		float4 main( VS_OUTPUT_MAPARROW Input ) : PDX_COLOR
+		{
+			float mask = 0;
+			float4 vColor = ArrowCore(Input, mask);
+			
+			// Fade out arrows based on camera distance
+			// These arrows must be visible at low zoom levels!
+			vColor.a *= max(cam_distance( CAM_MIN, CAM_MAX ), 0.4);
+			
+			return float4( vColor.rgb, vColor.a * mask);
+		}
+		
+	]]
+	
+	## Frontlines 
 	MainCode ArrowPixelShaderNoHead
 	[[
 		float4 main( VS_OUTPUT_MAPARROW Input ) : PDX_COLOR
 		{
-			//return float4( 1, 0, 1, 1 );
-			float vTextureVariant = 1.0f - step( Input.uv_isHead_variant.w, 0.0f );
+			float mask = 0; float4 color;
+			float4 vColor = ArrowNoHeadCore(Input, mask, color);
 			
-			float vVariantBodyUvScale = lerp( vBodyUvScale, vSecondaryBodyUvScale, vTextureVariant );
-			float2 vUV = Input.uv_isHead_variant.xy;
-			vUV.y = ( ( vUV.y - 0.5f ) * vVariantBodyUvScale + 0.5f + vTextureVariant ) * vTextureVariantScale; // Adjust UV vertically to select the correct packed texture variant.
-
-			float vWaterValue = 0;
-			float3 vNormal = vNormalMapFactor * CalculateTerrainNormal( Input.uv_terrain, Input.uv_terrain_id, vWaterValue, vTime_IsSelected_FadeInOut.x );
-
-			vUV += vNormal.xz * ( vNormal.y * MAP_ARROW_NORMALS_STR_TERR );
-			vUV -= vNormal.xz * ( vWaterValue * MAP_ARROW_NORMALS_STR_WATER );
-
-			float4 vMask = tex2D( TexMask, vUV );
-			vMask -= ( ( sin( vTime_IsSelected_FadeInOut.x * MAP_ARROW_SEL_BLINK_SPEED ) * MAP_ARROW_SEL_BLINK_RANGE + 1.0f - MAP_ARROW_SEL_BLINK_RANGE * 0.5f ) * 0.5f ) * vTime_IsSelected_FadeInOut.y;
-			vMask = saturate( vMask );
-			//clip( vMask.a <= 0 ? -1 : 1 );
-			vMask.rgb = vMask.rgb * ArrowMask.rgb * vMask.a;
-			float vMaskValue = saturate( vMask.r + vMask.g + vMask.b );
-			clip( vMaskValue <= 0 ? -1 : 1 ); //SVA
-
-			float4 vPattern = tex2D( TexPattern, vUV );
-
-			float4 vArrowColor = lerp( ArrowColor, ArrowSecondaryColor, vTextureVariant );
-			#if 1
-				vArrowColor.rgb = RGBtoHSV(vArrowColor.rgb);
-				vArrowColor.r = mod( vArrowColor.r, 6.0 ); //H
-				vArrowColor.g *= 1.0; //S //SVA
-				vArrowColor.b *= 1.0; //V //SVA
-				vArrowColor.rgb = HSVtoRGBPost(vArrowColor.rgb);
-
-				float4 vColor = saturate( vPattern * vArrowColor );
-				float3 vColor2 = CalculateLighting( Input.prepos, Input.vScreenCoord, vNormal, vColor );
-				//vColor.rgb = lerp(vColor.rgb, vColor2, 0.5); //SVA
-			#else
-				float4 vColor = saturate( vPattern * vArrowColor );
-				vColor.rgb = CalculateLighting( Input.prepos, Input.vScreenCoord, vNormal, vColor );
-			#endif
+			// Fade out frontlines based on camera distance
+			// Minimum visibility....
+			vColor.a *= max(cam_distance( CAM_MIN, CAM_MAX ), 0.3);
 			
-			vColor.rgb *= GetShadowScaled( vShadowFactor * SHADOW_WEIGHT_TERRAIN, Input.vScreenCoord, ShadowMap );
-			vColor.rgb = ApplyDistanceFog( vColor.rgb, Input.prepos );
-			vColor.rgb = DayNightWithBlend( vColor.rgb, CalcGlobeNormal( Input.prepos.xz ), 0.2f );
-			return float4( vColor.rgb, vColor.a * vMaskValue );
+			return float4( vColor.rgb, vColor.a * mask);
 		}
-		
 	]]
 
+	# Railways in supply mode
+	MainCode ArrowPixelShaderRailway
+	[[
+		float4 main( VS_OUTPUT_MAPARROW Input ) : PDX_COLOR
+		{
+			float mask = 0; float4 color;
+			float4 vColor = ArrowNoHeadCore(Input, mask, color);
+			//vColor.rgb *= 0.45;
+			//vColor.a *= 0.55;
+			
+			// Fill in railways based on camera distance.
+			vColor.rgb = lerp(vColor.rgb, color, cam_distance( 100, 400 ));
+			
+			// Blend out at close range. Don't be too bright at max.
+			vColor.a *= saturate(cam_distance(100, 900)*0.5+0.32);
+
+			//vColor.a *= (1-cam_distance(0, 900));
+
+			return float4( vColor.rgb, vColor.a * mask);
+		}
+	]]
+	
 	MainCode SymbolPixelShader
 	[[
 		float4 main( VS_OUTPUT_MAPSYMBOL Input ) : PDX_COLOR
@@ -470,8 +545,8 @@ PixelShader =
 			//vColor.a -= ( ( sin( vTime_IsSelected.x * MAP_ARROW_SEL_BLINK_SPEED ) * MAP_ARROW_SEL_BLINK_RANGE + 1.0f - MAP_ARROW_SEL_BLINK_RANGE * 0.5f ) * 0.5f ) * vTime_IsSelected.y;
 			//clip( vColor.a );
 		
-			//vColor.rgb = CalculateLighting( Input.prepos, Input.vScreenCoord, vNormal, vColor ); //SVA
-			//vColor.rgb = ApplyDistanceFog( vColor.rgb, Input.prepos ); //SVA
+			vColor.rgb = CalculateLighting( Input.prepos, Input.vScreenCoord, vNormal, vColor );
+			vColor.rgb = ApplyDistanceFog( vColor.rgb, Input.prepos );
 			//vColor.rgb = DayNight( vColor.rgb, CalcGlobeNormal( Input.prepos.xz ) );
 			return vColor;
 		}
@@ -529,6 +604,13 @@ Effect MapArrowDefault
 	DepthStencilState = "DepthStencilState"
 }
 
+Effect MapArrowVisible
+{
+	VertexShader = "ArrowVertexShader"
+	PixelShader = "ArrowPixelShaderAlwaysVisible"
+	DepthStencilState = "DepthStencilState"
+}
+
 Effect MapArrowDefaultWithDepth
 {
 	VertexShader = "ArrowVertexShader"
@@ -548,6 +630,14 @@ Effect MapArrowNoHead
 {
 	VertexShader = "ArrowVertexShader"
 	PixelShader = "ArrowPixelShaderNoHead"
+	DepthStencilState = "DepthStencilState"
+	Defines = { "ANIM_TEXTURE" }
+}
+
+Effect MapRailways
+{
+	VertexShader = "ArrowVertexShader"
+	PixelShader = "ArrowPixelShaderRailway"
 	DepthStencilState = "DepthStencilState"
 	Defines = { "ANIM_TEXTURE" }
 }
