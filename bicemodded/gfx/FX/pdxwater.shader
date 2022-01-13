@@ -304,7 +304,7 @@ PixelShader =
 			refractiveUV += vTime_HalfPixelOffset.gb;
 			float vRefractionScale = saturate( 5.0f - ( Input.screen_pos.z / Input.screen_pos.w ) * 5.0f );
 		
-			float2 vRefractionDistortion = normal.xz * vRefractionScale * 4.2f;
+			float2 vRefractionDistortion = normal.xz * vRefractionScale * 1.80f;
 		
 			float3 vEyeDir = normalize( Input.pos - vCamPos.xyz );
 			float3 reflection = reflect( vEyeDir, normal );
@@ -322,17 +322,11 @@ PixelShader =
 			float3 refractiveColor = tex2D( WaterRefraction, refractiveUV.xy - vRefractionDistortion ).rgb;
 		#endif
 
-			// It appears that something is wrong with the normals.......
-			// Fresnel not properly responding to camera angle.
-			// Also base reflection is way too much.
-			//float fresnelBias = 0.5f; // CUBEMAP INTENSITY
-			//float fresnel = saturate( dot( -vEyeDir, normal ) ) * 0.5f;
-			//fresnel = saturate( fresnelBias + ( 1.0f - fresnelBias ) * pow( 1.0f - fresnel, 10.0) );
-			//refractiveColor = refractiveColor * ( 1.0f - fresnel ) + reflectiveColor * fresnel;
+			float fresnelBias = 0.5f; // CUBEMAP INTENSITY
+			float fresnel = saturate( dot( -vEyeDir, normal ) ) * 0.5f;
+			fresnel = saturate( fresnelBias + ( 1.0f - fresnelBias ) * pow( 1.0f - fresnel, 10.0) );
+			refractiveColor = refractiveColor * ( 1.0f - fresnel ) + reflectiveColor * fresnel;
 			
-			// Reduce contrast for sea beds/peaks
-			refractiveColor = refractiveColor*0.35 + 0.02;
-
 			float vIceFade = 0.0f;
 		#ifndef LOW_END_GFX
 			float4 vMudSnowColor = GetMudSnowColor( Input.pos, SnowMudTexture );
@@ -345,19 +339,16 @@ PixelShader =
 		
 			float vBloomAlpha = 0.0f;
 
-			gb_water( refractiveColor, normal, 
+			gradient_border_apply( refractiveColor, normal, 
 				Input.uv + vRefractionDistortion * 0.0075f,
 				GradientBorderChannel1, GradientBorderChannel2, 0.0f, 
 				vGBCamDistOverride_GBOutlineCutoff.zw * GB_OUTLINE_CUTOFF_SEA,
 				vGBCamDistOverride_GBOutlineCutoff.xy, vBloomAlpha );
-			secondary_color_mask_water( refractiveColor, normal, 
+			secondary_color_mask( refractiveColor, normal, 
 				Input.uv - vRefractionDistortion * 0.001, 
 				ProvinceSecondaryColorMap, 
 				vBloomAlpha );
 
-			// Disable glossiness on water, looks terrible when no day/night.
-			vGlossiness = 0.0f;
-			
 			LightingProperties lightingProperties;
 			lightingProperties._WorldSpacePos = Input.pos;
 			lightingProperties._ToCameraDir = normalize(vCamPos - Input.pos);
@@ -389,7 +380,7 @@ PixelShader =
 		
 		#ifndef LOW_END_GFX
 			vOut = ApplyFOW( vOut, ShadowMap, Input.vScreenCoord );
-			//vOut = ApplyDistanceFog( vOut, Input.pos );
+			vOut = ApplyDistanceFog( vOut, Input.pos );
 		#endif
 
 			vOut = DayNightWithBlend( vOut, CalcGlobeNormal( Input.pos.xz ), lerp(BORDER_NIGHT_DESATURATION_MAX, 1.0f, vBloomAlpha) );
