@@ -75,8 +75,8 @@ NDefines.NGraphics.COUNTRY_COLOR_BRIGHTNESS_MODIFIER = 0.68
 	NDefines.NGraphics.STRATEGIC_NAVY_COLOR_NEUTRAL = {0.0, 0.0, 0.0, 1}
 	
 	-- Fog tweaks
-	NDefines_Graphics.NGraphics.DRAW_FOW_CUTOFF = 475 		-- 25 above GB_CAM_MAX. Prevents transitional luminance flicker.
-	NDefines_Graphics.NGraphics.DRAW_FOW_FADE_LENGTH = 100
+	-- NDefines_Graphics.NGraphics.DRAW_FOW_CUTOFF = 475 		-- 25 above GB_CAM_MAX. Prevents transitional luminance flicker.
+	-- NDefines_Graphics.NGraphics.DRAW_FOW_FADE_LENGTH = 100
 
 	-- HACK: For battleplan arrows to show only in main land/country view
 	NDefines.NGraphics.GRADIENT_BORDERS_CAMERA_DISTANCE_OVERRIDE_COUNTRY = -3

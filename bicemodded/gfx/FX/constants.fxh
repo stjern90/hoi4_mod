@@ -62,7 +62,7 @@ static const float MUD_TILING 					= 0.07;
 static const float MUD_NORMAL_CUTOFF 			= 10.982;
 static const float MUD_STRENGHTEN 				= 1.0;
 
-static const float 	SNOW_OPACITY_MIN			= 0.95f;
+static const float 	SNOW_OPACITY_MIN			= 0.3f;
 static const float 	SNOW_OPACITY_MAX			= 0.2f;
 static const float 	SNOW_CAM_MIN 				= 50.0f;
 static const float 	SNOW_CAM_MAX 				= 300.0f;
@@ -88,7 +88,7 @@ static const float 	ICE_NOISE_TILING  			= 0.1f; //0.068f;
 static const float WATER_COLOR_LIGHTNESS = 0.5;
 static const float WATER_RIPPLE_EFFECT = 0.0025;
 
-static const float COLORMAP_OVERLAY_STRENGTH 	= 0.75f; //0.7f;
+static const float COLORMAP_OVERLAY_STRENGTH 	= 0.7f; //0.7f;
 static const float3 FAKE_CUBEMAP_COLOR 			= float3(0.0f, 0.0f, 0.0f);
 
 // MILD_WINTER_VALUE = ###,						defines.lua   (reload defines)
