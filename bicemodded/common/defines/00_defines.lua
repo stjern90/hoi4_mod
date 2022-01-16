@@ -1193,9 +1193,9 @@ NNavy = {
 	NAVAL_INVASION_PRIORITY = 1,									-- Default convoy priority for naval invasions
 	NAVAL_TRANSFER_PRIORITY = 1,									-- Default convoy priority for naval transports
 	SUPPLY_PRIORITY = 2,											-- Default convoy priority for supplying units via sea
-	RESOURCE_LENDLEASE_PRIORITY = 3,								-- Default convoy priority for export lend lease
-	RESOURCE_EXPORT_PRIORITY = 4,									-- Default convoy priority for export trade
-	RESOURCE_ORIGIN_PRIORITY = 5,									-- Default convoy priority for resources shipped internally
+	RESOURCE_LENDLEASE_PRIORITY = 5,								-- Default convoy priority for export lend lease
+	RESOURCE_EXPORT_PRIORITY = 3,									-- Default convoy priority for export trade
+	RESOURCE_ORIGIN_PRIORITY = 4,									-- Default convoy priority for resources shipped internally
 	-- Convoy Priorities END
 	
 	ADMIRAL_TASKFORCE_CAP = 8,										-- admirals will start getting penalties after this amount of taskforces
