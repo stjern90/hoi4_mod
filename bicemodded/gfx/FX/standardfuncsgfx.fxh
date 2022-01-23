@@ -167,44 +167,7 @@ PixelShader =
 		res = ToLinear(res);
 		return lerp( vColor, res, vOverlayPercent );
 	}
-	
-	// Borrowed from below - Numerous other variants had artifacts
-	// https://www.shadertoy.com/view/4dKcWK
-		static const float EPSILON = 1e-7; // DX11 is -7, DX9 can do -10. If error higher then sign will flip, negative saturation etc.
-		float3 RGBtoHCV(in float3 rgb)
-		{
-			// RGB [0..1] to Hue-Chroma-Value [0..1]
-			// Based on work by Sam Hocevar and Emil Persson
-			float4 p = (rgb.g < rgb.b) ? float4(rgb.bg, -1., 2. / 3.) : float4(rgb.gb, 0., -1. / 3.);
-			float4 q = (rgb.r < p.x) ? float4(p.xyw, rgb.r) : float4(rgb.r, p.yzx);
-			float c = q.x - min(q.w, q.y);
-			float h = abs((q.w - q.y) / (6. * c + EPSILON) + q.z);
-			return float3(h, c, q.x);
-		}
-		float3 RGBtoHSL(in float3 rgb)
-		{
-			// RGB [0..1] to Hue-Saturation-Lightness [0..1]
-			float3 hcv = RGBtoHCV(rgb);
-			float z = hcv.z - hcv.y * 0.5;
-			float s = hcv.y / (1. - abs(z * 2. - 1.) + EPSILON);
-			return float3(hcv.x, s, z);
-		}
-		float3 HUEtoRGB(in float hue)
-		{
-			// Hue [0..1] to RGB [0..1]
-			// See http://www.chilliant.com/rgb2hsv.html
-			float3 rgb = abs(hue * 6. - float3(3, 2, 4)) * float3(1, -1, -1) + float3(-1, 2, 2);
-			return clamp(rgb, 0., 1.);
-		}
-		float3 HSLtoRGB(in float3 hsl)
-		{
-			// Hue-Saturation-Lightness [0..1] to RGB [0..1]
-			float3 rgb = HUEtoRGB(hsl.x);
-			float c = (1. - abs(2. * hsl.z - 1.)) * hsl.y;
-			return (rgb - 0.5) * c + hsl.z;
-		}
-	//~~~~
-	
+
 	float3 Levels( float3 vInColor, float vMinInput, float vMaxInput )
 	{
 		float3 vRet = saturate( vInColor - vMinInput );
@@ -256,8 +219,7 @@ PixelShader =
 
 	float3 ApplyDistanceFog( float3 vColor, float vFogFactor )
 	{
-		// IMO this looks bad.
-		return vColor;//lerp( vColor, FOG_COLOR, vFogFactor );
+		return lerp( vColor, FOG_COLOR, vFogFactor );
 	}
 
 	float3 ApplyDistanceFog( float3 vColor, float3 vPos )
@@ -271,27 +233,19 @@ PixelShader =
 	}
 
 	
-	float3 GetMudColor( in float3 vResult, in float4 vMudSnowColor, in float3 vPos, inout float3 vNormal, inout float vGlossiness, inout float vSpec,
-						 in sampler2D MudDiffuseGlossSampler, in sampler2D MudNormalSpecSampler )
+	float3 GetMudColor( in float3 vResult, in float4 vMudSnowColor, in float3 vPos, inout float3 vNormal, inout float vGlossiness, inout float vSpec, in sampler2D MudDiffuseGloss, in sampler2D MudNormalSpec )
 	{
 		float vMudCurrent = lerp( vMudSnowColor.r, vMudSnowColor.a, vFoWOpacity_FoWTime_SnowMudFade_MaxGameSpeed.z );
 		vMudCurrent *= 1.0 - saturate( saturate( vNormal.y - MUD_NORMAL_CUTOFF ) * ( ( 1.0 - MUD_NORMAL_CUTOFF ) * 1000.0 ) );
 		vMudCurrent = saturate( vMudCurrent * MUD_STRENGHTEN );
-		float4 vMudDiffuseGloss = tex2D( MudDiffuseGlossSampler, vPos.xz * MUD_TILING );
-		float4 vMudNormalSpec = tex2D( MudNormalSpecSampler, vPos.xz * MUD_TILING );
+		float4 vMudDiffuseGloss = tex2D( MudDiffuseGloss, vPos.xz * MUD_TILING );
+		float4 vMudNormalSpec = tex2D( MudNormalSpec, vPos.xz * MUD_TILING );
 		
 		float3 vMudNormal = normalize( vMudNormalSpec.rbg - 0.5 );
 		vMudNormal = normalize( RotateVectorByVector( vMudNormal, vNormal ) );
 		vNormal = normalize( lerp( vNormal, vMudNormal, vMudCurrent ) );
 		vGlossiness = lerp( vGlossiness, vMudDiffuseGloss.a, vMudCurrent );
 		vSpec = lerp( vSpec, vMudNormalSpec.a, vMudCurrent );
-		
-		// Adjust luminosity of mud based on luminosity of underlying terrain
-		// Weighted for clarity - Essential for clean mud blending. Difficult to discern underlying terrain otherwise.
-		float3 hsl = RGBtoHSL(vMudDiffuseGloss.rgb);
-		const float lum = dot(vResult, float3(0.2126, 0.7152, 0.0722));
-		const float weight = 0.32;
-		vMudDiffuseGloss.rgb = HSLtoRGB(float3(hsl.rg, hsl.b*weight + lum*(1-weight)));
 		
 		return lerp( vResult, vMudDiffuseGloss.rgb, vMudCurrent );
 	}
@@ -301,12 +255,11 @@ PixelShader =
 		return lerp( vMudSnowColor.b, vMudSnowColor.g, vFoWOpacity_FoWTime_SnowMudFade_MaxGameSpeed.z ); //Get winter;
 	}
 
-	float3 ApplySnow( float3 vColor, float3 vPos, inout float3 vNormal, float4 vMudSnowColor, in sampler2D SnowTextureSampler,
-					 in sampler2D SnowNoise, inout float vGlossiness, inout float vSnowAlphaOut )
+	float3 ApplySnow( float3 vColor, float3 vPos, inout float3 vNormal, float4 vMudSnowColor, in sampler2D SnowTexture, in sampler2D SnowNoise, inout float vGlossiness, inout float vSnowAlphaOut )
 	{
 		float vSnowFade = saturate( vPos.y - SNOW_START_HEIGHT );
 		float vNormalFade = saturate( saturate( vNormal.y - SNOW_NORMAL_START ) * SNOW_CLIFFS );
-		float4 vSnowTexture = tex2D( SnowTextureSampler, vPos.xz * SNOW_TILING );
+		float4 vSnowTexture = tex2D( SnowTexture, vPos.xz * SNOW_TILING );
 		float vNoise = tex2D( SnowNoise, vPos.xz * SNOW_NOISE_TILING ).a;
 		
 		float vIsSnow = GetSnow( vMudSnowColor );
@@ -358,15 +311,15 @@ PixelShader =
 	}
 
 
-	#define NO_NIGHT
+	//#define NO_NIGHT
 
 	static const float GMT_OFFSET = 2793.0f; // X position on map, of Greenwitch GMT+0
 	static const float FEATHER_MIN = -0.01f;
 	static const float FEATHER_MAX = 0.01f;
 	static const float MOON_FEATHER_MIN = -0.01f;
 	static const float MOON_FEATHER_MAX = 0.01;
-	static const float NIGHT_OPACITY = 0.85f;
-	static const float NIGHT_DARKNESS = 0.5f;
+	static const float NIGHT_OPACITY = 1.0f;
+	static const float NIGHT_DARKNESS = 0.3f;
 	static const float SOUTH_POLE_OFFSET = 0.17f; // Our map is missing big parts of globe on north and south
 	static const float NORTH_POLE_OFFSET = 0.93f;
 	static const float GLOBE_NORMAL_LIMIT = 0.8f;
@@ -546,14 +499,14 @@ PixelShader =
 		return SpecularColor + (max(vec3(Smoothness), SpecularColor) - SpecularColor) * pow(1.0 - saturate(dot(E, N)), 5.0);
 	}
 
-	float3 MetalnessToDiffuse(float Metalness, float3 DiffuseValue)
+	float3 MetalnessToDiffuse(float Metalness, float3 Diffuse)
 	{
-		return lerp(DiffuseValue, vec3(0.0), Metalness);
+		return lerp(Diffuse, vec3(0.0), Metalness);
 	}
 
-	float3 MetalnessToSpec(float Metalness, float3 DiffuseValue, float Spec)
+	float3 MetalnessToSpec(float Metalness, float3 Diffuse, float Spec)
 	{
-		return lerp(vec3(Spec), DiffuseValue, Metalness);
+		return lerp(vec3(Spec), Diffuse, Metalness);
 	}
 
 	//------------------------------
@@ -638,8 +591,8 @@ PixelShader =
 	float3 CalculateSunDirection( float3 vWorldPos, float3 SunPos, float3 SecondSunPos, float3 MoonPos, float3 SecondMoonPos )
 	{
 		float vSelected = DayNightFactor( CalcGlobeNormal( vWorldPos.xz ), 0.0f, 0.0001f  );
-		float3 vSourcePos = lerp( float3(2800, SunPos.y, 1000), MoonPos, vSelected );
-		float3 vSecondSourcePos = lerp( float3(0, SecondSunPos.y, 1000), SecondMoonPos, vSelected );
+		float3 vSourcePos = lerp( SunPos, MoonPos, vSelected );
+		float3 vSecondSourcePos = lerp( SecondSunPos, SecondMoonPos, vSelected );
 
 		if ( vWorldPos.x - vSourcePos.x > MAP_SIZE_X * 0.5 )
 		{
@@ -699,76 +652,11 @@ PixelShader =
 	#endif
 	}
 
-	static const int numPoints = 4;
-	static const float spacingX = MAP_SIZE_X/numPoints;
-	static const float height  = 270;
-	static const float offsetY = 400;
-	static float3 Points[numPoints] = {
-		float3(MAP_SIZE_X-100, height, 1100+offsetY-200),
-		float3(spacingX, height, 1100-offsetY+100),
-		float3(spacingX*2-100, height, 1100+offsetY-100),
-		float3(spacingX*3+100, height, 1100-offsetY-100)
-	};
-	
 	void CalculateSunLight(LightingProperties aProperties, float aShadowTerm, out float3 aDiffuseLightOut, out float3 aSpecularLightOut )
 	{
-		//float3 vLightSourceDirection = CalculateSunDirection( aProperties._WorldSpacePos );
-		float3 vWorldPos = aProperties._WorldSpacePos;
-		
-		//// For DEV on sun positions.
-		// X is from left of map. Z is up/down. Y is sun height.
-		// Internal - Latitude - Height vars respectively
-		// Latitude: ~1000 is equator
-		// X: 0 is in middle ocean between Japan and USA (where Sun2 normally is)
-		//    Max is ~5700 or so.
-		// vVirtualSunPos.xyz ~= float3(2800, 300, 1000)
-		/*
-		const float height = vVirtualSunPos.y;
-		const float spacingX = MAP_SIZE_X/numPoints;
-		float offsetY = vVirtualSunPos.z;
-		float3 Points[numPoints];
-		for(int i=0; i<numPoints; i++){
-			Points[i] = float3(i*spacingX, height, 1100+offsetY);
-			offsetY = -offsetY;
-		}
-		*/
-		
-		// MORE DBG
-		//Points[0] = vVirtualSunPos.xyz; Points[1] = vSecondVirtualSunPos.xyz;
-		
-		// Handles wrapped map
-		for(int k=0; k<numPoints; k++){
-			if ( vWorldPos.x - Points[k].x > MAP_SIZE_X * 0.5 ){
-				Points[k].x += MAP_SIZE_X;
-			} else if ( vWorldPos.x - Points[k].x < -MAP_SIZE_X * 0.5 ){
-				Points[k].x -= MAP_SIZE_X;
-			}
-		}
-
-		float fSun = floor(vWorldPos.x/MAP_SIZE_X * numPoints); 
-		float fSun2 = (fSun + 1) % numPoints; // Will wrap around
-		float3 vSourcePos;
-		
-		if(fSun < fSun2){
-			float lerpFactor = length( vWorldPos.x - Points[fSun].x ) / length(Points[fSun].x - Points[fSun2].x);
-			lerpFactor = smoothstep(0, 1, lerpFactor);
-			vSourcePos = lerp( Points[fSun], Points[fSun2], lerpFactor );
-		}else{
-			float lerpFactor = length( vWorldPos.x - Points[fSun2].x ) / length(Points[fSun].x - Points[fSun2].x);
-			lerpFactor = smoothstep(0, 1, lerpFactor);
-			vSourcePos = lerp( Points[fSun2], Points[fSun], lerpFactor );	 			
-		}
-		vSourcePos.x -= 400;
-		//vSourcePos.y += 100;
-
-		CalculateSunLight(aProperties, aShadowTerm, normalize(vWorldPos - vSourcePos), aDiffuseLightOut, aSpecularLightOut );
-		
-		aDiffuseLightOut = aDiffuseLightOut*0.8 + 0.18;
-		
-		// NOTE: vSecondVirtualSunPos is overriden for view in Devision Designer
-		aDiffuseLightOut *= 1.3;// vSecondVirtualSunPos.z;
+		float3 vLightSourceDirection = CalculateSunDirection( aProperties._WorldSpacePos );
+		CalculateSunLight(aProperties, aShadowTerm, vLightSourceDirection, aDiffuseLightOut, aSpecularLightOut );
 	}
-	//#define PDX_DEBUG_SUN_LIGHT_WITH_SHADOW
 
 	void CalculatePointLight(PointLight aPointlight, LightingProperties aProperties, inout float3 aDiffuseLightOut, inout float3 aSpecularLightOut)
 	{
@@ -1066,59 +954,30 @@ PixelShader =
 	}
 	*/
 	
-	// diagonal. Larger tiling makes smaller width.
-	static const float COS_T = cos(3.14159 / 8.0)*SEC_MAP_TILE;
-	static const float SIN_T = sin(3.14159 / 8.0)*SEC_MAP_TILE;
-	float CalculateMaskStripes( in float2 uv )
+	float CalculateOccupationMask( in float2 uv )
 	{
-		float stripeVal = cos(uv.x * COS_T + uv.y * SIN_T); 
-		float camDist = cam_distance( 200.0, 1300.0 );
+		// diagonal
+		float t = 3.14159 / 8.0;	    
+		float w = SEC_MAP_TILE;			  // larger value gives smaller width
+		
+		float stripeVal = cos( ( uv.x * cos( t ) * w ) + ( uv.y * sin( t ) * w ) ); 
+		float camDist = cam_distance( 300.0, 1200.0 );
 		stripeVal += camDist * 1.5;
 
-		stripeVal = smoothstep(0.0, 1.0, stripeVal * 1.7);// * lerp(1.0, 0.5, camDist);
-		return stripeVal;
-	}	
-	float CalculateMaskDiamonds( in float2 uv )
-	{
-		float stripeVal = cos(uv.x * COS_T) + cos(uv.y * SIN_T); 
-		float camDist = cam_distance( 200.0, 1300.0 );
-		
-		 // Modifies size of each diamond based on camera distance. Higher == denser
-		stripeVal += camDist*1.05;
-
-		// Modifies opacity of mask based on camera distance. Higher == dimmer
-		stripeVal = smoothstep(0.0, 1.0, stripeVal * 1.7) * lerp(0.62, 0.1, camDist);
+		stripeVal = smoothstep(0.0, 1.0, stripeVal*1.7) * lerp(1.0, 0.3, camDist);
 		return stripeVal;
 	}	
 	
-	// Used in: Battleplans, air no-range regions, construction menu, occupation/resistance, etc.
-	void secondary_color_mask( inout float3 vColor, float3 vNormal, float2 vUV, in sampler2D TexMaskSampler, inout float vBloomAlpha )
+	void secondary_color_mask( inout float3 vColor, float3 vNormal, float2 vUV, in sampler2D TexMask, inout float vBloomAlpha )
 	{
-		float4 vColorMask = tex2D( TexMaskSampler, vUV ).rgba;
+		float4 vColorMask = tex2D( TexMask, vUV ).rgba;
 
-		float vOccupationMask = CalculateMaskStripes( vUV );
+		float vOccupationMask = CalculateOccupationMask( vUV );
 		vOccupationMask *= vColorMask.a;
 		vBloomAlpha = vBloomAlpha * ( 1.0f - vOccupationMask );
 		vColor = lerp( vColor, vColorMask.rgb, vOccupationMask );
 	}
-	
-	// Used in: Naval access levels. Sea zones require different opacity levels + Diamonds do better on huge area coverage.
-	void secondary_color_mask_water( inout float3 vColor, float3 vNormal, float2 vUV, in sampler2D TexMaskSampler, inout float vBloomAlpha )
-	{
-		float4 vColorMask = tex2D( TexMaskSampler, vUV ).rgba;
 
-		float vOccupationMask = CalculateMaskDiamonds( vUV );
-		vOccupationMask *= vColorMask.a;
-		vBloomAlpha = vBloomAlpha * ( 1.0f - vOccupationMask );
-		
-		// HACK - Specifically to manipulate the no-naval-range mask color
-		// It's a dim red. Conflicts visually + hard to spot
-		bool t = (vColorMask.r - 0.3 < 0);
-		vColorMask.rgb += float3(0, 0.4, 0.3)*t;
-		
-		vColor = lerp( vColor, vColorMask.rgb, vOccupationMask);
-	}
-	
 	// Taken out from pdxmap.lua so other shaders can have access to it
 	void calculate_map_tex_index( float4 IDs, out float4 IndexU, out float4 IndexV, out float vAllSame )
 	{
@@ -1234,14 +1093,14 @@ PixelShader =
 		Mout.z = M1.z*t2 + M2.z*u2 + t*u*B1.x*B2.y + t*u*B1.y*B2.x;
 	}
 
-	void SampleLEAN( float2 uv, out float2 Bout, out float3 Mout, in sampler2D LeanTexture1Sampler, in sampler2D LeanTexture2Sampler )
+	void SampleLEAN( float2 uv, out float2 Bout, out float3 Mout, in sampler2D LeanTexture1, in sampler2D LeanTexture2 )
 	{
-		float4 lean1 = tex2D( LeanTexture1Sampler, uv );
-		float4 lean2 = tex2D( LeanTexture2Sampler, uv );
+		float4 lean1 = tex2D( LeanTexture1, uv );
+		float4 lean2 = tex2D( LeanTexture2, uv );
 
 		float vScale = 1.7f;
 		Bout = ( 2*lean2.xy - 1 ) * vScale;
-		Mout = float3( lean2.zw, ( 2*lean1.w - 1 ) * 0.5) * vScale * vScale;
+		Mout = float3( lean2.zw, 2*lean1.w - 1 ) * vScale * vScale;
 	}
 
 	void SampleBlendLEAN( float t, float2 uv1, float2 uv2, out float2 Bout, out float3 Mout, in sampler2D Lean1, in sampler2D Lean2 )
