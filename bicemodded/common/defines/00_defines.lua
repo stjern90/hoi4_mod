@@ -526,13 +526,13 @@ NTechnology = {
 	MAX_SUBTECHS = 4,					    -- Max number of sub technologies a technology can have.
 	BASE_RESEARCH_POINTS_SAVED = 50.0,		-- Base amount of research points a country can save per slot.
 	BASE_YEAR_AHEAD_PENALTY_FACTOR = 2.75,		-- 3 Base year ahead penalty
-	BASE_TECH_COST = 113,					-- base cost for a tech. multiplied with tech cost and ahead of time penalties
+	BASE_TECH_COST = 112,					-- base cost for a tech. multiplied with tech cost and ahead of time penalties
 	MAX_TECH_SHARING_BONUS = 0.5, 			-- Max technology sharing bonus that can be applied instantly
 	LICENSE_PRODUCTION_TECH_BONUS = 0.2,	-- License production tech bonus
     DEFAULT_XP_UNLOCK_RESEARCH_COST = 0,			-- default xp cost of a research to unlock directly
 	DEFAULT_XP_BOOST_RESEARCH_COST = 0,				-- default xp cost of a research to speed up the process
 	DEFAULT_XP_BOOST_RESEARCH_BONUS = 0,			-- default boost research bonus gained when xp is used to research an item
-	MIN_RESEARCH_SPEED = 0.1,						-- research speed can't go below this value
+	MIN_RESEARCH_SPEED = 0.15,						-- research speed can't go below this value
 	USE_BONUS_REGRET_TIMER = 5,						-- Number of days the player has to regret using a limited tech bonus
 },
 
@@ -884,14 +884,14 @@ NMilitary = {
 	NAVY_LEADER_LEVEL_UP_STAT_WEIGHTS = {5, 5, 5, 5}, -- level up stat random base weights attack, defense, maneuvering, coordination
 	
 	UNIT_LEADER_INITIAL_TRAIT_SLOT = { 				-- trait slot for 0 level leader
-		1.0, -- field marshal
+		0.33, -- field marshal
 		0.0, -- corps commander
-		1.0, -- navy general
+		0.0, -- navy general
 		0.0, -- operative
 	}, 
 	
 	UNIT_LEADER_TRAIT_SLOT_PER_LEVEL = { 			-- num extra traits on each level
-		0.25, -- field marshal
+		0.33, -- field marshal
 		0.5, -- corps commander
 		0.5, -- navy general
 		0.0, -- operative
@@ -907,6 +907,8 @@ NMilitary = {
 	},
 	
 	NEW_COMMANDER_RANDOM_BASIC_TRAIT_CHANCES = {  -- chances to gain a basic trait for new generals
+	   0.5, -- 25% for first trait
+	   0.15  -- 5% for second trait after that
 	},
 	
 	NEW_COMMANDER_RANDOM_STATUS_TRAIT_CHANCES = {  -- chances to gain a status trait for new generals
