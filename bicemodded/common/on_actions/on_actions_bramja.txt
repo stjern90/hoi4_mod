@@ -4,7 +4,7 @@
 #3.1# Add effects to X Forces & certain industries from pupetted majors ( Treaty restrictions a la Versaille)
 #-3.2# add option to allow remilitarize by master + allow decision subject to negotiate away
 #has_claimed_state_in_peace_conference
-#--> Poland West/ [loose cores GER?] / Hungary?
+#--> Poland West/ [loose cores GER?] / Hungary? -->Working on in Yalta, maybe port some here.
 
 
 #stabilize puppet & civil war.
@@ -216,6 +216,42 @@ on_actions = {
 					mutiny_3
 				}
 			}
+
+			if = { #Non Aligned puppets outside of Europe for EU democracies
+				limit = {
+					ROOT = {
+						NOT = {
+							OR = {
+								capital_scope = {
+									is_on_continent = europe
+								}
+								tag = JAP
+								tag = AST
+								tag = NZL
+								tag = SAF
+								tag = CAN
+								tag = USA
+							}
+						}
+					}
+					FROM = {
+						capital_scope = {
+							is_on_continent = europe
+						}
+						has_government = democratic
+					}
+				}
+				ROOT = {
+					set_politics = {
+						ruling_party = neutrality
+						elections_allowed = no
+					}
+					set_political_party = {
+						ideology = neutrality
+						popularity = 50
+					}
+				}
+			}
 		}
 	}
 
@@ -306,6 +342,42 @@ on_actions = {
 					mutiny_1 
 					mutiny_2
 					mutiny_3
+				}
+			}
+
+			if = { #Non Aligned puppets outside of Europe for EU democracies
+				limit = {
+					ROOT = {
+						NOT = {
+							OR = {
+								capital_scope = {
+									is_on_continent = europe
+								}
+								tag = JAP
+								tag = AST
+								tag = NZL
+								tag = SAF
+								tag = CAN
+								tag = USA
+							}
+						}
+					}
+					FROM = {
+						capital_scope = {
+							is_on_continent = europe
+						}
+						has_government = democratic
+					}
+				}
+				ROOT = {
+					set_politics = {
+						ruling_party = neutrality
+						elections_allowed = no
+					}
+					set_political_party = {
+						ideology = neutrality
+						popularity = 50
+					}
 				}
 			}
 		}
@@ -414,10 +486,45 @@ on_actions = {
 					mutiny_3
 				}
 			}
+			if = { #Non Aligned puppets outside of Europe for EU democracies
+				limit = {
+					ROOT = {
+						NOT = {
+							OR = {
+								capital_scope = {
+									is_on_continent = europe
+								}
+								tag = JAP
+								tag = AST
+								tag = NZL
+								tag = SAF
+								tag = CAN
+								tag = USA
+							}
+						}
+					}
+					FROM = {
+						capital_scope = {
+							is_on_continent = europe
+						}
+						has_government = democratic
+					}
+				}
+				ROOT = {
+					set_politics = {
+						ruling_party = neutrality
+						elections_allowed = no
+					}
+					set_political_party = {
+						ideology = neutrality
+						popularity = 50
+					}
+				}
+			}
 		}
 	}
 
-#to be tested!
+
 	on_war = {
 		effect = {
 			if = {
@@ -426,24 +533,19 @@ on_actions = {
 					has_civil_war = yes	
 				}
 				country_event = { id = bramja.19 }
-				#set_rule = {
-					#can_join_factions =  no
-				#}
+				add_ideas = neutrality_civil_war_postWWII #Keeps CW nations from joining factions/triggering WWIII
 			}
 		}
 	}		
 
-	#!!!Triggers ideas & Events for SOV control Eastern Europe
-#	-->1st 2nd snd (on puppet & release as puppet)
-	
-	
+
 	#used when puppeting in a peace conference
 	#ROOT = nation being puppeted, FROM = overlord
 	
 	on_puppet = {
 		effect = {
-			if = {
-				limit = {
+			if = { #Triggers ideas & Events for SOV control Eastern Europe
+				limit = { 
 					ROOT = {
 						capital_scope = {
 							is_on_continent = europe
@@ -452,7 +554,6 @@ on_actions = {
 					FROM = {
 						original_tag = SOV
 						has_government = communism
-						has_country_leader = { name = "Joseph Stalin" }
 					}
 				}
 				ROOT = {
@@ -465,13 +566,11 @@ on_actions = {
 						popularity = -0.27
 					}
 				}
-				#ROOT = { add_ideas = partial_economic_mobilisation }
-				#ROOT = { add_ideas = limited_conscription }
-				ROOT = { add_timed_idea = {
-					idea = officers_purged_EE 
-						days = 240
-					}
-				}
+				# ROOT = { add_timed_idea = { ###Now done in event cuz of HIEP integration
+					# idea = officers_purged_EE 
+						# days = 365
+					# }
+				# }
 				#FROM = { country_event = { id = bramja.xx days = 30 } } Here choice Stalinism/control
 			}
 			if = {
@@ -544,23 +643,13 @@ on_actions = {
 		}
 	}
 
-	#!!TO DO!!
-	
-	# on_puppet = {
-	#1.1# Add effects to X Forces & certain industries from pupetted majors ( Treaty restrictionds a la Versaille)
-	#-1.2# add option to allow remilitarize by master + allow decision subject to negotiate away
-	#has_claimed_state_in_peace_conference
-	#--> Poland West/ loose cores GER? / Hungary?
-			
-
-	#Triggers ideas & Events for SOV control Eastern Europe
 	
 	#used when puppeting through the occupied territories menu during peace time (or when releasing from non-core but owned territory, f.e. Britain releasing Egypt)
 	#ROOT = nation being released, FROM = overlord
 	
 	on_release_as_puppet = {
 		effect = {
-			if = {
+			if = { #Triggers ideas & Events for SOV control Eastern Europe
 				limit = {
 					ROOT = {
 						capital_scope = {
@@ -570,10 +659,9 @@ on_actions = {
 					FROM = {
 						original_tag = SOV
 						has_government = communism
-						has_country_leader = { name = "Joseph Stalin" }
 					}
 				}
-				ROOT = { 
+				ROOT = {
 					add_stability = -0.2
 					add_war_support = -0.25
 				}
@@ -583,13 +671,11 @@ on_actions = {
 						popularity = -0.25
 					}
 				}
-				#ROOT = { add_ideas = partial_economic_mobilisation }
-				#ROOT = { add_ideas = limited_conscription }
-				ROOT = { add_timed_idea = {
-					idea = officers_purged_EE 
-						days = 365
-					}
-				}
+				# ROOT = { add_timed_idea = { ###Now done in event cuz of HIEP integration
+					# idea = officers_purged_EE 
+						# days = 365
+					# }
+				# }
 				#FROM = { country_event = { id = bramja.xx days = 30 } } Here choice Stalinism/controll
 			}
 			if = {
@@ -606,6 +692,42 @@ on_actions = {
 				ROOT = { add_timed_idea = {
 					idea = denazification
 						days = 720
+					}
+				}
+			}
+			
+			if = { #Non Aligned puppets outside of Europe for EU democracies
+				limit = {
+					ROOT = {
+						NOT = {
+							OR = {
+								capital_scope = {
+									is_on_continent = europe
+								}
+								tag = JAP
+								tag = AST
+								tag = NZL
+								tag = SAF
+								tag = CAN
+								tag = USA
+							}
+						}
+					}
+					FROM = {
+						capital_scope = {
+							is_on_continent = europe
+						}
+						has_government = democratic
+					}
+				}
+				ROOT = {
+					set_politics = {
+						ruling_party = neutrality
+						elections_allowed = no
+					}
+					set_political_party = {
+						ideology = neutrality
+						popularity = 50
 					}
 				}
 			}
@@ -631,14 +753,6 @@ on_actions = {
 				else_if = {
 					limit = {
 						date > 1944.1.1
-						has_war = no
-						has_war_support > 0.45
-					}
-					add_war_support = -0.05 
-				}
-				else_if = {
-					limit = {
-						date > 1944.1.1
 						has_war = yes
 						has_war_support > 0.85
 					}
@@ -647,9 +761,11 @@ on_actions = {
 			}
 			if = {
 				limit = {
-					tag = SOV
-					SOV = { has_completed_focus = SOV_industrial_war_mobilisation }
-					GER = { OR = { has_capitulated = yes exists = no is_puppet = yes } }
+					ROOT = {
+						tag = SOV
+						has_completed_focus = SOV_industrial_war_mobilisation
+					}
+					FROM = { tag = GER }
 				}
 				SOV = { country_event = { id = bramja.33 days = 30 } }
 			}
@@ -667,9 +783,14 @@ on_actions = {
 					FROM = { tag = YUG } 
 					45 = { is_owned_by = YUG }
 					NOT = { is_in_faction_with = HUN }
-					OR = {
-						has_government = fascism
-						has_government = neutrality
+					HUN = {
+						NOT = {
+							OR = {
+								has_capitulated = yes 
+								exists = no 
+								is_puppet = yes 
+							} 
+						}
 					}
 				}
 				HUN = { country_event = { id = bramja.29 days = 3 } }

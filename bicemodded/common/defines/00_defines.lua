@@ -3511,10 +3511,10 @@ NSupply = {
 	TRUCK_ATTRITION = 0.003, -- base truck attrition
 	TRUCK_ATTRITION_FACTOR = 0.65, --a scale on total truck attrition
 
-	BASE_TRUCK_HP = 100.0,
+	BASE_TRUCK_HP = 150.0,
 	TRUCK_HP_PER_ARMOR = 2,
 
-	BASE_TRAIN_HP = 100.0,
+	BASE_TRAIN_HP = 150.0,
 	TRAIN_ARMOR_TARGETING_WEIGHT = 0.01, -- For each health point gained by armor_value, enemy bombers are this much more likely to target
 
 	MIN_TRAIN_SUPPLY_FACTOR = 0.5, -- Having 0 trains in stockpile only applies this penalty factor, scaling up to 1.0 when need is met
@@ -3560,7 +3560,7 @@ NSupply = {
 	ALERT_LOW_SUPPLY_LEVEL = 0.6,
 
 	AI_FRONT_MINIMUM_UNITS_PER_PROVINCE_FOR_SUPPLY_CALCULATIONS = 1,    -- AI will try to keep this amount of divisions per province as a minimum when evaluating supply limitations for war fronts
-	AI_FRONT_DIVISIONS_PER_SUPPLY_POINT = 1.0, -- How many divisions should the AI consider it can supply per available supply point
+	AI_FRONT_DIVISIONS_PER_SUPPLY_POINT = 0.6, -- How many divisions should the AI consider it can supply per available supply point
 	AI_FRONT_MAX_UNITS_ENEMY_COUNT_FACTOR = 1.2, -- Make sure AI front MaxNrUnits is at least EnemyCount multiplied by this factor
 	SUPPLY_THRESHOLD_FOR_ARMY_ATTRITION = 0.35, -- armies will only get attrition below this supply
 	NUMBER_OF_SHOWN_SUPPLY_SOURCES_IN_SUPPLY_MAPMODE = 3, -- number of supply flow sources shown in breakdown tooltip
