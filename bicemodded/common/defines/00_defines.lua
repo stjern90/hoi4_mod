@@ -525,14 +525,14 @@ NProduction = {
 NTechnology = {
 	MAX_SUBTECHS = 4,					    -- Max number of sub technologies a technology can have.
 	BASE_RESEARCH_POINTS_SAVED = 50.0,		-- Base amount of research points a country can save per slot.
-	BASE_YEAR_AHEAD_PENALTY_FACTOR = 2.5,		-- 3 Base year ahead penalty
+	BASE_YEAR_AHEAD_PENALTY_FACTOR = 2.75,		-- 3 Base year ahead penalty
 	BASE_TECH_COST = 97,					-- base cost for a tech. multiplied with tech cost and ahead of time penalties
 	MAX_TECH_SHARING_BONUS = 0.5, 			-- Max technology sharing bonus that can be applied instantly
 	LICENSE_PRODUCTION_TECH_BONUS = 0.2,	-- License production tech bonus
     DEFAULT_XP_UNLOCK_RESEARCH_COST = 0,			-- default xp cost of a research to unlock directly
 	DEFAULT_XP_BOOST_RESEARCH_COST = 0,				-- default xp cost of a research to speed up the process
 	DEFAULT_XP_BOOST_RESEARCH_BONUS = 0,			-- default boost research bonus gained when xp is used to research an item
-	MIN_RESEARCH_SPEED = 0.1,						-- research speed can't go below this value
+	MIN_RESEARCH_SPEED = 0.15,						-- research speed can't go below this value
 	USE_BONUS_REGRET_TIMER = 5,						-- Number of days the player has to regret using a limited tech bonus
 },
 
@@ -540,8 +540,8 @@ NPolitics = {
 	BASE_LEADER_TRAITS = 2,				-- Base amount of leader traits.
 	MAX_RANDOM_LEADERS = 1,				-- Maximum amount random leader to have per party.
 	BASE_POLITICAL_POWER_INCREASE = 2,	-- Weekly increase of PP.
-	ARMY_LEADER_COST = 5,					-- command power cost for recruiting new leaders, 'this value' * number_of_existing_leaders_of_type
-	NAVY_LEADER_COST = 5,					-- command power cost for recruiting new leaders, 'this value' * number_of_existing_leaders_of_type
+	ARMY_LEADER_COST = 8,					-- command power cost for recruiting new leaders, 'this value' * number_of_existing_leaders_of_type
+	NAVY_LEADER_COST = 8,					-- command power cost for recruiting new leaders, 'this value' * number_of_existing_leaders_of_type
 	ARMY_LEADER_MAX_COST = 100,				-- max cost BEFORE modifiers
 	NAVY_LEADER_MAX_COST = 100,				-- max cost BEFORE modifiers
 	LEADER_TRAITS_XP_SHOW = 0.08,			-- Amount of XP a trait needs to be shown in tooltips of a leader.
@@ -884,14 +884,14 @@ NMilitary = {
 	NAVY_LEADER_LEVEL_UP_STAT_WEIGHTS = {5, 5, 5, 5}, -- level up stat random base weights attack, defense, maneuvering, coordination
 	
 	UNIT_LEADER_INITIAL_TRAIT_SLOT = { 				-- trait slot for 0 level leader
-		1.0, -- field marshal
+		0.33, -- field marshal
 		0.0, -- corps commander
-		1.0, -- navy general
+		0.0, -- navy general
 		0.0, -- operative
 	}, 
 	
 	UNIT_LEADER_TRAIT_SLOT_PER_LEVEL = { 			-- num extra traits on each level
-		0.25, -- field marshal
+		0.33, -- field marshal
 		0.5, -- corps commander
 		0.5, -- navy general
 		0.0, -- operative
@@ -907,6 +907,8 @@ NMilitary = {
 	},
 	
 	NEW_COMMANDER_RANDOM_BASIC_TRAIT_CHANCES = {  -- chances to gain a basic trait for new generals
+	   0.5, -- 25% for first trait
+	   0.15  -- 5% for second trait after that
 	},
 	
 	NEW_COMMANDER_RANDOM_STATUS_TRAIT_CHANCES = {  -- chances to gain a status trait for new generals
@@ -3509,10 +3511,10 @@ NSupply = {
 	TRUCK_ATTRITION = 0.003, -- base truck attrition
 	TRUCK_ATTRITION_FACTOR = 0.65, --a scale on total truck attrition
 
-	BASE_TRUCK_HP = 100.0,
+	BASE_TRUCK_HP = 150.0,
 	TRUCK_HP_PER_ARMOR = 2,
 
-	BASE_TRAIN_HP = 100.0,
+	BASE_TRAIN_HP = 150.0,
 	TRAIN_ARMOR_TARGETING_WEIGHT = 0.01, -- For each health point gained by armor_value, enemy bombers are this much more likely to target
 
 	MIN_TRAIN_SUPPLY_FACTOR = 0.5, -- Having 0 trains in stockpile only applies this penalty factor, scaling up to 1.0 when need is met
@@ -3558,7 +3560,7 @@ NSupply = {
 	ALERT_LOW_SUPPLY_LEVEL = 0.6,
 
 	AI_FRONT_MINIMUM_UNITS_PER_PROVINCE_FOR_SUPPLY_CALCULATIONS = 1,    -- AI will try to keep this amount of divisions per province as a minimum when evaluating supply limitations for war fronts
-	AI_FRONT_DIVISIONS_PER_SUPPLY_POINT = 1.0, -- How many divisions should the AI consider it can supply per available supply point
+	AI_FRONT_DIVISIONS_PER_SUPPLY_POINT = 0.6, -- How many divisions should the AI consider it can supply per available supply point
 	AI_FRONT_MAX_UNITS_ENEMY_COUNT_FACTOR = 1.2, -- Make sure AI front MaxNrUnits is at least EnemyCount multiplied by this factor
 	SUPPLY_THRESHOLD_FOR_ARMY_ATTRITION = 0.35, -- armies will only get attrition below this supply
 	NUMBER_OF_SHOWN_SUPPLY_SOURCES_IN_SUPPLY_MAPMODE = 3, -- number of supply flow sources shown in breakdown tooltip
