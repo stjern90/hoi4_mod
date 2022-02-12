@@ -3509,7 +3509,7 @@ NSupply = {
 	BASE_SUPPLY_MULT_FOR_TRUCK_MAX_BUFFER = 100.0,
 
 	TRUCK_ATTRITION = 0.003, -- base truck attrition
-	TRUCK_ATTRITION_FACTOR = 0.65, --a scale on total truck attrition
+	TRUCK_ATTRITION_FACTOR = 0.6, --a scale on total truck attrition
 
 	BASE_TRUCK_HP = 150.0,
 	TRUCK_HP_PER_ARMOR = 2,
@@ -3565,7 +3565,7 @@ NSupply = {
 	SUPPLY_THRESHOLD_FOR_ARMY_ATTRITION = 0.35, -- armies will only get attrition below this supply
 	NUMBER_OF_SHOWN_SUPPLY_SOURCES_IN_SUPPLY_MAPMODE = 3, -- number of supply flow sources shown in breakdown tooltip
 	ESTIMATED_DIVISION_WEIGHT_FOR_SUPPLY_ESTIMATIONS_GUI = 1.0,	--Division supply consumption used for estimating frontline weight for order tooltips
-	AVAILABLE_MANPOWER_STATE_SUPPLY = 0.3,						--Factor for state supply from max manpower (population)
+	AVAILABLE_MANPOWER_STATE_SUPPLY = 0.28,						--Factor for state supply from max manpower (population)
 	STORED_SUPPLY_CONSUMPTION_RATE_FACTOR = 0.75,				--Multiplies consumption rate of stored supply (more/less easement)
 },
 NAITheatre = {
