@@ -1551,7 +1551,7 @@ NNavy = {
 	MIN_GUN_COOLDOWN = 0.1,											-- minimum cooldown for a gun	
 	BASE_GUN_COOLDOWNS = { -- number of hours for a gun to be ready after shooting
 		1.0,	-- big guns
-		3.0,	-- torpedos
+		4.0,	-- torpedos
 		1.0,	-- small guns
 	},
 	
