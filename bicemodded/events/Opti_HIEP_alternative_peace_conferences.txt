@@ -364,7 +364,7 @@ news_event = {
 country_event = {
 	id = confer.53
 
-	is_triggered_only =  yes
+	is_triggered_only = yes
 
 	hidden = yes
 
@@ -893,8 +893,9 @@ country_event = {
 
 	trigger = {
 		tag = GER
-		OR = { 
+		OR = {
 			NOT = { country_exists = SOV }
+			has_global_flag = eastern_front_peace
 			USA = { is_subject = yes }
 			ENG = { is_subject = yes }
 			SOV = { is_subject = yes }
@@ -952,7 +953,7 @@ country_event = {
 
 	immediate = {
 		clr_global_flag = the_cold_war_battle_for_capitals
-		news_event = { id = news.1315 days = 15 random = 30 }
+		news_event = { id = news.1315 days = 30 random = 30 }
 		#fire_the script
 
 		###Iraq
@@ -962,14 +963,21 @@ country_event = {
 					IRQ = { has_country_flag = coup41 }
 					ENG = { has_country_flag = IRQ_coup }
 				}
+				NOT = { TUR = { controls_state = 676 } }
+				NOT = { IRQ = { is_subject_of = TUR } }
 			}
-			IRQ = {
-				transfer_state = 291
-				transfer_state = 675
-				transfer_state = 676
-				add_state_core = 291
-				add_state_core = 675
-				add_state_core = 676
+			every_state = {
+				limit = {
+					OR = {
+						state = 291
+						state = 675
+						state = 676
+					}
+				}
+				IRQ = {
+					add_state_core = PREV
+					transfer_state = PREV
+				}
 			}
 			ENG = {
 				puppet = IRQ
@@ -984,11 +992,26 @@ country_event = {
 						fascism = 5
 						communism = 10
 					}
-				}
-				IRQ = {
+					create_country_leader = {
+						name = "Faisal II"
+						desc = ""
+						picture = "Portrait_IRQ_faisal_II.dds"
+						expire = "1965.1.1"
+						ideology = despotism
+						traits = {
+						}
+					}
 					set_politics = {
 						ruling_party = neutrality
 						elections_allowed = no
+					}
+					if = {
+						limit = {
+							IRQ = {
+								num_divisions < 5
+							}
+						}
+						load_oob = IRQ_1936
 					}
 				}
 			}
@@ -998,44 +1021,81 @@ country_event = {
 		if = {
 			limit = {
 				has_global_flag = fall_of_france
-				NOT = { TUR = { has_completed_focus = TUR_the_damascus_diktat } }
+				NOT = { TUR = { controls_state = 554 } }
 				NOT = { SYR = { is_subject_of = TUR } }
 			}
-			SYR = {
-				transfer_state = 554
-				transfer_state = 677
-				transfer_state = 680
-				add_state_core = 554
-				add_state_core = 677
-				add_state_core = 680
-			}
-			SYR = {
-				retire_country_leader = yes #Check if works to remove French and picks Husni al-Za'in then/ Beter change to character
-				remove_ideas = SYR_no_join
-				set_popularities = {
-					democratic = 45
-					neutrality = 35
-					fascism = 10
-					communism = 10
-				}
-				set_politics = {
-					ruling_party = democratic
-					election_frequency = 48
-					elections_allowed = yes
-				}
-				set_party_name = { ideology = neutrality long_name = SYR_neutrality_independent_party_long name = SYR_neutrality_independent_party }
-				if = {
-					limit = {
-						SYR = { is_subject = yes }
+			every_state = {
+				limit = {
+					OR = {
+						state = 554
+						state = 677
+						state = 680
 					}
-					set_autonomy = { target = SYR autonomy_state = autonomy_free }
+				}
+				SYR = {
+					add_state_core = PREV
+					transfer_state = PREV
+					remove_ideas = SYR_no_join
+					set_popularities = {
+						democratic = 45
+						neutrality = 35
+						fascism = 10
+						communism = 10
+					}
+					set_politics = {
+						ruling_party = democratic
+						election_frequency = 48
+						elections_allowed = yes
+					}
+					set_party_name = { ideology = neutrality long_name = SYR_neutrality_independent_party_long name = SYR_neutrality_independent_party }
+					kill_ideology_leader = neutrality #Check if works to remove French and picks Husni al-Za'in then/ Beter change to character
+					if = {
+						limit = {
+							SYR = {
+								num_divisions < 5
+							}
+						}
+						load_oob = SYR_1936
+					}
 				}
 			}
+			if = {
+				limit = {
+					SYR = { is_subject = yes }
+				}
+				set_autonomy = { target = SYR autonomy_state = autonomy_free }
+			}
+			if = {
+				limit = {
+					NOT = { SYR = { is_in_faction_with = ENG } }
+					ENG = { is_faction_leader = yes }
+				}
+				ENG = { add_to_faction = SYR }
+			}
+			else_if = {
+				limit = {
+					NOT = { SYR = { is_in_faction_with = ENG } }
+					ENG = { is_in_faction = yes }
+				}
+				random_other_country = {
+					limit = {
+						is_faction_leader = yes
+						is_in_faction_with = ENG
+					}
+					add_to_faction = SYR
+				}
+			}
+			every_country = {
+				limit = { 
+					has_war_with = SYR
+					NOT = { has_war_with = ENG }
+				}
+				white_peace = SYR
+			}
+
 			LEB = {
 				transfer_state = 553
 				add_state_core = 553
-			}
-			LEB = {
 				set_popularities = {
 					democratic = 50
 					neutrality = 30
@@ -1047,16 +1107,54 @@ country_event = {
 					election_frequency = 48
 					elections_allowed = yes
 				}
-				if = {
+				inherit_technology = SYR
+			}
+			if = {
+				limit = {
+					LEB = { is_subject = yes }
+				}
+				set_autonomy = { target = LEB autonomy_state = autonomy_free }
+			}
+			if = {
+				limit = {
+					NOT = { LEB = { is_in_faction_with = ENG } }
+					ENG = { is_faction_leader = yes }
+				}
+				ENG = { add_to_faction = LEB }
+			}
+			else_if = {
+				limit = {
+					NOT = { LEB = { is_in_faction_with = ENG } }
+					ENG = { is_in_faction = yes }
+				}
+				random_other_country = {
 					limit = {
-						LEB = { is_subject = yes }
+						is_faction_leader = yes
+						is_in_faction_with = ENG
 					}
-					set_autonomy = { target = LEB autonomy_state = autonomy_free }
+					add_to_faction = LEB
+				}
+			}
+			every_country = {
+				limit = { 
+					has_war_with = LEB
+					NOT = { has_war_with = ENG }
+				}
+				white_peace = LEB
+			}
+			SYR = {
+				transfer_units_fraction = {
+					target = LEB
+					size = 0.25
+					stockpile_ratio = 0.25
+					army_ratio = 0.25
+					navy_ratio = 0.25
+					air_ratio = 0.25
 				}
 			}
 		}
 
-		#Libya and East Africa
+		#UK: gets Libya and East Africa
 		ENG = {
 			transfer_state = 448
 			transfer_state = 449
@@ -1070,8 +1168,7 @@ country_event = {
 			transfer_state = 559
 			transfer_state = 807
 		}
-		#West Africa
-		#Corsica/South France/Occitania
+		#France: usually gets very fucked without this code; Corsica/South France/West Africa
 		FRA = {
 			transfer_state = 14
 			transfer_state = 28
@@ -1122,26 +1219,23 @@ country_event = {
 		if = {
 			limit = {
 				has_global_flag = paris_captured_allies
+				NOT = { FRA = { has_government = neutrality } }
 			}
-			USA = {
-				FRA = {
-					set_popularities = {
-						democratic = 65
-						neutrality = 10
-						fascism = 5
-						communism = 20
-					}
+			FRA = {
+				set_popularities = {
+					democratic = 65
+					neutrality = 10
+					fascism = 5
+					communism = 20
 				}
-				FRA = {
-					set_politics = {
-						ruling_party = democratic
-						election_frequency = 48
-						elections_allowed = yes
-					}
+				set_politics = {
+					ruling_party = democratic
+					election_frequency = 48
+					elections_allowed = yes
 				}
 			}
 		}
-		if = {
+		else_if = {
 			limit = {
 				has_global_flag = paris_captured_soviets
 			}
@@ -1154,8 +1248,6 @@ country_event = {
 						fascism = 5
 						communism = 60
 					}
-				}
-				FRA = {
 					set_politics = {
 						ruling_party = communism
 						elections_allowed = no
@@ -1163,29 +1255,27 @@ country_event = {
 				}
 			}
 		}
+		#Netherlands
 		if = {
 			limit = {
 				has_global_flag = amsterdam_captured_allies
+				NOT = { HOL = { has_government = neutrality } }
 			}
-			USA = {
-				HOL = {
-					set_popularities = {
-						democratic = 70
-						neutrality = 18
-						fascism = 2
-						communism = 10
-					}
+			HOL = {
+				set_popularities = {
+					democratic = 70
+					neutrality = 18
+					fascism = 2
+					communism = 10
 				}
-				HOL = {
-					set_politics = {
-						ruling_party = democratic
-						election_frequency = 48
-						elections_allowed = yes
-					}
+				set_politics = {
+					ruling_party = democratic
+					election_frequency = 48
+					elections_allowed = yes
 				}
 			}
 		}
-		if = {
+		else_if = {
 			limit = {
 				has_global_flag = amsterdam_captured_soviets
 			}
@@ -1198,8 +1288,6 @@ country_event = {
 						fascism = 2
 						communism = 50
 					}
-				}
-				HOL = {
 					set_politics = {
 						ruling_party = communism
 						elections_allowed = no
@@ -1207,43 +1295,39 @@ country_event = {
 				}
 			}
 		}
+		#Belgium: already code ready for eventual implementation King Leopold/Mil takeover.
 		if = {
 			limit = {
 				has_global_flag = brussels_captured_allies
+				NOT = { BEL = { has_government = neutrality } }
 			}
-			USA = {
-				BEL = {
-					set_popularities = {
-						democratic = 70
-						neutrality = 12
-						fascism = 3
-						communism = 15
-					}
+			BEL = {
+				set_popularities = {
+					democratic = 70
+					neutrality = 12
+					fascism = 3
+					communism = 15
 				}
-				BEL = {
-					set_politics = {
-						ruling_party = democratic
-						election_frequency = 48
-						elections_allowed = yes
-					}
+				set_politics = {
+					ruling_party = democratic
+					election_frequency = 48
+					elections_allowed = yes
 				}
 			}
 		}
-		if = {
+		else_if = {
 			limit = {
 				has_global_flag = brussels_captured_soviets
 			}
 			SOV = {
 				puppet = BEL
-				BEL = { 
+				BEL = {
 					set_popularities = {
 						democratic = 26
 						neutrality = 20
 						fascism = 4
 						communism = 50
 					}
-				}
-				BEL = {
 					set_politics = {
 						ruling_party = communism
 						elections_allowed = no
@@ -1251,46 +1335,78 @@ country_event = {
 				}
 			}
 		}
-		LUX = {
-			transfer_state = 8
-		}
+		#Luxemburg
 		if = {
+			limit = {
+				HOL = { has_completed_focus = HOL_revive_the_buffer_state_proposal }
+				NOT = { has_global_flag = luxembourg_captured_soviets }
+			}
+			HOL = { transfer_state = 8 }
+		}
+		else_if = {
 			limit = {
 				has_global_flag = luxembourg_captured_allies
 			}
-			USA = {
-				LUX = { 
-					set_popularities = {
-						democratic = 85
-						neutrality = 5
-						fascism = 0
-						communism = 10
+			LUX = {
+				transfer_state = 8
+				set_popularities = {
+					democratic = 85
+					neutrality = 5
+					fascism = 0
+					communism = 10
+				}
+				set_politics = {
+					ruling_party = democratic
+					election_frequency = 48
+					elections_allowed = yes
+				}
+			}
+			if = {
+				limit = {
+					LUX = { is_puppet = yes }
+				}
+				set_autonomy = { target = LUX autonomy_state = autonomy_free }
+				if = {
+					limit = {
+						ENG = { is_faction_leader = yes }
+					}
+					ENG = { add_to_faction = LUX }
+				}
+				else_if = {
+					limit = {
+						ENG = { is_in_faction = yes }
+					}
+					random_other_country = {
+						limit = {
+							is_faction_leader = yes
+							is_in_faction_with = ENG
+						}
+						add_to_faction = LUX
 					}
 				}
-				LUX = {
-					set_politics = {
-						ruling_party = democratic
-						election_frequency = 48
-						elections_allowed = yes
+				every_country = {
+					limit = { 
+						has_war_with = LUX
+						NOT = { has_war_with = ENG }
 					}
+					white_peace = LUX
 				}
 			}
 		}
-		if = {
+		else_if = {
 			limit = {
 				has_global_flag = luxembourg_captured_soviets
 			}
+			LUX = { transfer_state = 8 }
 			SOV = {
 				puppet = LUX
-				LUX = { 
+				LUX = {
 					set_popularities = {
 						democratic = 25
 						neutrality = 17
 						fascism = 3
 						communism = 55
 					}
-				}
-				LUX = {
 					set_politics = {
 						ruling_party = communism
 						elections_allowed = no
@@ -1298,6 +1414,7 @@ country_event = {
 				}
 			}
 		}
+		#Italy
 		ITA = {
 			transfer_state = 39
 			transfer_state = 160
@@ -1311,11 +1428,9 @@ country_event = {
 			transfer_state = 156
 			transfer_state = 115
 			transfer_state = 114
-			add_ideas = volunteer_only
-			add_ideas = civilian_economy
 		}
 		if = {
-			limit = { 
+			limit = {
 				has_global_flag = rome_captured_allies
 			}
 			USA = {
@@ -1324,15 +1439,13 @@ country_event = {
     				target = ITA
 					autonomy_state = autonomy_supervised_state
 				}
-				ITA = { 
+				ITA = {
 					set_popularities = {
 						democratic = 57
 						neutrality = 8
 						fascism = 7
 						communism = 28
 					}
-				}
-				ITA = {
 					set_politics = {
 						ruling_party = democratic
 						election_frequency = 48
@@ -1341,28 +1454,27 @@ country_event = {
 				}
 			}
 		}
-		if = {
-			limit = { 
+		else_if = {
+			limit = {
 				has_global_flag = rome_captured_soviets
 			}
 			SOV = {
 				puppet = ITA
-				ITA = { 
+				ITA = {
 					set_popularities = {
 						democratic = 20
 						neutrality = 15
 						fascism = 15
 						communism = 50
 					}
-				}
-				ITA = {
 					set_politics = {
 						ruling_party = communism
 						elections_allowed = no
 					}
 				}
 			}
-		}	
+		}
+		#Albania: TBD event for potential annex into Yugoslavia/Greece (Northern Epirus)?
 		ALB = {
 			transfer_state = 44
 			transfer_state = 805
@@ -1374,18 +1486,16 @@ country_event = {
 			USA = {
 				puppet = ALB
 				set_autonomy = {
-    					target = ALB
+    				target = ALB
 					autonomy_state = autonomy_supervised_state
 				}
-				ALB = { 
+				ALB = {
 					set_popularities = {
 						democratic = 55
 						neutrality = 30
 						fascism = 0
 						communism = 15
 					}
-				}
-				ALB = {
 					set_politics = {
 						ruling_party = democratic
 						election_frequency = 48
@@ -1394,21 +1504,19 @@ country_event = {
 				}
 			}
 		}
-		if = {
+		else_if = {
 			limit = {
 				has_global_flag = tirana_captured_soviets
 			}
 			SOV = {
 				puppet = ALB
-				ALB = { 
+				ALB = {
 					set_popularities = {
 						democratic = 10
 						neutrality = 25
 						fascism = 5
 						communism = 60
 					}
-				}
-				ALB = {
 					set_politics = {
 						ruling_party = communism
 						elections_allowed = no
@@ -1416,15 +1524,43 @@ country_event = {
 				}
 			}
 		}
-		BUL = {
-			transfer_state = 48
-			transfer_state = 212
-			transfer_state = 211
-			transfer_state = 77
-		}
+		#Bulgaria: Dobrudja handled in variation section at end
 		if = {
-			limit = { 
+			limit = {
+				has_global_flag = sofia_captured_soviets
+			}
+			BUL = {
+				transfer_state = 48
+				transfer_state = 212
+				transfer_state = 211
+				transfer_state = 77
+			}
+			SOV = {
+				puppet = BUL
+				BUL = {
+					set_popularities = {
+						democratic = 13
+						neutrality = 17
+						fascism = 5
+						communism = 65
+					}
+					set_politics = {
+						ruling_party = communism
+						elections_allowed = no
+					}
+					drop_cosmetic_tag = yes					
+				}
+			}
+		}
+		else_if = {
+			limit = {
 				has_global_flag = sofia_captured_allies
+			}
+			BUL = {
+				transfer_state = 48
+				transfer_state = 212
+				transfer_state = 211
+				transfer_state = 77
 			}
 			USA = {
 				puppet = BUL
@@ -1432,38 +1568,49 @@ country_event = {
     					target = BUL
 					autonomy_state = autonomy_supervised_state
 				}
-				BUL = { 
+				BUL = {
 					set_popularities = {
 						democratic = 55
 						neutrality = 30
 						fascism = 5
 						communism = 10
 					}
-				}
-				BUL = {
 					set_politics = {
 						ruling_party = democratic
 						election_frequency = 48
 						elections_allowed = yes
 					}
+					drop_cosmetic_tag = yes
 				}
 			}
 		}
+		#Romania: TBD later addon Transylvania & Dobrudja options
 		if = {
-			limit = { 
-				has_global_flag = sofia_captured_soviets
+			limit = {
+				OR = {
+					has_global_flag = bucharest_captured_soviets
+					ROM = { has_completed_focus = ROM_king_michaels_coup }
+				}
+			}
+			ROM = {
+				transfer_state = 46
+				transfer_state = 79
+				transfer_state = 84
+				transfer_state = 83
+				transfer_state = 82
+				transfer_state = 81
+				transfer_state = 76
+				add_state_core = 76
 			}
 			SOV = {
-				puppet = BUL
-				BUL = { 
+				puppet = ROM
+				ROM = {
 					set_popularities = {
-						democratic = 13
-						neutrality = 17
+						democratic = 15
+						neutrality = 20
 						fascism = 5
-						communism = 65
+						communism = 60
 					}
-				}
-				BUL = {
 					set_politics = {
 						ruling_party = communism
 						elections_allowed = no
@@ -1471,19 +1618,19 @@ country_event = {
 				}
 			}
 		}
-		ROM = {
-			transfer_state = 46
-			transfer_state = 79
-			transfer_state = 84
-			transfer_state = 83
-			transfer_state = 82
-			transfer_state = 81
-			transfer_state = 76
-			add_state_core = 76
-		}
-		if = {
-			limit = { 
+		else_if = {
+			limit = {
 				has_global_flag = bucharest_captured_allies
+			}
+			ROM = {
+				transfer_state = 46
+				transfer_state = 79
+				transfer_state = 84
+				transfer_state = 83
+				transfer_state = 82
+				transfer_state = 81
+				transfer_state = 76
+				add_state_core = 76
 			}
 			USA = {
 				puppet = ROM
@@ -1491,15 +1638,13 @@ country_event = {
     					target = ROM
 					autonomy_state = autonomy_supervised_state
 				}
-				ROM = { 
+				ROM = {
 					set_popularities = {
 						democratic = 57
 						neutrality = 23
 						fascism = 7
 						communism = 13
 					}
-				}
-				ROM = {
 					set_politics = {
 						ruling_party = democratic
 						election_frequency = 48
@@ -1508,63 +1653,15 @@ country_event = {
 				}
 			}
 		}
-		if = {
-			limit = { 
-				has_global_flag = bucharest_captured_soviets
-			}
-			SOV = {
-				puppet = ROM
-				ROM = { 
-					set_popularities = {
-						democratic = 15
-						neutrality = 20
-						fascism = 5
-						communism = 60
-					}
-				}
-				ROM = {
-					set_politics = {
-						ruling_party = communism
-						elections_allowed = no
-					}
-				}
-			}
-		}
-		HUN = {
-			transfer_state = 43
-			transfer_state = 154
-			transfer_state = 155
-		}
-		if = {
-			limit = { 
-				has_global_flag = budapest_captured_allies
-			}
-			USA = {
-				puppet = HUN
-				set_autonomy = {
-    					target = HUN
-					autonomy_state = autonomy_supervised_state
-				}
-				HUN = { 
-					set_popularities = {
-						democratic = 70
-						neutrality = 10
-						fascism = 5
-						communism = 15
-					}
-				}
-				HUN = {
-					set_politics = {
-						ruling_party = democratic
-						election_frequency = 48
-						elections_allowed = yes
-					}
-				}
-			}
-		}
+		#Hungary: TBD later addon Transylvania options / KUK
 		if = {
 			limit = {
 				has_global_flag = budapest_captured_soviets
+			}
+			HUN = {
+				transfer_state = 43
+				transfer_state = 154
+				transfer_state = 155
 			}
 			SOV = {
 				puppet = HUN
@@ -1575,8 +1672,6 @@ country_event = {
 						fascism = 8
 						communism = 60
 					}
-				}
-				HUN = {
 					set_politics = {
 						ruling_party = communism
 						elections_allowed = no
@@ -1584,43 +1679,28 @@ country_event = {
 				}
 			}
 		}
-		CZE = {
-			transfer_state = 664
-			transfer_state = 71
-			transfer_state = 70
-			transfer_state = 72
-			transfer_state = 75
-			transfer_state = 74
-			transfer_state = 9
-			transfer_state = 69
-			add_state_core = 69
-			add_state_core = 70
-			add_state_core = 71
-			add_state_core = 72
-			add_state_core = 74
-			add_state_core = 75
-			add_state_core = 664
-			add_state_core = 9
-		}
-		if = {
-			limit = { 
-				has_global_flag = prague_captured_allies
+		else_if = {
+			limit = {
+				has_global_flag = budapest_captured_allies
+			}
+			HUN = {
+				transfer_state = 43
+				transfer_state = 154
+				transfer_state = 155
 			}
 			USA = {
-				puppet = CZE
+				puppet = HUN
 				set_autonomy = {
-    					target = CZE
+    					target = HUN
 					autonomy_state = autonomy_supervised_state
 				}
-				CZE = { 
+				HUN = {
 					set_popularities = {
-						democratic = 80
+						democratic = 70
 						neutrality = 10
-						fascism = 0
-						communism = 10
+						fascism = 5
+						communism = 15
 					}
-				}
-				CZE = {
 					set_politics = {
 						ruling_party = democratic
 						election_frequency = 48
@@ -1629,21 +1709,39 @@ country_event = {
 				}
 			}
 		}
+		#Czechoslovakia
+		every_state = {
+			limit = {
+				OR = {
+					state = 9
+					state = 69
+					state = 70
+					state = 71
+					state = 72
+					state = 74
+					state = 75
+					state = 664
+				}
+			}
+			CZE = {
+				add_state_core = PREV
+				transfer_state = PREV
+				drop_cosmetic_tag = yes #Czech Republic
+			}
+		}
 		if = {
-			limit = { 
+			limit = {
 				has_global_flag = prague_captured_soviets
 			}
 			SOV = {
 				puppet = CZE
-				CZE = { 
+				CZE = {
 					set_popularities = {
 						democratic = 40
 						neutrality = 10
 						fascism = 2
 						communism = 48
 					}
-				}
-				CZE = {
 					set_politics = {
 						ruling_party = communism
 						elections_allowed = no
@@ -1651,33 +1749,56 @@ country_event = {
 				}
 			}
 		}
-		CZE = { drop_cosmetic_tag = yes } #Czech Republic
-		HUN = { drop_cosmetic_tag = yes } #Greater Hungary
-		SOV = {
-			transfer_state = 766
-			transfer_state = 78
-			transfer_state = 80
-			transfer_state = 73
-			transfer_state = 89
-			transfer_state = 91
-			transfer_state = 93
-			transfer_state = 94
-			transfer_state = 95
-			transfer_state = 96
-			transfer_state = 784
-			transfer_state = 763
-			transfer_state = 188		   
-			add_state_core = 73
-			add_state_core = 80
-			add_state_core = 89
-			add_state_core = 91
-			add_state_core = 93
-			add_state_core = 94
-			add_state_core = 95
-			add_state_core = 96
-			add_state_core = 763
-			add_state_core = 766
+		else_if = {
+			limit = {
+				has_global_flag = prague_captured_allies
+			}
+			USA = {
+				puppet = CZE
+				set_autonomy = {
+    					target = CZE
+					autonomy_state = autonomy_supervised_state
+				}
+				CZE = {
+					set_popularities = {
+						democratic = 80
+						neutrality = 10
+						fascism = 0
+						communism = 10
+					}
+					set_politics = {
+						ruling_party = democratic
+						election_frequency = 48
+						elections_allowed = yes
+					}
+				}
+			}
 		}
+		#Soviet gainzz
+		every_state = {
+			limit = {
+				OR = {
+					state = 73
+					state = 80
+					state = 89
+					state = 91
+					state = 93
+					state = 94
+					state = 95
+					state = 96
+					state = 763
+					state = 766
+				}
+			}
+			SOV = {
+				add_state_core = PREV
+				transfer_state = PREV
+				transfer_state = 78
+				transfer_state = 188
+				transfer_state = 784
+			}
+		}
+		#Austria
 		AUS = {
 			transfer_state = 153
 			transfer_state = 152
@@ -1692,15 +1813,13 @@ country_event = {
 			}
 			SOV = {
 				puppet = AUS
-				AUS = { 
+				AUS = {
 					set_popularities = {
 						democratic = 25
 						neutrality = 10
 						fascism = 10
 						communism = 55
 					}
-				}
-				AUS = {
 					set_politics = {
 						ruling_party = communism
 						elections_allowed = no
@@ -1709,23 +1828,6 @@ country_event = {
 			}
 		}
 		else = {
-			USA = {
-				AUS = {
-					set_popularities = {
-						democratic = 85
-						neutrality = 0
-						fascism = 0
-						communism = 15
-					}
-				}
-				AUS = {
-					set_politics = {
-						ruling_party = democratic
-						election_frequency = 48
-						elections_allowed = yes
-					}
-				}
-			}
 			if = {
 				limit = {
 					AUS = { is_puppet = yes }
@@ -1743,8 +1845,19 @@ country_event = {
 				}
 			}
 			AUS = {
+				set_popularities = {
+					democratic = 85
+					neutrality = 0
+					fascism = 0
+					communism = 15
+				}
+				set_politics = {
+					ruling_party = democratic
+					election_frequency = 48
+					elections_allowed = yes
+				}
 				add_ideas = neutrality_idea
-				add_ideas = limited_conscription
+				add_ideas = disarmed_nation
 				add_ideas = civilian_economy
 				set_rule = {
 					can_join_factions = no 
@@ -1753,7 +1866,7 @@ country_event = {
 				}
 			}
 		}
-
+		#Finland & SOV cores on gained FIN-land ;-)
 		if = {
 			limit = {
 				OR = {
@@ -1775,8 +1888,6 @@ country_event = {
 						fascism = 12
 						communism = 53
 					}
-				}
-				FIN = {
 					set_politics = {
 						ruling_party = communism
 						elections_allowed = no
@@ -1803,7 +1914,7 @@ country_event = {
 			}
 			FIN = {
 				add_ideas = neutrality_idea
-				add_ideas = limited_conscription
+				add_ideas = disarmed_nation
 				add_ideas = civilian_economy
 				set_rule = {
 					can_join_factions = no 
@@ -1815,7 +1926,7 @@ country_event = {
 			limit = {
 				OR = {
 					SOV = { owns_state = 722 }
-					FIN = { is_subject_of = SOV }
+					FIN = { is_puppet_of = SOV }
 				}
 			}
 			SOV = {
@@ -1824,7 +1935,7 @@ country_event = {
 				add_state_core = 147
 			}
 		}
-
+		#Denmark
 		if = {
 			limit = {
 				OR = {
@@ -1892,12 +2003,11 @@ country_event = {
 				}
 			}
 		}
+		#Norway
 		if = {
 			limit = {
-				AND = {
 					has_global_flag = paris_captured_soviets
 					has_global_flag = amsterdam_captured_soviets
-				}
 			}
 			SOV = {
 				puppet = NOR
@@ -1939,7 +2049,7 @@ country_event = {
 				}
 			}
 			every_country = {
-				limit = { 
+				limit = {
 					has_war_with = NOR
 					NOT = { has_war_with = ENG }
 				}
@@ -1959,23 +2069,27 @@ country_event = {
 				}
 			}
 		}
-		DDR = {
-			transfer_state = 60
-			transfer_state = 65
-			transfer_state = 64
-			transfer_state = 62
-			transfer_state = 61
-			add_state_core = 60
-			add_state_core = 61
-			add_state_core = 62
-			add_state_core = 64
-			add_state_core = 65
-			add_timed_idea = {
-				idea = denazification
-					days = 1200
+		#East Germany
+		every_state = {
+			limit = {
+				OR = {
+					state = 60
+					state = 61
+					state = 62
+					state = 64
+					state = 65
+				}
 			}
-			add_ideas = disarmed_nation
-			add_ideas = civilian_economy
+			DDR = {
+				transfer_state = PREV
+				add_state_core = PREV
+				add_timed_idea = {
+					idea = denazification
+						days = 1200
+				}
+				add_ideas = disarmed_nation
+				add_ideas = civilian_economy
+			}
 		}
 		if = {
 			limit = {
@@ -1988,15 +2102,13 @@ country_event = {
     					target = DDR
 					autonomy_state = autonomy_supervised_state
 				}
-				DDR = { 
+				DDR = {
 					set_popularities = {
 						democratic = 85
 						neutrality = 5
 						fascism = 0
 						communism = 10
 					}
-				}
-				DDR = {
 					set_politics = {
 						ruling_party = democratic
 						election_frequency = 48
@@ -2008,15 +2120,13 @@ country_event = {
 		else = {
 			SOV = {
 				puppet = DDR
-				DDR = { 
+				DDR = {
 					set_popularities = {
 						democratic = 12
 						neutrality = 8
 						fascism = 10
 						communism = 70
 					}
-				}
-				DDR = {
 					set_politics = {
 						ruling_party = communism
 						elections_allowed = no
@@ -2024,35 +2134,33 @@ country_event = {
 				}
 			}
 		}
-		WGR = {
-			transfer_state = 58
-			transfer_state = 59
-			transfer_state = 56
-			transfer_state = 51
-			transfer_state = 42
-			transfer_state = 57
-			transfer_state = 55
-			transfer_state = 54
-			transfer_state = 50
-			transfer_state = 53
-			transfer_state = 52
-			add_state_core = 42
-			add_state_core = 50
-			add_state_core = 51
-			add_state_core = 52
-			add_state_core = 53
-			add_state_core = 54
-			add_state_core = 55
-			add_state_core = 56
-			add_state_core = 57
-			add_state_core = 58
-			add_state_core = 59
-			add_timed_idea = { #also Western Occupation Zone contributed to SOV reparations
-				idea = denazification
-					days = 1200
+		#West Germany
+		every_state = {
+			limit = {
+				OR = {
+					state = 42
+					state = 50
+					state = 51
+					state = 52
+					state = 53
+					state = 54
+					state = 55
+					state = 56
+					state = 57
+					state = 58
+					state = 59
+				}
 			}
-			add_ideas = disarmed_nation
-			add_ideas = civilian_economy
+			WGR = {
+				transfer_state = PREV
+				add_state_core = PREV
+				add_timed_idea = { #also Western Occupation Zone contributed to SOV reparations
+					idea = denazification
+						days = 1200
+				}
+				add_ideas = disarmed_nation
+				add_ideas = civilian_economy
+			}
 		}
 		if = {
 			limit = {
@@ -2060,15 +2168,13 @@ country_event = {
 			}
 			SOV = {
 				puppet = WGR
-				WGR = { 
+				WGR = {
 					set_popularities = {
 						democratic = 20
 						neutrality = 15
 						fascism = 15
 						communism = 50
 					}
-				}
-				WGR = {
 					set_politics = {
 						ruling_party = communism
 						elections_allowed = no
@@ -2083,15 +2189,13 @@ country_event = {
     					target = WGR
 					autonomy_state = autonomy_supervised_state
 				}
-				WGR = { 
+				WGR = {
 					set_popularities = {
 						democratic = 80
 						neutrality = 5
 						fascism = 2
 						communism = 13
 					}
-				}
-				WGR = {
 					set_politics = {
 						ruling_party = democratic
 						election_frequency = 48
@@ -2100,28 +2204,30 @@ country_event = {
 				}
 			}
 		}
-
-		POL = {
-			transfer_state = 97
-			transfer_state = 92
-			transfer_state = 5
-			transfer_state = 98
-			transfer_state = 88
-			transfer_state = 10
-			transfer_state = 762
-			transfer_state = 90
-			transfer_state = 87
-			transfer_state = 68
-			transfer_state = 66
-			transfer_state = 67
-			transfer_state = 63
-			transfer_state = 85
-			transfer_state = 86
-			add_state_core = 66
-			add_state_core = 67
-			add_state_core = 68
-			add_state_core = 63
-			add_state_core = 5
+		#Poland
+		every_state = {
+			limit = {
+				OR = {
+					state = 5
+					state = 10
+					state = 63
+					state = 66
+					state = 67
+					state = 68
+					state = 85
+					state = 86
+					state = 87
+					state = 88
+					state = 90
+					state = 97
+					state = 98
+					state = 762
+				}
+			}
+			POL = {
+				transfer_state = PREV
+				add_state_core = PREV
+			}
 		}
 		if = {
 			limit = {
@@ -2132,15 +2238,13 @@ country_event = {
 			}
 			SOV = {
 				puppet = POL
-				POL = { 
+				POL = {
 					set_popularities = {
 						democratic = 22
 						neutrality = 18
 						fascism = 7
 						communism = 53
 					}
-				}
-				POL = {
 					set_politics = {
 						ruling_party = communism
 						elections_allowed = no
@@ -2149,17 +2253,23 @@ country_event = {
 			}
 		}
 
-		###Greece: Add Greek Civil War later
-		GRE = {
-			transfer_state = 187
-			transfer_state = 731
-			transfer_state = 182
-			transfer_state = 185
-			transfer_state = 186
-			transfer_state = 47
-			transfer_state = 184
-			add_state_core = 184
-			add_state_core = 731
+		###Greece: Add Greek Civil War later // Make event for Thrace & Macedonia
+		every_state = {
+			limit = {
+				OR = {
+					state = 47
+					state = 182
+					state = 184
+					state = 185
+					state = 186
+					state = 187
+					state = 731
+				}
+			}
+			GRE = {
+				transfer_state = PREV
+				add_state_core = PREV
+			}
 		}
 		if = {
 			limit = {
@@ -2174,85 +2284,73 @@ country_event = {
 						fascism = 5
 						communism = 55
 					}
-				}
-				GRE = {
 					set_politics = {
 						ruling_party = communism
 						elections_allowed = no
 					}
+					if = {
+						limit = {
+							NOT = { has_completed_focus = GRE_tow_the_stalinist_line }
+						}
+						drop_cosmetic_tag = yes
+						add_political_power = -50
+						complete_national_focus = GRE_tow_the_stalinist_line
+					}
 				}
 			}
 		}
-
-		YUG = {
-			annex_country = {
-				target = SLV
-				transfer_troops = yes
+		#Yugoslavia
+		every_state = {
+			limit = {
+				OR = {
+					state = 45
+					state = 102
+					state = 103
+					state = 104
+					state = 105
+					state = 106
+					state = 107
+					state = 108
+					state = 109
+					state = 163
+					state = 736
+					state = 764
+					state = 802
+					state = 803
+					state = 804
+					state = 813
+				}
 			}
-			annex_country = {
-				target = CRO
-				transfer_troops = yes
+			YUG = {
+				transfer_state = PREV
+				add_state_core = PREV
+				load_oob = "YUG_AI_reinforce"
 			}
-			annex_country = {
-				target = BOS
-				transfer_troops = yes
-			}
-			annex_country = {
-				target = SER
-				transfer_troops = yes
-			}
-			annex_country = {
-				target = MNT
-				transfer_troops = yes
-			}
-			annex_country = {
-				target = MAC
-				transfer_troops = yes
-			}
-			annex_country = {
-				target = HRZ
-				transfer_troops = yes
-			}
-			transfer_state = 102
-			transfer_state = 103
-			transfer_state = 109
-			transfer_state = 104
-			transfer_state = 804
-			transfer_state = 45
-			transfer_state = 107
-			transfer_state = 105
-			transfer_state = 108
-			transfer_state = 106
-			transfer_state = 764
-			transfer_state = 802
-			transfer_state = 803
-			transfer_state = 163
-			transfer_state = 736
-			transfer_state = 813
-			102 = { add_core_of = YUG }
-			103 = { add_core_of = YUG }
-			109 = { add_core_of = YUG }
-			104 = { add_core_of = YUG }
-			804 = { add_core_of = YUG } #Herzegowina
-			45 = { add_core_of = YUG }
-			107 = { add_core_of = YUG }
-			105 = { add_core_of = YUG }
-			108 = { add_core_of = YUG }
-			106 = { add_core_of = YUG }
-			764 = { add_core_of = YUG }
-			802 = { add_core_of = YUG } #Kosovo
-			803 = { add_core_of = YUG } #Southern Sebia
-			163 = { add_core_of = YUG } #Zara
-			736 = { add_core_of = YUG } #Istria
-			813 = { add_core_of = YUG } #Viruuma/Prizren
 		}
-
+		#Ethiopia
 		ETH = {
 			transfer_state = 271
 			transfer_state = 713
 			transfer_state = 550
-			add_state_claim =  550
-			
+			add_state_claim = 550
+			set_politics = {
+				ruling_party = neutrality
+				elections_allowed = no
+			}
+			set_popularities = {
+				democratic = 8
+				neutrality = 82
+				fascism = 5
+				communism = 5
+			}
+			if = {
+				limit = {
+					ETH = {
+						num_divisions < 5
+					}
+				}
+				load_oob = YUG_1936
+			}
 		}
 		if = {
 			limit = {
@@ -2281,69 +2379,14 @@ country_event = {
 			}
 		}
 		every_country = {
-			limit = { 
+			limit = {
 				has_war_with = ETH
 				NOT = { has_war_with = ENG }
 			}
 			white_peace = ETH
 		}
-		ETH = {
-			set_politics = {
-				ruling_party = neutrality
-				elections_allowed = no
-			}
-			set_popularities = {
-				democratic = 8
-				neutrality = 82
-				fascism = 5
-				communism = 5
-			}
-		}
-
-
-		every_state = {
-			limit = {
-				is_core_of = GER
-				NOT = { is_core_of = DDR }
-				NOT = { is_core_of = WGR }
-			}
-			remove_core_of = GER
-		}
-		every_state = {
-			limit = {
-				is_core_of = BUL
-				OR = {
-					is_core_of = GRE
-					is_core_of = YUG
-				}
-			}
-			remove_core_of = BUL
-			add_claim_by = BUL
-		}
-		every_state = {
-			limit = {
-				is_core_of = HUN
-				OR = {
-					is_core_of = ROM
-					is_core_of = SLO
-					is_core_of = CZE
-					is_core_of = UKR
-				}
-			}
-			remove_core_of = HUN
-			add_claim_by = HUN
-		}
-		every_state = {
-			limit = {
-				is_core_of = ITA
-				OR = {
-					is_core_of = FRA
-					is_core_of = YUG
-				}
-			}
-			remove_core_of = ITA
-			add_claim_by = ITA
-		}
+		###Some variations & alt-hist cover--> Make some into events later on etc...###
+		
 		if = {
 			limit = {
 				any_country = {
@@ -2359,6 +2402,50 @@ country_event = {
 				transfer_state = 783
 				transfer_state = 178
 			}
+		}
+
+		###Removing Cores###
+		every_state = {
+			limit = {
+				OR = {
+					is_core_of = GER
+					is_claimed_by = GER
+				}
+				NOT = {
+					OR = {
+						is_core_of = DDR 
+						is_core_of = WGR
+						is_core_of = POL
+						is_core_of = SOV
+					}
+				}
+			}
+			remove_core_of = GER
+			remove_claim_by = GER
+		}
+		every_state = {
+			limit = {
+				is_core_of = BUL
+				NOT = { is_owned_by = BUL }
+			}
+			remove_core_of = BUL
+			add_claim_by = BUL
+		}
+		every_state = {
+			limit = {
+				is_core_of = HUN
+				NOT = { is_owned_by = HUN }
+			}
+			remove_core_of = HUN
+			add_claim_by = HUN
+		}
+		every_state = {
+			limit = {
+				is_core_of = ITA
+				NOT = { is_owned_by = ITA }
+			}
+			remove_core_of = ITA
+			add_claim_by = ITA
 		}
 	}
 }
