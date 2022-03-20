@@ -298,7 +298,7 @@ NCountry = {
 	PROPAGANDA_WAR_SUPPORT_DAILY_DECAY = 0.002,		-- Amount of war support recovered daily from war support effort
 	MIN_NATIONAL_COVERAGE_FOR_PROPAGANDA = 0.01,			-- Minimum network coverage required to start the mission (the code ensures that a network exists at all)
 	NUM_DAYS_TO_FULLY_DELETE_STOCKPILED_EQUIPMENT = 90,	 -- time in days to fully delete equipments from stockpile. when you delete an equipment, they go to a temporary hidden pool which still can be seized 
-	AIR_SUPPLY_CONVERSION_SCALE = 0.5,				-- Conversion scale for planes to air supply
+	AIR_SUPPLY_CONVERSION_SCALE = 0.6,				-- Conversion scale for planes to air supply
 	AIR_SUPPLY_DROP_EXPIRATION_HOURS = 168,			-- Air drop length after being dropped
 	STARTING_COMMAND_POWER = 0.0,					-- starting command power for every country
 	BASE_MAX_COMMAND_POWER = 100.0,					-- base value for maximum command power
@@ -1149,7 +1149,7 @@ NAir = {
 		0.0, -- NAVAL_KAMIKAZE
         0.0, -- PORT_STRIKE
 		0.0, -- ATTACK_LOGISTICS
-		1.0, -- AIR_SUPPLY
+		0.25, -- AIR_SUPPLY
 		0.0, -- TRAINING
 		0.0, -- NAVAL_MINES_PLANTING
 		0.0, -- NAVAL_MINES_SWEEPING
