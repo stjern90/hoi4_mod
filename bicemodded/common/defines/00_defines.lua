@@ -1619,7 +1619,7 @@ NNavy = {
 	
 	DEPTH_CHARGES_HIT_CHANCE_MULT 									= 2.5, 		-- multiplies hit chance of small guns
 	DEPTH_CHARGES_DAMAGE_MULT 										= 1.1, 		-- multiplies damage of depth charges
-	DEPTH_CHARGES_HIT_PROFILE 										= 90.0,	    -- hit profile for depth charges
+	DEPTH_CHARGES_HIT_PROFILE 										= 60.0,	    -- hit profile for depth charges
 	
 	
 	CONVOY_HIT_PROFILE												= 105.0,  	-- convoys has this contant hit profile
