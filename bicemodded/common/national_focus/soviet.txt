@@ -6562,6 +6562,13 @@ focus_tree = {
 		}
 		completion_reward = {
 		    remove_ideas = third_international
+			every_other_country = {
+				limit = {
+					has_opinion_modifier = anti_capitalist_diplomacy_capitalists
+					has_war_with = GER
+				}
+				remove_opinion_modifier = { target = SOV modifier = anti_capitalist_diplomacy_capitalists }
+			}
 	    }
 
 	}
@@ -7134,13 +7141,19 @@ focus_tree = {
 		x = -1
 		y = 1
 		cost = 4.5
-		available = {
-		}
 		ai_will_do = { 
 			factor = 13
 		}
+
+		available = {
+			has_government = communism
+			is_subject = no
+		}
+
 		completion_reward = {
-		
+			add_research_slot = 1
+			add_stability = 0.1
+			add_war_support = -0.05
 		        add_popularity = {
 			    	ideology = communism
 			    	popularity = 0.05
@@ -7149,6 +7162,8 @@ focus_tree = {
 		    	limit = { 
 		        	is_subject_of = SOV
 		    	}
+				add_stability = 0.1
+				add_war_support = -0.05
 				add_popularity = {
 			    	ideology = communism
 			    	popularity = 0.05
@@ -7162,13 +7177,11 @@ focus_tree = {
 		icon = GFX_goal_support_fourth_int
         mutually_exclusive = { focus = SOV_consolidate }
 		prerequisite = { focus = SOV_comecon }
-		available = {
-	    	communism > 0.8
-		}
 		relative_position_id = SOV_comecon
 		x = 1
 		y = 1
 		cost = 12
+		available_if_capitulated = yes
 		ai_will_do = {
 			factor = 8
 			modifier = {
@@ -7176,23 +7189,53 @@ focus_tree = {
 			is_historical_focus_on = yes
 			}
 		}	
-		available_if_capitulated = yes
+
+		available = {
+	    	communism > 0.8
+			is_subject = no
+		}
+
 		completion_reward = {
-			add_research_slot = 1
-			add_war_support = 0.1
-			# TODO: West gets mighty angry
+		add_political_power = -100
+			add_stability = -0.1
+			add_war_support = 0.05
+			add_threat = 5
+			every_country = {
+				limit = {
+					capital_scope = {
+						is_on_continent = europe
+					}
+					NOT = { has_government = communism }
+					NOT = { is_subject_of = SOV }
+				}
+				add_popularity = {
+					ideology = communism
+					popularity = 0.05
+				}
+				add_stability = -0.05
+				add_timed_idea = {
+					idea = comintern_influence
+					days = 365
+				}
+				add_opinion_modifier = { target = SOV modifier = anti_capitalist_diplomacy_capitalists }
+				add_opinion_modifier = { target = SOV modifier = embargo }
+				USA = {
+					add_opinion_modifier = { target = SOV modifier = anti_capitalist_diplomacy_capitalists }
+					add_opinion_modifier = { target = SOV modifier = embargo }
+				}
+			}
 		}
 	}
 	
 	focus = {
 		id = SOV_strike_USA
 		icon = GFX_crush_USA
-		prerequisite = { focus = SOV_fourth_international focus = SOV_consolidate }
-
+		prerequisite = { focus = SOV_fourth_international }
 		relative_position_id = SOV_comecon
 		x = 0
 		y = 2
 		cost = 10
+		available_if_capitulated = yes
 		ai_will_do = {
 			factor = 0.5
 			modifier = {
@@ -7200,7 +7243,12 @@ focus_tree = {
 			is_historical_focus_on = yes
 			}
 		}	
-		available_if_capitulated = yes
+
+		available = {
+			has_government = communism
+			is_subject = no
+		}
+
 		completion_reward = {
 			create_wargoal = {
 				type = puppet_wargoal_focus
