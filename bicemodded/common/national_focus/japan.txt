@@ -98,6 +98,7 @@ focus_tree = {
 				country_event = germany.83
 				custom_effect_tooltip = needs_approval
 			}
+			MAN = { MAN_low_legitimacy_level_down = yes }
 		}
 	}
 
@@ -4327,6 +4328,19 @@ focus_tree = {
 					type = annex_everything
 				}
 			}
+			else_if = {
+				limit = {
+					any_state = {
+						is_core_of = INS
+						is_controlled_by = HOL
+					}
+				}
+				create_wargoal = {
+					type = take_state
+					target = HOL
+					generator = { 334 335 667 668 669 672 673 738 }
+				}
+			}
 			if = {
 				limit = {
 					MAL = { can_ROOT_get_wargoal_on_THIS = yes }
@@ -5609,6 +5623,7 @@ focus_tree = {
 			328 = { add_extra_state_shared_building_slots = 1 }
 
 			MAN = {
+				MAN_low_legitimacy_level_up = yes ###Check if ok here
 				add_stability = 0.1
 				add_war_support = 0.1
 				add_political_power = 150
@@ -5647,6 +5662,7 @@ focus_tree = {
 			# 608 = { ###Spread out to more states but less compliance, else this focus petty useless imho
 				# add_compliance = 15 
 			# }
+			custom_effect_tooltip = JAP_chinese_pacifications_tt
 			every_state = {
 				limit = {
 					AND = {
@@ -5654,7 +5670,19 @@ focus_tree = {
 						is_controlled_by_ROOT_or_subject = yes
 					}
 				}
-				add_compliance = 10
+				add_compliance = 8
+			}
+			every_other_country = {
+				limit = {
+						is_literally_china = yes
+						is_subject_of = JAP
+					}
+				add_popularity = {
+					ideology = fascism
+					popularity = 0.1
+				}
+				add_stability = 0.1
+				add_war_support = 0.1
 			}
 		}
 	}
@@ -5686,7 +5714,8 @@ focus_tree = {
 		complete_tooltip = { }
 
 		completion_reward = {
-		   every_state = {
+			custom_effect_tooltip = JAP_chinese_pacifications_tt
+			every_state = {
 				limit = {
 					AND = {
 						is_core_of = CHI
@@ -5694,7 +5723,19 @@ focus_tree = {
 						is_coastal = yes
 					}
 				}
-				add_compliance = 12
+				add_compliance = 10
+			}
+			every_other_country = {
+				limit = {
+						is_literally_china = yes
+						is_subject_of = JAP
+					}
+				add_popularity = {
+					ideology = fascism
+					popularity = 0.1
+				}
+				add_stability = 0.1
+				add_war_support = 0.1
 			}
 		}
 	}
@@ -5981,7 +6022,7 @@ focus_tree = {
 		}
 	}
 
-	#focus = {
+	#focus = { ###Done though re-added MAN legitimacy ideas###
 	#	id = JAP_manchuria_recognized
 	#	relative_position_id = JAP_the_manchurian_project
 	#	x = 3
@@ -6011,7 +6052,7 @@ focus_tree = {
 		prerequisite = { focus = JAP_five_races }
 		prerequisite = { focus = JAP_expand_manchurian_railways }
 		cost = 5
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_OCCUPATION_COST  FOCUS_FILTER_STABILITY }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_OCCUPATION_COST FOCUS_FILTER_STABILITY }
 		icon = GFX_JAP_korea_core
 		ai_will_do = {
 			factor = 20
@@ -6029,7 +6070,7 @@ focus_tree = {
 			add_political_power = -150
 		}
 	}
-	
+
 	focus = {
 		id = defence_of_korea
 		relative_position_id = JAP_fortify_the_border
@@ -6084,7 +6125,7 @@ focus_tree = {
 			}
 		}
 	}	
-	
+
 	focus = {
 		id = JAP_ascend_the_throne
 		icon = GFX_reorg_chi_empire
@@ -6123,10 +6164,13 @@ focus_tree = {
 				}
 				add_opinion_modifier = { target = JAP modifier = ENG_imperial_loyalist }
             }
-				MAN  = { add_opinion_modifier = { target = JAP modifier = protest_action } }
-            }
+			MAN  = {
+				add_opinion_modifier = { target = JAP modifier = protest_action } 
+				MAN_low_legitimacy_level_up = yes
+			}
 		}
-	
+	}
+
 	focus = {
 		id = JAP_chinese_interrior
 		icon = GFX_goal_generic_occupy_states_ongoing_war
@@ -6138,7 +6182,7 @@ focus_tree = {
 		cancel_if_invalid = yes
 		continue_if_invalid = no
 		available_if_capitulated = no
-		cost = 5 #too long before compared to other NFs for compliance IMHO
+		cost = 5 #Changed, was too long before compared to other NFs for compliance IMHO
 		ai_will_do = {
 			factor = 20
 		}
@@ -6153,8 +6197,9 @@ focus_tree = {
 
 		complete_tooltip = { }
 
-		completion_reward = { #Better condition & more appropriate states this?
-		#custom_effect_tooltip = JAP_chinese_interrior_tt			
+		completion_reward = { #Better condition & more appropriate states + made useful if controlled by puppets now
+		#custom_effect_tooltip = JAP_chinese_interrior_tt
+		custom_effect_tooltip = JAP_chinese_pacifications_tt
 			every_state = {
 				limit = {
 					AND = {
@@ -6168,11 +6213,23 @@ focus_tree = {
 						}
 					}
 				}
-				add_compliance = 8
+				add_compliance = 7
 			}
+			every_other_country = {
+				limit = {
+						is_literally_china = yes
+						is_subject_of = JAP
+					}
+				add_popularity = {
+					ideology = fascism
+					popularity = 0.1
+				}
+				add_stability = 0.1
+				add_war_support = 0.1
+			}			
 		}
 	}
-	
+
 	focus = {
 		id = JAP_develop_chinese_resources
 		icon = GFX_goal_generic_construct_civilian
@@ -6675,7 +6732,10 @@ focus_tree = {
 			factor = 2
 		}
 		available = {
-				is_in_faction_with = GER
+			is_in_faction_with = GER
+			GER = {
+				has_tech = jet_engines
+			}
 		}
 		
 		completion_reward = {

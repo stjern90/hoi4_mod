@@ -383,19 +383,18 @@ on_actions = {
             if = {
 				limit = {
 					original_tag = ENG
-				
-				FROM = {
-					original_tag = IRE
-				}
+					FROM = {
+						original_tag = IRE
+					}
 				}
 				FROM = { country_event = { id = ireland.9 days = 1 } }
 			}	
             if = {
 				limit = {
 					original_tag = ENG
-				FROM = {
-					original_tag = IRQ
-				}
+					FROM = {
+						original_tag = IRQ
+					}
 				}
 				FROM = { give_resource_rights = { receiver = ENG state = 291 } }
 			}	
@@ -407,7 +406,7 @@ on_actions = {
 					NOT = { original_tag = ENG }
 				}
 				ENG = {
-				remove_resource_rights = 291
+					remove_resource_rights = 291
 	     		}
 			}			
             if = {
@@ -418,9 +417,21 @@ on_actions = {
 					NOT = { original_tag = ENG }
 				}
 				ENG = {
-				remove_resource_rights = 412
-				remove_resource_rights = 413
+					remove_resource_rights = 412
+					remove_resource_rights = 413
 	     		}
+			}
+			if = {
+				limit = {
+					original_tag = ENG
+				    FROM = {
+				    	original_tag = PER
+			     	}
+				}
+				FROM = {
+					give_resource_rights = { receiver = ENG state = 412 }
+					give_resource_rights = { receiver = ENG state = 413 }
+				}
 			}
             if = {
 				limit = {
@@ -431,9 +442,20 @@ on_actions = {
 					NOT = { original_tag = USA }
 				}
 				USA = {
-				remove_resource_rights = 489
+					remove_resource_rights = 489
 	     		}
-			}			
+			}
+			if = {
+				limit = {
+				    FROM = {
+				    	original_tag = ROM
+			     	}
+					NOT = { original_tag = GER }
+				}
+				GER = {
+					remove_resource_rights = 46
+	     		}
+			}
 		}
 	}
 
@@ -446,7 +468,7 @@ on_actions = {
 					FROM = { NOT = { original_tag = ENG } }
 				}
 				ENG = {
-				remove_resource_rights = 291
+					remove_resource_rights = 291
 	     		}
 			}
 			if = {
@@ -464,8 +486,8 @@ on_actions = {
 					FROM = { NOT = { original_tag = ENG } }
 				}
 				ENG = {
-				remove_resource_rights = 412
-				remove_resource_rights = 413
+					remove_resource_rights = 412
+					remove_resource_rights = 413
 	     		}
 			}
 			if = {
@@ -487,6 +509,15 @@ on_actions = {
 			    	give_resource_rights = { receiver = ENG state = 412 }
 					give_resource_rights = { receiver = ENG state = 413 }
 		    	}
+			}
+			if = {
+				limit = {
+				    original_tag = ROM
+					FROM = { NOT = { original_tag = GER } }
+				}
+				GER = {
+					remove_resource_rights = 46
+	     		}
 			}
 			#Remove anti_soviet_pact if joining commie Soviet in faction
 			if = {
@@ -2346,6 +2377,93 @@ on_capitulation = {
 			}
 			if = {
 				limit = {
+					ROOT = {
+						tag = CHI
+					}
+					FROM = {
+						OR = { tag = JAP is_in_faction_with = JAP }
+					}
+				}
+				CHI = {
+		    		CHI_hyper_inflation_level_up = yes
+					remove_ideas = CHI_three_year_plan
+					remove_ideas = german_advisors
+		     	    add_offsite_building = { type = industrial_complex level = -5 }
+			    	add_offsite_building = { type = arms_factory level = -5 }
+				}
+			}
+			if = {
+				limit = {
+					ROOT = {
+						is_literally_china = yes
+					}
+					FROM = {
+						OR = { tag = JAP is_in_faction_with = JAP }
+					}
+				}
+				ROOT = {
+					add_ideas = CHI_occupied
+					if = {
+						limit = {
+							ROOT = { num_of_factories > 20 }
+						}
+						add_offsite_building = { type = industrial_complex level = -5 }
+						add_offsite_building = { type = arms_factory level = -5 }
+					}
+					if = {
+						limit = {
+							JAP = {
+								has_completed_focus = JAP_chinese_occupation
+								has_completed_focus = JAP_chinese_coastline
+								has_completed_focus = JAP_chinese_interrior
+							}
+						}
+						add_popularity = {
+							ideology = fascism
+							popularity = -0.1
+						}
+						add_stability = -0.1
+						add_war_support = -0.1
+					}
+					else_if = {
+						limit = {
+							JAP = {
+								has_completed_focus = JAP_chinese_occupation
+								has_completed_focus = JAP_chinese_coastline
+							}
+						}
+						add_popularity = {
+							ideology = fascism
+							popularity = -0.2
+						}
+						add_stability = -0.2
+						add_war_support = -0.2
+					}
+					else_if = {
+						limit = {
+							JAP = {
+								has_completed_focus = JAP_chinese_occupation
+							}
+						}
+						add_popularity = {
+							ideology = fascism
+							popularity = -0.3
+						}
+						add_stability = -0.3
+						add_war_support = -0.3
+					}
+					else = {
+						add_popularity = {
+							ideology = fascism
+							popularity = -0.4
+						}
+						add_stability = -0.4
+						add_war_support = -0.4
+					}
+				}
+			}
+			if = {
+				limit = {
 					NOT = { has_elections = yes }
 					has_government = democratic
 				}
@@ -2382,13 +2500,13 @@ on_capitulation = {
 			if = {
 				limit = {
 					ROOT = {
-							tag = CHI
+						tag = CHI
 					}
 					FROM = {
-							OR = { tag = JAP is_in_faction_with = JAP }
+						OR = { tag = JAP is_in_faction_with = JAP }
 					}
 				}
-				CHI = { 
+				CHI = {
 		    		CHI_hyper_inflation_level_up = yes
 					remove_ideas = CHI_three_year_plan
 					remove_ideas = german_advisors
@@ -2399,16 +2517,71 @@ on_capitulation = {
 			if = {
 				limit = {
 					ROOT = {
-							is_literally_china = yes
+						is_literally_china = yes
 					}
 					FROM = {
-							OR = { tag = JAP is_in_faction_with = JAP }
+						OR = { tag = JAP is_in_faction_with = JAP }
 					}
 				}
-				ROOT = { 
+				ROOT = {
 					add_ideas = CHI_occupied
-		     	    add_offsite_building = { type = industrial_complex level = -5 }
-			    	add_offsite_building = { type = arms_factory level = -5 }
+					if = {
+						limit = {
+							ROOT = { num_of_factories > 20 }
+						}
+						add_offsite_building = { type = industrial_complex level = -5 }
+						add_offsite_building = { type = arms_factory level = -5 }
+					}
+					if = {
+						limit = {
+							JAP = {
+								has_completed_focus = JAP_chinese_occupation
+								has_completed_focus = JAP_chinese_coastline
+								has_completed_focus = JAP_chinese_interrior
+							}
+						}
+						add_popularity = {
+							ideology = fascism
+							popularity = -0.1
+						}
+						add_stability = -0.1
+						add_war_support = -0.1
+					}
+					else_if = {
+						limit = {
+							JAP = {
+								has_completed_focus = JAP_chinese_occupation
+								has_completed_focus = JAP_chinese_coastline
+							}
+						}
+						add_popularity = {
+							ideology = fascism
+							popularity = -0.2
+						}
+						add_stability = -0.2
+						add_war_support = -0.2
+					}
+					else_if = {
+						limit = {
+							JAP = {
+								has_completed_focus = JAP_chinese_occupation
+							}
+						}
+						add_popularity = {
+							ideology = fascism
+							popularity = -0.3
+						}
+						add_stability = -0.3
+						add_war_support = -0.3
+					}
+					else = {
+						add_popularity = {
+							ideology = fascism
+							popularity = -0.4
+						}
+						add_stability = -0.4
+						add_war_support = -0.4
+					}
 				}
 			}
 			if = {
@@ -2480,6 +2653,14 @@ on_capitulation = {
 				}
 				USA = {
 				remove_resource_rights = 489
+	     		}
+			}
+			if = {
+				limit = {
+					FROM = { tag = ROM }
+				}
+				GER = {
+				remove_resource_rights = 46
 	     		}
 			}
 			if = {
@@ -2688,39 +2869,6 @@ on_capitulation = {
 					}
 				}
 				ROOT = { news_event = japan.55 }
-			}
-			
-			if = {
-				limit = {
-					FROM = {
-							tag = CHI
-					}
-					ROOT = {
-							OR = { tag = JAP is_in_faction_with = JAP }
-					}
-				}
-				CHI = { 
-		    		CHI_hyper_inflation_level_up = yes
-					remove_ideas = CHI_three_year_plan
-					remove_ideas = german_advisors
-		     	    add_offsite_building = { type = industrial_complex level = -5 }
-			    	add_offsite_building = { type = arms_factory level = -5 }
-				}
-			}		
-			if = {
-				limit = {
-					FROM = {
-							is_literally_china = yes
-					}
-					ROOT = {
-							OR = { tag = JAP is_in_faction_with = JAP }
-					}
-				}
-				FROM = { 
-					add_ideas = CHI_occupied
-		     	    add_offsite_building = { type = industrial_complex level = -5 }
-			    	add_offsite_building = { type = arms_factory level = -5 }
-				}
 			}
 		}
 	}
