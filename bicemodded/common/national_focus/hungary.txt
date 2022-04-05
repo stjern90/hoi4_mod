@@ -1282,16 +1282,28 @@ focus_tree = {
 		relative_position_id = HUN_elect_a_democratic_king
 
 		cost = 10
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = yes
 
 		ai_will_do = {
-			factor = 30
+			factor = 20
 			modifier = {
 				factor = 0
-					ENG = { has_capitulated = yes }
+				ENG = { has_capitulated = yes }
 			}
 			modifier = {
 				factor = 0.2
-					ENG = { surrender_progress > 0.2 }
+				ENG = { surrender_progress > 0.2 }
+			}
+			modifier = {
+				factor = 0.1
+				FRA = { 
+					OR = {
+						surrender_progress > 0.2
+						has_capitulated = yes
+					}
+				}
 			}
 		}
 
@@ -1307,17 +1319,9 @@ focus_tree = {
 			}
 		}
 
-		bypass = {
+		bypass = { }
 
-		}
-
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = yes
-
-		complete_tooltip = {
-
-		}
+		complete_tooltip = { }
 
 		completion_reward = {
 			ENG = { country_event = generic.2 }
@@ -4236,20 +4240,44 @@ focus_tree = {
 		x = -1
 		y = 1
 		relative_position_id = HUN_gersupp
-
 		cost = 2
-		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = yes
+
 		historical_ai = {
-			date > 1940.2.1
-			NOT = { GER = { surrender_progress > 0.25 } }
-			NOT = { GER = { has_capitulated = yes } }
-			
-			OR = { 
-				FRA = { has_capitulated = yes }
-				FRA = { exists = no }
-				FRA = { is_puppet = yes }
-				FRA = { has_government = fascism }
-				FRA = { is_in_faction_with = GER }
+			OR = {
+				date > 1940.8.1
+				GER = {
+					OR = {
+						has_war_with = YUG
+						has_war_with = BUL
+						has_war_with = GRE
+						has_war_with = ROM
+					}
+				}
+				AND = {
+					HUN = {
+						OR = {
+							has_country_flag = GER_second_vienna_award_HUN_north
+							has_country_flag = GER_second_vienna_award_HUN_all
+						}
+					}
+					FRA = {
+						OR = {
+							has_capitulated = yes
+							exists = no
+							is_puppet = yes
+							has_government = fascism
+							is_in_faction_with = GER
+							surrender_progress > 0.5
+						}
+					}
+				}
+			}
+			GER = {
+				surrender_progress < 0.15
+				has_capitulated = no
 			}
 		}
 
@@ -4257,11 +4285,12 @@ focus_tree = {
 			factor = 30
 			modifier = {
 				factor = 0
-					GER = { has_capitulated = yes }
-			}
-			modifier = {
-				GER = { surrender_progress > 0.25 }
-				factor = 0.1
+				GER = {
+					OR = {
+						has_capitulated = yes
+						surrender_progress > 0.15
+					}
+				}
 			}
 		}
 
@@ -4287,16 +4316,10 @@ focus_tree = {
 					is_faction_leader = yes
 					has_government = fascism
 				}
-			} 
+			}
 		}
 
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = yes
-
-		complete_tooltip = {
-
-		}
+		complete_tooltip = {}
 
 		completion_reward = {
 			GER = {

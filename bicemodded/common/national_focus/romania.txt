@@ -430,28 +430,41 @@
 		x = 0
 		y = 4
 		relative_position_id = ROM_trade_treaty_with_germany
-
 		cost = 2
-		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = yes
+
 		historical_ai = {
-			date > 1940.10.1
-			NOT = {
+			OR = {
+				date > 1940.10.1
 				GER = {
-					has_capitulated = yes
+					OR = {
+						has_war_with = YUG
+						has_war_with = BUL
+						has_war_with = GRE
+						has_war_with = HUN
+					}
 				}
 			}
-			OR = { 
-				FRA = { has_capitulated = yes }
-				FRA = { exists = no }
-				FRA = { is_puppet = yes }
-				FRA = { has_government = fascism }
-				FRA = { is_in_faction_with = GER }
-				FRA = { surrender_progress > 0.5 }
+			FRA = {
+				OR = {
+					has_capitulated = yes
+					exists = no
+					is_puppet = yes
+					has_government = fascism
+					is_in_faction_with = GER
+					surrender_progress > 0.5
+				}
+			}
+			GER = {
+				surrender_progress < 0.15
+				has_capitulated = no
 			}
 		}
 
 		ai_will_do = {  #Romania will not join Axis if: fully owning Transylvania + HUN NOT in Axis (KUK path wouldn't be eg.) + GER not yet Barba OR GER losing/beaten
-			factor = 1
+			factor = 3
 			modifier = {
 				factor = 0
 				OR = {
@@ -465,9 +478,11 @@
 							owns_state = 83
 							owns_state = 84
 							owns_state = 82
+							owns_state = 78 #Bessarabia
+							owns_state = 766 #Southern Bessarabia
 						}
 						NOT = { HUN = { is_in_faction_with = GER } }
-						NOT = { GER = { has_completed_focus = GER_prepare_to_invade_the_ussr } }
+						#NOT = { GER = { has_completed_focus = GER_prepare_to_invade_the_ussr } } ###TEST
 					}
 				}
 			}
@@ -478,29 +493,24 @@
 		}
 
 		available = {
-			GER = { 
+			GER = {
 				is_faction_leader = yes
 				has_government = fascism
 			}
 			is_in_faction = no
 			NOT = { has_war_with = GER }
-			is_subject = no
 			NOT = {
 				any_other_country = {
 					is_in_faction_with = GER
 					has_war_with = ROM
 				}
 			}
+			is_subject = no
 		}
 
 		bypass = {
 			is_in_faction_with = GER
 		}
-
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = yes
-
 
 		completion_reward = {
 			GER = {
