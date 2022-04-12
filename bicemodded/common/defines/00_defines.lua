@@ -167,7 +167,7 @@ NDiplomacy = {
 },
 
 NCountry = {
-	EVENT_PROCESS_OFFSET = 25,						-- Events are checked every X day per character or province (1 is ideal, but CPU heavy)
+	EVENT_PROCESS_OFFSET = 20,						-- Events are checked every X day per character or province (1 is ideal, but CPU heavy)
 	BASE_RESEARCH_SLOTS = 3,						-- Base number of research slots per country.
 	POPULATION_YEARLY_GROWTH_BASE = 0.015,			-- basic population growth per year, used for monthly manpower gain
 	RESISTANCE_STRENGTH_FROM_VP = 0.0025,			-- How much strength ticking speed gives each VP score.
