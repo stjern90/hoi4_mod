@@ -6992,6 +6992,17 @@ focus_tree = {
 		y = 2
 		cost = 5
 		mutually_exclusive = { focus = BUL_join_the_tripartite_pact focus = BUL_join_the_allies focus = BUL_a_balkan_confederation }
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 20
+				has_global_flag = form_austria_hungary_flag
+			}
+			modifier = {
+				factor = 0
+				date < 1940.12.1
+			}
+		}
 
 		available = {
 			has_game_rule = { rule = FORCED_HISTROICAL option = DEFAULT }
@@ -7013,9 +7024,9 @@ focus_tree = {
 				}
 				leave_faction = yes
 			}
-			set_rule = {
-				can_join_factions = no
-			}
+			# set_rule = {
+				# can_join_factions = no
+			# }
 			create_faction = BUL_greater_bulgarian_federation
 			add_timed_idea = {
 				idea = BUL_the_fate_of_the_balkans
@@ -8224,7 +8235,7 @@ focus_tree = {
 		id = BUL_join_the_tripartite_pact
 
 		prerequisite = { focus = BUL_approach_germany }
-
+		mutually_exclusive = { focus = BUL_the_fate_of_the_balkans focus = BUL_join_the_allies }
 		dynamic = yes
 
 		icon = GFX_goal_support_fascism
@@ -8232,18 +8243,47 @@ focus_tree = {
 		x = 0
 		y = 4
 		cost = 5
-		mutually_exclusive = { focus = BUL_the_fate_of_the_balkans focus = BUL_join_the_allies }
+		search_filters = { FOCUS_FILTER_ANNEXATION FOCUS_FILTER_DIPLOMACY }
 
-		bypass = {
-			OR = {
-				is_subject = yes
-				AND = {
-					is_in_faction_with = GER
-					OR = {
-						has_government = fascism
-						has_government = neutrality
+		historical_ai = {
+			GER = {
+				OR = {
+					has_war_with = GRE
+					has_war_with = YUG
+					has_war_with = ROM
+				}
+				surrender_progress < 0.15
+				has_capitulated = no
+			}
+		}
+
+		ai_will_do = {
+			factor = 3
+			modifier = {
+				factor = 0
+				OR = {
+					GER = {
+						OR = {
+							has_capitulated = yes
+							surrender_progress > 0.15
+							AND = {
+								NOT = { has_war_with = GRE }
+								NOT = { has_war_with = YUG }
+								NOT = { has_war_with = ROM }
+							}
+						}
+					}
+					ITA = {
+						OR = {
+							has_capitulated = yes
+							surrender_progress > 0.15
+						}
 					}
 				}
+			}
+			modifier = {
+				factor = 3
+				date > 1940.10.1
 			}
 		}
 
@@ -8280,8 +8320,20 @@ focus_tree = {
 			is_in_faction = no
 			is_subject = no
 		}
-		
-		search_filters = {FOCUS_FILTER_ANNEXATION}
+
+		bypass = {
+			OR = {
+				is_subject = yes
+				AND = {
+					is_in_faction_with = GER
+					OR = {
+						has_government = fascism
+						has_government = neutrality
+					}
+				}
+			}
+		}
+
 		completion_reward = {
 			if = {
 				limit = {
