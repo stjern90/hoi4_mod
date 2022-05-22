@@ -703,7 +703,6 @@ news_event = {
 	
 	major = yes
 	
-	#fire_only_once = yes
 
 	is_triggered_only =  yes 
 
@@ -1172,6 +1171,7 @@ country_event = {
 		FRA = {
 			transfer_state = 14
 			transfer_state = 28
+			transfer_state = 29
 			transfer_state = 31
 			transfer_state = 19
 			transfer_state = 25
@@ -1298,6 +1298,16 @@ country_event = {
 		#Belgium: already code ready for eventual implementation King Leopold/Mil takeover.
 		if = {
 			limit = {
+				HOL = { has_completed_focus = HOL_revive_the_buffer_state_proposal }
+				NOT = { has_global_flag = amsterdam_captured_soviets }
+			}
+			HOL = {
+				transfer_state = 6
+				transfer_state = 34
+			}
+		}
+		else_if = {
+			limit = {
 				has_global_flag = brussels_captured_allies
 				NOT = { BEL = { has_government = neutrality } }
 			}
@@ -1339,14 +1349,32 @@ country_event = {
 		if = {
 			limit = {
 				HOL = { has_completed_focus = HOL_revive_the_buffer_state_proposal }
-				NOT = { has_global_flag = luxembourg_captured_soviets }
+				NOT = { has_global_flag = amsterdam_captured_soviets }
 			}
 			HOL = { transfer_state = 8 }
 		}
 		else_if = {
 			limit = {
-				has_global_flag = luxembourg_captured_allies
+				has_global_flag = luxembourg_captured_soviets
 			}
+			LUX = { transfer_state = 8 }
+			SOV = {
+				puppet = LUX
+				LUX = {
+					set_popularities = {
+						democratic = 25
+						neutrality = 17
+						fascism = 3
+						communism = 55
+					}
+					set_politics = {
+						ruling_party = communism
+						elections_allowed = no
+			}
+				}
+			}
+		}
+		else = {
 			LUX = {
 				transfer_state = 8
 				set_popularities = {
@@ -1393,27 +1421,6 @@ country_event = {
 				}
 			}
 		}
-		else_if = {
-			limit = {
-				has_global_flag = luxembourg_captured_soviets
-			}
-			LUX = { transfer_state = 8 }
-			SOV = {
-				puppet = LUX
-				LUX = {
-					set_popularities = {
-						democratic = 25
-						neutrality = 17
-						fascism = 3
-						communism = 55
-					}
-					set_politics = {
-						ruling_party = communism
-						elections_allowed = no
-					}
-				}
-			}
-		}
 		#Italy
 		ITA = {
 			transfer_state = 39
@@ -1435,10 +1442,6 @@ country_event = {
 			}
 			USA = {
 				puppet = ITA
-				set_autonomy = {
-    				target = ITA
-					autonomy_state = autonomy_supervised_state
-				}
 				ITA = {
 					set_popularities = {
 						democratic = 57
@@ -2098,10 +2101,6 @@ country_event = {
 			}
 			USA = {
 				puppet = DDR
-				set_autonomy = {
-    					target = DDR
-					autonomy_state = autonomy_supervised_state
-				}
 				DDR = {
 					set_popularities = {
 						democratic = 85
@@ -2185,10 +2184,6 @@ country_event = {
 		else = {
 			USA = {
 				puppet = WGR
-				set_autonomy = {
-    					target = WGR
-					autonomy_state = autonomy_supervised_state
-				}
 				WGR = {
 					set_popularities = {
 						democratic = 80
@@ -2258,6 +2253,7 @@ country_event = {
 			limit = {
 				OR = {
 					state = 47
+					state = 164
 					state = 182
 					state = 184
 					state = 185
@@ -2324,7 +2320,31 @@ country_event = {
 			YUG = {
 				transfer_state = PREV
 				add_state_core = PREV
-				load_oob = "YUG_AI_reinforce"
+				if = {
+					limit = {
+						YUG = {
+							num_divisions < 15
+						}
+					}
+					load_oob = "YUG_1936"
+				}
+			}
+			if = {
+				limit = {
+					YUG = {
+						is_in_faction_with = ENG
+						has_government = communism
+					}
+					SOV = { is_faction_leader = yes }
+				}
+				every_country = {
+					limit = {
+						has_war_with = YUG
+						NOT = { has_war_with = SOV }
+					}
+					white_peace = YUG
+				}
+				SOV = { add_to_faction = YUG }
 			}
 		}
 		#Ethiopia

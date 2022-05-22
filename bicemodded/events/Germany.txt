@@ -1750,7 +1750,8 @@ country_event = {
 				is_historical_focus_on = yes
 			}
 		}
-		add_named_threat = { threat = 3 name = GER_second_vienna_award_HUN_all }
+
+		add_named_threat = { threat = 6 name = GER_second_vienna_award_HUN_all } #Doubled threat given more revisionist
 		HUN = { 
 			set_country_flag = GER_second_vienna_award_HUN_all
 			add_opinion_modifier = { target = GER modifier = GER_second_vienna_award_HUN_all } 
@@ -3044,6 +3045,7 @@ country_event = {
 	is_triggered_only = yes
 	
 	option = {
+	
 		name = germany.50.a
 		69 = { add_core_of = GER }
 		GER = { transfer_state = 69 }
@@ -3359,7 +3361,8 @@ country_event = {
 	
 	option = {
 		name = germany.55.a
-		ai_chance = { factor = 80 }
+		ai_chance = { factor = 70 }
+		
 		if = {
 			limit = {
 				70 = {
@@ -3460,12 +3463,11 @@ country_event = {
 		if = {
 			limit = {
 				72 = {
-					OR = {
-						is_owned_by = CZE
-						is_owned_by = GER
+					NOT = { is_owned_by = POL }
 					}
-				}
-				country_exists = POL
+				88 = { is_owned_by = POL }
+				POL = { is_subject = no }
+				
 			}
 			POL = { transfer_state = 72 } # Give Poland Zaolzie
 		}
@@ -3513,8 +3515,51 @@ country_event = {
 	}
 	option = {
 		name = germany.55.b
-		add_political_power = -50
+		add_political_power = -10
+		
 		ai_chance = { 
+			factor = 20
+			modifier = {
+				factor = 0.5
+				is_historical_focus_on = yes
+			}
+		}
+		
+		trigger = {
+			664 = { is_owned_by = HUN }
+			HUN = {
+				is_friend_or_potential_friend_of_GER = yes
+			}
+			NOT = { has_global_flag = GER_HUN_CZE_split }
+		}
+		
+		HUN = { country_event = germany.56 }
+		#add_war_support = 0.1
+		
+		if = {
+			limit = {
+				72 = {
+					NOT = { is_owned_by = POL }
+				}
+				88 = { is_owned_by = POL }
+				POL = { is_subject = no }
+				
+			}
+			POL = { transfer_state = 72 } # Give Poland Zaolzie
+				}
+		else = {
+			GER = { transfer_state = 72 } #If no Poland, then GER should grab 'Teschen'!!! Mainly Czechs & Poles, some German but in the past part of KUK.
+					}
+		
+		custom_effect_tooltip = end_of_czechoslovakia_mefo_bills_tt
+		add_to_variable = { var = GER_mefo_bill_counter value = -5 }
+		GER_mefo_bills_level_down = yes
+				}
+	
+	option = {
+		name = germany.55.c
+		add_political_power = -75
+		ai_chance = {
 			factor = 10
 			modifier = {
 				factor = 0
@@ -3522,29 +3567,43 @@ country_event = {
 			}
 		}
 		if = {
-			limit = {
-				154 = { is_owned_by = HUN }
-				HUN = {
-					is_friend_or_potential_friend_of_GER = yes
-				}
-				73 = {
-					OR = {
-						is_owned_by = CZE
-						is_owned_by = GER
-					}
-				}
-				country_exists = HUN 
-			}
-			HUN = { transfer_state = 73 }
-		}
-		if = {
 			limit = { country_exists = CZE }
 			annex_country = { target = CZE }
-			add_war_support = 0.05
+			#add_war_support = 0.1
+		}
+		
+		if = {
+			limit = { has_global_flag = GER_HUN_CZE_split }
+			HUN = { country_event = DOD_hungary.106 }
 		}
 		hidden_effect = {
 			country_event = { hours = 6 id = news.62 }
 		}
+		
+		custom_effect_tooltip = end_of_czechoslovakia_mefo_bills_tt
+		add_to_variable = { var = GER_mefo_bill_counter value = -5 }
+		GER_mefo_bills_level_down = yes
+	}
+
+	option = {
+		name = germany.55.do
+		
+		ai_chance = {
+			factor = 100
+			modifier = {
+				factor = 10
+				is_in_faction_with = HUN
+			}
+		}
+		
+		trigger = {
+			has_global_flag = GER_HUN_CZE_split #promised Hungary Slovakia in earlier event
+		}
+		
+		
+		HUN = { country_event = DOD_hungary.101 }
+		#add_war_support = 0.1
+		
 		custom_effect_tooltip = end_of_czechoslovakia_mefo_bills_tt
 		add_to_variable = { var = GER_mefo_bill_counter value = -5 }
 		GER_mefo_bills_level_down = yes
