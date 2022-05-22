@@ -1763,26 +1763,26 @@ country_event = {
 	title = china.107.t
 	desc = {
 		text = china.107.d_CCP_joined
-		trigger = { 
-		        tag  = CHI
-			CCP = { 
+		trigger = {
+		    tag  = CHI
+			CCP = {
 				has_country_flag = CCP_joined_CHI_against_JAP 
-			} 
-		} 
+			}
+		}
 	}
 	desc = {
 		text = china.107.d_CCP_refused
-		trigger = { 
-		        tag  = CHI
-			CCP = { 
+		trigger = {
+		    tag  = CHI
+			CCP = {
 				NOT = { has_country_flag = CCP_joined_CHI_against_JAP } 
 			} 
 		}
 	}
 	desc = {
 		text = china.107.d_CCP_ROOT
-		trigger = { 
-		        tag  = CCP
+		trigger = {
+			tag  = CCP
 		}
 	}
 
@@ -1792,25 +1792,22 @@ country_event = {
 
 	trigger = {
 		OR = {
-		AND = {
-		tag = CHI 
-		is_in_faction_with = CCP
-		is_faction_leader = yes
+			AND = {
+				tag = CHI 
+				is_in_faction_with = CCP
+				is_faction_leader = yes
+			}
+			AND = {
+				tag = CCP 
+				is_in_faction_with = CHI
+				is_faction_leader = yes
+			}
 		}
-		AND = {
-		tag = CCP 
-		is_in_faction_with = CHI
-		is_faction_leader = yes
-		}
-		}
-		
 		has_global_flag = CHI_warred_with_JAP
 		NOT = { has_war_with = JAP }
 	}
 
-	mean_time_to_happen = {
-		days = 30
-	}
+	mean_time_to_happen = { days = 90 }
 
 	option = {
 		name = china.107.a
@@ -1823,16 +1820,16 @@ country_event = {
 		#	}
 		#	custom_effect_tooltip = china.107_tt
 		#}
-                CCP = { country_event = { id = china.111 } }
+        CCP = { country_event = { id = china.111 } }
 		effect_tooltip = {
-		CCP = { add_ideas = kmt_planning_the_civil_war }
-		CHI = {
-			add_ideas = KMT_chinese_matter
-		}
+			CCP = { add_ideas = kmt_planning_the_civil_war }
+			CHI = {
+				add_ideas = KMT_chinese_matter
+			}
 		}
 		hidden_effect = {
-			#CCP = { country_event = { id = china.108 days = 90 } }
-			#set_global_flag = CCP_restart_CHI_war_pre
+			CCP = { country_event = { id = china.108 days = 5 } }
+			set_global_flag = CCP_restart_CHI_war_pre
 		}
 	}
 }
@@ -1846,36 +1843,36 @@ country_event = {
 	
 	is_triggered_only = yes
 	
-	trigger = {
-		tag = CCP
-		OR = {
-			AND = {
-				has_global_flag = CHI_no_national_front_flag
-				OR = {
-					AND = {
-						has_global_flag = CHI_warred_with_JAP
-						CHI = {
-							exists = yes
-							NOT = {
-								has_war_with = JAP
-							}
-						}
-					}
-					CHI = {
-						OR = {
-							is_puppet_of = JAP
-							is_in_faction_with = JAP
-						}
-					}
-				}
-				CHI = {
-					exists = yes
-				}
-			}
-			has_global_flag = CCP_restart_CHI_war_pre
-		}
-		has_government = communism
-	}
+	# trigger = {
+		# tag = CCP
+		# OR = {
+			# AND = {
+				# has_global_flag = CHI_no_national_front_flag
+				# OR = {
+					# AND = {
+						# has_global_flag = CHI_warred_with_JAP
+						# CHI = {
+							# exists = yes
+							# NOT = {
+								# has_war_with = JAP
+							# }
+						# }
+					# }
+					# CHI = {
+						# OR = {
+							# is_puppet_of = JAP
+							# is_in_faction_with = JAP
+						# }
+					# }
+				# }
+				# CHI = {
+					# exists = yes
+				# }
+			# }
+			# has_global_flag = CCP_restart_CHI_war_pre
+		# }
+		# has_government = communism
+	# }
 	
 	fire_only_once = yes
 
@@ -1984,7 +1981,7 @@ country_event = {
 				}
 				add_equipment_to_stockpile = { type = support_equipment_1 amount = 750 producer = JAP }
 			}
-			load_oob = "CCP_SOV_reinforcements_2"
+			load_oob = "CCP_SOV_reinforcements_2" ### Doesn't exist or PRC empty, use 'reorganised_china_uprising'?
 			set_global_flag = CCP_restart_CHI_war
 		}
 	}
@@ -1997,21 +1994,29 @@ country_event = {
 	desc = china.109.d
 	picture = GFX_report_event_chinese_soldiers_fighting
 
-	is_triggered_only = yes
+	#is_triggered_only = yes
 
 	trigger = {
 		tag = CCP
 		has_global_flag = CCP_restart_CHI_war
+		NOT = { has_war_together_with = CHI }
+		is_subject = no
 		CHI = {
 			exists = yes
-			NOT = {
-				has_country_flag = mao_is_greatest
-			}
+			is_subject = no
 		}
-		has_government = communism
+		#has_government = communism
 	}
 
+	mean_time_to_happen = { days = 180 }	
+	
 	option = {
+		name = china.109.a
+		custom_effect_tooltip = china.109_tt		
+		effect_tooltip = {
+			declare_war_on = { target = CHI type = annex_everything }
+		}
+		CHI = { country_event = { id = china.110 } }
 		hidden_effect = {
 			if = {
 				limit = {
@@ -2022,12 +2027,6 @@ country_event = {
 				drop_cosmetic_tag = yes
 				set_cosmetic_tag = GCDcivilwar
 			}
-		}
-		name = china.109.a
-		custom_effect_tooltip = china.109_tt		
-		CHI = { country_event = { id = china.110 } }
-		effect_tooltip = {
-			declare_war_on = { target = CHI type = annex_everything }
 		}
 	}
 }
@@ -2050,6 +2049,7 @@ country_event = {
 
 	option = {
 		name = china.110.a
+		add_timed_idea = { idea = CHI_civil_war_deserters days = 180 }														
 	}
 
 }
@@ -2189,7 +2189,7 @@ country_event = {
 			}			
 		}
 		trigger = {
-			controls_state = 810 # todo, invalid state
+			controls_state = 622
 		}
 		set_country_flag = CCP_capital_decided
 		set_rule = {

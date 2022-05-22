@@ -28,8 +28,36 @@ on_actions = {
 				}
 				USA = { country_event = { id = confer.9 days = 1 } }
 			}
+		
+			if = { #Trigger for post war Asia Allied win set up events
+				limit = {
+					OR = {
+						AND = {
+							ROOT = { original_tag = JAP }
+							FROM = { original_tag = USA }
+							ENG = { has_war_with = JAP }
+						}
+						AND = {
+							ROOT = { original_tag = JAP }
+							FROM = { original_tag = ENG }
+							USA = { has_war_with = JAP }
+						}
+					}
+					country_exists = SOV
+					SOV = { is_subject = no }
+					USA = { is_subject = no }
+					ENG = { is_subject = no }
+					has_game_rule = { rule = FORCED_HISTROICAL option = DEFAULT } #Not very useful for competitive MP games
+					NOT = { has_global_flag = disable_peace_conference_potsdam }  #Will add option in menu later once Post war Asias done
+				}
+				USA = { country_event = { id = potconf.1 days = 30 } }
+			}
 		}
 	}
+
+
+# Reduce war support after peace + 
+# Test fire event war recov
 
 	#ROOT is winner #FROM is loser
 	on_peaceconference_ended = {
@@ -56,6 +84,54 @@ on_actions = {
 					}
 				}
 				SOV = { country_event = { id = confer.202 days = 1 } }
+			}
+			if = { #Clear Flag for setting up Allied Win in Asia
+				limit = {
+					has_global_flag = postdam_all_clear
+					USA = {
+						OR = {
+							exists = no 
+							is_subject = yes 
+							AND = {
+								NOT = { owns_state = 638 } #USA may exist but lost the war and Guam
+								NOT = { owns_state = 632 } ##Added Wake Island
+							}
+						}
+					}
+				}
+				clr_global_flag = postdam_all_clear
+			}
+			if = { #Trigger event: Post War Asia set up for Allied Win
+				limit = {
+					ROOT = {
+						OR = {
+							tag = SOV
+							tag = USA
+							tag = ENG
+							tag = FRA
+						}
+					}
+					FROM = {
+						tag = JAP
+					}
+					OR = {
+						JAP = {
+							is_subject = yes
+						}
+						NOT = {
+							282 = {
+								is_owned_by = JAP
+							}
+						}
+					}
+					has_global_flag = postdam_all_clear
+					USA = { is_subject = no }
+					NOT = {
+						USA = { has_war_with = JAP }
+						ENG = { has_war_with = JAP}
+					}
+				}
+				USA = { country_event = { id = potconf.21 days = 1 } }
 			}
 		}
 	}
@@ -566,6 +642,147 @@ on_actions = {
 				}
 				SOV = { country_event = confer.183 }
 			}
+
+
+### Effect postponed INS Rev or colony INS for HOL upon reconquest	
+			if = {
+				limit = { #Indonesian National Revolution
+					ROOT = {
+						tag = HOL
+						is_in_faction_with = USA
+						has_country_flag = Postpone_INS_Rev
+					}
+					FROM.FROM = {
+						state = 7
+					}
+				}
+				HOL = {clr_country_flag = Postpone_INS_Rev }
+				set_province_name = { id = 7381 name = "Jakarta" }
+				set_province_name = { id = 4608 name = "Surabaya" }
+				INS = {
+					transfer_state = 672 #Sumatra
+					transfer_state = 335 #Java
+					set_popularities = {
+						democratic = 44
+						neutrality = 21
+						fascism = 15
+						communism = 20
+					}
+					kill_ideology_leader = neutrality
+					set_politics = {
+						ruling_party = democratic
+						election_frequency = 48
+						elections_allowed = yes
+					}
+					load_oob = INS_Rev
+					add_ideas = INS_national_revolution
+					add_timed_idea = {
+						idea = INS_internal_divides
+						days = 720
+					}
+				}
+				every_state = {
+					limit = {
+						NOT = {
+							state = 672
+							state = 335
+						}
+						is_core_of = INS
+					}
+					HOL = {
+						transfer_state = PREV
+						add_ideas = INS_occupation_costs
+						if = {
+							limit = {
+								HOL = {
+									num_divisions < 20
+								}
+							}
+							load_oob = HOL_Indo_Rev
+						}
+						every_owned_state = {
+							limit = {
+								is_core_of = INS
+							}
+							force_enable_resistance = {
+								occupier = HOL
+							}
+							start_resistance = yes
+							set_compliance = 20
+							set_resistance = 40
+						}
+					}
+				}
+				USA = { add_opinion_modifier = { target = HOL modifier = protest_action } }
+				if = {
+					limit = {
+						INS = { is_subject = yes }
+					}
+					set_autonomy = { target = INS autonomy_state = autonomy_free }
+					INS = { leave_faction = yes }
+				}
+				every_country = {
+					limit = { 
+						has_war_with = INS
+					}
+					white_peace = INS
+				}
+			}
+			if = {
+				limit = { #If INS was defended from JAP invasion, return to status ante bellum.
+					ROOT = {
+						tag = HOL
+						is_in_faction_with = USA
+						has_country_flag = Postpone_Releasing_INS
+					}
+					FROM.FROM = {
+						state = 7
+					}
+				}
+				HOL = {clr_country_flag = Postpone_Releasing_INS }
+				HOL = {
+					release_puppet = INS
+					set_autonomy = {
+							target = INS
+						autonomy_state = autonomy_colony
+					}
+					INS = {
+						set_popularities = {
+							democratic = 18
+							neutrality = 59
+							fascism = 13
+							communism = 10
+						}
+						retire_country_leader = yes
+						promote_character = { ###Check if has trait
+							character = INS_Hubertus_van_Mook
+							ideology = oligarchism
+						}
+						set_politics = {
+							ruling_party = neutrality
+							election_frequency = 48
+							elections_allowed = yes
+						}
+						add_timed_idea = {
+							idea = democratic_influence
+							days = 120
+						}
+						add_timed_idea = {
+							idea = SAF_revolutionary_influence
+							days = 90
+						}
+						if = {
+							limit = {
+								INS = {
+									num_divisions < 8
+								}
+							}
+							load_oob = INS_1936
+						}
+					}
+				}
+			}
 		}
+		
 	}
 }
