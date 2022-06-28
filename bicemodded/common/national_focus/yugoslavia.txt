@@ -770,7 +770,7 @@ focus_tree = {
 					random_owned_controlled_state = {
 						limit = { PREV = { has_full_control_of_state = PREV } }
 						create_unit = {
-							division = "name = \"Bosnian Division\" division_template = \"Yugoslavian Division\" start_experience_factor = 0.9" 
+							division = "name = \"Bosnian Division\" division_template = \"Bosnian Division\" start_experience_factor = 0.9" 
 							owner = PREV
 						}
 					}
@@ -1788,6 +1788,13 @@ focus_tree = {
 
 		ai_will_do = {
 			factor = 40
+			modifier = { #If Bulgaria is really so much committed into getting Macedonian support, then we might just surrender Macedonia
+				factor = 5
+				controls_state = 106
+				106 = {
+					has_dynamic_modifier = { modifier = widespread_bulgarian_sentiment_01 }
+				}
+			}
 		}
 
 		available = {
@@ -1959,14 +1966,14 @@ focus_tree = {
 					}
 				}
 			}
-			create_country_leader = {
-				name = "Prince Paul"
-				desc = "POLITICS_PRINCE_PAUL_DESC"
-				picture = "Portrait_Yugoslavia_Prince_Paul.dds"
+			YUG_prince_paul = {
+				add_country_leader_role = {
+					country_leader = {
 				expire = "1965.1.1"
 				ideology = fascism_ideology
-				traits = {
-					#
+						traits = {}
+					}
+					promote_leader = yes
 				}
 			}
 		}
@@ -2303,7 +2310,7 @@ focus_tree = {
 
 		bypass = {
 			has_country_leader = {
-				name = "Peter II"
+				character = YUG_peter_ii
 				ruling_only = yes
 			}
 		}
@@ -2314,51 +2321,16 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
 			retire_country_leader = yes
+			YUG_peter_ii = {
+				promote_character = {ideology = despotism }
+				promote_character = {ideology = conservatism }
+			}
 			if = {
 				limit = {
-					date < 1941.09.06
-				}
-				create_country_leader = {
-					name = "Peter II"
-					desc = "POLITICS_PETER_II_DESC"
-					picture = "portrait_YUG_peter_II_young.dds"
-					expire = "1965.1.1"
-					ideology = despotism
-					traits = {
-						underage_monarch
+					date > 1941.09.06
 					}
-				}
-				create_country_leader = {
-					name = "Peter II"
-					desc = "POLITICS_PETER_II_DESC"
-					picture = "portrait_YUG_peter_II_young.dds"
-					expire = "1965.1.1"
-					ideology = conservatism
-					traits = {
-						underage_monarch
-					}
-				}
-			}
-			else = {
-				create_country_leader = {
-					name = "Peter II"
-					desc = "POLITICS_PETER_II_DESC"
-					picture = "Portrait_Yugoslavia_Peter_II.dds"
-					expire = "1965.1.1"
-					ideology = despotism
-					traits = {
-						legitimate_heir
-					}
-				}
-				create_country_leader = {
-					name = "Peter II"
-					desc = "POLITICS_PETER_II_DESC"
-					picture = "Portrait_Yugoslavia_Peter_II.dds"
-					expire = "1965.1.1"
-					ideology = conservatism
-					traits = {
-						legitimate_heir
-					}
+				YUG_peter_ii = {
+					swap_country_leader_traits = { remove = underage_monarch add = legitimate_heir }
 				}
 				hidden_effect = { set_country_flag = peter_is_of_age }
 			}
@@ -2383,7 +2355,7 @@ focus_tree = {
 			OR = {
 				AND = {
 					has_country_leader = {
-						name = "Peter II"
+						character = YUG_peter_ii
 						ruling_only = yes
 					}
 					NOT = { has_country_leader_with_trait = underage_monarch }
@@ -2391,7 +2363,7 @@ focus_tree = {
 				AND = {
 					NOT = { has_idea = king_peter_1 }
 					has_country_leader = {
-						name = "Prince Paul"
+						character = YUG_prince_paul
 						ruling_only = yes
 					}
 				}
@@ -2426,21 +2398,21 @@ focus_tree = {
 				if = {
 					limit = {
 						has_country_leader = {
-							name = "Prince Paul"
+							character = YUG_prince_paul
 							ruling_only = yes
 						}
 						NOT = { has_idea = king_peter_1 }
 						has_completed_focus = YUG_western_focus
 					}
-					create_country_leader = {
-						name = "Paul I"
-						desc = "POLITICS_PRINCE_PAUL_DESC"
-						picture = "Portrait_Yugoslavia_Prince_Paul.dds"
-						expire = "1965.1.1"
+					add_country_leader_role = {
+						character = YUG_prince_paul
+						country_leader = {
 						ideology = fascism_ideology
 						traits = {
 							collaborator_king
 						}
+					}
+						promote_leader = yes
 					}
 					set_party_name = { 
 						ideology = fascism
@@ -2485,7 +2457,7 @@ focus_tree = {
 
 		available = {
 			has_country_leader = {
-				name = "Peter II"
+				character = YUG_peter_ii
 				ruling_only = yes
 			}
 			NOT = { has_country_leader_with_trait = underage_monarch }
@@ -3142,6 +3114,7 @@ focus_tree = {
 				NOT = { has_war_with = ROOT }
 				exists = yes
 				has_capitulated = no
+				has_government = communism
 			}
 		}
 
@@ -4090,6 +4063,29 @@ focus_tree = {
 
 
 		completion_reward = {
+			if = {
+				limit = {
+					105 = {
+						owner = {
+							OR = {
+								tag = ROOT
+								is_subject_of = ROOT
+								AND = {
+									tag = MNT
+									is_in_faction_with = ROOT
+								}
+							}
+						}
+					}
+				}
+				105 = {
+					add_resource = {
+						type = tungsten
+						amount = 8
+					}
+				}
+			}
+			else = {
 			random_owned_controlled_state = {
 				prioritize = { 105 }
 				add_resource = {
@@ -4097,6 +4093,30 @@ focus_tree = {
 					amount = 8
 				}
 			}
+			}
+			if = {
+				limit = {
+					109 = {
+						owner = {
+							OR = {
+								tag = ROOT
+								is_subject_of = ROOT
+								AND = {
+									tag = MNT
+									is_in_faction_with = ROOT
+								}
+							}
+						}
+					}
+				}
+				109 = {
+					add_resource = {
+						type = chromium
+						amount = 8
+					}
+				}
+			}
+			else = {
 			random_owned_controlled_state = {
 				prioritize = { 109 }
 				add_resource = {
@@ -4105,6 +4125,7 @@ focus_tree = {
 				}
 			}
 		}
+	}
 	}
 
 	focus = {
@@ -4440,6 +4461,36 @@ focus_tree = {
 		}
 
 		completion_reward = {
+			if = {
+				limit = {
+					102 = {
+						owner = {
+							OR = {
+								tag = ROOT
+								is_subject_of = ROOT
+								AND = {
+									tag = SLV
+									is_in_faction_with = ROOT
+								}
+							}
+						}
+					}
+				}
+				102 = {
+					add_extra_state_shared_building_slots = 3
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+					add_building_construction = {
+						type = arms_factory
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+			else = {
 			random_owned_controlled_state = {
 				prioritize = { 102 }
 				limit = {
@@ -4458,6 +4509,7 @@ focus_tree = {
 				}
 			}
 		}
+	}
 	}
 
 	focus = {
@@ -4625,7 +4677,17 @@ focus_tree = {
 
 		completion_reward = {
 			if = {
-				limit = { has_full_control_of_state = 45 }
+				limit = {
+					45 = {
+						owner = {
+							OR = {
+								tag = ROOT
+								is_subject_of = ROOT
+								is_in_faction_with = ROOT
+							}
+						}
+					}
+				}
 				45 = {
 					add_extra_state_shared_building_slots = 1
 					add_building_construction = {
@@ -4637,7 +4699,17 @@ focus_tree = {
 			}
 
 			if = {
-				limit = { has_full_control_of_state = 105 }
+				limit = {
+					105 = {
+						owner = {
+							OR = {
+								tag = ROOT
+								is_subject_of = ROOT
+								is_in_faction_with = ROOT
+							}
+						}
+					}
+				}
 				105 = {
 					add_extra_state_shared_building_slots = 1
 					add_building_construction = {
@@ -4649,7 +4721,17 @@ focus_tree = {
 			}
 
 			if = {
-				limit = { has_full_control_of_state = 107 }
+				limit = {
+					107 = {
+						owner = {
+							OR = {
+								tag = ROOT
+								is_subject_of = ROOT
+								is_in_faction_with = ROOT
+							}
+						}
+					}
+				}
 				107 = {
 					add_extra_state_shared_building_slots = 1
 					add_building_construction = {
@@ -4661,7 +4743,17 @@ focus_tree = {
 			}
 
 			if = {
-				limit = { has_full_control_of_state = 108 }
+				limit = {
+					108 = {
+						owner = {
+							OR = {
+								tag = ROOT
+								is_subject_of = ROOT
+								is_in_faction_with = ROOT
+							}
+						}
+					}
+				}
 				108 = {
 					add_extra_state_shared_building_slots = 1
 					add_building_construction = {
@@ -4673,8 +4765,39 @@ focus_tree = {
 			}
 
 			if = {
-				limit = { has_full_control_of_state = 764 }
+				limit = {
+					764 = {
+						owner = {
+							OR = {
+								tag = ROOT
+								is_subject_of = ROOT
+								is_in_faction_with = ROOT
+							}
+						}
+					}
+				}
 				764 = {
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					803 = {
+						owner = {
+							OR = {
+								tag = ROOT
+								is_subject_of = ROOT
+								is_in_faction_with = ROOT
+							}
+						}
+					}
+				}
+				803 = {
 					add_extra_state_shared_building_slots = 1
 					add_building_construction = {
 						type = infrastructure
@@ -4818,6 +4941,36 @@ focus_tree = {
 
 
 		completion_reward = {
+			if = {
+				limit = {
+					104 = {
+						owner = {
+							OR = {
+								tag = ROOT
+								is_subject_of = ROOT
+								AND = {
+									tag = BOS
+									is_in_faction_with = ROOT
+								}
+							}
+						}
+					}
+				}
+				104 = {
+					add_extra_state_shared_building_slots = 3
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+					add_building_construction = {
+						type = arms_factory
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+			else = {
 			random_owned_controlled_state = {
 				prioritize = { 104 }
 				limit = {									
@@ -4835,6 +4988,7 @@ focus_tree = {
 				}
 			}
 		}
+	}
 	}
 
 	

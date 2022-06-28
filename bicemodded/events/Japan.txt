@@ -691,23 +691,18 @@ country_event = {
 		set_global_flag = indian_national_army_setup
 		RAJ = {
 			add_stability = -0.15
-			if = {
-				limit = { has_dlc = "Together for Victory" }
-				add_popularity = {
-					ideology = fascism
-					popularity = 0.1
-				}
-				add_popularity = {
-					ideology = democratic
-					popularity = -0.05
-				}
-				else = {
-					add_ideas = RAJ_azad_hind 
-					ENG = {
-						country_event = { id = britain.19 }
-					}
-				}
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.1
 			}
+			add_popularity = {
+				ideology = democratic
+				popularity = -0.05
+			}
+			add_ideas = RAJ_azad_hind 
+		}
+		ENG = {
+			country_event = { id = britain.19 }
 		}
 	}
 }
@@ -1716,60 +1711,391 @@ news_event = {
 	}
 }
 
-#TIB offer
+
+#What to offer TIB
 country_event = {
-	id = japan.39 
-	title = japan.39.t 
-	desc = japan.39.d
-	picture = GFX_report_event_generic_sign_treaty1
+	id = japan.390 
+	title = japan.390.t
+	desc = japan.390.d
+	picture = GFX_report_event_TIB_lhasa
+	
+	is_triggered_only = yes
+	
+	option = { #Give Ganzi(752) only
+		name = japan.390.a
+		ai_chance = { factor = 40 }
+		
+		trigger = {
+			752 = { is_controlled_by_ROOT_or_subject = yes }
+		}
+		
+		TIB = { country_event = { id = japan.400 days = 1 } }
+		every_other_country = {
+			limit = {
+				controls_state = 752
+			}
+			add_opinion_modifier = { target = ROOT modifier = unprovoked_aggression }
+		}
+	}
+	
+	option = { #Give Ganzi & Qinhai (752 & 604)
+		name = japan.390.b
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 2
+				JAP = { has_war_with = RAJ }
+				RAJ = { has_capitulated = no }
+			}
+		}
+		
+		trigger = {
+			752 = { is_controlled_by_ROOT_or_subject = yes }
+			604 = { is_controlled_by_ROOT_or_subject = yes }
+		}
+		
+		TIB = { country_event = { id = japan.410 days = 1 } }
+		every_other_country = {
+			limit = {
+				OR = {
+					controls_state = 604
+					controls_state = 752
+				}
+			}
+			add_opinion_modifier = { target = ROOT modifier = unprovoked_aggression }
+		}
+	}
+	
+	option = { #Give nothing
+		name = japan.390.c
+		ai_chance = { factor = 20 }
+		
+		TIB = { country_event = { id = japan.39 days = 1 } }
+	}
+}
+
+#TIB offer: Ganzi only
+country_event = {
+	id = japan.400 
+	title = japan.400.t
+	desc = japan.400.d
+	picture = GFX_report_event_japanese_envoy
 	
 	is_triggered_only = yes
 	
 	option = {
-		ai_chance = { 
-			factor = 20 
+		name = japan.400.a
+		ai_chance = {
+			factor = 80
 			modifier = {
-				JAP = {
-					strength_ratio = {
-						tag = TIB
-						ratio > 0.5
-					}
-				}
-				add = 60
-			}
-			modifier = {
-				JAP = {
-					has_war = yes
-					surrender_progress > 0.1 
-				}
 				factor = 0
+				JAP = {
+					surrender_progress > 0.05 
+				}
 			}
 		}
-		name = japan.39.a
-		JAP = { annex_country = { target = TIB transfer_troops = no } }
-		JAP = { country_event = { id = japan.40 }}
+
+		JAP = {
+			puppet = TIB
+			set_autonomy = {
+					target = TIB
+				autonomy_state = autonomy_wtt_imperial_associate
+			}
+			country_event = { id = japan.40 }
+		}
+		
+		if = {
+			limit = {
+				NOT = { TIB = { controls_state = 601 } }
+			}
+			TIB = { transfer_state = 601 }
+		}
+		TIB = {
+			transfer_state = 752
+			set_politics = {
+				ruling_party = neutrality
+				last_election = "1936.1.1"
+				election_frequency = 48
+				elections_allowed = no
+			}
+			set_popularities = {
+				democratic = 0
+				fascism = 12
+				communism = 8
+				neutrality = 80
+			}
+			add_timed_idea = {
+				idea = SAF_fascist_influences
+				days = 180
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_idea = partial_economic_mobilisation
+						has_idea = war_economy
+						has_idea = tot_economic_mobilisation
+					}
+				}
+				add_ideas = partial_economic_mobilisation
+			}
+			add_opinion_modifier = {
+				target = JAP
+				modifier = BUL_territorial_arbitration
+			}
+		}
+		hidden_effect = {
+		    752 = {
+            	set_compliance = 40
+	            set_resistance = 10
+            }
+		}
 	}
 	
 	option = {
-		ai_chance = { factor = 80 }
-		name = japan.39.b
+		name = japan.400.b
+		ai_chance = {
+			factor = 20
+			modifier = {
+				factor = 3
+				JAP = { has_war_with = RAJ }
+				RAJ = { surrender_progress < 0.15 }
+			}
+		}
+		
 		effect_tooltip = {
 			JAP = {
 				create_wargoal = {
-					type = annex_everything
+					type = puppet_wargoal_focus
 					target = TIB
 				}
 			}
 		}
-		JAP = { country_event = { id = japan.41 days = 1 } }
+		
+		JAP = {
+			country_event = { id = japan.41 days = 1 }
+			add_opinion_modifier = {
+				target = TIB
+				modifier = KMT_SHX_refused
+			}
+		}
 	}
 }
 
-#TIB compromise
+#TIB offer: Ganzi & Qinhai
 country_event = {
-	id = japan.40 
+	id = japan.410 
+	title = japan.410.t
+	desc = japan.410.d
+	picture = GFX_report_event_japanese_envoy
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = japan.410.a
+		ai_chance = {
+			factor = 100
+			modifier = {
+				factor = 0.1
+				JAP = {
+					surrender_progress > 0.05 
+				}
+			}
+		}
+
+		JAP = {
+			puppet = TIB
+			set_autonomy = {
+				target = TIB
+				autonomy_state = autonomy_wtt_imperial_associate
+			}
+			country_event = { id = japan.40 }
+		}
+		
+		if = {
+			limit = {
+				NOT = { TIB = { controls_state = 601 } }
+			}
+			TIB = { transfer_state = 601 }
+		}
+		TIB = {
+			transfer_state = 604
+			transfer_state = 752
+			set_politics = {
+				ruling_party = neutrality
+				last_election = "1936.1.1"
+				election_frequency = 48
+				elections_allowed = no
+			}
+			set_popularities = {
+				democratic = 0
+				fascism = 12
+				communism = 8
+				neutrality = 80
+			}
+			add_timed_idea = {
+				idea = SAF_fascist_influences
+				days = 180
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_idea = partial_economic_mobilisation
+						has_idea = war_economy
+						has_idea = tot_economic_mobilisation
+					}
+				}
+				add_ideas = partial_economic_mobilisation
+			}
+			add_opinion_modifier = {
+				target = JAP
+				modifier = BUL_territorial_arbitration
+			}
+		}
+		hidden_effect = {
+		    752 = {
+            	set_compliance = 40
+	            set_resistance = 10
+            }
+			604 = {
+            	set_compliance = 30
+	            set_resistance = 15
+            }
+		}
+	}
+	
+	option = {
+		name = japan.410.b
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 3
+				JAP = { has_war_with = RAJ }
+				RAJ = { surrender_progress < 0.15 }
+			}
+		}
+		
+		effect_tooltip = {
+			JAP = {
+				create_wargoal = {
+					type = puppet_wargoal_focus
+					target = TIB
+				}
+			}
+		}
+		
+		JAP = {
+			country_event = { id = japan.41 days = 1 }
+			add_opinion_modifier = {
+				target = TIB
+				modifier = KMT_SHX_refused
+			}
+		}
+	}
+}
+
+#TIB offer: Nothing
+country_event = {
+	id = japan.39
+	title = japan.39.t
+	desc = japan.39.d
+	picture = GFX_report_event_japanese_envoy
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = japan.39.a
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 0
+				JAP = {
+					surrender_progress > 0.05
+				}
+			}
+		}
+
+		JAP = {
+			puppet = TIB
+			set_autonomy = {
+					target = TIB
+				autonomy_state = autonomy_wtt_imperial_associate
+			}
+			country_event = { id = japan.40 }
+		}
+		TIB = {
+			set_politics = {
+				ruling_party = neutrality
+				last_election = "1936.1.1"
+				election_frequency = 48
+				elections_allowed = no
+			}
+			set_popularities = {
+				democratic = 0
+				fascism = 12
+				communism = 15
+				neutrality = 73
+			}
+			add_timed_idea = {
+				idea = SAF_fascist_influences
+				days = 180
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_idea = partial_economic_mobilisation
+						has_idea = war_economy
+						has_idea = tot_economic_mobilisation
+					}
+				}
+				add_ideas = partial_economic_mobilisation
+			}
+			add_opinion_modifier = {
+				target = JAP
+				modifier = BUL_territorial_arbitration_negative
+			}
+		}
+	}
+	
+	option = {
+		name = japan.39.b
+		ai_chance = {
+			factor = 20
+			modifier = {
+				factor = 3
+				JAP = { has_war_with = RAJ }
+				RAJ = { surrender_progress < 0.15 }
+			}
+		}
+		
+		effect_tooltip = {
+			JAP = {
+				create_wargoal = {
+					type = puppet_wargoal_focus
+					target = TIB
+				}
+			}
+		}
+		
+		add_opinion_modifier = {
+			target = JAP
+			modifier = aggresion
+		}
+		
+		JAP = {
+			country_event = { id = japan.41 days = 1 }
+			add_opinion_modifier = {
+				target = TIB
+				modifier = KMT_SHX_refused
+			}
+		}
+	}
+}
+
+#TIB accepted
+country_event = {
+	id = japan.40
 	title = japan.40.t
-	desc = japan40.d
+	desc = japan.40.d
 	picture = GFX_report_event_generic_sign_treaty1
 	
 	is_triggered_only = yes
@@ -1784,7 +2110,7 @@ country_event = {
 	id = japan.41
 	title = japan.41.t
 	desc = japan.41.d
-	picture = GFX_report_event_generic_sign_treaty1
+	picture = GFX_report_event_TIB_army
 	
 	is_triggered_only = yes
 	
@@ -1792,7 +2118,7 @@ country_event = {
 		name = japan.41.a
 		JAP = {
 			create_wargoal = {
-				type = annex_everything
+				type = puppet_wargoal_focus
 				target = TIB
 			}
 		}
@@ -1804,55 +2130,129 @@ country_event = {
 	id = japan.42 
 	title = japan.42.t 
 	desc = japan.42.d
-	picture = GFX_report_event_generic_sign_treaty1
+	picture = GFX_report_event_japanese_envoy
 	
 	is_triggered_only = yes
 	
 	option = {
-		ai_chance = { 
-			factor = 20 
+		name = japan.42.a
+		ai_chance = {
+			factor = 50
 			modifier = {
+				factor = 0
 				JAP = {
-					strength_ratio = {
-						tag = SIK
-						ratio > 0.5
-					}
+					surrender_progress > 0.05
 				}
-				add = 60
 			}
 			modifier = {
-				JAP = {
-					has_war = yes
-					surrender_progress > 0.1 
+				factor = 0.5
+				SIK = {
+					has_government = communism
 				}
-				factor = 0
 			}
 		}
-		name = japan.42.a
-		JAP = { annex_country = { target = SIK transfer_troops = no } }
-		JAP = { country_event = { id = japan.43 }}
+
+		JAP = {
+			puppet = SIK
+			set_autonomy = {
+					target = SIK
+				autonomy_state = autonomy_wtt_imperial_associate
+			}
+			country_event = { id = japan.43 days = 3 }
+		}
+		
+		SIK = {
+			set_politics = {
+				ruling_party = neutrality
+				last_election = "1936.1.1"
+				election_frequency = 48
+				elections_allowed = no
+			}
+			set_popularities = {
+				democratic = 0
+				fascism = 7
+				communism = 41
+				neutrality = 52
+			}
+			create_country_leader = { ###Change to character once characters added to SIK
+				name = "Sheng Shicai"
+				desc = "POLITICS_SHENG_SHICAI_DESC"
+				picture = "gfx/leaders/SIK/Portrait_Sinkiang_Sheng_Shicai.dds"
+				expire = "1965.1.1"
+				ideology = despotism
+				traits = {
+					divided_interests
+				}
+			}
+			# add_country_leader_role = {
+				# character = SIK_sheng_shicai
+				# country_leader = {
+					# expire = "1965.1.1"
+					# ideology = despotism
+					# traits = {
+						# divided_interests
+					# }
+				# }
+				# promote_leader = yes
+			# }
+			add_timed_idea = {
+				idea = SAF_fascist_influences
+				days = 365
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_idea = partial_economic_mobilisation
+						has_idea = war_economy
+						has_idea = tot_economic_mobilisation
+					}
+				}
+				add_ideas = partial_economic_mobilisation
+			}
+		}
+		SOV = {
+			add_opinion_modifier = {
+				target = SIK
+				modifier = pro_jap_traitor
+			}
+		}
 	}
 	
 	option = {
-		ai_chance = { factor = 80 }
 		name = japan.42.b
-		effect_tooltip = {
-			JAP = {
-				create_wargoal = {
-					type = annex_everything
-					target = SIK
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 0.1
+				NOT = { SOV = { owns_state = 219 } }
+			}
+			modifier = {
+				factor = 0.5
+				SOV = {
+					surrender_progress > 0.25
 				}
 			}
 		}
-		JAP = { country_event = { id = japan.44 days = 1 } }
+		add_opinion_modifier = {
+			target = JAP
+			modifier = aggresion
+		}
+		
+		JAP = {
+			country_event = { id = japan.44 days = 3 } 
+			add_opinion_modifier = {
+				target = SIK
+				modifier = KMT_SHX_refused
+			}
+		}
 	}
 }
 
-#SIK compromise
+#SIK Agree
 country_event = {
-	id = japan.43 
+	id = japan.43
 	title = japan.43.t
-	desc = japan43.d
+	desc = japan.43.d
 	picture = GFX_report_event_generic_sign_treaty1
 	
 	is_triggered_only = yes
@@ -1862,21 +2262,364 @@ country_event = {
 	}
 }
 
-#SIK refused
+#SIK Refused: let it go, support Turk uprising ( & puppet later if win) or nothing?
 country_event = {
 	id = japan.44
 	title = japan.44.t
 	desc = japan.44.d
-	picture = GFX_report_event_generic_sign_treaty1
+	picture = GFX_report_event_SIK_kumul_map
+	
+	is_triggered_only = yes
+	
+	option = { #Invade Sinkiang
+		name = japan.44.a
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 0
+				SOV = {
+					OR = {
+						surrender_progress < 0.4
+						has_war = no
+					}
+					owns_state = 219
+				}
+			}
+		}
+		
+		JAP = {
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = SIK
+			}
+		}
+		SIK = {
+			country_event = { id = japan.4401 days = 1 } #Load reinforcement + informing SIK
+			add_ideas = SAF_soviet_advisers
+		}
+		
+		hidden_effect = { #Check if keep? Ref for option B
+			if = {
+				limit = {
+					SOV = {
+						exists = yes
+						has_capitulated = no
+						is_subject = no
+					}
+				}
+				SIK = {
+					add_ai_strategy = {
+						id = "SOV"
+						type = alliance
+						value = 50
+					}
+				}
+				SOV  = {
+					add_ai_strategy = {
+						id = "SIK"
+						type = protect
+						value = 50
+					}
+					add_opinion_modifier = {
+						target = JAP
+						modifier = condemn_aggression
+					}
+				}
+			}
+		}
+	}
+	
+	option = { #Support Turkic rebellion in Sinkiang( & puppet later if win)
+		name = japan.44.b
+		ai_chance = {
+			factor = 40
+		}
+		
+		SIK = {
+			start_civil_war = {
+				ideology = fascism
+				size = 0.6
+			}
+		}
+		
+		add_political_power = -25
+		add_equipment_to_stockpile = { type = infantry_equipment_1 amount = -700 producer = JAP }
+		add_equipment_to_stockpile = { type = infantry_uniforms_0 amount = -700 producer = JAP }
+		add_equipment_to_stockpile = { type = artillery_equipment_0 amount = -70 producer = JAP }
+		add_equipment_to_stockpile = { type = horse_equipment_0 amount = -400 producer = JAP }
+		add_equipment_to_stockpile = { type = support_equipment_1 amount = -300 producer = JAP }
+		add_equipment_to_stockpile = { type = mountain_artillery_equipment_0 amount = -150 producer = JAP }
+		add_equipment_to_stockpile = { type = jp_fighter_equipment_3 amount = -75 producer = JAP }
+		
+		if = {
+			limit = {
+				SOV = {
+					exists = yes
+					has_capitulated = no
+					is_subject = no
+				}
+			}
+			SOV = { # Opportunity for SOV to support SIK // Make on Action?
+				country_event = { id = japan.4400 days = 1 }
+				add_opinion_modifier = {
+					target = JAP
+					modifier = protest_action
+				}
+			}
+		}
+		
+		hidden_effect = {
+			random_country = {
+				limit = {
+					original_tag = SIK
+					has_government = fascism
+				}
+				SOV = {
+					add_opinion_modifier = {
+						target = PREV
+						modifier = pro_jap_traitor
+					}
+				}
+				add_opinion_modifier = {
+					target = JAP
+					modifier = jap_friendship
+				}
+				add_equipment_to_stockpile = {
+					type = jp_fighter_equipment_3
+					amount = 75
+					producer = JAP
+				}
+				create_country_leader = { ###Change to character once characters added to SIK
+					name = "Mahmut Muhiti"
+					desc = "POLITICS_MAHMUT_MUHITI_DESC"
+					picture = "GFX_portrait_Mahmut_Muhiti"
+					expire = "1944.1.1"
+					ideology = rexism
+					traits = {
+						freedom_fighter
+						subservient_ultranationalist
+					}
+				}
+				create_field_marshal = {
+					name = "Mahmut Muhiti"
+					picture = "GFX_portrait_Mahmut_Muhiti"
+					traits = { offensive_doctrine }
+					skill = 2
+					attack_skill = 2
+					defense_skill = 2
+					planning_skill = 2
+					logistics_skill = 3
+				}
+				create_corps_commander = {
+					name = "Muhammad Amin Burgha"
+					picture = "GFX_portrait_Muhammad_Amin_Bughrai"
+					traits = { cavalry_officer offensive_doctrine }
+					skill = 2
+					attack_skill = 2
+					defense_skill = 2
+					planning_skill = 2
+					logistics_skill = 1
+				}
+				# if = {
+					# Limit = {
+						# date < 1944.1.1
+					# }
+					# add_corps_commander_role = {
+						# character = SIK_Mahmut_Muhiti
+						# traits = { war_hero brilliant_strategist cavalry_officer cavalry_leader trickster }
+						# skill = 4 #13
+						# legacy_id = 1
+						# attack_skill = 4
+						# defense_skill = 4
+						# planning_skill = 2
+						# logistics_skill = 3
+					# }
+				# }
+				# if = {
+					# Limit = {
+						# date > 1944.1.1
+					# }
+					# retire_country_leader = yes
+					# promote_character = {
+						# character = SIK_Muhammad_Amin_Bughrai
+						# ideology=rexism
+						# traits = {
+							# eager_collaborator
+							# national_propagandist
+						# }
+					# }
+				# }
+				# add_corps_commander_role = {
+					# character = SIK_Muhammad_Amin_Bughrai
+					# traits = { cavalry_officer trickster}
+					# skill = 2
+					# attack_skill = 2
+					# defense_skill = 2
+					# planning_skill = 1
+					# logistics_skill = 2
+				# }
+				set_country_flag = JAP_puppet ###Add on_action for puppet after
+				add_ideas = KMT_jap_military_advisors
+			}
+		}
+	}
+
+	option = { #Do nothing
+		name = japan.44.c
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 100
+				surrender_progress > 0.05
+			}
+		}
+		add_war_support = -0.03
+	}
+}
+
+#Turk rebellion in SIK: support SIK ( & puppet later if win)or nothing?
+country_event = {
+	id = japan.4400
+	title = japan.4400.t
+	desc = japan.4400.d
+	picture = GFX_report_event_SIK_kumul_map
+	
+	is_triggered_only = yes
+	
+	option = { #Support Sinkiang ( & puppet later if win)
+		name = japan.4400.a
+		ai_chance = {
+			factor = 60
+		}
+		
+		add_political_power = -35
+		add_opinion_modifier = {
+			target = JAP
+			modifier = sanctions
+		}
+		custom_effect_tooltip = SIK_SUP_SOV_tt
+		
+		send_equipment = {
+			target = SIK
+			equipment = infantry_equipment
+			amount = 1000
+			old_prioritised = yes
+		}
+		send_equipment = {
+			target = SIK
+			equipment = infantry_uniforms
+			amount = 1000
+			old_prioritised = yes
+		}
+		send_equipment = {
+			target = SIK
+			equipment = support_equipment
+			amount = 300
+			old_prioritised = yes
+		}
+		send_equipment = {
+			target = SIK
+			equipment = mountain_artillery_equipment
+			amount = 150
+			old_prioritised = yes
+		}
+		send_equipment = {
+			target = SIK
+			equipment = artillery_equipment
+			amount = 50
+			old_prioritised = yes
+		}
+		send_equipment = {
+			target = SIK
+			type = i_152_equipment_1
+			amount = 75
+			old_prioritised = yes
+		}
+		
+		hidden_effect = {
+			SIK = {
+				country_event = { id = japan.4401 days = 1 } #Load reinforcement + informing SIK
+				add_opinion_modifier = {
+					target = SOV
+					modifier = POR_helped_in_civil_war
+				}
+				set_country_flag = SOV_puppet ###Add on_action for puppet after
+				add_ideas = SAF_soviet_advisers
+			}
+		}
+	}
+
+	option = { #Do nothing
+		name = japan.4400.b
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 10
+				surrender_progress > 0.40
+			}
+			modifier = { #Check if not also triggeribng cuz fascist CW
+				factor = 3
+				NOT = { SIK = { has_government = communism } }
+			}
+		}
+		
+		SIK = {
+			add_opinion_modifier = {
+				target = SOV
+				modifier = BFTB_ROM_abandoned_us
+			}
+		}
+	}
+}
+
+#Load reinforcement + informing SIK
+country_event = {
+	id = japan.4401
+	title = japan.4401.t
+	desc = japan.4401.d
+	picture = GFX_report_event_soviet_tanks
 	
 	is_triggered_only = yes
 	
 	option = {
-		name = japan.44.a
-		JAP = {
-			create_wargoal = {
-				type = annex_everything
-				target = SIK
+		name = japan.4401.a
+		custom_effect_tooltip = SIK_SUP_SOV_tt
+		
+		if = {
+			limit = {
+				NOT = { has_country_flag = mass_assault_a }
+			}
+			hidden_effect = {
+				load_oob = "mass_assault_a"
+				set_country_flag = mass_assault_a
+			}
+		}
+		
+		hidden_effect = {
+			random_owned_controlled_state = {
+				limit = { impassable = no }
+				create_unit = {
+					division = "name = \"1.Communist Volunteers\" division_template = \"Type 39 Corps\" start_experience_factor = 0.15" 
+					owner = SIK
+				}
+				
+				create_unit = { 
+					division = "name = \"2.Communist Volunteers\" division_template = \"Type 39 Corps\" start_experience_factor = 0.1" 
+					owner = SIK
+				}
+			}
+				
+			random_owned_controlled_state = {
+				limit = { impassable = no }
+				create_unit = {
+					division = "name = \"3.Communist Volunteers\" division_template = \"Type 39 Corps\" start_experience_factor = 0.15" 
+					owner = SIK
+				}
+				
+				create_unit = {
+						division = "name = \"4.Communist Volunteers\" division_template = \"Type 39 Corps\" start_experience_factor = 0.1" 
+					owner = SIK
+				}
 			}
 		}
 	}
@@ -2085,7 +2828,7 @@ country_event = {
 				}
 			}
 			CCP = { transfer_state = 612 }
-			
+			CCP = { transfer_state = 808 }
 		}
 		else_if = {
 			limit = {
@@ -2100,6 +2843,7 @@ country_event = {
 				}
 			}
 			CHI = { transfer_state = 612 }
+			CHI = { transfer_state = 808 }
 		}
 		if = {
 			limit = {
@@ -2972,7 +3716,6 @@ news_event = { #Sino-Japanese War ends in a Japanese victory
 	
 	is_triggered_only = yes
 	major = yes
-	
 
     option = {
 		trigger = {

@@ -135,36 +135,85 @@ country_event = {
 	
 	is_triggered_only = yes
 	
+	trigger = {
+		RAJ = { is_subject_of = ENG }
+	}
 	
 	option = {
 		name = britain.6.a
-		if = {
-				limit = { has_dlc = "Together for Victory" }
-				ROOT = {
-					set_autonomy = {
-						target = RAJ
-						autonomy_state = autonomy_free
-					}
+		ai_chance = {
+			factor = 80
+			modifier = {
+				factor = 0.2
+				has_country_leader =  {
+					character = ENG_winston_churchill
+					ruling_only = yes
 				}
-				else =
-				{
-				    end_puppet = RAJ
+				strength_ratio = { tag = RAJ ratio > 2 }
+			}
+		}
+
+		if = {
+			limit = {
+				RAJ = {
+					has_idea = RAJ_azad_hind
 				}
 			}
-		
+			RAJ = {
+				remove_ideas = RAJ_azad_hind
+			}
+		}
+		if = {
+			limit = {
+				has_dlc = "Together for Victory" 
+				RAJ = { is_puppet_of = ENG }
+			}
+			ROOT = {
+				set_autonomy = {
+					target = RAJ
+					autonomy_state = autonomy_dominion
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				has_dlc = "Together for Victory" 
+				RAJ = { is_subject_of = ENG }
+			}
+			ROOT = {
+				set_autonomy = {
+					target = RAJ
+					autonomy_state = autonomy_free
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				RAJ = { is_puppet_of = ENG }
+			}
+			end_puppet = RAJ
+		}
 	}
 	option = {
 		name = britain.6.b
+		ai_chance = { 
+			factor = 20
+		}
+		
+		add_political_power = -50
+		add_stability = -0.05
+		add_war_support = -0.05
 		RAJ = {
 			add_stability = -0.30
 			add_popularity = {
-			ideology = communism
-			popularity = 0.1
+				ideology = communism
+				popularity = 0.15
 	    	}
 			add_popularity = {
-			ideology = fascism
-			popularity = 0.1
+				ideology = fascism
+				popularity = 0.15
 	    	}
+			add_ideas = Asia_autonomy
 		}
 	}
 }
@@ -672,7 +721,7 @@ country_event = {
 		}
 		custom_effect_tooltip = ENG_RAJ_azad_hind_tooltip 
 		hidden_effect = {
-			country_event = { id = britain.20 days = 500  random_days = 100 }
+			country_event = { id = britain.20 days = 450  random_days = 100 }
 		}
 	}
 }
@@ -687,12 +736,13 @@ country_event = {
 
 	trigger = {
 		NOT = {
-			has_completed_focus = ENG_colonial_secretary
+			has_completed_focus = uk_free_india_focus 
 		}
 		RAJ = {
-			is_puppet_of = ENG
+			is_subject_of = ENG
 			fascism > 0.3
 			has_civil_war = no
+			has_capitulated = no
 		}
 	}
 
@@ -725,13 +775,17 @@ country_event = {
 				}
 			}
 		}
-		if = {
+		else_if = {
 			limit = {
 				RAJ = {
 					has_government = fascism
 				}
 			}
 			end_puppet = RAJ
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = RAJ
+			}
 			if = {
 				limit = {
 					RAJ = {
@@ -740,9 +794,41 @@ country_event = {
 				}
 				remove_from_faction = RAJ
 			}
-			create_wargoal = {
-				type = puppet_wargoal_focus
-				target = RAJ
+			if = {
+				limit = {
+					JAP = { is_faction_leader = yes }
+					any_state = {
+						OR = {
+							is_core_of = RAJ
+							is_core_of = BRM
+						} 
+						CONTROLLER = {
+							OR = {
+								tag = JAP
+								is_subject_of = JAP
+							}
+						}
+					}
+				}
+				every_country = {
+					limit = {
+						has_war_with = RAJ
+					}
+					white_peace = RAJ
+				}
+				JAP = {
+					add_to_faction = RAJ
+					set_state_controller = 288
+					set_state_controller = 640
+				}
+			}
+			else = {
+				every_country = {
+					limit = {
+						has_war_with = RAJ
+					}
+					white_peace = RAJ
+				}
 			}
 		}
 	}
@@ -864,6 +950,7 @@ country_event = {
 		retire_country_leader = yes
 		add_ideas = partial_economic_mobilisation
 		add_stability = -0.1
+		add_war_support = 0.15
 	}
 }
 
