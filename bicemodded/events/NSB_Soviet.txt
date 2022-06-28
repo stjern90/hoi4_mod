@@ -1,3 +1,144 @@
 ###########################
 # NSB Soviet Events
 ###########################
+
+add_namespace = NSB_soviet_foreign_politics_events
+
+########  #######  ########  ######## ####  ######   ##    ##    ########   #######  ##       #### ######## ####  ######   ######  
+##       ##     ## ##     ## ##        ##  ##    ##  ###   ##    ##     ## ##     ## ##        ##     ##     ##  ##    ## ##    ## 
+##       ##     ## ##     ## ##        ##  ##        ####  ##    ##     ## ##     ## ##        ##     ##     ##  ##       ##       
+######   ##     ## ########  ######    ##  ##   #### ## ## ##    ########  ##     ## ##        ##     ##     ##  ##        ######  
+##       ##     ## ##   ##   ##        ##  ##    ##  ##  ####    ##        ##     ## ##        ##     ##     ##  ##             ## 
+##       ##     ## ##    ##  ##        ##  ##    ##  ##   ###    ##        ##     ## ##        ##     ##     ##  ##    ## ##    ## 
+##        #######  ##     ## ######## ####  ######   ##    ##    ##         #######  ######## ####    ##    ####  ######   ######  
+
+
+# SOV-SINKIANG - Formalize the Soviet Republic of Sinkiang (aka puppet Sinkiang)- Event for SIK
+country_event = {
+	id = NSB_soviet_foreign_politics_events.282
+	title = NSB_soviet_foreign_politics_events.282.t
+	desc = NSB_soviet_foreign_politics_events.282.desc
+	picture = GFX_report_event_SOV_demands
+
+	is_triggered_only = yes
+			
+	option = { # Accept
+		name = NSB_soviet_foreign_politics_events.282.a
+
+		ai_chance = {
+			base = 1
+		}
+
+		add_political_power = 75
+		SOV = {
+			puppet = ROOT
+			set_autonomy = {
+				target = ROOT
+				autonomous_state = autonomy_Soviet_Supervised_State
+			}
+			add_opinion_modifier = {
+				target = ROOT
+				modifier = SOV_complied_with_our_demands
+			}
+		}
+
+		FROM = {
+			country_event = { id = NSB_soviet_foreign_politics_events.283 hours = 1 }
+		}
+	}
+
+	option = { # Refuse
+		name = NSB_soviet_foreign_politics_events.282.b
+
+		ai_chance = {
+			base = 0
+		}
+
+		effect_tooltip = {
+			SOV = {
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = SOV_rejected_our_demands
+				}
+				country_event = { id = NSB_soviet_foreign_politics_events.284 hours = 1 }
+			}
+			custom_effect_tooltip = germany.126.warning
+		}
+	}
+}
+
+# SOV-SINKIANG - Sinkiang becomes a puppet - Event for SOV
+country_event = {
+	id = NSB_soviet_foreign_politics_events.283
+	title = NSB_soviet_foreign_politics_events.283.t
+	desc = NSB_soviet_foreign_politics_events.283.desc
+	picture = GFX_report_event_stalin_propaganda
+
+	is_triggered_only = yes
+			
+	option = { # Good
+		name = NSB_soviet_foreign_politics_events.283.a
+
+		effect_tooltip = {
+			puppet = FROM
+			add_opinion_modifier = {
+				target = FROM
+				modifier = SOV_complied_with_our_demands
+			}
+			FROM = { add_political_power = 75 }
+		}		
+	}
+}
+
+# SOV-SINKIANG - Sinkiang refuses to become a puppet - Event for SOV
+country_event = {
+	id = NSB_soviet_foreign_politics_events.284
+	title = NSB_soviet_foreign_politics_events.284.t
+	desc = NSB_soviet_foreign_politics_events.284.desc
+	picture = GFX_report_event_stalin_meeting
+
+	is_triggered_only = yes
+			
+	option = { # Respect
+		name = NSB_soviet_foreign_politics_events.284.a
+
+		ai_chance = {
+			base = 2
+			modifier = {
+				add = -1
+				has_war = yes
+			}
+		}
+
+		add_opinion_modifier = {
+			target = FROM
+			modifier = SOV_rejected_our_demands
+		}
+	}
+
+	option = { # Unacceptable
+		name = NSB_soviet_foreign_politics_events.284.b
+
+		trigger = {
+			is_faction_leader = yes
+		}
+
+		ai_chance = {
+			base = 0
+		}
+	
+		add_opinion_modifier = {
+			target = FROM
+			modifier = SOV_rejected_our_demands
+		}
+
+		remove_from_faction = FROM
+		create_wargoal = {
+			type = take_state_focus
+			target = FROM
+			expire = 0
+			generator = { 618 617 287 619 759 760 }
+		}
+		add_named_threat = { threat = 2 name = SOV_claim_on_sinkiang_threat }
+	}
+}

@@ -20,8 +20,25 @@ ITA_operations = {
 		available = {
 			has_completed_focus = ITA_anti_uk_war_goals
 			has_war_with = ENG
-			OR = { AND = { date > 1937.4.22 date < 1938.10.11 } AND = { date > 1939.4.22 date < 1939.10.11 } AND = { date > 1940.4.22 date < 1940.10.11 } AND = { date > 1941.4.22 date < 1941.10.11 } }	
-			ITA = { controls_state = 448 }
+			OR = {
+				AND = {
+					date > 1937.1.22 
+					date < 1938.7.11
+					450 = { is_controlled_by_ROOT_or_subject = no }
+				}
+				AND = {
+					date > 1939.1.22
+					date < 1939.7.11
+					450 = { is_controlled_by_ROOT_or_subject = no }
+				}
+				AND = {
+					date > 1940.1.22
+					date < 1940.7.11
+					450 = { is_controlled_by_ROOT_or_subject = no }
+				}
+				AND = { date > 1941.1.22 date < 1941.7.11 }
+			}
+			448 = { is_controlled_by_ROOT_or_subject = yes }
 		}
 		
 		ai_will_do = {
@@ -69,8 +86,8 @@ ITA_operations = {
 		available = {
 			has_completed_focus = ITA_german_millitary_cooperation
 			has_war_with = ENG
-			OR = { AND = { date > 1941.4.22 date < 1941.10.11 } AND = { date > 1942.4.22 date < 1942.10.11 } AND = { date > 1943.4.22 date < 1943.10.11 } }		
-			ITA = { controls_state = 448 }
+			OR = { AND = { date > 1942.4.22 date < 1942.10.11 } AND = { date > 1943.4.22 date < 1943.10.11 } }	
+			448 = { is_controlled_by_ROOT_or_subject = yes }
 		}
 		
 		ai_will_do = {
@@ -1642,13 +1659,18 @@ highlight_state_targets = {  state = 713 }}
 			has_government = fascism			
 			103 = {
 		    	is_fully_controlled_by = ROOT
-		    	resistance < 10
-		    	compliance > 40
+		    	resistance < 18
+		    	compliance > 37
 			}
 		}
 		visible = {
 			is_subject = no
 			ITA = { has_completed_focus = ITA_cinecitta }
+			103 = {
+				NOT = {
+					is_core_of = ITA
+				}
+			}
 		}
 		ai_will_do = {
 			factor = 200
@@ -1669,8 +1691,64 @@ highlight_state_targets = {
 		remove_effect = {
 		  103 = { add_core_of = ITA }
 		  add_popularity = { ideology = fascism popularity = 0.02 }
+		  103 = { set_state_name = "Dalmazia"}
 		}
 	}
+	
+	ITA_Claim_Slovenia = {
+
+		icon = ger_reichskommissariats
+		
+		allowed = {
+			tag = ITA
+		}
+
+		available = {
+			controls_state = 102
+			102 = {
+				is_fully_controlled_by = ROOT
+				compliance > 20
+			}
+		}
+		
+		fire_only_once = yes
+		
+		highlight_states = {
+		highlight_state_targets = {
+			state = 102
+		}}
+
+		cost = 25
+		ai_will_do = {
+			factor = 10
+			
+		}
+
+		visible = {
+			is_subject = no
+			ITA = { has_completed_focus = ITA_cinecitta }
+			102 = {
+				NOT = {
+					is_claimed_by = ITA
+					is_core_of = ITA
+				}
+			}
+		}
+
+		days_remove = 120
+
+		modifier = {
+			civilian_factory_use = 2
+		}
+
+		remove_effect = {
+			102 = {
+				add_claim_by = ROOT
+				add_compliance = 4
+			}
+		}
+	}
+	
 	italianize_ljubljana = {
 		icon = ger_reichskommissariats
 		fire_only_once = yes	
@@ -1679,16 +1757,21 @@ highlight_state_targets = {
 		}
 		cost = 75
 		available = {
-			has_government = fascism			
 			102 = {
 		    	is_fully_controlled_by = ROOT
-		    	resistance < 10
+		    	resistance < 15
 		    	compliance > 40
 			}
 		}
 		visible = {
 			is_subject = no
 			ITA = { has_completed_focus = ITA_cinecitta }
+			102 = {
+				is_claimed_by = ITA
+				NOT = {
+					is_core_of = ITA
+				}
+			}
 		}
 		ai_will_do = {
 			factor = 200
@@ -1704,10 +1787,12 @@ highlight_state_targets = {
 		days_remove = 240
 
 		modifier = {
-			civilian_factory_use = 1
+			civilian_factory_use = 2
 		}
 		remove_effect = {
 		  102 = { add_core_of = ITA }
+		  102 = { set_state_name = "Slovenia" }
+		  set_province_name = { id = 9627 name = "Lubiana" }
 		  add_popularity = { ideology = fascism popularity = 0.02 }
 		}
 	}
@@ -1719,10 +1804,9 @@ highlight_state_targets = {
 		}
 		cost = 50
 		available = {
-			has_government = fascism			
 			163 = {
 		    	is_fully_controlled_by = ROOT
-		    	resistance < 10
+		    	resistance < 16
 		    	compliance > 30
 			}
 		}
@@ -1760,24 +1844,136 @@ highlight_state_targets = {
 		  add_popularity = { ideology = fascism popularity = 0.02 }
 		}
 	}
-	italianize_islands = {
+	
+	ita_claim_corsica = {
+
+		icon = ger_reichskommissariats
+		
+		allowed = {
+			tag = ITA
+		}
+
+		available = {
+			controls_state = 1
+			1 = {
+				is_fully_controlled_by = ROOT
+				compliance > 15
+			}
+		}
+		
+		fire_only_once = yes
+		
+		highlight_states = {
+		highlight_state_targets = {
+			state = 1
+		}}
+
+		cost = 25
+		ai_will_do = {
+			factor = 10
+		}
+
+		visible = {
+			is_subject = no
+			ITA = { has_completed_focus = ITA_cinecitta }
+			1 = {
+				NOT = {
+					is_claimed_by = ITA
+					is_core_of = ITA
+				}
+			}
+		}
+		
+		days_remove = 80
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+
+		remove_effect = {
+			 1 = {
+				add_claim_by = ROOT
+				add_compliance = 4
+			}
+		}
+	}
+	
+	italianize_corsica = {
+
+		icon = ger_reichskommissariats
+		
+		allowed = {
+			tag = ITA
+		}
+
+		available = {
+			controls_state = 1
+			date > 1940.6.1
+			1 = {
+				is_fully_controlled_by = ROOT
+				resistance < 16
+				compliance > 35
+			}
+		}
+		
+		fire_only_once = yes
+		
+		highlight_states = {
+		highlight_state_targets = {
+			state = 1
+		}}
+
+		cost = 50
+		ai_will_do = {
+			factor = 10
+		}
+
+		visible = {
+			controls_state = 1
+			is_subject = no
+			ITA = { has_completed_focus = ITA_cinecitta }
+			1 = {
+				is_claimed_by = ROOT
+				NOT = {
+					is_core_of = ROOT
+				}
+			}
+		}
+
+		days_remove = 120
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+
+		remove_effect = {
+		    1 = { add_core_of = ROOT }
+		}
+	}
+	
+	italianize_Malta = {
 		icon = ger_reichskommissariats
 		fire_only_once = yes	
 		allowed = {
 			tag = ITA
 		}
-		cost = 50
+		cost = 20
 		available = {
 			has_government = fascism			
-			187 = {
+			116 = {
 		    	is_fully_controlled_by = ROOT
-		    	resistance < 10
-		    	compliance > 40
+		    	resistance < 16
+		    	compliance > 30
 			}
 		}
 		visible = {
 			is_subject = no
 			ITA = { has_completed_focus = ITA_cinecitta }
+			116 = {
+				NOT = {
+					is_core_of = ITA
+				}
+			}
 		}
 		ai_will_do = {
 			factor = 200
@@ -1788,20 +1984,486 @@ highlight_state_targets = {
 		}
 		highlight_states = {
 			highlight_state_targets = { 
-			state = 187
+			state = 116
 			}
 		}
-		days_remove = 180
+		days_remove = 120
 
 		modifier = {
 			civilian_factory_use = 1
 		}
 		remove_effect = {
-		  187 = { add_core_of = ITA }
+		  116 = { add_core_of = ITA }
 		  add_popularity = { ideology = fascism popularity = 0.02 }
 		}
 	}
+
+	incorporate_Savoy = {
+		icon = ger_reichskommissariats
+		fire_only_once = yes	
+		allowed = {
+			tag = ITA
+		}
+		cost = 50
+		available = {
+			735 = {
+				is_fully_controlled_by = ROOT
+				compliance > 15
+			}
+		}
+		visible = {
+			is_subject = no
+			ITA = { has_completed_focus = ITA_cinecitta }
+			735 = {
+				NOT = {
+					is_claimed_by = ITA
+					is_core_of = ITA
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				factor = 2
+				surrender_progress < 0
+			}
+		}
+		highlight_states = {
+		highlight_state_targets = {
+			state = 735
+		}}
+		days_remove = 120
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+		remove_effect = {
+			735 = {
+				add_claim_by = ITA
+				add_compliance = 4
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = dockyard
+					level = 1
+					instant_build = yes
+				}
+			}
+			735 = { set_state_name = "Alpi Occidentali" }
+			set_province_name = { id = 9909 name = "Niza" }
+		}
+	}
 	
+	Core_Savoy = {
+		icon = ger_reichskommissariats
+		fire_only_once = yes	
+		allowed = {
+			tag = ITA
+		}
+		cost = 75
+		available = {
+			735 = {
+				is_claimed_by = ITA
+				is_fully_controlled_by = ROOT
+				resistance < 15
+				compliance > 40
+			}
+		}
+		visible = {
+			is_subject = no
+			ITA = { has_completed_focus = ITA_cinecitta }
+			735 = {
+				is_claimed_by = ITA
+				NOT = {
+					is_core_of = ITA
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				factor = 2
+				surrender_progress < 0
+			}
+		}
+		highlight_states = {
+		highlight_state_targets = {
+			state = 735
+		}}
+		days_remove = 120
+
+		modifier = {
+			civilian_factory_use = 2
+		}
+		remove_effect = {
+			735 = {
+				add_core_of = ITA 
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = dockyard
+					level = 1
+					instant_build = yes
+				}
+			}
+			add_popularity = { ideology = fascism popularity = 0.02 }
+			add_stability = 0.02
+		}
+	}
+	
+	ITA_Claim_Dodecanese = {
+		icon = ger_reichskommissariats
+		fire_only_once = yes	
+		allowed = {
+			tag = ITA
+		}
+		cost = 25
+		available = {
+			164 = {
+				is_fully_controlled_by = ROOT
+				compliance > 20
+			}
+		}
+		visible = {
+			is_subject = no
+			ITA = { has_completed_focus = ITA_cinecitta }
+			164 = {
+				NOT = {
+					is_claimed_by = ITA
+					is_core_of = ITA
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				factor = 2
+				surrender_progress < 0
+			}
+		}
+		highlight_states = {
+		highlight_state_targets = {
+			state = 164
+		}}
+		days_remove = 120
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+		remove_effect = {
+			164 = {
+				add_claim_by = ITA
+				add_compliance = 4
+			}
+		}
+	}
+	
+	ITA_Core_Dodecanese = {
+		icon = ger_reichskommissariats
+		fire_only_once = yes	
+		allowed = {
+			tag = ITA
+		}
+		cost = 50
+		available = {
+			164 = {
+				is_claimed_by = ITA
+				is_fully_controlled_by = ROOT
+				resistance < 15
+				compliance > 40
+			}
+		}
+		visible = {
+			is_subject = no
+			ITA = { has_completed_focus = ITA_cinecitta }
+			164 = {
+				is_claimed_by = ITA
+				NOT = {
+					is_core_of = ITA
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				factor = 2
+				surrender_progress < 0
+			}
+		}
+		highlight_states = {
+		highlight_state_targets = {
+			state = 164
+		}}
+		days_remove = 120
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+		remove_effect = {
+			164 = {
+				add_core_of = ITA 
+				add_extra_state_shared_building_slots = 1
+			}
+			add_popularity = { ideology = fascism popularity = 0.02 }
+		}
+	}
+	
+	ITA_Claim_Aegean_Islands = {
+		icon = ger_reichskommissariats
+		fire_only_once = yes	
+		allowed = {
+			tag = ITA
+		}
+		cost = 25
+		available = {
+			187 = {
+				is_fully_controlled_by = ROOT
+				compliance > 20
+			}
+		}
+		visible = {
+			is_subject = no
+			ITA = { has_completed_focus = ITA_cinecitta }
+			187 = {
+				NOT = {
+					is_claimed_by = ITA
+					is_core_of = ITA
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				factor = 2
+				surrender_progress < 0
+			}
+		}
+		highlight_states = {
+		highlight_state_targets = {
+			state = 187
+		}}
+		days_remove = 120
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+		remove_effect = {
+			187 = {
+				add_claim_by = ITA
+				add_compliance = 4
+			}
+		}
+	}
+	
+	ITA_Core_Aegean_Islands = {
+		icon = ger_reichskommissariats
+		fire_only_once = yes	
+		allowed = {
+			tag = ITA
+		}
+		cost = 50
+		available = {
+			187 = {
+				is_claimed_by = ITA
+				is_fully_controlled_by = ROOT
+				resistance < 15
+				compliance > 40
+			}
+		}
+		visible = {
+			is_subject = no
+			ITA = { has_completed_focus = ITA_cinecitta }
+			187 = {
+				is_claimed_by = ITA
+				NOT = {
+					is_core_of = ITA
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				factor = 2
+				surrender_progress < 0
+			}
+		}
+		highlight_states = {
+		highlight_state_targets = {
+			state = 187
+		}}
+		days_remove = 120
+
+		modifier = {
+			civilian_factory_use = 2
+		}
+		remove_effect = {
+			187 = {
+				add_core_of = ITA 
+				add_extra_state_shared_building_slots = 1
+			}
+			add_popularity = { ideology = fascism popularity = 0.02 }
+		}
+	}
+
+	ITA_Claim_Crete = {
+		icon = ger_reichskommissariats
+		fire_only_once = yes	
+		allowed = {
+			tag = ITA
+		}
+		cost = 25
+		available = {
+			182 = {
+				is_fully_controlled_by = ROOT
+				compliance > 20
+			}
+		}
+		visible = {
+			is_subject = no
+			ITA = { has_completed_focus = ITA_cinecitta }
+			182 = {
+				NOT = {
+					is_claimed_by = ITA
+					is_core_of = ITA
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				factor = 2
+				surrender_progress < 0
+			}
+		}
+		highlight_states = {
+		highlight_state_targets = {
+			state = 182
+		}}
+		days_remove = 120
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+		remove_effect = {
+			182 = {
+				add_claim_by = ITA
+				add_compliance = 4
+			}
+			set_province_name = { id = 12058 name = "La Canea" }
+			set_province_name = { id = 9940 name = "Candia" }
+		}
+	}
+	
+	ITA_Core_Crete = {
+		icon = ger_reichskommissariats
+		fire_only_once = yes	
+		allowed = {
+			tag = ITA
+		}
+		cost = 50
+		available = {
+			182 = {
+				is_claimed_by = ITA
+				is_fully_controlled_by = ROOT
+				resistance < 15
+				compliance > 40
+			}
+		}
+		visible = {
+			is_subject = no
+			ITA = { has_completed_focus = ITA_cinecitta }
+			182 = {
+				is_claimed_by = ITA
+				NOT = {
+					is_core_of = ITA
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				factor = 2
+				surrender_progress < 0
+			}
+		}
+		highlight_states = {
+		highlight_state_targets = {
+			state = 182
+		}}
+		days_remove = 120
+
+		modifier = {
+			civilian_factory_use = 2
+		}
+		remove_effect = {
+			182 = {
+				add_core_of = ITA 
+				add_extra_state_shared_building_slots = 1
+			}
+			add_popularity = { ideology = fascism popularity = 0.02 }
+		}
+	}
+
+	#TEST STAB EFFECT BELOW!
+	Seize_Dalmatia = {
+		icon = prepare_civil_war
+		#fire_only_once = yes	
+		allowed = {
+			tag = ITA
+		}
+		cost = 20
+		available = {
+			OR = {
+				has_war_support > 0.75
+				has_stability > 0.7
+			} #Zara # Montenegro # Albania # Epirus 
+			ITA = { controls_state = 163 controls_state = 105 controls_state = 44 controls_state = 185 }
+			OR = {
+				103 = {
+					CONTROLLER = {
+						is_subject_of = ROOT
+					}
+				}
+				AND = {
+					date > 1944.6.1
+					NOT = { has_idea = colonial_empire_lost }
+					103 = { is_controlled_by_ROOT_or_ally = yes }
+				}
+			}
+		}
+		visible = {
+			is_subject = no
+			surrender_progress < 0.05
+			NOT = {
+				has_government = communism
+			}
+			103 = {
+				NOT = { is_fully_controlled_by = ROOT }
+			}
+			has_completed_focus = ITA_yugoslavia_war_goal
+		}
+		ai_will_do = {
+			factor = 20
+		}
+		highlight_states = {
+		highlight_state_targets = {
+			state = 103
+		}}
+		
+		complete_effect = {
+			random_country = {
+				limit = {
+					controls_state = 103
+				}
+				add_opinion_modifier = { target = ROOT modifier = unprovoked_aggression }
+				add_stability = -0.1
+			}
+			ITA = { transfer_state = 103 }
+			103 = {
+				add_claim_by = ITA
+				set_compliance = 25
+			}
+		}
+	}
+
 	ITA_seize_syria = {
 		icon = ger_reichskommissariats
 		fire_only_once = yes	

@@ -1,10 +1,4 @@
 
-#!!TO DO!!
-# on_puppet = 
-#3.1# Add effects to X Forces & certain industries from pupetted majors ( Treaty restrictions a la Versaille)
-#-3.2# add option to allow remilitarize by master + allow decision subject to negotiate away
-
-
 
 #stabilize puppet & civil war.
 on_actions = {
@@ -813,6 +807,410 @@ on_actions = {
 						has_war = yes
 					}
 					add_timed_idea = { idea = no_master_regime days = 270 }
+				}
+			}
+		}
+	}
+
+#ROOT is winner #FROM gets annexed - This will also fire on_annex
+	on_civil_war_end = {
+		effect = {
+			# Make SAFR Nazi puppet Ger if CW triggered by their decision
+			if = {
+				limit = {
+					original_tag = SAF
+					has_government = fascism
+					has_idea = SAF_strong_apartheid
+					FROM = {
+						original_tag = SAF
+						has_government = democratic
+					}
+				}
+				GER = { # Check this ok?? Root ok?
+					puppet = ROOT
+					set_autonomy = {
+							target = ROOT 
+						autonomy_state = autonomy_reichsprotectorate
+					}
+				}
+			}
+			#Make JAP supported Turkestan puppet of Jap after winning CW (SIK Rebellion by JAP NF & events)
+			if = {
+				limit = {
+					original_tag = SIK
+					has_country_flag = JAP_puppet
+					#has_idea = KMT_jap_military_advisors
+					FROM = {
+						original_tag = SIK
+						#has_government = communism
+					}
+				}
+				JAP = {
+					puppet = ROOT
+					set_autonomy = {
+							target = ROOT
+						autonomy_state = autonomy_wtt_imperial_associate
+					}
+					country_event = { id = japan.43 days = 3 }
+				}
+				ROOT = { clr_country_flag = JAP_puppet }
+			}
+			#Make SOV supported SIK puppet after winning CW (SIK Rebellion by JAP NF & events)
+			if = {
+				limit = {
+					original_tag = SIK
+					has_country_flag = SOV_puppet
+					#has_idea = SAF_soviet_advisers
+					FROM = {
+						original_tag = SIK
+						#has_government = fascism
+					}
+				}
+				ROOT = {
+					country_event = { id = NSB_soviet_foreign_politics_events.282 days = 1 }
+					clr_country_flag = SOV_puppet
+				}
+			}
+		}
+	}
+
+	on_state_control_changed = {
+		effect = {
+			if = {
+				limit = {
+					has_global_flag = Allow_Name_Change
+				}
+				if = {
+					limit = {
+						ROOT = {
+							OR = {
+								tag = POL 
+								tag = SOV
+								tag = UKR
+								tag = CZE
+								tag = ROM
+								tag = SLO
+							}
+						}
+						FROM.FROM = {
+							state = 86
+						}
+					}
+					FROM.FROM = {
+						set_state_name = "Poznan"
+						set_province_name = {
+							id = 6558
+							name = "Poznan"
+						}
+					}
+				}
+				
+				if = {
+					limit = {
+						ROOT = {
+							OR = {
+								tag = WGR
+								tag = DDR
+								tag = GER
+								tag = AUS
+								tag = SWI
+								#tag = BAV
+								OR = { original_tag = AUS has_cosmetic_tag = HUN_EMPIRE }
+							}
+						}
+						FROM.FROM = {
+							state = 85
+						}
+					}
+					FROM.FROM = {
+						set_state_name = "Danzig"
+					}
+				}
+
+				if = {
+					limit = {
+						ROOT = {
+							OR = {
+								tag = POL 
+								tag = SOV
+								tag = UKR
+								tag = CZE
+								tag = ROM
+								tag = SLO
+							}
+						}
+						FROM.FROM = {
+							state = 85
+						}
+					}
+					FROM.FROM = {
+						set_state_name = "Gdansk"
+					}
+				}
+
+				if = {
+					limit = {
+						ROOT = {
+							OR = { 
+								tag = LIT
+								tag = SOV
+							}
+						}
+						FROM.FROM = {
+							state = 188
+						}
+					}
+					FROM.FROM = {
+						set_state_name = "Klaipėda"
+						set_province_name = {
+							id = 3288
+							name = "Klaipėda"
+						}
+					}
+				}
+				
+				if = {
+					limit = {
+						ROOT = {
+							tag = POL
+						}
+						FROM.FROM = {
+							state = 188
+						}
+					}
+					FROM.FROM = {
+						set_state_name = "Klajpeda"
+						set_province_name = {
+							id = 3288
+							name = "Klajpeda"
+						}
+					}
+				}
+
+				if = {
+					limit = {
+						ROOT = {
+							OR = { 
+								tag = GER
+								tag = DDR
+								tag = AUS
+								OR = { original_tag = AUS has_cosmetic_tag = HUN_EMPIRE }
+							}	
+						}
+						FROM.FROM = {
+							state = 188
+						}
+					}
+					FROM.FROM = {
+						set_state_name = "Memel"
+						set_province_name = {
+							id = 3288
+							name = "Memel"
+						}
+					}
+				}
+
+				if = {
+					limit = {
+						ROOT = {
+							OR = {
+								tag = POL 
+								tag = SOV
+								tag = UKR
+								tag = CZE
+								tag = ROM
+								tag = SLO
+								tag = YUG
+							}
+						}
+						FROM.FROM = {
+							state = 102
+						}
+					}
+					FROM.FROM = {
+						set_state_name = "Slovenia"
+						set_province_name = {
+							id = 9627
+							name = "Ljubljana"
+						}
+					}
+				}
+				
+				if = {
+					limit = {
+						ROOT = {
+							OR = {
+								tag = POL 
+								tag = SOV
+								tag = UKR
+							}
+						}
+						FROM.FROM = {
+							state = 72
+						}
+					}
+					FROM.FROM = {
+						set_state_name = "Zaolzie"
+					}
+				}
+				
+				if = {
+					limit = {
+						ROOT = {
+							OR = {
+								tag = CZE 
+								tag = SLO
+								AND = {
+									tag = HUN
+									not = { has_cosmetic_tag = HUN_EMPIRE }
+								}
+							}
+						}
+						FROM.FROM = {
+							state = 72
+						}
+					}
+					FROM.FROM = {
+						set_state_name = "Těšínsko"
+					}
+				}
+				
+				if = {
+					limit = {
+						ROOT = {
+							OR = {
+								tag = WGR
+								tag = DDR
+								tag = GER
+								tag = AUS
+								tag = SWI
+								#tag = BAV
+								OR = { original_tag = AUS has_cosmetic_tag = HUN_EMPIRE }
+							}
+						}
+						FROM.FROM = {
+							state = 39
+						}
+					}
+					FROM.FROM = {
+						set_state_name = "Südtirol"
+					}
+				}
+				
+				if = {
+					limit = {
+						ROOT = {
+							tag = ITA
+						}
+						FROM.FROM = {
+							state = 39
+						}
+					}
+					FROM.FROM = {
+						set_state_name = "Alto Adige & Trentino"
+					}
+				}
+				
+				if = {
+					limit = {
+						ROOT = {
+							NOT = {
+								tag = ITA
+							}
+						}
+						FROM.FROM = {
+							state = 735
+						}
+					}
+					FROM.FROM = {
+						set_state_name = "Savoie"
+						set_province_name = { id = 9909 name = "Nice" }
+					}
+				}
+
+				if = {
+					limit = {
+						ROOT = {
+							NOT = {
+								tag = ITA
+							}
+						}
+						FROM.FROM = {
+							state = 103
+						}
+					}
+					FROM.FROM = {
+						set_state_name = "Dalmatia"
+					}
+				}
+
+				if = {
+					limit = {
+						ROOT = {
+							OR = {
+								tag = WGR
+								tag = DDR
+								tag = GER
+								tag = AUS
+								tag = SWI
+								#tag = BAV
+								OR = { original_tag = AUS has_cosmetic_tag = HUN_EMPIRE }
+							}
+						}
+						FROM.FROM = {
+							state = 91
+						}
+					}
+					FROM.FROM = {
+						set_province_name = { id = 11479 name = "Lemberg" }
+					}
+				}
+
+				if = {
+					limit = {
+						ROOT = {
+							OR = {
+								tag = UKR
+								tag = SOV
+							}
+						}
+						FROM.FROM = {
+							state = 91
+						}
+					}
+					FROM.FROM = {
+						set_province_name = { id = 11479 name = "Lviv" }
+					}
+				}
+
+				if = {
+					limit = {
+						ROOT = {
+							tag = POL
+							NOT = { is_puppet_of = GER }
+						}
+						FROM.FROM = {
+							state = 91
+						}
+					}
+					FROM.FROM = {
+						set_province_name = { id = 11479 name = "Lwow" }
+					}
+				}
+
+				if = {
+					limit = {
+						ROOT = {
+							NOT = { tag = ITA }
+						}
+						FROM.FROM = {
+							state = 182
+						}
+					}
+					FROM.FROM = {
+						set_province_name = { id = 12058 name = "Chania" }
+						set_province_name = { id = 9940 name = "Heraklion" }
+					}
 				}
 			}
 		}
