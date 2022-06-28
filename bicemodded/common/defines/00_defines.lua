@@ -3416,9 +3416,9 @@ NSupply = {
 	--defines to calculate the capitals supply. This will be also used for max supply of other nodes depending on how well they are connected to capital. Using the formula:
 	--CapitalSupply = CAPITAL_SUPPLY_BASE + (NumberOfCivilianFactories * CAPITAL_SUPPLY_CIVILIAN_FACTORIES) + (NumberOfMilitaryFactories * CAPITAL_SUPPLY_MILITARY_FACTORIES) + (NumberOfDockyards * CAPITAL_SUPPLY_DOCKYARDS)
 	CAPITAL_SUPPLY_BASE = 2.0, -- base supply for capital
-	CAPITAL_SUPPLY_CIVILIAN_FACTORIES = 0.25, -- supply from one civilian factory
-	CAPITAL_SUPPLY_MILITARY_FACTORIES = 0.35, -- supply from one military factory
-	CAPITAL_SUPPLY_DOCKYARDS = 0.25, --supply from one naval factory
+	CAPITAL_SUPPLY_CIVILIAN_FACTORIES = 0.2, -- supply from one civilian factory
+	CAPITAL_SUPPLY_MILITARY_FACTORIES = 0.3, -- supply from one military factory
+	CAPITAL_SUPPLY_DOCKYARDS = 0.2, --supply from one naval factory
 
 	-- defines that are used for supply reach for capital
 	-- supply flow will start from INITIAL_SUPPLY_FLOW and will be reduced by a penalty on each province it travels (which depends on how far we are from our origin, terrain etc)
@@ -3428,7 +3428,7 @@ NSupply = {
 	CAPITAL_ADDED_PENALTY_PER_PROVINCE = 1.2, -- added penalty as we move away from origin
 
 	-- defines that are used for supply reach for built nodes
-	NODE_INITIAL_SUPPLY_FLOW = 2.8,
+	NODE_INITIAL_SUPPLY_FLOW = 3.0,
 	NODE_STARTING_PENALTY_PER_PROVINCE = 0.50,
 	NODE_ADDED_PENALTY_PER_PROVINCE = 0.70,
 
