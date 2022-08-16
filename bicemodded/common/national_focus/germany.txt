@@ -3111,25 +3111,92 @@ focus_tree = {
 		}
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_POLITICAL }
 		completion_reward = {
-		custom_effect_tooltip = available_chief_of_army
-		show_ideas_tooltip = ludwig_beck
+				add_tech_bonus = {
+				name = land_doc_bonus
+				bonus = 1.0
+				uses = 1
+				category = cat_grand_battle_plan
+				category = cat_superior_firepower
+			}
+			
+			custom_effect_tooltip = available_theorist
+			show_ideas_tooltip = gerd_von_rundstedt_t
+			hidden_effect = {
+				load_focus_tree = german_focus 
+				keep_completed = yes
+			}
+			mark_focus_tree_layout_dirty = yes
+		}
+	}	
+	
+	focus = {
+		id = GER_artillery_expansion 			
+		text = GER_artillery_expansion 
+		icon = GFX_goal_artillery_expansion
+		prerequisite = { focus = GER_stellungskrieg }
+		
+		x = -2
+		y = 1
+		relative_position_id = GER_stellungskrieg
+		
+		cost = 5.8
+		ai_will_do = {
+			factor = 8
+		}
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_RESEARCH }	
+		completion_reward = {
+			# Balance research bonus to 2 techs in land_doctrine
 			army_experience = 10
-			if = { limit = { date < 1940.12.1 } 
 			add_tech_bonus = {
-			    name = mechanized_bonus
-				bonus = 0.5 
-				uses = 1 
-				ahead_reduction = 0.50 
-				technology = mechanised_infantry
+					name = artillery_bonus
+					bonus = 0.75
+					uses = 2
+					category = artillery
+				}
+				hidden_effect = { if ={ limit = { is_ai = yes } country_event = germany.240 } }
+		}
+	}
+	
+	focus = { 
+		id = GER_rail_artillery
+		icon = GFX_GER_schwerer_gustav
+		prerequisite = { focus = GER_artillery_expansion }
+		
+		x = 0
+		y = 2
+		relative_position_id = GER_artillery_expansion
+		
+		cost = 5 
+		ai_will_do = {
+			factor = 0 
+			modifier = {
+				factor = 0
+				date < 1945.6.1
 			}
+		}
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {	
+            add_tech_bonus = {
+				name = heavy_artillery_bonus
+				bonus = 0.5
+				uses = 1
+				technology = Hvartillery2
+				technology = Heavyshells
 			}
-			else = {
 			add_tech_bonus = {
-			    name = mechanized_bonus
-				bonus = 0.5 
-				uses = 1 
-				technology = mechanised_infantry
+			    name = rail_artillery_bonus
+				bonus = 0.5
+				ahead_reduction = 0.5
+				uses = 1
+			    technology = superartillery3
 			}
+		}
+	}
+	
+	focus = {
+		id = GER_artillery_support 			
 			}
 		}
 	}
@@ -4106,8 +4173,11 @@ focus_tree = {
 		text = GER_Heer_expansion
 		icon = GFX_goal_Volkstrumm
 		prerequisite = { focus = GER_improved_staff }
-			
-		x = -3
+		mutually_exclusive = { focus = GER_improved_ground_air_coordination }
+		allow_branch = {
+		GER = { has_completed_focus = GER_die_abwehr_von_leeb }
+		}
+		x = 3
 		y = 1
 		relative_position_id = GER_improved_staff
 		
