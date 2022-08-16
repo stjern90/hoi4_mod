@@ -1652,7 +1652,7 @@ focus_tree = {
 		y = 3
 		relative_position_id = GER_naval_rearmament
 		
-		cost = 3.5
+		cost = 3.6
 		available = {
 			OR = {
 			date > 1937.10.1 
@@ -4059,8 +4059,122 @@ focus_tree = {
 			}
 		}
 	}
-	
+	focus = { 
+		id = GER_rocket_artillery
+		text = GER_rocket_artillery
+		icon = GFX_goal_rocket_art
+		prerequisite = { focus = GER_artillery_expansion focus = GER_modernize_support }
+		
+		x = 1
+		y = 4
+		relative_position_id = GER_infanterie_tactics
+		
+		cost = 4.3 
+		ai_will_do = {
+			factor = 0 
+			modifier = {
+				factor = 0
+				date < 1945.6.1
+			}
+		}
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {	
+            add_tech_bonus = {
+		    	name = rocket_artillery_bonus
+		    	bonus = 0.75
+		    	uses = 2
+		    	technology = rocket_artillery
+			    technology = rocket_artillery2
+			    technology = rocket_artillery3
+		    	technology = rocket_artillery4
+			}
+		}
+	}
+	focus = { 
+		id = GER_try_to_use_anti_air_as_anti_tank_weapon
+		icon = GFX_goal_anti_air_as_anti_tank
+		prerequisite = { focus = GER_artillery_expansion focus = GER_modernize_support }
+		
+		x = -1
+		y = 4
+		relative_position_id = GER_infanterie_tactics
+		
+		cost = 4.3
+		ai_will_do = {
+			factor = 5 
+		}
+		available_if_capitulated = yes
+		available = {
+			has_tech = HVantiair2
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			custom_effect_tooltip = GER_anti_air_as_anti_tank_weapon_effect
+			hidden_effect = { set_technology = { anti_air_as_anti_tank_weapon = 1 popup = no } }
+			if = {
+				limit = { NOT = { has_tech = HVantiair2 } }
+				custom_effect_tooltip = GER_anti_air_as_anti_tank_weapon_effect_create_variant
+			}
+			if = {
+				limit = { has_tech = HVantiair2 NOT = { has_tech = HVantiair5 }  }
+				create_equipment_variant = { 
+                name = "Dual Purpose Gun 1" 
+                type = HVanti_air_equipment_2
+					upgrades = { 
+						AT_ammo = 3
+					}
+				}
+			}
+			if = {
+				limit = { has_tech = HVantiair5 }
+				create_equipment_variant = { 
+                name = "Dual Purpose Gun 2" 
+                type = HVanti_air_equipment_3
+					upgrades = { 
+                    AT_ammo = 3
+					}
+				}
+			}
+		}
+	}
+	focus = { 
+		id = GER_rail_artillery
+		icon = GFX_GER_schwerer_gustav
+		prerequisite = { focus = GER_rocket_artillery focus = GER_try_to_use_anti_air_as_anti_tank_weapon }
+		
+		x = 0
+		y = 5
+		relative_position_id = GER_infanterie_tactics
+		
+		cost = 5 
+		ai_will_do = {
+			factor = 0 
+		}
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {	
+            add_tech_bonus = {
+				name = heavy_artillery_bonus
+				bonus = 0.5
+				uses = 1
+				technology = Hvartillery2
+				technology = Heavyshells
+			}
+			add_tech_bonus = {
+			    name = rail_artillery_bonus
+				bonus = 0.5
+				ahead_reduction = 0.5
+				uses = 1
+			    technology = superartillery3
+			}
+		}
+	}
 	focus = {	
+		id = GER_improved_staff
+		icon = GFX_focus_chi_army_reform
+		prerequisite = { focus = GER_sturmgeschutz focus = GER_increase_offensive_capability }
+		prerequisite = { focus = GER_try_to_use_anti_air_as_anti_tank_weapon focus = GER_rocket_artillery }
 		id = GER_nachtjaeger
 		icon = GFX_goal_ger_vampir
 		prerequisite = { focus = GER_modernize_support }
@@ -8094,6 +8208,83 @@ focus_tree = {
 	}
 	
 	focus = {
+		id = GER_pocket_bbs
+		icon = GFX_goal_cruiser
+		prerequisite = { focus = GER_naval_rearmament }
+		
+		x = 2
+		y = 1
+		relative_position_id = GER_naval_rearmament
+		
+		cost = 4.3
+		ai_will_do = {
+			factor = 0
+		}
+
+		cancel_if_invalid = yes
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+		create_equipment_variant = {
+		name = "Moltke Class"
+		type = ship_hull_cruiser_panzerschiff
+		name_group = GER_BC_HISTORICAL
+		parent_version = 0
+		modules = {
+		    fixed_ship_battery_slot = ship_heavy_battery_2
+			fixed_ship_anti_air_slot = ship_anti_air_2
+			fixed_ship_fire_control_system_slot = ship_fire_control_system_1
+			fixed_ship_radar_slot = empty
+			fixed_ship_engine_slot = cruiser_ship_engine_2
+			fixed_ship_secondaries_slot = ship_secondaries_2
+			fixed_ship_armor_slot = ship_armor_cruiser_2
+			mid_1_custom_slot = ship_torpedo_2
+			mid_2_custom_slot = ship_extra_fuel_tank_0
+			rear_1_custom_slot = ship_medium_battery_2
+			rear_2_custom_slot = ship_airplane_launcher_1
+    	}
+	    }
+		
+		custom_effect_tooltip = GER_pocket_bbs_tt
+				hidden_effect = {
+					add_equipment_production = {
+						equipment = {
+							type = ship_hull_cruiser_panzerschiff
+							creator = "GER" 
+							version_name = "Moltke Class"
+						}
+						name = "Moltke" 
+						requested_factories = 1
+						progress = 0.25
+						amount = 1
+					}
+					add_equipment_production = {
+						equipment = {
+							type = ship_hull_cruiser_panzerschiff
+							creator = "GER" 
+							version_name = "Moltke Class"
+						}
+						name = "Mackensen" 
+						requested_factories = 1
+						progress = 0.25
+						amount = 1
+					}
+					add_equipment_production = {
+						equipment = {
+							type = ship_hull_cruiser_panzerschiff
+							creator = "GER" 
+							version_name = "Moltke Class"
+						}
+						name = "Mecklenburg" 
+						requested_factories = 1
+						progress = 0.25
+						amount = 1
+					}
+				}
+
+		}
+	}
+	
+	focus = {
 		id = GER_bismarck
 		icon = GFX_battleship_ger
 		prerequisite = { focus = GER_naval_secret }
@@ -8114,7 +8305,7 @@ focus_tree = {
 		}
 
 		cancel_if_invalid = yes
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_RESEARCH }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH }
 		completion_reward = {
 		if = { limit = { has_tech = improved_heavy_battery }
 		   create_equipment_variant = {
@@ -9913,7 +10104,7 @@ focus_tree = {
 	focus = {
 		id = GER_fate_of_bulgaria 
 		prerequisite = { focus = GER_second_vienna_award }
-		icon = GFX_goal_generic_forceful_treaty 
+		icon = GFX_focus_generic_attack_bulgaria
 
 		available = {
     has_army_manpower = { size > 1199999 } 
@@ -9960,7 +10151,7 @@ focus_tree = {
 	focus = {
 		id = GER_fate_of_greece
 		prerequisite = { focus = GER_fate_of_bulgaria }
-		icon = GFX_goal_demand_sudetenland
+		icon = GFX_focus_attack_greece
 		available = {
 			NOT = { has_war_with = GRE }
 			GRE = { NOT = { is_in_faction_with = GER } }
@@ -10051,7 +10242,7 @@ focus_tree = {
 	#		has_game_rule = { rule = FORCED_HISTROICAL option = DEFAULT }
 	#}
 	
-	cost = 1.5
+	cost = 1
 	ai_will_do = {
 		factor = 1
 	}
@@ -10236,13 +10427,8 @@ focus = {
 		}
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
-
-			
-				GER = {
-					country_event = ss_event.665
-					country_event = NF_events.38
-					country_event = { id = ss_event.664 days = 2 }
-				}
+				country_event = ss_event.665
+				country_event = { id = ss_event.664 days = 2 }
 				custom_effect_tooltip = available_political_advisor
 				show_ideas_tooltip = heinrich_himmler
 			
