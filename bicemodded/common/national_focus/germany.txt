@@ -2980,18 +2980,12 @@ focus_tree = {
 		available_if_capitulated = yes
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
-			# Balance research bonus for 2 techs under land_doctrine
 			army_experience = 40
 			#air_experience = 20
 			#navy_experience = 20
-			add_tech_bonus = {
-				name = land_doc_bonus
-				bonus = 0.5 
-				uses = 1
-				category = land_doctrine
-			}
-			
-						
+			add_ideas = limited_conscription
+			custom_effect_tooltip = available_theorist
+			show_ideas_tooltip = gerd_von_rundstedt_t			
 		}
 	}
 	
@@ -3024,11 +3018,11 @@ focus_tree = {
 
 	focus = {
 		id = GER_stellungskrieg
-		icon = GFX_goal_generic_army_motorized_2
+		icon = GFX_goal_generic_army_artillery2
 		prerequisite = { focus = GER_Wehrmacht }
 		mutually_exclusive = { focus = GER_bewegungskrieg }
 		
-		x = -3
+		x = -1
 		y = 1
 		relative_position_id = GER_Wehrmacht
 		
@@ -3036,17 +3030,27 @@ focus_tree = {
 		ai_will_do = {
 			factor = 5 
 		}
-		available = { }
+		available = {
+			}
 		available_if_capitulated = yes
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
 			custom_effect_tooltip = available_chief_of_army
-			show_ideas_tooltip = walther_von_brauchitsch
+			show_ideas_tooltip = franz_halder
+			set_technology = { 
+				superior_firepower = 1
+			}
 			add_tech_bonus = {
 				name = land_doc_bonus
-				bonus = 0.5 
+				bonus = 0.5
+				uses = 2
+				category = cat_superior_firepower
+			}
+			add_tech_bonus = {
+				name = electronics_bonus
+				bonus = 0.5
 				uses = 1
-				category = land_doctrine
+				category = electronics
 			}
 		}
 	}
@@ -3057,7 +3061,7 @@ focus_tree = {
 		prerequisite = { focus = GER_Wehrmacht }
 		mutually_exclusive = { focus = GER_stellungskrieg }
 		
-		x = -1
+		x = 1
 		y = 1
 		relative_position_id = GER_Wehrmacht
 		
@@ -3071,10 +3075,13 @@ focus_tree = {
 		completion_reward = {
 			custom_effect_tooltip = available_chief_of_army
 			show_ideas_tooltip = walther_von_brauchitsch
+			set_technology = {
+				mobile_warfare = 1
+			}
 			add_tech_bonus = {
 				name = mobile_warfare_doc_bonus
 		    	bonus = 0.5
-		    	uses = 2
+		    	uses = 3
 			    category = cat_mobile_warfare
 			}
 			add_tech_bonus = {
@@ -3092,7 +3099,7 @@ focus_tree = {
 		icon = GFX_goal_GER_paratrooper
 		prerequisite = { focus = GER_Wehrmacht }
 		
-		x = 1
+		x = -3
 		y = 1
 		relative_position_id = GER_Wehrmacht
 		
@@ -3161,12 +3168,12 @@ focus_tree = {
 		id = GER_infanterie_tactics			# infantry tactics
 		text = GER_infanterie_tactics	
 		icon = GFX_goal_infanterie_taktik
-		prerequisite = { focus = GER_Wehrmacht }
+		prerequisite = { focus = GER_stellungskrieg focus = GER_bewegungskrieg }
 
 		
-		x = 5
+		x = 0
 		y = 1
-		relative_position_id = GER_Wehrmacht
+		relative_position_id = GER_stellungskrieg
 		
 		cost =5.8
 		ai_will_do = {
@@ -3185,55 +3192,17 @@ focus_tree = {
 				uses = 2
 				category = infantry_weapons
 			}
-			add_tech_bonus = {
-				name = land_doc_bonus
-				bonus = 0.5 
-				uses = 1
-				category = land_doctrine
-			}
-			# REVISIT Might want to add bonuses to Soviet through event, since focus branches from treaty
 		}
 	}
 
 	focus = {
-		id = GER_befehlstaktik
-		icon = GFX_focus_generic_military_mission
-		prerequisite = { focus = GER_infanterie_tactics }
-		mutually_exclusive = { focus = GER_auftragstaktik }
-		
-		x = 4
-		y = 2
-		relative_position_id = GER_Wehrmacht
-		
-		cost = 4.3
-		ai_will_do = {
-			factor = 5 
-		}
-		available = { }
-		available_if_capitulated = yes
-		search_filters = { FOCUS_FILTER_RESEARCH }
-		completion_reward = {
-				add_tech_bonus = {
-				name = land_doc_bonus
-				bonus = 1.0
-				uses = 1
-				category = cat_grand_battle_plan
-				category = cat_superior_firepower
-			}
-			
-			custom_effect_tooltip = available_theorist
-			show_ideas_tooltip = gerd_von_rundstedt_t
-		}
-	}
-	
-	focus = {
 		id = GER_auftragstaktik
 		icon = GFX_focus_generic_combined_arms
-		prerequisite = { focus = GER_infanterie_tactics }
-		mutually_exclusive = { focus = GER_befehlstaktik }
+		prerequisite = { focus = GER_stellungskrieg focus = GER_bewegungskrieg }
+
 		
-		x = 6
-		y = 2
+		x = 0
+		y = 3
 		relative_position_id = GER_Wehrmacht
 		
 		cost = 4
@@ -3246,29 +3215,65 @@ focus_tree = {
 		completion_reward = {
 			custom_effect_tooltip = available_military_high_command
 			show_ideas_tooltip = erwin_rommel
-				add_tech_bonus = {
-				name = land_doc_bonus
-				bonus = 0.5
-				uses = 3
-				category = land_doctrine
-			}
 			add_tech_bonus = {
 				name = electronics_bonus
 				bonus = 0.5
 				uses = 1
 				category = electronics
 			}
+			custom_effect_tooltip = GER_auftragstaktik_tt
+			hidden_effect = {
+				if = {
+					limit = { 
+						has_completed_focus = GER_bewegungskrieg
+						}
+						set_technology = { 
+							tank_radio = 1
+						}
+				}
+				if = {
+					limit = { 
+					has_tech = tank_radio 
+					}
+					add_tech_bonus = {
+						name = electronics_bonus
+						bonus = 0.8
+						uses = 1
+						category = electronics
+					}
+				}
+				if = {
+					limit = { 
+						has_completed_focus = GER_stellungskrieg
+						}
+						set_technology = { 
+							corps_communications = 1
+						}
+				}
+				if = {
+					limit = { 
+					has_tech = corps_communications 
+					}
+					add_tech_bonus = {
+						name = electronics_bonus
+						bonus = 0.8
+						uses = 1
+						category = electronics
+					}
+				}
+			}
+			add_ideas = auftragstaktik
 		}
 	}
 	
 	focus = {
 		id = GER_increase_offensive_capability 
 		icon = GFX_GER_mechanized
-		prerequisite = { focus = GER_befehlstaktik focus = GER_auftragstaktik }
+		prerequisite = { focus = GER_bewegungskrieg }
 		
-		x = 1
+		x = 0
 		y = 1
-		relative_position_id = GER_befehlstaktik
+		relative_position_id = GER_bewegungskrieg
 		
 		cost = 4.3 
 		ai_will_do = {
@@ -3304,16 +3309,20 @@ focus_tree = {
 		id = GER_achtung_panzer
 		text = GER_achtung_panzer
 		icon = GFX_goal_achtung_panzer
-		prerequisite = { focus = GER_auftragstaktik focus = GER_befehlstaktik }
+		prerequisite = { focus = GER_auftragstaktik }
+		mutually_exclusive = { focus = GER_die_abwehr_von_leeb }
 
 		
-		x = 0 
-		y = 2
+		x = 1 
+		y = 1
 		relative_position_id = GER_auftragstaktik
 		
 		cost = 5
 		ai_will_do = {
 			factor = 10
+		}
+		available = {
+			has_completed_focus = GER_bewegungskrieg 
 		}
 		available_if_capitulated = yes
 		search_filters = { FOCUS_FILTER_RESEARCH }
@@ -3330,11 +3339,12 @@ focus_tree = {
 				uses = 1
 				category = cat_medium_armor
 			}
-			set_technology = { 
-				tank_radio = 1
+			add_tech_bonus = {
+				name = mobile_warfare_doc_bonus
+		    	bonus = 0.5
+		    	uses = 3
+			    category = cat_mobile_warfare
 			}
-			custom_effect_tooltip = available_chief_of_army
-			show_ideas_tooltip = guderian_coa
 			custom_effect_tooltip = available_theorist
 			show_ideas_tooltip = heinz_guderian
 		}
@@ -3343,30 +3353,31 @@ focus_tree = {
 	focus = {
 		id = GER_die_abwehr_von_leeb
 		icon = GFX_goal_abwehr_leeb
-		prerequisite = { focus = GER_auftragstaktik focus = GER_befehlstaktik }
+		prerequisite = { focus = GER_auftragstaktik }
+		mutually_exclusive = { focus = GER_achtung_panzer }
 
-		x = 0
-		y = 2
-		relative_position_id = GER_befehlstaktik
+		x = -1
+		y = 1
+		relative_position_id = GER_auftragstaktik
 		
 		cost = 4.3
 		ai_will_do = {
 			factor = 5 
 		}
-		available = { }
+		available = {
+			has_completed_focus = GER_stellungskrieg 
+		}
 		available_if_capitulated = yes
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
-				add_tech_bonus = {
+			add_tech_bonus = {
 				name = land_doc_bonus
-				bonus = 1.0
-				uses = 1
-				category = cat_grand_battle_plan
+				bonus = 0.8
+				uses = 2
 				category = cat_superior_firepower
 			}
-			
 			custom_effect_tooltip = available_theorist
-			show_ideas_tooltip = gerd_von_rundstedt_t
+			show_ideas_tooltip = wilhelm_ritter_von_leeb
 		}
 	}	
 	
@@ -3376,7 +3387,7 @@ focus_tree = {
 		icon = GFX_goal_artillery_expansion
 		prerequisite = { focus = GER_stellungskrieg }
 		
-		x = -2
+		x = -4
 		y = 1
 		relative_position_id = GER_stellungskrieg
 		
@@ -3443,7 +3454,7 @@ focus_tree = {
 		prerequisite = { focus = GER_stellungskrieg focus = GER_bewegungskrieg }
 
 		
-		x = 0
+		x = -2
 		y = 1	
 		relative_position_id = GER_stellungskrieg
 		
@@ -3520,7 +3531,7 @@ focus_tree = {
 		icon = GFX_goal_medium_panzer
 		prerequisite = { focus = GER_bewegungskrieg focus = GER_stellungskrieg }
 		
-		x = 0
+		x = 2
 		y = 1
 		relative_position_id = GER_bewegungskrieg
 		
@@ -3582,7 +3593,7 @@ focus_tree = {
 		prerequisite = { focus = GER_Panzer_division }
 		prerequisite = { focus = GER_artillery_support }
 		
-		x = -1
+		x = 1
 		y = 1
 		relative_position_id = GER_Panzer_division
 		
@@ -3631,7 +3642,7 @@ focus_tree = {
 		icon = GFX_goal_leichte_panzer
 		prerequisite = { focus = GER_bewegungskrieg }
 	
-		x = 2
+		x = 4
 		y = 1
 		relative_position_id = GER_bewegungskrieg
 		
@@ -3764,19 +3775,6 @@ focus_tree = {
 		}
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-	
-	
 	focus = {
 		id = GER_improved_medium_tank
 		icon = GFX_goal_entwicklungs_projekt
@@ -3806,9 +3804,8 @@ focus_tree = {
 		id = GER_medium_support_tanks 
 		icon = GFX_goal_TD_2
 		prerequisite = { focus = GER_improved_medium_tank }
-		prerequisite = { focus = GER_artillery_support }
 		
-		x = -2
+		x = 1
 		y = 1
 		relative_position_id = GER_improved_medium_tank
 		
@@ -3838,13 +3835,9 @@ focus_tree = {
 		}
 	}
 	
-
-
 	focus = {	
 		id = GER_improved_staff
 		icon = GFX_focus_chi_army_reform
-		prerequisite = { focus = GER_artillery_support }
-		prerequisite = { focus = GER_Panzer_division }
 		prerequisite = { focus = GER_die_abwehr_von_leeb focus = GER_achtung_panzer }
 		
 		x = 0
@@ -3905,7 +3898,7 @@ focus_tree = {
 		icon = GFX_goal_entwicklungs_projekt
 		prerequisite = { focus = GER_improved_staff }
 
-		x = -1
+		x = 3
 		y = 1
 		relative_position_id = GER_improved_staff
 		
@@ -3931,8 +3924,8 @@ focus_tree = {
 		icon = GFX_goal_schwere_panzer	
 		prerequisite = { focus = GER_improved_staff }
 		
-		x = -2
-		y = 2
+		x = 5
+		y = 1
 		relative_position_id = GER_improved_staff
 		
 		cost = 6.5
@@ -3958,7 +3951,7 @@ focus_tree = {
 		icon = GFX_wunderwaffepanzer_1
 		prerequisite = { focus = GER_Heavy_panzer}
 		
-		x = 0
+		x = 1
 		y = 1
 		relative_position_id = GER_Heavy_panzer
 		
@@ -4029,6 +4022,32 @@ focus_tree = {
 
 	
 	focus = {
+		id = GER_improved_support
+		text = GER_modernize_support
+		icon = GFX_generic_mg
+		prerequisite = { focus = GER_infanterie_tactics }
+
+		
+		x = -1
+		y = 1
+		relative_position_id = GER_infanterie_tactics
+		
+		cost = 5
+		ai_will_do = {
+			factor = 4 
+		}
+		available_if_capitulated = yes 
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_tech_bonus = {
+				name = GER_modernize_support
+				bonus = 0.45
+				uses = 3
+				category = support_tech
+			}
+		}
+	}
+	focus = {
 		id = GER_modernize_support
 		text = GER_modernize_support
 		icon = GFX_generic_mg
@@ -4036,7 +4055,7 @@ focus_tree = {
 
 		
 		x = 0
-		y = 3
+		y = 2
 		relative_position_id = GER_improved_staff
 		
 		cost = 5
@@ -4055,15 +4074,11 @@ focus_tree = {
 		}
 	}
 	focus = {	
-		id = GER_improved_staff
-		icon = GFX_focus_chi_army_reform
-		prerequisite = { focus = GER_sturmgeschutz focus = GER_increase_offensive_capability }
-		prerequisite = { focus = GER_try_to_use_anti_air_as_anti_tank_weapon focus = GER_rocket_artillery }
 		id = GER_nachtjaeger
 		icon = GFX_goal_ger_vampir
 		prerequisite = { focus = GER_modernize_support }
 		
-		x = 1
+		x = -1
 		y = 1
 		relative_position_id = GER_modernize_support
 		
@@ -4093,8 +4108,8 @@ focus_tree = {
 		icon = GFX_GER_stg
 		prerequisite = { focus = GER_modernize_support }
 		
-		x = 0
-		y = 2
+		x = 1
+		y = 1
 		relative_position_id = GER_modernize_support
 		
 		cost = 5.8
@@ -4118,15 +4133,45 @@ focus_tree = {
 	}
 	
 	focus = {
-		id = GER_improved_ground_air_coordination		
+		id = GER_mechanized_offensive		
 		icon = GFX_goal_kampfgruppe
 		prerequisite = { focus = GER_improved_staff }
+
+		x = -1
+		y = 1
+		relative_position_id = GER_improved_staff
+		
+		cost = 5.8
+		ai_will_do = {
+			factor = 8
+		}
+		bypass = {
+			has_tech = sup_mechanized_offensive
+		}
+		available = {
+		}
+		available_if_capitulated = yes	
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_tech_bonus = {
+				name = mechanized_offensive	
+				bonus = 0.75
+				uses = 1
+				technology = sup_mechanized_offensive	
+			}
+		}
+	}
+	
+	focus = {
+		id = GER_improved_ground_air_coordination		
+		icon = GFX_goal_kampfgruppe
+		prerequisite = { focus = GER_mechanized_offensive }
 		mutually_exclusive = { focus = GER_terrortaktiken }
 
 		
-		x = 1
+		x = -3
 		y = 1
-		relative_position_id = GER_improved_staff
+		relative_position_id = GER_mechanized_offensive
 		
 		cost = 5.8
 		ai_will_do = {
@@ -4140,26 +4185,26 @@ focus_tree = {
 		available_if_capitulated = yes	
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
-			#kampfgruppe
-				add_tech_bonus = {
-				name = Kampgruppes		
+			add_tech_bonus = {
 				bonus = 0.75
-				uses = 1
-				technology = kampfgruppe	
-				
-				}
+				uses = 3
+				technology = concentrated_fire_plans
+				technology = combined_arms
+				technology = tactical_control
+				technology = air_land_battle
+			}
 		}
 	}
 	
 	focus = {
 		id = GER_terrortaktiken		
 		icon = GFX_goal_kampfgruppe
-		prerequisite = { focus = GER_improved_staff }
+		prerequisite = { focus = GER_mechanized_offensive }
 		mutually_exclusive = { focus = GER_improved_ground_air_coordination }
 
-		x = 3
+		x = -1
 		y = 1
-		relative_position_id = GER_improved_staff
+		relative_position_id = GER_mechanized_offensive
 		
 		cost = 5.8
 		ai_will_do = {
@@ -4173,14 +4218,14 @@ focus_tree = {
 		available_if_capitulated = yes	
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
-			#kampfgruppe
-				add_tech_bonus = {
-				name = Kampgruppes		
+			add_tech_bonus = {
 				bonus = 0.75
-				uses = 1
-				technology = kampfgruppe	
-				
-				}
+				uses = 3
+				technology = centralized_fire_control
+				technology = forward_observers
+				technology = advanced_firebases
+				technology = shock_and_awe
+			}
 		}
 	}
 	
@@ -4192,7 +4237,7 @@ focus_tree = {
 		prerequisite = { focus = GER_improved_staff }
 
 		
-		x = 5
+		x = 1
 		y = 1
 		relative_position_id = GER_improved_staff
 		
@@ -4225,7 +4270,7 @@ focus_tree = {
 		prerequisite = { focus = GER_kampfgruppes }
 		mutually_exclusive = { focus = GER_mobile_defense }
 		
-		x = 1
+		x = 3
 		y = 1
 		relative_position_id = GER_kampfgruppes
 		
@@ -4241,6 +4286,8 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
 			army_experience = 10 
+			custom_effect_tooltip = available_chief_of_army
+			show_ideas_tooltip = guderian_coa
 			add_tech_bonus = {
 				name = advanced_blitzkrieg_bonus
 				bonus = 0.75
@@ -4271,7 +4318,7 @@ focus_tree = {
 		prerequisite = { focus = GER_kampfgruppes }
 		mutually_exclusive = { focus = GER_advanced_blitzkrieg }
 		
-		x = -1
+		x = 1
 		y = 1
 		relative_position_id = GER_kampfgruppes
 		
