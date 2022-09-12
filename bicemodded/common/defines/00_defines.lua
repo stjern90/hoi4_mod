@@ -947,8 +947,8 @@ NMilitary = {
 	XP_DECAY_RATE_PER_HOUR_IN_COMBAT = 0.03,				-- you get reduced XP as combat drags
 	MIN_XP_RATE_TO_DECAY = 0.02,								-- minimum XP factor for dragged combats
 	
-	XP_GAIN_PER_OVERRUN_UNIT = 35.0,						-- fixed XP gain per overrun unit
-	XP_GAIN_FOR_SHATTERING = 18.0,                          -- fixed XP gain per shattered unit
+	XP_GAIN_PER_OVERRUN_UNIT = 25.0,						-- fixed XP gain per overrun unit
+	XP_GAIN_FOR_SHATTERING = 12.0,                          -- fixed XP gain per shattered unit
 	
 	UNIT_UPKEEP_ATTRITION = 0.00,							--Constant attrition value applied to armies.
 
@@ -1932,9 +1932,9 @@ NAI = {
 	PLAN_ATTACK_MIN_ORG_FACTOR_LOW = 0.85,		-- Minimum org % for a unit to actively attack an enemy unit when executing a plan
 	PLAN_ATTACK_MIN_STRENGTH_FACTOR_LOW = 0.88,	-- Minimum strength for a unit to actively attack an enemy unit when executing a plan
 	PLAN_ATTACK_MIN_ORG_FACTOR_MED = 0.5,		-- (LOW,MED,HIGH) corresponds to the plan execution agressiveness level.
-	PLAN_ATTACK_MIN_STRENGTH_FACTOR_MED = 0.78,	
+	PLAN_ATTACK_MIN_STRENGTH_FACTOR_MED = 0.79,	
 	PLAN_ATTACK_MIN_ORG_FACTOR_HIGH = 0.3,		
-	PLAN_ATTACK_MIN_STRENGTH_FACTOR_HIGH = 0.65,	
+	PLAN_ATTACK_MIN_STRENGTH_FACTOR_HIGH = 0.67,	
 	PLAN_FRONTUNIT_DISTANCE_FACTOR = 10.0,		-- Factor for candidate units distance to front positions.
 	PLAN_ATTACK_DEPTH_FACTOR = 0.5,				-- Factor applied to size or enemy being attacked.
 	PLAN_STEP_COST_LIMIT = 11,					-- When stepping to draw a plan this cost makes it break if it hits hard terrain (multiplied by number of desired steps)
@@ -1999,10 +1999,10 @@ NAI = {
 	STR_UNIT_STRONG = 0.85,						-- Strength (equipment) % for unit to be considered strong
 
 	ORG_UNIT_WEAK = 0.15,						-- Organization % for unit to be considered weak
-	STR_UNIT_WEAK = 0.55,						-- Strength (equipment) % for unit to be considered weak
+	STR_UNIT_WEAK = 0.6,						-- Strength (equipment) % for unit to be considered weak
 
 	ORG_UNIT_NORMAL = 0.35,						-- Organization % for unit to be considered normal
-	STR_UNIT_NORMAL = 0.7,						-- Strength (equipment) % for unit to be considered normal
+	STR_UNIT_NORMAL = 0.73,						-- Strength (equipment) % for unit to be considered normal
 
 	PLAN_FACTION_STRONG_TO_EXECUTE = 0.50,		-- % or more of units in an order to consider executing the plan
 	PLAN_FACTION_NORMAL_TO_EXECUTE = 0.65,		-- % or more of units in an order to consider executing the plan
