@@ -159,8 +159,9 @@ NDiplomacy = {
 	PEACE_CONTEST_REFUND_FACTOR = { 1.0, 0.90, 0.80, 0.70 }, -- How much of the spent peace conference score that gets refunded in a contest. First element applies for the first round of conflicts, second element for the second round of conflicts, etc. The final element is used for each consecutive turn, so setting that to e.g. 0.7 means you get 70 % of the spent score back for every turn thereafter.
 
 	PEACE_PLAY_SOUND_ON_NEW_TURN = true,            -- Whether the 'peace_conference_new_turn' audio hook is called or not
-	
-	MAX_REMEMBERED_LEASED_IC = 1000,				-- Maximum of leased equipment value that is remembered for opinion bonusPEACE_PLAY_NEW_TURN_SOUND_ONLY_IF_NOT_ALREADY_PLAYING = true, -- Whether the 'peace_conference_new_turn' audio hook should play only if not already playing (relevant if players spam-click the pass/submit button)
+	PEACE_PLAY_NEW_TURN_SOUND_ONLY_IF_NOT_ALREADY_PLAYING = true, -- Whether the 'peace_conference_new_turn' audio hook should play only if not already playing (relevant if players spam-click the pass/submit button)
+
+	MAX_REMEMBERED_LEASED_IC = 1000,				-- Maximum of leased equipment value that is remembered for opinion bonus
 	MAX_OPINION_FOR_LEASED_IC = 30,					-- Positive opinion when remembering the MAX_REMEMBERED_LEASED_IC equipment
 	MONTHLY_LEASED_IC_DECAY = 35,					-- How much of leased equipment is being "forgot" each month
 	OPINION_PER_VOLUNTEER = 5,						-- Opinion bonus per one sent volunteer division
@@ -1864,27 +1865,27 @@ NNavy = {
 
 	NAVAL_COMBAT_AIR_SUB_DETECTION_EXTERNAL_FACTOR = 1.0,					-- Factor applied to the stats of external air planes
 	NAVAL_COMBAT_AIR_SUB_DETECTION_INTERNAL_EFFICIENCY_FACTOR = 1.0,			-- Factor of Carrier's sortie efficiency on the stats bellow
-	NAVAL_COMBAT_AIR_AGILITY_TO_SUB_DETECTION = 0.1,					-- Factor to apply to the agility of air planes active in a naval combat to deduce their contibution to sub detection
-	NAVAL_COMBAT_AIR_STRIKE_ATTACK_TO_SUB_DETECTION = 0.2,					-- Same, but for strike attack (aka naval attack)
+	NAVAL_COMBAT_AIR_AGILITY_TO_SUB_DETECTION = 0.0,					-- Factor to apply to the agility of air planes active in a naval combat to deduce their contibution to sub detection
+	NAVAL_COMBAT_AIR_STRIKE_ATTACK_TO_SUB_DETECTION = 0.0,					-- Same, but for strike attack (aka naval attack)
 	NAVAL_COMBAT_AIR_STRIKE_TARGETING_TO_SUB_DETECTION = 0.0,				-- Same, but for strike targeting (aka naval targeting)
-	NAVAL_COMBAT_AIR_MAX_SPEED_TO_SUB_DETECTION = 0.2,					-- Same, but for Max Speed
-	NAVAL_COMBAT_AIR_PLANE_COUNT_TO_SUB_DETECTION = 0.6,					-- Factor applied to the number of active plane in a naval combat to deduce their contribution to sub detection
+	NAVAL_COMBAT_AIR_MAX_SPEED_TO_SUB_DETECTION = 0.0,					-- Same, but for Max Speed
+	NAVAL_COMBAT_AIR_PLANE_COUNT_TO_SUB_DETECTION = 1.0,					-- Factor applied to the number of active plane in a naval combat to deduce their contribution to sub detection
 	NAVAL_COMBAT_AIR_SUB_DETECTION_DECAY_RATE = 1.0,					-- Factor to decay the value of sub detection contributed by planes on the last hour. Note: the maximum value between the decayed value and the newly computed one is taken into account. A decay rate of 1 means that nothing is carried over, the previous value is zerod out. A decay rate of 0 means that the previous value is carried over as is.
 	NAVAL_COMBAT_AIR_SUB_DETECTION_FACTOR = 0.0,						-- A global factor that applies after all others, right before the sub detection contributed by plane is added to the global sub detection of a combatant
 
-	NAVAL_COMBAT_AIR_SUB_TARGET_SCORE = 1,                             -- scoring for target picking for planes inside naval combat, one define per ship typ
-	NAVAL_COMBAT_AIR_CAPITAL_TARGET_SCORE = 10,
-	NAVAL_COMBAT_AIR_CARRIER_TARGET_SCORE = 15,
+	NAVAL_COMBAT_AIR_SUB_TARGET_SCORE = 10,                             -- scoring for target picking for planes inside naval combat, one define per ship typ
+	NAVAL_COMBAT_AIR_CAPITAL_TARGET_SCORE = 50,
+	NAVAL_COMBAT_AIR_CARRIER_TARGET_SCORE = 200,
 	NAVAL_COMBAT_AIR_CONVOY_TARGET_SCORE = 1.0,
 	NAVAL_COMBAT_AIR_STRENGTH_TARGET_SCORE = 5,                         -- how much score factor from low health (scales between 0->this number)
-	NAVAL_COMBAT_AIR_LOW_AA_TARGET_SCORE = 4,                           -- how much score factor from low AA guns (scales between 0->this number)
-	
+	NAVAL_COMBAT_AIR_LOW_AA_TARGET_SCORE = 5,                           -- how much score factor from low AA guns (scales between 0->this number)
+
 	NEW_NAVY_LEADER_LEVEL_CHANCES = {									-- chances for new navy leaders to start at a given level
-		0.9, -- 95% for level one
-		0.1  -- 5% for level two
+		0.95, -- 95% for level one
+		0.05  -- 5% for level two
 		      -- 0% for level three to ten
-	}
-	
+	},
+
 	NAVY_PIERCING_THRESHOLDS = {					-- Our piercing / their armor must be this value to deal damage fraction equal to the index in the array below [higher number = higher penetration]. If armor is 0, 1.00 will be returned.
 		2.00,
 		1.00,

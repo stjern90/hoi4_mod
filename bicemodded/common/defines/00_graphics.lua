@@ -26,6 +26,9 @@ NMapMode = {
 	CONSTRUCTION_MAP_MODE_TRANSPARENCY_OVERRIDE = 241, 								-- When you use gradient borders to defeat the purpose of gradient borders. Larger than 248 seems to make the transparency stronger?
 	PEACE_CONFERENCE_CURRENT_SELECTED_SECONDARY_COLOR = { 0, 0, 1, 0.25 },
 	PEACE_CONFERENCE_SELECTABLE_SECONDARY_COLOR = { 0, 1, 0, 0.25 },
+	PEACE_CONFERENCE_CONTESTED_SECONDARY_COLOR = { 1, 0, 0, 0.25 },
+	PEACE_CONFERENCE_CHANGE_TARGET_TAG_SECONDARY_COLOR =  { 0, 0.8, 0.5, 0.25 },
+	PEACE_CONFERENCE_DIFFERENT_STACKABLE_SECONDARY_COLOR =  { 1, 1, 0, 0.25 },
 	FACTIONS_COLOR_NOT_MEMBER = { 0.6, 0.6, 0.6, 0.25 },
 	FACTIONS_MEMBER_TRANSPARENCY = 1.0,
 	PLAYER_MAPMODE_NOT_SELECTED_COUNTRY_TRANSPARENCY = 0.15,						-- How much is the country colors faded out, for countries that are not occupied by the any player.
@@ -95,6 +98,8 @@ NMapMode = {
 	SUPPLY_STATUS_DISPLAY_THRESHOLD = 0.90, -- at what average supply status we move to show status colors instead of flow
 	SUPPLY_HOVERED_STATE_COLOR_INDEX = 0, -- Border color of hovered state. Refers to the colors in BORDER_COLOR_CUSTOM_HIGHLIGHTS.
 	SUPPLY_HOVERED_PROVINCE_COLOR_INDEX = 4, -- Border color of hovered province. Refers to the colors in BORDER_COLOR_CUSTOM_HIGHLIGHTS.
+	PEACE_HOVERED_STATE_COLOR_INDEX = 3 , -- Border color of hovered state in Peace conference. Refers to the colors in BORDER_COLOR_CUSTOM_HIGHLIGHTS.
+	PEACE_CLAIMED_STATE_COLOR_INDEX = 2 , -- Border color of claimed states in Peace conference. Refers to the colors in BORDER_COLOR_CUSTOM_HIGHLIGHTS.
 },
 
 NMapIcons = {
@@ -380,7 +385,7 @@ NMapIcons = {
 	PEACE_CONFERENCE_PRIORITY_AIR_MISSION = 13,
 	PEACE_CONFERENCE_PRIORITY_SUPPLY = 14,
 	PEACE_CONFERENCE_PRIORITY_CAPITAL = 5,
-	PEACE_CONFERENCE_PRIORITY_PEACE_COST = 3,
+	PEACE_CONFERENCE_PRIORITY_PEACE_COST = 20,
 	PEACE_CONFERENCE_PRIORITY_ADJACENCY_RULE = 3,
 	PEACE_CONFERENCE_PRIORITY_NAVAL_MINES = 13,
 	PEACE_CONFERENCE_PRIORITY_NAVAL_ACCIDENTS = 13,
@@ -534,16 +539,16 @@ NMapIcons = {
 },
 
 NAirGfx = {
-	AIRPLANES_ANIMATION_GLOBAL_SPEED_PER_GAMESPEED = { 0.3, 0.35, 0.40, 0.45, 0.50, 0.55 }, -- Speed factor for each game speed (begin with paused). Larger value = faster animation.
+	AIRPLANES_ANIMATION_GLOBAL_SPEED_PER_GAMESPEED = { 0.22, 0.28, 0.32, 0.38, 0.44, 0.50 }, -- Speed factor for each game speed (begin with paused). Larger value = faster animation.
 	ROCKET_SPEED = 15.0,							-- Speed of rockets launched from rocket sites
-	AIRPLANES_CURVE_POINT_DENSITY = 5.0, 			-- Higher value = more midpoints in the flight path.
-	AIRPLANES_CURVE_MAX_EXTRAPOLATION = 30.0, 		-- It's the limit value that avoid making gigantic curves that may happen when flight path is very long.
+	AIRPLANES_CURVE_POINT_DENSITY = 2.0, 			-- LOWER value = more midpoints in the flight path.
+	AIRPLANES_CURVE_MAX_EXTRAPOLATION = 20.0, 		-- It's the limit value that avoid making gigantic curves that may happen when flight path is very long.
 	AIRPLANES_CURVE_MIN_ELEVATION = 4.0, 			-- Minimum height above the ground that the curve will generate it's points. Excludes first and last point (takeoff/landing).
 	AIRPLANES_SCALE_TAKEOFF_DIST = 0.1, 				-- Until first x% of the flight path, the airplane will scale up.
 	AIRPLANES_SCALE_MIN = 0.1, 						-- Minimum airplane scale down when takeoff/landing.
 	AIRPLANES_SCALE_LANDING_DIST = 0.9, 				-- After last x% of the flight path, the airplane will scale down.
 	AIRPLANES_SMOOTH_INTERPOLATION_MOVE = 0.13, 	-- How smooth is the movement interpolation.
-	AIRPLANES_SMOOTH_INTERPOLATION_TURN = 0.095, 	-- How smooth is the turning interpolation.
+	AIRPLANES_SMOOTH_INTERPOLATION_TURN = 0.12, 	-- How smooth is the turning interpolation.
 	AIRPLANES_BANK_STRENGTH = 210.0, 				-- Multiplier of how much the curve affects the wings banking. (angle limited by the following value)
 	AIRPLANES_BANK_ANGLE_LIMIT = 55.0, 				-- Bank angle limit.
 	AIRPLANES_GROUND_COLLISION_OFFSET_Y = -5.0, 		-- Lets the 3d airplanes disappear after going a bit under the ground.
@@ -560,13 +565,13 @@ NAirGfx = {
 
 	BOMBERS_DIVISION_FACTOR = 60,					-- Number of effective bombers in a strategic region will be divided by this factor.
 	MISSILES_DIVISION_FACTOR = 60,					-- Number of missiles shown in a strategic region will be divided by this factor.
-	FIGHTERS_DIVISION_FACTOR = 60,					-- Number of missiles shown in a strategic region will be divided by this factor.
-	SCOUT_PLANE_DIVISION_FACTOR = 60,				-- Number of missiles shown in a strategic region will be divided by this factor.
+	FIGHTERS_DIVISION_FACTOR = 40,					-- Number of missiles shown in a strategic region will be divided by this factor.
+	SCOUT_PLANE_DIVISION_FACTOR = 30,				-- Number of missiles shown in a strategic region will be divided by this factor.
 	TRANSPORT_DIVISION_FACTOR = 60,
 	MAX_MISSILE_BOMBING_SCENARIOS = 2,				-- Max number of missile bombing scenarios in a strategic region.
 	MAX_PATROL_SCENARIOS = 2,						-- Max number of patrol scenarios in a strategic region.
 	MAX_BOMBING_SCENARIOS = 2,						-- Max number of bombings scenarios in a strategic region.
-	MAX_DOGFIGHTS_SCENARIOS = 2,					-- Max number of dogfight scenarios in a strategic region.
+	MAX_DOGFIGHTS_SCENARIOS = 3,					-- Max number of dogfight scenarios in a strategic region.
 	MAX_TRANSPORT_SCENARIOS = 2,					-- Max number of transport scenarios in a strategic region
 	MAX_TRAINING_SCENARIOS = 2,						-- Max number of training scenarios in a strategic region
 	MAX_SCOUT_SCENARIOS = 2,
@@ -625,7 +630,7 @@ NGraphics = {
 	LAND_UNIT_MOVEMENT_SPEED = 12  ,
 	NAVAL_UNIT_MOVEMENT_SPEED = 12,
 	ARROW_MOVEMENT_SPEED = 2,
-	DRAW_DETAILED_CUTOFF = 400,
+	DRAW_COUNTRY_NAMES_CUTOFF = 400,                    -- Cutoff for drawing country names on the map
 	TRADEROUTE_SMOOTHNESS = 0.65,
 	TRADEROUTE_SMOOTHEN_PASSES = 2,
 	SUPPLYFLOW_SMOOTHNESS = 0.25,
@@ -710,6 +715,8 @@ NGraphics = {
 	GRADIENT_BORDERS_THICKNESS_STRATEGIC_REGIONS = 150.0,
 	GRADIENT_BORDERS_THICKNESS_DIPLOMACY = 12.0,
 	GRADIENT_BORDERS_THICKNESS_DIPLOMACY_ON_INTEL_LEDGER = 3.0,
+	GRADIENT_BORDERS_THICKNESS_PEACE_CONFERENCE_A = 3.0, -- transparency at 0 up until A
+	GRADIENT_BORDERS_THICKNESS_PEACE_CONFERENCE_B = 6.0, -- increasing transparency up to 100% when at B
 	GRADIENT_BORDERS_OUTLINE_CUTOFF_COUNTRY = 0.973, -- Magic number to balance cutoff on edges without neighbor
 	GRADIENT_BORDERS_OUTLINE_CUTOFF_DIPLOMACY = 0.973,
 	GRADIENT_BORDERS_OUTLINE_CUTOFF_DIPLOMACY_ON_INTEL_LEDGER = 0.973,
@@ -719,6 +726,7 @@ NGraphics = {
 	GRADIENT_BORDERS_OUTLINE_CUTOFF_RESISTANCE = 0.973,
 	GRADIENT_BORDERS_OUTLINE_CUTOFF_FACTIONS = 0.973,
 	GRADIENT_BORDERS_OUTLINE_CUTOFF_INTEL_LEDGER = 0.973,
+	GRADIENT_BORDERS_OUTLINE_CUTOFF_PEACE_CONFERENCE = 0.973,
 	GRADIENT_BORDERS_CAMERA_DISTANCE_OVERRIDE_COUNTRY = 0.0, -- 0 to 1 value for override filling when camera zooms in/out. 0 = override disabled
 	GRADIENT_BORDERS_CAMERA_DISTANCE_OVERRIDE_STATE = 0.4,
 	GRADIENT_BORDERS_CAMERA_DISTANCE_OVERRIDE_SUPPLY_AREA = 1.0,
@@ -729,7 +737,10 @@ NGraphics = {
 	GRADIENT_BORDERS_CAMERA_DISTANCE_OVERRIDE_INTEL_LEDGER = 0.2,
 	GRADIENT_BORDERS_CAMERA_DISTANCE_OVERRIDE_DIPLOMACY = 0.0,
 	GRADIENT_BORDERS_CAMERA_DISTANCE_OVERRIDE_DIPLOMACY_ON_INTEL_LEDGER = 1.0,
-
+    GRADIENT_BORDERS_CAMERA_DISTANCE_OVERRIDE_PEACE_CONFERENCE = 1.0,
+	GRADIENT_BORDERS_ACTIVATE_FOR_PEACE_CONFERENCE = false,
+	GRADIENT_BORDERS_ONE_COLOR_FOR_PEACE_CONFERENCE = { -1.0, -1.0, -1.0, -1.0 }, -- all gradient will have this color. if { -1.0, -1.0, -1.0, -1.0 } then use Negotiator MapColor
+	
 	GRADIENT_BORDERS_OPTIMIZATION_RANGE = 30.0, -- smaller value = faster gradient borders but may have artifacts on large provinces (value to balance)
 	GRADIENT_BORDERS_REFRESH_FREQ = 0.12, -- how frequent is gradient borders repainting (optimization for high-speed gameplay)
 	STRATEGIC_AIR_COLOR_BAD = {0.8, 0, 0, 1}, -- rgb
@@ -780,7 +791,7 @@ NGraphics = {
 	COUNTRY_FLAG_STRIPE_TEX_MAX_WIDTH = 10,
 	COUNTRY_FLAG_STRIPE_TEX_MAX_HEIGHT = 4096,
 	COUNTRY_FLAG_LARGE_STRIPE_MAX_WIDTH = 41,
-	COUNTRY_FLAG_LARGE_STRIPE_MAX_HEIGHT = 12000,
+	COUNTRY_FLAG_LARGE_STRIPE_MAX_HEIGHT = 16384,
 	VICTORY_POINT_LEVELS = 2,
 	VICTORY_POINT_MAP_ICON_AFTER = {0, 14}, -- After this amount of VP the map icon becomes bigger dot.
 	VICTORY_POINT_MAP_ICON_TEXT_CUTOFF = {250, 350, 900},  -- At what camera distance the VP name text disappears.
@@ -808,6 +819,7 @@ NGraphics = {
 	NAVAL_MISSION_ICONS_DISTANCE_CUTOFF = 1300,
 	NAVAL_MINES_DISTANCE_CUTOFF = 800,
 	CRYPTOLOGY_MAP_ICON_DISTANCE_CUTOFF = 1000,
+	PEACE_CONFERENCE_MAP_ICON_DISTANCE_CUTOFF = 500,
 	NAVAL_MINES_CLUMPING = 58, -- The higher value, the more likely the 3d naval mines will clamp together
 	NAVAL_MINES_CLUMP_NEAR_TERRITORY = 25, -- Higher chance to spawn 3d naval mine near our territory
 	NAVAL_MINES_COUNT_TO_VISUAL_ASPECT = 0.1, -- How many in-game-naval-mines is one visual 3d naval mine?
@@ -887,10 +899,11 @@ NGraphics = {
 	AMBIENT_LIGHT_POS_Z = { 0.6,  0.2, 0.924 }, -- top
 	AMBIENT_LIGHT_NEG_Z = { 0.55, 0.1, 0.9 }, -- bottom
 
-	SUN_DIFFUSE_COLOR   = {0.14, 0.0, 1.0},
-	SUN_INTENSITY 		= 1.0; -- 0.4
-	MOON_DIFFUSE_COLOR  = {0.58, 0.5, 1.0},
-	MOON_INTENSITY 		= 2.5;
+	SUN_DIFFUSE_COLOR   	= {0.14, 0.0, 1.0},
+	SUN_INTENSITY 			= 1.0; -- 0.4
+	SUN_SPECULAR_INTENSITY 	= 1.0;
+	MOON_DIFFUSE_COLOR  	= {0.58, 0.5, 1.0},
+	MOON_INTENSITY 			= 2.5;
 
 	CUBEMAP_INTENSITY = 1.0,
 
@@ -1115,10 +1128,10 @@ NInterface = {
 
 	LOGISTICS_PAST_WEEK = 7,					-- Number of days from the past (including current day) we want logistics data for (Max 30 days)
 
-	COMBAT_SOME_PIERCING = 0.4,					-- How many % of enemy units the unit have to pierce in order for the some piercing icon to be displayed
-	COMBAT_GOOD_PIERCING = 0.8,					-- How many % of enemy units the unit have to pierce in order for the good piercing icon to be displayed
-	COMBAT_SOME_ARMOR = 0.4,					-- How many % of enemy units have to be unable to pierce the unit in order for the some armor icon to be displayed
-	COMBAT_GOOD_ARMOR = 0.8,					-- How many % of enemy units have to be unable to pierce the unit in order for the good armor icon to be displayed
+	COMBAT_SOME_PIERCING = 0.25,					-- How many % of enemy units the unit have to pierce in order for the some piercing icon to be displayed
+	COMBAT_GOOD_PIERCING = 0.6,					-- How many % of enemy units the unit have to pierce in order for the good piercing icon to be displayed
+	COMBAT_SOME_ARMOR = 0.25,					-- How many % of enemy units have to be unable to pierce the unit in order for the some armor icon to be displayed
+	COMBAT_GOOD_ARMOR = 0.6,					-- How many % of enemy units have to be unable to pierce the unit in order for the good armor icon to be displayed
 
 	MIN_FOCUS_TREE_ZOOM = 0.2,					-- min zoom in scale
 	MAX_FOCUS_TREE_ZOOM = 1.0,					-- max zoom out scale
@@ -1307,6 +1320,11 @@ NSound = {
 
 	VOICE_OVER_CATEGORY  = "Voices",
 	VOICE_OVER_COOL_DOWN = 2.8, -- Wait for this many seconds before playing another vo
+},
+
+NFriendGUI = {
+	OFFLINE_COLOR = { 0.7, 0.7, 0.7, 1.0}, -- Text color of offline state
+	ONLINE_COLOR = { 0.56, 0.85, 0.56, 1.0 }, -- Text color of online state
 },
 
 }
