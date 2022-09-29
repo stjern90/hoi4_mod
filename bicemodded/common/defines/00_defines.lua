@@ -344,10 +344,10 @@ NCountry = {
 	FEMALE_UNIT_LEADER_BASE_CHANCE = {
 		-- applies as a factor to female unit leader randomization
 		-- the values needs to be zero if you don't actually have random portraits
-		0.5, -- country leaders
-		0.5, -- army leaders
-		0.5, -- navy leaders
-		0.5, -- air leaders
+		0.0, -- country leaders
+		0.0, -- army leaders
+		0.0, -- navy leaders
+		0.0, -- air leaders
 		0.5, -- operatives
 	},
 	
@@ -1110,7 +1110,7 @@ NAir = {
 	AIR_WING_MAX_STATS_SPEED = 1200,
 	AIR_WING_MAX_STATS_BOMBING = 100,
 	AIR_WING_MAX_SIZE = 1000, 							-- Max amount of airplanes in wing
-	AIR_WING_AVERAGE_SIZE = 200, 						-- Eyeballed average amount of airplanes in wing. Used when calculating air volunteer.
+	AIR_WING_AVERAGE_SIZE = 100, 						-- Eyeballed average amount of airplanes in wing. Used when calculating air volunteer.
 	AIR_WING_BOMB_DAMAGE_FACTOR = 1.6,					-- Used to balance the damage done while bombing.	
 	BIGGEST_AGILITY_FACTOR_DIFF = 3.0,					-- biggest factor difference in agility for doing damage (caps to this)
 	BIGGEST_SPEED_FACTOR_DIFF = 2.5,					-- biggest factor difference in speed for doing damage (caps to this)
@@ -1177,7 +1177,7 @@ NAir = {
 	BASE_STRATEGIC_BOMBING_HIT_PLANE_DAMAGE_FACTOR = 0.2,
 	STRATEGIC_BOMBER_NUKE_AIR_SUPERIORITY = 0.75,		-- How much air superiority is needed for a tactical bomber to be able to nuke a province
 	AGGRESSION_THRESHOLD = { 0.0, 0.25, 0.5 },			-- Threshold levels for mission aggressivity for air
-	ACE_WING_SIZE =	200,								-- size of wing ace bonuses are set up for. if lower more bonus, if higher less bonus
+	ACE_WING_SIZE =	100,								-- size of wing ace bonuses are set up for. if lower more bonus, if higher less bonus
 	ACE_WING_SIZE_MAX_BONUS = 2,                       -- biggest bonus we can get from having a small wing with an ace on
 	NO_SEARCH_MISSION_DETECT_FACTOR = -0.5,				-- value of planes not on active search missions for detection
 	SUPPLY_NEED_FACTOR = 0.45, 							-- multiplies supply usage
@@ -2468,7 +2468,7 @@ NAI = {
 	MIN_SUPPLY_USE_SANITY_CAP = 100,					-- Ignore supply cap if below this value when deciding on how many divisions to produce.
 	MAX_SUPPLY_DIVISOR = 1.75,							-- To make sure the AI does not overdeploy divisions. Higher number means more supply per unit.
 	MISSING_CONVOYS_BOOST_FACTOR = 18.0,					-- The more convoys a country is missing, the more resources it diverts to cover this.
-	TRANSPORTS_PER_PARATROOPER = 200,					-- Air transports only duty is to drop paratroopers.
+	TRANSPORTS_PER_PARATROOPER = 100,					-- Air transports only duty is to drop paratroopers.
 	MAX_MICRO_ATTACKS_PER_ORDER = 3,					-- AI goes through its orders and checks if there are situations to take advantage of
 	FALLBACK_LOSING_FACTOR = 0.0,						-- The lower this number, the longer the AI will hold the line before sending them to the fallback line
 	PRODUCTION_MAX_PROGRESS_TO_SWITCH_NAVAL = 0.09,		-- AI will not replace ships being built by newer types if progress is above this
