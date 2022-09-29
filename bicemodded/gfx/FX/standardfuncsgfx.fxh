@@ -26,9 +26,10 @@ ConstantBuffer( 0, 0 )
 	float3		AmbientPosZ;
 	float3		AmbientNegZ;
 	float		CubemapIntensity;
-	float4		SunDiffuseIntensity
-	float4		MoonDiffuseIntensity
+	float4		SunDiffuseIntensity;
+	float4		MoonDiffuseIntensity;
 	float		GB_TextureHeight;
+	float		SunSpecularIntensity;
 };
 
 
@@ -643,8 +644,9 @@ PixelShader =
 
 		float3 sunIntensity = 
 			SunDiffuseIntensity.rgb * SunDiffuseIntensity.a * aShadowTerm * vDayFactor
-			+ MoonDiffuseIntensity.rgb * MoonDiffuseIntensity.a * aShadowTerm * vNightFactor;	
+			+ MoonDiffuseIntensity.rgb * MoonDiffuseIntensity.a * aShadowTerm * vNightFactor;
 		//sunIntensity += 0.6f * (1.0f - (vDayFactor  * aShadowTerm + vNightFactor));
+
 
 	#ifdef PDX_IMPROVED_BLINN_PHONG
 		ImprovedBlinnPhong(sunIntensity, -vLightSourceDirection, aProperties, aDiffuseLightOut, aSpecularLightOut);
@@ -652,6 +654,7 @@ PixelShader =
 		aDiffuseLightOut = CalculateLight(aProperties._Normal, vLightSourceDirection, sunIntensity);
 		aSpecularLightOut = CalculatePBRSpecularPower(aProperties._WorldSpacePos, aProperties._Normal, aProperties._SpecularColor, aProperties._Glossiness, sunIntensity, vLightSourceDirection);
 	#endif
+		aSpecularLightOut *= SunSpecularIntensity;
 	}
 
 	void CalculateSunLight(LightingProperties aProperties, float aShadowTerm, out float3 aDiffuseLightOut, out float3 aSpecularLightOut )
