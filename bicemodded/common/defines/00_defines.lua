@@ -623,7 +623,7 @@ NPolitics = {
 NBuildings = {
 	ANTI_AIR_SUPERIORITY_MULT = 5.0,	-- How much air superiority reduction to the enemy does our AA guns? Normally each building level = -1 reduction. With this multiplier.
 	MAX_BUILDING_LEVELS = 15,			-- Max levels a building can have.
-	AIRBASE_CAPACITY_MULT = 100,		-- Each level of airbase building multiplied by this, gives capacity (max operational value). Value is int. 1 for each airplane.
+	AIRBASE_CAPACITY_MULT = 200,		-- Each level of airbase building multiplied by this, gives capacity (max operational value). Value is int. 1 for each airplane.
 	ROCKETSITE_CAPACITY_MULT = 100,		-- Each level of rocketsite building multiplied by this, gives capacity (max operational value). Value is int. 1 for each rocket.
 	NAVALBASE_REPAIR_MULT = 0.12,		-- Each level of navalbase building repairs X strength. The value is spread on all ships needed reparation. Fe Navalbase lvl 5 x 0.5 str repair = 2.5 str repaired over 10 ships, so each ship repair hourly 0.25 str.
 	RADAR_RANGE_BASE = 15,				-- Radar range base, first level radar will be this + min, best radar will be this + max
@@ -872,7 +872,7 @@ NMilitary = {
 	PLANNING_DECAY = 0.01,
 	PLAYER_ORDER_PLANNING_DECAY = 0.04,				-- Amount of planning lost due to player manual order
 	PLANNING_GAIN = 0.02,
-	NAVAL_INVASION_PLANNING_BONUS_GAIN = 0.03,		-- Planning Bonus gain per day for naval invasions
+	NAVAL_INVASION_PLANNING_BONUS_GAIN = 0.04,		-- Planning Bonus gain per day for naval invasions
 	NAVAL_INVASION_PLANNING_BONUS_MALUS = -1,		-- Malus in percentage for the planning bonus gain for naval invasions
 	PLANNING_MAX = 0.25,                           	-- can get more from techs
 	CIVILWAR_ORGANIZATION_FACTOR = 0.3,			  	-- Multiplier of org for both sides when civilwar.
@@ -1111,7 +1111,7 @@ NAir = {
 	AIR_WING_MAX_STATS_SPEED = 1200,
 	AIR_WING_MAX_STATS_BOMBING = 100,
 	AIR_WING_MAX_SIZE = 1000, 							-- Max amount of airplanes in wing
-	AIR_WING_AVERAGE_SIZE = 100, 						-- Eyeballed average amount of airplanes in wing. Used when calculating air volunteer.
+	AIR_WING_AVERAGE_SIZE = 200, 						-- Eyeballed average amount of airplanes in wing. Used when calculating air volunteer.
 	AIR_WING_BOMB_DAMAGE_FACTOR = 1.6,					-- Used to balance the damage done while bombing.	
 	BIGGEST_AGILITY_FACTOR_DIFF = 3.0,					-- biggest factor difference in agility for doing damage (caps to this)
 	BIGGEST_SPEED_FACTOR_DIFF = 2.5,					-- biggest factor difference in speed for doing damage (caps to this)
@@ -2011,7 +2011,7 @@ NAI = {
 	MIN_DELIVERED_TRADE_FRACTION = 0.3,			-- AI will cancel trade deals that are not able to deliver more than this fraction of the agreed amount
 	SEA_PATH_LENGTH_SCORE_BASE = -25,           -- scoring reduction from naval paths for AI when picking trade partners
 	NAVAL_TRANSPORTS_FASEA_PATH_LENGTH_SCORE_BASE = -25,           -- scoring reduction from naval paths for AI when picking trade partners
-	MINIMUM_GOOD_TRADE_RATIO_PER_CIV = 0.05,   -- for each civ factory we have mul with this we are allowed to trade under % of resource on a trade
+	MINIMUM_GOOD_TRADE_RATIO_PER_CIV = 0.15,   -- for each civ factory we have mul with this we are allowed to trade under % of resource on a trade
 	NAVAL_DOCKYARDS_SHIP_FACTOR = 1000,			-- The extent to which number of dockyards play into amount of sips a nation wants
 	NAVAL_BASES_SHIP_FACTOR = 1000,		    	-- The extent to which number of naval bases play into amount of sips a nation wants
 	NAVAL_STATES_SHIP_FACTOR = 1000,			-- The extent to which number of states play into amount of sips a nation wants
@@ -2021,7 +2021,6 @@ NAI = {
 	ROCKET_MIN_ASSIGN_SCORE = 10,				-- Minimum total score for region to be considered for rocket air missions
 	ROCKET_MIN_PRIO_ASSIGN_SCORE = 50,			-- Minimum total score for region to be considered for critical rocket air missions
 	ROCKET_ASSIGN_SCORE_REDUCTION_PER_ASSIGNMENT = 0.5, -- each assigned rocket reduces the score of a region by this amount
-	AIR_BASE_PRIORITY_DISTANCE_FACTOR = 25.0,	-- Weight of distance between region and airbase for airbase priority score
 	MAX_VOLUNTEER_ARMY_FRACTION = 0.08,			-- Countries will not send more than their forces time this number to aid another country
 	DEPLOY_MIN_TRAINING_SURRENDER_FACTOR = 0.5,		-- Required percentage of training (1.0 = 100%) for AI to deploy unit in wartime while surrender progress is higher than 0
 	DEPLOY_MIN_EQUIPMENT_SURRENDER_FACTOR = 0.90,	-- Required percentage of equipment (1.0 = 100%) for AI to deploy unit in wartime while surrender progress is higher than 0
