@@ -1999,11 +1999,11 @@ NAI = {
 	RESEARCH_LAND_DOCTRINE_NEED_GAIN_FACTOR = 0.13, -- Multiplies value based on relative military industry size / country size.
 	RESEARCH_NAVAL_DOCTRINE_NEED_GAIN_FACTOR = 0.08, -- Multiplies value based on relative naval industry size / country size.
 	RESEARCH_AIR_DOCTRINE_NEED_GAIN_FACTOR = 0.07, -- Multiplies value based on relative number of air base / country size.
-	RESEARCH_NEW_WEIGHT_FACTOR = 0.6,			-- Impact of previously unexplored tech weights. Higher means more random exploration.
+	RESEARCH_NEW_WEIGHT_FACTOR = 0.5,			-- Impact of previously unexplored tech weights. Higher means more random exploration.
 	RESEARCH_NEW_DOCTRINE_RANDOM_FACTOR = 0.05,	-- How much randomness is allowed to contribute to do new research expressed as a factor of total tech weights. Higher means more random exploration.
 	RESEARCH_AHEAD_BONUS_FACTOR = 2.0,          -- To which extent AI should care about ahead of time bonuses to research
 	RESEARCH_BONUS_FACTOR = 5, 				-- To which extent AI should care about bonuses to research
-	MAX_AHEAD_RESEARCH_PENALTY = 2,
+	MAX_AHEAD_RESEARCH_PENALTY = 3,
 	RESEARCH_AHEAD_OF_TIME_FACTOR = 6.5, 		-- To which extent AI should care about ahead of time penalties to research
 	RESEARCH_BASE_DAYS = 85,					-- AI adds a base number of days when weighting completion time for techs to ensure it doesn't only research quick techs
 	DECLARE_WAR_RELATIVE_FORCE_FACTOR = 0.5,	-- Weight of relative force between nations that consider going to war
@@ -2015,7 +2015,7 @@ NAI = {
 	NAVAL_DOCKYARDS_SHIP_FACTOR = 1000,			-- The extent to which number of dockyards play into amount of sips a nation wants
 	NAVAL_BASES_SHIP_FACTOR = 1000,		    	-- The extent to which number of naval bases play into amount of sips a nation wants
 	NAVAL_STATES_SHIP_FACTOR = 1000,			-- The extent to which number of states play into amount of sips a nation wants
-	PRODUCTION_EQUIPMENT_SURPLUS_FACTOR = 0.1,	-- Base value for how much of currently used equipment the AI will at least strive to have in stock
+	PRODUCTION_EQUIPMENT_SURPLUS_FACTOR = 0.15,	-- Base value for how much of currently used equipment the AI will at least strive to have in stock
 	PRODUCTION_EQUIPMENT_SURPLUS_FACTOR_GARRISON = 0.05,	-- Base value for how much of currently used equipment the AI will at least strive to have in stock for garrison forces
 	AIR_SUPERIORITY_FACTOR = 2.5,				-- Factor for air superiority score
 	ROCKET_MIN_ASSIGN_SCORE = 10,				-- Minimum total score for region to be considered for rocket air missions
@@ -2127,7 +2127,7 @@ NAI = {
 	AI_CHAIN_CALLS_ALLIES = true,				-- with this enabled the AI will automatically call AI allies when called into a war (which in turn generates a single popup, this circumvents some potential modfiable scripts with the call ally diplo action, which might be a cause to disable it in some mods
 	
 	MIN_AI_UNITS_PER_TILE_FOR_STANDARD_COHESION = 2.0,	-- How many units should we have for each tile along a front in order to switch to standard cohesion (less moving around)
-	MIN_FRONT_SIZE_TO_CONSIDER_STANDARD_COHESION = 20,	-- How long should fronts be before we consider switching to standard cohesion (under this, standard cohesion fronts will switch back to relaxed)
+	MIN_FRONT_SIZE_TO_CONSIDER_STANDARD_COHESION = 2000,	-- How long should fronts be before we consider switching to standard cohesion (under this, standard cohesion fronts will switch back to relaxed)
 
 	JOIN_ALLY_BASE_DESIRE = 15,					-- exactly what it says
 	JOIN_ALLY_DEMOCRATIC_DESIRE = 30,			-- Desire to join ally added for democratic AI
@@ -2232,14 +2232,14 @@ NAI = {
 	ORG_UNIT_STRONG = 0.75,						-- Organization % for unit to be considered strong
 	STR_UNIT_STRONG = 0.85,						-- Strength (equipment) % for unit to be considered strong
 
-	ORG_UNIT_WEAK = 0.2,						-- Organization % for unit to be considered weak
-	STR_UNIT_WEAK = 0.63,						-- Strength (equipment) % for unit to be considered weak
+	ORG_UNIT_WEAK = 0.25,						-- Organization % for unit to be considered weak
+	STR_UNIT_WEAK = 0.68,						-- Strength (equipment) % for unit to be considered weak
 
-	ORG_UNIT_NORMAL = 0.35,						-- Organization % for unit to be considered normal
-	STR_UNIT_NORMAL = 0.75,						-- Strength (equipment) % for unit to be considered normal
+	ORG_UNIT_NORMAL = 0.6,						-- Organization % for unit to be considered normal
+	STR_UNIT_NORMAL = 0.77,						-- Strength (equipment) % for unit to be considered normal
 
-	PLAN_FACTION_STRONG_TO_EXECUTE = 0.50,		-- % or more of units in an order to consider executing the plan
-	PLAN_FACTION_NORMAL_TO_EXECUTE = 0.7,		-- % or more of units in an order to consider executing the plan
+	PLAN_FACTION_STRONG_TO_EXECUTE = 0.7,		-- % or more of units in an order to consider executing the plan
+	PLAN_FACTION_NORMAL_TO_EXECUTE = 0.75,		-- % or more of units in an order to consider executing the plan
 	PLAN_FACTION_WEAK_TO_ABORT = 0.5,			-- % or more of units in an order to consider executing the plan
 	PLAN_AVG_PREPARATION_TO_EXECUTE = 0.5,		-- % or more average plan preparation before executing
 	
@@ -2459,8 +2459,8 @@ NAI = {
 	REGION_CONVOY_DANGER_DAILY_DECAY = 8,				-- When convoys are sunk it generates threat in the region which the AI uses to prio nalval missions
 
 	PRODUCTION_LINE_SWITCH_SURPLUS_NEEDED_MODIFIER = 0.1,	-- Is modified by efficency modifiers.
-	PLAN_ACTIVATION_MAJOR_WEIGHT_FACTOR = 1.5,			-- AI countries will hold on activating plans if stronger countries have plans in the same location. Majors count extra (value of 1 will negate this)
-	PLAN_ACTIVATION_PLAYER_WEIGHT_FACTOR = 50.0,		-- AI countries will hold on activating plans if player controlled countries have plans in the same location.
+	PLAN_ACTIVATION_MAJOR_WEIGHT_FACTOR = 1,			-- AI countries will hold on activating plans if stronger countries have plans in the same location. Majors count extra (value of 1 will negate this)
+	PLAN_ACTIVATION_PLAYER_WEIGHT_FACTOR = 1,		-- AI countries will hold on activating plans if player controlled countries have plans in the same location.
 	AREA_DEFENSE_BASE_IMPORTANCE = 30,                  -- Area defense order base importance value (used for determining order of troop selections)
 	AREA_DEFENSE_CIVIL_WAR_IMPORTANCE = 30,             -- Area defense order importance value when a country is in a civil war as target or revolter.
 	AREA_DEFENSE_IMPORTANCE_FACTOR = 1.0,               -- used to balance defensive area importance vs other fronts
@@ -2664,8 +2664,8 @@ NAI = {
 	ASSIGN_TANKS_TO_JUNGLE = -6.0,                              -- factor for assigning tank divisions to fronts with jungle (proportional to how much of that terrain type)
 	UNIT_ASSIGNMENT_TERRAIN_IMPORTANCE = 10.0,                  -- Terrain score for units are multiplied by this when the AI is deciding which front they should be assigned to
 
-	ASSIGN_TANKS_TO_WAR_FRONT = 4.0,                            -- Scoring factor for assigning tank divisions to active war fronts
-	ASSIGN_TANKS_TO_NON_WAR_FRONT = 0.4,                        -- Scoring factor for assigning tank divisions to non-war fronts
+	ASSIGN_TANKS_TO_WAR_FRONT = 8.0,                            -- Scoring factor for assigning tank divisions to active war fronts
+	ASSIGN_TANKS_TO_NON_WAR_FRONT = 0.2,                        -- Scoring factor for assigning tank divisions to non-war fronts
 
 	REASSIGN_TO_ANOTHER_FRONT_FACTOR = 0.5,                    -- Factor for reassigning to another front. 0.0 < X < 1.0 means reluctant, X > 1.0 means want to.
 	REASSIGN_TO_ANOTHER_FRONT_IF_IN_COMBAT_FACTOR = 0.2,       -- Factor for reassigning to another front if in combat. 0.0 < X < 1.0 means reluctant, X > 1.0 means want to.
@@ -2880,7 +2880,7 @@ NAI = {
 	FRONT_EVAL_UNIT_SUPPLY_AND_ORG_LACK_IMPACT = 1.0,			-- scale how painful the AI thinks a combined lack of supply and organization is for units
 	FRONT_EVAL_PERCENT_TO_ASSIST_ALLY_FRONT = 0.5, 				-- percentage of how many units the AI thinks it should have compared to an ally before considering sending units
 
-	PRODUCTION_CARRIER_PLANE_BUFFER_RATIO = 1.9,				-- in addition to total deck size of carriers, we want at least this ratio to buffer it
+	PRODUCTION_CARRIER_PLANE_BUFFER_RATIO = 1.5,				-- in addition to total deck size of carriers, we want at least this ratio to buffer it
 	PRODUCTION_CARRIER_PLANE_PRODUCTION_BOOST_TO_BUFFER = 2.0,  -- production of carrier planes will go up by this ratio if we lack buffers
 
 
@@ -2923,7 +2923,11 @@ NAI = {
 	FAILED_INVASION_PORT_PRIO_FACTOR = 0.66,                -- for every failed invasion on a target port (province), factor the chance that we try to invade that same port again (relative to other ports)
 
 	BUILDING_TARGETS_BUILDING_PRIORITIES = {				-- buildings in order of pirority when considering building targets strategies. First has the greatest priority, omitted has the lowest. NOTE: not all buildings are supported by building targets strategies.
-		'industrial_complex',
+		'synthetic_refinery',
+		'synthetic_rubber_refinery',
+	    'industrial_complex',
+	    'arms_factory',
+	    'dockyard',
 	},
 
 	MIN_INVASION_PLAN_VALUE_TO_EXECUTE = 0.2,				-- ai will only activate invasions if plan value is above this
