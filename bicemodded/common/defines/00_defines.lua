@@ -1003,14 +1003,14 @@ NMilitary = {
 	NAVY_LEADER_LEVEL_UP_STAT_WEIGHTS = {5, 5, 5, 5}, -- level up stat random base weights attack, defense, maneuvering, coordination
 	
 	UNIT_LEADER_INITIAL_TRAIT_SLOT = { 				-- trait slot for 0 level leader
-		0.33, -- field marshal
+		1.0, -- field marshal
 		0.0, -- corps commander
 		0.0, -- navy general
 		0.0, -- operative
 	}, 
 	
 	UNIT_LEADER_TRAIT_SLOT_PER_LEVEL = { 			-- num extra traits on each level
-		0.33, -- field marshal
+		0.5, -- field marshal
 		0.5, -- corps commander
 		0.5, -- navy general
 		0.0, -- operative
