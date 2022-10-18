@@ -989,7 +989,7 @@ NMilitary = {
 	ACCLIMATIZATION_SPEED_GAIN = 0.15,				-- A variable used to balance the overall speed of gaining the acclimatization
 	ACCLIMATIZATION_LOSS_SPEED_FACTOR = 2.0,		-- Loosing one acclimatization while being under affect of the opposite climate should cause it to drop down much faster than gaining.
 
-	PROMOTE_LEADER_CP_COST = 30.0,					-- cost of promoting a leader
+	PROMOTE_LEADER_CP_COST = 20.0,					-- cost of promoting a leader
 	
 	FIELD_MARSHAL_ARMY_BONUS_RATIO = 0.5,           -- ratio to apply regular bonuses FM bonuses to armies
 	
