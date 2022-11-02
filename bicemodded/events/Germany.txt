@@ -7916,6 +7916,280 @@ country_event = {
 	}
 }
 
+# Forming West Germany
+country_event = {
+	id = germany.200
+	title = germany.200.t
+	desc = germany.200.desc
+	picture = GFX_report_event_german_reichstag_gathering
+
+	fire_only_once = yes
+
+
+	mean_time_to_happen = {
+		days = 10
+	}
+
+	trigger = {
+		has_global_flag = yalta_agreed_flag
+		has_government = democratic
+		has_war = no # Don't do this while we are still at war
+		SOV = {
+			has_government = communism
+		}
+		IF = {
+			# If the GER tag is democratic, use this, otherwise go random
+			limit = {
+				GER = {
+					is_subject = yes 
+					has_government = democratic
+				}
+			}
+			any_subject_country = {
+				tag = GER
+				has_government = democratic 
+			}
+		}
+		ELSE = {
+			any_subject_country = {
+				original_tag = GER
+				has_government = democratic 
+			}
+		}
+			
+	}
+
+	option = { #Let's do it
+		name = germany.200.a
+		ai_chance = {
+			base = 100
+		}
+		add_stability = 0.1
+		add_political_power = 100
+		add_ideas = GER_western_trade_cooperation
+
+		random_subject_country = {
+			limit = {
+				original_tag = GER
+				has_government = democratic 
+			}
+			ROOT = {
+				set_autonomy = {
+					target = PREV
+					autonomy_state = autonomy_free
+				}
+			}
+			add_ideas = GER_western_trade_cooperation
+			IF = {
+				limit = {
+					ROOT = { is_faction_leader = yes }
+				}
+				ROOT = { add_to_faction = PREV }
+			}
+			set_cosmetic_tag = WGR
+			every_other_country = {
+				limit = {
+					any_subject_country = {
+						original_tag = GER
+						has_government = democratic 
+					}
+					NOT = { tag = ROOT }
+				}
+				country_event = {
+					id = germany.201
+					hours = 4
+					random_hours = 12
+				}
+
+			}
+			
+		}
+		# Check if last german democratic puppet
+		IF = {
+			limit = {
+				NOT = {
+					any_country = {
+						original_tag = GER 
+						has_government = democratic
+						is_subject = yes 
+						exists = yes 
+					}
+				}
+				SOV = {
+					any_subject_country = {
+						original_tag = GER 
+					}
+				}
+			}
+			SOV = {
+				country_event = {
+					id = germany.202
+					days = 14 # Yeah, I know it was way longer in real life, but it makes more sense this way from a game p.o.v
+					random_days = 20
+				}
+			}
+		}
+			
+		
+	}
+
+	option = { #Nah, let's not 
+		name = germany.200.b
+		ai_chance = {
+			base = 0
+		}
+		
+	}
+
+}
+
+# This is happening
+country_event = {
+	id = germany.201
+	title = germany.201.t
+	desc = germany.201.desc
+	picture = GFX_report_event_german_reichstag_gathering
+	is_triggered_only = yes 
+
+	trigger = {
+		has_global_flag = yalta_agreed_flag
+		has_government = democratic
+		any_subject_country = {
+			original_tag = GER
+			has_government = democratic 
+		}
+	}
+
+	option = { #Let's do it
+		name = germany.201.a
+		ai_chance = {
+			base = 100
+		}
+		add_stability = 0.1
+		add_political_power = 100
+		add_ideas = GER_western_trade_cooperation
+		random_subject_country= {
+			limit = {
+				original_tag = GER
+				has_government = democratic 
+			}
+			random_country = {
+				limit = {
+					original_tag = GER
+					has_government = democratic
+					is_subject = no 
+					has_cosmetic_tag = WGR
+				}
+				annex_country = {
+					target = PREV
+					transfer_troops = yes
+				}
+			}
+		}
+		IF = {
+			limit = {
+				NOT = {
+					any_country = {
+						original_tag = GER 
+						has_government = democratic
+						is_subject = yes 
+						exists = yes 
+					}
+				}
+				SOV = {
+					any_subject_country = {
+						original_tag = GER 
+					}
+				}
+			}
+			SOV = {
+				country_event = {
+					id = germany.202
+					days = 14 # Yeah, I know it was way longer in real life, but it makes more sense this way from a game p.o.v
+					random_days = 20
+				}
+			}
+			log = "triggered event to SOV"
+		}
+		
+	}
+
+	option = { #Nah, let's not 
+		name = germany.201.b
+		ai_chance = {
+			base = 0
+		}
+		add_political_power = -150
+		
+	}
+
+}
+
+# German Reunification - for Soviet
+country_event = {
+	id = germany.202
+	title = germany.202.t
+	desc = germany.202.desc
+	picture = GFX_report_event_german_reichstag_gathering
+	is_triggered_only = yes 
+
+	trigger = {
+		has_global_flag = yalta_agreed_flag
+		any_subject_country = {
+			original_tag = GER
+		}
+	}
+
+	option = { #Let's create our own Germany
+		name = germany.202.a
+		ai_chance = {
+			base = 100
+		}
+		random_subject_country = {
+			limit = {
+				original_tag = GER
+			}
+			ROOT = {
+				set_autonomy = {
+					target = PREV
+					autonomy_state = autonomy_free
+				}
+			}
+			IF = {
+				limit = { has_government = communism }
+				set_cosmetic_tag = DDR
+			}
+		}
+		
+	}
+
+	option = { #We don't care 
+		name = germany.202.b
+		ai_chance = {
+			base = 10
+		}
+		random_subject_country= {
+			limit = {
+				original_tag = GER
+			}
+			random_country = {
+				limit = {
+					original_tag = GER
+					has_government = democratic
+					is_subject = no 
+					has_cosmetic_tag = WGR
+				}
+				annex_country = {
+					target = PREV
+					transfer_troops = yes
+				}
+			}
+		}
+		
+	}
+
+}
+
 #Order Aufstellunfswelle 1
 country_event = {
 	id = germany.222

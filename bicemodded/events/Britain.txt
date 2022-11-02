@@ -2573,6 +2573,178 @@ news_event = {
 	}
 }
 
+#Operation Fork ultimatum
+country_event = {
+    id = britain.55
+    title = britain.55.t
+    desc = britain.55.desc
+    picture = GFX_report_event_generic_sign_treaty2
+ 
+    is_triggered_only = yes
+
+    #fold. join the allies
+    option = {
+        name = britain.55.a
+        trigger = {
+        	FROM = { is_faction_leader = yes }
+        }
+        FROM = { 
+        	add_to_faction = ROOT
+        	country_event = { id = generic.6 days = 1 }  
+        }
+
+        ai_chance = {
+        	base = 5
+        	modifier = {
+        		is_historical_focus_on = yes
+        		factor = 10
+        	}
+        }
+    }
+
+    #seek axis help
+    option = {
+        name = britain.55.b
+        trigger = {
+        	any_other_country = {
+        		is_faction_leader = yes
+    			has_war_with = ROOT.FROM
+        	}
+        }
+        if = {
+        	limit = {
+        		GER = { 
+    				has_war_with = FROM
+					is_faction_leader = yes
+        		}
+        	}
+        	GER = {	country_event = { id = britain.56 days = 1} }
+        }
+        else = {
+        	random_other_country = {
+        		limit = {
+        			has_war_with = FROM
+    				is_faction_leader = yes
+        		}
+    			country_event = { id = britain.56 days = 1} 
+        	}
+        }
+
+    	FROM = {
+    		create_wargoal = {
+				target = PREV
+				type = puppet_wargoal_focus
+			}
+    	}
+        set_country_flag = rejected_fork_demand 
+    	
+    	ai_chance = {
+    		base = 5
+    		modifier = {
+    			is_historical_focus_on = yes
+    			factor = 0
+    		}
+    	}
+    }
+
+    #go at it alone
+    option = {
+        name = britain.55.c
+
+        set_country_flag = rejected_fork_demand 
+		effect_tooltip = {
+        	FROM = {
+		        create_wargoal = {
+        			target = PREV
+        			type = puppet_wargoal_focus
+        		}
+        		country_event = { id = britain.57 }
+        	}
+    	}
+        FROM = { country_event = { id = britain.57 days = 1 } }
+
+        ai_chance = {
+        	base = 0.5
+        	modifier = {
+        		is_historical_focus_on = yes
+        		factor = 0
+        	}
+        }
+    }
+}
+
+#Iceland seeks protection
+country_event = {
+    id = britain.56
+    title = britain.56.t
+    desc = britain.56.desc
+    picture = GFX_report_event_generic_read_write
+ 
+    is_triggered_only = yes
+
+
+    #accept
+    option = {
+        name = britain.56.a
+
+    	add_to_faction = FROM 
+    	FROM = { country_event = { id = generic.3 days = 1 } }
+    	ai_chance = {
+    		base = 3
+    		modifier = {
+    			is_historical_focus_on = yes
+    			add = -1
+    		}
+
+    		modifier = {
+    			FROM = {
+    				is_ai = no
+    			}
+    			add = 10
+    		}
+
+    		modifier = {
+    			FRA = {
+    				has_capitulated = no
+    			}
+    			POL = {
+    				has_capitulated = no
+    			}
+    			factor = 0
+    		}
+    	}
+    }
+
+    #deny
+    option = {
+		name = britain.56.b
+		FROM = { country_event = { id = generic.4 days = 1 } }
+		ai_chance = {
+			base = 1
+		}
+    }
+}
+
+#rejected fork
+country_event = {
+    id = britain.57
+    title = britain.57.t
+    desc = britain.57.desc
+    picture = GFX_report_event_generic_read_write
+ 
+    is_triggered_only = yes
+
+
+    #accept
+    option = {
+        name = britain.57.a
+        create_wargoal = {
+        	target = FROM
+        	type = puppet_wargoal_focus
+        }
+    }
+}
+
 country_event = ( #
 	id = britain.400
 	title = britain.400.t
