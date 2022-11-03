@@ -311,14 +311,24 @@ SOV_buffer_leningrad = {
 		}
 		subtract_invasions_from_need = no # need to always guard here!
 	}
+}
+
+SOV_unit_buffer_for_sevastopol = {
+	allowed = {
+		original_tag = SOV
+	}
+	enable = {
+		controls_state = 137
+	}
+	abort_when_not_enabled = yes
 	
 	ai_strategy = {
 		type = put_unit_buffers
-		ratio = 0.05
-		states = { 
-	    	137 
-		}
-		subtract_invasions_from_need = no # need to always guard here!
+		ratio = 0.03
+		order_id = 999
+		states = { 137 }
+		subtract_invasions_from_need = no
+		subtract_fronts_from_need = no
 	}
 }
 
@@ -699,17 +709,29 @@ ger_and_pol = {
 		original_tag = SOV
 	}
 	enable = {
+	    has_non_aggression_pact_with = GER
 		GER = { has_war_with = POL }
 	}
 	
-	abort = {
-		NOT = { GER = { has_war_with = POL } }
-	}
+	abort_when_not_enabled = yes
 	
 	ai_strategy = {
 		type = conquer
 		id = "POL"
-		value = 200
+		value = 100
+	}
+	ai_strategy = {
+		type = front_unit_request
+		country_trigger = {
+			tag = POL
+		}
+		value = 50
+	}
+	
+	ai_strategy = {
+		type = prepare_for_war
+		id = POL
+		value = 150
 	}
 }
 
@@ -822,7 +844,10 @@ claims_on_finland = {
 		original_tag = SOV
 	}
 	enable = {
-		has_completed_focus = SOV_baltic_security
+		focus_progress = {
+			focus = SOV_baltic_security
+			progress > 0.01
+		}
 		NOT = { 146 = { is_controlled_by_ROOT_or_ally = yes } }
 	}
 	abort = {
@@ -837,13 +862,19 @@ claims_on_finland = {
 	ai_strategy = {
 		type = declare_war
 		id = "FIN"			
-		value = 600
+		value = 500
 	}	
 	ai_strategy = {
 		type = conquer
 		id = "FIN"			
 		value = 50
 	}	
+	
+	ai_strategy = {
+		type = prepare_for_war
+		id = FIN
+		value = 150
+	}
 }
 
 
