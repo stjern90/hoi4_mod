@@ -273,7 +273,7 @@ NCountry = {
 	NUCLEAR_BOMB_DROP_WAR_SUPPORT_EFFECT_MAX_VP = 3,		-- National unity will be scaled down if there's less VP than this in the province
 	WEEKLY_STABILITY_GAIN = 0.0,
 	WEEKLY_WAR_SUPPORT_GAIN = 0.0,
-	SUPPLY_CONVOY_FACTOR = 0.6,					-- How many convoys each supply needs
+	SUPPLY_CONVOY_FACTOR = 0.7,					-- How many convoys each supply needs
 	CONVOY_RANGE_FACTOR = 0.3,                        -- how much range affects convoy need
 	LOCAL_MANPOWER_ACCESSIBLE_NON_CORE_FACTOR = 0.02,  -- accessible recruitable factor base
 	MAX_NON_CORE_MANPOWER_FACTOR = 1.0,				-- max clamp for recruitable local non core manpower factor for states
@@ -967,7 +967,7 @@ NMilitary = {
 	COMBAT_STACKING_PENALTY = -0.03,                -- how much stackign penalty per division
 	COMBAT_OVER_WIDTH_PENALTY = -1,					-- over combat width penalty per %.
 	COMBAT_OVER_WIDTH_PENALTY_MAX = -0.25,			-- over combat width max (when you cant join no more).
-	RETREAT_SPEED_FACTOR = 0.5,                    -- speed bonus when retreating
+	RETREAT_SPEED_FACTOR = 0.45,                    -- speed bonus when retreating
 	WITHDRAWING_SPEED_FACTOR = 0.3,				-- speed bonus when withdrawing
 	STRATEGIC_SPEED_INFRA_BASE = 5.0,               -- Base speed of strategic redeployment when not on railways
 	STRATEGIC_SPEED_INFRA_MAX = 5.0,               -- Additional speed of strategic redeployment on max-level infrastructure
@@ -3504,7 +3504,7 @@ NIntel = {
 
 	CIVILIAN_INTEL_NEEDED_TO_SHOW_FOCUS_TREE = 0.5, -- min required intel to focus tree with taken focuses
 	CIVILIAN_INTEL_NEEDED_TO_SHOW_CURRENT_FOCUS = 0.7,  -- min required intel to show currently focus
-	CIVILIAN_INTEL_NEEDED_TO_SHOW_CURRENT_FOCUS_PROGRESS = 0.7,  -- min required intel to show current focus progress
+	CIVILIAN_INTEL_NEEDED_TO_SHOW_CURRENT_FOCUS_PROGRESS = 0.8,  -- min required intel to show current focus progress
 	
 	CIVILIAN_MIN_INTEL_TO_SHOW_INDUSTRY_GRAPH = 0.30,
 	CIVILIAN_MIN_INTEL_TO_SHOW_CONVOYS_GRAPH = 0.70,
@@ -3519,7 +3519,7 @@ NIntel = {
 	INTEL_TO_SHOW_PREVIOUSLY_RESEARCHED = { 0.7, 0.7, 0.7, 0.7 }, -- minimum value to show previously researched tech
 	INTEL_TO_SHOW_CURRENTLY_RESEARCHED = { 0.8, 0.8, 0.8, 0.8 }, -- minimum value to show currently being researched tech
 	
-	INTEL_TO_SHOW_IDEAS = { 0.0, 0.0, 0.0, 0.0 },
+	INTEL_TO_SHOW_IDEAS = { 0.3, 0.4, 0.4, 0.4 },
 	
 	ARMY_ARMY_COUNT_RANGE_INTEL_MIN = 0.05,
 	ARMY_ARMY_COUNT_RANGE_INTEL_MAX = 0.7,
@@ -3808,8 +3808,8 @@ NSupply = {
 	SUPPLY_BASE_MULT = 1.3,							-- multiplier on supply base values
 	SUPPLY_DISRUPTION_DAILY_RECOVERY = 1.5,		-- every day nodes recover this much of their accumulated disruption.
 
-	RAILWAY_CONVERSION_COOLDOWN = 10, -- railways will be put on cooldown when they are captured by enemy and will not be usable during the cooldown
-	RAILWAY_CONVERSION_COOLDOWN_CORE = 5,
+	RAILWAY_CONVERSION_COOLDOWN = 14, -- railways will be put on cooldown when they are captured by enemy and will not be usable during the cooldown
+	RAILWAY_CONVERSION_COOLDOWN_CORE = 7,
 	RAILWAY_CONVERSION_COOLDOWN_CIVILWAR = 0,
 
 	DEFAULT_STARTING_TRUCK_RATIO = 1.5, -- countries get this ratio of starting truck in their buffers compared to their need
