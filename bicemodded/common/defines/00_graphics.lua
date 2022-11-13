@@ -100,6 +100,8 @@ NMapMode = {
 	SUPPLY_HOVERED_PROVINCE_COLOR_INDEX = 4, -- Border color of hovered province. Refers to the colors in BORDER_COLOR_CUSTOM_HIGHLIGHTS.
 	PEACE_HOVERED_STATE_COLOR_INDEX = 3 , -- Border color of hovered state in Peace conference. Refers to the colors in BORDER_COLOR_CUSTOM_HIGHLIGHTS.
 	PEACE_CLAIMED_STATE_COLOR_INDEX = 2 , -- Border color of claimed states in Peace conference. Refers to the colors in BORDER_COLOR_CUSTOM_HIGHLIGHTS.
+	SELECTION_HOVERED_STATE_COLOR_INDEX_CONTROLLED = 5, -- Border color of hovered controlled states in various select mapmodes. Refers to the colors in BORDER_COLOR_CUSTOM_HIGHLIGHTS.
+	SELECTION_HOVERED_STATE_COLOR_INDEX_FOREIGN = 6,	-- Border color of hovered foreign states in various select mapmodes. Refers to the colors in BORDER_COLOR_CUSTOM_HIGHLIGHTS.
 },
 
 NMapIcons = {
@@ -679,6 +681,8 @@ NGraphics = {
 		0.1, 0.6, 0.2, 1.0,   -- 2: good, while active
 		0.8, 0.3, 0.0, 1.0,   -- 3: bad, while passive
 		0.0, 0.4, 0.8, 1.0,   -- 4: good, while passive
+		0.3, 0.9, 0.3, 0.8,   -- 5: controlled, neutral positive
+		0.7, 0.7, 0.0, 1.0,   -- 6: not ours, neutral negative
 	},
 	BORDER_COLOR_TUTORIAL_HIGHLIGHT_R = 0.0,
 	BORDER_COLOR_TUTORIAL_HIGHLIGHT_G = 0.61,
@@ -1006,15 +1010,15 @@ NGraphics = {
 	COUNTRY_UI_COLOR_BRIGHTNESS_MODIFIER = 1.0,
 
 	COMMANDGROUP_PRESET_COLORS_HSV = {
-		0.0/360.0, 1.0, 0.75,	--red
-		10.0/360.0, 1.0, 0.75,	--orange
-		60.0/360.0, 1.0, 0.75,	--yellow
-		120.0/360.0, 0.85, 0.75,	--green
-		155.0/360.0, 1.0, 0.75,	--greenish
-		180.0/360.0, 1.0, 0.75,	--turq
-		220.0/360.0, 1.0, 0.75,	--blue
+		0.0/360.0, 1.0, 0.86,	--red
+		10.0/360.0, 1.0, 0.86,	--orange
+		60.0/360.0, 1.0, 0.86,	--yellow
+		120.0/360.0, 0.85, 0.86,	--green
+		155.0/360.0, 1.0, 0.86,	--greenish
+		180.0/360.0, 1.0, 0.86,	--turq
+		220.0/360.0, 1.0, 0.86,	--blue
 		260.0/360.0, 1.0, 0.85,	--dark purple
-		330.0/360.0, 0, 0.75		--white
+		330.0/360.0, 0, 0.86		--white
     },
 
 	CAMERA_OUTSIDE_MAP_DISTANCE_TOP = 200.0,
