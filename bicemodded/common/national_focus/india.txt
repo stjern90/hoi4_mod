@@ -4417,7 +4417,7 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 		id = RAJ_integrate_princely_railways
 		icon = GFX_goal_generic_construct_infrastructure
 		prerequisite = { focus = RAJ_east_india_railways }
-		x = -2
+		x = 2
 		y = 1
 		relative_position_id = RAJ_east_india_railways
 
@@ -4507,7 +4507,7 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 		id = RAJ_ishapore_arsenal
 		icon = GFX_RAJ_industry
 		prerequisite = { focus = RAJ_east_india_railways }
-		x = 3
+		x = -2
 		y = 1
 		relative_position_id = RAJ_east_india_railways
 
@@ -5039,7 +5039,7 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 		id = RAJ_financial
 		icon = GFX_focus_usa_reestablish_the_gold_standard
 		prerequisite = { focus = RAJ_british_arms_investors focus = RAJ_british_rail_investors focus = RAJ_housing focus = RAJ_education }
-		x = 3
+		x = -2
 		y = 3
 		relative_position_id = RAJ_integrate_princely_railways
 
@@ -5132,6 +5132,7 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 		id = RAJ_urbanization
 		icon = GFX_goal_generic_industry_2
 		prerequisite = { focus = RAJ_administrative_oversight }
+		prerequisite = { focus = RAJ_economy }
 		x = -1
 		y = 1
 		relative_position_id = RAJ_administrative_oversight
@@ -5183,9 +5184,9 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 		id = RAJ_land_clearance
 		icon = GFX_goal_generic_construct_civilian
 		prerequisite = { focus = RAJ_british_arms_investors focus = RAJ_british_rail_investors }
-		x = 2
-		y = 1
-		relative_position_id = RAJ_financial
+		x = 0
+		y = 4
+		relative_position_id = RAJ_ishapore_arsenal
 
 		cost = 8.7
 
@@ -5193,26 +5194,49 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 			factor = 30
 		}
 
-		available = {
-
-		}
-
-		bypass = {
-
-		}
-
 		cancel_if_invalid = yes
 		continue_if_invalid = no
 		available_if_capitulated = no
 
 		completion_reward = {
-			hidden_effect = {
-				every_owned_state = {
-					limit = { has_state_flag = RAJ_industrialized_this_state }
-					add_extra_state_shared_building_slots = 1
+		    add_stability = -0.03
+			add_war_support = -0.03
+			add_tech_bonus = {
+				name = construction_tech_bonus
+				bonus = 0.5
+				uses = 2
+				category = construction_tech
+			}
+			430 = {
+				add_building_construction = {
+					type = air_base
+					level = 1
+					instant_build = yes
 				}
 			}
-			custom_effect_tooltip = RAJ_land_clearance_effect_tt
+			435 = {
+				add_building_construction = {
+					type = air_base
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 423 425 }
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
 		}
 	}
 	
@@ -5222,9 +5246,9 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 		prerequisite = { focus = RAJ_economy }
 		prerequisite = { focus = RAJ_land_clearance }
 		
-		x = 3
+		x = 1
 		y = 1
-		relative_position_id = RAJ_economy
+		relative_position_id = RAJ_land_clearance
 
 		cost = 7.2
 		ai_will_do = {
@@ -5232,7 +5256,6 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 		}
 		available = {
 		    controls_state = 423
-			OR = { has_completed_focus = RAJ_british_arms_investors has_completed_focus = RAJ_british_rail_investors }
 		}
 
 		cancel_if_invalid = yes
@@ -5252,11 +5275,10 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 	focus = {
 		id = RAJ_india_company
 		icon = GFX_goal_FIN_shipyard
-		prerequisite = { focus = RAJ_economy }
 		prerequisite = { focus = RAJ_land_clearance }
-		x = 1
+		x = -1
 		y = 1
-		relative_position_id = RAJ_economy
+		relative_position_id = RAJ_land_clearance
 
 		cost = 7.2
 		ai_will_do = {
@@ -5264,7 +5286,6 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 		}
 		available = {
 		    controls_state = 423
-			OR = { has_completed_focus = RAJ_british_arms_investors has_completed_focus = RAJ_british_rail_investors }
 		}
 
 		cancel_if_invalid = yes
@@ -5273,11 +5294,12 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 
         search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
+		    ENG = { add_stability = 0.02 } # TODO event
 			423 = {
-				add_extra_state_shared_building_slots = 2
+				add_extra_state_shared_building_slots = 1
 				add_building_construction = {
 					type = dockyard
-					level = 2
+					level = 1
 					instant_build = yes
 				}
 				
@@ -5316,7 +5338,7 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 			factor = 30
 		}
 		available = {
-		    date > 1942.1.1 # add constraints on british dependence on india, promised independence etc
+		    date > 1941.10.1 # add constraints on british dependence on india, promised independence etc
 			OR = { has_completed_focus = RAJ_housing has_completed_focus = RAJ_education }
 		}
 
@@ -5430,17 +5452,16 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 		id = RAJ_land_reforms
 		icon = GFX_goal_wheat
 		prerequisite = { focus = RAJ_administrative_oversight }
-		x = -2
+		x = 1
 		y = 1
-		relative_position_id = RAJ_economy
+		relative_position_id = RAJ_administrative_oversight
 
-		cost = 7.1
+		cost = 7.2
 		ai_will_do = {
 			factor = 30
 		}
 		available = {
-		    date > 1942.1.1 # add constraints on british dependence on india, promised independence etc
-			OR = { has_completed_focus = RAJ_housing has_completed_focus = RAJ_education }
+		    date > 1941.10.1 # add constraints on british dependence on india, promised independence etc
 		}
 
 		cancel_if_invalid = yes
