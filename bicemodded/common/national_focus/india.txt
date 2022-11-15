@@ -4603,9 +4603,9 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 	focus = {
 		id = RAJ_administrative_oversight
 		icon = GFX_goal_generic_forceful_treaty
-		prerequisite = { focus = RAJ_clamp_down_on_corruption }
+		prerequisite = { focus = RAJ_housing focus = RAJ_education }
 		x = 0
-		y = 1
+		y = 3
 		relative_position_id = RAJ_clamp_down_on_corruption
 
 		cost = 8.7
@@ -4615,7 +4615,14 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 		}
 
 		available = {
-			is_subject = no
+			if = {
+				limit = { NOT = { has_government = fascism } }
+				compare_autonomy_state > autonomy_colony
+			}
+			if = {
+				limit = { has_government = fascism }
+				compare_autonomy_state > autonomy_reichsprotectorate
+			}
 		}
 
 		bypass = {
@@ -4632,50 +4639,11 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 	}
 	
 	focus = {
-		id = RAJ_land_clearance
-		icon = GFX_goal_generic_construct_civilian
-		prerequisite = { focus = RAJ_administrative_oversight }
-		mutually_exclusive = { focus = RAJ_workforce_integration }
-		x = -1
-		y = 1
-		relative_position_id = RAJ_administrative_oversight
-
-		cost = 8.7
-
-		ai_will_do = {
-			factor = 30
-		}
-
-		available = {
-
-		}
-
-		bypass = {
-
-		}
-
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-
-		completion_reward = {
-			hidden_effect = {
-				every_owned_state = {
-					limit = { has_state_flag = RAJ_industrialized_this_state }
-					add_extra_state_shared_building_slots = 1
-				}
-			}
-			custom_effect_tooltip = RAJ_land_clearance_effect_tt
-		}
-	}
-	
-	focus = {
 		id = RAJ_workforce_integration
 		icon = GFX_goal_generic_army_doctrines
-		prerequisite = { focus = RAJ_administrative_oversight }
-		mutually_exclusive = { focus = RAJ_land_clearance }
+		prerequisite = { focus = RAJ_land_reforms }
 		x = 1
-		y = 1
+		y = 2
 		relative_position_id = RAJ_administrative_oversight
 
 		cost = 8.7
@@ -5071,11 +5039,11 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 		id = RAJ_financial
 		icon = GFX_focus_usa_reestablish_the_gold_standard
 		prerequisite = { focus = RAJ_british_arms_investors focus = RAJ_british_rail_investors focus = RAJ_housing focus = RAJ_education }
-		x = 2
+		x = 3
 		y = 3
 		relative_position_id = RAJ_integrate_princely_railways
 
-		cost = 13
+		cost = 12.9
 		ai_will_do = {
 			factor = 30
 		}
@@ -5163,24 +5131,14 @@ search_filters = { FOCUS_FILTER_RESEARCH }
     focus = {
 		id = RAJ_urbanization
 		icon = GFX_goal_generic_industry_2
-		prerequisite = { focus = RAJ_financial }
-		x = 1
-		y = 4
-		relative_position_id = RAJ_integrate_princely_railways
+		prerequisite = { focus = RAJ_administrative_oversight }
+		x = -1
+		y = 1
+		relative_position_id = RAJ_administrative_oversight
 
 		cost = 8.7
 		ai_will_do = {
 			factor = 30
-		}
-		available = {
-			if = {
-				limit = { NOT = { has_government = fascism } }
-				compare_autonomy_state > autonomy_colony
-			}
-			if = {
-				limit = { has_government = fascism }
-				compare_autonomy_state > autonomy_reichsprotectorate
-			}
 		}
 
 		cancel_if_invalid = yes
@@ -5197,9 +5155,9 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 		id = RAJ_economy
 		icon = GFX_raise_interest_rates
 		prerequisite = { focus = RAJ_financial }
-		x = 3
-		y = 4
-		relative_position_id = RAJ_integrate_princely_railways
+		x = 0
+		y = 1
+		relative_position_id = RAJ_financial
 
 		cost = 10
 		ai_will_do = {
@@ -5222,10 +5180,49 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 	}
 	
 	focus = {
+		id = RAJ_land_clearance
+		icon = GFX_goal_generic_construct_civilian
+		prerequisite = { focus = RAJ_british_arms_investors focus = RAJ_british_rail_investors }
+		x = 2
+		y = 1
+		relative_position_id = RAJ_financial
+
+		cost = 8.7
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			hidden_effect = {
+				every_owned_state = {
+					limit = { has_state_flag = RAJ_industrialized_this_state }
+					add_extra_state_shared_building_slots = 1
+				}
+			}
+			custom_effect_tooltip = RAJ_land_clearance_effect_tt
+		}
+	}
+	
+	focus = {
 		id = RAJ_rubber_investments
 		icon = GFX_goal_POL_rubber
-		prerequisite = { focus = RAJ_economy focus = RAJ_urbanization }
-		x = 2
+		prerequisite = { focus = RAJ_economy }
+		prerequisite = { focus = RAJ_land_clearance }
+		
+		x = 3
 		y = 1
 		relative_position_id = RAJ_economy
 
@@ -5255,8 +5252,9 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 	focus = {
 		id = RAJ_india_company
 		icon = GFX_goal_FIN_shipyard
-		prerequisite = { focus = RAJ_economy focus = RAJ_urbanization }
-		x = 0
+		prerequisite = { focus = RAJ_economy }
+		prerequisite = { focus = RAJ_land_clearance }
+		x = 1
 		y = 1
 		relative_position_id = RAJ_economy
 
@@ -5308,12 +5306,12 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 	focus = {
 		id = RAJ_end_the_monopoly
 		icon = GFX_tarifs 
-		prerequisite = { focus = RAJ_economy focus = RAJ_urbanization }
-		x = -4
-		y = 1
-		relative_position_id = RAJ_economy
+		prerequisite = { focus = RAJ_urbanization }
+		x = -1
+		y = 2
+		relative_position_id = RAJ_administrative_oversight
 
-		cost = 12
+		cost = 10
 		ai_will_do = {
 			factor = 30
 		}
@@ -5431,7 +5429,7 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 	focus = {
 		id = RAJ_land_reforms
 		icon = GFX_goal_wheat
-		prerequisite = { focus = RAJ_economy focus = RAJ_urbanization }
+		prerequisite = { focus = RAJ_administrative_oversight }
 		x = -2
 		y = 1
 		relative_position_id = RAJ_economy
