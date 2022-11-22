@@ -1,57 +1,19 @@
 
 
-turkey_ignore_fra = {
-        allowed = { 
-		tag = TUR
-	}
-	enable = {
-		date > 1938.12.31
-	}
-	abort = {
-		always = no
-	}
-	ai_strategy = {
-		type = alliance
-		id = "ENG"			
-		value = -150
-	}
-	ai_strategy = {
-		type = alliance
-		id = "FRA"			
-		value = -150
-	}
-	ai_strategy = {
-		type = ignore
-		id = "FRA"			
-		value = 100
-	}	
-	ai_strategy = { type = alliance id = "GER" value = -150 }
-	ai_strategy = { type = ignore id = "GER" value = 100 }	
-	ai_strategy = { type = declare_war id = "GER" value = -100 }	
-	
-	ai_strategy = {
-		type = alliance
-		id = "SOV"			
-		value = -150
-	}
-	ai_strategy = {
-		type = ignore
-		id = "SOV"			
-		value = 100
-	}	
-	ai_strategy = {
-		type = declare_war
-		id = "SOV"			
-		value = -200
-	}
-	ai_strategy = {
-		type = antagonize
-		id = "SOV"			
-		value = -100
-	}
+south_america_ignore_conflicts = {
+allowed = { OR = { original_tag = BRA original_tag = ARG original_tag = CUB } } # TODO more
+	enable = { always = yes
+		}
+ai_strategy = { type = area_priority id = south_america value = 100 }
+ai_strategy = { type = area_priority id = asia value = -100 }
+ai_strategy = { type = area_priority id = europe value = -100 }
+ai_strategy = { type = area_priority id = middle_east value = -100 }
+ai_strategy = { type = area_priority id = suez value = -100 }
+ai_strategy = { type = area_priority id = africa value = -75 }
+ai_strategy = { type = garrison value = 75 }
 }
 
-south_america_ignore_chi = {
+western_world_america_ignore_chi = {
 	enable = {
 		or = { 
 		capital_scope = {
@@ -63,9 +25,11 @@ south_america_ignore_chi = {
 		capital_scope = {
 			is_on_continent = north_america
 		}
-		tag = AST
-		tag = NZL
+		original_tag = AST
+		original_tag = NZL
+                original_tag = EGY
 		}
+                NOT = { original_tag = GER }
 		date > 1937.1.31
 	}
 	abort = {
@@ -88,24 +52,6 @@ south_america_ignore_chi = {
 	
 	ai_strategy = {  type = alliance  id = "XIN" value = -400}	
 	ai_strategy = {  type = befriend  id = "XIN" value = -40}
-}
-
-brazil_ignore_chi = {
-        allowed = { 
-		tag = BRA
-	}
-	enable = {
-		country_exists = CHI
-	}
-	abort = {
-		NOT = { country_exists = CHI }
-	}
-	
-	ai_strategy = {  type = befriend  id = "CHI" value = -100}
-	ai_strategy = {  type = befriend  id = "JAP" value = -100}
-	ai_strategy = { type = ignore id = "CHI" value = 100 }	
-	ai_strategy = { type = ignore id = "JAP" value = 100 }	
-	ai_strategy = { type = ignore id = "SOV" value = 50 }	
 }
 
 bel_neutral = {
@@ -269,7 +215,7 @@ ai_strategy = { type = area_priority id = europe value = 35}
 	}	
 }
 
-ger_invasion = {
+ger_d_day_invasion = {
 enable = {
 date > 1943.4.1
  has_war_with = GER
@@ -336,29 +282,23 @@ ai_strategy = {
 	}	
 }
 
-e_invasion = {
+sealion_invasion = {
 allowed = { 
 		OR = { tag = GER tag = ITA }
 	}
 enable = {
 OR = { is_in_faction_with = GER tag = GER }
+germany_success_trigger_lategame = yes # TODO, OR uk has inadequate garrison
 NOT = { any_state = { OR = { region = 213 region = 212 region = 202 region = 206 region = 25 region = 26 region = 37 region = 6 region = 5 } controller = { has_war_with = GER } } }
 has_army_manpower = { size > 110000 }
 alliance_strength_ratio > 0.5
 surrender_progress < 0.05
 GER = { surrender_progress < 0.05 }
 has_war_with = ENG
-date > 1943.4.15
-OR = { 
-		    is_in_faction_with = SOV
-			is_in_faction_with = USA
-			SOV = { has_capitulated = yes }
-			SOV = { has_government = fascism }
-			USA = { has_government = fascism }
-			SOV = { exists = no }
-			USA = { exists = no }
-			SOV = { is_puppet = yes }	
-		}
+
+set_temp_variable = { days = global.num_days }
+		modulo_temp_variable = { days = 150 }
+		check_variable = { days > 85 }
 }
 
 abort = {
@@ -367,11 +307,11 @@ alliance_strength_ratio < 0.4 }
 	}
 	
 ai_strategy = { type = invade id = "ENG" value = 1200 }
-
+# TODO need to focus on air region, sea region
 }
 
 
-j_invasion_2 = {
+allies_island_hopping_invasion = {
 allowed = { tag = USA }
 enable = {
 has_war_with = JAP
@@ -416,7 +356,7 @@ ai_strategy = {
 
 }
 
-j_invasion_3 = {
+USA_olympic_invasion = {
 allowed = { tag = USA }
 enable = {
 has_war_with = JAP
@@ -472,7 +412,7 @@ ai_strategy = {
 
 }
 
-j_invasion_4 = {
+USA_downfall_invasion= {
 allowed = { tag = USA }
 enable = {
 has_war_with = JAP
@@ -507,9 +447,9 @@ ai_strategy = { type = invade id = "SIA" value = 1000 }
 
 }
 
-ger_invade_n = {
+ger_weserubung_invasion= {
 allowed = { tag = GER }
-enable = { 
+enable = {  #TODO better condition
 focus_progress = { focus = GER_weserubung progress > 0.01 }
 NOT = { date > 1940.7.15 }
 
