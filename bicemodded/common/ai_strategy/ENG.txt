@@ -201,7 +201,7 @@ ENG_construction_late_game = {
 }
 
 iraq_war = {
-	allowed = { original_tag = ENG original_tag = EGY original_tag = YEM }
+	allowed = { original_tag = ENG original_tag = EGY original_tag = YEM original_tag = RAJ }
 	enable = {
 	    OR = {
 		has_war_with = IRQ
@@ -231,13 +231,9 @@ iraq_war = {
 }
 
 iraq_war2 = {
-	allowed = {
-		NOT = { tag = ENG }
-		NOT = { tag = EGY }
-		NOT = { tag = YEM }
-		is_in_faction_with = ENG
-	}
+	allowed = { original_tag = SAF original_tag = AST original_tag = NZL original_tag = CAN original_tag = MAL original_tag = BEL }
 	enable = {
+	    is_in_faction_with = ENG
 		has_war_with = IRQ
 	}
 	abort_when_not_enabled = yes
@@ -881,6 +877,44 @@ dont_like_ita_egy = {
 	}
 }
 
+ENG_switch_bombing_targets_1 = {
+    allowed = { OR = { tag = ENG tag = USA } } 
+    enable = {
+		set_temp_variable = { days = global.num_days }
+		modulo_temp_variable = { days = 90 }
+		check_variable = { days < 46 }
+	}
+
+	abort_when_not_enabled = yes
+	  
+	ai_strategy = {
+		type = strategic_air_importance
+		id = 6
+		value = 8000
+	}
+	ai_strategy = {
+		type = strategic_air_importance
+		id = 212
+		value = 7000
+	}
+}
+
+ENG_switch_bombing_targets_2 = {
+    allowed = { OR = { tag = ENG tag = USA } } 
+    enable = {
+		set_temp_variable = { days = global.num_days }
+		modulo_temp_variable = { days = 90 }
+		check_variable = { days > 45 }
+	}
+
+	abort_when_not_enabled = yes
+	  
+	ai_strategy = {
+		type = strategic_air_importance
+		id = 7
+		value = 8000
+	}
+}
 
 dont_like_ita_prewar = {
     allowed = { tag = ENG } 
@@ -1017,20 +1051,35 @@ ENG_trying_to_save_benelux_is_deathtrap = {
 	enable = {
 		
 		has_war_with = GER
-		date < 1940.5.20
 		OR = {
-			HOL = { has_capitulated = no }
-			BEL = { has_capitulated = no }
+		    # could be too dangerous, lets wait
+		    date < 1940.5.20
+		AND = {
+		    # Its too dangerous if Holland or belgium has already fallen
+		    date < 1940.6.9
+			OR = {
+			HOL = { has_capitulated = yes }
+			BEL = { has_capitulated = yes }
 		}
-		NOT = { GER = { surrender_progress > 0.1}  }
+		}
+		AND = {
+		    # could be too dangerous, germany has pushed into france
+		    date < 1940.7.20
+			FRA = { surrender_progress > 0.1}
+		}
+		}
+		GER = { surrender_progress < 0.1}
+		date < 1940.10.1
 	}
 	
-	abort = {
-		OR = {
-			date > 1940.5.20
-			FRA = { has_capitulated = yes }
-			GER = { surrender_progress > 0.1}
+	abort_when_not_enabled = yes
+	
+	 ai_strategy = {
+		type = front_unit_request
+		country_trigger = {
+			tag = GER
 		}
+		value = -40
 	}
 	
 	ai_strategy = {
