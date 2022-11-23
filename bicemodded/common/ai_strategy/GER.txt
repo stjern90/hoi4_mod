@@ -478,23 +478,6 @@ war_with_france = {
 	}
 }
 
-finland_on_their_own = {
-    allowed = {
-		original_tag = GER
-	}
-	enable = {
-		FIN = {
-			is_in_faction_with = GER
-		}
-		is_historical_focus_on = yes
-	}
-	ai_strategy = {
-		type = dont_defend_ally_borders
-		id = "FIN"
-		value = 200
-	}
-}
-
 stop_hitting_yourself = {
 	allowed = {
 		original_tag = GER
@@ -646,36 +629,6 @@ dont_die_in_mountains = {
 	}
 }
 
-dont_die_in_mountains2 = {
-    allowed = {
-		original_tag = GER
-	}
-	enable = {
-		NOT = { has_war_with = SWE }
-	}
-	abort = {
-		has_war_with = SWE
-	}
-	
-	ai_strategy = {
-		type = ignore
-		id = "SWE"
-		value = 50
-	}
-	ai_strategy = {
-		type = conquer
-		id = "SWE"			
-		value = -400
-	}
-	ai_strategy = {
-		type = front_unit_request
-		country_trigger = {
-			tag = SWE
-		}
-		value = -300
-	}
-}
-
 dont_move_to_marocco = {
     allowed = {
 		original_tag = GER
@@ -683,11 +636,9 @@ dont_move_to_marocco = {
 	enable = {
 		date < 1942.11.1
 		country_exists = VIC
+		VIC = { has_war = no }
 	}
-	abort = {
-		NOT = { country_exists = VIC }
-		date > 1942.11.1
-	}
+	abort_when_not_enabled = yes
 	
 
 	ai_strategy = {
@@ -725,6 +676,11 @@ war_with_soviets_prepare = {
 			tag = FIN
 		}
 		value = -100
+	}
+	ai_strategy = {
+		type = dont_defend_ally_borders
+		id = "FIN"
+		value = 200
 	}
 	ai_strategy = {
 		type = front_unit_request
@@ -810,32 +766,6 @@ GER_italy_ally = {
 		id = "ITA"			
 		value = 100
 	}	
-	
-	# dont get stuck in the medeteranean
-	ai_strategy = {
-		type = diplo_action_desire
-		id = ITA
-		target = docking_rights
-		value = -1000
-	}
-	ai_strategy = {
-		type = diplo_action_desire
-		id = YUG
-		target = docking_rights
-		value = -1000
-	}
-	ai_strategy = {
-		type = diplo_action_desire
-		id = TUR
-		target = docking_rights
-		value = -1000
-	}
-	ai_strategy = {
-		type = diplo_action_desire
-		id = GRE
-		target = docking_rights
-		value = -1000
-	}
 }
 
 GER_dont_get_stuck_in_medeteranean = {
@@ -877,7 +807,7 @@ GER_dont_get_stuck_in_medeteranean = {
 	}
 }
 
-iron_pact_italy = {
+SWE_iron_pact_italy = {
     allowed = {
 		original_tag = SWE
 	}
@@ -908,7 +838,7 @@ iron_pact_italy = {
 	}	
 }
 
-iron_pact_italy_2 = {
+GER_iron_pact_italy_2 = {
     allowed = {
 		original_tag = GER
 	}
@@ -1037,7 +967,7 @@ GER_china_donthelp = {
 #	}	
 #}
 
-turkey_ally = {
+GER_turkey_ally = {
     allowed = {
 		original_tag = GER
 	}
@@ -1317,10 +1247,9 @@ GER_play_nice_with_yugo_1 = {
 		OR ={
 			YUG = { is_in_faction = yes }
 			YUG = { has_idea = anti_german_military }
-		}
-		date > 1941.1.1	
+			date > 1941.1.1	
+		}	
 	}
-	
 
 	ai_strategy = {
 		type = antagonize
@@ -1331,30 +1260,6 @@ GER_play_nice_with_yugo_1 = {
 		type = conquer
 		id = "YUG"
 		value = -50
-	}
-}
-
-GER_play_nice_with_yugo_0 = {
-    allowed = {
-		original_tag = GER
-	}
-	enable = {
-		YUG = { has_idea = anti_german_military }
-        date > 1939.1.1		
-        YUG = { is_in_faction = no }	
-	}
-	abort = {
-		OR ={
-			YUG = { is_in_faction = yes }
-			YUG = { NOT = { has_idea = anti_german_military } }
-		}
-	}
-	
-
-	ai_strategy = {
-		type = befriend
-		id = "YUG"
-		value = -30
 	}
 	ai_strategy = {
 		type = alliance
@@ -1373,6 +1278,12 @@ GER_prepare_invasion_yugo = {
 		FRA = { has_capitulated = yes }
 	}
         abort_when_not_enabled = yes
+	
+	ai_strategy = {
+		type = alliance
+		id = "YUG"
+		value = -50
+	}
 	
 	ai_strategy = {
 		type = conquer
@@ -1538,18 +1449,37 @@ GER_help_ita = {
 	}
 }
 
-GER_play_nice_with_fin = {
-    allowed = { tag = GER }
-	enable = { 	
+GER_play_nice_with_swe = {
+	allowed = { tag = GER }
+	enable = {
 		has_war_with = ENG
-		country_exists = FIN 
-		date > 1940.1.1
+		date > 1939.1.1
+		SWE = {
+		exists = yes
+		NOT = { has_completed_focus = SWE_axis_leanings_focus }
+		NOT = { has_war_with = GER }
+		}
 	}
 	
-	abort = {
-		NOT = { country_exists = FIN }
-	}
+	abort_when_not_enabled = yes
 	
+	ai_strategy = {
+		type = antagonize
+		id = "SWE"
+		value = -500
+	}
+	ai_strategy = {
+		type = ignore
+		id = "SWE"
+		value = 100
+	}
+	ai_strategy = {
+		type = front_unit_request
+		country_trigger = {
+			tag = SWE
+		}
+		value = -300
+	}
 	ai_strategy = {
 		type = antagonize
 		id = "FIN"
@@ -1557,51 +1487,26 @@ GER_play_nice_with_fin = {
 	}
 }
 
-GER_play_nice_with_swe = {
+GER_swe_friend = {
 	allowed = { tag = GER }
 	enable = {
 		has_war_with = ENG
 		country_exists = SWE 
 		date > 1939.1.1
-		NOT = { SWE = { has_completed_focus = SWE_axis_leanings_focus  } }
-	}
-	
-	abort = {
-		OR = { NOT = { country_exists = SWE }
-		SWE = { has_completed_focus = SWE_axis_leanings_focus  }
+		SWE = {
+		exists = yes
+		has_completed_focus = SWE_axis_leanings_focus
+		NOT = { has_war_with = GER }
 		}
 	}
 	
-	ai_strategy = {
+	abort_when_not_enabled = yes
+	
+    ai_strategy = {
 		type = antagonize
 		id = "SWE"
 		value = -500
 	}
-	ai_strategy = {
-		type = conquer
-		id = "SWE"
-		value = -500
-	}
-	ai_strategy = {
-		type = ignore
-		id = "SWE"
-		value = 500
-	}
-}
-
-GER_swe_friend = {
-	allowed = { tag = GER }
-	enable = {
-		country_exists = SWE 
-		date > 1939.1.1
-		SWE = { has_completed_focus = SWE_axis_leanings_focus  }
-	}
-	
-	abort = {
-		NOT = { country_exists = SWE }
-	}
-	
-
 	ai_strategy = {
 		type = befriend
 		id = "SWE"
@@ -1611,6 +1516,18 @@ GER_swe_friend = {
 		type = alliance
 		id = "SWE"
 		value = 50
+	}
+	ai_strategy = {
+		type = front_unit_request
+		country_trigger = {
+			tag = SWE
+		}
+		value = -300
+	}
+	ai_strategy = {
+		type = antagonize
+		id = "FIN"
+		value = -300
 	}
 }
 
@@ -1648,6 +1565,7 @@ friend_anti_russian_allies = {
 		country_exists = BUL
 		country_exists = HUN
 		date > 1940.1.1
+		date < 1942.1.1
 	}
 	
 	abort = {
@@ -1656,6 +1574,7 @@ friend_anti_russian_allies = {
 			NOT = { country_exists = BUL }
 			NOT = { country_exists = HUN }
 			NOT = { country_exists = ENG }
+			date > 1942.1.1
 		}
 	}
 	
@@ -1998,6 +1917,7 @@ GER_make_sure_we_blitz_into_soft_targets = {
 		}
 		value = 60
 	}
+	ai_strategy = { type = front_armor_score id = BEL value = 250 }
 	ai_strategy = {
 		type = front_unit_request
 		country_trigger = {
@@ -2015,33 +1935,6 @@ GER_make_sure_we_blitz_into_soft_targets = {
 		type = consider_weak
 		id = "BEL"
 		value = 200
-	}
-}
-
-GER_make_sure_we_blitz_into_soft_targets_without_italy_help = {
-    allowed = {
-		original_tag = ITA
-	}
-	enable = {
-		GER = { has_war_with = FRA }
-		POL = { has_capitulated = yes }
-		date > 1939.12.1
-		date < 1940.5.27
-	}
-	abort = {
-		OR = {
-			BEL = { has_capitulated = yes }
-			18 = { 
-				is_controlled_by = GER
-			}
-			date > 1940.5.27
-		}
-	}
-
-	ai_strategy = {
-		type = declare_war
-		id = "FRA"			
-		value = -1000
 	}
 }
 
@@ -2100,7 +1993,9 @@ GER_we_are_bad_at_espionage_because_it_is_expensive_and_not_tanks = {
 }
 
 axis_vichy_border_garrison = {
+	allowed = { original_tag = GER original_tag = ITA original_tag = BEL original_tag = SAF original_tag = CAN original_tag = AST original_tag = SPR }
 	enable = {
+	    country_exists = VIC
 	    OR = {
 		is_in_faction_with = GER
 		is_in_faction_with = ENG
@@ -2154,6 +2049,22 @@ GER_pushback_french = {
 		execute_order = yes
 		manual_attack = yes
 	}
-	
+}
+
+GER_axis_dont_middle_east_without_foothold = {
+	allowed = { OR = { original_tag = ITA original_tag = GER } }
+	enable = {	
+	    OR = {
+			NOT = { 453 = { is_controlled_by_ROOT_or_ally = yes } }
+			NOT = { 446 = { is_controlled_by_ROOT_or_ally = yes } }
+			NOT = { 448 = { is_controlled_by_ROOT_or_ally = yes } }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = dont_defend_ally_borders id = "SYR" value = 100 }
+	ai_strategy = { type = dont_defend_ally_borders id = "IRQ" value = 500 }
+	ai_strategy = { type = dont_defend_ally_borders id = "PER" value = 500 }
+	ai_strategy = { type = dont_defend_ally_borders id = "SAU" value = 500 }
 }
 
