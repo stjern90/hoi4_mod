@@ -3011,7 +3011,7 @@ NAI = {
 
 	-- <start> assigning leaders to armies
 	ARMY_LEADER_ASSIGN_FIELD_MARSHAL_TO_ARMY = -500,            -- Score for assigning a field marshal to a normal army (want to use them for army groups)
-	ARMY_LEADER_ASSIGN_KEEP_LEADER = 500,                       -- Score for keeping the leader if already assigned
+	ARMY_LEADER_ASSIGN_KEEP_LEADER = 1900,                       -- Score for keeping the leader if already assigned
 	ARMY_LEADER_ASSIGN_EMPTYNESS_MALUS = 0.2,                   -- Factor for avoiding assigning leaders that can lead large armies to small armies (a value of 0.2 reduces the score by max 20 %)
 	ARMY_LEADER_ASSIGN_OVERCAPACITY = -200,                     -- Score for assigning leader to a too large army
 	ARMY_LEADER_ASSIGN_OVERALL_SKILL_FACTOR = 50,               -- This times general's overall skill is added to score
@@ -3030,7 +3030,7 @@ NAI = {
 	ARMY_LEADER_ASSIGN_PLANNING_SKILL_FACTOR = 7,               -- This times general's planning skill is added to score
 	ARMY_LEADER_ASSIGN_NR_TRAITS = 5,                           -- This times general's nr of active traits is added to score
 	ARMY_LEADER_ASSIGN_EXILED_LEADS_EXILED_TROOPS = 10,         -- If exiled leader, increase chance of leading army with exiled troops
-	ARMY_LEADER_ASSIGN_EXILED_LEADS_OWN_EXILED_TROOPS = 100,    -- If exiled leader, increase chance of leading army with exiled troops from same country as the leader
+	ARMY_LEADER_ASSIGN_EXILED_LEADS_OWN_EXILED_TROOPS = 200,    -- If exiled leader, increase chance of leading army with exiled troops from same country as the leader
 
 	-- the following defines concern the general's modifiers
 	ARMY_LEADER_ASSIGN_DEFENSE_MAX_DIG_IN_FACTOR = 1.0,         -- If defensive army, importance of general's MAX_DIG_IN_FACTOR modifier
