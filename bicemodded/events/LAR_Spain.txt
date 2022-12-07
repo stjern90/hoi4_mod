@@ -689,6 +689,31 @@ country_event = {
 						count = 3
 					}
 				}
+				
+				# Add 3 Nationalist garrisons to every state where the Nationalists have TOTAL control
+				every_owned_state = {
+					limit = {
+						check_variable = { var = SPA_garrison_control value = 4 compare = equals }
+					}
+					create_unit = {
+						division = "division_template = \"Guarnición Nacionalista\" start_experience_factor = 0.1" 
+						owner = SPA
+						allow_spawning_on_enemy_provs = yes
+						count = 3
+					}
+				}
+				# Trigger war between the sides - necessary because the next effects spawn units on contested provinces and this requires both sides to be at war
+				SPA = {
+					declare_war_on = {
+					    target = SPD
+					    type = civil_war
+					}
+					add_civil_war_target = SPD
+				}
+				SPD = {
+					inherit_technology = SPA
+					country_lock_all_division_template = no
+				}
 				41 = { # Extra 5 garrisons, two inf and a mountaineer to make Madrid harder to capture (as historically)
 					create_unit = {
 						division = "division_template = \"Guarnición Republicana\" start_experience_factor = 0.1" 
@@ -702,6 +727,8 @@ country_event = {
 						allow_spawning_on_enemy_provs = yes
 						count = 2
 					}
+				}
+				41 = {
 					create_unit = {
 						division = "division_template = \"Brigada Montaña\" start_experience_factor = 0.4" 
 						owner = SPD
@@ -730,26 +757,6 @@ country_event = {
 						allow_spawning_on_enemy_provs = yes
 						count = 1
 					}
-				}
-				# Add 3 Nationalist garrisons to every state where the Nationalists have TOTAL control
-				every_owned_state = {
-					limit = {
-						check_variable = { var = SPA_garrison_control value = 4 compare = equals }
-					}
-					create_unit = {
-						division = "division_template = \"Guarnición Nacionalista\" start_experience_factor = 0.1" 
-						owner = SPA
-						allow_spawning_on_enemy_provs = yes
-						count = 3
-					}
-				}
-				# Trigger war between the sides - necessary because the next effects spawn units on contested provinces and this requires both sides to be at war
-				SPA = {
-					declare_war_on = {
-					    target = SPD
-					    type = civil_war
-					}
-					add_civil_war_target = SPD
 				}
 				# 2 Republican and 1 Nationalist garrisons spawned on all states with WEAK Nationalist control (except for Northern Garrison states)
 				every_owned_state = {
@@ -2473,8 +2480,6 @@ country_event = {
 						}
 						add_core_of = SPD
 					}
-					inherit_technology = SPA
-					country_lock_all_division_template = no
 				}
 				if = {
 					limit = {
@@ -2824,7 +2829,35 @@ country_event = {
 						count = 3
 					}
 				}
+				
 				SPR_vicente_rojo_lluch = { promote_leader = yes }
+				
+				every_owned_state = {
+					limit = {
+						check_variable = { var = SPA_garrison_control value = 4 compare = equals }
+					}
+					SPA = {
+						transfer_state = PREV
+					}
+					set_state_flag = SPR_sided_with_nationalists_flag
+					create_unit = {
+						division = "division_template = \"Guarnición Nacionalista\" start_experience_factor = 0.1" 
+						owner = SPA
+						allow_spawning_on_enemy_provs = yes
+						count = 3
+					}
+				}
+				SPA = {
+					declare_war_on = {
+					    target = SPD
+					    type = civil_war
+					}
+					add_civil_war_target = SPD
+				}
+				SPD = {
+					inherit_technology = SPA
+					country_lock_all_division_template = no
+				}
 				41 = { # Extra 5 garrisons, two inf and a mountaineer to make Madrid harder to capture (as historically)
 					create_unit = {
 						division = "division_template = \"Guarnición Republicana\" start_experience_factor = 0.1" 
@@ -2866,28 +2899,6 @@ country_event = {
 						allow_spawning_on_enemy_provs = yes
 						count = 1
 					}
-				}
-				every_owned_state = {
-					limit = {
-						check_variable = { var = SPA_garrison_control value = 4 compare = equals }
-					}
-					SPA = {
-						transfer_state = PREV
-					}
-					set_state_flag = SPR_sided_with_nationalists_flag
-					create_unit = {
-						division = "division_template = \"Guarnición Nacionalista\" start_experience_factor = 0.1" 
-						owner = SPA
-						allow_spawning_on_enemy_provs = yes
-						count = 3
-					}
-				}
-				SPA = {
-					declare_war_on = {
-					    target = SPD
-					    type = civil_war
-					}
-					add_civil_war_target = SPD
 				}
 				every_owned_state = {
 					limit = {
@@ -4568,8 +4579,6 @@ country_event = {
 						}
 						add_core_of = SPA
 					}
-					inherit_technology = SPD
-					country_lock_all_division_template = no
 					if = {
 						limit = {
 							176 = { is_owned_by = SPA }
