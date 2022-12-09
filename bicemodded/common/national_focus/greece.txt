@@ -86,45 +86,41 @@ focus_tree = {
 					remove_idea = GRE_political_instability
 					add_idea = GRE_political_instability_republican
 				}
-				create_corps_commander = {
-					name = "Nikolaos Plastiras"
-					gfx = "GFX_portrait_gre_nikolaos_plastiras"
+				add_corps_commander_role = {
+					character = GRE_nikolaos_plastiras
 					traits = { trait_GRE_venezelist_loyalist war_hero brilliant_strategist cavalry_officer cavalry_leader trickster } #V
 					skill = 3 #13
-					id = 301
+					legacy_id = 301
 					attack_skill = 3
 					defense_skill = 4
 					planning_skill = 2
 					logistics_skill = 3
 				}
-				create_corps_commander = {
-					name = "Theodoros Pangalos"
-					gfx = "GFX_portrait_gre_theodoros_pangalos"
+				add_corps_commander_role = {
+					character = GRE_theodoros_pangalos
 					traits = { trait_GRE_venezelist_loyalist trait_GRE_fascist_sympathizer media_personality harsh_leader infantry_officer } #F+V
 					skill = 3 #10 
-					id = 302
+					legacy_id = 302
 					attack_skill = 4
 					defense_skill = 2
 					planning_skill = 1
 					logistics_skill = 3
 				} 
-				create_corps_commander = {
-					name = "Dimitrios Psarros"
-					gfx = "GFX_portrait_gre_dimitrios_psarros"
+				add_corps_commander_role = {
+					character = GRE_dimitrios_psarros
 					traits = { trait_GRE_venezelist_loyalist war_hero trait_reckless trickster commando } #V
 					skill = 2 #7
-					id = 307
+					legacy_id = 307
 					attack_skill = 2
 					defense_skill = 1
 					planning_skill = 2
 					logistics_skill = 2
 				}
-				create_corps_commander = {
-					name = "Napoleon Zervas"
-					gfx = "GFX_portrait_gre_napoleon_zervas" #V+F
-					traits = { trait_GRE_venezelist_loyalist trait_GRE_fascist_sympathizer harsh_leader trait_reckless }
+				add_corps_commander_role = {
+					character = GRE_napoleon_zervas
+					traits = { trait_GRE_venezelist_loyalist trait_GRE_fascist_sympathizer harsh_leader commando }
 					skill = 3 #10
-					id = 309
+					legacy_id = 309
 					attack_skill = 3
 					defense_skill = 3
 					planning_skill = 2
@@ -904,29 +900,27 @@ focus_tree = {
 				set_variable = { var = GRE_monarchist_loyalty value = -1 }
 				set_variable = { var = GRE_communist_loyalty value = 1 }
 				GRE_political_instability_update_effect = yes
-				create_corps_commander = {
-					name = "Markos Vafeiadis"
-					picture = "Portrait_Greece_Markos_Vafiadis.dds"
+				add_corps_commander_role = {
+					character = GRE_markos_vafiadis
 					traits = { trait_GRE_marxist_acolyte politically_connected trait_reckless media_personality commando urban_assault_specialist } #C
 					skill = 3 #10
-					id = 305
+					legacy_id = 305
 					attack_skill = 2
 					defense_skill = 2
 					planning_skill = 3
 					logistics_skill = 3
 				}
-				create_corps_commander = {
-					name = "Aris Velouchiotis"
-					gfx = "GFX_portrait_gre_aris_velouchiotis" #C
+				add_corps_commander_role = {
+					character = GRE_aris_velouchiotis
 					traits = { trait_GRE_marxist_acolyte harsh_leader brilliant_strategist trickster commando }
 					skill = 3 #10
-					id = 308
+					legacy_id = 308
 					attack_skill = 4
 					defense_skill = 2
 					planning_skill = 2
 					logistics_skill = 2
 				}
-				remove_unit_leader = 300
+				GRE_alexandros_papagos = { remove_unit_leader_role = yes }
 				clr_country_flag = GRE_dem_monarchy_flag
 				drop_cosmetic_tag = yes
 				GRE_set_appropriate_cosmetic_tag = yes
@@ -1339,16 +1333,29 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_POLITICAL }
 		completion_reward = {
-			create_country_leader = {
-				name = "Markos Vafiadis"
-				desc = "POLITICS_MARKOS_VAFIADIS_DESC"
-				picture = "Portrait_Greece_Markos_Vafiadis.dds"
-				expire = "1965.1.1"
-				ideology = marxism
-				traits = {
-					guerilla_warfare_expert
+			if = {
+				limit = {
+					has_dlc = "Battle for the Bosporus"
+				}
+				add_country_leader_role = {
+					character = GRE_markos_vafiadis
+					country_leader = {
+						expire = "1965.1.1"
+						ideology = marxism
+						traits = {
+							guerilla_warfare_expert
+						}
+					}
+					promote_leader = yes
 				}
 			}
+			else = { #Already has a country leader role (Communism -> Marxism)
+				promote_character = {
+					character = GRE_markos_vafiadis
+					ideology = marxism
+				}
+			}
+
 			swap_ideas = {
 				remove_idea = GRE_red_militias_spirit
 				add_idea = GRE_red_militias_2
@@ -1832,10 +1839,10 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
 		completion_reward = {
 			effect_tooltip = {
-				create_country_leader = {
+				create_country_leader = { #FAKE EFFECT FOR TOOLTIP PURPOSES
 					name = "Ioannis Metaxas"
 					desc = "POLITICS_IOANNIS_METAXAS_DESC"
-					picture = "Portrait_Greece_Ioannis_Metaxas.dds"
+					picture = GFX_portrait_Ioannis_Metaxas
 					expire = "1965.1.1"
 					ideology = despotism
 					traits = {
@@ -1847,15 +1854,9 @@ focus_tree = {
 			custom_effect_tooltip = GRE_metaxism_warning_tt
 			hidden_effect = { 
 				retire_country_leader = yes
-				create_country_leader = {
-					name = "Ioannis Metaxas"
-					desc = "POLITICS_IOANNIS_METAXAS_DESC"
-					picture = "Portrait_Greece_Ioannis_Metaxas.dds"
-					expire = "1965.1.1"
-					ideology = despotism
-					traits = {
-						arkhigos
-					}
+				promote_character = { 
+					character = GRE_ioannis_metaxas 
+					ideology = despotism 
 				}
 				set_party_name = { ideology = neutrality long_name = GRE_metaxas_party_long name = GRE_metaxas_party }
 				set_politics = { ruling_party = neutrality elections_allowed = no }
@@ -2113,34 +2114,31 @@ focus_tree = {
 			hidden_effect = { 
 				set_variable = { var = GRE_fascist_loyalty value = 1 }
 				GRE_political_instability_update_effect = yes
-				create_corps_commander = {
-					name = "Theodoros Pangalos"
-					gfx = "GFX_portrait_gre_theodoros_pangalos"
+				add_corps_commander_role = {
+					character = GRE_theodoros_pangalos
 					traits = { trait_GRE_venezelist_loyalist trait_GRE_fascist_sympathizer media_personality harsh_leader commando } #F+V
 					skill = 3 #10 
-					id = 302
+					legacy_id = 302
 					attack_skill = 4
 					defense_skill = 2
 					planning_skill = 1
 					logistics_skill = 3
-				}
-				create_corps_commander = {
-					name = "Panagiotis Demestichas"
-					gfx = "GFX_portrait_gre_panagiotis_demestichas"
+				} 
+				add_corps_commander_role = {
+					character = GRE_panagiotis_demestichas
 					traits = { trait_GRE_fascist_sympathizer trait_reckless infantry_officer hill_fighter } #F
 					skill = 3 #10
-					id = 303
+					legacy_id = 303
 					attack_skill = 4
 					defense_skill = 3
 					planning_skill = 2
 					logistics_skill = 1
 				}
-				create_corps_commander = {
-					name = "Napoleon Zervas"
-					gfx = "GFX_portrait_gre_napoleon_zervas" #V+F
+				add_corps_commander_role = {
+					character = GRE_napoleon_zervas
 					traits = { trait_GRE_venezelist_loyalist trait_GRE_fascist_sympathizer harsh_leader trait_reckless commando }
 					skill = 3 #10
-					id = 309
+					legacy_id = 309
 					attack_skill = 3
 					defense_skill = 3
 					planning_skill = 2
