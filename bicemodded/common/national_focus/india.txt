@@ -420,6 +420,9 @@ focus_tree = {
 						ideology = neutrality
 						popularity = 0.15
 					}
+					set_variable = { RAJ_agrarian_society_increment = RAJ.RAJ_agrarian_society_increment }
+					set_variable = { RAJ_agrarian_society_value = RAJ.RAJ_agrarian_society_value }
+					add_dynamic_modifier = { modifier = RAJ_agrarian_society_dynamic }
 					ENG = { add_to_faction = PREV }
 				}						
 			}
@@ -550,7 +553,7 @@ focus_tree = {
 			hidden_effect = {
 		    	add_corps_commander_role = {
 				character = RAJ_lakshmi_sahgal
-					traits = { }
+					traits = { infantry_officer }
 					skill = 3
 					attack_skill = 3
 					defense_skill = 2
@@ -875,6 +878,9 @@ focus_tree = {
 						ideology = neutrality
 						popularity = 0.15
 					}
+					set_variable = { RAJ_agrarian_society_increment = RAJ.RAJ_agrarian_society_increment }
+					set_variable = { RAJ_agrarian_society_value = RAJ.RAJ_agrarian_society_value }
+					add_dynamic_modifier = { modifier = RAJ_agrarian_society_dynamic }
 					ENG = { add_to_faction = PREV }
 				}					
 			}
@@ -1458,7 +1464,7 @@ focus_tree = {
 							basic_torpedo = 1
 							basic_medium_battery = 1
 						}
-						navy_experience = 20
+						navy_experience = 30
 						custom_effect_tooltip = RAJ_navy_funding_effect
 					}
 				}
@@ -4357,7 +4363,7 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 		id = RAJ_east_india_railways
 		icon = GFX_goal_generic_construct_infrastructure
 		prerequisite = { focus = RAJ_great_indian_peninsula_railway }
-		x = 6
+		x = 8
 		y = 1
 		relative_position_id = RAJ_great_indian_peninsula_railway
 
@@ -4411,7 +4417,7 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 		id = RAJ_integrate_princely_railways
 		icon = GFX_goal_generic_construct_infrastructure
 		prerequisite = { focus = RAJ_east_india_railways }
-		x = -2
+		x = 2
 		y = 1
 		relative_position_id = RAJ_east_india_railways
 
@@ -4501,7 +4507,7 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 		id = RAJ_ishapore_arsenal
 		icon = GFX_RAJ_industry
 		prerequisite = { focus = RAJ_east_india_railways }
-		x = 2
+		x = -2
 		y = 1
 		relative_position_id = RAJ_east_india_railways
 
@@ -4591,6 +4597,87 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 			show_ideas_tooltip = RAJ_chakravarti_rajagopalachari
 			show_ideas_tooltip = RAJ_2
 			show_ideas_tooltip = RAJ_3
+		}
+	}
+	
+	focus = {
+		id = RAJ_administrative_oversight
+		icon = GFX_goal_generic_forceful_treaty
+		prerequisite = { focus = RAJ_housing focus = RAJ_education }
+		x = 0
+		y = 3
+		relative_position_id = RAJ_clamp_down_on_corruption
+
+		cost = 8.7
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		available = {
+			if = {
+				limit = { NOT = { has_government = fascism } }
+				compare_autonomy_state > autonomy_colony
+			}
+			if = {
+				limit = { has_government = fascism }
+				compare_autonomy_state > autonomy_reichsprotectorate
+			}
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			custom_effect_tooltip = RAJ_enable_local_industrialization
+		}
+	}
+	
+	focus = {
+		id = RAJ_workforce_integration
+		icon = GFX_goal_generic_army_doctrines
+		prerequisite = { focus = RAJ_land_reforms }
+		x = 1
+		y = 2
+		relative_position_id = RAJ_administrative_oversight
+
+		cost = 8.7
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			hidden_effect = {
+				every_owned_state = {
+					limit = { has_state_flag = RAJ_industrialized_this_state }
+					add_dynamic_modifier = {
+						modifier = RAJ_industrialized_personnel
+					}
+				}
+			}
+			custom_effect_tooltip = RAJ_integration_tooltip
+			add_dynamic_modifier = {
+				modifier = RAJ_industrialized_personnel
+			}
+			custom_effect_tooltip = RAJ_integration_tooltip_post
 		}
 	}
 	
@@ -4952,11 +5039,11 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 		id = RAJ_financial
 		icon = GFX_focus_usa_reestablish_the_gold_standard
 		prerequisite = { focus = RAJ_british_arms_investors focus = RAJ_british_rail_investors focus = RAJ_housing focus = RAJ_education }
-		x = 2
+		x = -2
 		y = 3
 		relative_position_id = RAJ_integrate_princely_railways
 
-		cost = 13
+		cost = 12.9
 		ai_will_do = {
 			factor = 30
 		}
@@ -5044,24 +5131,15 @@ search_filters = { FOCUS_FILTER_RESEARCH }
     focus = {
 		id = RAJ_urbanization
 		icon = GFX_goal_generic_industry_2
-		prerequisite = { focus = RAJ_financial }
-		x = 1
-		y = 4
-		relative_position_id = RAJ_integrate_princely_railways
+		prerequisite = { focus = RAJ_administrative_oversight }
+		prerequisite = { focus = RAJ_economy }
+		x = -1
+		y = 1
+		relative_position_id = RAJ_administrative_oversight
 
 		cost = 8.7
 		ai_will_do = {
 			factor = 30
-		}
-		available = {
-			if = {
-				limit = { NOT = { has_government = fascism } }
-				compare_autonomy_state > autonomy_colony
-			}
-			if = {
-				limit = { has_government = fascism }
-				compare_autonomy_state > autonomy_reichsprotectorate
-			}
 		}
 
 		cancel_if_invalid = yes
@@ -5069,10 +5147,8 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 		available_if_capitulated = no
         search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
-		    swap_ideas = {
-				add_idea = RAJ_agrarian_society_2
-				remove_idea = RAJ_agrarian_society
-			}
+		    custom_effect_tooltip = RAJ_reduce_agrarian_society_value_2_tooltip
+			add_to_variable = { RAJ_agrarian_society_value_2 = 0.05 }
 		}
 	}
 	
@@ -5080,9 +5156,9 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 		id = RAJ_economy
 		icon = GFX_raise_interest_rates
 		prerequisite = { focus = RAJ_financial }
-		x = 3
-		y = 4
-		relative_position_id = RAJ_integrate_princely_railways
+		x = 0
+		y = 1
+		relative_position_id = RAJ_financial
 
 		cost = 10
 		ai_will_do = {
@@ -5105,12 +5181,74 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 	}
 	
 	focus = {
+		id = RAJ_land_clearance
+		icon = GFX_goal_generic_construct_civilian
+		prerequisite = { focus = RAJ_british_arms_investors focus = RAJ_british_rail_investors }
+		x = 0
+		y = 4
+		relative_position_id = RAJ_ishapore_arsenal
+
+		cost = 8.7
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+		    add_stability = -0.03
+			add_war_support = -0.03
+			add_tech_bonus = {
+				name = construction_tech_bonus
+				bonus = 0.5
+				uses = 2
+				category = construction_tech
+			}
+			430 = {
+				add_building_construction = {
+					type = air_base
+					level = 1
+					instant_build = yes
+				}
+			}
+			435 = {
+				add_building_construction = {
+					type = air_base
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 423 425 }
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+	
+	focus = {
 		id = RAJ_rubber_investments
 		icon = GFX_goal_POL_rubber
-		prerequisite = { focus = RAJ_economy focus = RAJ_urbanization }
-		x = 2
+		prerequisite = { focus = RAJ_economy }
+		prerequisite = { focus = RAJ_land_clearance }
+		
+		x = 1
 		y = 1
-		relative_position_id = RAJ_economy
+		relative_position_id = RAJ_land_clearance
 
 		cost = 7.2
 		ai_will_do = {
@@ -5118,7 +5256,6 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 		}
 		available = {
 		    controls_state = 423
-			OR = { has_completed_focus = RAJ_british_arms_investors has_completed_focus = RAJ_british_rail_investors }
 		}
 
 		cancel_if_invalid = yes
@@ -5138,10 +5275,10 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 	focus = {
 		id = RAJ_india_company
 		icon = GFX_goal_FIN_shipyard
-		prerequisite = { focus = RAJ_economy focus = RAJ_urbanization }
-		x = 0
+		prerequisite = { focus = RAJ_land_clearance }
+		x = -1
 		y = 1
-		relative_position_id = RAJ_economy
+		relative_position_id = RAJ_land_clearance
 
 		cost = 7.2
 		ai_will_do = {
@@ -5149,7 +5286,6 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 		}
 		available = {
 		    controls_state = 423
-			OR = { has_completed_focus = RAJ_british_arms_investors has_completed_focus = RAJ_british_rail_investors }
 		}
 
 		cancel_if_invalid = yes
@@ -5158,11 +5294,13 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 
         search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
+		    hidden_effect = { ENG = { country_event =  britain.68 } }
+		    ENG = { add_stability = 0.02 } 
 			423 = {
-				add_extra_state_shared_building_slots = 2
+				add_extra_state_shared_building_slots = 1
 				add_building_construction = {
 					type = dockyard
-					level = 2
+					level = 1
 					instant_build = yes
 				}
 				
@@ -5191,17 +5329,17 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 	focus = {
 		id = RAJ_end_the_monopoly
 		icon = GFX_tarifs 
-		prerequisite = { focus = RAJ_economy focus = RAJ_urbanization }
-		x = -4
-		y = 1
-		relative_position_id = RAJ_economy
+		prerequisite = { focus = RAJ_urbanization }
+		x = -1
+		y = 2
+		relative_position_id = RAJ_administrative_oversight
 
-		cost = 12
+		cost = 10
 		ai_will_do = {
 			factor = 30
 		}
 		available = {
-		    date > 1942.1.1 # add constraints on british dependence on india, promised independence etc
+		    date > 1941.10.1 # add constraints on british dependence on india, promised independence etc
 			OR = { has_completed_focus = RAJ_housing has_completed_focus = RAJ_education }
 		}
 
@@ -5252,6 +5390,7 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 		}
 
 		completion_reward = {
+		    hidden_effect = { ENG = { country_event =  britain.69 } }
 		    ENG = { add_stability= -0.03 }
 			random_owned_controlled_state = {
 				prioritize = {  }
@@ -5314,18 +5453,17 @@ search_filters = { FOCUS_FILTER_RESEARCH }
 	focus = {
 		id = RAJ_land_reforms
 		icon = GFX_goal_wheat
-		prerequisite = { focus = RAJ_economy focus = RAJ_urbanization }
-		x = -2
+		prerequisite = { focus = RAJ_administrative_oversight }
+		x = 1
 		y = 1
-		relative_position_id = RAJ_economy
+		relative_position_id = RAJ_administrative_oversight
 
-		cost = 7.1
+		cost = 7.2
 		ai_will_do = {
 			factor = 30
 		}
 		available = {
-		    date > 1942.1.1 # add constraints on british dependence on india, promised independence etc
-			OR = { has_completed_focus = RAJ_housing has_completed_focus = RAJ_education }
+		    date > 1941.10.1 # add constraints on british dependence on india, promised independence etc
 		}
 
 		cancel_if_invalid = yes

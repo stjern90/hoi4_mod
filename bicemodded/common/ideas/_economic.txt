@@ -34,8 +34,22 @@ ideas = {
 			}
 			
 			allowed_to_remove = {
-				has_war = yes
-				has_war_support > 0.15
+				if = {
+					limit = {
+						NOT = { original_tag = USA }
+					}
+					threat > 0.2
+				    OR = {
+				        has_war_support > 0.25	
+					    has_war = yes					
+				    }
+				}
+				if = {
+					limit = {
+						original_tag = USA
+					}
+					has_war = yes
+				}
 			}
 			
 			
@@ -75,14 +89,23 @@ ideas = {
 				naval_doctrine = -0.25
 			}
 			allowed_to_remove = {
-				OR = {
-				    has_war_support > 0.6
-					threat > 0.75
-					has_war = yes					
+			    if = {
+					limit = {
+						NOT = { original_tag = USA }
+					}
+					threat > 0.7
+				    OR = {
+				        has_war_support > 0.4	
+					    has_war = yes					
+				    }
 				}
-			        NOT = { tag = USA has_war = no }
+				if = {
+					limit = {
+						original_tag = USA
+					}
+					has_war = yes
+				}
 			}
-			
 			
 			ai_will_do = {
    				factor = 0
@@ -124,15 +147,18 @@ ideas = {
 		low_economic_mobilisation = {
 			
 			available = {
-			    has_war_support > 0.25
-				OR = {
-					has_government = fascism
-					has_government = communism
-					has_war = yes
-					AND = { NOT = { tag = USA } threat > 0.2 }
-					AND = { tag = USA threat > 0.70 has_war_support > 0.5 }
-				
-				}	
+			    if = {
+					limit = {
+						NOT = { original_tag = USA }
+					}
+					has_war_support > 0.3
+					OR = {
+						has_government = fascism
+						has_government = communism
+						has_war = yes
+						threat > 0.2
+					}
+				} 	
                 if = {
 					limit = {
 						original_tag = TUR
@@ -145,7 +171,7 @@ ideas = {
 							has_active_mission = TUR_etatism_crisis_4
 						}
 					}
-				}				
+				}					
 			}
 			
 			cost = 150
@@ -176,14 +202,18 @@ ideas = {
 		partial_economic_mobilisation = {
 			
 			available = {
-			    has_war_support > 0.35
-				OR = {
-					has_government = fascism
-					has_government = communism
-					has_war = yes
-					AND = { NOT = { tag = USA } threat > 0.3 }
-					AND = { tag = USA threat > 0.85 has_war_support > 0.65 }
-				}
+			    if = {
+					limit = {
+						NOT = { original_tag = USA }
+					}
+					has_war_support > 0.4
+					OR = {
+						has_government = fascism
+						has_government = communism
+						has_war = yes
+						threat > 0.3
+					}
+				} 
                 if = {
 					limit = {
 						original_tag = TUR
@@ -202,7 +232,15 @@ ideas = {
 						original_tag = NOR
 					}
 					has_completed_focus = NOR_rearmament
-				}							
+				}
+                if = {
+					limit = {
+						original_tag = USA
+					}
+					has_war = yes
+					threat > 0.85 
+					has_war_support > 0.65
+				}				
 			}
 			
 			research_bonus = {
@@ -256,21 +294,7 @@ ideas = {
 					has_government = communism
 					custom_trigger_tooltip = { tooltip = or_clarification_tooltip always = no }
 					AND = {
-					    NOT = { tag = USA }
 						has_war = yes
-						any_enemy_country = {
-							ic_ratio = { 
-								tag = ROOT 
-								ratio > 0.4
-							}
-						}
-					}
-					AND = {
-					    tag = USA
-						or = {
-							has_war = yes
-							has_completed_focus = USA_Four_Freedoms
-						}
 						any_enemy_country = {
 							ic_ratio = { 
 								tag = ROOT 
@@ -297,6 +321,12 @@ ideas = {
 						original_tag = NOR
 					}
 					has_completed_focus = NOR_rearmament
+				}
+                if = {
+					limit = {
+						original_tag = USA
+					}
+					has_completed_focus = USA_Four_Freedoms
 				}				
 			}
 		
@@ -354,19 +384,17 @@ ideas = {
 						ratio > 0.5
 						}
 					}
-				OR = { 
-					NOT = { tag = GER }
-			    	AND = {
-				    	tag = GER
-				    	has_completed_focus = GER_rationing
+				if = {
+					limit = {
+						original_tag = GER
 					}
+					has_completed_focus = GER_rationing
 				}
-				OR = { 
-					NOT = { tag = ITA }
-			    	AND = {
-				    	tag = ITA
-				    	has_completed_focus = ITA_total_war_2
+				if = {
+					limit = {
+						original_tag = ITA
 					}
+					has_completed_focus = ITA_total_war_2
 				}
 				if = {
 					limit = {

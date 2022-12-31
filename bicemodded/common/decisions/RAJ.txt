@@ -1,0 +1,81 @@
+RAJ_population_decisions = {
+
+	RAJ_industrialize_state = {
+
+		icon = generic_construction
+		
+		state_target = yes
+		
+		visible = { 
+			ROOT = { 
+				has_completed_focus = RAJ_administrative_oversight
+				check_variable = { RAJ_agrarian_society_value < -0.4 } 
+			} 
+			FROM = {
+				NOT = { has_state_flag = RAJ_industrialized_this_state }
+			}
+		}
+		
+		available = {
+			FROM = { 
+				infrastructure > 6 
+				NOT = { has_state_flag = RAJ_industrialized_this_state }
+			}
+		}
+		
+		target_trigger = {			
+			FROM = {
+				is_core_of = ROOT
+				is_owned_by = ROOT
+				is_controlled_by = ROOT
+				NOT = {
+					state = 439
+					state = 430
+					state = 431
+					state = 441
+					state = 787
+					state = 427
+					state = 434
+				}
+			}
+		}
+		
+		cost = 75
+		fire_only_once = no
+		days_remove = 90
+		ai_will_do = {
+			base = 0
+			modifier = {
+				add = 25
+				FROM = {
+					OR = { 
+						state = 438
+						state = 435
+					}
+				}
+			}
+		}
+		complete_effect = {
+			ROOT = { add_stability = -0.03 }
+		}
+		remove_effect = {
+			custom_effect_tooltip = RAJ_reduce_agrarian_society_value_tooltip
+			ROOT = { 
+				add_to_variable = { RAJ_agrarian_society_value = RAJ_agrarian_society_increment }
+			}
+			FROM = {
+				set_state_flag = RAJ_industrialized_this_state
+				if = {
+					limit = { ROOT = { has_completed_focus = RAJ_workforce_integration } }
+					add_dynamic_modifier = {
+						modifier = RAJ_industrialized_personnel
+					}
+				}
+				if = {
+					limit = { ROOT = { has_completed_focus = RAJ_land_clearance } }
+					add_extra_state_shared_building_slots = 1
+				}
+			}
+		}
+	}
+}

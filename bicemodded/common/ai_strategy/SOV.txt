@@ -55,7 +55,7 @@ SOV_safe_places_1 = {
 		type = build_building
 		id = infrastructure
 		target = 651
-		value = 1
+		value = 1000
 	}	
 }
 
@@ -77,7 +77,7 @@ SOV_safe_places_2 = {
 		type = build_building
 		id = infrastructure
 		target = 582
-		value = 1
+		value = 1000
 	}	
 }
 SOV_safe_places_3 = { 
@@ -98,7 +98,7 @@ SOV_safe_places_3 = {
 		type = build_building
 		id = infrastructure
 		target = 572
-		value = 1
+		value = 1000
 	}	
 }
 SOV_safe_places_4  = { 
@@ -119,7 +119,7 @@ SOV_safe_places_4  = {
 		type = build_building
 		id = infrastructure
 		target = 653
-		value = 1
+		value = 1000
 	}	
 }
 
@@ -263,25 +263,6 @@ dont_justify_on_pol = {
 	}
 }
 
-dontproduceshit_2 = {
-	allowed = {
-		original_tag = SOV
-	}
-	enable = {
-		AND = {
-			NOT = { has_tech = tech_t_34_a }
-			has_war = no 
-		}
-	}
-	abort_when_not_enabled = yes
-	
-	ai_strategy = {
-		type = equipment_variant_production_factor
-		id = "medium_tank_chassis"
-		value = -500
-	}
-}
-
 SOV_ignoreclaims = {
 	allowed = {
 		original_tag = SOV
@@ -301,25 +282,6 @@ SOV_ignoreclaims = {
 		value = 1
 	}
 	
-}
-
-dontproduceshit_3 = {
-	allowed = {
-		original_tag = SOV
-	}
-	enable = {
-		AND = {
-			NOT = { has_tech = tech_kv_tank_a }
-			has_war = no
-		}
-	}
-	abort_when_not_enabled = yes
-	
-	ai_strategy = {
-		type = equipment_variant_production_factor
-		id = "heavy_tank_chassis"
-		value = -500
-	}
 }
 
 SOV_buffer_leningrad = {
@@ -349,14 +311,24 @@ SOV_buffer_leningrad = {
 		}
 		subtract_invasions_from_need = no # need to always guard here!
 	}
+}
+
+SOV_unit_buffer_for_sevastopol = {
+	allowed = {
+		original_tag = SOV
+	}
+	enable = {
+		controls_state = 137
+	}
+	abort_when_not_enabled = yes
 	
 	ai_strategy = {
 		type = put_unit_buffers
-		ratio = 0.05
-		states = { 
-	    	137 
-		}
-		subtract_invasions_from_need = no # need to always guard here!
+		ratio = 0.02
+		order_id = 999
+		states = { 137 }
+		subtract_invasions_from_need = no
+		subtract_fronts_from_need = no
 	}
 }
 
@@ -434,27 +406,16 @@ SOV_barb = {
 	}
 	
 	ai_strategy = {
-		type = conquer
-		id = "FIN"
-		value = 300
-	}
-	
-	ai_strategy = {
 		type = garrison
-		value = -50
-	}
-	
-	ai_strategy = {
-		type = conquer
-		id = "GER"
-		value = 300
-	}
+		value = -45
+        }
 }
 
 SOV_attackonwinter = {
 	allowed = { tag = SOV }
 	enable = {
-		or = {
+                has_war_with = GER
+		OR = {
 			has_idea = winter_offensive
 			has_idea = winter_offensive2
 			has_idea = winter_offensive3
@@ -462,7 +423,7 @@ SOV_attackonwinter = {
 		}
 		check_variable = { TW_inf_fielded_eq_ratio > 0.83 }
 		check_variable = { TW_uniform_fielded_eq_ratio > 0.83 }
-		has_war_with = GER
+	
 		NOT = { surrender_progress < 0.02 }
 	}
 
@@ -482,6 +443,16 @@ SOV_attackonwinter = {
 		execute_order = yes
 		execution_type = rush
 	}
+        ai_strategy = {
+		type = consider_weak
+		id = GER
+		value = 250
+	}
+        ai_strategy = {
+		type = consider_weak
+		id = ROM
+		value = 250
+	}
 }
 
 prepare_for_finwar = {
@@ -494,11 +465,12 @@ prepare_for_finwar = {
 		NOT = { has_global_flag = winterwar }
 	}
 	
-	abort = {
-		SOV = { exists = no }
-		SOV = { is_puppet_of = GER }
-		has_war_with = GER  # AND???
+	abort = { 
+	    has_global_flag = winterwar
+	    OR = {
+		has_war_with = GER
 		has_war_with = JAP
+		}
 	}
 	
 	ai_strategy = {
@@ -516,7 +488,12 @@ prepare_for_finwar = {
 	ai_strategy = {
 		type = front_unit_request
 		tag = FIN
-		value = 100
+		value = 75
+	}
+        ai_strategy = {
+		type = prepare_for_war
+		id = FIN
+		value = 125
 	}
 }
 
@@ -716,7 +693,7 @@ NAP_sov_ger_3 = {
 		value = 400
 	}
 	ai_strategy = {
-		type = conquer
+		type = prepare_for_war
 		id = "GER"			
 		value = 400
 	}		
@@ -737,17 +714,29 @@ ger_and_pol = {
 		original_tag = SOV
 	}
 	enable = {
+	    has_non_aggression_pact_with = GER
 		GER = { has_war_with = POL }
 	}
 	
-	abort = {
-		NOT = { GER = { has_war_with = POL } }
-	}
+	abort_when_not_enabled = yes
 	
 	ai_strategy = {
 		type = conquer
 		id = "POL"
-		value = 200
+		value = 100
+	}
+	ai_strategy = {
+		type = front_unit_request
+		country_trigger = {
+			tag = POL
+		}
+		value = 50
+	}
+	
+	ai_strategy = {
+		type = prepare_for_war
+		id = POL
+		value = 150
 	}
 }
 
@@ -854,13 +843,16 @@ claims_on_baltic = {
 		value = 400
 	}
 }
-
+#duplicate?? TODO
 claims_on_finland = {
 	allowed = {
 		original_tag = SOV
 	}
 	enable = {
-		has_completed_focus = SOV_baltic_security
+		focus_progress = {
+			focus = SOV_baltic_security
+			progress > 0.01
+		}
 		NOT = { 146 = { is_controlled_by_ROOT_or_ally = yes } }
 	}
 	abort = {
@@ -875,13 +867,19 @@ claims_on_finland = {
 	ai_strategy = {
 		type = declare_war
 		id = "FIN"			
-		value = 600
+		value = 500
 	}	
 	ai_strategy = {
 		type = conquer
 		id = "FIN"			
 		value = 50
 	}	
+	
+	ai_strategy = {
+		type = prepare_for_war
+		id = FIN
+		value = 150
+	}
 }
 
 
@@ -935,7 +933,7 @@ dont_strike_japansov = {
 		value = 10
 	}
 }
-
+#duplicate?? TODO
 japan_agreement_in_place = {
 	allowed = {
 		original_tag = SOV
@@ -1011,42 +1009,6 @@ germany_enemy = {
 	}	
 }
 
-germany_enemy2 = {
-	allowed = {
-		original_tag = SOV
-	}
-	enable = {
-		has_war_with = GER 
-		OR = {
-		
-		has_idea = winter_offensive2 
-		has_idea = winter_offensive 
-		}
-	}
-	abort = {
-		OR = {
-		NOT = { has_war_with = GER }
-		
-		AND = {
-		
-		NOT = { has_idea = winter_offensive2 }
-		NOT = { has_idea = winter_offensive }
-		
-		}
-		}
-	}
-	
-	ai_strategy = {
-		type = consider_weak
-		id = "GER"			
-		value = 300
-	}	
-	ai_strategy = {
-		type = consider_weak
-		id = "ROM"			
-		value = 300
-	}
-}
 
 finland_war = {
 	allowed = {
@@ -1077,33 +1039,6 @@ finland_war = {
 		value = -25
 	}
 	
-}
-		
-
-spanish_civil_war_SOV = {
-	allowed = {
-		original_tag = SOV
-		NOT = { has_dlc = "La Resistance" }
-	}
-	enable = {
-		has_government = communism
-		has_global_flag = spanish_civil_war
-		
-		NOT = { has_global_flag = scw_over }
-	}
-	
-	abort = {	
-		OR = {
-			SPR = { has_civil_war = no }
-			has_global_flag = scw_over
-		}
-	}
-	
-	ai_strategy = {
-		type = befriend
-		id = "SPR"			
-		value = 100
-	}	
 }
 
 spanish_civil_war_SOV_resistance = {
@@ -1136,8 +1071,13 @@ spanish_civil_war_SOV_resistance = {
 	ai_strategy = {
 		type = send_volunteers_desire
 		id = "SPD"			
-		value = 1500
+		value = 1000
 	}	
+    ai_strategy = {
+		type = send_lend_lease_desire
+		id = "SPD"
+		value = 65
+	}
 }
 # historical mod
 SOV_play_nice_with_swe = {
@@ -1173,26 +1113,25 @@ SOV_help_CCP = {
 
 		has_government = communism 
 		NOT = { is_in_faction_with = JAP }
-		NOT = { has_war_with = CCP }
+	
+                NOT = { has_war_with = GER }
 		CCP = { 
 			has_war_with = JAP
 			has_government = communism
 		}
 	}
-
-	abort = {
-		OR = {
-			has_war_with = GER
-			NOT = { CCP = { has_war_with = JAP } }
-			is_in_faction_with = JAP
-			has_government = fascism
-		}
-	}
+        abort_when_not_enabled = yes
 
 	ai_strategy = {
 		type = support
 		id = "CCP"
 		value = 120
+	}
+	
+	ai_strategy = {
+		type = send_volunteers_desire
+		id = "CHI"			
+		value = -400
 	}
 }
 
@@ -1202,19 +1141,13 @@ sov_help_NatChina = {
 	}
 	enable = {
 		country_exists = CHI
+                NOT = { has_war_with = GER }
 		NOT = { CHI = { has_government = fascism } }
 		CHI = { has_war_with = JAP }
 		NOT = { CHI = { has_war_with = CCP } }
 		CHI = { surrender_progress > 0.1 }
 	}
-	abort = {
-	    OR = {
-		CHI = { has_government = fascism }
-		NOT = { CHI = { has_war_with = JAP } }
-		CHI = { has_war_with = CCP }
-		NOT = { CHI = { surrender_progress > 0.02 } }
-		}
-	}
+	abort_when_not_enabled = yes
 	
 	ai_strategy = {
 		type = support
@@ -1228,27 +1161,19 @@ sov_help_china_more = {
 		original_tag = SOV
 	}
 	enable = {
-		CHI = { has_war_with = JAP }
-		NOT = { CHI = { has_war_with = CCP } }
-		CHI = { has_idea = China_def_I }
+		CHI = { has_war_with = JAP surrender_progress > 0.3 NOT = { has_war_with = CCP } }
 	}
-	abort = {
-	    OR = {
-		CHI = { has_government = fascism }
-		NOT = { CHI = { has_war_with = JAP } }
-		CHI = { has_war_with = CCP }
-		}
-	}
+	abort_when_not_enabled = yes
 	
 	ai_strategy = {
 		type = support
 		id = "CHI"			
-		value = 100
+		value = 50
 	}
 ai_strategy = {
 		type = support
 		id = "CCP"
-		value = 100
+		value = 75
 	}	
 }
 

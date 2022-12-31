@@ -131,7 +131,8 @@
 		}
 		
 		bypass = {
-
+            461 = { is_controlled_by = ROOT }
+			462 = { is_controlled_by = ROOT }
 		}
 		cancel_if_invalid = yes
 		continue_if_invalid = no
@@ -145,7 +146,7 @@
 	focus = {
 		id = FRA_intervention_in_west_africa
 		icon = GFX_goal_generic_position_armies
-		x = -3
+		x = 1
 		y = 1
 		offset = {
 			x = 0
@@ -167,7 +168,7 @@
 		}
 		
 		bypass = {
-
+            539 = { is_controlled_by = ROOT }
 		}
 		cancel_if_invalid = yes
 		continue_if_invalid = no
@@ -250,7 +251,7 @@
 	focus = {
 		id = FRA_intervention_in_indochina
 		icon = GFX_goal_generic_position_armies
-		x = 1
+		x = -3
 		y = 1
 		offset = {
 			x = 0
@@ -311,7 +312,7 @@
 		}
 		
 		bypass = {
-
+            773 = { is_controlled_by = ROOT }
 		}
 		cancel_if_invalid = yes
 		continue_if_invalid = no
@@ -355,7 +356,7 @@
 		}
 		
 		bypass = {
-
+            543 = { is_controlled_by = ROOT }
 		}
 		cancel_if_invalid = yes
 		continue_if_invalid = no
@@ -390,15 +391,7 @@
 			factor = 1
 		}
 		available = {
-			if = {
-				limit = {
-					has_dlc = "Man the Guns"
-				}
-				has_legitimacy > 90
-			}
-			else = {
-				num_of_factories > 24
-			}
+			has_legitimacy > 85
 		}
 		
 		bypass = {
@@ -413,6 +406,86 @@
 		completion_reward = {
 			add_war_support = 0.1
 			add_stability = 0.1
+		}
+	}
+	focus = {
+		id = FRA_goverment_adminiatration
+		icon = GFX_goal_generic_industry_3
+		x = 3
+		y = 1
+		offset = {
+			x = 0
+			y = 0
+		}
+		prerequisite = {
+			focus = FRA_form_the_national_committee
+		}
+		prerequisite = { 
+			focus = FRA_intervention_in_madagascar
+			focus = FRA_intervention_in_west_africa
+			focus = FRA_intervention_in_central_africa
+		}
+		relative_position_id = FRA_form_the_national_committee
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			543 = { is_controlled_by = ROOT }
+			OR = {
+			557 = { is_controlled_by = ROOT }
+			530 = { is_controlled_by = ROOT }
+			}
+		}
+		
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		search_filters = { FOCUS_FILTER_INDUSTRY  }
+		completion_reward = {
+			random_owned_state = {
+				limit = {
+					is_controlled_by = ROOT
+					OR = {
+					state = 543
+					state = 557
+					state = 530
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_state = {
+				limit = {
+					is_controlled_by = ROOT
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
 		}
 	}
 	focus = {
@@ -1032,6 +1105,104 @@
 			}
 		}
 	}
+	
+	focus = {
+		id = FRA_free_heavy_armor_focus
+		icon = GFX_goal_FRA_heavy
+		prerequisite = { 
+			focus = FRA_the_civil_and_military_organization
+		}
+		relative_position_id = FRA_the_civil_and_military_organization
+		x = 3
+		y = 1
+		cost = 10
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			add_tech_bonus = {
+				name = heavy_armor_bonus
+				bonus = 0.75
+				uses = 1
+				category = cat_heavy_armor
+			}
+		}
+	}
+	
+	focus = {
+		id = FRA_free_support_tanks
+		icon = GFX_sov_spg_prototype
+		prerequisite = { 
+			focus = FRA_the_civil_and_military_organization
+		}
+		x = 5
+		y = 1
+		relative_position_id = FRA_the_civil_and_military_organization
+		cost = 7.2
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			add_tech_bonus = {
+			name = light_spg_bonus
+			bonus = 0.5 
+			uses = 2
+			category = cat_light_art
+			}
+
+			add_tech_bonus = {
+			name = light_td_bonus
+			bonus = 0.5 
+			uses = 2
+			category = cat_light_td
+			}
+		}
+	}
+	
+	focus = {
+		id = FRA_free_avant_chars
+		icon = GFX_doctrine_tank_warfare
+		prerequisite = { 
+			focus = FRA_free_support_tanks focus = FRA_free_heavy_armor_focus
+		}
+		x = 4
+		y = 2
+		relative_position_id = FRA_the_civil_and_military_organization
+		cost = 7.2
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			custom_effect_tooltip = available_chief_of_army
+			show_ideas_tooltip = jean_flavigny
+			custom_effect_tooltip = available_military_high_command
+			show_ideas_tooltip = alphonse_georges
+			
+		}
+	}
+	
+	focus = {
+		id = FRA_free_d_assaut
+		icon = GFX_tanks_focus_2
+		prerequisite = { 
+			focus = FRA_free_support_tanks focus = FRA_free_heavy_armor_focus
+		}
+		x = 6
+		y = 2
+		relative_position_id = FRA_the_civil_and_military_organization
+		cost = 7.2
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			add_tech_bonus = {
+			name = armor_bonus
+			bonus = 0.75 
+			uses = 2
+			category = cat_stug
+			}
+		}
+	}
 	focus = {
 		id = FRA_national_council_of_the_resistance
 		icon = GFX_focus_focus_fra_national_resistance_council
@@ -1071,6 +1242,31 @@
 			swap_ideas = {
 				remove_idea = FRA_civil_and_military_organization
 				add_idea = FRA_national_council_of_the_resistance
+			}
+		}
+	}
+	focus = {
+		id = FRA_free_french_legion
+		icon = GFX_goal_army_guy_2
+		prerequisite = { 
+			focus = FRA_national_council_of_the_resistance
+		}
+
+		x = 0
+		y = 1
+		relative_position_id = FRA_national_council_of_the_resistance
+		cost = 8.7
+
+		available_if_capitulated = yes
+
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+		      add_tech_bonus = {
+				name = paratrooper_bonus
+				bonus = 0.75
+				uses = 2
+				category = mountaineers_tech
+				category = para_tech
 			}
 		}
 	}

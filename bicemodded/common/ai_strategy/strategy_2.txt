@@ -1,57 +1,20 @@
 
 
-turkey_ignore_fra = {
-        allowed = { 
-		tag = TUR
-	}
-	enable = {
-		date > 1938.12.31
-	}
-	abort = {
-		always = no
-	}
-	ai_strategy = {
-		type = alliance
-		id = "ENG"			
-		value = -150
-	}
-	ai_strategy = {
-		type = alliance
-		id = "FRA"			
-		value = -150
-	}
-	ai_strategy = {
-		type = ignore
-		id = "FRA"			
-		value = 100
-	}	
-	ai_strategy = { type = alliance id = "GER" value = -150 }
-	ai_strategy = { type = ignore id = "GER" value = 100 }	
-	ai_strategy = { type = declare_war id = "GER" value = -100 }	
-	
-	ai_strategy = {
-		type = alliance
-		id = "SOV"			
-		value = -150
-	}
-	ai_strategy = {
-		type = ignore
-		id = "SOV"			
-		value = 100
-	}	
-	ai_strategy = {
-		type = declare_war
-		id = "SOV"			
-		value = -200
-	}
-	ai_strategy = {
-		type = antagonize
-		id = "SOV"			
-		value = -100
-	}
+south_america_ignore_conflicts = {
+allowed = { OR = { original_tag = BRA original_tag = ARG original_tag = CUB original_tag = VEN original_tag = GUA original_tag = MEX original_tag = HAI original_tag = COL original_tag = ECU original_tag = CHL } }
+	enable = { has_war_with = GER
+	OR = { is_in_faction_with = USA is_in_faction_with = ENG }
+		}
+ai_strategy = { type = area_priority id = south_america value = 100 }
+ai_strategy = { type = area_priority id = asia value = -100 }
+ai_strategy = { type = area_priority id = europe value = -100 }
+ai_strategy = { type = area_priority id = middle_east value = -100 }
+ai_strategy = { type = area_priority id = suez value = -100 }
+ai_strategy = { type = area_priority id = africa value = -75 }
+ai_strategy = { type = garrison value = 100 }
 }
 
-south_america_ignore_chi = {
+western_world_america_ignore_chi = {
 	enable = {
 		or = { 
 		capital_scope = {
@@ -63,9 +26,11 @@ south_america_ignore_chi = {
 		capital_scope = {
 			is_on_continent = north_america
 		}
-		tag = AST
-		tag = NZL
+		original_tag = AST
+		original_tag = NZL
+                original_tag = EGY
 		}
+                NOT = { original_tag = GER }
 		date > 1937.1.31
 	}
 	abort = {
@@ -88,24 +53,6 @@ south_america_ignore_chi = {
 	
 	ai_strategy = {  type = alliance  id = "XIN" value = -400}	
 	ai_strategy = {  type = befriend  id = "XIN" value = -40}
-}
-
-brazil_ignore_chi = {
-        allowed = { 
-		tag = BRA
-	}
-	enable = {
-		country_exists = CHI
-	}
-	abort = {
-		NOT = { country_exists = CHI }
-	}
-	
-	ai_strategy = {  type = befriend  id = "CHI" value = -100}
-	ai_strategy = {  type = befriend  id = "JAP" value = -100}
-	ai_strategy = { type = ignore id = "CHI" value = 100 }	
-	ai_strategy = { type = ignore id = "JAP" value = 100 }	
-	ai_strategy = { type = ignore id = "SOV" value = 50 }	
 }
 
 bel_neutral = {
@@ -148,17 +95,9 @@ bel_neutral_2 = {  # gonna need this to make player get historic mannstein...
 		is_in_faction = yes
 	}
 	ai_strategy = { type = alliance id = "FRA" value = 190 }
-	ai_strategy = { type = antagonize id = "FRA" value = -200 }
-	ai_strategy = { type = ignore id = "FRA" value = -200 }
 	ai_strategy = { type = alliance id = "ENG" value = 190 }
-	ai_strategy = { type = antagonize id = "ENG" value = -200 }
-	ai_strategy = { type = ignore id = "ENG" value = -200 }
 	ai_strategy = { type = alliance id = "BEL" value = 190 }
-	ai_strategy = { type = antagonize id = "BEL" value = -200 }
-	ai_strategy = { type = ignore id = "BEL" value = -200 }
 	ai_strategy = { type = alliance id = "HOL" value = 190 }
-	ai_strategy = { type = antagonize id = "HOL" value = -200 }
-	ai_strategy = { type = ignore id = "HOL" value = -200 }
 }
 
 
@@ -269,7 +208,7 @@ ai_strategy = { type = area_priority id = europe value = 35}
 	}	
 }
 
-ger_invasion = {
+ger_d_day_invasion = {
 enable = {
 date > 1943.4.1
  has_war_with = GER
@@ -336,42 +275,82 @@ ai_strategy = {
 	}	
 }
 
-e_invasion = {
-allowed = { 
-		OR = { tag = GER tag = ITA }
+sealion_invasion = {
+    allowed = { 
+		tag = GER
 	}
-enable = {
-OR = { is_in_faction_with = GER tag = GER }
-NOT = { any_state = { OR = { region = 213 region = 212 region = 202 region = 206 region = 25 region = 26 region = 37 region = 6 region = 5 } controller = { has_war_with = GER } } }
-has_army_manpower = { size > 110000 }
-alliance_strength_ratio > 0.5
-surrender_progress < 0.05
-GER = { surrender_progress < 0.05 }
-has_war_with = ENG
-date > 1943.4.15
-OR = { 
-		    is_in_faction_with = SOV
-			is_in_faction_with = USA
-			SOV = { has_capitulated = yes }
-			SOV = { has_government = fascism }
-			USA = { has_government = fascism }
-			SOV = { exists = no }
-			USA = { exists = no }
-			SOV = { is_puppet = yes }	
-		}
+    enable = {
+        has_war_with = ENG
+		FRA = { has_capitulated = yes }
+		alliance_strength_ratio > 0.5
+		alliance_naval_strength_ratio > 0.2
+        OR = {
+            germany_success_trigger_lategame = yes # TODO, OR uk has inadequate garrison
+
+			ENG = {
+			divisions_in_state = {
+				size < 2
+				state = 127
+			}
+			}
+			ENG = {
+			divisions_in_state = {
+				size < 2
+				state = 126
+			}
+			}
+			ENG = {
+			divisions_in_state = {
+				size < 2
+				state = 125
+			}
+			}
+			ENG = {
+			divisions_in_state = {
+				size < 2
+				state = 123
+			}
+			}
+			ENG = {
+			divisions_in_state = {
+				size < 2
+				state = 338
+			}	
+			}
+        }
+    has_army_manpower = { size > 1500000 }
+    
+    surrender_progress < 0.03
+
+    set_temp_variable = { days = global.num_days }
+	modulo_temp_variable = { days = 150 }
+	check_variable = { days > 85 }
 }
 
-abort = {
-	OR = {    any_state = { OR = { region = 213 region = 212 region = 202 region = 206 region = 25 region = 26 region = 37 region = 6 region = 5 } controller = { has_war_with = GER } }
-alliance_strength_ratio < 0.4 }
+    abort_when_not_enabled = yes
+	
+    ai_strategy = { type = invade id = "ENG" value = 1200 }
+    ai_strategy = {
+		type = strategic_air_importance
+		id = 1 #Southern England
+		value = 50000 #value of stocked main front in active combat is usually around 35,000
+	}
+
+	ai_strategy = {
+		type = strategic_air_importance
+		id = 18 #English Channel
+		value = 50000
 	}
 	
-ai_strategy = { type = invade id = "ENG" value = 1200 }
-
+	ai_strategy = {
+		type = naval_avoid_region
+		id = 18 #english channel
+		value = -600  # zero out the 'axis_stay_away_from_the_royal_navy'
+	}
 }
 
 
-j_invasion_2 = {
+allies_island_hopping_invasion = {
 allowed = { tag = USA }
 enable = {
 has_war_with = JAP
@@ -416,7 +395,7 @@ ai_strategy = {
 
 }
 
-j_invasion_3 = {
+USA_olympic_invasion = {
 allowed = { tag = USA }
 enable = {
 has_war_with = JAP
@@ -472,7 +451,7 @@ ai_strategy = {
 
 }
 
-j_invasion_4 = {
+USA_downfall_invasion= {
 allowed = { tag = USA }
 enable = {
 has_war_with = JAP
@@ -507,9 +486,9 @@ ai_strategy = { type = invade id = "SIA" value = 1000 }
 
 }
 
-ger_invade_n = {
+ger_weserubung_invasion= {
 allowed = { tag = GER }
-enable = { 
+enable = {  #TODO better condition
 focus_progress = { focus = GER_weserubung progress > 0.01 }
 NOT = { date > 1940.7.15 }
 
@@ -517,7 +496,7 @@ NOT = { date > 1940.7.15 }
 
 abort = {  date > 1940.7.15 }
 
-ai_strategy = { type = invade id = "NOR" value = 1100 }
+ai_strategy = { type = invade id = "NOR" value = 1200 }
 
 }
 

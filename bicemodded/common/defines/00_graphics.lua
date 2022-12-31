@@ -100,6 +100,8 @@ NMapMode = {
 	SUPPLY_HOVERED_PROVINCE_COLOR_INDEX = 4, -- Border color of hovered province. Refers to the colors in BORDER_COLOR_CUSTOM_HIGHLIGHTS.
 	PEACE_HOVERED_STATE_COLOR_INDEX = 3 , -- Border color of hovered state in Peace conference. Refers to the colors in BORDER_COLOR_CUSTOM_HIGHLIGHTS.
 	PEACE_CLAIMED_STATE_COLOR_INDEX = 2 , -- Border color of claimed states in Peace conference. Refers to the colors in BORDER_COLOR_CUSTOM_HIGHLIGHTS.
+	SELECTION_HOVERED_STATE_COLOR_INDEX_CONTROLLED = 5, -- Border color of hovered controlled states in various select mapmodes. Refers to the colors in BORDER_COLOR_CUSTOM_HIGHLIGHTS.
+	SELECTION_HOVERED_STATE_COLOR_INDEX_FOREIGN = 6,	-- Border color of hovered foreign states in various select mapmodes. Refers to the colors in BORDER_COLOR_CUSTOM_HIGHLIGHTS.
 },
 
 NMapIcons = {
@@ -679,6 +681,8 @@ NGraphics = {
 		0.1, 0.6, 0.2, 1.0,   -- 2: good, while active
 		0.8, 0.3, 0.0, 1.0,   -- 3: bad, while passive
 		0.0, 0.4, 0.8, 1.0,   -- 4: good, while passive
+		0.3, 0.9, 0.3, 0.8,   -- 5: controlled, neutral positive
+		0.7, 0.7, 0.0, 1.0,   -- 6: not ours, neutral negative
 	},
 	BORDER_COLOR_TUTORIAL_HIGHLIGHT_R = 0.0,
 	BORDER_COLOR_TUTORIAL_HIGHLIGHT_G = 0.61,
@@ -710,9 +714,9 @@ NGraphics = {
 	GRADIENT_BORDERS_THICKNESS_STATE = 5.0,
 	GRADIENT_BORDERS_THICKNESS_RESISTANCE = 5.0,
 	GRADIENT_BORDERS_THICKNESS_INTEL_LEDGER = 5.0,
-	GRADIENT_BORDERS_THICKNESS_SUPPLY_AREA_A = 2.0,
-	GRADIENT_BORDERS_THICKNESS_SUPPLY_AREA_B = 20.0,
-	GRADIENT_BORDERS_THICKNESS_STRATEGIC_REGIONS = 150.0,
+	GRADIENT_BORDERS_THICKNESS_SUPPLY_AREA_A = 250.0,
+	GRADIENT_BORDERS_THICKNESS_SUPPLY_AREA_B = 250.0,
+	GRADIENT_BORDERS_THICKNESS_STRATEGIC_REGIONS = 250.0,
 	GRADIENT_BORDERS_THICKNESS_DIPLOMACY = 12.0,
 	GRADIENT_BORDERS_THICKNESS_DIPLOMACY_ON_INTEL_LEDGER = 3.0,
 	GRADIENT_BORDERS_THICKNESS_PEACE_CONFERENCE_A = 3.0, -- transparency at 0 up until A
@@ -782,16 +786,13 @@ NGraphics = {
 	NORTH_POLE_OFFSET = 0.93,
 	COUNTRY_FLAG_TEX_WIDTH = 82, -- Expected texture size
 	COUNTRY_FLAG_TEX_HEIGHT = 52,
+	COUNTRY_FLAG_TEX_MAX_SIZE = 256, -- Tweak dependly on amount of countries. Must be power of 2. No more then 2048.
 	COUNTRY_FLAG_MEDIUM_TEX_WIDTH = 41,
 	COUNTRY_FLAG_MEDIUM_TEX_HEIGHT = 26,
+	COUNTRY_FLAG_MEDIUM_TEX_MAX_SIZE = 512, -- Tweak dependly on amount of countries. Must be power of 2. No more then 2048.
 	COUNTRY_FLAG_SMALL_TEX_WIDTH = 10,
 	COUNTRY_FLAG_SMALL_TEX_HEIGHT = 7,
-	COUNTRY_FLAG_TEX_MAX_SIZE = 1024, -- Tweak dependly on amount of countries. Must be power of 2. No more then 2048.
 	COUNTRY_FLAG_SMALL_TEX_MAX_SIZE = 256, -- Tweak dependly on amount of countries. Must be power of 2. No more then 2048.
-	COUNTRY_FLAG_STRIPE_TEX_MAX_WIDTH = 10,
-	COUNTRY_FLAG_STRIPE_TEX_MAX_HEIGHT = 4096,
-	COUNTRY_FLAG_LARGE_STRIPE_MAX_WIDTH = 41,
-	COUNTRY_FLAG_LARGE_STRIPE_MAX_HEIGHT = 16384,
 	VICTORY_POINT_LEVELS = 2,
 	VICTORY_POINT_MAP_ICON_AFTER = {0, 14}, -- After this amount of VP the map icon becomes bigger dot.
 	VICTORY_POINT_MAP_ICON_TEXT_CUTOFF = {250, 350, 900},  -- At what camera distance the VP name text disappears.
@@ -1009,17 +1010,16 @@ NGraphics = {
 	COUNTRY_UI_COLOR_BRIGHTNESS_MODIFIER = 1.0,
 
 	COMMANDGROUP_PRESET_COLORS_HSV = {
-		90.0/360.0, 0.95, 0.86,
-		60.0/360.0, 0.95, 0.86,
-		30.0/360.0, 0.95, 0.86,
-		00.0/360.0, 0.95, 0.86,
-		330.0/360.0, 0.95, 0.86,
-		300.0/360.0, 0.95, 0.86,
-		270.0/360.0, 0.95, 0.86,
-		240.0/360.0, 0.95, 0.86,
-		210.0/360.0, 0.95, 0.86,
-		180.0/360.0, 0.95, 0.86
-	},
+		0.0/360.0, 1.0, 0.86,	--red
+		10.0/360.0, 1.0, 0.86,	--orange
+		60.0/360.0, 1.0, 0.86,	--yellow
+		120.0/360.0, 0.85, 0.86,	--green
+		155.0/360.0, 1.0, 0.86,	--greenish
+		180.0/360.0, 1.0, 0.86,	--turq
+		220.0/360.0, 1.0, 0.86,	--blue
+		260.0/360.0, 1.0, 0.85,	--dark purple
+		330.0/360.0, 0, 0.86		--white
+    },
 
 	CAMERA_OUTSIDE_MAP_DISTANCE_TOP = 200.0,
 	CAMERA_OUTSIDE_MAP_DISTANCE_BOTTOM = 200.0,

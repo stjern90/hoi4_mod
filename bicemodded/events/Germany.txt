@@ -1031,6 +1031,16 @@ country_event = {
 			effect_tooltip = {
 				add_opinion_modifier = { target = SOV modifier = MR_pact }# pact
 			}
+			hidden_effect = {
+		    if = { limit = { SOV = { is_embargoed_by = GER } }
+			    break_embargo = SOV
+			}
+		}
+		}
+		hidden_effect = {
+		    if = { limit = { GER = { is_embargoed_by = SOV } }
+			    break_embargo = GER
+			}
 		}
 		set_global_flag = sov_yes_pact
 		add_war_support = -0.05
@@ -1817,6 +1827,14 @@ country_event = {
 		}
 		hidden_effect = {
 			country_event = { days = 1 id = news.19 }
+			GER = {
+			if = {
+				limit = {
+					is_ai = yes
+				}	
+				GER_add_ai_construction_q = yes
+			}
+            }
 		}
 	}
 }
@@ -1839,6 +1857,14 @@ country_event = {
 		}
 		hidden_effect = {
 			country_event = { days = 1 id = news.20 }
+			GER = {
+			if = {
+				limit = {
+					is_ai = yes
+				}	
+				GER_add_ai_construction_q = yes
+			}
+            }			
 		}
 	}
 }
@@ -1990,7 +2016,7 @@ country_event = {
 	id = germany.27
 	title = germany.27.t
 	desc = germany.27.d
-	picture = GFX_report_event_org_todt_1
+	picture = GFX_report_event_trenchger
 
 	is_triggered_only = yes
 	
@@ -2051,6 +2077,15 @@ country_event = {
 	picture = GFX_report_event_austria_asks_anschluss
 	
 	is_triggered_only = yes
+	
+	immediate = {
+	if = {
+				limit = {
+					is_ai = yes
+				}	
+				GER_add_ai_construction_q = yes
+			}
+	}
 	
 	option = { # Accept
 		name = germany.28.a
@@ -3340,6 +3375,16 @@ country_event = {
 			type = annex_everything
 			target = CZE
 		}
+		hidden_effect = {
+		    GER = {
+			if = {
+				limit = {
+					is_ai = yes
+				}	
+				GER_add_ai_construction_q = yes
+			}
+            }
+		}
 	}
 }
 
@@ -3502,7 +3547,7 @@ country_event = {
 		GER_mefo_bills_level_down = yes
 
 		hidden_effect = {
-			country_event = { hours = 6 id = news.60 }
+			news_event = { hours = 6 id = news.60 }
 			every_state = {
 				limit = {
 					is_owned_by = SLO
@@ -3521,6 +3566,17 @@ country_event = {
              	}
 				set_country_flag = CZE_AI_RANDOM_DEMOCRATIC
 			}
+		}
+		
+		hidden_effect = {
+		    GER = {
+			if = {
+				limit = {
+					is_ai = yes
+				}	
+				GER_add_ai_construction_q = yes
+			}
+            }
 		}
 	}
 	option = {
@@ -3556,30 +3612,52 @@ country_event = {
 				
 			}
 			POL = { transfer_state = 72 } # Give Poland Zaolzie
-				}
-		else_if = { 
-		    limit = {  
-		        72 = {
-					NOT = { is_owned_by = POL }
-			    }
-		    } 
-	    	GER = { transfer_state = 72 } #If no Poland, then GER should grab 'Teschen'!!! Mainly Czechs & Poles, some German but in the past part of KUK.
-   		}
+		}
+		else = {
+			GER = { transfer_state = 72 } #If no Poland, then GER should grab 'Teschen'!!! Mainly Czechs & Poles, some German but in the past part of KUK.
+		}
 		
 		custom_effect_tooltip = end_of_czechoslovakia_mefo_bills_tt
 		add_to_variable = { var = GER_mefo_bill_counter value = -5 }
 		GER_mefo_bills_level_down = yes
-				}
+		
+		hidden_effect = {
+		    GER = {
+			if = {
+				limit = {
+					is_ai = yes
+				}	
+				GER_add_ai_construction_q = yes
+			}
+            }
+		}
+	}
 	
 	option = {
 		name = germany.55.c
-		add_political_power = -75
-		ai_chance = {
+		add_political_power = -25
+		ai_chance = { 
 			factor = 10
 			modifier = {
 				factor = 0
 				is_historical_focus_on = yes
 			}
+		}
+		if = {
+			limit = {
+				154 = { is_owned_by = HUN }
+				HUN = {
+					is_friend_or_potential_friend_of_GER = yes
+				}
+				73 = {
+					OR = {
+						is_owned_by = CZE
+						is_owned_by = GER
+					}
+				}
+				country_exists = HUN 
+			}
+			HUN = { transfer_state = 73 }
 		}
 		if = {
 			limit = { country_exists = CZE }
@@ -3598,42 +3676,23 @@ country_event = {
 			    set_compliance = 57
 		    }
         }
-		
-		if = {
-			limit = { has_global_flag = GER_HUN_CZE_split }
-			HUN = { country_event = DOD_hungary.106 }
-		}
 		hidden_effect = {
-			country_event = { hours = 6 id = news.62 }
+			news_event = { hours = 6 id = news.62 }
 		}
-		
 		custom_effect_tooltip = end_of_czechoslovakia_mefo_bills_tt
 		add_to_variable = { var = GER_mefo_bill_counter value = -5 }
 		GER_mefo_bills_level_down = yes
-	}
-
-	option = {
-		name = germany.55.do
 		
-		ai_chance = {
-			factor = 100
-			modifier = {
-				factor = 10
-				is_in_faction_with = HUN
+		hidden_effect = {
+		    GER = {
+			if = {
+				limit = {
+					is_ai = yes
+				}	
+				GER_add_ai_construction_q = yes
 			}
+            }
 		}
-		
-		trigger = {
-			has_global_flag = GER_HUN_CZE_split #promised Hungary Slovakia in earlier event
-		}
-		
-		
-		HUN = { country_event = DOD_hungary.101 }
-		#add_war_support = 0.1
-		
-		custom_effect_tooltip = end_of_czechoslovakia_mefo_bills_tt
-		add_to_variable = { var = GER_mefo_bill_counter value = -5 }
-		GER_mefo_bills_level_down = yes
 	}
 }
 
@@ -4595,15 +4654,15 @@ country_event = {
 		# REVISIT Balance research bonus
 		add_tech_bonus = {
 			name = med_armor_bonus
-			ahead_reduction = 0.3
-			bonus = 0.6
+			ahead_reduction = 0.5
+			bonus = 0.5
 			uses = 1
 			category = cat_medium_armor
 		}
 		add_tech_bonus = {
 			name = heavy_armor_bonus
-			ahead_reduction = 0.3
-			bonus = 0.6
+			ahead_reduction = 0.5
+			bonus = 0.5
 			uses = 1
 			category = cat_heavy_armor
 		}
@@ -6880,6 +6939,7 @@ country_event = {
 					owns_state = 103
 					owns_state = 104
 					owns_state = 109
+					owns_state = 804
 				} 
 			} 
 		}
@@ -6901,7 +6961,11 @@ country_event = {
 				if = {
 					limit = { YUG = { owns_state = 109 } }
 					transfer_state = 109
-				}						
+				}
+                if = {
+					limit = { YUG = { owns_state = 804 } }
+					transfer_state = 804
+				}				
 			}
 			puppet = CRO
 			annex_country = { target = YUG transfer_troops = no }
@@ -6933,7 +6997,11 @@ country_event = {
 				if = {
 					limit = { YUG = { owns_state = 109 } }
 					transfer_state = 109
-				}						
+				}	
+                if = {
+					limit = { YUG = { owns_state = 804 } }
+					transfer_state = 804
+				}				
 			}
 			puppet = CRO
 			puppet = YUG
@@ -7864,6 +7932,280 @@ country_event = {
 			base = 0
 		}
 	}
+}
+
+# Forming West Germany
+country_event = {
+	id = germany.200
+	title = germany.200.t
+	desc = germany.200.desc
+	picture = GFX_report_event_german_reichstag_gathering
+
+	fire_only_once = yes
+
+
+	mean_time_to_happen = {
+		days = 10
+	}
+
+	trigger = {
+		has_global_flag = yalta_agreed_flag
+		has_government = democratic
+		has_war = no # Don't do this while we are still at war
+		SOV = {
+			has_government = communism
+		}
+		IF = {
+			# If the GER tag is democratic, use this, otherwise go random
+			limit = {
+				GER = {
+					is_subject = yes 
+					has_government = democratic
+				}
+			}
+			any_subject_country = {
+				tag = GER
+				has_government = democratic 
+			}
+		}
+		ELSE = {
+			any_subject_country = {
+				original_tag = GER
+				has_government = democratic 
+			}
+		}
+			
+	}
+
+	option = { #Let's do it
+		name = germany.200.a
+		ai_chance = {
+			base = 100
+		}
+		add_stability = 0.1
+		add_political_power = 100
+		add_ideas = GER_western_trade_cooperation
+
+		random_subject_country = {
+			limit = {
+				original_tag = GER
+				has_government = democratic 
+			}
+			ROOT = {
+				set_autonomy = {
+					target = PREV
+					autonomy_state = autonomy_free
+				}
+			}
+			add_ideas = GER_western_trade_cooperation
+			IF = {
+				limit = {
+					ROOT = { is_faction_leader = yes }
+				}
+				ROOT = { add_to_faction = PREV }
+			}
+			set_cosmetic_tag = WGR
+			every_other_country = {
+				limit = {
+					any_subject_country = {
+						original_tag = GER
+						has_government = democratic 
+					}
+					NOT = { tag = ROOT }
+				}
+				country_event = {
+					id = germany.201
+					hours = 4
+					random_hours = 12
+				}
+
+			}
+			
+		}
+		# Check if last german democratic puppet
+		IF = {
+			limit = {
+				NOT = {
+					any_country = {
+						original_tag = GER 
+						has_government = democratic
+						is_subject = yes 
+						exists = yes 
+					}
+				}
+				SOV = {
+					any_subject_country = {
+						original_tag = GER 
+					}
+				}
+			}
+			SOV = {
+				country_event = {
+					id = germany.202
+					days = 14 # Yeah, I know it was way longer in real life, but it makes more sense this way from a game p.o.v
+					random_days = 20
+				}
+			}
+		}
+			
+		
+	}
+
+	option = { #Nah, let's not 
+		name = germany.200.b
+		ai_chance = {
+			base = 0
+		}
+		
+	}
+
+}
+
+# This is happening
+country_event = {
+	id = germany.201
+	title = germany.201.t
+	desc = germany.201.desc
+	picture = GFX_report_event_german_reichstag_gathering
+	is_triggered_only = yes 
+
+	trigger = {
+		has_global_flag = yalta_agreed_flag
+		has_government = democratic
+		any_subject_country = {
+			original_tag = GER
+			has_government = democratic 
+		}
+	}
+
+	option = { #Let's do it
+		name = germany.201.a
+		ai_chance = {
+			base = 100
+		}
+		add_stability = 0.1
+		add_political_power = 100
+		add_ideas = GER_western_trade_cooperation
+		random_subject_country= {
+			limit = {
+				original_tag = GER
+				has_government = democratic 
+			}
+			random_country = {
+				limit = {
+					original_tag = GER
+					has_government = democratic
+					is_subject = no 
+					has_cosmetic_tag = WGR
+				}
+				annex_country = {
+					target = PREV
+					transfer_troops = yes
+				}
+			}
+		}
+		IF = {
+			limit = {
+				NOT = {
+					any_country = {
+						original_tag = GER 
+						has_government = democratic
+						is_subject = yes 
+						exists = yes 
+					}
+				}
+				SOV = {
+					any_subject_country = {
+						original_tag = GER 
+					}
+				}
+			}
+			SOV = {
+				country_event = {
+					id = germany.202
+					days = 14 # Yeah, I know it was way longer in real life, but it makes more sense this way from a game p.o.v
+					random_days = 20
+				}
+			}
+			log = "triggered event to SOV"
+		}
+		
+	}
+
+	option = { #Nah, let's not 
+		name = germany.201.b
+		ai_chance = {
+			base = 0
+		}
+		add_political_power = -150
+		
+	}
+
+}
+
+# German Reunification - for Soviet
+country_event = {
+	id = germany.202
+	title = germany.202.t
+	desc = germany.202.desc
+	picture = GFX_report_event_german_reichstag_gathering
+	is_triggered_only = yes 
+
+	trigger = {
+		has_global_flag = yalta_agreed_flag
+		any_subject_country = {
+			original_tag = GER
+		}
+	}
+
+	option = { #Let's create our own Germany
+		name = germany.202.a
+		ai_chance = {
+			base = 100
+		}
+		random_subject_country = {
+			limit = {
+				original_tag = GER
+			}
+			ROOT = {
+				set_autonomy = {
+					target = PREV
+					autonomy_state = autonomy_free
+				}
+			}
+			IF = {
+				limit = { has_government = communism }
+				set_cosmetic_tag = DDR
+			}
+		}
+		
+	}
+
+	option = { #We don't care 
+		name = germany.202.b
+		ai_chance = {
+			base = 10
+		}
+		random_subject_country= {
+			limit = {
+				original_tag = GER
+			}
+			random_country = {
+				limit = {
+					original_tag = GER
+					has_government = democratic
+					is_subject = no 
+					has_cosmetic_tag = WGR
+				}
+				annex_country = {
+					target = PREV
+					transfer_troops = yes
+				}
+			}
+		}
+		
+	}
+
 }
 
 #Order Aufstellunfswelle 1
@@ -9008,6 +9350,20 @@ country_event = {
 			country_event = { days = 1 id = germany.254 }
 		}
 		set_global_flag = sov_yes_pact_2
+		GER = {
+		hidden_effect = {
+		    if = { limit = { SOV = { is_embargoed_by = GER } }
+			    break_embargo = SOV
+			}
+		}
+		}
+		SOV = {
+		hidden_effect = {
+		    if = { limit = { GER = { is_embargoed_by = SOV } }
+			    break_embargo = GER
+			}
+		}
+		}
 	}
 	
 	option = {
@@ -10105,7 +10461,7 @@ country_event = { #treaty sweden
 	id = germany.322
 	title = germany.322.t 
 	desc = germany.322.d 
-	picture = GFX_report_event_reichstag_hitler_speech
+	picture = GFX_report_event_mining
 	
 	is_triggered_only = yes 
 	
@@ -10231,7 +10587,7 @@ country_event = {
 	id = germany.323 
 	title = germany.323.t 
 	desc = germany.323.d 
-	picture = GFX_report_event_reichstag_hitler_speech
+	picture = GFX_report_event_mining
 	
 	is_triggered_only = yes 
 	
@@ -10298,7 +10654,7 @@ country_event = {
 	id = germany.3230
 	title = germany.3230.t 
 	desc = germany.3230.d 
-	picture = GFX_report_event_reichstag_hitler_speech
+	picture = GFX_report_event_mining
 	
 	is_triggered_only = yes 
 	
@@ -10412,7 +10768,7 @@ country_event = {
 		}
 		set_country_flag = listen_to_donitz 
 		add_tech_bonus = {
-				name = GER_u_boat_effort
+				name = ss_bonus
 				bonus = 0.8
 				uses = 1
 				category = ss_tech
@@ -10431,7 +10787,7 @@ country_event = {
 				category = bb_tech
 		}
 		add_tech_bonus = {
-				name = GER_u_boat_effort
+				name = ss_bonus
 				bonus = 0.5
 				uses = 1
 				category = ss_tech
