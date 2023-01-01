@@ -2264,11 +2264,11 @@ NAI = {
 	ORG_UNIT_WEAK = 0.25,						-- Organization % for unit to be considered weak
 	STR_UNIT_WEAK = 0.68,						-- Strength (equipment) % for unit to be considered weak
 
-	ORG_UNIT_NORMAL = 0.6,						-- Organization % for unit to be considered normal
-	STR_UNIT_NORMAL = 0.77,						-- Strength (equipment) % for unit to be considered normal
+	ORG_UNIT_NORMAL = 0.5,						-- Organization % for unit to be considered normal
+	STR_UNIT_NORMAL = 0.78,						-- Strength (equipment) % for unit to be considered normal
 
-	PLAN_FACTION_STRONG_TO_EXECUTE = 0.7,		-- % or more of units in an order to consider executing the plan
-	PLAN_FACTION_NORMAL_TO_EXECUTE = 0.75,		-- % or more of units in an order to consider executing the plan
+	PLAN_FACTION_STRONG_TO_EXECUTE = 0.65,		-- % or more of units in an order to consider executing the plan
+	PLAN_FACTION_NORMAL_TO_EXECUTE = 0.73,		-- % or more of units in an order to consider executing the plan
 	PLAN_FACTION_WEAK_TO_ABORT = 0.5,			-- % or more of units in an order to consider executing the plan
 	PLAN_AVG_PREPARATION_TO_EXECUTE = 0.5,		-- % or more average plan preparation before executing
 	
