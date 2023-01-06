@@ -1289,8 +1289,6 @@ NAir = {
 	MIN_PLANE_COUNT_AIR_SUPPLY = 10,
 	BASE_UNIT_WEIGHT_IN_TRANSPORT_PLANES = 45.0,
 	
-	MANPOWER_LOSS_RATIO_PLANE_SHOT = 0.10,	-- The loss ratio of manpower for a shot plane.
-	
 	MISSION_COMMAND_POWER_COSTS = {  -- command power cost per plane to create a mission
 		0.0, -- AIR_SUPERIORITY
 		0.0, -- CAS
@@ -2477,8 +2475,6 @@ NAI = {
 	DIVISION_DESIGN_COMBAT_WIDTH_WEIGHT = -2.5,			-- -3.0
 	DIVISION_DESIGN_COMBAT_WIDTH_TARGET_WEIGHT = -200.0,
 	DIVISION_DESIGN_MAX_FAILED_DAYS = 60,					-- max days we keep track of since failure of a design update
-	
-	DIVISION_MATCH_ROLE_BOOST_FACTOR = 1.5,                 -- When finding closest matching existing template to a target template, boost the score by this much if the template also has the correct role
 
 	EQUIPMENT_DESIGN_MAX_FAILED_DAYS = 60,					-- max days we keep track of since failure of an equipment design update
 
