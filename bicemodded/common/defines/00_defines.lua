@@ -333,7 +333,7 @@ NCountry = {
 	AUTONOMOUS_SPILLOVER = 0.025,					-- Total score that can be saved to reach next level
 	CIVIL_WAR_INVOLVEMENT_MIN_TENSION = 0.7,		-- base value of world tension to involve other sides to the civil war
 	UNCAPITULATE_LEVEL = 0.2,                       -- if we reclaim this much and our capital we reset capitulate status
-	BASE_SURRENDER_LIMIT = 0.7,						-- Base level of occupation required for country surrender
+	BASE_SURRENDER_LIMIT = 0.65,						-- Base level of occupation required for country surrender
 	SURRENDER_LIMIT_MULT_FOR_COUNTRIES_WITH_NO_CORES = 0.7, -- Countries with no owned cores will their surrender level multiplied by this amount
 	MIN_SURRENDER_LIMIT = 0.1,						-- Minimum non-forced surrender limit. valid 0-1 
 	BASE_MOBILIZATION_SPEED = 0.01,				-- Base speed of manpower mobilization  #in 1/1000 of 1 %
@@ -611,7 +611,7 @@ NTechnology = {
 	BASE_RESEARCH_POINTS_SAVED = 50.0,		-- Base amount of research points a country can save per slot.
 	BASE_YEAR_AHEAD_PENALTY_FACTOR = 2.5,		-- 3 Base year ahead penalty
 	BASE_TECH_COST = 110,					-- base cost for a tech. multiplied with tech cost and ahead of time penalties
-	MAX_TECH_SHARING_BONUS = 0.5, 			-- Max technology sharing bonus that can be applied instantly
+	MAX_TECH_SHARING_BONUS = 0.4, 			-- Max technology sharing bonus that can be applied instantly
 	LICENSE_PRODUCTION_TECH_BONUS = 0.2,	-- License production tech bonus
     DEFAULT_XP_UNLOCK_RESEARCH_COST = 0,			-- default xp cost of a research to unlock directly
 	DEFAULT_XP_BOOST_RESEARCH_COST = 0,				-- default xp cost of a research to speed up the process
@@ -654,7 +654,7 @@ NBuildings = {
 	MAX_SHARED_SLOTS = 36,				-- Max slots shared by factories
 	OWNER_CHANGE_EXTRA_SHARED_SLOTS_FACTOR = 0.5, --Scale factor of extra shared slots when state owner change.
 	DESTRUCTION_COOLDOWN_IN_WAR = 50,	-- Number of days cooldown between removal of buildings in war times
-	INFRASTRUCTURE_RESOURCE_BONUS = 0.04, -- multiplicative resource bonus for each level of (non damaged) infrastructure
+	INFRASTRUCTURE_RESOURCE_BONUS = 0.06, -- multiplicative resource bonus for each level of (non damaged) infrastructure
 	SUPPLY_ROUTE_RESOURCE_BONUS = 0.04,   -- multiplicative resource bonus for having a railway/naval connection to the capital
 	INFRASTRUCTURE_MUD_EFFECT = -0.8, -- multiplicative effect on mud growth for max infra
 },
@@ -1288,8 +1288,6 @@ NAir = {
 	MIN_PLANE_COUNT_PARADROP = 75,
 	MIN_PLANE_COUNT_AIR_SUPPLY = 10,
 	BASE_UNIT_WEIGHT_IN_TRANSPORT_PLANES = 45.0,
-	
-	MANPOWER_LOSS_RATIO_PLANE_SHOT = 0.10,	-- The loss ratio of manpower for a shot plane.
 	
 	MISSION_COMMAND_POWER_COSTS = {  -- command power cost per plane to create a mission
 		0.0, -- AIR_SUPERIORITY
@@ -2264,11 +2262,11 @@ NAI = {
 	ORG_UNIT_WEAK = 0.25,						-- Organization % for unit to be considered weak
 	STR_UNIT_WEAK = 0.68,						-- Strength (equipment) % for unit to be considered weak
 
-	ORG_UNIT_NORMAL = 0.6,						-- Organization % for unit to be considered normal
-	STR_UNIT_NORMAL = 0.77,						-- Strength (equipment) % for unit to be considered normal
+	ORG_UNIT_NORMAL = 0.5,						-- Organization % for unit to be considered normal
+	STR_UNIT_NORMAL = 0.78,						-- Strength (equipment) % for unit to be considered normal
 
-	PLAN_FACTION_STRONG_TO_EXECUTE = 0.7,		-- % or more of units in an order to consider executing the plan
-	PLAN_FACTION_NORMAL_TO_EXECUTE = 0.75,		-- % or more of units in an order to consider executing the plan
+	PLAN_FACTION_STRONG_TO_EXECUTE = 0.65,		-- % or more of units in an order to consider executing the plan
+	PLAN_FACTION_NORMAL_TO_EXECUTE = 0.73,		-- % or more of units in an order to consider executing the plan
 	PLAN_FACTION_WEAK_TO_ABORT = 0.5,			-- % or more of units in an order to consider executing the plan
 	PLAN_AVG_PREPARATION_TO_EXECUTE = 0.5,		-- % or more average plan preparation before executing
 	
@@ -2477,8 +2475,6 @@ NAI = {
 	DIVISION_DESIGN_COMBAT_WIDTH_WEIGHT = -2.5,			-- -3.0
 	DIVISION_DESIGN_COMBAT_WIDTH_TARGET_WEIGHT = -200.0,
 	DIVISION_DESIGN_MAX_FAILED_DAYS = 60,					-- max days we keep track of since failure of a design update
-	
-	DIVISION_MATCH_ROLE_BOOST_FACTOR = 1.5,                 -- When finding closest matching existing template to a target template, boost the score by this much if the template also has the correct role
 
 	EQUIPMENT_DESIGN_MAX_FAILED_DAYS = 60,					-- max days we keep track of since failure of an equipment design update
 
