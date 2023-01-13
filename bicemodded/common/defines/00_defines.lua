@@ -654,7 +654,7 @@ NBuildings = {
 	MAX_SHARED_SLOTS = 36,				-- Max slots shared by factories
 	OWNER_CHANGE_EXTRA_SHARED_SLOTS_FACTOR = 0.5, --Scale factor of extra shared slots when state owner change.
 	DESTRUCTION_COOLDOWN_IN_WAR = 50,	-- Number of days cooldown between removal of buildings in war times
-	INFRASTRUCTURE_RESOURCE_BONUS = 0.06, -- multiplicative resource bonus for each level of (non damaged) infrastructure
+	INFRASTRUCTURE_RESOURCE_BONUS = 0.04, -- multiplicative resource bonus for each level of (non damaged) infrastructure
 	SUPPLY_ROUTE_RESOURCE_BONUS = 0.04,   -- multiplicative resource bonus for having a railway/naval connection to the capital
 	INFRASTRUCTURE_MUD_EFFECT = -0.8, -- multiplicative effect on mud growth for max infra
 },
@@ -1288,6 +1288,8 @@ NAir = {
 	MIN_PLANE_COUNT_PARADROP = 75,
 	MIN_PLANE_COUNT_AIR_SUPPLY = 10,
 	BASE_UNIT_WEIGHT_IN_TRANSPORT_PLANES = 45.0,
+	
+	MANPOWER_LOSS_RATIO_PLANE_SHOT = 0.10,	-- The loss ratio of manpower for a shot plane.
 	
 	MISSION_COMMAND_POWER_COSTS = {  -- command power cost per plane to create a mission
 		0.0, -- AIR_SUPERIORITY
@@ -2475,6 +2477,8 @@ NAI = {
 	DIVISION_DESIGN_COMBAT_WIDTH_WEIGHT = -2.5,			-- -3.0
 	DIVISION_DESIGN_COMBAT_WIDTH_TARGET_WEIGHT = -200.0,
 	DIVISION_DESIGN_MAX_FAILED_DAYS = 60,					-- max days we keep track of since failure of a design update
+	
+	DIVISION_MATCH_ROLE_BOOST_FACTOR = 1.5,                 -- When finding closest matching existing template to a target template, boost the score by this much if the template also has the correct role
 
 	EQUIPMENT_DESIGN_MAX_FAILED_DAYS = 60,					-- max days we keep track of since failure of an equipment design update
 

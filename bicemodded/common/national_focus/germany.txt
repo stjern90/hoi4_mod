@@ -4169,8 +4169,11 @@ focus_tree = {
 						controls_state = 10
 					}
 				}
-				any_country = {
-				    limit = { OR = { is_in_faction_with = ENG original_tag = ENG } }
+				FRA = {
+					or = {
+						controls_state = 42
+						controls_state = 51
+					}
 				}
 				surrender_progress > 0.05
 			}
@@ -10276,9 +10279,10 @@ focus = {
 		id = GER_rebuild_pol_civ
 		icon = GFX_Goal_POL_coaltruck
 		
-		x = -1
+		x = 0
 		y = 2
 		relative_position_id = GER_form_the_reichskommissariats
+		mutually_exclusive = { focus = GER_Gestapo }
 		
 		available = {
 		   10 = { is_controlled_by = ROOT }
@@ -10336,16 +10340,58 @@ focus = {
 
 		search_filters = { FOCUS_FILTER_OCCUPATION_COST FOCUS_FILTER_INDUSTRY }
 	}
+	focus = {
+		id = GER_Gestapo
+		icon = GFX_goal_ger_polizei
+		
+		x = -2
+		y = 2
+		relative_position_id = GER_form_the_reichskommissariats
+		
+		mutually_exclusive = { focus = GER_rebuild_pol_civ }
+		
+		cost = 1.5
+		prerequisite = { focus = GER_die_abwehr }
+		prerequisite = { focus = GER_generalgouvernement }
+		
+		
+		ai_will_do = {
+			factor = 10
+		}
+		
+		available = {
+		    is_puppet = no
+			has_idea = heinrich_himmler
+		}
 
-#No war crime focuses
+		search_filters = { FOCUS_FILTER_OCCUPATION_COST }
+		completion_reward = {
+		    add_popularity = {
+				ideology = fascism
+				popularity = 0.02
+			}
+			effect_tooltip = {
+            every_state = {
+		        limit = {is_core_of = POL }
+				add_compliance = -5
+		    }
+			}
+			hidden_effect = {
+			every_state = {
+		        limit = {is_controlled_by = ROOT is_core_of = POL }
+				add_compliance = -5
+		    }
+			}
+		}
+	}
 	
 	focus = {
 		id = GER_rebuild_pol_mil
 		icon = GFX_goal_POL_old_industrial
 		
-		x = 1
+		x = 2
 		y = 1
-		relative_position_id = GER_rebuild_pol_civ
+		relative_position_id = GER_Gestapo
 		
 		available = {
 		
@@ -10354,7 +10400,7 @@ focus = {
 		
 		
 		cost = 3.6
-		prerequisite = { focus = GER_rebuild_pol_civ }
+		prerequisite = { focus = GER_rebuild_pol_civ focus = GER_Gestapo }
 		
 		
 		ai_will_do = {
@@ -10417,9 +10463,9 @@ focus = {
 		id = GER_reichswerke_ostdeutsch
 		icon = GFX_sov_goal_arm_urals
 		
-		x = -1
+		x = 0
 		y = 1
-		relative_position_id = GER_rebuild_pol_civ
+		relative_position_id = GER_Gestapo
 		
 		available = {
 		   88 = { is_controlled_by = ROOT }
@@ -10430,7 +10476,7 @@ focus = {
 		
 		
 		cost = 2.9
-		prerequisite = { focus = GER_rebuild_pol_civ }
+		prerequisite = { focus = GER_Gestapo }
 		
 		
 		ai_will_do = {
