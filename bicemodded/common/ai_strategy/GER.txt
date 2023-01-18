@@ -514,6 +514,7 @@ stop_hitting_yourself = {
 	enable = {
 		has_war_with = POL
 		NOT = { has_war_with = BEL }
+		NOT = { has_war_with = HOL }
         date < 1940.4.1
 		is_historical_focus_on = yes
 	}
@@ -522,11 +523,12 @@ stop_hitting_yourself = {
 	ai_strategy = {
 		type = front_control
 		country_trigger = {
-			original_tag = BEL
+			OR = { original_tag = BEL original_tag = LUX original_tag = HOL }
 		}
 		ordertype = front
-		execute_order = no
 		execution_type = careful
+		execute_order = no
+		manual_attack = no
 	}
 }
 
@@ -538,7 +540,13 @@ war_with_poland = {
 		has_completed_focus = GER_demand_memel
 		POL = { has_capitulated = no } 
 		country_exists = POL
-		has_global_flag = sov_yes_pact
+		OR = { 
+		has_global_flag = sov_yes_pact 
+		AND = {
+		is_historical_focus_on = yes
+		date > 1939.6.1
+		}
+		}
 		NOT = { owns_state = 85  }
 		NOT = { is_in_faction_with = POL }
 	}
@@ -556,7 +564,7 @@ war_with_poland = {
 		country_trigger = {
 			tag = POL
 		}
-		value = 110
+		value = 90
 	}
 	ai_strategy = {
 		type = front_unit_request
@@ -736,11 +744,17 @@ war_with_soviets_weak = {
 		original_tag = GER
 	}
 	enable = {
-		SOV = { OR = { has_idea = Rodina_I has_idea = Disorganized_Red_Army_1 has_idea = Disorganized_Red_Army_2 } }
+		SOV = { 
+		OR = { 
+		has_idea = Rodina_I 
+		has_idea = Disorganized_Red_Army_1 
+		has_idea = Disorganized_Red_Army_2 
+		}
+        NOT = { has_idea = winter_offensive }		
+		}
+		
 	}
-	abort = {
-		NOT = { SOV = { OR = { has_idea = Rodina_I has_idea = Disorganized_Red_Army_1 has_idea = Disorganized_Red_Army_2 } } }
-	}
+	abort_when_not_enabled = yes
 	ai_strategy = {
 		type = consider_weak
 		id = "SOV"			
@@ -1063,7 +1077,7 @@ anschluss_rejected = {
 	ai_strategy = {
 		type = antagonize
 		id = "AUS"			
-		value = 300
+		value = 400
 	}		
 }
 
@@ -1084,8 +1098,18 @@ CZE_is_idiot = {
 	ai_strategy = {
 		type = antagonize
 		id = "CZE"			
+		value = 400
+	}	
+    ai_strategy = {
+		type = declare_war
+		id = "CZE"			
 		value = 300
-	}		
+	}
+	ai_strategy = {
+		type = conquer
+		id = "CZE"			
+		value = 100
+	}	
 }
 
 play_nice_before_ribbentrop_pact = {
@@ -1385,7 +1409,7 @@ GER_phoney_war_with_fra = {
 		type = front_control
 		state_trigger = {
 			or = {
-				state = 28   # TODO, try only 28?
+				state = 28
 				state = 8
 				state = 34
 			}
@@ -1907,7 +1931,7 @@ GER_make_sure_we_blitz_into_soft_targets = {
 	enable = {
 		has_war_with = FRA
 		POL = { has_capitulated = yes }
-		date > 1940.2.25
+		date > 1940.3.5
 	}
 	abort = {
 		OR = {
@@ -1923,6 +1947,32 @@ GER_make_sure_we_blitz_into_soft_targets = {
 		}
 		value = 60
 	}
+	ai_strategy = { type = front_armor_score id = BEL value = 250 }
+	ai_strategy = {
+		type = front_unit_request
+		country_trigger = {
+			tag = HOL
+		}
+		value = 25
+	}
+}
+
+GER_make_sure_we_dont_prematurely_hit_ourselves = {
+    allowed = {
+		original_tag = GER
+	}
+	enable = {
+		has_war_with = FRA
+		POL = { has_capitulated = yes }
+		OR = { date > 1940.4.20 has_war_with = BEL }
+	}
+	abort = {
+		OR = {
+			BEL = { has_capitulated = yes }
+			date > 1940.9.1
+		}
+	}
+	
 	ai_strategy = {
 		type = front_control
 		country_trigger = {
@@ -1942,14 +1992,6 @@ GER_make_sure_we_blitz_into_soft_targets = {
 		execution_type = rush
 		execute_order = yes
 		manual_attack = yes
-	}
-	ai_strategy = { type = front_armor_score id = BEL value = 250 }
-	ai_strategy = {
-		type = front_unit_request
-		country_trigger = {
-			tag = HOL
-		}
-		value = 25
 	}
 
 	ai_strategy = {
@@ -2008,18 +2050,28 @@ GER_we_are_bad_at_espionage_because_it_is_expensive_and_not_tanks = {
 		has_dlc = "La Resistance"
 	}
 	enable = {
-		has_government = fascism
-		num_of_civilian_factories < 90
-		num_of_civilian_factories > 30
+	    OR = {
+		    AND = {
+		        date > 1937.1.1
+		        date < 1938.4.1
+		    }
+		    AND = {
+		        date > 1939.12.1
+		        num_of_civilian_factories < 220
+		    }
+		}		
 	}
-	abort = {
-		OR = {
-			num_of_civilian_factories > 90
-		}
-	}
+	abort_when_not_enabled = yes
+
 	ai_strategy = {
 		type = intelligence_agency_usable_factories
-		value = -20
+		value = -50
+	}
+	
+	ai_strategy = {
+		type = intelligence_agency_branch_desire_factor
+		id = branch_intelligence
+		value = -300
 	}
 }
 
