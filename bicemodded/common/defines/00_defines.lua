@@ -236,7 +236,7 @@ NDiplomacy = {
 	FACTION_LEADERSHIP_CHANGE_FACTORY_WEIGHT = 2,			-- Importance of factory count when determining how close a faction member is to being able to assume leadership.
 	EMBARGO_COST = 100,										-- One-time cost
 	REVOKE_EMBARGO_COST = 0,								-- Cost to remove an existing embargo
-	EMBARGO_THREAT_THRESHOLD = 30,						-- Target-generated threat threshold to allow embargo (affected by modifiers)
+	EMBARGO_THREAT_THRESHOLD = 40,						-- Target-generated threat threshold to allow embargo (affected by modifiers)
 
 	EMBARGO_SAME_IDEOLOGY_AI_WEIGHT = -20,				-- AI weight for same ideology
 	EMBARGO_DIFFERENT_IDEOLOGY_AI_WEIGHT = 15,			-- AI weight for different ideology
