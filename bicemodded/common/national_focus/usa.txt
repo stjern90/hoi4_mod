@@ -322,7 +322,7 @@ focus_tree = {
 		}
 		available_if_capitulated = no 
 		completion_reward = {
-		    395 = {
+		    375 = {
 			    add_extra_state_shared_building_slots = 9
 				add_building_construction = {
 					type = arms_factory
@@ -1193,7 +1193,7 @@ focus_tree = {
 		id = USA_heavy_industry_2
 		icon = GFX_goal_USA_investment
 		relative_position_id = USA_court_packing
-		x = 0
+		x = -1
 		y = 1
 
 		cost = 3.6
@@ -1222,7 +1222,7 @@ focus_tree = {
 		relative_position_id = USA_heavy_industry_2
 		x = 1
 		y = 1
-		prerequisite = { focus = USA_heavy_industry_2 focus = USA_beast_america }
+		prerequisite = { focus = USA_heavy_industry_2 }
 		cost = 5.8
 
 		ai_will_do = {
@@ -1263,6 +1263,66 @@ focus_tree = {
 		completion_reward = {
 		}
 	}
+	
+	focus = {
+		id = USA_military_construction
+		icon = GFX_goal_CZE_buildup1
+		available = {
+			OR = {
+				threat > 0.45
+				has_war = yes
+			}
+			has_army_manpower = { size > 299999 } 
+		}
+  
+		continue_if_invalid = yes
+		available_if_capitulated = no
+
+		relative_position_id = USA_court_packing
+		x = 3
+		y = 1
+
+		prerequisite = { focus = USA_tax_break focus = USA_universal focus = USA_court_packing }
+		
+		cost = 5
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_ARMY_XP }
+		
+		completion_reward = {
+			army_experience = 10
+			360 = {
+				add_extra_state_shared_building_slots = 3
+				add_building_construction = {
+					type = arms_factory
+					level = 3
+					instant_build = yes
+				}
+			}
+			358 = {
+				add_extra_state_shared_building_slots = 3
+				add_building_construction = {
+					type = arms_factory
+					level = 3
+					instant_build = yes
+				}
+			}
+			375 = {
+				add_extra_state_shared_building_slots = 3
+				add_building_construction = {
+					type = arms_factory
+					level = 3
+					instant_build = yes
+				}
+			}
+			393 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 3
+					instant_build = yes
+				}
+			}			
+		}
+	}
 
 	##################
 
@@ -1270,8 +1330,9 @@ focus_tree = {
 	focus = {
 		id = USA_huac
 		icon = GFX_goal_generic_war_with_comintern
-		x = 16
-		y = 6
+		relative_position_id = USA_war_powers
+		x = 1
+		y = 1
 
 		cost = 5
 		search_filters = {FOCUS_FILTER_POLITICAL FOCUS_FILTER_RESEARCH}
@@ -1301,7 +1362,7 @@ focus_tree = {
 	focus = {
 		id = USA_alien_registration_act
 		icon = GFX_goal_generic_forceful_treaty
-		x = 1
+		x = 0
 		y = 1
 
 		cost = 4
@@ -1520,22 +1581,16 @@ focus_tree = {
 		id = USA_issue_war_bonds
 		icon = GFX_war_bonds_111
 		available = {
-			OR = {
-				has_war_with = GER
-				has_war_with = JAP
-				has_war_with = ITA
-				has_war_with = SOV
-				has_war_with = FRA
-				has_war_with = ENG
-			}
+			has_war = yes
 		}
-		x = 13
-		y = 7
+		relative_position_id = USA_Four_Freedoms
+		x = 1
+		y = 1
 		
-		cost = 5.5
+		cost = 5
 		search_filters = {FOCUS_FILTER_POLITICAL}
 		
-		prerequisite = { focus = USA_order_8802 focus = USA_Four_Freedoms }
+		prerequisite = { focus = USA_Four_Freedoms }
 		#ai_will_do = {
 		#	factor = 1
 		#}
@@ -1548,48 +1603,25 @@ focus_tree = {
 	focus = {
 		id = USA_national_resource
 		icon = GFX_goal_USA_resource
-		available = {
-		}
-		x = 12
-		y = 8
+		relative_position_id = USA_office_of_production_management
+		x = 1
+		y = 1
 		
-		cost = 3.5
+		cost = 3.6
 		search_filters = { FOCUS_FILTER_RESOURCES FOCUS_FILTER_CONSTRUCTION }
 		
-		prerequisite = { focus = USA_rubber_reserve_company focus = USA_issue_war_bonds }
-		#ai_will_do = {
-		#	factor = 1
-		#}
-		available_if_capitulated = no
+		prerequisite = { focus = USA_office_of_production_management }
+		available = { has_tech = excavation2 }
+
 		completion_reward = {
-			add_resource = {
-				type = chromium
-				amount = 24
-				state = 381
+			add_tech_bonus = {
+				name = excavation_bonus
+				bonus = 0.6
+				uses = 2
+				technology = excavation3 
+				technology = excavation4
+				technology = excavation5
 			}
-			random_owned_controlled_state = {
-				prioritize = { 357 }
-				add_building_construction = {
-					type = steel_refinery
-					level = 1
-					instant_build = yes
-				}
-				add_building_construction = {
-					type = infrastructure
-					level = 1
-					instant_build = yes
-				}
-				add_extra_state_shared_building_slots = 1
-			}
-			random_owned_controlled_state = {
-				prioritize = { 358 }
-				add_building_construction = {
-					type = steel_refinery
-					level = 1
-					instant_build = yes
-				}
-				add_extra_state_shared_building_slots = 1
-			}	
 		}
 	}
 
@@ -1625,9 +1657,10 @@ focus_tree = {
 	focus = {
 		id = USA_scientist_haven
 		icon = GFX_big_brain
-		prerequisite = { focus = USA_order_8802 }
-		x = 14
-		y = 8		
+		prerequisite = { focus = USA_issue_war_bonds focus = USA_rubber_reserve_company }
+		relative_position_id = USA_Four_Freedoms
+		x = 2
+		y = 2	
 		cost = 6
 		search_filters = {FOCUS_FILTER_RESEARCH}
 		
@@ -1645,36 +1678,10 @@ focus_tree = {
 	}
 	
 	focus = {
-		id = USA_beast_america
-		icon = GFX_goal_USA_beast
-		prerequisite = { focus = USA_Four_Freedoms }
-		available = {
-			has_war_support > 0.75
-		}
-		x = 9
-		y = 7
-		
-		cost = 1
-		search_filters = { FOCUS_FILTER_RESEARCH }
-		
-		#ai_will_do = {
-		#	factor = 1
-		#}
-		available_if_capitulated = yes
-		completion_reward = {
-			add_tech_bonus = {
-				name = industry_bonus
-				category = industry
-				uses = 1
-				bonus = 1
-			}
-		}
-	}
-	
-	focus = {
 		id = USA_wartime_industry
 		icon = GFX_wartime_industry
-		prerequisite = { focus = USA_beast_america }
+		prerequisite = { focus = USA_military_construction }
+		relative_position_id = USA_military_construction
 		available = {
 			OR = {
 				has_war_with = GER
@@ -1685,10 +1692,10 @@ focus_tree = {
 				has_war_with = ENG
 			}
 		}
-		x = 8
-		y = 8
+		x = -1
+		y = 1
 		
-		cost = 3.2
+		cost = 3.6
 		search_filters = {FOCUS_FILTER_INDUSTRY}
 		
 		#ai_will_do = {
@@ -1707,17 +1714,11 @@ focus_tree = {
 		available = {
 			has_government = democratic
 			controls_state = 369
-			OR = {
-				has_war_with = GER
-				has_war_with = JAP
-				has_war_with = ITA
-				has_war_with = SOV
-				has_war_with = FRA
-				has_war_with = ENG
-			}
+			has_war = yes
 		}
-		x = 11
-		y = 7
+		relative_position_id = USA_Four_Freedoms
+		x = -1
+		y = 1
 		
 		cost = 7
 		search_filters = { FOCUS_FILTER_RESOURCES }
@@ -1728,11 +1729,11 @@ focus_tree = {
 		completion_reward = {
 			add_resource = {
 				type = rubber
-				amount = 10
+				amount = 12
 				state = 369 #Kentucky
 			}
 		369 = {
-				add_extra_state_shared_building_slots = 3
+				add_extra_state_shared_building_slots = 2
 				
 				add_building_construction = {
 					type = synthetic_rubber_refinery
@@ -1771,7 +1772,7 @@ focus_tree = {
 		id = USA_limited_intervention
 		icon = GFX_goal_generic_territory_or_war
 		mutually_exclusive = { focus = USA_neutrality_act }
-		x = 15
+		x = 16
 		y = 0
 
 		cost = 5
@@ -1836,30 +1837,39 @@ focus_tree = {
 		icon = GFX_generic_gov_interventionism
 		relative_position_id = USA_wpa
 		x = 7
-		y = 1
+		y = 2
 		
 		cost = 5 
 		search_filters = {FOCUS_FILTER_INDUSTRY}
 		
-		prerequisite = { focus = USA_quarantine_speech focus = USA_wpa }
+		prerequisite = { focus = USA_quarantine_speech focus = USA_war_propaganda }
+		prerequisite = { focus = USA_wpa }
 		available_if_capitulated = no 
 		available = { congress_low_support_trigger = yes }
 		completion_reward = {
 			random_owned_controlled_state = {
-				prioritize = { 391 }
+				limit = { is_core_of = ROOT industrial_complex > 1 }
 					add_extra_state_shared_building_slots = 3
+					remove_building = {
+						type = industrial_complex
+						level = 2
+				    }
 					add_building_construction = {
 						type = arms_factory
-						level = 3
+						level = 5
 						instant_build = yes
 					}
 			}
 			random_owned_controlled_state = {
-				prioritize = { 377 }
+				limit = { is_core_of = ROOT industrial_complex > 1 }
 					add_extra_state_shared_building_slots = 3
+					remove_building = {
+						type = industrial_complex
+						level = 2
+				    }
 					add_building_construction = {
 						type = arms_factory
-						level = 3
+						level = 5
 						instant_build = yes
 					}
 			}
@@ -1884,11 +1894,10 @@ focus_tree = {
 		available_if_capitulated = no 
 		available = {
 			OR = { 
-			GER = { has_country_flag = SPR_sent_volunteers_to_SPA_flag }
-			JAP = { has_war_with = CHI }
+			GER = { has_added_tension_amount > 15 }
+			JAP = { has_added_tension_amount > 15 }
 			threat > 0.15 
 			}
-			#has_army_manpower = { size > 299999 }  Not intended anymore? 
 		}
 		continue_if_invalid = yes
 		completion_reward = { 
@@ -2070,7 +2079,7 @@ focus_tree = {
 	focus = {
 		id = USA_savior_of_the_world 
 		icon = GFX_world_savior
-		prerequisite = { focus = USA_destroyers_for_bases focus = USA_pearl_harbor_gambit }
+		prerequisite = { focus = USA_join_the_allies focus = USA_pearl_harbor_gambit }
 		available = {
 			#OR = {
 			#has_completed_focus = USA_join_the_allies
@@ -2134,67 +2143,9 @@ focus_tree = {
 	}
 	
 	focus = {
-		id = USA_military_construction
-		icon = GFX_goal_CZE_buildup1
-		prerequisite = { focus = USA_nationalisation }
-		available = {
-			OR = {
-				threat > 0.45
-				has_war = yes
-			}
-			has_army_manpower = { size > 299999 } 
-		}
-  
-		continue_if_invalid = yes
-		available_if_capitulated = no
-
-		x = 13
-		y = 4
-		
-		cost = 7.2
-		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_ARMY_XP }
-		
-		completion_reward = {
-			army_experience = 10
-			360 = {
-				add_extra_state_shared_building_slots = 3
-				add_building_construction = {
-					type = arms_factory
-					level = 3
-					instant_build = yes
-				}
-			}
-			358 = {
-				add_extra_state_shared_building_slots = 3
-				add_building_construction = {
-					type = arms_factory
-					level = 3
-					instant_build = yes
-				}
-			}
-			375 = {
-				add_extra_state_shared_building_slots = 3
-				add_building_construction = {
-					type = arms_factory
-					level = 3
-					instant_build = yes
-				}
-			}
-			393 = {
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-					type = arms_factory
-					level = 3
-					instant_build = yes
-				}
-			}			
-		}
-	}
-	
-	focus = {
 		id = USA_the_giant_wakes
 		icon = GFX_focus_generic_the_giant_wakes
-		prerequisite = { focus = USA_support_roosevelt }
+
 		available = {
 			OR = {
 				has_war = yes
@@ -2202,8 +2153,8 @@ focus_tree = {
 			}
 		}
 		continue_if_invalid = yes
-		x = 12
-		y = 3
+		x = 13
+		y = 4
 		
 		cost = 5
 		search_filters = {FOCUS_FILTER_POLITICAL}
@@ -2235,13 +2186,11 @@ focus_tree = {
 	focus = {
 		id = USA_USACE_projects
 		icon = GFX_goal_USA_usace
-		prerequisite = { focus = USA_arsenal_of_democracy }
 		prerequisite = { focus = USA_military_construction }
-
-		continue_if_invalid = yes
+		relative_position_id = USA_military_construction
 		
-		x = 13
-		y = 5
+		x = 1
+		y = 1
 		
 		cost = 5
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESOURCES }
@@ -2292,11 +2241,11 @@ focus_tree = {
 	focus = {
 		id = USA_arsenal_of_democracy
 		icon = GFX_goal_USA_democracy
-		prerequisite = { focus = USA_the_giant_wakes }
-		prerequisite = { focus = USA_office_of_scientific_research_and_development }
-		
-		x = 11
-		y = 4
+		prerequisite = { focus = USA_lend_lease_act_0 }
+
+		relative_position_id = USA_lend_lease_act_0
+		x = 2
+		y = 2
 		
 		cost = 5
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_ARMY_XP FOCUS_FILTER_NAVY_XP FOCUS_FILTER_AIR_XP }
@@ -2441,17 +2390,16 @@ focus_tree = {
 	focus = {
 		id = USA_prepare_our_industry_for_war 
 		icon = GFX_prepare_industry
-		x = 11
-		y = 5
+		relative_position_id = USA_expand_rfc
+		x = 0
+		y = 1
 		
-		cost = 5
+		cost = 5.8
 		search_filters = {FOCUS_FILTER_INDUSTRY}
 		
-		prerequisite = { focus = USA_arsenal_of_democracy }
-		prerequisite = { focus = USA_military_construction }
-		# ai_will_do = {
-			# factor = 0
-		# }
+		prerequisite = { focus = USA_expand_rfc }
+		available = { threat > 0.45 }
+
 		available_if_capitulated = no 
 		completion_reward = {
 			random_owned_controlled_state = {
@@ -2487,19 +2435,31 @@ focus_tree = {
 						instant_build = yes
 					}
 			}
+			random_owned_controlled_state = {
+				prioritize = { 386 }
+					limit = {
+					}
+					add_extra_state_shared_building_slots = 4
+					add_building_construction = {
+						type = dockyard
+						level = 4
+						instant_build = yes
+					}
+			}
 		}
 	}
 	
 	focus = {
 		id = USA_war_powers 
 		icon = GFX_goal_USA_warplans
-		x = 15
+		x = 16
 		y = 5
 		
 		cost = 6.5
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL }
 		
-		prerequisite = { focus = USA_Selective_Service_System focus = USA_expand_rfc }
+		prerequisite = { focus = USA_the_giant_wakes }
+		prerequisite = { focus = USA_arsenal_of_democracy }
 		# ai_will_do = {
 			# factor = 0
 		# }
@@ -2573,8 +2533,9 @@ focus_tree = {
 	focus = {
 		id = USA_order_8802
 		icon = GFX_goal_USA_order
-		x = 14
-		y = 6
+		relative_position_id = USA_war_powers
+		x = -1
+		y = 1
 		
 		cost = 5
 		search_filters = {FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL}
@@ -2645,19 +2606,14 @@ focus_tree = {
 	focus = {
 		id = USA_office_of_production_management
 		icon = GFX_war_factory_green
-		prerequisite = { focus = USA_beast_america }
-		x = 10
-		y = 8
+		prerequisite = { focus = USA_issue_war_bonds focus = USA_rubber_reserve_company }
+		relative_position_id = USA_Four_Freedoms
+		x = -2
+		y = 2
 		
 		cost = 5 
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL }
 		
-		available = {
-			OR = {
-				threat > 0.7
-				has_war = yes
-			}
-		}
 		continue_if_invalid = yes
 		available_if_capitulated = no 
 		completion_reward = {
@@ -2702,8 +2658,9 @@ focus_tree = {
 		id = USA_war_production_board
 		icon = GFX_goal_generic_annexation
 		prerequisite = { focus = USA_office_of_production_management }
-		x = 10
-		y = 9
+		relative_position_id = USA_office_of_production_management
+		x = -1
+		y = 1
 		
 		cost = 4 
 		search_filters = {FOCUS_FILTER_INDUSTRY}
@@ -2745,16 +2702,17 @@ focus_tree = {
 	focus = {
 		id = USA_office_of_scientific_research_and_development
 		icon = GFX_generic_engineering
-		prerequisite = { focus = USA_support_roosevelt }
-		x = 10
-		y = 3
+		prerequisite = { focus = USA_nationalisation }
+		relative_position_id = USA_nationalisation
+		x = 1
+		y = 1
 		
-		cost = 5 
+		cost = 4.3 
 		search_filters = {FOCUS_FILTER_POLITICAL}
 		
 		available = {
 			OR = {
-				threat > 0.65
+				threat > 0.45
 				has_war = yes
 			}
 		}
@@ -2762,6 +2720,32 @@ focus_tree = {
 		available_if_capitulated = no 
 		completion_reward = {
 		    add_timed_idea = { idea = USA_OSRD days = 365 }
+			
+			add_tech_bonus = {
+				name = support_bonus
+				bonus = 0.4
+				uses = 1
+				category = support_tech
+				}			
+
+				add_tech_bonus = {
+					name = armor_bonus
+					bonus = 0.4
+					uses = 1
+					category = armor
+				}
+				add_tech_bonus = {
+					name = artillery_bonus
+					bonus = 0.4
+					uses = 1
+					category = artillery
+				}
+				add_tech_bonus = {
+					name = artillery_bonus
+					bonus = 0.4
+					uses = 1
+					category = air_equipment
+				}
 		}
 	}
 	
@@ -2769,8 +2753,9 @@ focus_tree = {
 		id = USA_extra_tech_team
 		icon = GFX_goal_USA_skunk
 		prerequisite = { focus = USA_office_of_scientific_research_and_development }
-		x = 8
-		y = 4
+		relative_position_id = USA_nationalisation
+		x = 1
+		y = 2
 		
 		cost = 7.2
 		search_filters = {FOCUS_FILTER_RESEARCH}
@@ -2787,13 +2772,14 @@ focus_tree = {
 	focus = {
 		id = USA_committee_on_technocracy
 		icon = GFX_goal_generic_production2
-		x = 7
-		y = 5
+		relative_position_id = USA_scientist_haven
+		x = -1
+		y = 1
 
-		cost = 5.8
+		cost = 4.3
 		search_filters = {FOCUS_FILTER_RESEARCH}
 
-		prerequisite = { focus = USA_extra_tech_team }
+		prerequisite = { focus = USA_scientist_haven }
 		ai_will_do = {
 			factor = 5
 		}
@@ -2823,7 +2809,7 @@ focus_tree = {
 	focus = {
 		id = USA_manhattan_project
 		icon = GFX_focus_wonderweapons
-		prerequisite = { focus = USA_extra_tech_team }
+		prerequisite = { focus = USA_scientist_haven }
 		available = {
 			OR = {
 				threat > 0.95
@@ -2831,10 +2817,11 @@ focus_tree = {
 			}
 		}
 		continue_if_invalid = yes
-		x = 9
-		y = 5
+		relative_position_id = USA_scientist_haven
+		x = 1
+		y = 1
 		
-		cost = 10
+		cost = 8.7
 		search_filters = { FOCUS_FILTER_CONSTRUCTION FOCUS_FILTER_RESEARCH }
 		
 		#ai_will_do = {
@@ -2924,27 +2911,52 @@ focus_tree = {
 	}
 	
 	focus = {
+		id = USA_lend_lease_act_0
+		icon = GFX_goal_FIN_tarifprot
+		x = -1
+		y = 1
+		prerequisite = { focus = USA_office_of_economic_warfare focus = USA_cash_and_carry }
+		relative_position_id = USA_office_of_economic_warfare
+		
+		cost = 4.3
+		search_filters = { FOCUS_FILTER_DIPLOMACY FOCUS_FILTER_INDUSTRY }
+		
+		available = {
+			congress_low_support_trigger = yes
+		}
+		available_if_capitulated = no
+		completion_reward = {
+USA_congress_small_opposition = yes
+		add_ideas = USA_prepare_intervention	
+			remove_ideas = neutrality_act	
+every_country = {
+				limit = {
+					has_government = democratic
+					
+				}
+				add_stability = 0.02
+			}			
+		}
+	}
+	
+	focus = {
 		id = USA_lend_lease_act
 		icon = GFX_USA_sov_lendlease
-		prerequisite = { focus = USA_europe_first }
-		x = 21
-		y = 12
+		x = -1
+		y = 1
+		prerequisite = { focus = USA_lend_lease_act_0 }
+		relative_position_id = USA_lend_lease_act_0
 		
 		cost = 6
 		search_filters = { FOCUS_FILTER_DIPLOMACY FOCUS_FILTER_INDUSTRY }
 		
 		available = {
 			SOV = { or = { has_war_with = GER has_war_with = ITA } }
-			#OR = {
-			#AND = { 
-			#has_equipment = { infantry_equipment > 3999 }
-			#has_equipment = { motorized_equipment > 2999 }
-			#}
-			#is_ai = yes
-			#}
+			congress_low_support_trigger = yes
 		}
 		available_if_capitulated = no
 		completion_reward = {
+		USA_congress_small_opposition = yes
 			custom_effect_tooltip = USA_based_mils_tt
 			set_variable = { var = US_mils value = num_of_military_factories } #Number of US military factories
 			SOV = {
@@ -2960,11 +2972,12 @@ focus_tree = {
 	focus = {
 		id = USA_lend_lease_act_planes
 		icon = GFX_USA_sov_lendlease_air
-		prerequisite = { focus = USA_lend_lease_act }
-		x = 21
-		y = 13
+		prerequisite = { focus = USA_lend_lease_act_0 }
+		relative_position_id = USA_lend_lease_act_0
+		x = 1
+		y = 1
 		
-		cost = 8
+		cost = 7.2
 		search_filters = { FOCUS_FILTER_DIPLOMACY FOCUS_FILTER_INDUSTRY }
 		
 		available = {
@@ -2978,11 +2991,13 @@ focus_tree = {
 				has_tech = tech_USA_fighter_equipment_2_b
 				has_tech = tech_USA_fighter_equipment_4_c
 			}
+			congress_low_support_trigger = yes
 		}
 		available_if_capitulated = no
 		cancel_if_invalid = no
 		continue_if_invalid = yes
 		completion_reward = {
+		USA_congress_small_opposition = yes
 			set_variable = { var = US_mils value = num_of_military_factories } #Number of US military factories		
 			SOV = {
 				custom_effect_tooltip = needs_approval
@@ -2998,13 +3013,13 @@ focus_tree = {
 	focus = { 
 		id = USA_support_china 
 		icon = GFX_goal_chi_usa
-		x = 18
+		x = 17
 		y = 2 
 		
 		cost = 2.8
 		search_filters = { FOCUS_FILTER_DIPLOMACY FOCUS_FILTER_INDUSTRY }
 		
-		prerequisite = { focus = USA_quarantine_speech }
+		prerequisite = { focus = USA_quarantine_speech focus = USA_limited_intervention }
 		ai_will_do = { 
 			factor = 5 
 		}
@@ -3027,12 +3042,8 @@ focus_tree = {
 	focus = {
 		id = USA_embargo_germany
 		icon = GFX_goal_ger_sign
-		prerequisite = { focus = USA_quarantine_speech }
-		available = {
-			
-			GER = { has_completed_focus = GER_anschluss }
-			
-					
+		prerequisite = { focus = USA_quarantine_speech focus = USA_war_propaganda }
+		available = {	
 			GER = {
 				exists = yes
 				NOT = { has_government = ROOT }
@@ -3042,33 +3053,27 @@ focus_tree = {
 					has_completed_focus = GER_end_of_czechoslovakia
 				}
 			}
-			threat > 0.25
 			congress_low_support_trigger = yes
 		}
 
 		continue_if_invalid = yes
 		available_if_capitulated = no
-		x = 16
+		x = 15
 		y = 2
 		
-		cost = 4
+		cost = 3.6
 		search_filters = { FOCUS_FILTER_DIPLOMACY FOCUS_FILTER_USA_CONGRESS }
 		
 		#ai_will_do = {
 		#	factor = 1
 		#}
 		completion_reward = {
-			GER = { 
-				add_opinion_modifier = { target = USA modifier = embargo } 
-			}
+			send_embargo = GER
 			every_country = {
 				limit = {
 					is_subject_of = USA
 				}
-				add_opinion_modifier = {
-					target = GER
-					modifier = embargo
-				}
+				send_embargo = GER
 			}
 			USA = {
 				add_opinion_modifier = { target = GER modifier = embargo } 
@@ -3175,7 +3180,7 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY }
 		
 		prerequisite = { focus = USA_joint_army_and_navy_board }
-		prerequisite = { focus = USA_quarantine_speech }
+		prerequisite = { focus = USA_quarantine_speech focus = USA_war_propaganda }
 		available = { 
 			threat > 0.45
 			OR = {
@@ -3279,7 +3284,7 @@ focus_tree = {
 		x = 1
 		y = 2 
 		
-		cost = 7.2
+		cost = 3.6
 		search_filters = {FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_USA_CONGRESS}
 		
 		prerequisite = { focus = USA_quarantine_speech focus = USA_war_propaganda }
@@ -3297,17 +3302,15 @@ focus_tree = {
 				name = "Franklin Delano Roosevelt"
 				ruling_only = yes
 			}
-			threat > 0.25
+			threat > 0.3
 		}
 		ai_will_do = {
 			factor = 5 
 		}
 		available_if_capitulated = no 
 		completion_reward = {
-			add_war_support = 0.04
-			add_stability = -0.02
-			add_ideas = USA_prepare_intervention
-			USA_congress_small_support = yes	
+			add_war_support = 0.05
+			add_stability = -0.02	
 		}
 	}
 	
@@ -3502,15 +3505,66 @@ focus_tree = {
 	}	
 	
 	focus = {
-		id = USA_cash_and_carry 
+		id = USA_office_of_economic_warfare
+		icon = GFX_goal_FIN_militarise
+		x = -2
+		y = 1
+		prerequisite = { focus = USA_neutrality_act focus = USA_limited_intervention }
+		relative_position_id = USA_limited_intervention
+		cost = 5
+
+		ai_will_do = {
+			factor = 1						
+		}
+
+		available = {
+			if = {
+				limit = {
+					has_war_support > 0.4
+				}
+				congress_low_support_trigger = yes
+			}
+			else = {
+				congress_medium_support_trigger = yes
+			}
+		}
+
+		cancel_if_invalid = no
+		continue_if_invalid = yes
+		
+		search_filters = {FOCUS_FILTER_USA_CONGRESS}
+		completion_reward = {
+			if = {
+				limit = {
+					has_war_support > 0.4
+					has_war = no
+				}
+				USA_congress_small_opposition = yes
+			}
+			else_if = {
+				limit = {
+					has_war_support < 0.4
+					has_war = no
+				}
+				USA_congress_medium_opposition = yes
+			}
+			else = {
+				USA_congress_medium_opposition = yes
+			}
+		}
+	}
+	
+	focus = {
+		id = USA_cash_and_carry
 		icon = GFX_cash_carry 
-		x = 19
-		y = 5
+		x = 2
+		y = 1
+		prerequisite = { focus = USA_neutrality_act focus = USA_limited_intervention }
+		relative_position_id = USA_neutrality_act 
 		
 		cost = 5 
 		search_filters = { FOCUS_FILTER_DIPLOMACY FOCUS_FILTER_INDUSTRY FOCUS_FILTER_USA_CONGRESS }
 		
-		prerequisite = { focus = USA_prepare_european_intervention }
 		available = {
 			country_exists = GER
 			is_puppet = no
@@ -3570,7 +3624,7 @@ focus_tree = {
 		}
 		
 		x = 19
-		y = 7
+		y = 5
 		
 		cost = 4.3
 		search_filters = { FOCUS_FILTER_DIPLOMACY FOCUS_FILTER_CONSTRUCTION }
@@ -3679,13 +3733,13 @@ focus_tree = {
 	focus = {
 		id = USA_Selective_Service_System
 		icon = GFX_selective_service
-		x = 14
+		x = 17
 		y = 3
 		
 		cost = 5
 		search_filters = {FOCUS_FILTER_POLITICAL FOCUS_FILTER_MANPOWER FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_USA_CONGRESS}
 		
-		prerequisite = { focus = USA_support_roosevelt }
+		prerequisite = { focus = USA_rainbow_planes }
 		ai_will_do = {
 			factor = 5
 		}
@@ -3740,13 +3794,14 @@ focus_tree = {
 	focus = {
 		id = USA_expand_rfc
 		icon = GFX_goal_USA_rfc
-		x = 16
-		y = 3
+		relative_position_id = USA_nationalisation
+		x = -1
+		y = 1
 		
 		cost = 5
 		search_filters = {FOCUS_FILTER_RESEARCH FOCUS_FILTER_INDUSTRY}
 		
-		prerequisite = { focus = USA_support_roosevelt }
+		prerequisite = { focus = USA_nationalisation }
 		ai_will_do = {
 			factor = 5
 		}
@@ -3756,20 +3811,12 @@ focus_tree = {
 		}
 		
 		completion_reward = {
-			random_owned_controlled_state = {
-				add_building_construction = {
-					type = arms_factory
-					level = 2
-					instant_build = yes
-				}
-				add_extra_state_shared_building_slots = 2
-			}
 			add_tech_bonus = {
 			    name = smallarms_industry_tech_bonus
 				technology = smallarms_industry2
 				technology = smallarms_industry3
 				technology = smallarms_industry4
-				bonus = 0.5
+				bonus = 0.6
 				uses = 3
 			}
 		}
@@ -3890,22 +3937,22 @@ focus_tree = {
 	focus = {
 		id = USA_Four_Freedoms
 		icon = GFX_focus_generic_self_management
-		x = 11
-		y = 6
+		relative_position_id = USA_the_giant_wakes
+		x = -1
+		y = 2
 		
 		cost = 2.9
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT }
 		
-		prerequisite = { focus = USA_USACE_projects }
-		prerequisite = { focus = USA_prepare_our_industry_for_war }
-		#prerequisite = { focus = USA_office_of_scientific_research_and_development }
-		available = {
-			has_war_support > 0.6
-		}
+		prerequisite = { focus = USA_the_giant_wakes }
 
 		continue_if_invalid = yes
 		ai_will_do = {
 			factor = 5 
+		}
+		available= {
+		    has_war = yes
+			date > 1942.6.1
 		}
 		available_if_capitulated = no
 		completion_reward = {
@@ -4015,7 +4062,7 @@ focus_tree = {
 		cost = 1.2
 		search_filters = { FOCUS_FILTER_DIPLOMACY }
 		
-		prerequisite = { focus = USA_cash_and_carry focus = USA_mid_pacific_strategic_direction_finder_net }
+		prerequisite = { focus = USA_destroyers_for_bases focus = USA_mid_pacific_strategic_direction_finder_net }
 		continue_if_invalid = yes
 		ai_will_do = {
 			factor = 5 
