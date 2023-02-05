@@ -1639,44 +1639,29 @@ country_event = {
 	option = {
 		name = usa.59.a 
 		ai_chance = { factor = 100 }
-		JAP = {
-			add_opinion_modifier = { target = ENG modifier = embargo }
-		}
-		ENG = {
-			add_opinion_modifier = { target = JAP modifier = embargo }
-		}
-		if = {
-			limit = {
-				MAN = { is_subject_of = JAP }
-			}
-			MAN = {
-				add_opinion_modifier = { target = ENG modifier = embargo }
-			}
-			ENG = {
-				add_opinion_modifier = { target = MAN modifier = embargo }
-			}
-			every_country = {
-					limit = {
-						is_subject_of = ENG
-					}
-					add_opinion_modifier = {
-						target = MAN
-						modifier = embargo
-					}
-			}
-		}
+		send_embargo = JAP
 		every_country = {
 				limit = {
 					is_subject_of = ENG
 				}
-				add_opinion_modifier = {
-					target = JAP
-					modifier = embargo
-				}
+				send_embargo = JAP
 			}
-			if = { limit = { NOT = { ENG = { has_completed_focus = ENG_embargo_japan } } }
-		JAP = { country_event = japan.53 }
-		MAN = { country_event = japan.53 }
+		if = {
+			limit = {
+				MAN = { is_subject_of = JAP }
+			}
+			send_embargo = MAN
+			every_country = {
+					limit = {
+						is_subject_of = ENG
+					}
+					send_embargo = MAN
+			}		
+		}
+		
+		if = { limit = { NOT = { ENG = { has_completed_focus = ENG_embargo_japan } } }
+		    JAP = { country_event = japan.53 }
+		    MAN = { country_event = japan.53 }
 		}
 	}
 	option = {
@@ -3391,5 +3376,88 @@ country_event = { #Tied to Housing Authority Focus
 			}
 		}
     }
+}
+# lend lease act
+news_event = {
+	id = usa.114
+	title = usa.114.t
+	desc = usa.114.d
+	picture = GFX_news_event_fdr_and_churchill
+	
+        is_triggered_only = yes
+	
+	option = {
+	        trigger = { OR = { tag = USA is_in_faction_with = USA is_in_faction_with = ENG } }
+	        name = usa.114.a
+		effect_tooltip = {
+		    every_country = {
+				limit = {
+					is_in_faction_with = ENG
+					
+				}
+				add_popularity = {
+				ideology = democratic
+				popularity = 0.01
+			}
+			add_stability = 0.01
+			}
+		}
+	}
+	option = {
+	        trigger = { NOT = { OR = { tag = USA is_in_faction_with = USA is_in_faction_with = ENG } } }
+	        name = usa.114.b
+			effect_tooltip = {
+		    every_country = {
+				limit = {
+					is_in_faction_with = ENG
+					
+				}
+				add_popularity = {
+				ideology = democratic
+				popularity = 0.01
+			}
+			add_stability = 0.01
+			}
+		}
+	}
+}
+# arsenal of democracy
+news_event = {
+	id = usa.115
+	title = usa.115.t
+	desc = usa.115.d
+	picture = GFX_news_event_fdr_and_churchill
+	
+        is_triggered_only = yes
+	
+	option = {
+	        trigger = { has_government = democratic }
+	        name = usa.115.a
+			every_country = {
+				limit = {
+					has_government = democratic
+					
+				}
+				add_popularity = {
+					ideology = democratic
+					popularity = 0.02
+			    }
+			}
+		
+	}
+	option = {
+	        trigger = { NOT = { has_government = democratic } }
+	        name = usa.115.b
+			every_country = {
+				limit = {
+					has_government = democratic
+					
+				}
+				add_popularity = {
+					ideology = democratic
+					popularity = 0.02
+			    }
+			}
+	}
 }
 

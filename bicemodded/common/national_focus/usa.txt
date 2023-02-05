@@ -84,7 +84,6 @@ focus_tree = {
 
 		available_if_capitulated = no
 		completion_reward = {
-			add_political_power = 30
 			USA_great_depression_level_down = yes
 			unlock_decision_tooltip = { decision = USA_CWA show_effect_tooltip = yes }
 			unlock_decision_tooltip = { decision = USA_Hoover show_effect_tooltip = yes }
@@ -555,7 +554,10 @@ focus_tree = {
 			unlock_decision_tooltip = { decision = USA_DRS	show_effect_tooltip = yes }
 			unlock_decision_tooltip = { decision = USA_Shelterbelt	show_effect_tooltip = yes }
 			USA_congress_small_opposition = yes
-			add_timed_idea = { idea = USA_aaa_spirit days = 550 }
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = USA_arthur_hyde
+			
+			#add_timed_idea = { idea = USA_aaa_spirit days = 550 }
 		}
 	}
 
@@ -2279,10 +2281,11 @@ focus_tree = {
 			}
 		}
 		completion_reward = {
-			add_war_support = 0.04
-			air_experience = 50
-			navy_experience = 50
-			army_experience = 50
+			hidden_effect = {
+		if = { limit = { OR = { is_ai = no has_global_flag = ai_speeches } }
+				sound_effect = sp_usa_neutrality
+				}
+			}
 			393 = {
 				add_extra_state_shared_building_slots = 4
 				add_building_construction = {
@@ -2363,26 +2366,17 @@ focus_tree = {
 					instant_build = yes
 				}	
 			}
-			if = { 
-				limit = { has_idea = great_depression  }
-				remove_ideas = great_depression
+			every_country = {
+				limit = {
+					has_government = democratic
+					
+				}
+				add_popularity = {
+					ideology = democratic
+					popularity = 0.02
+			    }
 			}
-			if = { 
-				limit = { has_idea = great_depression_II  }
-				remove_ideas = great_depression_II
-			}
-			if = { 
-				limit = { has_idea = great_depression_III  }
-				remove_ideas = great_depression_III
-			}
-			if = { 
-				limit = { has_idea = great_depression_IV  }
-				remove_ideas = great_depression_IV
-			}
-			if = { 
-				limit = { has_idea = great_depression_V  }
-				remove_ideas = great_depression_V
-			}
+			USA_great_depression_level_down = yes
 			remove_ideas = USA_prepare_intervention
 		}
 	}
@@ -2927,14 +2921,19 @@ focus_tree = {
 		available_if_capitulated = no
 		completion_reward = {
 USA_congress_small_opposition = yes
+unlock_decision_category_tooltip = USA_aid_britain
 		add_ideas = USA_prepare_intervention	
 			remove_ideas = neutrality_act	
 every_country = {
 				limit = {
-					has_government = democratic
+					is_in_faction_with = ENG
 					
 				}
-				add_stability = 0.02
+				add_popularity = {
+				ideology = democratic
+				popularity = 0.01
+			}
+			add_stability = 0.01
 			}			
 		}
 	}
@@ -4403,9 +4402,8 @@ every_country = {
 		cost = 7.2
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_ARMY_XP FOCUS_FILTER_AIR_XP }
 		
-		#ai_will_do = {
-		#	factor = 1
-		#}
+		available = { threat > 0.05 }
+		
 		available_if_capitulated = yes
 		prerequisite = { }
 		completion_reward = {
