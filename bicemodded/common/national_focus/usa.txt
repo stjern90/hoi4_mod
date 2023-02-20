@@ -16,7 +16,7 @@ focus_tree = {
 	}
 	
 	default = no
-	continuous_focus_position = { x = 50 y = 1400 }
+	continuous_focus_position = { x = 50 y = 1580 }
 	
 	
 	#############GREAT DEPRESSION FOCUSES#################
@@ -1095,6 +1095,28 @@ focus_tree = {
 			}
 		}
 	}
+	
+	focus = {
+		id = USA_fortress_america
+		icon = GFX_tarifs
+		relative_position_id = USA_fiscal_conservatism
+		x = 1
+		y = 1
+
+		cost = 3.6
+		search_filters = { FOCUS_FILTER_STABILITY }
+
+		prerequisite = { focus = USA_fiscal_conservatism }
+		ai_will_do = {
+			factor = 5
+		}
+		available = {
+		}
+		available_if_capitulated = no
+		completion_reward = {
+			add_stability = 0.05
+		}
+	}
 
 	focus = {
 		id = USA_tax_break
@@ -1106,8 +1128,7 @@ focus_tree = {
 		cost = 11.5
 		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_USA_CONGRESS }
 
-		prerequisite = { focus = USA_support_gas_companies }
-		prerequisite = { focus = USA_fiscal_conservatism }
+		prerequisite = { focus = USA_support_gas_companies focus = USA_fiscal_conservatism }
 		ai_will_do = {
 			factor = 5
 		}
@@ -1231,7 +1252,7 @@ focus_tree = {
 		#	factor = 1
 		#}
 		available = {
-			threat > 0.8
+			date > 1941.6.1
 		}
 
 		completion_reward = {
@@ -1240,12 +1261,61 @@ focus_tree = {
 	}
 	
 	focus = {
-		id = USA_build_the_pentagon
-		icon = GFX_focus_usa_build_the_pentagon
+		id = USA_heavy_industry_4
+		icon = GFX_USA_erf
+		relative_position_id = USA_heavy_industry_2
+		x = -1
+		y = 1
+
+		cost = 5
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		prerequisite = { focus = USA_heavy_industry_2 }
+		available_if_capitulated = no
+
+		completion_reward = {
+		}
+	}
+	
+	focus = {
+		id = USA_executive_office_president
+		icon = GFX_goal_government_icon
+		relative_position_id = USA_heavy_industry_4
+		x = 2
+		y = 1
+
+		cost = 5
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		prerequisite = { focus = USA_heavy_industry_4 focus = USA_support_american_artisans }
+		prerequisite = { focus = USA_wartime_industry }
+		available_if_capitulated = no
+
+		completion_reward = {
+		}
+	}
+	
+	focus = {
+		id = USA_support_american_artisans
+		icon = GFX_USA_artisans
 		relative_position_id = USA_heavy_industry_2
 		x = 1
 		y = 1
+
+		cost = 5
+		search_filters = {FOCUS_FILTER_INDUSTRY}
 		prerequisite = { focus = USA_heavy_industry_2 }
+		available_if_capitulated = no
+
+		completion_reward = {
+		}
+	}
+	
+	focus = {
+		id = USA_build_the_pentagon
+		icon = GFX_focus_usa_build_the_pentagon
+		relative_position_id = USA_executive_office_president
+		x = 1
+		y = 1
+		prerequisite = { focus = USA_executive_office_president }
 		cost = 5.8
 
 		ai_will_do = {
@@ -1272,15 +1342,15 @@ focus_tree = {
 	}
 	
 	focus = {
-		id = USA_heavy_industry_4
-		icon = GFX_goal_USA_investment
-		relative_position_id = USA_heavy_industry_2
+		id = USA_regulate_securities
+		icon = GFX_FRA_defense
+		relative_position_id = USA_executive_office_president
 		x = -1
 		y = 1
 
 		cost = 5
 		search_filters = {FOCUS_FILTER_INDUSTRY}
-		prerequisite = { focus = USA_heavy_industry_2 }
+		prerequisite = { focus = USA_executive_office_president }
 		available_if_capitulated = no
 
 		completion_reward = {
@@ -1295,7 +1365,12 @@ focus_tree = {
 				threat > 0.45
 				has_war = yes
 			}
-			has_army_manpower = { size > 299999 } 
+			if = {
+				limit = {
+					has_war = no
+				}
+				congress_high_support_trigger = yes 
+			}		
 		}
   
 		continue_if_invalid = yes
@@ -1308,10 +1383,16 @@ focus_tree = {
 		prerequisite = { focus = USA_tax_break focus = USA_universal focus = USA_court_packing }
 		
 		cost = 5
-		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_ARMY_XP }
+		search_filters = { FOCUS_FILTER_INDUSTRY }
 		
-		completion_reward = {
-			army_experience = 10
+		completion_reward = {			
+			if = {
+				limit = {
+					has_war = no
+				}
+				USA_congress_large_opposition = yes
+				custom_effect_tooltip = USA_military_construction_tt
+			}
 			360 = {
 				add_extra_state_shared_building_slots = 3
 				add_building_construction = {
@@ -1935,15 +2016,20 @@ focus_tree = {
 		continue_if_invalid = yes
 		completion_reward = { 
 		add_war_support = 0.03
-			add_political_power = 120
-			GER = { 
+			add_political_power = 100
+			every_country = {
+				limit = {
+					OR = { has_government = fascism is_in_faction_with = GER }	
+				}
 				add_opinion_modifier = { target = USA modifier = quarantine_speech }
 			}
-			JAP = { 
-				add_opinion_modifier = { target = USA modifier = quarantine_speech }
+			if = { limit = { OR = { is_ai = no has_global_flag = ai_speeches } } 
+				hidden_effect = {
+					sound_effect = sp_usa_quarantine
+				}
 			}
-			ITA = { 
-				add_opinion_modifier = { target = USA modifier = quarantine_speech }
+			hidden_effect = {
+				news_event = { hours = 6 id = usa.116 }
 			}
 		}
 	}
@@ -2918,9 +3004,10 @@ focus_tree = {
 	focus = { 
 		id = USA_atlantic_charter
 		icon = GFX_goal_USA_officer
-		prerequisite = { focus = USA_destroyers_for_bases }		
-		x = 18
-		y = 8
+		prerequisite = { focus = USA_prepare_european_intervention }
+relative_position_id = USA_prepare_european_intervention		
+		x = 1
+		y = 1
 		
 		cost = 5
 		search_filters = { FOCUS_FILTER_DIPLOMACY }
@@ -3066,13 +3153,14 @@ every_country = {
 	focus = { 
 		id = USA_support_china 
 		icon = GFX_goal_chi_usa
-		x = 17
-		y = 2 
+		relative_position_id = USA_office_of_economic_warfare
+		x = 7
+		y = 1 
 		
-		cost = 2.8
+		cost = 2.9
 		search_filters = { FOCUS_FILTER_DIPLOMACY FOCUS_FILTER_INDUSTRY }
 		
-		prerequisite = { focus = USA_quarantine_speech focus = USA_limited_intervention }
+		prerequisite = { focus = USA_quarantine_speech focus = USA_office_of_economic_warfare }
 		ai_will_do = { 
 			factor = 5 
 		}
@@ -3111,8 +3199,9 @@ every_country = {
 
 		continue_if_invalid = yes
 		available_if_capitulated = no
-		x = 15
-		y = 2
+		relative_position_id = USA_office_of_economic_warfare
+		x = 3
+		y = 1 
 		
 		cost = 3.6
 		search_filters = { FOCUS_FILTER_DIPLOMACY FOCUS_FILTER_USA_CONGRESS }
@@ -3132,6 +3221,7 @@ every_country = {
 				add_opinion_modifier = { target = GER modifier = embargo } 
 			}
 			USA_congress_small_opposition = yes
+			GER = { country_event = usa.117 }
 		}
 	}
 	
@@ -3155,8 +3245,9 @@ every_country = {
 
 		continue_if_invalid = yes
 		available_if_capitulated = no
-		x = 22
-		y = 2 
+		relative_position_id = USA_office_of_economic_warfare
+		x = 9
+		y = 1 
 		
 		cost = 3.6
 		search_filters = { FOCUS_FILTER_DIPLOMACY FOCUS_FILTER_USA_CONGRESS }
@@ -3166,6 +3257,7 @@ every_country = {
 		#}
 		completion_reward = {
 			send_embargo = JAP
+			JAP = { country_event = usa.117 }
 			add_opinion_modifier = { target = JAP modifier = embargo }
 			every_country = {
 				limit = {
@@ -3179,6 +3271,7 @@ every_country = {
 					MAN = { is_subject_of = JAP }
 				}
 				send_embargo = MAN
+				MAN = { country_event = usa.117 }
 				add_opinion_modifier = { target = MAN modifier = embargo }
 				every_country = {
 					limit = {
@@ -3208,14 +3301,13 @@ every_country = {
 	focus = { 
 		id = USA_rainbow_planes
 		icon = GFX_american_plan
-		x = 20
-		y = 2
+		x = 19
+		y = 4
 		
 		cost = 8.7 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY }
 		
-		prerequisite = { focus = USA_joint_army_and_navy_board }
-		prerequisite = { focus = USA_quarantine_speech focus = USA_war_propaganda }
+		prerequisite = { focus = USA_prepare_asian_intervention focus = USA_prepare_european_intervention focus = USA_prepare_american_intervention  }
 		available = { 
 			threat > 0.45
 			OR = {
@@ -3252,13 +3344,14 @@ every_country = {
 	focus = {
 		id = USA_prepare_asian_intervention 
 		icon = GFX_focus_usa_focus_on_asia
-		x = 21
-		y = 3
+		relative_position_id = USA_support_china
+		x = 1
+		y = 1
 		
 		cost = 5
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_INDUSTRY }
 		
-		prerequisite = { focus = USA_rainbow_planes }
+		prerequisite = { focus = USA_support_china focus = USA_embargo_japan }
 		available = {
 		    OR = {
 		    JAP = { has_added_tension_amount > 30 }
@@ -3271,7 +3364,7 @@ every_country = {
 		available_if_capitulated = no 
 		completion_reward = {
 		add_war_support = 0.04
-			add_ideas = expand_the_navy 
+		    add_timed_idea = { idea = expand_the_navy days = 365 }
 			add_tech_bonus = {
 			    name = tp_bonus
 				bonus = 0.4
@@ -3284,13 +3377,14 @@ every_country = {
 	focus = {
 		id = USA_prepare_european_intervention 
 		icon = GFX_focus_usa_focus_on_europe
-		x = 19
-		y = 3
+		relative_position_id = USA_destroyers_for_bases
+		x = 1
+		y = 1
 		
 		cost = 5
 		search_filters = { FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_RESEARCH FOCUS_FILTER_INDUSTRY }
 		
-		prerequisite = { focus = USA_rainbow_planes }
+		prerequisite = { focus = USA_destroyers_for_bases focus = USA_embargo_germany }
 
 		available = {
 		      threat > 0.7
@@ -3302,7 +3396,7 @@ every_country = {
 		available_if_capitulated = no 
 		completion_reward = {
 		add_war_support = 0.04
-			add_ideas = expand_the_army 
+		add_timed_idea = { idea = expand_the_army days = 365 }
 			add_tech_bonus = {
 			    name = desert_tech_bonus
 				bonus = 0.3
@@ -3312,17 +3406,44 @@ every_country = {
 		}
 	}
 	
+	focus = {
+		id = USA_prepare_american_intervention 
+		icon = GFX_focus_usa_focus_on_europe
+		relative_position_id = USA_airbases
+		x = -1
+		y = 2
+		
+		cost = 5
+		search_filters = { FOCUS_FILTER_DIPLOMACY }
+		
+		prerequisite = { focus = USA_airbases }
+		prerequisite = { focus = USA_war_propaganda }
+
+		available = {
+		      threat > 0.7
+			  has_war_support > 0.45
+		}
+		ai_will_do = {
+			factor = 5 
+		}
+		available_if_capitulated = no 
+		completion_reward = {
+		add_war_support = 0.04
+		add_timed_idea = { idea = expand_the_sphere  months = 12 }
+		}
+	}
+	
 	focus = { 
 		id = USA_support_roosevelt
 		icon = GFX_Goal_Support_the_president
-		relative_position_id = USA_neutrality_act
-		x = 1
-		y = 2 
+		relative_position_id = USA_bankruptcy_act
+		x = -1
+		y = 1 
 		
 		cost = 3.6
 		search_filters = {FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_USA_CONGRESS}
 		
-		prerequisite = { focus = USA_quarantine_speech focus = USA_war_propaganda }
+		prerequisite = { focus = USA_bankruptcy_act }
 		bypass = {	
 			NOT = {
 				has_country_leader = {
@@ -3352,9 +3473,11 @@ every_country = {
 	focus = {
 		id = USA_ask_east_indies_to_embargo_japan
 		icon = GFX_goal_USA_embargo2
-		prerequisite = { focus = USA_colonial_2 focus = USA_airbases }
-		x = 23
-		y = 5
+		relative_position_id = USA_prepare_asian_intervention
+		x = 1
+		y = 1
+		
+		available = { has_completed_focus = USA_colonial_2 }
 		
 		cost = 2 
 		search_filters = { FOCUS_FILTER_DIPLOMACY }
@@ -3373,8 +3496,9 @@ every_country = {
 		id = USA_ask_uk_and_allies_to_embargo_japan
 		icon = GFX_goal_USA_embargo1
 		prerequisite = { focus = USA_ask_east_indies_to_embargo_japan }
-		x = 23
-		y = 6
+		relative_position_id = USA_ask_east_indies_to_embargo_japan
+		x = 0
+		y = 1
 		
 		cost = 2 
 		search_filters = { FOCUS_FILTER_DIPLOMACY }
@@ -3398,9 +3522,11 @@ every_country = {
 	focus = {
 		id = USA_puerto_rico_reconstruction_administration
 		icon = GFX_colonial_police
-		prerequisite = { focus = USA_colonial_2 focus = USA_airbases }
-		x = 25
-		y = 5
+		relative_position_id = USA_prepare_asian_intervention
+		x = 3
+		y = 1
+		available = { has_completed_focus = USA_colonial_2 }
+		
 		cost = 4
 		search_filters = {FOCUS_FILTER_INDUSTRY FOCUS_FILTER_CONSTRUCTION}
 		available_if_capitulated = no
@@ -3449,10 +3575,11 @@ every_country = {
 		id = USA_help_raj
 		icon = GFX_goal_RAJ_army
 		prerequisite = { focus = USA_puerto_rico_reconstruction_administration }
-		x = 25
-		y = 6
+		relative_position_id = USA_puerto_rico_reconstruction_administration
+		x = 0
+		y = 1
 
-		cost = 9.5
+		cost = 6.5
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_DIPLOMACY }
 
 		ai_will_do = {
@@ -3652,9 +3779,9 @@ every_country = {
 			NOT = { 689 = { OR = { is_controlled_by = ENG is_controlled_by = BOI } } } 
 			NOT = { 691 = { OR = { is_controlled_by = ENG is_controlled_by = BOI } } } 
 		}
-		
-		x = 19
-		y = 5
+		relative_position_id = USA_cash_and_carry
+		x = 3
+		y = 1 
 		
 		cost = 4.3
 		search_filters = { FOCUS_FILTER_DIPLOMACY FOCUS_FILTER_CONSTRUCTION }
@@ -3711,13 +3838,14 @@ every_country = {
 	focus = {
 		id = USA_secret_agreement_with_liberia 
 		icon = GFX_goal_generic_military_deal
-		x = 20
-		y = 4
+		relative_position_id = USA_monroe
+		x = -1
+		y = 1
 		
-		cost = 4
-		search_filters = { FOCUS_FILTER_DIPLOMACY FOCUS_FILTER_INDUSTRY FOCUS_FILTER_ANNEXATION FOCUS_FILTER_CONSTRUCTION }
+		cost = 4.3
+		search_filters = { FOCUS_FILTER_DIPLOMACY FOCUS_FILTER_ANNEXATION }
 		
-		prerequisite = { focus = USA_rainbow_planes }
+		prerequisite = { focus = USA_monroe }
 		ai_will_do = {
 			factor = 5 
 		}
@@ -3734,13 +3862,14 @@ every_country = {
 	focus = {
 		id = USA_plan_dog_memo
 		icon = GFX_goal_USA_plan_dog
-		x = 18
-		y = 10
+		relative_position_id = USA_rainbow_planes
+		x = 0
+		y = 3
 		
 		cost = 3.6
 		search_filters = { FOCUS_FILTER_DIPLOMACY }
 		
-		prerequisite = { focus = USA_atlantic_charter }
+		prerequisite = { focus = USA_rainbow_planes }
 		ai_will_do = {
 			factor = 10 
 		}
@@ -3763,11 +3892,12 @@ every_country = {
 	focus = {
 		id = USA_Selective_Service_System
 		icon = GFX_selective_service
-		x = 17
-		y = 3
+		relative_position_id = USA_rainbow_planes
+		x = -1
+		y = 1
 		
 		cost = 5
-		search_filters = {FOCUS_FILTER_POLITICAL FOCUS_FILTER_MANPOWER FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_USA_CONGRESS}
+		search_filters = {FOCUS_FILTER_MANPOWER}
 		
 		prerequisite = { focus = USA_rainbow_planes }
 		ai_will_do = {
@@ -3966,7 +4096,7 @@ every_country = {
 	
 	focus = {
 		id = USA_Four_Freedoms
-		icon = GFX_focus_generic_self_management
+		icon = GFX_USA_four
 		relative_position_id = USA_the_giant_wakes
 		x = -1
 		y = 2
@@ -4089,13 +4219,14 @@ every_country = {
 	focus = {
 		id = USA_join_the_allies
 		icon = GFX_allies_usa
-		x = 20
-		y = 6
+		relative_position_id = USA_rainbow_planes
+		x = 1
+		y = 2
 		
 		cost = 1.2
 		search_filters = { FOCUS_FILTER_DIPLOMACY }
 		
-		prerequisite = { focus = USA_destroyers_for_bases focus = USA_mid_pacific_strategic_direction_finder_net }
+		prerequisite = { focus = USA_rainbow_planes focus = USA_mid_pacific_strategic_direction_finder_net }
 		continue_if_invalid = yes
 		ai_will_do = {
 			factor = 5 

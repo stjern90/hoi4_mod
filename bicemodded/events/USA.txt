@@ -728,9 +728,77 @@ country_event = {
 			expire = "1965.1.1"
 			ideology = liberalism
 			traits = {
-				
+				staunch_constitutionalist
 			}
 		}
+	}
+}
+
+#Elections of 1948 Truman vs Dewey
+country_event = {
+	id = usa.133
+	title = usa.133.t
+	desc = usa.133.desc
+	picture = GFX_report_event_usa_election_generic
+
+	is_triggered_only = yes
+
+	trigger = {
+		tag = USA
+		democratic > 0.4
+		date > 1948.1.1
+		date < 1949.1.1
+		has_country_leader = {
+			name = "Harry S. Truman"
+			ruling_only = yes
+		}
+	}
+
+	immediate = {
+				country_event = { id = usa.72 days = 730 } # midterms
+	}
+
+	option = { 	
+		name = usa.133.a
+		ai_chance = {
+			factor = 75
+		}		
+			set_variable = { election_factor = random }
+			add_to_variable = { election_factor = -0.5 }
+			USA_election_senate = yes
+			USA_election_house = yes
+			custom_effect_tooltip = usa_congress_elections_tt_bad
+			country_event = usa.30
+	}
+
+	option = { 
+		name = usa.133.b
+		ai_chance = {
+			factor = 25
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}		
+		remove_ideas = new_deal
+		set_party_name = { ideology = democratic long_name = USA_republican_party name = USA_republican_party }
+		set_variable = { election_factor = random }
+		add_to_variable = { election_factor = -0.6 }
+		USA_election_senate = yes
+		USA_election_house = yes
+		USA_flip_support = yes
+		add_political_power = 120
+		custom_effect_tooltip = usa_congress_elections_tt_good
+		create_country_leader = {
+			name = "Thomas E. Dewey"
+			picture = "portrait_USA_thomas_dewey.dds"
+			expire = "1965.1.1"
+			ideology = conservatism
+			traits = {
+				anti_communist_crusader
+			}
+		}
+		country_event = usa.31
 	}
 }
 
@@ -3445,7 +3513,7 @@ news_event = {
 	
 	option = {
 	        trigger = { has_government = democratic }
-	        name = usa.115.a
+	        name = usa.114.a
 			every_country = {
 				limit = {
 					has_government = democratic
@@ -3460,7 +3528,7 @@ news_event = {
 	}
 	option = {
 	        trigger = { NOT = { has_government = democratic } }
-	        name = usa.115.b
+	        name = usa.114.b
 			every_country = {
 				limit = {
 					has_government = democratic
@@ -3471,6 +3539,56 @@ news_event = {
 					popularity = 0.03
 			    }
 			}
+	}
+}
+# quarantine speech
+news_event = {
+	id = usa.116
+	title = usa.116.t
+	desc = usa.116.d
+	picture = GFX_news_event_fdr_radio
+	
+        is_triggered_only = yes
+	
+	option = {
+	        trigger = { has_government = democratic }
+	        name = usa.114.a
+			effect_tooltip = {
+			every_country = {
+				limit = {
+					OR = { has_government = fascism is_in_faction_with = GER }	
+				}
+				add_opinion_modifier = { target = USA modifier = quarantine_speech }
+			}
+			}
+		
+	}
+	option = {
+	        trigger = { NOT = { has_government = democratic } }
+	        name = usa.114.b
+			effect_tooltip = {
+			every_country = {
+				limit = {
+					OR = { has_government = fascism is_in_faction_with = GER }	
+				}
+				add_opinion_modifier = { target = USA modifier = quarantine_speech }
+			}
+			}
+	}
+}
+# Embagoed by USA
+country_event = {
+	id = usa.117
+	title = usa.117.t
+	desc = usa.117.d
+	picture = GFX_report_event_usa_embargo
+	
+    is_triggered_only = yes
+	
+	option = {
+	       name = usa.114.b
+		effect_tooltip = {
+		}
 	}
 }
 
