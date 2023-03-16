@@ -344,8 +344,8 @@ NCountry = {
 	MIN_SURRENDER_LIMIT = 0.1,						-- Minimum non-forced surrender limit. valid 0-1 
 	BASE_MOBILIZATION_SPEED = 0.01,				-- Base speed of manpower mobilization  #in 1/1000 of 1 %
 	
-	INTERCEPTION_WAR_SUPPORT_SCALE = 0.00002,		-- Scaling of interceptions to war support impact
-	INTERCEPTION_BOMBING_WAR_SUPPORT_IMPACT = 0.15,	-- Max impact of interceptions on the war support
+	INTERCEPTION_WAR_SUPPORT_SCALE = 0.00001,		-- Scaling of interceptions to war support impact
+	INTERCEPTION_BOMBING_WAR_SUPPORT_IMPACT = 0.05,	-- Max impact of interceptions on the war support
 
 	BOMBING_WAR_SUPPORT_PENALTY_SCALE = -0.0001, 			-- Scaling of bomber damage to war support impact, will be added weekly as a war support penalty
 	MAX_BOMBING_WEEKLY_WAR_SUPPORT_PENALTY = -0.006,			-- Max penalty that will gained per week from bomber's damage
