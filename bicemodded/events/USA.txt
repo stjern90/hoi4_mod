@@ -274,7 +274,7 @@ country_event = {
 }
 
 
-# Election of 1936: Roosevelt vs Alf Landon
+# Election of 1936: Roosevelt vs Alf Landon, Roosevelt is current
 country_event = {
 	id = usa.6
 	title = usa.6.t
@@ -285,24 +285,36 @@ country_event = {
 
 	trigger = {
 		tag = USA
-		democratic > 0.5
+		democratic > 0.3
 		date > 1936.1.1
 		date < 1937.1.1
 	}
-	
+
+	immediate = {
+				country_event = { id = usa.72 days = 730 } # midterms
+	}
+
 	option = { 	
 		name = usa.6.a
 		ai_chance = {
 			factor = 75
-		}		
-		if = { limit = { OR = { NOT = { is_ai = yes } has_global_flag = ai_speeches } } 
+		}	
+        if = { limit = { OR = { NOT = { is_ai = yes } has_global_flag = ai_speeches } } 
 			hidden_effect = {
 			sound_effect = sp_usa_letmewarnyou
 			}
-		}
+		}	
+
+
+			set_variable = { election_factor = random }
+			add_to_variable = { election_factor = -0.5 }
+			USA_election_senate = yes
+			USA_election_house = yes
+			custom_effect_tooltip = usa_congress_elections_tt_bad
+			country_event = usa.70
 	}
 
-	option = { 
+	option = {
 		name = usa.6.b
 		ai_chance = {
 			factor = 25
@@ -311,9 +323,27 @@ country_event = {
 				is_historical_focus_on = yes
 			}
 		}		
-		add_ideas = landon_new_deal
 		remove_ideas = new_deal
 		set_party_name = { ideology = democratic long_name = USA_republican_party name = USA_republican_party }
+		set_variable = { election_factor = random }
+		add_to_variable = { election_factor = -0.6 }
+		USA_election_senate = yes
+		USA_election_house = yes
+		USA_flip_support = yes
+		custom_effect_tooltip = usa_congress_elections_tt_good
+		add_political_power = 120
+		if = {
+			limit = {
+				has_idea = standard_oil_california
+			}
+			add_political_power = 150
+		}
+		if = {
+			limit = {
+				NOT = { has_idea = standard_oil_california }
+			}
+			add_ideas = standard_oil_california
+		}
 		create_country_leader = {
 			name = "Alf Landon"
 			desc = "POLITICS_ALF_LANDON_DESC"
@@ -324,10 +354,11 @@ country_event = {
 				staunch_constitutionalist
 			}
 		}
+		country_event = usa.71
 	}
 }
 
-# Election of 1940: Roosevelt vs Wendell Wilkie
+# Election of 1940: Roosevelt vs Wendell Wilkie, Roosevelt is current
 country_event = {
 	id = usa.7
 	title = usa.7.t
@@ -338,14 +369,32 @@ country_event = {
 
 	trigger = {
 		tag = USA
-		democratic > 0.4
-		date > 1939.1.1
-		date < 1942.1.1
+		democratic > 0.3
+		date > 1940.1.1
+		date < 1941.1.1
 		has_country_leader = { ruling_only = yes name = "Franklin Delano Roosevelt" }
+	}
+
+	immediate = {
+				country_event = { id = usa.72 days = 730 } # midterms
 	}
 	
 	option = {
 		name = usa.7.a
+		ai_chance = {
+			factor = 75
+		}
+
+			set_variable = { election_factor = random }
+			add_to_variable = { election_factor = -0.5 }
+			USA_election_senate = yes
+			USA_election_house = yes
+			custom_effect_tooltip = usa_congress_elections_tt_bad
+			country_event = usa.70
+	}
+
+	option = {
+		name = usa.7.b
 		ai_chance = {
 			factor = 25
 			modifier = {
@@ -354,11 +403,16 @@ country_event = {
 			}
 		}	
 		set_party_name = { ideology = democratic long_name = USA_republican_party name = USA_republican_party }
-		if = { 
-			limit = { NOT = { has_idea = second_new_deal } }
-			remove_ideas = new_deal
-			add_ideas = wilkies_new_deal
-		}
+		remove_ideas = new_deal
+        remove_ideas = second_new_deal
+		add_ideas = wilkies_new_deal
+		set_variable = { election_factor = random }
+		add_to_variable = { election_factor = -0.6 }
+		add_political_power = 120
+		USA_election_senate = yes
+		USA_election_house = yes
+		USA_flip_support = yes
+		custom_effect_tooltip = usa_congress_elections_tt_good
 		create_country_leader = {
 			name = "Wendell Wilkie"
 			desc = "POLITICS_WENDELL_WILKIE_DESC"
@@ -366,22 +420,14 @@ country_event = {
 			expire = "1965.1.1"
 			ideology = liberalism
 			traits = {
-				
+				rearmer
 			}
 		}
-	}
-
-	option = {
-		name = usa.7.b
-		ai_chance = {
-			factor = 75
-		}
-		add_political_power = 40
-		add_stability = -0.03
+		country_event = usa.71 #weighted towards gain of support
 	}
 }
 
-# Election of 1940: Roosevelt vs Landon (Incumbent)
+# Election of 1940: Roosevelt vs Landon, Landon is current
 country_event = {
 	id = usa.8
 	title = usa.8.t
@@ -392,32 +438,49 @@ country_event = {
 
 	trigger = {
 		tag = USA
-		democratic > 0.4
-		date > 1939.1.1
-		date < 1942.1.1
-		NOT = {has_country_leader = { ruling_only = yes name = "Franklin Delano Roosevelt" }}
-	}
-	
-	option = { 
-		name = usa.8.a
-		add_political_power = -40
-		add_stability = 0.05
+		democratic > 0.3
+		date > 1940.1.1
+		date < 1941.1.1
+		has_country_leader = { ruling_only = yes name = "Alf Landon" }
 	}
 
-	option = { 
+	immediate = {
+				country_event = { id = usa.72 days = 730 } # midterms
+	}
+	
+	option = { # democrats
+		name = usa.8.a
+		add_political_power = -40
+			set_variable = { election_factor = random }
+			add_to_variable = { election_factor = -0.5 }
+			USA_election_senate = yes
+			USA_election_house = yes
+			custom_effect_tooltip = usa_congress_elections_tt_bad
+			country_event = usa.70
+	}
+
+	option = { # republicans
 		name = usa.8.b
 		set_party_name = { ideology = democratic long_name = USA_democratic_party name = USA_democratic_party }
-		if = { 
-			limit = { NOT = { has_idea = second_new_deal } }
-			add_ideas = second_new_deal
-			remove_ideas = landon_new_deal
-		}
-		add_stability = -0.05
+        remove_ideas = landon_new_deal
+		add_ideas = new_deal
+        
 		retire_country_leader = yes
+		add_political_power = 120
+		set_variable = { election_factor = random }
+		add_to_variable = { election_factor = -0.6 }
+		USA_election_senate = yes
+		USA_election_house = yes
+		USA_flip_support = yes
+		set_country_flag = landon_first_term_flag
+		custom_effect_tooltip = usa_congress_elections_tt_good
+		country_event = usa.71
 	}
 }
 
-# Election of 1944: Roosevelt vs Thomas E. Dewey
+# TODO, the 1944 election is normally cancelled but if there is no war we need other candidate for the democrats
+# make a chance for some options, maybe dewey vs truman, truman vs wilkies? if landon has only had 1 term, truman vs landon?
+# Election of 1944: Truman vs Thomas E. Dewey
 country_event = {
 	id = usa.9
 	title = usa.9.t
@@ -425,25 +488,46 @@ country_event = {
 	picture = GFX_report_event_usa_election_roosevelt_dewey
 
 	is_triggered_only = yes
-	
+	immediate = {
+				country_event = { id = usa.72 days = 730 } # midterms
+	}
 	trigger = {
 		tag = USA
 		democratic > 0.4
-		date > 1943.1.1
-		date < 1946.1.1
-		has_idea = new_deal
+		date > 1944.1.1
+		date < 1945.1.1
+		has_country_leader = { ruling_only = yes name = "Franklin Delano Roosevelt" }
 		has_war = no
 	}
 	
-	option = {
+	option = { # truman
 		name = usa.9.a
 		ai_chance = {
 			factor = 75
 		}
-		add_political_power = 50
+		retire_country_leader = yes
+		create_country_leader = {
+			name = "Harry S. Truman"
+			desc = "POLITICS_HARRY_TRUMAN_DESC"
+			picture = "Portrait_USA_Harry_Truman.dds"
+			expire = "1965.1.1"
+			ideology = liberalism
+			traits = {
+				staunch_constitutionalist
+			}
+		}
+		add_political_power = 10
+
+			set_variable = { election_factor = random }
+			add_to_variable = { election_factor = -0.5 }
+			USA_election_senate = yes
+			USA_election_house = yes
+			custom_effect_tooltip = usa_congress_elections_tt_bad
+			country_event = usa.70
+
 	}
 
-	option = { 
+	option = {
 		name = usa.9.b
 		ai_chance = {
 			factor = 25
@@ -453,21 +537,30 @@ country_event = {
 			}
 		}		
 		remove_ideas = new_deal
+		remove_ideas = second_new_deal
 		set_party_name = { ideology = democratic long_name = USA_republican_party name = USA_republican_party }
+		set_variable = { election_factor = random }
+		add_to_variable = { election_factor = -0.6 }
+		USA_election_senate = yes
+		USA_election_house = yes
+		USA_flip_support = yes
+		add_political_power = 120
+		custom_effect_tooltip = usa_congress_elections_tt_good
 		create_country_leader = {
 			name = "Thomas E. Dewey"
 			desc = "POLITICS_THOMAS_DEWEY_DESC"
-			picture = "Portrait_USA_Generic_2.dds"
+			picture = GFX_portrait_Thomas_E_Dewey
 			expire = "1965.1.1"
 			ideology = conservatism
 			traits = {
-				
+				headstrong
 			}
 		}
+		country_event = usa.71
 	}
 }
 
-# Election of 1944: Roosevelt vs Incumbent
+# Election of 1944: Truman vs Landon
 country_event = {
 	id = usa.10
 	title = usa.10.t
@@ -475,33 +568,62 @@ country_event = {
 	picture = GFX_report_event_usa_election_generic
 
 	is_triggered_only = yes
-
+	immediate = {
+				country_event = { id = usa.72 days = 730 } # midterms
+	}
 	trigger = {
 		tag = USA
 		democratic > 0.4
-		date > 1943.1.1
-		date < 1946.1.1
-		NOT = { has_country_leader = { ruling_only = yes name = "Franklin Delano Roosevelt" } }
+		date > 1944.1.1
+		date < 1945.1.1
+		has_war = no
+		has_country_leader = { ruling_only = yes name = "Alf Landon" }
+		NOT = { has_country_flag = landon_first_term_flag }
 	}
 	
-	option = { 
+	option = { # truman
 		name = usa.10.a
+		retire_country_leader = yes
+		create_country_leader = {
+			name = "Harry S. Truman"
+			desc = "POLITICS_HARRY_TRUMAN_DESC"
+			picture = "Portrait_USA_Harry_Truman.dds"
+			expire = "1965.1.1"
+			ideology = liberalism
+			traits = {
+				staunch_constitutionalist
+			}
+		}
 		add_political_power = 10
+			set_variable = { election_factor = random }
+			add_to_variable = { election_factor = -0.5 }
+			USA_election_senate = yes
+			USA_election_house = yes
+			custom_effect_tooltip = usa_congress_elections_tt_bad
+			country_event = usa.70
 	}
 
 	option = { 
 		name = usa.10.b
 		add_ideas = new_deal
 		set_party_name = { ideology = democratic long_name = USA_democratic_party name = USA_democratic_party }
+		set_variable = { election_factor = random }
+		add_to_variable = { election_factor = -0.6 }
+		USA_election_senate = yes
+		USA_election_house = yes
+		USA_flip_support = yes
+		add_political_power = 120
+		custom_effect_tooltip = usa_congress_elections_tt_good
 		if = {
 			limit = { has_idea = wilkies_new_deal }
 			remove_ideas = wilkies_new_deal
 		}
 		retire_country_leader = yes
+		country_event = usa.71
 	}
 }
 
-# Election of 1944: Roosevelt vs MacArthur
+# Election of 1944: Truman vs MacArthur
 country_event = {
 	id = usa.11
 	title = usa.11.t
@@ -509,28 +631,45 @@ country_event = {
 	picture = GFX_report_event_usa_election_roosevelt_macarthur
 
 	is_triggered_only = yes
-	
+	immediate = {
+				country_event = { id = usa.72 days = 730 } # midterms
+	}
 	trigger = {
 		tag = USA
 		democratic > 0.4
-		date > 1943.1.1
-		date < 1946.1.1
-		has_idea = new_deal
-		OR = {
-			has_war = no
-			has_country_flag = macarthur_candidate
-		}
+		date > 1944.1.1
+		date < 1945.1.1
+		has_war = no
+	    has_country_flag = macarthur_candidate
 	}
 	
-	option = {
+	option = { ## truman
 		name = usa.11.a
 		ai_chance = {
 			factor = 25
 		}	
+		retire_country_leader = yes
+		create_country_leader = {
+			name = "Harry S. Truman"
+			desc = "POLITICS_HARRY_TRUMAN_DESC"
+			picture = "Portrait_USA_Harry_Truman.dds"
+			expire = "1965.1.1"
+			ideology = liberalism
+			traits = {
+				staunch_constitutionalist
+			}
+		}
 		add_political_power = 10
+
+			set_variable = { election_factor = random }
+			add_to_variable = { election_factor = -0.5 }
+			USA_election_senate = yes
+			USA_election_house = yes
+			custom_effect_tooltip = usa_congress_elections_tt_bad
+			country_event = usa.70
 	}
 
-	option = { 
+	option = {
 		name = usa.11.b
 		ai_chance = {
 			factor = 25
@@ -540,7 +679,15 @@ country_event = {
 			}
 		}
 		remove_ideas = new_deal
+		remove_ideas = second_new_deal
 		set_party_name = { ideology = democratic long_name = USA_republican_party name = USA_republican_party }
+		set_variable = { election_factor = random }
+		add_to_variable = { election_factor = -0.6 }
+		USA_election_senate = yes
+		USA_election_house = yes
+		USA_flip_support = yes
+		add_political_power = 120
+		custom_effect_tooltip = usa_congress_elections_tt_good
 		create_country_leader = {
 			name = "Douglas MacArthur"
 			desc = "POLITICS_DOUGLAS_MACARTHUR_DESC"
@@ -548,10 +695,11 @@ country_event = {
 			expire = "1965.1.1"
 			ideology = conservatism
 			traits = {
-				
+				warmonger
 			}
 		}
-		remove_unit_leader = 57
+		country_event = usa.71
+		USA_douglas_macarthur = { remove_unit_leader_role = yes }
 	}
 }
 
@@ -567,10 +715,10 @@ country_event = {
 	trigger = {
 		tag = USA
 		democratic > 0.4
-		date > 1943.1.1
-		date < 1946.1.1
+		date > 1944.1.1
+		date < 1945.1.1
 		has_country_leader = { ruling_only = yes name = "Franklin Delano Roosevelt" }
-		#has_war = yes
+		has_war = yes
 	}
 	
 	option = { 
@@ -615,9 +763,77 @@ country_event = {
 			expire = "1965.1.1"
 			ideology = liberalism
 			traits = {
-				
+				staunch_constitutionalist
 			}
 		}
+	}
+}
+
+#Elections of 1948 Truman vs Dewey
+country_event = {
+	id = usa.133
+	title = usa.133.t
+	desc = usa.133.desc
+	picture = GFX_report_event_usa_election_generic
+
+	is_triggered_only = yes
+
+	trigger = {
+		tag = USA
+		democratic > 0.4
+		date > 1948.1.1
+		date < 1949.1.1
+		has_country_leader = {
+			name = "Harry S. Truman"
+			ruling_only = yes
+		}
+	}
+
+	immediate = {
+				country_event = { id = usa.72 days = 730 } # midterms
+	}
+
+	option = { 	
+		name = usa.133.a
+		ai_chance = {
+			factor = 75
+		}		
+			set_variable = { election_factor = random }
+			add_to_variable = { election_factor = -0.5 }
+			USA_election_senate = yes
+			USA_election_house = yes
+			custom_effect_tooltip = usa_congress_elections_tt_bad
+			country_event = usa.30
+	}
+
+	option = { 
+		name = usa.133.b
+		ai_chance = {
+			factor = 25
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}		
+		remove_ideas = new_deal
+		set_party_name = { ideology = democratic long_name = USA_republican_party name = USA_republican_party }
+		set_variable = { election_factor = random }
+		add_to_variable = { election_factor = -0.6 }
+		USA_election_senate = yes
+		USA_election_house = yes
+		USA_flip_support = yes
+		add_political_power = 120
+		custom_effect_tooltip = usa_congress_elections_tt_good
+		create_country_leader = {
+			name = "Thomas E. Dewey"
+			picture = "portrait_USA_thomas_dewey.dds"
+			expire = "1965.1.1"
+			ideology = conservatism
+			traits = {
+				anti_communist_crusader
+			}
+		}
+		country_event = usa.31
 	}
 }
 
@@ -1266,73 +1482,58 @@ country_event = {
 		USA = {
 			send_equipment = {
 				target = SOV
-				type = infantry_equipment_1
-				amount = 5000
+				type = infantry_equipment
+				amount = 3000
 			}
 			send_equipment = {
 				target = SOV
-				type = infantry_equipment_0
-				amount = 5000
-			}
-			send_equipment = {
-				target = SOV
-				type = infantry_equipment_2
-				amount = 7000
-			}
-			send_equipment = {
-				target = SOV
-				type = support_equipment_1
-				amount = 5000
-			}
-			send_equipment = {
-				target = SOV
-				type = artillery_equipment_1
+				type = support_equipment
 				amount = 1000
 			}
 			send_equipment = {
 				target = SOV
-				type = artillery_equipment_2
-				amount = 1500
+				type = infantry_uniforms
+				amount = 1000
 			}
 			send_equipment = {
 				target = SOV
-				type = medartillery_equipment_1
-				amount = 700
+				type = artillery_equipment
+				amount = 250
 			}
 			send_equipment = {
 				target = SOV
-				type = medartillery_equipment_2
-				amount = 700
+				type = anti_tank_equipment
+				amount = 250
 			}
 			send_equipment = {
 				target = SOV
-				type = motorized_equipment_2
-				amount = 12000
+				type = anti_air_equipment
+				amount = 250
 			}
 			send_equipment = {
 				target = SOV
-				type = HQ_equipment_0
-				amount = 1500
+				type = motorized_equipment
+				amount = 3000
 			}
 			send_equipment = {
 				target = SOV
-				type = motorized_lia_equipment_01
-				amount = 4000
+				type = HQ_equipment
+				amount = 1000
 			}
 			send_equipment = {
 				target = SOV
-				type = motorized_lia_equipment_02
-				amount = 4000
+				type = motorized_lia_equipment
+				amount = 3000
 			}
 			send_equipment = {
 				target = SOV
-				type = motorized_lia_equipment_03
-				amount = 4000
+				type = horse_equipment
+				amount = 3000
 			}
 			send_equipment = {
 				target = SOV
-				type = horse_equipment_0
-				amount = 4000
+				type = fighter_equipment
+				amount = 250
 			}
 		}
 		
@@ -1494,7 +1695,7 @@ country_event = {
 	id = usa.56
 	title = usa.56.t
 	desc = usa.56.d
-	picture = GFX_report_event_usa_british_sailors_destroyers
+	picture = GFX_report_event_churchill_roosevelt
 	
 	is_triggered_only = yes
 	
@@ -1505,68 +1706,58 @@ country_event = {
 		USA = {
 			send_equipment = {
 				target = ENG
-				type = infantry_equipment_1
-				amount = 2000
-			}
-			send_equipment = {
-				target = ENG
-				type = support_equipment_1
-				amount = 500
-			}
-			send_equipment = {
-				target = ENG
-				type = artillery_equipment_2
-				amount = 500
-			}
-			send_equipment = {
-				target = ENG
-				type = motorized_equipment_2
-				amount = 6000
-			}
-			send_equipment = {
-				target = ENG
-				type = HQ_equipment_0
-				amount = 1000
-			}
-			send_equipment = {
-				target = ENG
-				type = motorized_lia_equipment_01
-				amount = 4000
-			}
-			send_equipment = {
-				target = ENG
-				type = horse_equipment_0
+				type = infantry_equipment
 				amount = 3000
 			}
 			send_equipment = {
 				target = ENG
-				type = us_fighter_equipment_1_b
-				amount = 800
+				type = support_equipment
+				amount = 1000
 			}
 			send_equipment = {
 				target = ENG
-				type = us_fighter_equipment_2_b
-				amount = 800
+				type = infantry_uniforms
+				amount = 1000
 			}
 			send_equipment = {
 				target = ENG
-				type = us_fighter_equipment_3_a
-				amount = 800
+				type = artillery_equipment
+				amount = 250
 			}
 			send_equipment = {
 				target = ENG
-				type = us_fighter_equipment_4_a
-				amount = 800
+				type = anti_tank_equipment
+				amount = 250
 			}
 			send_equipment = {
 				target = ENG
-				type = us_fighter_equipment_3_c
-				amount = 800
+				type = anti_air_equipment
+				amount = 250
 			}
 			send_equipment = {
 				target = ENG
-				type = us_fighter_equipment_4_c
-				amount = 800
+				type = motorized_equipment
+				amount = 3000
+			}
+			send_equipment = {
+				target = ENG
+				type = HQ_equipment
+				amount = 1000
+			}
+			send_equipment = {
+				target = ENG
+				type = motorized_lia_equipment
+				amount = 3000
+			}
+			send_equipment = {
+				target = ENG
+				type = horse_equipment
+				amount = 3000
+			}
+			send_equipment = {
+				target = ENG
+				type = fighter_equipment
+				amount = 250
 			}
 		}
 	}
@@ -1639,44 +1830,29 @@ country_event = {
 	option = {
 		name = usa.59.a 
 		ai_chance = { factor = 100 }
-		JAP = {
-			add_opinion_modifier = { target = ENG modifier = embargo }
-		}
-		ENG = {
-			add_opinion_modifier = { target = JAP modifier = embargo }
-		}
-		if = {
-			limit = {
-				MAN = { is_subject_of = JAP }
-			}
-			MAN = {
-				add_opinion_modifier = { target = ENG modifier = embargo }
-			}
-			ENG = {
-				add_opinion_modifier = { target = MAN modifier = embargo }
-			}
-			every_country = {
-					limit = {
-						is_subject_of = ENG
-					}
-					add_opinion_modifier = {
-						target = MAN
-						modifier = embargo
-					}
-			}
-		}
+		send_embargo = JAP
 		every_country = {
 				limit = {
 					is_subject_of = ENG
 				}
-				add_opinion_modifier = {
-					target = JAP
-					modifier = embargo
-				}
+				send_embargo = JAP
 			}
-			if = { limit = { NOT = { ENG = { has_completed_focus = ENG_embargo_japan } } }
-		JAP = { country_event = japan.53 }
-		MAN = { country_event = japan.53 }
+		if = {
+			limit = {
+				MAN = { is_subject_of = JAP }
+			}
+			send_embargo = MAN
+			every_country = {
+					limit = {
+						is_subject_of = ENG
+					}
+					send_embargo = MAN
+			}		
+		}
+		
+		if = { limit = { NOT = { ENG = { has_completed_focus = ENG_embargo_japan } } }
+		    JAP = { country_event = japan.53 }
+		    MAN = { country_event = japan.53 }
 		}
 	}
 	option = {
@@ -1832,13 +2008,6 @@ country_event = {
 	option = {
 		name = usa.62.a 
 		ai_chance = { factor = 100 }
-		if = { 
-			limit = { NOT = { has_tech = decimetric_radar }
-			}
-			set_technology = { 
-				decimetric_radar = 1 
-			}
-		}
 		if = {
 			limit = { 
 				327 = {
@@ -2069,9 +2238,7 @@ country_event = {
 	
 	option = {
 	name = usa.65.a
-		add_war_support = 0.2
-		add_stability = 0.1
-		#add_ideas = usa_unifing_the_country
+		add_war_support = 0.1
 	}
 }
 
@@ -2084,7 +2251,7 @@ news_event = {
         is_triggered_only = yes
 	
 	option = {
-	        trigger = { is_in_faction_with = ENG }
+	        trigger = { OR = { is_in_faction_with = ENG tag = USA } }
 	        name = usa.66.a
 		add_stability = 0.03
 	}
@@ -2094,7 +2261,7 @@ news_event = {
 		add_stability = -0.03
 	}
 	option = {
-	        trigger = { NOT = { OR = { tag = GER is_in_faction_with = GER is_in_faction_with = ENG } } }
+	        trigger = { NOT = { OR = { tag = GER is_in_faction_with = GER is_in_faction_with = ENG tag = USA } } }
 	        name = usa.66.c
 	}
 }
@@ -2201,27 +2368,6 @@ country_event = {
 	}
 
 }
-# elections in the US - player has a majority guaranteed
-#country_event = {
-	#id = usa.71
-	#title = usa.71.t
-	#desc = usa.71.desc
-	#picture = GFX_report_event_election_vote
-
-	#is_triggered_only = yes
-	#trigger = {
-		#OR = {
-			#has_completed_focus = USA_voter_registration_act
-			#has_completed_focus = USA_union_representation_act
-		#}
-	#}
-
-	#option = {
-		#name = usa.71.a
-		#USA_return_majority = yes
-	#}
-
-#}
 
 #midterm elections
 country_event = {
@@ -2233,35 +2379,22 @@ country_event = {
 	is_triggered_only = yes
 
 	immediate = {
-		if = {
-			#limit = {
-				#NOT = {
-					#OR = {
-						#has_completed_focus = USA_voter_registration_act
-						#has_completed_focus = USA_union_representation_act
-					#}
-				#}
-			#}
 			random_list = {
 				50 = {
 					set_variable = { election_factor = random }
 					add_to_variable = { election_factor = -0.6 }
 					USA_election_senate = yes
 					USA_election_house = yes
-					country_event = usa.30
+					country_event = usa.70
 				}
 				50 = {
 					set_variable = { election_factor = random }
 					add_to_variable = { election_factor = -0.3 }
 					USA_election_senate = yes
 					USA_election_house = yes
-					country_event = usa.30
+					country_event = usa.70
 				}
 			}
-		}
-		else = {
-			country_event = usa.32
-		}
 	}
 
 	option = {
@@ -2280,12 +2413,6 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		tag = USA
-		#NOT = {
-			#OR = {
-				#has_completed_focus = USA_voter_registration_act
-				#has_completed_focus = USA_union_representation_act
-			#}
-		#}
 	}
 
 	option = {
@@ -2307,12 +2434,6 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		tag = USA
-		#NOT = {
-			#OR = {
-				#has_completed_focus = USA_voter_registration_act
-				#has_completed_focus = USA_union_representation_act
-			#}
-		#}
 	}
 
 	option = {
@@ -2336,12 +2457,6 @@ country_event = {
 	
 	trigger = {
 		tag = USA
-		#NOT = {
-			#OR = {
-				#has_completed_focus = USA_voter_registration_act
-				#has_completed_focus = USA_union_representation_act
-			#}
-		#}
 	}
 
 	option = {
@@ -2363,12 +2478,6 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		tag = USA
-		#NOT = {
-			#OR = {
-				#has_completed_focus = USA_voter_registration_act
-				#has_completed_focus = USA_union_representation_act
-			#}
-		#}
 	}
 
 	option = {
@@ -2391,12 +2500,6 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		tag = USA
-		#NOT = {
-			#OR = {
-				#has_completed_focus = USA_voter_registration_act
-				#has_completed_focus = USA_union_representation_act
-			#}
-		#}
 	}
 
 	option = {
@@ -2418,12 +2521,6 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		tag = USA
-		#NOT = {
-			#OR = {
-				#has_completed_focus = USA_voter_registration_act
-				#has_completed_focus = USA_union_representation_act
-			#}
-		#}
 	}
 
 	option = {
@@ -2446,12 +2543,6 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		tag = USA
-		#NOT = {
-			#OR = {
-				#has_completed_focus = USA_voter_registration_act
-				#has_completed_focus = USA_union_representation_act
-			#}
-		#}
 	}
 
 	option = {
@@ -2473,12 +2564,6 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		tag = USA
-		#NOT = {
-			#OR = {
-				#has_completed_focus = USA_voter_registration_act
-				#has_completed_focus = USA_union_representation_act
-			#}
-		#}
 	}
 
 	option = {
@@ -2498,12 +2583,6 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		tag = USA
-		#NOT = {
-			#OR = {
-				#has_completed_focus = USA_voter_registration_act
-				#has_completed_focus = USA_union_representation_act
-			#}
-		#}
 	}
 
 	immediate = {
@@ -2582,12 +2661,6 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		tag = USA
-		#NOT = {
-			#OR = {
-				#has_completed_focus = USA_voter_registration_act
-				#has_completed_focus = USA_union_representation_act
-			#}
-		#}
 	}
 
 	immediate = {
@@ -2671,10 +2744,12 @@ country_event = {
 	picture = GFX_report_event_journalists_speech
 
 	is_triggered_only = yes
+	
+	fire_only_once = yes
 
 	option = {
 		name = usa.85.a
-		add_war_support = -0.04
+		add_war_support = -0.05
 	}
 
 }
@@ -2685,12 +2760,6 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		tag = USA
-		#NOT = {
-			#OR = {
-				#has_completed_focus = USA_voter_registration_act
-				#has_completed_focus = USA_union_representation_act
-			#}
-		#}
 	}
 
 	immediate = {
@@ -3070,93 +3139,18 @@ country_event = {
 	}
 }
 
-country_event = {
+news_event = {
 	id = usa.104
 	title = usa.104.t
 	desc = usa.104.d
-	picture = GFX_report_event_FDR_speech
+	picture = GFX_news_event_fdr_radio
 
 	is_triggered_only = yes
 	
 	option = {
-		name = usa.104.a
-		add_war_support = 0.05
-		hidden_effect = {
-			play_song = "Johnny Comes Marching Home"
-			if = { limit = { OR = { is_ai = no has_global_flag = ai_speeches } } 
-				sound_effect = sp_usa_dayofinfamy
-			}
-		}
-		if = {
-			limit = {
-				is_ai = yes
-			}
-			add_ideas = USA_ai_handicap
-		}
-		if = {
-			limit = {
-				has_completed_focus = USA_two_ocean_navy
-			}
-			swap_ideas = {
-				add_idea = ocean_navy
-				remove_idea = ocean_navy_no_war
-			}
-				random_owned_controlled_state = {
-					limit = {
-						is_coastal = yes
-					}
-					add_building_construction = {
-						type = dockyard
-						level = 4
-						instant_build = yes
-					}
-					add_extra_state_shared_building_slots = 4
-				}
-				random_owned_controlled_state = {
-					limit = {
-						is_coastal = yes
-					}
-					add_building_construction = {
-						type = dockyard
-						level = 3
-						instant_build = yes
-					}
-					add_extra_state_shared_building_slots = 4
-				}
-				random_owned_controlled_state = {
-					limit = {
-						is_coastal = yes
-					}
-					add_building_construction = {
-						type = dockyard
-						level = 3
-						instant_build = yes
-					}
-					add_extra_state_shared_building_slots = 3
-				}
-				random_owned_controlled_state = {
-					limit = {
-						is_coastal = yes
-					}
-					add_building_construction = {
-						type = dockyard
-						level = 2
-						instant_build = yes
-					}
-					add_extra_state_shared_building_slots = 2
-				}
-				random_owned_controlled_state = {
-					limit = {
-						is_coastal = yes
-					}
-					add_building_construction = {
-						type = dockyard
-						level = 2
-						instant_build = yes
-					}
-					add_extra_state_shared_building_slots = 2
-				}
-		}
+		name = usa.114.a
+		effect_tooltip = { USA = { add_war_support = 0.04 } }
+		
 	}
 }
 
@@ -3344,3 +3338,413 @@ country_event = {
 		effect_tooltip = { VEN = { add_stability = -0.08 } }
 	}
 }
+country_event = { #Tied to Housing Authority Focus
+    id = usa.113
+
+    is_triggered_only = yes
+    
+    hidden = yes  #timeout
+    timeout_days = 1
+    trigger = {
+        has_war = no
+        check_variable = {housing < 14}
+    }
+        
+        
+    immediate = {
+		if = {
+			limit = {
+				check_variable = {
+					var = housing
+					value = 14
+					compare = greater_than_or_equals
+				}
+			}
+			clear_variable = housing
+		}
+		else_if = {
+			limit = {
+				check_variable = {housing < 14}
+			}
+			
+			country_event = { id = usa.113 days = 60 }
+			add_to_variable = { housing = 1 }
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = USA
+					is_fully_controlled_by = USA
+					NOT = { has_state_category = tiny_island }
+					NOT = { has_state_category = small_island }
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+    }
+}
+# lend lease act
+news_event = {
+	id = usa.114
+	title = usa.114.t
+	desc = usa.114.d
+	picture = GFX_news_event_fdr_radio
+	
+        is_triggered_only = yes
+	
+	option = {
+	        trigger = { OR = { tag = USA is_in_faction_with = USA is_in_faction_with = ENG } }
+	        name = usa.114.a
+		effect_tooltip = {
+		    every_country = {
+				limit = {
+					is_in_faction_with = ENG
+					
+				}
+				add_popularity = {
+				ideology = democratic
+				popularity = 0.01
+			}
+			add_stability = 0.02
+			}
+		}
+	}
+	option = {
+	        trigger = { NOT = { OR = { tag = USA is_in_faction_with = USA is_in_faction_with = ENG } } }
+	        name = usa.114.b
+			effect_tooltip = {
+		    every_country = {
+				limit = {
+					is_in_faction_with = ENG
+					
+				}
+				add_popularity = {
+				ideology = democratic
+				popularity = 0.01
+			}
+			add_stability = 0.02
+			}
+		}
+	}
+}
+# arsenal of democracy
+news_event = {
+	id = usa.115
+	title = usa.115.t
+	desc = usa.115.d
+	picture = GFX_news_event_fdr_radio
+	
+        is_triggered_only = yes
+	
+	option = {
+	        trigger = { has_government = democratic }
+	        name = usa.114.a
+			every_country = {
+				limit = {
+					has_government = democratic
+					
+				}
+				add_popularity = {
+					ideology = democratic
+					popularity = 0.03
+			    }
+			}
+		
+	}
+	option = {
+	        trigger = { NOT = { has_government = democratic } }
+	        name = usa.114.b
+			every_country = {
+				limit = {
+					has_government = democratic
+					
+				}
+				add_popularity = {
+					ideology = democratic
+					popularity = 0.03
+			    }
+			}
+	}
+}
+# quarantine speech
+news_event = {
+	id = usa.116
+	title = usa.116.t
+	desc = usa.116.d
+	picture = GFX_news_event_fdr_radio
+	
+        is_triggered_only = yes
+	
+	option = {
+	        trigger = { has_government = democratic }
+	        name = usa.114.a
+			effect_tooltip = {
+			every_country = {
+				limit = {
+					OR = { has_government = fascism is_in_faction_with = GER }	
+				}
+				add_opinion_modifier = { target = USA modifier = quarantine_speech }
+			}
+			}
+		
+	}
+	option = {
+	        trigger = { NOT = { has_government = democratic } }
+	        name = usa.114.b
+			effect_tooltip = {
+			every_country = {
+				limit = {
+					OR = { has_government = fascism is_in_faction_with = GER }	
+				}
+				add_opinion_modifier = { target = USA modifier = quarantine_speech }
+			}
+			}
+	}
+}
+# Embagoed by USA
+country_event = {
+	id = usa.117
+	title = usa.117.t
+	desc = usa.117.d
+	picture = GFX_report_event_usa_embargo
+	
+    is_triggered_only = yes
+	
+	option = {
+	       name = usa.114.b
+		effect_tooltip = {
+		}
+	}
+}
+
+country_event = { #Fate of Hawaii - what to do with them?
+	id = usa.118
+	title = usa.118.t
+	desc = usa.118.desc
+	picture = GFX_report_event_women_air
+
+	is_triggered_only = yes
+	option = { 	
+		name = usa.118.a #FREEEDOM!
+		ai_chance = {
+			factor = 25
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+		if = {
+			limit = {
+				any_state = {
+					is_core_of = HAW
+					is_owned_by = ROOT
+				}
+			}
+			effect_tooltip ={
+				release = HAW
+			}
+			hidden_effect = {
+				if = {
+					limit = { HAW = { exists = no } }
+					release = HAW
+					HAW = { save_event_target_as = released_nation_target }
+				}
+				else = {
+					create_dynamic_country = {
+						original_tag = HAW
+						
+						save_event_target_as = released_nation_target
+						ROOT = {
+							every_owned_state = {
+								limit = { is_core_of = HAW }
+								ROOT = { transfer_state = HAW }
+							}
+						}
+					}
+				}
+				diplomatic_relation = {
+					country = HAW
+					relation = docking_rights
+					active = yes
+				}
+				ROOT = {give_guarantee = HAW }
+			}
+		}
+		USA_congress_medium_support = yes
+	}
+
+	option = { 	
+		name = usa.118.b #Some autonomy
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+		add_political_power = 15
+		USA_congress_small_support = yes
+		effect_tooltip ={
+			release_puppet = HAW
+		}
+			
+		hidden_effect = {
+			if = {
+				limit = { HAW = { exists = no } }
+				release_puppet = HAW 
+				set_autonomy = { target = HAW autonomy_state = autonomy_protectorate }
+				HAW = { save_event_target_as = released_nation_target }
+			}
+			else = {
+				create_dynamic_country = {
+					original_tag = HAW
+					
+					save_event_target_as = released_nation_target
+					ROOT = {
+						every_owned_state = {
+							limit = { is_core_of = HAW }
+							ROOT = { transfer_state = HAW }
+						}
+					}
+					ROOT = {
+						puppet = HAW
+						set_autonomy = { target = HAW autonomy_state = autonomy_protectorate }
+					}
+				}
+			}
+		}
+	}
+
+	option = { 	
+		name = usa.118.c #Integration
+		ai_chance = {
+			factor = 50
+		}
+		add_political_power = -25
+		every_state = {
+			limit = {
+				is_core_of = HAW
+			}
+			add_core_of = ROOT
+		}
+		USA_congress_small_opposition = yes
+	}
+}
+
+country_event = {
+	id = usa.119
+	title = usa.119.t
+	desc = usa.119.d
+	picture = GFX_report_event_usa_embargo
+	
+    is_triggered_only = yes
+	
+	option = {
+	    name = usa.114.b
+		add_stability = 0.03
+		navy_experience = 20
+		add_opinion_modifier = { target = USA modifier = USA_special_relationship }
+	}
+}
+
+country_event = {
+	id = usa.120
+	title = usa.120.t
+	desc = usa.120.d
+	picture = GFX_report_event_abandoned_surrendered_weapons
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = {
+			factor = 50
+		}
+		name = usa.114.b
+		add_offsite_building = { type = arms_factory level = 2 }
+			    add_offsite_building = { type = industrial_complex level = 2 }
+	}
+}
+
+country_event = {
+	id = usa.121
+	title = usa.121.t
+	desc = usa.121.d
+	picture = GFX_report_event_abandoned_surrendered_weapons
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = {
+			factor = 50
+		}
+		name = usa.114.b
+		USA = {
+				send_equipment = {
+					target = CHI
+					type = infantry_equipment
+					amount = 1000
+					old_prioritised = yes
+				}
+				send_equipment = {
+					target = CHI
+					type = infantry_uniforms
+					amount = 500
+					old_prioritised = yes
+				}
+			}
+	}
+}
+
+country_event = {
+	id = usa.122
+	title = usa.122.t
+	desc = usa.122.d
+	picture = GFX_report_event_china_flying_tigers
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = {
+			factor = 50
+		}
+		name = usa.114.b
+		USA = {
+				send_equipment = {
+					target = CHI
+					type = us_fighter_equipment_2_a
+					amount = 200
+					old_prioritised = yes
+				}
+			}
+		air_experience = 10
+	}
+}
+
+country_event = {
+	id = usa.123
+	title = usa.123.t
+	desc = usa.123.d
+	picture = GFX_report_event_abandoned_surrendered_weapons
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = {
+			factor = 50
+		}
+		name = usa.114.b
+		USA = {
+				send_equipment = {
+					target = FIN
+					type = infantry_equipment
+					amount = 1000
+					old_prioritised = yes
+				}
+			}
+		army_experience = 5
+	}
+}
+

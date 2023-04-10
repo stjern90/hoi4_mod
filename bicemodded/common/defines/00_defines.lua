@@ -161,6 +161,12 @@ NDiplomacy = {
 	BASE_CONDITIONAL_PEACE_MONTHS = 3,				-- War length must be before a surrender is possible.
 	JOINING_NAP_WAR_PENALTY = 0.2,					-- War support penalty for breaking non-breakable NAP
 	BREAKING_GUARANTEE_PENALTY = 0.2,				-- War support penalty for breaking guarantee
+	
+	-- WARNING ! if you modify the following values, you should update corresponding loc keys in games_rules_l_english.yml
+	PEACE_SCORE_TRANSFERRED_TO_FACTION_LEADER = 0.1, 		-- Part of the peace score transferred from the faction members to the faction leader (if game rule enabled)
+	PEACE_SCORE_RESET_LOW_SCORE_THRESHOLD = 0.05,			-- Winners with less than this ratio of war participation will give all their score to other players
+	PEACE_SCORE_RESET_LOW_SCORE_MINIMUM_FOR_RECEIVER = 0.1, -- Disable the previous, if no winner has at least this ratio of war participation
+	
 	PEACE_SCORE_SCALE_FACTOR = 1.35,                -- Losers' total value times this factor becomes the default total peace conference score that is distributed to the winners.
 
 	PEACE_SCORE_MINOR_BOOST_FRACTION = 0.05,        -- Low-scoring winners are boosted by receiving more of their score earlier. This value, multiplied by the total score distributed this turn, is the minimum score they will receive (up until their total allocated score).
@@ -236,7 +242,7 @@ NDiplomacy = {
 	FACTION_LEADERSHIP_CHANGE_FACTORY_WEIGHT = 2,			-- Importance of factory count when determining how close a faction member is to being able to assume leadership.
 	EMBARGO_COST = 100,										-- One-time cost
 	REVOKE_EMBARGO_COST = 0,								-- Cost to remove an existing embargo
-	EMBARGO_THREAT_THRESHOLD = 30,						-- Target-generated threat threshold to allow embargo (affected by modifiers)
+	EMBARGO_THREAT_THRESHOLD = 40,						-- Target-generated threat threshold to allow embargo (affected by modifiers)
 
 	EMBARGO_SAME_IDEOLOGY_AI_WEIGHT = -20,				-- AI weight for same ideology
 	EMBARGO_DIFFERENT_IDEOLOGY_AI_WEIGHT = 15,			-- AI weight for different ideology
@@ -333,13 +339,13 @@ NCountry = {
 	AUTONOMOUS_SPILLOVER = 0.025,					-- Total score that can be saved to reach next level
 	CIVIL_WAR_INVOLVEMENT_MIN_TENSION = 0.7,		-- base value of world tension to involve other sides to the civil war
 	UNCAPITULATE_LEVEL = 0.2,                       -- if we reclaim this much and our capital we reset capitulate status
-	BASE_SURRENDER_LIMIT = 0.7,						-- Base level of occupation required for country surrender
+	BASE_SURRENDER_LIMIT = 0.65,						-- Base level of occupation required for country surrender
 	SURRENDER_LIMIT_MULT_FOR_COUNTRIES_WITH_NO_CORES = 0.7, -- Countries with no owned cores will their surrender level multiplied by this amount
 	MIN_SURRENDER_LIMIT = 0.1,						-- Minimum non-forced surrender limit. valid 0-1 
 	BASE_MOBILIZATION_SPEED = 0.01,				-- Base speed of manpower mobilization  #in 1/1000 of 1 %
 	
-	INTERCEPTION_WAR_SUPPORT_SCALE = 0.00002,		-- Scaling of interceptions to war support impact
-	INTERCEPTION_BOMBING_WAR_SUPPORT_IMPACT = 0.15,	-- Max impact of interceptions on the war support
+	INTERCEPTION_WAR_SUPPORT_SCALE = 0.00001,		-- Scaling of interceptions to war support impact
+	INTERCEPTION_BOMBING_WAR_SUPPORT_IMPACT = 0.05,	-- Max impact of interceptions on the war support
 
 	BOMBING_WAR_SUPPORT_PENALTY_SCALE = -0.0001, 			-- Scaling of bomber damage to war support impact, will be added weekly as a war support penalty
 	MAX_BOMBING_WEEKLY_WAR_SUPPORT_PENALTY = -0.006,			-- Max penalty that will gained per week from bomber's damage
@@ -378,7 +384,7 @@ NCountry = {
 	PROPAGANDA_WAR_SUPPORT_DAILY_DECAY = 0.002,		-- Amount of war support recovered daily from war support effort
 	MIN_NATIONAL_COVERAGE_FOR_PROPAGANDA = 0.01,			-- Minimum network coverage required to start the mission (the code ensures that a network exists at all)
 	NUM_DAYS_TO_FULLY_DELETE_STOCKPILED_EQUIPMENT = 90,	 -- time in days to fully delete equipments from stockpile. when you delete an equipment, they go to a temporary hidden pool which still can be seized 
-	AIR_SUPPLY_CONVERSION_SCALE = 0.0005,				-- Conversion scale for planes to air supply
+	AIR_SUPPLY_CONVERSION_SCALE = 0.005,				-- Conversion scale for planes to air supply
 	AIR_SUPPLY_DROP_EXPIRATION_HOURS = 168,			-- Air drop length after being dropped
 	STARTING_COMMAND_POWER = 0.0,					-- starting command power for every country
 	BASE_MAX_COMMAND_POWER = 100.0,					-- base value for maximum command power
@@ -561,7 +567,7 @@ NProduction = {
 	EFFICIENCY_LOSS_PER_UNUSED_DAY = 0.45,		-- Daily loss of efficiency for unused factory slots ( efficiency is tracked per factory slot in the production line )
 	RESOURCE_PENALTY_WARNING_CRITICAL_RATIO = 0.75, -- Switch to red progress bar if penalty is over threshold 
 	BASE_FACTORY_SPEED = 3, 				-- Base factory speed multiplier (how much hoi3 style IC each factory gives).
-	BASE_FACTORY_SPEED_MIL = 3.05, 				-- Base factory speed multiplier (how much hoi3 style IC each factory gives).
+	BASE_FACTORY_SPEED_MIL = 3.0, 				-- Base factory speed multiplier (how much hoi3 style IC each factory gives).
 	BASE_FACTORY_SPEED_NAV = 2.6, 				-- Base factory speed multiplier (how much hoi3 style IC each factory gives).
 	BASE_FACTORY_START_EFFICIENCY_FACTOR = 25,	-- Base start efficiency for factories expressed in %.
 	BASE_FACTORY_MAX_EFFICIENCY_FACTOR = 60,	-- Base max efficiency for factories expressed in %.
@@ -611,7 +617,7 @@ NTechnology = {
 	BASE_RESEARCH_POINTS_SAVED = 50.0,		-- Base amount of research points a country can save per slot.
 	BASE_YEAR_AHEAD_PENALTY_FACTOR = 2.5,		-- 3 Base year ahead penalty
 	BASE_TECH_COST = 110,					-- base cost for a tech. multiplied with tech cost and ahead of time penalties
-	MAX_TECH_SHARING_BONUS = 0.5, 			-- Max technology sharing bonus that can be applied instantly
+	MAX_TECH_SHARING_BONUS = 0.4, 			-- Max technology sharing bonus that can be applied instantly
 	LICENSE_PRODUCTION_TECH_BONUS = 0.2,	-- License production tech bonus
     DEFAULT_XP_UNLOCK_RESEARCH_COST = 0,			-- default xp cost of a research to unlock directly
 	DEFAULT_XP_BOOST_RESEARCH_COST = 0,				-- default xp cost of a research to speed up the process
@@ -840,7 +846,7 @@ NMilitary = {
 	SLOWEST_SPEED = 1.2,
 	REINFORCEMENT_REQUEST_MAX_WAITING_DAYS = 14,   -- Every X days the equipment will be sent, regardless if still didn't produced all that has been requested.
 	REINFORCEMENT_REQUEST_DAYS_FREQUENCY = 7,	   -- How many days must pass until we may give another reinforcement request
-	EXPERIENCE_COMBAT_FACTOR = 0.05,
+	EXPERIENCE_COMBAT_FACTOR = 0.06,
 	UNIT_DIGIN_CAP = 5,                           -- how "deep" you can dig you can dig in until hitting max bonus
 	UNIT_DIGIN_SPEED = 1,						   -- how "deep" you can dig a day.
 	PARACHUTE_FAILED_EQUIPMENT_DIV = 10.0,		   -- When the transport plane was shot down, we drop unit with almost NONE equipment
@@ -975,7 +981,7 @@ NMilitary = {
 	STRATEGIC_SPEED_INFRA_MAX = 5.0,               -- Additional speed of strategic redeployment on max-level infrastructure
 	STRATEGIC_SPEED_RAIL_BASE = 12.0,               -- Base speed of strategic redeployment when on railways
 	STRATEGIC_SPEED_RAIL_MAX = 20.0,                -- Additional speed of strategic redeployment on max-level railways
-	STRATEGIC_REDEPLOY_ORG_RATIO = 0.45,				-- Ratio of max org while strategic redeployment
+	STRATEGIC_REDEPLOY_ORG_RATIO = 0.4,				-- Ratio of max org while strategic redeployment
 	BATALION_NOT_CHANGED_EXPERIENCE_DROP = 0.04,		-- Division experience drop if unit has same batalion
 	BATALION_CHANGED_EXPERIENCE_DROP = 0.75,			-- Division experience drop if unit has different batalion
 	ARMOR_VS_AVERAGE = 0.50,			                -- how to weight in highest armor & pen vs the division average
@@ -1208,7 +1214,7 @@ NAir = {
 	AIR_COMBAT_FINAL_DAMAGE_PLANES_FACTOR = 0.1,
 	AA_INDUSTRY_AIR_DAMAGE_FACTOR = -0.09,				-- 5x levels = 45% defense from bombing, with all techs 15%x5 = 75%
 	NAVAL_STRIKE_DETECTION_BALANCE_FACTOR = 0.5,		-- Value used to scale the surface_visibility stats to balance the gameplay, so 100% detection chance still won't spam the strikes.
-	NAVAL_RECON_DETECTION_BALANCE_FACTOR = 0.7,			-- Value used to scale the surface_visibility stats to balance the gameplay, so 100% detection chance still won't spam spotting.
+	NAVAL_RECON_DETECTION_BALANCE_FACTOR = 0.5,			-- Value used to scale the surface_visibility stats to balance the gameplay, so 100% detection chance still won't spam spotting.
 	LEND_LEASED_EQUIPMENT_EXPERIENCE_GAIN = 0.5,		-- Value used for equipment
 	ANTI_AIR_PLANE_DAMAGE_FACTOR = 0.4,					-- Anti Air Gun Damage factor
 	ANTI_AIR_PLANE_DAMAGE_CHANCE = 0.15,					-- Anti Air Gun hit chance
@@ -1223,7 +1229,7 @@ NAir = {
 	AIR_MORE_GROUND_CREWS_COST = 20.0,					-- CP cost to maintain more ground crews
 	AIR_MORE_GROUND_CREWS_BOOST = 0.1,					-- Efficienct boost for more ground crews
 
-	EFFICIENCY_REGION_CHANGE_PENALTY_FACTOR = 0.9,				-- Penalty applied for changing region
+	EFFICIENCY_REGION_CHANGE_PENALTY_FACTOR = 0.8,				-- Penalty applied for changing region
 	-- Gain should be changed in increments of 0.024 due to precision.
 	EFFICIENCY_REGION_CHANGE_DAILY_GAIN_DEFAULT = 1,	-- Default how much efficiency to regain per day. Gain applied hourly.
 	EFFICIENCY_REGION_CHANGE_DAILY_GAIN_CAS = 0.888,				-- How much efficiency to regain per day. Gain applied hourly.
@@ -1248,7 +1254,7 @@ NAir = {
 	AIR_WING_XP_LOSS_REDUCTION_OVER_FRIENDLY_TERRITORY_FACTOR = 0.3, 	--Reduction on XP loss over friendly territory
 
 	DISRUPTION_FACTOR = 2.4,									-- multiplier on disruption damage to scale its effects on planes
-	DISRUPTION_FACTOR_CARRIER = 1.0,							-- multiplier on disruption damage to scale its effects on carrier vs carrier planes
+	DISRUPTION_FACTOR_CARRIER = 2.0,							-- multiplier on disruption damage to scale its effects on carrier vs carrier planes
 	DISRUPTION_SPEED_FACTOR = 1.0,
 	DISRUPTION_AGILITY_FACTOR = 0.75,
 	DISRUPTION_ATTACK_FACTOR = 1.0,
@@ -1263,7 +1269,7 @@ NAir = {
 	
 	CARRIER_PLANES_AMOUNT_FOR_POSITIONING = 70,         -- below this amount of planes on a carrier we no longer get max benefit on enemy positioning 
 	
-	CAS_NIGHT_ATTACK_FACTOR = 0.1,                      -- CAS damaged get multiplied by this in land combats at night
+	CAS_NIGHT_ATTACK_FACTOR = 0.2,                      -- CAS damaged get multiplied by this in land combats at night
 	
 	AIR_WING_ATTACK_LOGISTICS_NO_TRUCK_DISRUPTION_FACTOR = 0.02, -- If a unit isn't motorized, still disrupt its supply by damage * this
 	AIR_WING_ATTACK_LOGISTICS_TRUCK_DAMAGE_FACTOR = 0.08,
@@ -1763,7 +1769,7 @@ NNavy = {
 	MAX_POSITIONING_PENALTY_FOR_NEWLY_JOINED_SHIPS 					= 0.25,  -- the accumulated penalty from new ships will be clamped to this value
 	POSITIONING_PENALTY_HOURLY_DECAY_FOR_NEWLY_JOINED_SHIPS			= 0.002,-- the accumulated penalty from new ships will decay hourly by this value
 	
-	DAMAGE_PENALTY_ON_MINIMUM_POSITIONING 							= 0.6, -- damage penalty at 0% positioning
+	DAMAGE_PENALTY_ON_MINIMUM_POSITIONING 							= 0.65, -- damage penalty at 0% positioning
 	SCREENING_EFFICIENCY_PENALTY_ON_MINIMUM_POSITIONING				= 0.25,  -- screening efficiency (screen to capital ratio) at 0% positioning
 	AA_EFFICIENCY_PENALTY_ON_MINIMUM_POSITIONING					= 0.1,  -- AA penalty at 0% positioning
 	SUBMARINE_REVEAL_ON_MINIMUM_POSITIONING                         = 0.1,  -- submarine reveal change on 0% positioning 
@@ -1779,9 +1785,9 @@ NNavy = {
 	CHANCE_TO_DAMAGE_PART_ON_CRITICAL_HIT_FROM_AIR					= 0.1,	-- the game will roll between 0-1 and will damage a random part if below this val on air critical hits
 	
 	SCREEN_RATIO_FOR_FULL_SCREENING_FOR_CAPITALS 					= 3.0,	-- this screen ratio to num capital/carriers is needed for full screening beyond screen line
-	SCREEN_RATIO_FOR_FULL_SCREENING_FOR_CONVOYS 					= 0.5,	-- this screen ratio to num convoys is needed for full screening beyond screen line
+	SCREEN_RATIO_FOR_FULL_SCREENING_FOR_CONVOYS 					= 0.2,	-- this screen ratio to num convoys is needed for full screening beyond screen line
 	CAPITAL_RATIO_FOR_FULL_SCREENING_FOR_CARRIERS 					= 1.0,  -- this capital ratio to num carriers is needed for full screening beyond screen line
-	CAPITAL_RATIO_FOR_FULL_SCREENING_FOR_CONVOYS 					= 0.25,  -- this capital ratio to num convoys is needed for full screening beyond screen line
+	CAPITAL_RATIO_FOR_FULL_SCREENING_FOR_CONVOYS 					= 0.1,  -- this capital ratio to num convoys is needed for full screening beyond screen line
 	
 	TASK_FORCE_ROLE_TO_INSIGNIA = {								-- define the index of the insignia to use for a task force designed for a specific role
 		6,	-- Role underfund
@@ -2018,7 +2024,7 @@ NAI = {
 	RESEARCH_AIR_DOCTRINE_NEED_GAIN_FACTOR = 0.07, -- Multiplies value based on relative number of air base / country size.
 	RESEARCH_NEW_WEIGHT_FACTOR = 0.5,			-- Impact of previously unexplored tech weights. Higher means more random exploration.
 	RESEARCH_NEW_DOCTRINE_RANDOM_FACTOR = 0.05,	-- How much randomness is allowed to contribute to do new research expressed as a factor of total tech weights. Higher means more random exploration.
-	RESEARCH_AHEAD_BONUS_FACTOR = 2.5,          -- To which extent AI should care about ahead of time bonuses to research
+	RESEARCH_AHEAD_BONUS_FACTOR = 2.7,          -- To which extent AI should care about ahead of time bonuses to research
 	RESEARCH_BONUS_FACTOR = 5, 				-- To which extent AI should care about bonuses to research
 	MAX_AHEAD_RESEARCH_PENALTY = 3.3,
 	RESEARCH_AHEAD_OF_TIME_FACTOR = 6.5, 		-- To which extent AI should care about ahead of time penalties to research
@@ -2052,6 +2058,8 @@ NAI = {
 	DIPLOMACY_ACCEPT_CONDITIONAL_SURRENDER_EMBARGO = 2,				-- Multiplied by num embargo, max 5 embargo
 	DIPLOMACY_ACCEPT_CONDITIONAL_SURRENDER_OWN_SURRENDER_LIMIT = 20, -- Multiplied by recipient nation's surrender level
 	DIPLOMACY_ACCEPT_CONDITIONAL_SURRENDER_MINOR_WAR = 10,			-- Applied if recipient is a minor nation (and therefore there are no majors in this war)
+	
+	MIN_POLITICAL_POWER_MONTHLY_GAIN_FOR_IMPROVE_RELATIONS = 0.50,	-- If country makes less than this PP per month, they won't improve relations
 
 	NUM_RESOURCES_TO_ALLOW_MINOR_EMBARGO = 69,	--If we or any of our puppets have more total resources of a single category that this, we will consider embargoing countries
 	EMBARGO_WORLD_TENSION_THREAT_DIVISOR = 2.5,		--A divisor to generated world tension when applying how much we care about it in AI desire
@@ -2119,8 +2127,9 @@ NAI = {
 	DAYS_BETWEEN_CHECK_BEST_TEMPLATE = 12;       -- Recalculate desired best template to upgrade with this many days inbetween.
 	DAYS_BETWEEN_CHECK_BEST_EQUIPMENT = 12;      -- Recalculate desired best equipment to upgrade with this many days inbetween.
 	
-	UNLOCK_SPIRIT_AI_WILL_DO_FACTOR = 10,       -- Factor for scripted ai_will_do value
-	UNLOCK_SPIRIT_MODIFIER_FACTOR = 0.1,        -- Factor for AI's evaluated value of the modifiers connected to the spirit
+	UNLOCK_SPIRIT_AI_WILL_DO_FACTOR = 20,              -- Factor for scripted ai_will_do value
+	UNLOCK_SPIRIT_MODIFIER_FACTOR = 0.05,              -- Factor for AI's evaluated value of the modifiers connected to the spirit
+	UNLOCK_SPIRIT_USE_TRUNCATION_SELECT = false,       -- Whether to use truncation select or roulette-wheel select. Set threshold for truncation select below.
 	UNLOCK_SPIRIT_TRUNCATION_SELECT_THRESHOLD = 0.80,  -- Valid between [0.0, 1.0]. When unlocking spirits, select randomly from all spirits with AI score >= VALUE * HighestSpiritScore. To always select the best, set this value to 1.0. To select fully randomly, set this value to 0.0.
 	
 	FOCUS_TREE_CONTINUE_FACTOR = 1.5,			-- Factor for score of how likely the AI is to keep going down a focus tree rather than starting a new path.
@@ -3017,7 +3026,7 @@ NAI = {
 	AI_UPDATE_ROLES_FREQUENCY_HOURS = 96;               -- Update the roles for a country AI this often (affects performance)
 
 	UPDATE_SUPPLY_BOTTLENECKS_FREQUENCY_HOURS = 168;     -- Check for and try to fix supply bottlenecks this often. (168 hours = 1 week)
-	FIX_SUPPLY_BOTTLENECK_SATURATION_THRESHOLD = 0.75;  -- Try to fix supply bottlenecks if supply node saturation exceeds this value.
+	FIX_SUPPLY_BOTTLENECK_SATURATION_THRESHOLD = 0.8;  -- Try to fix supply bottlenecks if supply node saturation exceeds this value.
 
 	UPDATE_SUPPLY_MOTORIZATION_FREQUENCY_HOURS = 52;     -- Check if activating motorization would improve supply situation this often.
 

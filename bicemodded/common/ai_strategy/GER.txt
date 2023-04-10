@@ -5,21 +5,10 @@ GER_construction_1 = {
 		original_tag = GER
 	}
 	enable = {
-		date < 1938.1.1
+		date < 1937.10.2
 	}
 
 	abort_when_not_enabled = yes
-
-	ai_strategy = {
-		type = building_target
-		id = synthetic_rubber_refinery
-		value = 6
-	}
-	ai_strategy = {
-		type = building_target
-		id = synthetic_refinery
-		value = 4
-	}
 	
 	ai_strategy = {
 		type = building_target
@@ -44,7 +33,7 @@ GER_construction_2 = {
 		original_tag = GER
 	}
 	enable = {
-	    date > 1938.1.1
+	    date > 1937.10.1
 		date < 1938.11.2
 	}
 
@@ -53,12 +42,12 @@ GER_construction_2 = {
 	ai_strategy = {
 		type = building_target
 		id = synthetic_rubber_refinery
-		value = 9
+		value = 5
 	}
 	ai_strategy = {
 		type = building_target
 		id = synthetic_refinery
-		value = 5
+		value = 3
 	}
 	
 	ai_strategy = {
@@ -75,7 +64,7 @@ GER_construction_2 = {
 	ai_strategy = {
 		type = building_target
 		id = arms_factory
-		value = 133
+		value = 136
 	}
 }
 
@@ -85,7 +74,7 @@ GER_construction_3 = {
 	}
 	enable = {
 	    date > 1938.11.1
-		date < 1939.12.1
+		date < 1939.12.2
 	}
 
 	abort_when_not_enabled = yes
@@ -93,12 +82,12 @@ GER_construction_3 = {
 	ai_strategy = {
 		type = building_target
 		id = synthetic_rubber_refinery
-		value = 11
+		value = 8
 	}
 	ai_strategy = {
 		type = building_target
 		id = synthetic_refinery
-		value = 6
+		value = 4
 	}
 	
 	ai_strategy = {
@@ -125,7 +114,7 @@ GER_construction_4 = {
 	}
 	enable = {
 	    date > 1939.12.1
-		date < 1944.1.1
+		date < 1941.8.2
 	}
 
 	abort_when_not_enabled = yes
@@ -133,19 +122,14 @@ GER_construction_4 = {
 	ai_strategy = {
 		type = building_target
 		id = synthetic_rubber_refinery
-		value = 13
+		value = 6
 	}
 	ai_strategy = {
 		type = building_target
 		id = synthetic_refinery
-		value = 10
+		value = 4
 	}
 	
-	ai_strategy = {
-		type = building_target
-		id = industrial_complex
-		value = 190
-	}
 	
 	ai_strategy = {
 		type = building_target
@@ -156,6 +140,30 @@ GER_construction_4 = {
 		type = building_target
 		id = arms_factory
 		value = 275
+	}
+}
+
+GER_construction_5 = { 
+	allowed = {
+		original_tag = GER
+	}
+	enable = {
+	    date > 1941.8.1
+		date < 1944.1.1
+	}
+
+	abort_when_not_enabled = yes
+	
+	
+	ai_strategy = {
+		type = building_target
+		id = dockyard
+		value = 35
+	}
+	ai_strategy = {
+		type = building_target
+		id = arms_factory
+		value = 295
 	}
 }
 
@@ -278,6 +286,7 @@ GER_fallblau = {
 	
 	ai_strategy = {
 		type = front_control
+		priority = 10
 		country_trigger = {
 			original_tag = SOV
 		}
@@ -285,6 +294,28 @@ GER_fallblau = {
 		execution_type = balanced
 		execute_order = yes
 		manual_attack = yes
+	}
+}
+
+GER_barba_pause = {
+	allowed = { OR = { tag = GER original_tag = BUL original_tag = ROM original_tag = HUN original_tag = ITA } }
+	enable = {
+	    OR = { is_in_faction_with = GER tag = GER }
+        has_war_with = SOV
+		check_variable = { TW_inf_fielded_eq_ratio < 0.85 }
+		check_variable = { TW_uniform_fielded_eq_ratio < 0.85 }
+	}
+	abort_when_not_enabled = yes
+	
+	ai_strategy = {
+		type = front_control
+		priority = 12
+		country_trigger = {
+			original_tag = SOV
+		}
+		ordertype = front
+		execution_type = careful
+		execute_order = no
 	}
 }
 
@@ -485,6 +516,7 @@ stop_hitting_yourself = {
 	enable = {
 		has_war_with = POL
 		NOT = { has_war_with = BEL }
+		NOT = { has_war_with = HOL }
         date < 1940.4.1
 		is_historical_focus_on = yes
 	}
@@ -493,11 +525,12 @@ stop_hitting_yourself = {
 	ai_strategy = {
 		type = front_control
 		country_trigger = {
-			original_tag = BEL
+			OR = { original_tag = BEL original_tag = LUX original_tag = HOL }
 		}
 		ordertype = front
-		execute_order = no
 		execution_type = careful
+		execute_order = no
+		manual_attack = no
 	}
 }
 
@@ -509,7 +542,13 @@ war_with_poland = {
 		has_completed_focus = GER_demand_memel
 		POL = { has_capitulated = no } 
 		country_exists = POL
-		has_global_flag = sov_yes_pact
+		OR = { 
+		has_global_flag = sov_yes_pact 
+		AND = {
+		is_historical_focus_on = yes
+		date > 1939.6.1
+		}
+		}
 		NOT = { owns_state = 85  }
 		NOT = { is_in_faction_with = POL }
 	}
@@ -527,7 +566,7 @@ war_with_poland = {
 		country_trigger = {
 			tag = POL
 		}
-		value = 110
+		value = 90
 	}
 	ai_strategy = {
 		type = front_unit_request
@@ -654,7 +693,7 @@ GER_war_with_soviets_prepare = {
 		original_tag = GER
 	}
 	enable = {
-		focus_progress = { focus = GER_prepare_to_invade_the_ussr progress > 0 }
+		OR = { focus_progress = { focus = GER_prepare_to_invade_the_ussr progress > 0 } date > 1941.4.20 }
 		country_exists = SOV
 	}
 	abort = {
@@ -688,7 +727,7 @@ GER_war_with_soviets_prepare = {
 		country_trigger = {
 			tag = SOV
 		}
-		value = 75
+		value = 80
 	}
 	ai_strategy = {
 		type = conquer
@@ -707,15 +746,36 @@ war_with_soviets_weak = {
 		original_tag = GER
 	}
 	enable = {
-		SOV = { OR = { has_idea = Rodina_I has_idea = Disorganized_Red_Army_1 has_idea = Disorganized_Red_Army_2 } }
+		SOV = { 
+		OR = { 
+		has_idea = Rodina_I 
+		has_idea = Disorganized_Red_Army_1 
+		has_idea = Disorganized_Red_Army_2 
+		}
+        NOT = { has_idea = winter_offensive }		
+		}
+		
+		check_variable = { TW_inf_fielded_eq_ratio > 0.89 }
+		check_variable = { TW_uniform_fielded_eq_ratio > 0.87 }
+		
 	}
-	abort = {
-		NOT = { SOV = { OR = { has_idea = Rodina_I has_idea = Disorganized_Red_Army_1 has_idea = Disorganized_Red_Army_2 } } }
-	}
+	abort_when_not_enabled = yes
 	ai_strategy = {
 		type = consider_weak
 		id = "SOV"			
 		value = 100
+	}
+	
+	ai_strategy = {
+		type = front_control
+		priority = 8
+		country_trigger = {
+			original_tag = SOV
+		}
+		ordertype = front
+		execution_type = rush
+		execute_order = yes
+		manual_attack = yes
 	}
 }
 
@@ -1034,7 +1094,7 @@ anschluss_rejected = {
 	ai_strategy = {
 		type = antagonize
 		id = "AUS"			
-		value = 300
+		value = 400
 	}		
 }
 
@@ -1055,8 +1115,18 @@ CZE_is_idiot = {
 	ai_strategy = {
 		type = antagonize
 		id = "CZE"			
+		value = 400
+	}	
+    ai_strategy = {
+		type = declare_war
+		id = "CZE"			
 		value = 300
-	}		
+	}
+	ai_strategy = {
+		type = conquer
+		id = "CZE"			
+		value = 100
+	}	
 }
 
 play_nice_before_ribbentrop_pact = {
@@ -1123,6 +1193,13 @@ play_nice_before_ribbentrop_pact = {
 		id = "LIT"			
 		value = 1
 	}
+	
+	ai_strategy = {
+    	type = diplo_action_desire
+    	id = SOV
+    	value = -500
+    	target = embargo
+    }
 }
 
 play_nice_with_ribbentrop_pact2 = {
@@ -1202,6 +1279,13 @@ play_nice_with_ribbentrop_pact2 = {
 		id = "BUL"
 		value = 40
 	}
+	
+	ai_strategy = {
+    	type = diplo_action_desire
+    	id = SOV
+    	value = -500
+    	target = embargo
+    }
 }
 
 play_nice_with_ribbentrop_pact4 = {
@@ -1342,7 +1426,7 @@ GER_phoney_war_with_fra = {
 		type = front_control
 		state_trigger = {
 			or = {
-				state = 28   # TODO, try only 28?
+				state = 28
 				state = 8
 				state = 34
 			}
@@ -1864,7 +1948,7 @@ GER_make_sure_we_blitz_into_soft_targets = {
 	enable = {
 		has_war_with = FRA
 		POL = { has_capitulated = yes }
-		date > 1940.2.25
+		date > 1940.3.5§
 	}
 	abort = {
 		OR = {
@@ -1880,6 +1964,32 @@ GER_make_sure_we_blitz_into_soft_targets = {
 		}
 		value = 60
 	}
+	ai_strategy = { type = front_armor_score id = BEL value = 400 }
+	ai_strategy = {
+		type = front_unit_request
+		country_trigger = {
+			tag = HOL
+		}
+		value = 25
+	}
+}
+
+GER_make_sure_we_dont_prematurely_hit_ourselves = {
+    allowed = {
+		original_tag = GER
+	}
+	enable = {
+		has_war_with = FRA
+		POL = { has_capitulated = yes }
+		OR = { date > 1940.4.20 has_war_with = BEL }
+	}
+	abort = {
+		OR = {
+			BEL = { has_capitulated = yes }
+			date > 1940.9.1
+		}
+	}
+	
 	ai_strategy = {
 		type = front_control
 		country_trigger = {
@@ -1899,14 +2009,6 @@ GER_make_sure_we_blitz_into_soft_targets = {
 		execution_type = rush
 		execute_order = yes
 		manual_attack = yes
-	}
-	ai_strategy = { type = front_armor_score id = BEL value = 250 }
-	ai_strategy = {
-		type = front_unit_request
-		country_trigger = {
-			tag = HOL
-		}
-		value = 25
 	}
 
 	ai_strategy = {
@@ -1965,18 +2067,28 @@ GER_we_are_bad_at_espionage_because_it_is_expensive_and_not_tanks = {
 		has_dlc = "La Resistance"
 	}
 	enable = {
-		has_government = fascism
-		num_of_civilian_factories < 90
-		num_of_civilian_factories > 30
+	    OR = {
+		    AND = {
+		        date > 1937.1.1
+		        date < 1938.4.1
+		    }
+		    AND = {
+		        date > 1939.12.1
+		        num_of_civilian_factories < 220
+		    }
+		}		
 	}
-	abort = {
-		OR = {
-			num_of_civilian_factories > 90
-		}
-	}
+	abort_when_not_enabled = yes
+
 	ai_strategy = {
 		type = intelligence_agency_usable_factories
-		value = -20
+		value = -50
+	}
+	
+	ai_strategy = {
+		type = intelligence_agency_branch_desire_factor
+		id = branch_intelligence
+		value = -300
 	}
 }
 
@@ -1985,6 +2097,7 @@ axis_vichy_border_garrison = {
 	enable = {
 	    country_exists = VIC
 	    OR = {
+		original_tag = GER
 		is_in_faction_with = GER
 		is_in_faction_with = ENG
 		}
@@ -2000,7 +2113,7 @@ axis_vichy_border_garrison = {
 			has_government = fascism
 		}
 
-		value = -200
+		value = -400
 	}
 }
 
