@@ -59,7 +59,7 @@ focus_tree = {
 #		}
 #	}
 	shared_focus = BALTIC_rejoin_the_railways
-	#shared_focus = BALTIC_restore_workers_republic
+	shared_focus = BALTIC_restore_workers_republic
 	
 	###############################################
 	#### SUSPEND THE CONSTITUTION (HISTORICAL) ####
@@ -67,8 +67,8 @@ focus_tree = {
 	focus = {
 		id = LAT_suspend_the_constitution
 		icon = GFX_focus_LAT_suspend_constitution_of_latvia
-		#mutually_exclusive = { focus = BALTIC_restore_workers_republic }
-		x = 21
+		mutually_exclusive = { focus = BALTIC_restore_workers_republic }
+		x = 34
 		y = 0
 
 		cost = 10
@@ -128,11 +128,54 @@ focus_tree = {
 	}
 
 	focus = {
+		id = LAT_renew_kviesis_term
+		icon = GFX_focus_LAT_renew_kviesis_term
+		prerequisite = { focus = LAT_appease_democrats }
+		mutually_exclusive = { focus = LAT_martial_prime_minister }
+		x = -2
+		y = 1
+		relative_position_id = LAT_appease_democrats
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+		}
+
+		bypass = {
+			
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = {
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = LAT_alberts_kvesis
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = LAT_fricis_menders
+			swap_ideas = {
+				remove_idea = LAT_saeima_idea
+				add_idea = LAT_saeima_idea_dem_1
+			}
+			swap_ideas = {
+				remove_idea = democratic_opposition
+				add_idea = democratic_opposition_idea_1
+			}
+		}
+	}
+
+	focus = {
 		id = LAT_martial_prime_minister
 		icon = GFX_focus_generic_military_mission
 		prerequisite = { focus = LAT_appease_democrats }
-		#mutually_exclusive = { focus = LAT_renew_kviesis_term }
-		x = 0
+		mutually_exclusive = { focus = LAT_renew_kviesis_term }
+		x = 2
 		y = 1
 		relative_position_id = LAT_appease_democrats
 
@@ -166,7 +209,7 @@ focus_tree = {
 	focus = {
 		id = LAT_establish_chambers_of_professions
 		icon = GFX_focus_usa_reestablish_the_gold_standard
-		prerequisite = { focus = LAT_martial_prime_minister }
+		prerequisite = { focus = LAT_martial_prime_minister focus = LAT_renew_kviesis_term }
 		x = -1
 		y = 1
 		relative_position_id = LAT_martial_prime_minister
@@ -178,9 +221,11 @@ focus_tree = {
 		}
 
 		available = {
+			
 		}
 
 		bypass = {
+			
 		}
 
 		cancel_if_invalid = yes
@@ -192,10 +237,220 @@ focus_tree = {
 			add_ideas = LAT_chamber_of_professions
 		}
 	}
+	
+	focus = {
+		id = LAT_restore_saeima
+		icon = GFX_goal_generic_improve_relations
+		prerequisite = { focus = LAT_renew_kviesis_term }
+		x = 0
+		y = 1
+		relative_position_id = LAT_renew_kviesis_term
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+		}
+
+		bypass = {
+			
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = {
+			add_political_power = 100
+			if = {
+				limit = { NOT = { has_idea = LAT_farmers_party_idea } }
+				swap_ideas = {
+					remove_idea = LAT_saeima_idea_dem_1
+					add_idea = LAT_saeima_idea_dem_2
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = LAT_what_is_socialism
+		icon = GFX_focus_prc_agrarian_socialism
+		prerequisite = { focus = LAT_restore_saeima }
+		x = 0
+		y = 1
+		relative_position_id = LAT_restore_saeima
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+		}
+
+		bypass = {
+			
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		complete_tooltip = {
+			add_extra_state_shared_building_slots = 1
+			add_building_construction = {
+				type = industrial_complex
+				level = 2
+				instant_build = yes
+			}
+			every_owned_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}		
+
+		completion_reward = {
+			every_owned_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = industrial_complex
+										size > 0
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = industrial_complex
+										size > 0
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = LAT_renew_the_constitution
+		icon = GFX_goal_support_democracy
+		prerequisite = { focus = LAT_what_is_socialism }
+		prerequisite = { focus = LAT_what_is_capitalism }
+		mutually_exclusive = { focus = LAT_integrate_farmers_party }
+		x = 0
+		y = 1
+		relative_position_id = LAT_what_is_socialism
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			democratic > 0.45
+		}
+
+		bypass = {
+			
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			set_politics = {
+				ruling_party = democratic
+				last_election = "1931.10.3"
+				election_frequency = 48
+				elections_allowed = yes
+			}
+			promote_character = LAT_fricis_menders
+			effect_tooltip = {
+				swap_ruler_traits = {
+
+					remove = subservient_democrat add = subservient_democrat_democratic
+				}
+
+			}
+			remove_ideas = democratic_opposition_idea_1
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.1
+			}
+		}
+	}
 
 	focus = {
 		id = LAT_what_is_capitalism
 		icon = GFX_focus_generic_concessions
+		prerequisite = { focus = LAT_renew_kviesis_term }
 		prerequisite = { focus = LAT_establish_chambers_of_professions }
 		x = -1
 		y = 1
@@ -226,6 +481,53 @@ focus_tree = {
 				add_ideas = free_trade
 			}
 			add_ideas = LAT_state_capitalism_idea
+		}
+	}
+
+	focus = {
+		id = LAT_integrate_farmers_party
+		icon = GFX_goal_generic_neutrality_focus
+		prerequisite = { focus = LAT_what_is_capitalism }
+		prerequisite = { focus = LAT_what_is_socialism }
+		mutually_exclusive = { focus = LAT_renew_the_constitution }
+		x = 0
+		y = 1
+		relative_position_id = LAT_what_is_capitalism
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			
+		}
+
+		bypass = {
+			
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			remove_ideas = democratic_opposition_idea_1
+			if = {
+				limit = { has_idea = LAT_saeima_idea_dem_2 }
+				swap_ideas = {
+					remove_idea = LAT_saeima_idea_dem_2
+					add_idea = LAT_farmers_party_idea
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = LAT_saeima_idea_dem_1
+					add_idea = LAT_farmers_party_idea
+				}
+			}
 		}
 	}
 
@@ -441,7 +743,7 @@ focus_tree = {
 		cost = 10
 
 		ai_will_do = {
-			factor = 0
+			factor = 1
 			modifier = {
 				factor = 2
 				has_government = democratic
@@ -629,7 +931,7 @@ focus_tree = {
 		cost = 10
 
 		ai_will_do = {
-			factor = 0
+			factor = 1
 			modifier = {
 				factor = 0
 				OR = {
@@ -982,17 +1284,483 @@ focus_tree = {
 				remove_idea = LAT_paramilitary_idea_1
 				add_idea = LAT_paramilitary_idea_2
 			}
-			activate_decision = women_in_the_workforce
+		}
+	}
+	
+	focus = {
+		id = LAT_latvia_for_latvians
+		icon = GFX_focus_LAT_latvia_for_latvians
+		prerequisite = { focus = LAT_empower_paramilitarists }
+		mutually_exclusive = { focus = LAT_the_sun_shines_equally }
+		x = 3
+		y = 1
+		relative_position_id = LAT_empower_paramilitarists
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			fascism > 0.1
+		}
+
+		bypass = {
+			
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.1
+			}
+			unlock_decision_category_tooltip = LAT_delay_perkonkrust_decisions
+			custom_effect_tooltip = LAT_perkonkrust_war_tt
+		}
+	}
+	
+	focus = {
+		id = LAT_lift_ban_on_perkonkrusts
+		icon = GFX_focus_generic_little_entente
+		prerequisite = { focus = LAT_latvia_for_latvians }
+		x = -1
+		y = 1
+		relative_position_id = LAT_latvia_for_latvians
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			fascism > 0.1
+		}
+
+		bypass = {
+			
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.05
+			}
+			swap_ideas = {
+				remove_idea = LAT_perkonkrust_idea
+				add_idea = perkonkrust_fas_idea_1
+			}
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = LAT_gustavs_celminsh
+		}
+	}
+
+	focus = {
+		id = LAT_fanatic_recruitment
+		icon = GFX_goal_generic_wolf_pack
+		prerequisite = { focus = LAT_latvia_for_latvians }
+		x = 1
+		y = 1
+		relative_position_id = LAT_latvia_for_latvians
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			fascism > 0.1
+		}
+
+		bypass = {
+			
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.05
+			}
+			swap_ideas = {
+				remove_idea = LAT_paramilitary_idea
+				add_idea = LAT_paramilitary_fasc_idea
+			}
+		}
+	}
+
+	focus = {
+		id = LAT_military_industrial_complex
+		icon = GFX_goal_generic_construct_mil_factory
+		prerequisite = { focus = LAT_lift_ban_on_perkonkrusts }
+		prerequisite = { focus = LAT_fanatic_recruitment }
+		x = 0
+		y = 1
+		relative_position_id = LAT_lift_ban_on_perkonkrusts
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			fascism > 0.2
+		}
+
+		bypass = {
+			
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.05
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = industrial_complex
+										size > 0
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = arms_factory
+										size > 0
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = arms_factory
+										size > 0
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			add_ideas = LAT_militarisation_idea
+		}
+	}
+
+	focus = {
+		id = LAT_the_old_ways
+		icon = GFX_focus_LAT_the_old_ways
+		prerequisite = { focus = LAT_lift_ban_on_perkonkrusts }
+		prerequisite = { focus = LAT_fanatic_recruitment }
+		x = 0
+		y = 1
+		relative_position_id = LAT_fanatic_recruitment
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			fascism > 0.35
+		}
+
+		bypass = {
+			
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.05
+			}
+			add_ideas = LAT_neopaganism_idea
+		}
+	}
+
+	focus = {
+		id = LAT_anti_german_propaganda
+		icon = GFX_focus_attack_germany
+		prerequisite = { focus = LAT_the_old_ways focus = LAT_military_industrial_complex }
+		mutually_exclusive = { focus = LAT_alignment_with_germany focus = LAT_the_thunder_strikes_alone }
+		x = 0
+		y = 1
+		relative_position_id = LAT_military_industrial_complex
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			fascism < 0.5
+			NOT = { has_government = fascism }
+		}
+
+		bypass = {
+			
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			remove_mission = LAT_perkonkrust_uprising
+			add_popularity = {
+				ideology = fascism
+				popularity = -0.2
+			}
+
+			swap_ideas = {
+				remove_idea = perkonkrust_fas_idea_1
+				add_idea = LAT_anti_german_idea
+			}
+		}
+	}
+
+	focus = {
+		id = LAT_alignment_with_germany
+		icon = GFX_focus_chi_mission_to_germany
+		prerequisite = { focus = LAT_the_old_ways focus = LAT_military_industrial_complex }
+		mutually_exclusive = { focus = LAT_anti_german_propaganda focus = LAT_the_thunder_strikes_alone }
+		x = 0
+		y = 1
+		relative_position_id = LAT_the_old_ways
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 100
+			modifier = {
+				factor = 0
+					GER = { has_capitulated = yes }
+			}
+			modifier = {
+				GER = { surrender_progress > 0.25 }
+				factor = 0.1
+			}
+		}
+
+		available = {
+			fascism > 0.4
+			NOT = { has_war_with = GER }
+			is_subject = no
+			is_in_faction = no
+			NOT = {
+				any_other_country = {
+					is_in_faction_with = GER
+					has_war_with = HUN	
+				}
+			}
+			GER = {
+				is_faction_leader = yes
+				has_government = fascism
+				is_subject = no
+			}
+			NOT = { has_government = democratic }
+		}
+
+		bypass = {
+			is_in_faction_with = GER
+		}
+
+		cancel_if_invalid = no
+		continue_if_invalid = yes
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			set_politics = {
+				ruling_party = fascism
+				elections_allowed = no
+			}
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.15
+			}
+			remove_mission = LAT_perkonkrust_uprising
+			remove_perkonkrust_effect = yes
+			if = {
+				limit = {
+					GER = {
+						exists = yes
+						has_capitulated = no
+						has_government = fascism
+						is_faction_leader = yes
+					}
+				}
+				GER = { country_event = generic.2 }
+			}
+			else = {
+				get_best_alliance_match_fascism_effect = yes
+				var:best_leader = {
+					country_event = generic.2
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = LAT_the_thunder_strikes_alone
+		icon = GFX_goal_support_fascism
+		prerequisite = { focus = LAT_military_industrial_complex }
+		prerequisite = { focus = LAT_the_old_ways }
+		mutually_exclusive = { focus = LAT_anti_german_propaganda focus = LAT_alignment_with_germany }
+		x = 2
+		y = 1
+		relative_position_id = LAT_the_old_ways
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		available = {
+			fascism > 0.4
+			is_subject = no
+			NOT = { has_government = democratic }
+		}
+
+		bypass = {
+			
+		}
+
+		cancel_if_invalid = no
+		continue_if_invalid = yes
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			set_politics = {
+				ruling_party = fascism
+				elections_allowed = no
+			}
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.15
+			}
+			GER = {
+				add_ai_strategy = {
+				   type = alliance
+				   id = LAT
+				   value = -200
+				}
+			}
+			LAT = {
+				add_ai_strategy = {
+				   type = alliance
+				   id = GER
+				   value = -200
+				}
+			}
+			custom_effect_tooltip = GER_wont_ally_tt
+			remove_mission = LAT_perkonkrust_uprising
+			remove_perkonkrust_effect = yes
 		}
 	}
 
 	focus = {
 		id = LAT_supply_forest_brothers
 		icon = GFX_focus_generic_forest_brothers
-		prerequisite = { focus = LAT_aizsargi }
-		x = 1
+		prerequisite = { focus = LAT_anti_german_propaganda focus = LAT_aizsargi }
+		x = -1
 		y = 1
-		relative_position_id = LAT_aizsargi
+		relative_position_id = LAT_anti_german_propaganda
 
 		cost = 10
 
@@ -1036,6 +1804,7 @@ focus_tree = {
 		}
 
 		bypass = {
+			
 		}
 
 		cancel_if_invalid = yes
@@ -1047,6 +1816,855 @@ focus_tree = {
 			add_ideas = LAT_multicultural_latvia_idea
 		}
 	}
+
+	focus = {
+		id = LAT_free_the_ugonskrusts
+		icon = GFX_focus_generic_military_mission
+		prerequisite = { focus = LAT_alignment_with_germany focus = LAT_the_thunder_strikes_alone }
+		x = -1
+		y = 1
+		relative_position_id = LAT_alignment_with_germany
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			has_government = fascism
+		}
+
+		bypass = {
+			
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			division_template = {
+				name = "Ugonskrust Division"
+				division_names_group = LAT_INF_01
+				is_locked = yes
+				regiments = { 
+					infantry = { x = 0 y = 0 }
+					infantry = { x = 1 y = 0 }
+					infantry = { x = 2 y = 0 }
+					infantry = { x = 3 y = 0 }
+
+					infantry = { x = 0 y = 1 }
+					infantry = { x = 1 y = 1 }
+					infantry = { x = 2 y = 1 }
+					infantry = { x = 3 y = 1 }
+
+					infantry = { x = 0 y = 2 }
+					infantry = { x = 1 y = 2 }
+					infantry = { x = 2 y = 2 }
+					infantry = { x = 3 y = 2 }
+				}
+				support = {
+				}
+			}
+			random_owned_controlled_state = {
+				custom_effect_tooltip = LAT_free_the_ugonskrusts_tt
+				hidden_effect = {
+					create_unit = { 
+						division = "name = \"1. Ugonskrust Division\" division_template = \"Ugonskrust Division\" start_experience_factor = 0.5" 
+						owner = ROOT
+					}
+					create_unit = { 
+						division = "name = \"2. Ugonskrust Division\" division_template = \"Ugonskrust Division\" start_experience_factor = 0.5" 
+						owner = ROOT
+					}
+					create_unit = { 
+						division = "name = \"3. Ugonskrust Division\" division_template = \"Ugonskrust Division\" start_experience_factor = 0.5" 
+						owner = ROOT
+					}
+					create_unit = { 
+						division = "name = \"4. Ugonskrust Division\" division_template = \"Ugonskrust Division\" start_experience_factor = 0.5" 
+						owner = ROOT
+					}
+					create_unit = { 
+						division = "name = \"5. Ugonskrust Division\" division_template = \"Ugonskrust Division\" start_experience_factor = 0.5" 
+						owner = ROOT
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = LAT_lightning_strike
+		icon = GFX_focus_LAT_lightning_strike
+		prerequisite = { focus = LAT_free_the_ugonskrusts }
+		mutually_exclusive = { focus = LAT_support_baltic_fascists }
+		x = 1
+		y = 1
+		relative_position_id = LAT_free_the_ugonskrusts
+		will_lead_to_war_with = LIT
+		will_lead_to_war_with = EST
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			OR = {
+				LIT = {
+					is_subject = no
+					exists = yes
+					NOT = {
+						is_in_faction_with = ROOT
+					}
+				}
+				EST = {
+					is_subject = no
+					exists = yes
+					NOT = {
+						is_in_faction_with = ROOT
+					}
+				}
+			}
+		}
+
+		bypass = {
+			
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			if = {
+				limit = {
+					LIT = {
+						is_subject = no
+						exists = yes
+						NOT = {
+							is_in_faction_with = ROOT
+						}
+					}
+				}
+				LIT = {
+					country_event = LAT_events.2
+				}
+			}
+			else_if = {
+				limit = {
+					LIT = {
+						NOT = {
+							is_in_faction_with = ROOT
+						}
+					}
+				}
+				LIT = {
+					every_owned_state = {
+						limit = {
+							is_core_of = LIT
+						}
+						add_claim_by = ROOT
+					}
+				}
+				ROOT = {
+					create_wargoal = {
+						type = annex_everything
+						target = LIT
+					}
+				}
+			}
+			if = {
+				limit = {
+					EST = {
+						is_subject = no
+						exists = yes
+						NOT = {
+							is_in_faction_with = ROOT
+						}
+					}
+				}
+				EST = {
+					country_event = LAT_events.2
+				}
+			}
+			else_if = {
+				limit = {
+					EST = {
+						NOT = {
+							is_in_faction_with = ROOT
+						}
+					}
+				}
+				EST = {
+					every_owned_state = {
+						limit = {
+							is_core_of = EST
+						}
+						add_claim_by = ROOT
+					}
+				}
+				ROOT = {
+					create_wargoal = {
+						type = annex_everything
+						target = EST
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = LAT_support_baltic_fascists
+		icon = GFX_goal_support_fascism
+		prerequisite = { focus = LAT_free_the_ugonskrusts }
+		mutually_exclusive = { focus = LAT_lightning_strike }
+		x = -1
+		y = 1
+		relative_position_id = LAT_free_the_ugonskrusts
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			OR = {
+				LIT = {
+					NOT = {
+						has_government = fascism
+						exists = no
+						is_subject = yes
+					}
+				}
+				EST = {
+					NOT = {
+						has_government = fascism
+						exists = no
+						is_subject = yes
+					}
+				}
+			}
+		}
+
+		bypass = {
+			LIT = {
+				OR = {
+					has_government = fascism
+					exists = no
+					is_subject = yes
+				}
+			}
+			EST = {
+				OR = {
+					has_government = fascism
+					exists = no
+					is_subject = yes
+				}
+			}
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			if = {
+				limit = {
+					EST = {
+						has_government = fascism
+					}
+				}
+				EST = { country_event = LAT_events.3 }
+			}
+			if = {
+				limit = {
+					LIT = {
+						has_government = fascism
+					}
+				}
+				LIT = { country_event = LAT_events.3 }
+			}
+			unlock_decision_category_tooltip = promote_baltic_fascism_cat
+		}
+	}
+
+	focus = {
+		id = LAT_consecrate_the_brotherhood
+		icon = GFX_goal_generic_territory_or_war
+		prerequisite = { focus = LAT_support_baltic_fascists }
+		x = -2
+		y = 1
+		relative_position_id = LAT_support_baltic_fascists
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			OR = {
+				ROOT = { is_in_faction = no }	
+				ROOT = { is_faction_leader = yes }
+			}
+			OR = {
+				LIT = {
+					OR = {
+						has_government = fascism
+						exists = no
+						is_subject = yes
+					}
+				}
+				EST = {
+					OR = {
+						has_government = fascism
+						exists = no
+						is_subject = yes
+					}
+				}
+			}
+		}
+		bypass = {
+			LIT = {
+				OR = {
+					exists = no
+					is_subject = yes
+				}
+			}
+			EST = {
+				OR = {
+					exists = no
+					is_subject = yes
+				}
+			}
+		}
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+				set_rule = {
+					can_create_factions = yes
+				}
+				if = {
+					limit = {
+						is_in_faction = no
+					}
+					create_faction = BROTHERHOOD
+					if = {
+						limit = {
+							EST = {
+								has_government = fascism
+							}
+						}
+						EST = {
+							hidden_effect = {
+								 country_event = generic.5 
+								}	
+							custom_effect_tooltip = LAT_consecrate_the_brotherhood_custom_tt
+							}
+					}
+					else = {
+						create_wargoal = {
+							type = puppet_wargoal_focus
+							target = EST
+						}
+					}
+					if = {
+						limit = {
+							LIT = {
+								has_government = fascism
+							}
+						}
+						LIT = {
+							hidden_effect = {
+								 country_event = generic.5 
+							}
+							custom_effect_tooltip = LAT_consecrate_the_brotherhood_custom_tt
+						}	
+					}
+					else = {
+						create_wargoal = {
+							type = puppet_wargoal_focus
+							target = LIT
+						}
+					}
+				}
+				else = {
+					if = {
+						limit = {
+							EST = {
+								has_government = fascism
+							}
+						}
+						effect_tooltip = {
+							EST = { country_event = generic.2 }
+						}
+					}
+					if = {
+						limit = {
+							LIT = {
+								has_government = fascism
+							}
+						}
+						effect_tooltip = {
+							LIT = { country_event = generic.2 }
+						}
+					}
+					hidden_effect = {
+						random_country = {
+							limit = {
+								is_in_faction_with = ROOT
+								is_faction_leader = yes
+							}
+							country_event = LAT_events.6
+						}
+					}
+				}		
+			}
+	}
+
+	focus = {
+		id = LAT_dievs_keepers
+		icon = GFX_goal_generic_military_sphere
+		prerequisite = { focus = LAT_alignment_with_germany focus = LAT_the_thunder_strikes_alone }
+		x = 3
+		y = 1
+		relative_position_id = LAT_alignment_with_germany
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			has_idea = LAT_neopaganism_idea
+		}
+
+		bypass = {
+			
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			swap_ideas = {
+				add_idea = LAT_state_romuva_idea_1
+				remove_idea = LAT_neopaganism_idea
+			}
+		}
+	}
+
+	focus = {
+		id = LAT_state_paganism
+		icon = GFX_goal_generic_dangerous_deal
+		prerequisite = { focus = LAT_dievs_keepers }
+		prerequisite = { focus = LAT_the_thunder_strikes_alone }
+		x = -1
+		y = 1
+		relative_position_id = LAT_dievs_keepers
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			has_idea = LAT_state_romuva_idea_1
+		}
+
+		bypass = {
+			
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			swap_ideas = {
+				add_idea = LAT_state_romuva_idea_2
+				remove_idea = LAT_state_romuva_idea_1
+			}
+		}
+	}
+
+	focus = {
+		id = LAT_wrath_of_the_old_gods
+		icon = GFX_goal_generic_attack_allies
+		prerequisite = { focus = LAT_state_paganism }
+		x = 0
+		y = 1
+		relative_position_id = LAT_state_paganism
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			has_idea = LAT_state_romuva_idea_2
+		}
+
+		bypass = {
+			
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			swap_ideas = {
+				add_idea = LAT_state_romuva_idea_3
+				remove_idea = LAT_state_romuva_idea_2
+			}
+		}
+	}
+
+	focus = {
+		id = LAT_ostland
+		icon = GFX_focus_LAT_ostland
+		prerequisite = { focus = LAT_lightning_strike focus = LAT_support_baltic_fascists }
+		mutually_exclusive = { focus = LAT_united_baltic_empire }
+		x = -2
+		y = 1
+		relative_position_id = LAT_lightning_strike
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			OR = {
+				is_in_faction_with = GER
+				is_subject_of = GER
+			}
+		}
+
+		bypass = {
+			
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			set_cosmetic_tag = OSTLAND
+				hidden_effect = {
+					## Coring ## 
+					# Estonia
+					13 = { add_core_of = ROOT }
+					191 = { add_core_of = ROOT }
+					811 = { add_core_of = ROOT }
+					812 = { add_core_of = ROOT }
+					813 = { add_core_of = ROOT }
+					# Lithuania
+					11 = { add_core_of = ROOT }
+					189 = { add_core_of = ROOT }
+					188 = { add_core_of = ROOT }
+					784 = { add_core_of = ROOT }
+					814 = { add_core_of = ROOT }
+					815 = { add_core_of = ROOT }
+				}
+			#Custom Tooltips to avoid listing every core in Estonia and Lithuania. 
+			custom_effect_tooltip = form_country_estonia_coring_states_tt
+			custom_effect_tooltip = form_country_lithuania_coring_states_tt
+			#Poland cores since we can't summarise them as adding all polish states as cores. 
+			784 = { add_core_of = ROOT }
+			96 = { add_core_of = ROOT }
+			95 = { add_core_of = ROOT }
+			94 = { add_core_of = ROOT }
+
+			if = { #Annexes any fascist Baltic states
+				limit = {
+					any_other_country = {
+						OR = {
+							original_tag = LIT
+							original_tag = EST
+						}
+						is_in_faction_with = ROOT
+					}
+				}
+				every_other_country = {
+					limit = {
+						OR = {
+							original_tag = LIT
+							original_tag = EST
+						}
+						is_in_faction_with = ROOT
+					}
+					country_event = { id = LAT_events.4 hours = 4 }
+				}
+			}
+			if = { #Asks Germany for control of Ostland
+				limit = {
+					any_other_country = {
+						is_in_faction_with = ROOT
+						OR = {
+							#Lithuania States
+							controls_state = 814
+							controls_state = 11
+							controls_state = 815
+							controls_state = 189
+							controls_state = 188
+							#Estonia States
+							controls_state = 811
+							controls_state = 812
+							controls_state = 13
+							controls_state = 813
+							controls_state = 191
+							#Belarus States
+							controls_state = 784
+							controls_state = 96
+							controls_state = 95
+							controls_state = 94
+						}
+					}
+				}
+				GER = {country_event = { id = LAT_events.5 hours = 6 } }
+				custom_effect_tooltip = if_they_accept_tt
+				effect_tooltip = {
+					every_other_country = {
+						limit = {
+							is_baltic_country = yes
+							is_in_faction_with = ROOT
+						}
+					}
+					custom_effect_tooltip = annex_countries_tt 
+					set_state_controller =  784
+					set_state_controller = 96
+					set_state_controller = 95
+					set_state_controller = 94
+				}
+			}
+
+		}
+	}
+
+	focus = {
+		id = LAT_united_baltic_empire
+		icon = GFX_focus_generic_home_defense
+		prerequisite = { focus = LAT_lightning_strike focus = LAT_support_baltic_fascists }
+		mutually_exclusive = { focus = LAT_ostland }
+		x = 0
+		y = 1
+		relative_position_id = LAT_lightning_strike
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			NOT = { has_global_flag = form_baltic_federation_flag }
+			# Estonia
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = form_country_estonia_required_states_tt
+					controls_state = 13
+					controls_state = 191
+					controls_state = 811
+					controls_state = 812
+					controls_state = 813
+				}
+				EST = { has_government = fascism }
+				EST = { is_subject_of = ROOT }
+			}
+			# Lithuania
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = form_country_lithuania_required_states_tt
+					controls_state = 11
+					controls_state = 189
+					controls_state = 814
+					controls_state = 815
+				}
+				LIT = { has_government = fascism }
+				LIT = { is_subject_of = ROOT }
+			}
+		}
+
+		bypass = {
+			has_global_flag = form_baltic_federation_flag
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			hidden_effect = {
+				news_event = { id = wtt_news.60 hours = 6 }
+				set_global_flag = form_baltic_federation_flag
+				## coring ## 
+				# Estonia
+				13 = { add_core_of = ROOT }
+				191 = { add_core_of = ROOT }
+				811 = { add_core_of = ROOT }
+				812 = { add_core_of = ROOT }
+				813 = { add_core_of = ROOT }
+				# Lithuania
+				11 = { add_core_of = ROOT }
+				189 = { add_core_of = ROOT }
+				188 = { add_core_of = ROOT }
+				784 = { add_core_of = ROOT }
+				814 = { add_core_of = ROOT }
+				815 = { add_core_of = ROOT }
+	
+			}			
+		custom_effect_tooltip = form_country_estonia_coring_states_tt
+		custom_effect_tooltip = form_country_lithuania_coring_states_tt
+				#Poland
+			784 = { add_core_of = ROOT }
+			96 = { add_core_of = ROOT }
+			95 = { add_core_of = ROOT }
+			94 = { add_core_of = ROOT }
+
+			set_cosmetic_tag = BAL_UNIFIED
+			if = { #Annexes any fascist Baltic states
+				limit = {
+					any_other_country = {
+						OR = {
+							original_tag = LIT
+							original_tag = EST
+						}
+						is_in_faction_with = ROOT
+					}
+				}
+				every_other_country = {
+					limit = {
+						OR = {
+							original_tag = LIT
+							original_tag = EST
+						}
+						is_in_faction_with = ROOT
+					}
+					country_event = { id = LAT_events.4 hours = 5}
+				}
+				custom_effect_tooltip = if_they_accept_tt
+				effect_tooltip = {
+					every_other_country = {
+						limit = {
+							OR = {
+								original_tag = LIT
+								original_tag = EST
+							}
+						is_in_faction_with = ROOT
+						}
+					}
+					custom_effect_tooltip = annex_countries_tt 
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = LAT_reorganize_forest_brothers
+		icon = GFX_focus_generic_little_entente
+		prerequisite = { focus = LAT_the_thunder_strikes_alone focus = LAT_alignment_with_germany }
+		x = -1
+		y = 1
+		relative_position_id = LAT_the_thunder_strikes_alone
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+		}
+
+		bypass = {
+			
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_ideas = BALTIC_forest_brothers_reorganized_idea
+		}
+	}
+
+	focus = {
+		id = LAT_avenge_the_ancestors
+		icon = GFX_goal_generic_territory_or_war
+		prerequisite = { focus = LAT_united_baltic_empire }
+		prerequisite = { focus = LAT_state_paganism }
+		x = 3
+		y = 1
+		relative_position_id = LAT_ostland
+		will_lead_to_war_with = GER
+		will_lead_to_war_with = SWE
+		will_lead_to_war_with = DEN
+		will_lead_to_war_with = FIN
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			is_major = yes
+			has_government = fascism
+			is_subject = no
+		}
+
+		bypass = {
+			
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = GER
+			}
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = SWE
+			}
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = DEN
+			}
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = FIN
+			}
+		}
+	}
 	
 	###RESISTANCE FOCUSES###
 
@@ -1054,7 +2672,7 @@ focus_tree = {
 		id = LAT_ready_the_resistance
 		icon = GFX_goal_generic_military_sphere
 		prerequisite = { focus = LAT_threat_on_our_border }
-		#mutually_exclusive = { focus = LAT_cave_to_enemy_pressure }
+		mutually_exclusive = { focus = LAT_cave_to_enemy_pressure }
 		x = 0
 		y = 1
 		relative_position_id = LAT_threat_on_our_border
@@ -1134,7 +2752,7 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER }
 		completion_reward = {
-			#add_ideas = { POL_influx_of_exiles }
+			add_ideas = { POL_influx_of_exiles }
 			add_offsite_building = { type = arms_factory level = 4 }
 		}
 	}
@@ -1182,7 +2800,7 @@ focus_tree = {
 				limit = {
 					has_DLC = "La Resistance"
 				}
-				#gain_random_agency_upgrade = yes
+				gain_random_agency_upgrade = yes
 				add_offsite_building = { type = industrial_complex level = 3 }
 			}
 			else = {
@@ -1200,7 +2818,7 @@ focus_tree = {
 		id = LAT_cave_to_enemy_pressure
 		icon = GFX_focus_CZE_german_puppet
 		prerequisite = { focus = LAT_threat_on_our_border }
-		#mutually_exclusive = { focus = LAT_ready_the_resistance }
+		mutually_exclusive = { focus = LAT_ready_the_resistance }
 		x = -2
 		y = 1
 		relative_position_id = LAT_threat_on_our_border
@@ -1280,7 +2898,7 @@ focus_tree = {
 			add_ideas = { BALTIC_economic_union_1 }
 			every_other_country = {
 				limit = {
-					is_baltic_state = yes
+					is_baltic_country = yes
 					is_in_faction_with = ROOT
 				}
 				hidden_effect = { country_event = BALTIC_entente_events.1 }
@@ -1318,7 +2936,7 @@ focus_tree = {
 			add_ideas = { LIT_baltic_defence_army }
 			every_other_country = {
 				limit = {
-					is_baltic_state = yes
+					is_baltic_country = yes
 					is_in_faction_with = ROOT
 				}
 				hidden_effect = { country_event = BALTIC_entente_events.2 }
@@ -1358,7 +2976,7 @@ focus_tree = {
 			}
 			every_other_country = {
 				limit = {
-					is_baltic_state = yes
+					is_baltic_country = yes
 					is_in_faction_with = ROOT
 				}
 				hidden_effect = { country_event = BALTIC_entente_events.3 }
@@ -1403,7 +3021,7 @@ focus_tree = {
 			add_ideas = { BALTIC_union_idea }
 			every_other_country = {
 				limit = {
-					is_baltic_state = yes
+					is_baltic_country = yes
 					is_in_faction_with = ROOT
 				}
 				hidden_effect = { country_event = BALTIC_entente_events.4 }
@@ -1488,7 +3106,7 @@ focus_tree = {
 			}
 			every_other_country = {
 				limit = {
-					is_baltic_state = yes
+					is_baltic_country = yes
 					is_in_faction_with = ROOT
 				}
 				swap_ideas = {
@@ -1542,7 +3160,7 @@ focus_tree = {
 			}
 			every_other_country = {
 				limit = {
-					is_baltic_state = yes
+					is_baltic_country = yes
 					NOT = {
 						is_in_faction_with = ROOT
 					}
@@ -1586,7 +3204,7 @@ focus_tree = {
 		completion_reward = {
 			every_other_country = {
 				limit = {
-					is_baltic_state = yes
+					is_baltic_country = yes
 					is_in_faction_with = ROOT
 				}
 				country_event = {
@@ -1598,14 +3216,14 @@ focus_tree = {
 				if = {
 					limit = {
 						any_other_country = {
-							is_baltic_state = yes
+							is_baltic_country = yes
 							is_in_faction_with = ROOT
 						}
 					}
 					custom_effect_tooltip = if_they_accept_tt
 					every_other_country = {
 						limit = {
-							is_baltic_state = yes
+							is_baltic_country = yes
 							is_in_faction_with = ROOT
 						}
 					}
@@ -1614,7 +3232,7 @@ focus_tree = {
 			}
 			every_other_country = {
 				limit = {
-					is_baltic_state = yes
+					is_baltic_country = yes
 					NOT = {
 						is_in_faction_with = ROOT
 					}
