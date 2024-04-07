@@ -1,1 +1,395 @@
-##
+FIN_power_balance = {
+	initial_value = 0.1
+	left_side = FIN_bad_side
+	right_side = FIN_good_side
+	decision_category = FIN_balance_of_power_category
+
+	### Medium trust
+	range = {
+		id = FIN_medium_trust_range
+		min = -0.10
+		max = 0.10
+		modifier = {
+		}
+		on_activate = { #TODO_Manu: Scripted effect checking for leader and swapping to appropriate GFX
+			set_power_balance_gfx = {
+				id = FIN_power_balance
+				side = FIN_bad_side
+				gfx = "GFX_bop_FIN_[GetLeaderBopIcon]_bad_side"
+			}
+			set_power_balance_gfx = {
+				id = FIN_power_balance
+				side = FIN_good_side
+				gfx = "GFX_bop_FIN_[GetLeaderBopIcon]_good_side"
+			}
+
+			# MANAGE SISU NS - Doing in this way to prevent issues when bypassing an entire range for whatever reason
+			if = {
+				limit = {
+					has_idea = FIN_sisu_1
+				}
+				swap_ideas = {
+					remove_idea = FIN_sisu_1
+					add_idea = FIN_sisu_3
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = FIN_sisu_2
+				}
+				swap_ideas = {
+					remove_idea = FIN_sisu_2
+					add_idea = FIN_sisu_3
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = FIN_sisu_4
+				}
+				swap_ideas = {
+					remove_idea = FIN_sisu_4
+					add_idea = FIN_sisu_3
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = FIN_sisu_5
+				}
+				swap_ideas = {
+					remove_idea = FIN_sisu_5
+					add_idea = FIN_sisu_3
+				}
+			}
+			else = {
+				effect_tooltip = {
+					add_ideas = FIN_sisu_3
+				}
+			}
+
+			#MOTION OF NO CONFIDENCE COST
+			set_variable = { FIN_motion_of_no_confidence_dec_cost = 250 tooltip = FIN_motion_of_no_confidence_cost_medium_range_tt }
+		}
+		on_deactivate = {
+			if = {
+				limit = {
+					is_power_balance_side_active = {
+						id = FIN_power_balance
+						side = FIN_good_side
+					}
+				}
+				set_power_balance_gfx = {
+					id = FIN_power_balance
+					side = FIN_bad_side
+					gfx = "GFX_bop_FIN_[GetLeaderBopIcon]_bad_side"
+				}
+			}
+			else = {
+				set_power_balance_gfx = {
+					id = FIN_power_balance
+					side = FIN_good_side
+					gfx = "GFX_bop_FIN_[GetLeaderBopIcon]_good_side"
+				}
+			}
+		}
+	}
+
+	### Bad Side
+	side = {
+		id = FIN_bad_side	
+		icon = "GFX_bop_FIN_[GetLeaderBopIcon]_bad_side"
+
+		range = {
+			id = FIN_low_trust_range
+			min = -0.6
+			max = -0.1
+			modifier = {
+				stability_factor = -0.05
+				war_support_factor = -0.05
+				political_power_factor = -0.1
+			}
+			on_activate = { #TODO_Manu: Scripted effect checking for leader and swapping to appropriate GFX
+				set_power_balance_gfx = {
+					id = FIN_power_balance
+					side = FIN_bad_side
+					gfx = "GFX_bop_FIN_[GetLeaderBopIcon]_bad_improved_side"
+				}
+				set_power_balance_gfx = {
+					id = FIN_power_balance
+					side = FIN_good_side
+					gfx = "GFX_bop_FIN_[GetLeaderBopIcon]_good_side"
+				}
+
+				# MANAGE SISU NS
+				if = {
+					limit = {
+						has_idea = FIN_sisu_1
+					}
+					swap_ideas = {
+						remove_idea = FIN_sisu_1
+						add_idea = FIN_sisu_2
+					}
+				}
+				else_if = {
+					limit = {
+						has_idea = FIN_sisu_3
+					}
+					swap_ideas = {
+						remove_idea = FIN_sisu_3
+						add_idea = FIN_sisu_2
+					}
+				}
+				else_if = {
+					limit = {
+						has_idea = FIN_sisu_4
+					}
+					swap_ideas = {
+						remove_idea = FIN_sisu_4
+						add_idea = FIN_sisu_2
+					}
+				}
+				else_if = {
+					limit = {
+						has_idea = FIN_sisu_5
+					}
+					swap_ideas = {
+						remove_idea = FIN_sisu_5
+						add_idea = FIN_sisu_2
+					}
+				}
+				else = {
+					effect_tooltip = {
+						add_ideas = FIN_sisu_2
+					}
+				}
+
+				#MOTION OF NO CONFIDENCE COST
+				set_variable = { FIN_motion_of_no_confidence_dec_cost = 150 tooltip = FIN_motion_of_no_confidence_cost_bad_range_tt }
+			}
+			on_deactivate = {
+			
+			}
+		}
+
+		range = {
+			id = FIN_very_low_trust_range
+			min = -1
+			max = -0.6
+			modifier = {
+				stability_factor = -0.1
+				war_support_factor = -0.1
+				political_power_factor = -0.2
+			}
+			on_activate = {
+				set_power_balance_gfx = {
+					id = FIN_power_balance
+					side = FIN_bad_side
+					gfx = "GFX_bop_FIN_bad_rubble_side"
+				}
+				set_power_balance_gfx = {
+					id = FIN_power_balance
+					side = FIN_good_side
+					gfx = "GFX_bop_FIN_[GetLeaderBopIcon]_good_side"
+				}
+
+				# MANAGE SISU NS
+				if = {
+					limit = {
+						has_idea = FIN_sisu_2
+					}
+					swap_ideas = {
+						remove_idea = FIN_sisu_2
+						add_idea = FIN_sisu_1
+					}
+				}
+				else_if = {
+					limit = {
+						has_idea = FIN_sisu_3
+					}
+					swap_ideas = {
+						remove_idea = FIN_sisu_3
+						add_idea = FIN_sisu_1
+					}
+				}
+				else_if = {
+					limit = {
+						has_idea = FIN_sisu_4
+					}
+					swap_ideas = {
+						remove_idea = FIN_sisu_4
+						add_idea = FIN_sisu_1
+					}
+				}
+				else_if = {
+					limit = {
+						has_idea = FIN_sisu_5
+					}
+					swap_ideas = {
+						remove_idea = FIN_sisu_5
+						add_idea = FIN_sisu_1
+					}
+				}
+				else = {
+					effect_tooltip = {
+						add_ideas = FIN_sisu_1
+					}
+				}
+
+				#MOTION OF NO CONFIDENCE COST
+				set_variable = { FIN_motion_of_no_confidence_dec_cost = 50 tooltip = FIN_motion_of_no_confidence_cost_very_bad_range_tt }
+			}
+			on_deactivate = {
+				
+			}
+		}
+	}
+
+	### Good Side
+	side = {
+		id = FIN_good_side	
+		icon = "GFX_bop_FIN_[GetLeaderBopIcon]_good_side"
+
+		range = {
+			id = FIN_high_trust_range
+			min = 0.1
+			max = 0.6
+			modifier = {
+				stability_factor = 0.05
+				war_support_factor = 0.05
+				conscription_factor = 0.05
+			}
+			on_activate = { #TODO_Manu: Scripted effect checking for leader and swapping to appropriate GFX
+				set_power_balance_gfx = {
+					id = FIN_power_balance
+					side = FIN_good_side
+					gfx = "GFX_bop_FIN_[GetLeaderBopIcon]_good_improved_side"
+				}
+				set_power_balance_gfx = {
+					id = FIN_power_balance
+					side = FIN_bad_side
+					gfx = "GFX_bop_FIN_[GetLeaderBopIcon]_bad_side"
+				}
+
+				# MANAGE SISU NS
+				if = {
+					limit = {
+						has_idea = FIN_sisu_1
+					}
+					swap_ideas = {
+						remove_idea = FIN_sisu_1
+						add_idea = FIN_sisu_4
+					}
+				}
+				else_if = {
+					limit = {
+						has_idea = FIN_sisu_2
+					}
+					swap_ideas = {
+						remove_idea = FIN_sisu_2
+						add_idea = FIN_sisu_4
+					}
+				}
+				else_if = {
+					limit = {
+						has_idea = FIN_sisu_3
+					}
+					swap_ideas = {
+						remove_idea = FIN_sisu_3
+						add_idea = FIN_sisu_4
+					}
+				}
+				else_if = {
+					limit = {
+						has_idea = FIN_sisu_5
+					}
+					swap_ideas = {
+						remove_idea = FIN_sisu_5
+						add_idea = FIN_sisu_4
+					}
+				}
+				else = {
+					effect_tooltip = {
+						add_ideas = FIN_sisu_4
+					}
+				}
+
+				#MOTION OF NO CONFIDENCE COST - In case of bypassing the medium range
+				set_variable = { FIN_motion_of_no_confidence_dec_cost = 250 tooltip = FIN_motion_of_no_confidence_cost_unavailable_tt }
+			}
+			on_deactivate = {
+				
+			}
+		}
+
+		range = {
+			id = FIN_very_high_trust_range
+			min = 0.6
+			max = 1
+			modifier = {
+				stability_factor = 0.1
+				war_support_factor = 0.1
+				conscription_factor = 0.1
+			}
+			on_activate = {
+				set_power_balance_gfx = {
+					id = FIN_power_balance
+					side = FIN_good_side
+					gfx = "GFX_bop_FIN_[GetLeaderBopIcon]_good_improved_side"
+				}
+				set_power_balance_gfx = {
+					id = FIN_power_balance
+					side = FIN_bad_side
+					gfx = "GFX_bop_FIN_[GetLeaderBopIcon]_bad_side"
+				}
+
+				# MANAGE SISU NS
+				if = {
+					limit = {
+						has_idea = FIN_sisu_1
+					}
+					swap_ideas = {
+						remove_idea = FIN_sisu_1
+						add_idea = FIN_sisu_5
+					}
+				}
+				else_if = {
+					limit = {
+						has_idea = FIN_sisu_2
+					}
+					swap_ideas = {
+						remove_idea = FIN_sisu_2
+						add_idea = FIN_sisu_5
+					}
+				}
+				else_if = {
+					limit = {
+						has_idea = FIN_sisu_3
+					}
+					swap_ideas = {
+						remove_idea = FIN_sisu_3
+						add_idea = FIN_sisu_5
+					}
+				}
+				else_if = {
+					limit = {
+						has_idea = FIN_sisu_4
+					}
+					swap_ideas = {
+						remove_idea = FIN_sisu_4
+						add_idea = FIN_sisu_5
+					}
+				}
+				else = {
+					effect_tooltip = {
+						add_ideas = FIN_sisu_5
+					}
+				}
+
+				#MOTION OF NO CONFIDENCE COST - In case of bypassing the medium range
+				set_variable = { FIN_motion_of_no_confidence_dec_cost = 250 tooltip = FIN_motion_of_no_confidence_cost_unavailable_tt }
+			}
+			on_deactivate = {
+				
+			}
+		}
+	}
+}
