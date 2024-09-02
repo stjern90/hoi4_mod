@@ -370,13 +370,20 @@ GER_offensives = {
 			}
 		}
 
-		
 		available = {
-			
 			has_country_flag = GER_refusedanzig
 			has_completed_focus = GER_danzig_or_war
+			has_completed_focus = GER_fall_weiss
 			is_puppet = no
 			date > 1939.2.31
+		}
+		
+		visible = {
+			original_tag = GER
+			or = {
+				date > 1939.1.1
+				has_completed_focus = GER_a_loyal_staff
+			}
 		}
 		
 		cost = 0
@@ -397,16 +404,7 @@ GER_offensives = {
 			}
 		}
 		
-		visible = {
-			original_tag = GER
-			or = {
-				date > 1939.1.1
-				has_country_flag = GER_refusedanzig
-			}
-		}
-		
 		complete_effect = {
-			
 			set_country_flag = GER_poland
 			declare_war_on = {
 				target = POL 
@@ -488,15 +486,78 @@ GER_offensives = {
 		
 	}
 	
+	GER_operationsealion = {
+		icon = generic_operation
+		highlight_states = {
+			highlight_state_targets = {
+				state = 126
+				state = 127
+				state = 123
+				state = 125
+			}	
+		}
+		
+		available = {
+				has_completed_focus = GER_prepare_sealion
+				is_puppet = no
+				date > 1940.1.1
+		}
+		
+		visible = {
+			original_tag = GER
+            has_capitulated = no
+			or = {
+				date > 1939.10.1
+				has_completed_focus = GER_a_loyal_staff
+			}
+			ENG = { has_capitulated = no exists = yes is_puppet = no }
+		}
+		
+		cost = 0
+		
+		fire_only_once = yes
+		
+		ai_will_do = {
+			factor = 0
+			modifier = {
+				factor = 0
+				date < 1940.11.18 # not historical, but until i fix the italian declaration of war/hungary demanding vojvodina, it has to be like that.
+				is_historical_focus_on = yes
+			}
+			modifier = {
+				factor = 0
+				ENG = { has_capitulated = yes }
+			}
+		}
+		
+		complete_effect = {
+			GER = {
+				add_timed_idea = {
+					idea = sealion
+					days = 45
+				}
+			}
+		}
+		
+	}
+	
 	GER_westoffensive = {
 		icon = ger_fra_war
 		
 		available = {
-			has_completed_focus = GER_around_maginot
+			has_completed_focus = GER_fall_rot
+			has_completed_focus = GER_fall_gelb
 			is_puppet = no
 			date > 1940.1.1
 			date < 1941.7.1
-			
+		}		
+		
+		visible = {
+			original_tag = GER
+			or = {
+				has_completed_focus = GER_a_loyal_staff
+				date > 1939.12.22
+			}
 		}
 		
 		cost = 0
@@ -510,14 +571,6 @@ GER_offensives = {
 				# give the AI some extra time to carry out the offensve
 				date < 1940.5.9
 				is_historical_focus_on = yes
-			}
-		}
-		
-		visible = {
-			original_tag = GER
-			or = {
-				has_completed_focus = GER_around_maginot
-				date > 1939.12.22
 			}
 		}
 		
@@ -562,7 +615,7 @@ GER_offensives = {
 					}
 					GER = {
 						country_event = {
-								id = operation.71
+							id = operation.71
 						}
 					}
 				}
@@ -583,6 +636,14 @@ GER_offensives = {
 			is_puppet = no
 		}
 		
+		visible = {
+			original_tag = GER
+			or = {
+				has_completed_focus = GER_a_loyal_staff
+				date > 1939.12.22
+			}
+		}
+		
 		cost = 0
 		
 		fire_only_once = yes
@@ -591,16 +652,8 @@ GER_offensives = {
 			factor = 500
 			modifier = {
 				factor = 0
-				date < 1940.3.5  # The ai must have some extra time to finish eserubung before fall gelb 
+				date < 1940.3.5  # The ai must have some extra time to finish weserubung before fall gelb 
 				is_historical_focus_on = yes
-			}
-		}
-		
-		visible = {
-			original_tag = GER
-			or = {
-				has_completed_focus = GER_weserubung
-				date > 1939.12.22
 			}
 		}
 		
@@ -4487,7 +4540,7 @@ GER_military_buildup = {
 		icon = generic_army
 
 		available = {
-			has_completed_focus = GER_rhineland
+			has_completed_focus = GER_wehrmacht
 			date > 1937.2.1
 		}
 
@@ -4898,7 +4951,7 @@ GER_speeches_category = {
 		}
 		
 		visible = {
-			GER = { has_completed_focus = GER_Goering_Plan }
+			
 		}
 		
 		ai_will_do = {
@@ -5032,10 +5085,16 @@ GER_speeches_category = {
 		complete_effect = {
 			add_stability = 0.02 
 			
-		hidden_effect = {
-		        if = { limit = { OR = { is_ai = no has_global_flag = ai_speeches } } 
-			sound_effect = sp_ger_FRAcap 
-			}
+			hidden_effect = {
+				if = { 
+					limit = { 
+						OR = { 
+							is_ai = no 
+							has_global_flag = ai_speeches 
+						} 
+					} 
+				sound_effect = sp_ger_FRAcap 
+				}
 			}
 		}
 		
