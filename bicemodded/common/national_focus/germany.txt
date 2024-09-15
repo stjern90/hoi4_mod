@@ -1389,11 +1389,47 @@ focus_tree = {
 	}
 	
 	focus = { 
+		id = GER_trust_todt
+		icon = GFX_goal_todt
+		prerequisite = { focus = GER_ruestungsprogramm_a focus = GER_ruestungsprogramm_b }
+		mutually_exclusive = { focus = GER_appoint_speer }
+		
+		x = -1 
+		y = 2
+		relative_position_id = GER_ministry_armaments_munitions
+		
+		
+		cost = 1 
+		available = {
+			NOT = { 
+				OR = {
+				has_idea = GER_ruestungsprogramm_a_idea
+				has_idea = GER_ruestungsprogramm_b_idea
+				}
+			}
+		}
+		
+		ai_will_do = {
+			factor = 5 
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_political_power = 150
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = todt
+			#GER = {
+			#country_event = germany.318
+			#}
+		}
+	}
+	
+	focus = { 
 		id = GER_appoint_speer
 		icon = GFX_goal_speer
 		prerequisite = { focus = GER_ruestungsprogramm_a focus = GER_ruestungsprogramm_b }
+		mutually_exclusive = { focus = GER_trust_todt }
 		
-		x = 0 
+		x = 1 
 		y = 2
 		relative_position_id = GER_ministry_armaments_munitions
 		
@@ -1425,11 +1461,11 @@ focus_tree = {
 	focus = { 
 		id = GER_ministry_armaments_and_war_production 
 		icon = GFX_goal_ministry_armaments_and_war_production 
-		prerequisite = { focus = GER_appoint_speer }
+		prerequisite = { focus = GER_appoint_speer focus = GER_trust_todt }
 		
 		x = 0
-		y = 1
-		relative_position_id = GER_appoint_speer
+		y = 3
+		relative_position_id = GER_ministry_armaments_munitions
 		
 		
 		cost = 1 
@@ -1442,16 +1478,75 @@ focus_tree = {
 		}
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
-			GER_albert_speer = {
-				remove_trait = {
-					slot = political_advisor 
-					trait = GER_minister_of_armament_and_munitions
+			if = {
+				limit = { 
+					NOT = { 
+						has_completed_focus = GER_trust_todt
+					}
 				}
-				add_trait = {
-					slot = political_advisor
-					trait = GER_minister_of_armament_and_war_production
+				effect_tooltip = {
+					GER_fritz_todt = {
+						remove_trait = {
+							slot = political_advisor 
+							trait = GER_minister_of_armament_and_munitions
+						}
+						add_trait = {
+							slot = political_advisor
+							trait = GER_minister_of_armament_and_war_production
+						}
+					}
 				}
 			}
+			if = {
+				limit = { 
+					NOT = { 
+						has_completed_focus = GER_appoint_speer
+					}
+				}
+				effect_tooltip = {
+					GER_albert_speer = {
+						remove_trait = {
+							slot = political_advisor 
+							trait = GER_minister_of_armament_and_munitions
+						}
+						add_trait = {
+							slot = political_advisor
+							trait = GER_minister_of_armament_and_war_production
+						}
+					}
+				}
+			}
+			if = {
+				limit = { 
+					has_completed_focus = GER_trust_todt
+				}
+				GER_fritz_todt = {
+					remove_trait = {
+						slot = political_advisor 
+						trait = GER_minister_of_armament_and_munitions
+					}
+					add_trait = {
+						slot = political_advisor
+						trait = GER_minister_of_armament_and_war_production
+					}
+				}
+			}
+			if = {
+				limit = { 
+					has_completed_focus = GER_appoint_speer
+				}
+				GER_albert_speer = {
+					remove_trait = {
+						slot = political_advisor 
+						trait = GER_minister_of_armament_and_munitions
+					}
+					add_trait = {
+						slot = political_advisor
+						trait = GER_minister_of_armament_and_war_production
+					}
+				}
+			}
+
 			random_owned_controlled_state = {
 				prioritize = { 52 }
 					limit = {
@@ -1690,6 +1785,9 @@ focus_tree = {
 		}
 
 		available = {
+			NOT = {
+				has_idea = GER_french_reparations
+			}
 			OR = {
 				FRA = { has_capitulated = yes }
 				FRA = { is_subject_of = GER }
@@ -1930,7 +2028,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_reorganise_the_industry
 		
-		cost = 6
+		cost = 2
 		available = {
 			date > 1943.1.1
 			has_war_with = USA
@@ -1977,7 +2075,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_total_war
 		
-		cost = 5
+		cost = 3
 		ai_will_do = {
 			factor = 10
 		}
@@ -2049,7 +2147,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_volkssturm
 		
-		cost = 4 
+		cost = 2
 		ai_will_do = {
 			factor = 10
 		}
@@ -2250,7 +2348,6 @@ focus_tree = {
 		}
 	
 		completion_reward = {
-
 			random_owned_controlled_state = {
 				prioritize = { 59 }
 					add_extra_state_shared_building_slots = 2
@@ -2262,15 +2359,9 @@ focus_tree = {
 			}
 			add_tech_bonus = {
 				name = GER_siemens
-				bonus = 1
+				bonus = 0.25
 				uses = 2
 				category = electronics		
-			}
-			add_tech_bonus = {
-				name = secret_bonus
-				ahead_reduction = 2
-				uses = 1
-				technology = experimental_rockets
 			}
 			if = {
 				limit = {
@@ -2282,52 +2373,12 @@ focus_tree = {
 					radio_detection = 1 
 				}
 			}
-			set_technology = { 
-				decimetric_radar = 1 
-			}
 
 			upgrade_intelligence_agency = upgrade_form_department
 			upgrade_intelligence_agency = upgrade_decryption_boost
 			upgrade_intelligence_agency = upgrade_decryption_boost
 			upgrade_intelligence_agency = upgrade_decryption_boost_2
 			upgrade_intelligence_agency = upgrade_crypto_strength_2
-
-			random_owned_controlled_state = {
-				prioritize = { 51 }
-					add_extra_state_shared_building_slots = 1
-						add_building_construction = {
-							type = radar_station
-							level = 1
-							instant_build = yes
-						}
-			}
-			random_owned_controlled_state = {
-				prioritize = { 42 }
-					add_extra_state_shared_building_slots = 1
-						add_building_construction = {
-							type = radar_station
-							level = 1
-							instant_build = yes
-						}
-			}
-			random_owned_controlled_state = {
-				prioritize = { 59 }
-					add_extra_state_shared_building_slots = 1
-						add_building_construction = {
-							type = radar_station
-							level = 1
-							instant_build = yes
-						}
-			}
-
-			
-			effect_tooltip = {
-				GER_mefo_bills_level_up = yes
-			}
-			hidden_effect = {
-				GER_mefo_bills_level_up = yes
-				 sound_effect = ger_siemens
-			}
 		}
 	}
 	
@@ -5118,6 +5169,7 @@ focus_tree = {
 			air_experience = 50
 			custom_effect_tooltip = available_theorist
 			show_ideas_tooltip = wolfram_von_richthofen
+			show_ideas_tooltip = hugo_sperrle_t
 		}
 	}
 
@@ -5130,7 +5182,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_air_innovation_2
 		
-		cost = 5
+		cost = 3
 		ai_will_do = {
 			factor = 5
 		}	
@@ -5138,19 +5190,11 @@ focus_tree = {
 		
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_POLITICAL }
 		completion_reward = {
-			custom_effect_tooltip = available_theorist
-			show_ideas_tooltip = erhard_milch_t
 			add_tech_bonus = {
 				name = fighter_bonus
-				bonus = 0.6
-				uses = 1
+				bonus = 0.5
+				uses = 2
 				category = light_fighter
-			}
-			add_tech_bonus = {
-				name = heavyfighter_bonus
-				bonus = 0.6
-				uses = 1
-				category = cat_heavy_fighter
 			}
 		}
 	}
@@ -5174,7 +5218,7 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 				name = heavyfighter_bonus
-				bonus = 0.6
+				bonus = 0.5
 				uses = 2
 				category = cat_heavy_fighter
 			}
@@ -5301,20 +5345,13 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_dive_bomber_improvement
 		
-		cost = 2
+		cost = 1
 		ai_will_do = {
 			factor = 0.1
 		}
 		available_if_capitulated = yes
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = { 
-			add_tech_bonus = {
-				name = specialized_ground_attack_aircraft
-				bonus = 0.5
-				uses = 2
-				technology = tech_hs_129_equipment_1
-				technology = tech_hs_129_equipment_2
-			}		
 			mio:GER_junkers_organization = {
 				add_mio_funds = 1500
 				unlock_mio_trait_tooltip = {
@@ -5337,7 +5374,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_air_innovation_2
 		
-		cost = 5
+		cost = 3
 		ai_will_do = {
 			factor = 0.1
 		}	
@@ -5346,21 +5383,9 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 				name = bomber_bonus
-				bonus = 0.65
-				uses = 1
+				bonus = 0.5
+				uses = 2
 				category = tactical_bomber
-			}
-			add_tech_bonus = {
-				name = heavy_bomber_bonus
-				bonus = 0.65
-				uses = 1
-				category = heavy_air	
-			}
-			add_tech_bonus = {
-				name = CAS_bonus
-				bonus = 0.65
-				uses = 1
-				category = cas_bomber
 			}
 		}
 	}
@@ -5375,7 +5400,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_air_innovation_2
 		
-		cost = 5
+		cost = 3
 		ai_will_do = {
 			factor = 0.1
 		}	
@@ -5383,25 +5408,14 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
 			add_tech_bonus = {
-				name = bomber_bonus
-				bonus = 0.65
-				uses = 1
-				category = tactical_bomber
-			}
-			add_tech_bonus = {
 				name = heavy_bomber_bonus
-				bonus = 0.65
-				uses = 1
+				bonus = 0.5
+				uses = 2
 				category = heavy_air	
-			}
-			add_tech_bonus = {
-				name = CAS_bonus
-				bonus = 0.65
-				uses = 1
-				category = cas_bomber
 			}
 		}
 	}
+	
 	focus = {
 		id = GER_lufthansa
 		icon = GFX_commercial_airplanes
@@ -5774,7 +5788,7 @@ focus_tree = {
 		available = {
 			has_completed_focus = GER_junkers 
 		}
-		cost = 6.5
+		cost = 3
 		ai_will_do = {
 			factor = 5
 		}
@@ -5782,15 +5796,15 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
 			add_tech_bonus = {
-				name = bomber_bonus
-				bonus = 0.6
+				name = specialized_ground_attack_aircraft
+				bonus = 0.5
 				uses = 2
-				technology = tech_ju_87_equipment_3
-				technology = tech_ju_87_equipment_4
-				technology = tech_ju_87_equipment_5
-			}
+				technology = tech_hs_129_equipment_1
+				technology = tech_hs_129_equipment_2
+			}		
 		}	
 	}
+	
 	focus = {
 		id = GER_antitank_aircraft_improvement
 		icon = GFX_goal_generic_air_fighter
@@ -6123,7 +6137,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_paratroopers
 		
-		cost = 2.9
+		cost = 2
 		ai_will_do = {
 			factor = 1
 		}
@@ -6133,35 +6147,35 @@ focus_tree = {
 		   custom_effect_tooltip = available_military_high_command
 		   show_ideas_tooltip = kurt_student
            hidden_effect = {
-			add_corps_commander_role = {
-				character = GER_albert_kesselring
-				traits={ trait_cautious airforce_background war_hero }
-			skill=4
-			attack_skill=2
-			defense_skill=4
-			planning_skill=3
-			logistics_skill=4
-			}
+				add_corps_commander_role = {
+					character = GER_albert_kesselring
+					traits={ trait_cautious airforce_background war_hero }
+					skill=4
+					attack_skill=2
+					defense_skill=4
+					planning_skill=3
+					logistics_skill=4
+				}
 			
-			add_corps_commander_role = {
-				character = GER_leo_geyr_von_schweppenburg
-				traits={ airforce_background armor_officer }
-			skill=3
-			attack_skill=2
-			defense_skill=2
-			planning_skill=3	
-			logistics_skill=3
-			}
+				add_corps_commander_role = {
+					character = GER_leo_geyr_von_schweppenburg
+					traits={ airforce_background armor_officer }
+					skill=3
+					attack_skill=2
+					defense_skill=2
+					planning_skill=3	
+					logistics_skill=3
+				}
 			
-			add_corps_commander_role = {
-				character = GER_kurt_student
-				traits={ airforce_background trait_reckless commando }
-			skill=4
-			attack_skill=4
-			defense_skill=2
-			planning_skill=4
-			logistics_skill=3
-			}
+				add_corps_commander_role = {
+					character = GER_kurt_student
+					traits={ airforce_background trait_reckless commando }
+					skill=4
+					attack_skill=4
+					defense_skill=2
+					planning_skill=4
+					logistics_skill=3
+				}
 			}
 			custom_effect_tooltip = GER_air_commanders_tt
 		}
@@ -6307,7 +6321,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_lufthansa
 		
-		cost = 2.9 
+		cost = 2
 		ai_will_do = {
 			factor = 0
 			modifier = {
@@ -6341,7 +6355,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_wehrmacht
 		
-		cost = 2.9 
+		cost = 2
 		ai_will_do = {
 			factor = 0
 			modifier = {
@@ -6380,7 +6394,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_stellungskrieg
 		
-		cost =5.8
+		cost = 4
 		ai_will_do = {
 			factor = 8
 		}	
@@ -6409,7 +6423,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_verbesserte_befehlskette
 		
-		cost =5.8
+		cost = 3
 		ai_will_do = {
 			factor = 8
 		}	
@@ -6443,7 +6457,7 @@ focus_tree = {
 		y = 4
 		relative_position_id = GER_bewegungskrieg
 		
-		cost = 4
+		cost = 2
 		ai_will_do = {
 			factor = 5 
 		}
@@ -6470,7 +6484,7 @@ focus_tree = {
 		y = 4
 		relative_position_id = GER_stellungskrieg
 		
-		cost = 4
+		cost = 2
 		ai_will_do = {
 			factor = 5 
 		}
@@ -6556,7 +6570,6 @@ focus_tree = {
 					technology = mechanised_infantry
 				}
 			}			
-
 		}
 	}
 	
@@ -6673,7 +6686,7 @@ focus_tree = {
 		y = 2
 		relative_position_id = GER_stellungskrieg
 		
-		cost = 5.8
+		cost = 4
 		ai_will_do = {
 			factor = 8
 		}
@@ -6708,7 +6721,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_krupp_artillery
 		
-		cost = 5 
+		cost = 4 
 		ai_will_do = {
 			factor = 0 
 			modifier = {
@@ -6747,7 +6760,7 @@ focus_tree = {
 		y = 1	
 		relative_position_id = GER_mobile_support
 		
-		cost = 5.8
+		cost = 4
 		ai_will_do = {
 			factor = 8
 		}
@@ -6784,7 +6797,7 @@ focus_tree = {
 		y = 3
 		relative_position_id = GER_rheinmetall_artillery
 		
-		cost = 4.3
+		cost = 3
 		ai_will_do = {
 			factor = 5 
 		}
@@ -6944,7 +6957,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_stellungskrieg
 		
-		cost = 5
+		cost = 3
 		ai_will_do = {
 			factor = 10
 		}	
@@ -7004,7 +7017,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_stellungskrieg
 		
-		cost = 5
+		cost = 3
 		ai_will_do = {
 			factor = 10
 		}
@@ -7072,7 +7085,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_medium_support_tanks
 		
-		cost = 5.8
+		cost = 4
 		ai_will_do = {
 			factor = 10
 		}
@@ -7121,7 +7134,7 @@ focus_tree = {
 		y = 3
 		relative_position_id = GER_allow_rheinmetall_merge
 		
-		cost = 5.8
+		cost = 4
 		ai_will_do = {
 			factor = 0
 			modifier = {
@@ -7158,7 +7171,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_Panzer_division
 		
-		cost = 5
+		cost = 4
 		ai_will_do = {
 			factor = 10
 		}
@@ -7228,7 +7241,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_leichte_division
 		
-		cost = 4.3
+		cost = 3
 		
 		# ai_will_do = {
 			# factor = 0
@@ -7269,7 +7282,7 @@ focus_tree = {
 		y = 3
 		relative_position_id = GER_leichte_division
 		
-		cost = 6
+		cost = 4
 		ai_will_do = {
 			factor = 10
 		}
@@ -7296,7 +7309,7 @@ focus_tree = {
 		y = 5
 		relative_position_id = GER_Panzer_division
 		
-		cost = 5.8
+		cost = 5
 		ai_will_do = {
 			factor = 10
 		}	
@@ -7321,7 +7334,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_Panzer_division
 		
-		cost = 5.8
+		cost = 5
 		ai_will_do = {
 			factor = 0
 			modifier = {
@@ -7353,7 +7366,7 @@ focus_tree = {
 		y = 5
 		relative_position_id = GER_medium_support_tanks
 		
-		cost = 5.8
+		cost = 5
 		ai_will_do = {
 			factor = 0
 			modifier = {
@@ -7418,7 +7431,7 @@ focus_tree = {
 		y = 6
 		relative_position_id = GER_wehrmacht
 		
-		cost = 7.2 
+		cost = 2 
 		ai_will_do = { 
 			factor = 10
 		}
@@ -7674,7 +7687,7 @@ focus_tree = {
 		y = 9
 		relative_position_id = GER_wehrmacht
 		
-		cost = 7.2 
+		cost = 3
 		ai_will_do = { 
 			factor = 10
 		}
@@ -7714,7 +7727,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_improved_staff
 		
-		cost = 4.3 
+		cost = 4
 		ai_will_do = {
 			factor = 0 
 			modifier = {
@@ -7746,7 +7759,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_improved_staff
 		
-		cost = 5.8
+		cost = 5
 		ai_will_do = {
 			factor = 10
 		}	
@@ -7771,7 +7784,7 @@ focus_tree = {
 		y = 2
 		relative_position_id = GER_panther_d
 		
-		cost = 5.8
+		cost = 5
 		ai_will_do = {
 			factor = 10
 		}	
@@ -7797,7 +7810,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_improved_staff
 		
-		cost = 6.5
+		cost = 6
 		ai_will_do = {
 			factor = 10
 		}
@@ -7824,7 +7837,7 @@ focus_tree = {
 		y = 2
 		relative_position_id = GER_Heavy_panzer
 		
-		cost = 7.8
+		cost = 5
 		ai_will_do = {
 			factor = 10
 		}
@@ -7862,7 +7875,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_king_tiger
 		
-		cost = 8.5
+		cost = 6
 		ai_will_do = {
 			factor = 1
 		}
@@ -7900,7 +7913,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_stellungskrieg
 		
-		cost = 5
+		cost = 3
 		ai_will_do = {
 			factor = 4 
 		}
@@ -7927,7 +7940,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_bewegungskrieg
 		
-		cost = 5
+		cost = 3
 		ai_will_do = {
 			factor = 4 
 		}
@@ -7954,7 +7967,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_improved_staff
 		
-		cost = 5
+		cost = 3
 		ai_will_do = {
 			factor = 4 
 		}
@@ -7979,7 +7992,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_modernize_support
 		
-		cost = 5.8
+		cost = 4
 		
 		ai_will_do = { 
 			factor = 1
@@ -8010,7 +8023,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_modernize_support
 		
-		cost = 5.8
+		cost = 5
 		
 		ai_will_do = { 
 			factor = 1
@@ -8039,7 +8052,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_improved_staff
 		
-		cost = 5.8
+		cost = 5
 		ai_will_do = {
 			factor = 8
 		}
@@ -8072,7 +8085,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_mechanized_offensive
 		
-		cost = 5.8
+		cost = 5
 		ai_will_do = {
 			factor = 8
 		}
@@ -8105,7 +8118,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_mechanized_offensive
 		
-		cost = 5.8
+		cost = 5
 		ai_will_do = {
 			factor = 8
 		}
@@ -8140,7 +8153,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_improved_staff
 		
-		cost = 5.8
+		cost = 5
 		ai_will_do = {
 			factor = 8
 		}
@@ -8178,7 +8191,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_kampfgruppes
 		
-		cost = 8.7
+		cost = 5
 		ai_will_do = {
 			factor = 4
 			modifier = {
@@ -8226,7 +8239,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_kampfgruppes
 		
-		cost = 8.7
+		cost = 5
 		ai_will_do = {
 			factor = 0 
 		}
@@ -8255,7 +8268,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_support_das_aussenpolitische_amt_der_NSDAP
 		
-		cost = 8.7
+		cost = 1
 		ai_will_do = {
 			factor = 0 
 		}
@@ -8282,7 +8295,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_juliabkommen
 		
-		cost = 2
+		cost = 1
 		ai_will_do = {
 			factor = 0 
 		}
@@ -8331,7 +8344,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_berchtesgadener_abkommen
 		
-		cost = 8.7
+		cost = 2
 		
 		available = {
 			is_subject = no
@@ -8656,6 +8669,8 @@ focus_tree = {
 		id = GER_soviet_ally
 		icon = GFX_focus_chi_mission_to_the_soviet_union
 		prerequisite = { focus = GER_german_soviet_trade_agreement }
+		mutually_exclusive = { focus = GER_ussr_war_goal }
+		
 		x = 0
 		y = 1
 		relative_position_id = GER_german_soviet_trade_agreement
@@ -8728,9 +8743,9 @@ focus_tree = {
 			country_exists = TUR
 		}
 		
-		x = -8
-		y = 8
-		relative_position_id = GER_anschluss
+		x = 2
+		y = 1
+		relative_position_id = GER_soviet_ally
 		
 		cost = 10
 		ai_will_do = {
@@ -8764,9 +8779,9 @@ focus_tree = {
 			country_exists = TUR
 		}
 		
-		x = -8
-		y = 9
-		relative_position_id = GER_anschluss
+		x = 0
+		y = 1
+		relative_position_id = GER_turkey_puppet_2
 		
 		cost = 12
 		ai_will_do = {
@@ -8992,7 +9007,7 @@ focus_tree = {
 		prerequisite = { focus = GER_stahlpakt }
 		
 		x = -2
-		y = 2
+		y = 3
 		relative_position_id = GER_military_cooperations_with_japan
 
 		cost = 2
@@ -9109,7 +9124,7 @@ focus_tree = {
 		icon = GFX_focus_chi_cooperation_with_the_nationalists
 		prerequisite = { focus = GER_reform_das_auswaertige_amt focus = GER_support_das_aussenpolitische_amt_der_NSDAP }
 		
-		x = 18
+		x = 24
 		y = 1	
 		relative_position_id = GER_reform_das_auswaertige_amt
 		
@@ -9656,14 +9671,13 @@ focus_tree = {
 		id = GER_support_das_aussenpolitische_amt_der_NSDAP
 		icon = GFX_Goal_Roma_Berlino
 		prerequisite = { focus = GER_rhineland }
-		prerequisite = { focus = GER_Schutzstaffel_focus }
 		mutually_exclusive = { focus = GER_reform_das_auswaertige_amt }
 		
 		x = -1
 		y = 1 
 		relative_position_id = GER_rhineland
 		
-		cost = 4 
+		cost = 2 
 		
 		available_if_capitulated = no 
 		available = {
@@ -9677,10 +9691,11 @@ focus_tree = {
 		}
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
-			add_war_support = 0.05
-			add_popularity = { ideology = fascism popularity = 0.05 }
+			add_war_support = 0.1
+			add_popularity = { ideology = fascism popularity = 0.1 }
 		}
 	}
+	
 	focus = { 
 		id = GER_achse_berlin_rom 
 		icon = GFX_Goal_Befriend_Italy
@@ -10157,12 +10172,13 @@ focus_tree = {
 		id = GER_ussr_war_goal
 		icon = GFX_Goal_Op_barbarossa
 		prerequisite = { focus = GER_war_with_france }
+		mutually_exclusive = { focus = GER_soviet_ally }
 		
-		x = -3
-		y = 1
+		x = 0
+		y = 2
 		relative_position_id = GER_war_with_france
 		
-		cost = 3.5
+		cost = 2
 		
 		will_lead_to_war_with = SOV
 
@@ -10243,6 +10259,7 @@ focus_tree = {
 		}
 		bypass = {
 			has_war_with = SOV
+			has_completed_focus = GER_operation_barbarossa
 		}
 		ai_will_do = {
 			factor = 15
@@ -10266,8 +10283,10 @@ focus_tree = {
 		}	
 		search_filters = { FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
-			#replaced as a decision
-			unlock_decision_tooltip = GER_barbarossa
+ 			create_wargoal = {
+				type = annex_everything
+				target = SOV
+			}
 		}
 	}
 	
@@ -10291,6 +10310,9 @@ focus_tree = {
 			is_puppet = no
 			has_army_manpower = { size > 1799999 } 
 			is_neighbor_of = SOV
+			NOT = {
+				has_completed_focus = GER_soviet_ally 
+			}
 			OR = {
 			POL = { has_capitulated = yes }
 			POL = { is_in_faction_with = GER }
@@ -10799,9 +10821,9 @@ focus_tree = {
 		#	}
 		#}
 		
-		x = -6
-		y = 8
-		relative_position_id = GER_anschluss
+		x = 0
+		y = 1
+		relative_position_id = GER_ussr_war_goal
 		
 		cost = 13
 		historical_ai = {
@@ -11666,9 +11688,9 @@ focus_tree = {
 			}
 		}
 		
-		x = -4
-		y = 9
-		relative_position_id = GER_anschluss
+		x = -2
+		y = 1
+		relative_position_id = GER_ussr_war_goal
 		
 		cost = 3
 		ai_will_do = {
