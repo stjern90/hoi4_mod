@@ -48,7 +48,7 @@ focus_tree = {
 		prerequisite = { focus = GER_reform_luftwaffe }
 		icon = GFX_goal_generic_air_production
 		
-		x = -2
+		x = 0
 		y = 3
 		relative_position_id = GER_air_innovation_2
 		
@@ -62,7 +62,7 @@ focus_tree = {
 			random_owned_controlled_state = {
 				prioritize = { 65 }
 					limit = {
-					is_core_of = GER
+						is_core_of = GER
 					}
 					add_extra_state_shared_building_slots = 1
 					add_building_construction = {
@@ -74,7 +74,7 @@ focus_tree = {
 			random_owned_controlled_state = {
 				prioritize = { 59 }
 					limit = {
-					is_core_of = GER
+						is_core_of = GER
 					}
 					add_extra_state_shared_building_slots = 1
 					add_building_construction = {
@@ -86,7 +86,7 @@ focus_tree = {
 			random_owned_controlled_state = {
 				prioritize = { 52 }
 					limit = {
-					is_core_of = GER
+						is_core_of = GER
 					}
 					add_extra_state_shared_building_slots = 1
 					add_building_construction = {
@@ -112,11 +112,11 @@ focus_tree = {
 	focus = {
 		id = GER_focke_wulf
 		icon = GFX_goal_ger_focke_wulf
-		prerequisite = { focus = GER_fighter_air_effort  }
+		prerequisite = { focus = GER_fighter_geschwader  }
 		
 		x = 0
 		y = 1
-		relative_position_id = GER_fighter_air_effort
+		relative_position_id = GER_fighter_geschwader
 		
 		cost = 1
 		
@@ -279,7 +279,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_reform_luftwaffe
 		
-		cost = 7.2
+		cost = 4
 		ai_will_do = {
 			factor = 1
 		}
@@ -288,9 +288,10 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 				name = jet_bonus
+				ahead_reduction = 0.4
 				bonus = 0.6
-				uses = 2
-				category = jet_technology
+				uses = 1
+				technology = jet_engines
 			}
 		}
 	}
@@ -1220,18 +1221,21 @@ focus_tree = {
 		}
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = { 
-		swap_ideas = {
-			remove_idea = GER_DAF
-			add_idea = GER_RAD
-		}
-		#GER = {
-			#country_event = { id = germany.321 days = 1 }
-		#}
+			swap_ideas = {
+				remove_idea = GER_DAF
+				add_idea = GER_RAD
+			}
 			add_tech_bonus = {
 				name = construction_tech_bonus
 				bonus = 0.25
 				uses = 1
 				category = construction_tech
+			}
+			if = {
+				limit = {
+					is_ai = yes
+				}	
+				GER_add_ai_construction_q3 = yes
 			}
 		}
 	}
@@ -4980,24 +4984,19 @@ focus_tree = {
 			add_ideas = GER_air_innovations_1_idea
 			air_experience = 25
 			add_tech_bonus = {
-				name = air_doc_bonus
-				bonus = 0.6
-				uses = 2
-				category = air_doctrine
-			}
-			add_tech_bonus = {
 				name = radar_tech_bonus
 				bonus = 0.5
 				uses = 1
 				category = radar_tech
-			}			
-		custom_effect_tooltip = available_chief_of_airforce
-		show_ideas_tooltip = ritter_von_greim
+			}
+			GER = {
+				country_event = { id = germany.321 days = 1 }
+			}
 		}
 	}
 	
 	focus = {
-		id = GER_standard_fighter
+		id = GER_standard_fighter_improvements
 		icon = GFX_goal_ger_messerschmitt_fighter
 		prerequisite = { focus = GER_bank_of_german_aviation }
 	
@@ -5015,7 +5014,7 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 				name = fighter_bonus
-				bonus = 0.6
+				bonus = 0.4
 				uses = 2
 				category = light_fighter
 			}
@@ -5026,7 +5025,7 @@ focus_tree = {
 	focus = {
 		id = GER_messerschmitt
 		icon = GFX_goal_ger_messerschmitt
-		prerequisite = { focus = GER_standard_fighter focus = GER_escort_fighter }
+		prerequisite = { focus = GER_standard_fighter_improvements focus = GER_escort_fighter }
 		
 		mutually_exclusive = { focus = GER_heinkel_fighter }
 		
@@ -5042,15 +5041,6 @@ focus_tree = {
 		available_if_capitulated = yes
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
-			set_technology = { 
-				tech_me_109_early_fighter_equipment_1 = 1 
-			}
-			add_tech_bonus = { 
-				name = fighter_bonus
-				bonus = 0.3 
-				uses = 1 
-				technology = tech_me_109_mid_fighter_equipment_1
-			}
 			mio:GER_messerschmitt_organization = {
 				add_mio_size = 1
 				add_mio_funds_gain_factor = 0.35
@@ -5064,14 +5054,14 @@ focus_tree = {
 	focus = {
 		id = GER_heinkel_fighter 
 		icon = GFX_goal_ger_heinkel 
-		prerequisite = { focus = GER_standard_fighter focus = GER_escort_fighter }
+		prerequisite = { focus = GER_standard_fighter_improvements focus = GER_escort_fighter }
 		mutually_exclusive = { focus = GER_messerschmitt }
 		
 		x = 0
 		y = 1
-		relative_position_id = GER_standard_fighter
+		relative_position_id = GER_standard_fighter_improvements
 		
-		cost = 4.3
+		cost = 2
 		ai_will_do = {
 			factor = 0 
 		}
@@ -5080,16 +5070,15 @@ focus_tree = {
 		available_if_capitulated = yes
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
-		    custom_effect_tooltip = available_aircraft_manufacturer
-			show_ideas_tooltip = heinkel
-			set_technology = { 
-				tech_he_112_equipment_1 = 1 
-			}
-			add_tech_bonus = { 
-				name = fighter_bonus
-				bonus = 0.3 
-				uses = 1 
-				technology = tech_he_100_equipment_1 
+			mio:GER_heinkel_organization = {
+				add_mio_size = 1
+				add_mio_funds_gain_factor = 0.35
+				add_mio_research_bonus = 0.05
+				add_mio_design_team_assign_cost = -0.2
+				add_mio_design_team_change_cost = -0.2
+				unlock_mio_trait_tooltip = {
+					trait = generic_mio_trait_fighter_aircraft_specialists
+				}
 			}
 		}
 	}
@@ -5102,7 +5091,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_ural_bomber
 		
-		cost = 4.3
+		cost = 1
 		ai_will_do = {
 			factor = 0 
 		}
@@ -5111,16 +5100,11 @@ focus_tree = {
 		available_if_capitulated = yes
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
-		    custom_effect_tooltip = available_aircraft_manufacturer
-			show_ideas_tooltip = heinkel
-			set_technology = { 
-				tech_he_112_equipment_1 = 1 
-			}
-			add_tech_bonus = { 
-				name = fighter_bonus
-				bonus = 0.3 
-				uses = 1 
-				technology = tech_he_100_equipment_1 
+			mio:GER_heinkel_organization = {
+				add_mio_funds = 1500
+				unlock_mio_trait_tooltip = {
+					trait = generic_mio_trait_heavy_bomber_aircraft_specialists
+				}
 			}
 		}
 	}
@@ -5155,7 +5139,7 @@ focus_tree = {
 	}
 
 	focus = {
-		id = GER_fighter_air_effort
+		id = GER_fighter_geschwader
 		icon = GFX_goal_ger_messerschmitt_fighter
 		prerequisite = { focus = GER_air_innovation_2 }
 	
@@ -5167,13 +5151,168 @@ focus_tree = {
 		ai_will_do = {
 			factor = 5
 		}	
+		
+		available = {
+			OR = {
+			has_tech = tech_he_100_equipment_1
+			has_tech = 
+			}
+		}
+		
 		available_if_capitulated = yes
 		
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_POLITICAL }
 		completion_reward = {
+			custom_effect_tooltip = GER_fighter_geschwader_tt
+			hidden_effect = {
+				GER = {
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_he_100_equipment_1
+								NOT = { has_tech = tech_fw_190_fighter_equipment_1 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = he_100_equipment_1
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_fw_190_fighter_equipment_1
+								NOT = { has_tech = tech_fw_190_fighter_equipment_d }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = fw_190_fighter_equipment_1
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_fw_190_fighter_equipment_d
+								NOT = { has_tech = tech_fw_190_fighter_equipment_2 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = fw_190_d_fighter_equipment
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_fw_190_fighter_equipment_2
+								NOT = { has_tech = tech_ta_152_fighter_equipment_1 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = fw_190_fighter_equipment_2
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_ta_152_fighter_equipment_1
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = ta_152_fighter_equipment_1
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_me_109_mid_fighter_equipment_1
+								NOT = { has_tech = tech_me_109_late_fighter_equipment_1 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = me_109_mid_fighter_equipment_1
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_me_109_late_fighter_equipment_1
+								NOT = { has_tech = tech_me_109_late_fighter_equipment_2 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = me_109_late_fighter_equipment_1
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_me_109_late_fighter_equipment_2
+								NOT = { has_tech = tech_me_109_late_fighter_equipment_3 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = me_109_late_fighter_equipment_2
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_me_109_late_fighter_equipment_3
+								NOT = { has_tech = tech_me_262_fighter_equipment_1 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = me_109_late_fighter_equipment_3
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_me_262_fighter_equipment_1
+								NOT = { has_tech = tech_me_1101_fighter_equipment_1 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = jet_fighter_equipment_1
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_me_1101_fighter_equipment_1
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = jet_fighter_equipment_2
+							amount = 200 
+							producer = GER 
+						}
+					}
+				}
+			}
+			
 			add_tech_bonus = {
 				name = fighter_bonus
-				bonus = 0.5
+				bonus = 0.2
 				uses = 2
 				category = light_fighter
 			}
@@ -5199,7 +5338,7 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 				name = heavyfighter_bonus
-				bonus = 0.5
+				bonus = 0.4
 				uses = 2
 				category = cat_heavy_fighter
 			}
@@ -5217,18 +5356,23 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_air_innovation
 		
-		cost = 4.3
+		cost = 3
 		ai_will_do = {
 			factor = 5
 		}
 		available_if_capitulated = yes		
 		
-		available = { or = { has_country_flag = SPR_sent_volunteers_to_SPA_flag date > 1939.1.1 } }
+		available = { 
+			
+		}
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
+			set_technology = { 
+				formation_flying = 1
+			}
 			add_tech_bonus = {
 				name = op_dest_bonus
-				bonus = 0.5
+				bonus = 0.35
 				uses = 2
 				category = battlefield_support_tree
 			}
@@ -5244,18 +5388,23 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_fast_bomber
 		
-		cost = 4.3
+		cost = 2
 		ai_will_do = {
 			factor = 5
 		}
 		available_if_capitulated = yes		
 		
-		available = { or = { has_country_flag = SPR_sent_volunteers_to_SPA_flag date > 1939.1.1 } }
+		available = { 
+			OR = { 
+				has_country_flag = SPR_sent_volunteers_to_SPA_flag 
+				has_war = yes
+			} 
+		}
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
 			add_tech_bonus = {
 				name = op_dest_bonus
-				bonus = 0.5
+				bonus = 0.25
 				uses = 2
 				category = battlefield_support_tree
 			}
@@ -5272,18 +5421,22 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_air_innovation
 		
-		cost = 4.3
+		cost = 3
 		ai_will_do = {
 			factor = 5
 		}
 		available_if_capitulated = yes		
 		
-		available = { or = { has_country_flag = SPR_sent_volunteers_to_SPA_flag date > 1939.1.1 } }
+		available = { 
+		}
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
+			set_technology = { 
+				force_rotation = 1
+			}
 			add_tech_bonus = {
 				name = op_dest_bonus
-				bonus = 0.5
+				bonus = 0.35
 				uses = 2
 				category = operational_integrity_tree
 			}
@@ -5299,18 +5452,23 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_flexible_bomber
 		
-		cost = 4.3
+		cost = 2
 		ai_will_do = {
 			factor = 5
 		}
 		available_if_capitulated = yes		
 		
-		available = { or = { has_country_flag = SPR_sent_volunteers_to_SPA_flag date > 1939.1.1 } }
+		available = { 
+			OR = { 
+				has_country_flag = SPR_sent_volunteers_to_SPA_flag 
+				has_war = yes 
+			} 
+		}
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
 			add_tech_bonus = {
 				name = op_dest_bonus
-				bonus = 0.5
+				bonus = 0.25
 				uses = 2
 				category = operational_integrity_tree
 			}
@@ -5320,11 +5478,11 @@ focus_tree = {
 	focus = {
 		id = GER_antitank_aircraft
 		icon = GFX_goal_ger_henschel_air
-		prerequisite = { focus = GER_dive_bomber_improvement }
+		prerequisite = { focus = GER_dive_bomber_geschwader }
 		
 		x = 0
 		y = 1
-		relative_position_id = GER_dive_bomber_improvement
+		relative_position_id = GER_dive_bomber_geschwader
 		
 		cost = 1
 		ai_will_do = {
@@ -5349,22 +5507,177 @@ focus_tree = {
 		id = GER_bomber_geschwader
 		icon = GFX_goal_ger_flexible_bomber
 		prerequisite = { focus = GER_air_innovation_2 }
-		mutually_exclusive = { focus = GER_schwere_bomber_geschwader }
 	
 		x = -1
 		y = 1
 		relative_position_id = GER_air_innovation_2
 		
 		cost = 3
+		
 		ai_will_do = {
 			factor = 0.1
 		}	
+		
+		available = {
+			OR = {
+				has_tech = tech_he_111_bomber_equipment_1
+				has_tech = tech_do_17_bomber_equipment_1
+			}
+		}
+		
 		available_if_capitulated = yes
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
+			custom_effect_tooltip = GER_bomber_geschwader_tt
+			hidden_effect = {
+				GER = {
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_he_111_bomber_equipment_1
+								NOT = { has_tech = tech_he_111_bomber_equipment_2 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = he_111_bomber_equipment_1
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_do_17_bomber_equipment_1
+								NOT = { has_tech = tech_do_17_bomber_equipment_2 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = do_17_bomber_equipment_1
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_he_111_bomber_equipment_2
+								NOT = { has_tech = tech_he_111_bomber_equipment_3 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = he_111_bomber_equipment_2
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_do_17_bomber_equipment_2
+								NOT = { has_tech = tech_do_217_bomber_equipment_1 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = do_17_bomber_equipment_2
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_he_111_bomber_equipment_3
+								NOT = { has_tech = tech_he_111_bomber_equipment_4 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = he_111_bomber_equipment_3
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_do_217_bomber_equipment_1
+								NOT = { has_tech = tech_do_217_bomber_equipment_2 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = do_217_bomber_equipment_1
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_he_111_bomber_equipment_4
+								NOT = { has_tech = tech_ar_234_bomber_equipment_1 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = he_111_bomber_equipment_4
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_do_217_bomber_equipment_2
+								NOT = { has_tech = tech_do_217_bomber_equipment_3 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = do_217_bomber_equipment_2
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_do_217_bomber_equipment_3
+								NOT = { has_tech = tech_ar_234_bomber_equipment_1 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = do_217_bomber_equipment_3
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_ar_234_bomber_equipment_1
+								NOT = { has_tech = tech_ar_234_bomber_equipment_2 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = jet_tac_bomber_equipment_1
+							amount = 300 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_ar_234_bomber_equipment_2
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = jet_tac_bomber_equipment_2
+							amount = 300 
+							producer = GER 
+						}
+					}
+				} 
+			}
 			add_tech_bonus = {
 				name = bomber_bonus
-				bonus = 0.5
+				bonus = 0.2
 				uses = 2
 				category = tactical_bomber
 			}
@@ -5375,7 +5688,6 @@ focus_tree = {
 		id = GER_schwere_bomber_geschwader
 		icon = GFX_goal_ger_schwere_bomber_geschwader
 		prerequisite = { focus = GER_air_innovation_2 }
-		mutually_exclusive = { focus = GER_bomber_geschwader }
 	
 		x = 1
 		y = 1
@@ -5385,12 +5697,100 @@ focus_tree = {
 		ai_will_do = {
 			factor = 0.1
 		}	
+		
+		available = {
+			has_tech = tech_he_177
+		}
+		
 		available_if_capitulated = yes
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
+			custom_effect_tooltip = GER_schwere_bomber_geschwader_tt
+			hidden_effect = {
+				GER = {
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_he_177
+								NOT = { has_tech = tech_he_177_1 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = he_177_bomber_equipment_0
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_he_177_1
+								NOT = { has_tech = tech_he_177_2 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = he_177_bomber_equipment_1
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_he_177_2
+								NOT = { has_tech = tech_he_177_3 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = he_177_bomber_equipment_2
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_he_177_3
+								NOT = { has_tech = tech_he_177_4 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = he_177_bomber_equipment_3
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_he_177_4
+								NOT = { has_tech = tech_jet_strat_bomber_ger_equipment_1 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = he_177_bomber_equipment_4
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_jet_strat_bomber_ger_equipment_1
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = jet_strat_bomber_equipment_1
+							amount = 200 
+							producer = GER 
+						}
+					}
+				}
+			}
+		
 			add_tech_bonus = {
 				name = heavy_bomber_bonus
-				bonus = 0.5
+				bonus = 0.15
 				uses = 2
 				category = heavy_air	
 			}
@@ -5758,7 +6158,7 @@ focus_tree = {
 	}
 	
 	focus = {
-		id = GER_dive_bomber_improvement
+		id = GER_dive_bomber_geschwader
 		icon = GFX_goal_ger_close_air_support
 		prerequisite = { focus = GER_air_innovation_2 }
 
@@ -5767,8 +6167,12 @@ focus_tree = {
 		relative_position_id = GER_air_innovation_2
 		
 		available = {
-			has_completed_focus = GER_junkers 
+			OR = {
+				has_tech = tech_ju_87_equipment_1
+				has_tech = tech_ju_88_bomber_equipment_1
+			}
 		}
+		
 		cost = 3
 		ai_will_do = {
 			factor = 5
@@ -5776,9 +6180,170 @@ focus_tree = {
 		available_if_capitulated = yes
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
+			custom_effect_tooltip = GER_dive_bomber_geschwader_tt
+			hidden_effect = {
+				GER = {
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_ju_87_equipment_1
+								NOT = { has_tech = tech_ju_87_equipment_2 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = ju_87_equipment_1
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_ju_87_equipment_2
+								NOT = { has_tech = tech_hs_129_equipment_1 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = ju_87_equipment_2
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_hs_129_equipment_1
+								NOT = { has_tech = tech_hs_129_equipment_2 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = hs_129_equipment_1
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_hs_129_equipment_2
+								NOT = { has_tech = tech_ju_87_equipment_6 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = hs_129_equipment_2
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_ju_87_equipment_6
+								NOT = { has_tech = tech_ju_87_equipment_7 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = ju_87_equipment_6
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_ju_87_equipment_7
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = ju_87_equipment_7
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_ju_88_bomber_equipment_1
+								NOT = { has_tech = tech_ju_88_bomber_equipment_2 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = ju_88_bomber_equipment_1
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_ju_88_bomber_equipment_2
+								NOT = { has_tech = tech_ju_88_bomber_equipment_3 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = ju_88_bomber_equipment_2
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_ju_88_bomber_equipment_3
+								NOT = { has_tech = tech_ju_88_bomber_equipment_4 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = ju_88_bomber_equipment_3
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_ju_88_bomber_equipment_4
+								NOT = { has_tech = tech_ar_234_bomber_equipment_1 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = ju_88_bomber_equipment_4
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_ar_234_bomber_equipment_1
+								NOT = { has_tech = tech_ar_234_bomber_equipment_2 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = jet_tac_bomber_equipment_1
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_ar_234_bomber_equipment_2
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = jet_tac_bomber_equipment_2
+							amount = 200 
+							producer = GER 
+						}
+					}
+				}
+			}
+		
+		
 			add_tech_bonus = {
 				name = specialized_ground_attack_aircraft
-				bonus = 0.5
+				bonus = 0.2
 				uses = 2
 				technology = tech_hs_129_equipment_1
 				technology = tech_hs_129_equipment_2
@@ -5787,32 +6352,31 @@ focus_tree = {
 	}
 	
 	focus = {
-		id = GER_antitank_aircraft_improvement
-		icon = GFX_goal_generic_air_fighter
+		id = GER_versatile_airforce
+		icon = GFX_goal_ger_versatile_airforce
 		prerequisite = { focus = GER_reform_luftwaffe }
 		
-		x = 0
+		x = -2
 		y = 1
 		relative_position_id = GER_reform_luftwaffe
 		
 		available = {
-			has_completed_focus = GER_antitank_aircraft 
 		}
 		
-		cost = 6.5
+		cost = 3
 		ai_will_do = {
 			factor = 0.1
 		}
 		available_if_capitulated = yes
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
-		
 			add_tech_bonus = {
-				name = specialized_ground_attack_aircraft
-				bonus = 0.6
+				name = GER_versatile_airforce
+				bonus = 0.4
 				uses = 2
-				technology = tech_hs_129_equipment_2
-				technology = tech_hs_129_equipment_3
+				category = light_air
+				category = medium_air
+				category = heavy_air			
 			}	
 		}
 	}
@@ -5826,7 +6390,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_bomber_geschwader
 		
-		cost = 5 
+		cost = 2 
 		ai_will_do = {
 			factor = 1
 			modifier = {
@@ -5840,11 +6404,12 @@ focus_tree = {
 		}
 		available_if_capitulated = yes
 		search_filters = { FOCUS_FILTER_INDUSTRY }
+		
 		completion_reward = {
 			add_timed_idea = {
-					idea = GER_strategic_bombing_focus
-					days = 180
-				}
+				idea = GER_strategic_bombing_focus
+				days = 180
+			}
 		}
 	}
 	
@@ -5854,26 +6419,25 @@ focus_tree = {
 		prerequisite = { focus = GER_air_innovation_3 }
 		
 		available = {
-			date > 1942.1.1
+			has_tech = jet_engines
 		}
 		
 		x = 0
 		y = 1
 		relative_position_id = GER_air_innovation_3
 		
-		cost = 6.5
+		cost = 4
 		ai_will_do = {
 			factor = 0.2
 		}
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
-		    custom_effect_tooltip = available_chief_of_airforce
-			show_ideas_tooltip = kreipe
 		    add_tech_bonus = {
 				name = bomber_bonus
 				bonus = 0.5
 				uses = 2
-				category = tactical_bomber
+				technology = tech_ar_234_bomber_equipment_1
+				technology = tech_ar_234_bomber_equipment_2
 			}
 		}	
 	}
@@ -5885,24 +6449,25 @@ focus_tree = {
 		
 		available = {
 			has_war_with = USA
-			has_completed_focus = GER_ural_bomber
+			has_tech = jet_engines
 		}
 		
 		x = 2
 		y = 1
 		relative_position_id = GER_air_innovation_3
 		
-		cost = 8.7
+		cost = 3
 		ai_will_do = {
 			factor = 0.2
 		}
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
-		add_tech_bonus = {
-			name = heavy_bomber_bonus
-			bonus = 0.75
-			uses = 2
-			category = heavy_air
+			add_tech_bonus = {
+				name = heavy_bomber_bonus
+				ahead_reduction = 0.25
+				bonus = 0.6
+				uses = 1
+				technology = tech_jet_strat_bomber_ger_equipment_1
 			}
 		}	
 	}
@@ -5910,7 +6475,7 @@ focus_tree = {
 	focus = {
 		id = GER_reform_luftwaffe
 		icon = GFX_goal_ger_reform_luftwaffe
-		prerequisite = { focus = GER_fighter_air_effort focus = GER_heavyfighter_effort focus = GER_schwere_bomber_geschwader focus = GER_dive_bomber_improvement  }
+		prerequisite = { focus = GER_fighter_geschwader focus = GER_heavy_fighter_geschwader focus = GER_schwere_bomber_geschwader focus = GER_dive_bomber_geschwader  }
 		
 		x = 0
 		y = 2
@@ -5918,28 +6483,33 @@ focus_tree = {
 		
 		cost = 5
 		available = {
-		      date > 1942.1.1
 		}
 		ai_will_do = {
 			factor = 12
 		}
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_POLITICAL }
 		completion_reward = {
-			
-			
 			custom_effect_tooltip = remove_chief_of_airforce
 			show_ideas_tooltip = goering
 			hidden_effect = {
+				if = {
+					limit = {
+						has_idea = goering
+					}
 				remove_ideas = goering
+				add_ideas = GER_werner_kreipe
+				}
 			}
+			custom_effect_tooltip = available_chief_of_airforce
+			show_ideas_tooltip = GER_werner_kreipe
 			add_popularity = {
 				ideology = fascism
 				popularity = -0.02
 			}
-         add_tech_bonus = {
+			add_tech_bonus = {
 				name = air_doc_bonus
-				bonus = 0.75
-				uses = 1
+				bonus = 0.35
+				uses = 2
 				category = air_doctrine
 			}
 		}
@@ -5955,10 +6525,10 @@ focus_tree = {
 		relative_position_id = GER_air_innovation_3
 		
 		available = {
-			has_completed_focus = GER_fighter_air_effort 
+			has_tech = jet_engines
 		}
 		
-		cost = 5
+		cost = 3
 		ai_will_do = {
 			factor = 5
 		}
@@ -5969,21 +6539,21 @@ focus_tree = {
 				name = fighter_bonus
 				bonus = 0.75
 				uses = 1
-				category = light_fighter				
+				technology = tech_me_262_fighter_equipment_1	
+				technology = tech_me_1101_fighter_equipment_1
 			}
 		}
 	}
 	focus = {
 		id = GER_air_innovation_3
 		icon = GFX_goal_ger_OKL
-		prerequisite = { focus = GER_expand_aircraft_factories focus = GER_jet_engines focus = GER_antitank_aircraft_improvement }
+		prerequisite = { focus = GER_expand_aircraft_factories focus = GER_jet_engines focus = GER_versatile_airforce }
 		
 		x = 0
 		y = 2
 		relative_position_id = GER_reform_luftwaffe
 		
 		available = {
-			date > 1942.6.1
 		}
 		
 		cost = 5
@@ -5996,11 +6566,13 @@ focus_tree = {
 			swap_ideas = { 
 				remove_idea = GER_air_innovations_2_idea
 				add_idea = GER_air_innovations_3_idea
-				}
+			}
+			custom_effect_tooltip = available_chief_of_airforce
+			show_ideas_tooltip = ritter_von_greim
 		}
 	}
 	focus = {
-		id = GER_heavyfighter_effort
+		id = GER_heavy_fighter_geschwader
 		icon = GFX_goal_ger_messerschmitt_heavy_fighter
 		prerequisite = { focus = GER_air_innovation_2 }
 		
@@ -6009,7 +6581,7 @@ focus_tree = {
 		relative_position_id = GER_air_innovation_2
 		
 		available = {
-			has_completed_focus = GER_fighter_air_effort 
+			has_tech = tech_bf_110_fighter_equipment_2
 		}
 		
 		cost = 5
@@ -6019,10 +6591,68 @@ focus_tree = {
 		available_if_capitulated = yes	
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
+			custom_effect_tooltip = GER_heavy_fighter_geschwader_tt
+			hidden_effect = {
+				GER = {
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_bf_110_fighter_equipment_2
+								NOT = { has_tech = tech_bf_110_fighter_equipment_3 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = bf_110_fighter_equipment_2
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_bf_110_fighter_equipment_3
+								NOT = { has_tech = tech_bf_110_fighter_equipment_4 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = bf_110_fighter_equipment_3
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_bf_110_fighter_equipment_4
+								NOT = { has_tech = tech_me_410_fighter_equipment_1 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = bf_110_fighter_equipment_4
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_me_410_fighter_equipment_1
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = me_410_fighter_equipment_1
+							amount = 200 
+							producer = GER 
+						}
+					}
+
+				}
+			}
+		
 			add_tech_bonus = {
 				name = heavyfighter_bonus
-				bonus = 0.75
-				uses = 1
+				bonus = 0.2
+				uses = 2
 				category = cat_heavy_fighter
 			}
 			
@@ -6030,7 +6660,7 @@ focus_tree = {
 	}	
 	
 	focus = {
-		id = GER_naval_patrol 
+		id = GER_naval_patrol_geschwader
 		icon = GFX_goal_ger_naval_patrol
 		prerequisite = { focus = GER_air_innovation_2 }
 		
@@ -6042,15 +6672,127 @@ focus_tree = {
 		ai_will_do = {
 			factor = 1
 		}
+		
+		available = {
+			has_tech = tech_naval_bomber_equipment_1
+		}
+		
 		available_if_capitulated = yes
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
+			custom_effect_tooltip = GER_naval_patrol_geschwader_tt
+			hidden_effect = {
+				GER = {
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_naval_bomber_equipment_1
+								NOT = { has_tech = tech_fw_200_bomber_equipment_1 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = he_59_bomber_equipment_2
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_fw_200_bomber_equipment_1
+								NOT = { has_tech = tech_fw_200_bomber_equipment_2 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = fw_200_bomber_equipment_1
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_fw_200_bomber_equipment_2
+								NOT = { has_tech = tech_fw_200_bomber_equipment_3 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = fw_200_bomber_equipment_2
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_fw_200_bomber_equipment_3
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = fw_200_bomber_equipment_3
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_ger_flying_boat_equipment_1
+								NOT = { has_tech = tech_ger_flying_boat_equipment_2 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = flying_boat_equipment_1
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = tech_ger_flying_boat_equipment_2
+								NOT = { has_tech = tech_ger_flying_boat_equipment_3 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = flying_boat_equipment_2
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = flying_boat_equipment_3
+								NOT = { has_tech = tech_ger_flying_boat_equipment_4 }
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = flying_boat_equipment_3
+							amount = 200 
+							producer = GER 
+						}
+					}
+					if = {
+						limit = { 
+							GER = { 
+								has_tech = flying_boat_equipment_4
+							}
+						}
+						add_equipment_to_stockpile = { 
+							type = flying_boat_equipment_4
+							amount = 200 
+							producer = GER 
+						}
+					}
+				}
+			}
+		
 			add_tech_bonus = {
 				name = nav_bomber_bonus
-				bonus = 0.5
+				bonus = 0.2
 				uses = 2
-				technology = tech_fw_200_bomber_equipment_2
-				technology = tech_fw_200_bomber_equipment_1
+				category = naval_bomber
 			}
 		}
 	}
@@ -6092,7 +6834,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GER_coast_protection
 		
-		cost = 3.7
+		cost = 3
 		ai_will_do = { 
 			factor = 1
 		}
@@ -6102,8 +6844,10 @@ focus_tree = {
 			add_tech_bonus = {
 				bonus = 0.5
 				uses = 2
-				technology = subtech_ju_87_cv_equipment_2
 				technology = subtech_ju_87_cv_equipment_1
+				technology = subtech_ju_87_cv_equipment_2
+				technology = subtech_ju_87_cv_equipment_3
+				technology = subtech_ju_87_cv_equipment_4
 			}
 		}
 	}
