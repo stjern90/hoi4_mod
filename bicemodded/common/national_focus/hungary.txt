@@ -360,6 +360,10 @@ focus_tree = {
 
 		completion_reward = {
 			add_political_power = 100
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.025
+			}
 		}
 	}
 	
@@ -385,34 +389,11 @@ focus_tree = {
 		available_if_capitulated = no
 
 		completion_reward = {
-			add_political_power = 100
-		}
-	}
-	
-	focus = {
-		id = HUN_miraculous_revolution
-		icon = HUN_prime_minister_bela_imredy
-		prerequisite = { focus = HUN_social_reforms }
-		prerequisite = { focus = HUN_suffrage_reform }
-		x = 1
-		y = 1
-		relative_position_id = HUN_social_reforms
-		cost = 5
-
-		ai_will_do = {
-			factor = 1
-		}
-
-		search_filters = {
-			FOCUS_FILTER_HISTORICAL
-		}
-
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-
-		completion_reward = {
-			add_political_power = 100
+			add_political_power = -150
+			add_ideas = HUN_societal_reforms
+			every_core_state = {
+				add_extra_state_shared_building_slots = 1
+			}
 		}
 	}
 	
@@ -454,10 +435,11 @@ focus_tree = {
 	focus = {
 		id = HUN_prime_minister_laszlo_bardossy
 		icon = HUN_prime_minister_bela_imredy
-		prerequisite = { focus = HUN_miraculous_revolution }
+		prerequisite = { focus = HUN_social_reforms }
+		prerequisite = { focus = HUN_suffrage_reform }
 		x = 0
 		y = 1
-		relative_position_id = HUN_miraculous_revolution
+		relative_position_id = HUN_social_reforms
 		cost = 5
 
 		ai_will_do = {
@@ -1458,6 +1440,33 @@ focus_tree = {
 		available_if_capitulated = no
 
 		completion_reward = {
+			if = { 
+                limit = {
+                    NOT = { has_idea = HUN_hungarian_national_defence_association_2 }
+                    NOT = { has_idea = HUN_hungarian_national_defence_association_3 }
+                }
+				
+				add_ideas = HUN_hungarian_national_defence_association_5
+			}
+			if = {
+				limit = {
+					has_idea = HUN_hungarian_national_defence_association_2
+				}
+				swap_ideas = {
+					remove_idea = HUN_hungarian_national_defence_association_2
+					add_idea = HUN_hungarian_national_defence_association_5
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = HUN_hungarian_national_defence_association_3
+				}
+				swap_ideas = {
+					remove_idea = HUN_hungarian_national_defence_association_3
+					add_idea = HUN_hungarian_national_defence_association_5
+				}
+			}
+		
 			add_ideas = HUN_turan
 		
 			unlock_decision_tooltip = HUN_retake_slovak_territory
@@ -5088,7 +5097,18 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			add_political_power = 50
+			add_political_power = -50
+			army_experience = 20
+			add_tech_bonus = {
+				name = land_doc_bonus
+				bonus = 0.25
+				uses = 2
+				category = land_doctrine
+			}
+				HUN = {
+				add_equipment_to_stockpile = { type = infantry_equipment_0 amount = 500 producer = GER }
+				add_equipment_to_stockpile = { type = support_equipment_1 amount = 250 producer = GER }
+			}
 			random_owned_controlled_state = {
 				add_building_construction = {
 					type = arms_factory
@@ -5098,6 +5118,59 @@ focus_tree = {
 				add_extra_state_shared_building_slots = 2
 			}
 		}	
+	}
+	
+	focus = {
+		id = HUN_ask_for_german_protection
+		icon = GFX_goal_generic_dangerous_deal
+		mutually_exclusive = { focus = HUN_german_support }
+		prerequisite = { focus = HUN_nationalist_christianity }
+		x = 0
+		y = 1
+		relative_position_id = HUN_nationalist_christianity
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 40
+		}
+
+		available = {
+			is_in_faction_with = GER
+			GER = { has_government = fascism }
+			GER = { exists = yes }
+			GER = { is_subject = no }
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = yes
+
+		completion_reward = {
+			#custom_effect_tooltip = HUN_german_minor_ally_tt
+			add_political_power = -150
+			HUN = {
+				add_equipment_to_stockpile = { type = infantry_equipment_0 amount = 1000 producer = GER }
+				add_equipment_to_stockpile = { type = support_equipment_1 amount = 750 producer = GER }
+			}
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = arms_factory
+					instant_build = yes
+					level = 2
+				}
+				add_extra_state_shared_building_slots = 2
+			}
+				GER = {
+					set_autonomy = { target = HUN autonomy_state = autonomy_satellite }
+				}
+				
+		
+		}
 	}
 	
 	focus = {
