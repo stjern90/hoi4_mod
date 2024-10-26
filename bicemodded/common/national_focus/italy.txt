@@ -3225,7 +3225,7 @@ search_filters = { FOCUS_FILTER_CONSTRUCTION }
 
 			}
 		}
-search_filters = { FOCUS_FILTER_POLITICAL }
+		search_filters = { FOCUS_FILTER_POLITICAL }
 		cost = 1
 
 		available = { 
@@ -3235,15 +3235,22 @@ search_filters = { FOCUS_FILTER_POLITICAL }
 			NOT = { has_war_with = GER }
 
 			GER = { 
-
 				has_government = fascism 
-
 				country_exists = GER
-
 			}
 		}
+		
+		bypass = {
+			OR = {
+				is_in_faction_with = GER
+				has_war_with = GER
+				NOT = { country_exists = GER }
+				GER = { has_completed_focus = GER_achse_berlin_rom }
+			}
+		}
+		
 		completion_reward = {
-
+			add_ideas = 
 			GER = {
 				add_opinion_modifier = { target = ITA modifier = pact_of_steel_opinion }			
 			}		
@@ -3272,7 +3279,7 @@ search_filters = { FOCUS_FILTER_POLITICAL }
 		relative_position_id = ITA_victoryinETH
 		x = 2
 		y = 2
-search_filters = { FOCUS_FILTER_ANNEXATION FOCUS_FILTER_POLITICAL }
+		search_filters = { FOCUS_FILTER_ANNEXATION FOCUS_FILTER_POLITICAL }
 		cost = 5
 
 		ai_will_do = {
@@ -3310,7 +3317,7 @@ search_filters = { FOCUS_FILTER_ANNEXATION FOCUS_FILTER_POLITICAL }
 		x = -3
 		y = 3
 		cost = 2.9
-search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY } 
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY } 
 		ai_will_do = {
 			factor = 15
 			modifier = {
@@ -3367,7 +3374,7 @@ search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY }
 			factor = 10
 
 		}
-search_filters = { FOCUS_FILTER_STABILITY }
+		search_filters = { FOCUS_FILTER_STABILITY }
 		available_if_capitulated = yes
 
 		available = { 			
@@ -3394,7 +3401,7 @@ search_filters = { FOCUS_FILTER_STABILITY }
 		relative_position_id = ITA_victoryinETH
 		x = 3
 		y = 3
-search_filters = { FOCUS_FILTER_DIPLOMACY }
+		search_filters = { FOCUS_FILTER_DIPLOMACY }
 		cost = 5
 
 		ai_will_do = {
@@ -3495,6 +3502,13 @@ search_filters = { FOCUS_FILTER_DIPLOMACY }
 		prerequisite = { focus = ITA_Hitler_visits_Rome }
 		mutually_exclusive = { focus = ITA_italy_first }
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL }
+		
+		x = -3
+		y = 4
+		relative_position_id = ITA_victoryinETH
+		
+		cost = 2
+		
 		available = {
 			OR = { GER = { has_completed_focus = GER_stahlpakt } date > 1939.5.1 }
 			has_government = fascism
@@ -3504,11 +3518,15 @@ search_filters = { FOCUS_FILTER_DIPLOMACY }
 				country_exists = GER
 			}
 		}
-
-		relative_position_id = ITA_victoryinETH
-		x = -3
-		y = 4
-		cost = 2
+		
+		bypass = {		
+			OR = {
+				is_in_faction_with = ITA
+				has_war_with = ITA
+				NOT = { country_exists = ITA }
+				GER = { has_completed_focus = GER_stahlpakt }
+			}
+		}
 
 		ai_will_do = {
 			factor = 15
@@ -3525,24 +3543,33 @@ search_filters = { FOCUS_FILTER_DIPLOMACY }
 				country = GER
 				relation = non_aggression_pact
 			}
-			GER = {
-				add_opinion_modifier = { target = ITA modifier = ger_ita_alliance_focus }			
-			}		
-			ITA = {
-				add_opinion_modifier = { target = GER modifier = ger_ita_alliance_focus }				
-			}				
+			GER = {				
+				add_opinion_modifier = { target = ITA modifier = ger_ita_alliance_focus }
+				add_opinion_modifier = { target = ITA modifier = pact_of_steel_opinion }
+				swap_ideas = {
+					remove_idea = berlin_rome_axis_ger
+					add_idea = pact_of_steel_ger
+				}
+			}
+			ITA = {				
+				add_opinion_modifier = { target = GER modifier = ger_ita_alliance_focus }
+				add_opinion_modifier = { target = GER modifier = pact_of_steel_opinion }
+				swap_ideas = {
+					remove_idea = berlin_rome_axis_ita
+					add_idea = pact_of_steel_ita
+				}			
+				random_owned_controlled_state = {
+					prioritize = { 2 }
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = industrial_complex
+						level = 2
+						instant_build = yes
+					}
+				}
+			}			
 			hidden_effect = {
 				news_event = { hours = 6 id = italy.68 }
-			}
-
-				random_owned_controlled_state = {
-				prioritize = { 2 }
-					add_extra_state_shared_building_slots = 2
-						add_building_construction = {
-							type = industrial_complex
-							level = 2
-							instant_build = yes
-						}
 			}
 		}
 	}
