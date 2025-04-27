@@ -1,0 +1,243 @@
+
+
+alter_subsistence_economy_modifier_industrialize = {
+	custom_effect_tooltip = AFG_modify_ssem_ns_intro
+	add_to_variable = {
+		AFG_economy_production_efficiency_gain_factor = 0.1
+		tooltip = production_factory_efficiency_gain_factor_tt
+	}
+	add_to_variable = {
+		AFG_economy_production_max_efficiency_factor = 0.1
+		tooltip = production_factory_max_efficiency_factor_tt
+	}
+	add_to_variable = {
+		AFG_economy_industrial_capacity_factor = 0.1
+		tooltip = industrial_capacity_factory_tt
+	}
+	add_to_variable = {
+		AFG_stability_factor_dm = -0.05
+		tooltip = stability_factor_tt
+	}
+}
+
+alter_regionalism_modifier_industrialize = {
+	custom_effect_tooltip = AFG_modify_er_ns_intro
+	add_to_variable = {
+		AFG_state_development_production_speed = 0.05
+		tooltip = MODIFIER_STATE_PRODUCTION_SPEED_BUILDINGS_FACTOR_tt
+	}
+	add_to_variable = {
+		AFG_state_development_state_resources_factor = 0.05
+		tooltip = MODIFIER_STATE_RESOURCES_FACTOR_tt
+	}
+	add_to_variable = {
+		AFG_state_production_speed_infrastructure_factor = 0.05
+		tooltip = production_speed_infrastructure_factor_tt
+	}
+}
+
+add_ideology_drift_based_on_partner = {
+	IF = {
+		limit = {
+			has_government = fascism
+		}
+		ROOT = {
+			add_timed_idea = {
+				idea = AFG_fascist_influence
+				days = 365
+			}
+		}
+	}
+	ELSE_IF = {
+		limit = {
+			has_government = democratic
+		}
+		ROOT = {
+			add_timed_idea = {
+				idea = AFG_democratic_influence_2
+				days = 365
+			}
+		}
+	}
+	ELSE_IF = {
+		limit = {
+			has_government = communism
+		}
+		ROOT = {
+			add_timed_idea = {
+				idea = AFG_communist_influence
+				days = 365
+			}
+		}
+	}
+	ROOT = {
+		IF = {
+			limit = {
+				NOT = {
+					has_country_flag = AFG_influence_warning
+				}
+			}
+			set_country_flag = AFG_influence_warning
+			every_other_country = {
+				limit = {
+					original_tag = ENG
+					original_tag = GER
+					original_tag = SOU
+				}
+				country_event = {
+					id = AFG_political_events.43
+					days = 1
+				}
+			}
+		}
+	}
+}
+
+AFG_create_puppet_army = {
+	division_template = {
+		name = "Tribal Militia"		
+		#division_names_group = AFG_INF_01
+		is_locked = yes
+		force_allow_recruiting = yes
+		regiments = {
+			militia = { x = 0 y = 0 }
+			militia = { x = 0 y = 1 }
+			militia = { x = 1 y = 0 }
+			militia = { x = 1 y = 1 }
+		}
+	}
+	capital_scope = {
+		create_unit = {
+			division = "division_template = \"Tribal Militia\" start_experience_factor = 0.05 start_equipment_factor = 1"
+			owner = PREV
+			count = 3
+		}
+	}
+}
+
+create_soviet_iranian_joint_submarine = {
+	IF = {
+		limit = {
+			has_dlc = "Man the Guns"
+		}
+
+		IF = {
+			limit = {
+				NOT = { has_tech = early_ship_hull_submarine }
+			}
+			set_technology = {
+				early_ship_hull_submarine = 1
+				popup = no
+			}
+			create_equipment_variant = {
+				name = "Soviet-Iranian Class"
+				type = ship_hull_submarine_1
+				name_group = PER_SS_HISTORICAL
+				parent_version = 0
+				allow_without_tech = yes
+				modules = {
+					fixed_ship_engine_slot = sub_ship_engine_2
+					fixed_ship_torpedo_slot = ship_torpedo_sub_2
+					rear_1_custom_slot = ship_torpedo_sub_2
+				}
+			}
+
+		}
+
+		ELSE_IF = {
+			limit = {
+				has_tech = early_ship_hull_submarine
+				NOT = { has_tech = basic_ship_hull_submarine }
+			}
+			set_technology = {
+				basic_ship_hull_submarine = 2
+				popup = no
+			}
+			create_equipment_variant = {
+				name = "Soviet-Iranian Class"
+				type = ship_hull_submarine_2
+				name_group = PER_SS_HISTORICAL
+				parent_version = 0
+				allow_without_tech = yes
+				modules = {
+					fixed_ship_engine_slot = sub_ship_engine_2
+					fixed_ship_torpedo_slot = ship_torpedo_sub_2
+					rear_1_custom_slot = ship_torpedo_sub_2
+				}
+			}
+
+		}
+		ELSE_IF = {
+			limit = {
+				has_tech = basic_ship_hull_submarine
+				NOT = {has_tech = improved_ship_hull_submarine }
+			}
+			set_technology = {
+				improved_ship_hull_submarine = 3
+				popup = no
+			}
+			create_equipment_variant = {
+				name = "Soviet-Iranian Class"
+				type = ship_hull_submarine_3
+				name_group = PER_SS_HISTORICAL
+				parent_version = 0
+				allow_without_tech = yes
+				modules = {
+					fixed_ship_engine_slot = sub_ship_engine_2
+					fixed_ship_torpedo_slot = ship_torpedo_sub_2
+					front_1_custom_slot = empty
+					mid_1_custom_slot = ship_sub_snorkel_1
+					rear_1_custom_slot = ship_torpedo_sub_2
+				}
+			}
+
+		}
+		ELSE_IF = {
+			limit = {
+				has_tech = improved_ship_hull_submarine
+			}
+			set_technology = {
+				advanced_ship_hull_submarine = 1
+				popup = no
+			}
+			create_equipment_variant = {
+				name = "Soviet-Iranian Class"
+				type = ship_hull_submarine_4
+				name_group = PER_SS_HISTORICAL
+				parent_version = 0
+				allow_without_tech = yes
+				modules = {
+					fixed_ship_engine_slot = sub_ship_engine_2
+					fixed_ship_torpedo_slot = ship_torpedo_sub_2
+					front_1_custom_slot = empty
+					mid_1_custom_slot = ship_sub_snorkel_1
+					rear_1_custom_slot = ship_torpedo_sub_2
+				}
+			}
+
+		}
+	}
+}
+
+create_soviet_iranian_joint_nav_bomber = {
+	IF = {
+		limit = {
+			has_dlc = "By Blood Alone"
+		}
+		create_equipment_variant = {
+			name = "Soviet-Iranian NAV"
+			type = small_plane_naval_bomber_airframe_2
+			allow_without_tech = yes
+			modules = {
+				fixed_main_weapon_slot = torpedo_mounting
+				engine_type_slot = engine_2_1x
+				special_type_slot_1 = lmg_defense_turret
+				special_type_slot_2 = floats
+			}
+			#icon = "GFX_GER_naval_bomber1_medium"
+		}
+	}
+	ELSE = {
+
+	}
+}
